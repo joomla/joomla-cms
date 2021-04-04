@@ -1622,6 +1622,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 	public function unlink($file)
 	{
 		$this->clearFileInOPCache($file);
+
 		return @unlink($file);
 	}
 
