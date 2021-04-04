@@ -388,7 +388,6 @@ class File
 				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
-				// Invalidate the compiled OPCache of the old file so it's no longer used.
 				if (!$ftp->rename($src, $dest))
 				{
 					Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
