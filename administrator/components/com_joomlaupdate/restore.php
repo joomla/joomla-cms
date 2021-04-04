@@ -1620,6 +1620,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 	public function unlink($file)
 	{
+		$this->clearFileInOPCache($file);
 		return @unlink($file);
 	}
 
@@ -1630,7 +1631,19 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 	public function rename($from, $to)
 	{
-		return @rename($from, $to);
+		$ret = @rename($from, $to);
+		$this->clearFileInOPCache($from);
+		$this->clearFileInOPCache($to);
+		return $ret;
+	}
+
+	public function clearFileInOPCache($file){
+		if (ini_get('opcache.enable')
+			&& function_exists('opcache_invalidate')
+			&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0))
+		{
+			\opcache_invalidate($file, true);
+		}
 	}
 
 }
