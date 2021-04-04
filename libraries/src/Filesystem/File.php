@@ -395,7 +395,6 @@ class File
 
 					return false;
 				}
-				self::invalidateFileCache($dest);
 			}
 			else
 			{
@@ -405,7 +404,6 @@ class File
 
 					return false;
 				}
-
 			}
 
 			self::invalidateFileCache($dest);
