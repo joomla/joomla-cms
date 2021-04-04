@@ -8310,10 +8310,13 @@ if (!defined('KICKSTART'))
 				$filename = dirname(__FILE__) . '/restore_finalisation.php';
 				if (file_exists($filename))
 				{
-					// opcode cache busting before including the filename
-					if (function_exists('opcache_invalidate'))
+					// We cannot use the Filesystem API here.
+					if (ini_get('opcache.enable')
+						&& function_exists('opcache_invalidate')
+						&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0)
+					)
 					{
-						\opcache_invalidate($filename);
+						\opcache_invalidate($filename, true);
 					}
 					if (function_exists('apc_compile_file'))
 					{
