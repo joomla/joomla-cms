@@ -26,7 +26,7 @@ $this->app->getDocument()->getWebAssetManager()
 		<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
+		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://" autocomplete="off">
 	</div>
 </div>
 <hr>
