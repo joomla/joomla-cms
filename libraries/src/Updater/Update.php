@@ -453,7 +453,7 @@ class Update extends CMSObject
 		{
 			// Grab the last source so we can append the URL
 			$source = end($this->downloadSources);
-			$source->url = $data;
+			$source->url = (string) $data;
 
 			return;
 		}
