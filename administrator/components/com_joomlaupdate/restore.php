@@ -1591,7 +1591,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 				// Is this a file instead of a directory?
 				if (is_file($root . $path))
 				{
-					$this->clearFileInOPCache($file);
+					$this->clearFileInOPCache($root . $path);
 					@unlink($root . $path);
 					$ret = @mkdir($root . $path);
 				}
