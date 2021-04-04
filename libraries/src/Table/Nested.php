@@ -1472,7 +1472,7 @@ class Nested extends Table
 	 * @param   array  $idArray   id numbers of rows to be reordered.
 	 * @param   array  $lftArray  lft values of rows to be reordered.
 	 *
-	 * @return  integer  1 + value of root rgt on success, false on failure.
+	 * @return  integer|boolean  1 + value of root rgt on success, false on failure.
 	 *
 	 * @since   1.7.0
 	 * @throws  \Exception on database error.
