@@ -1631,8 +1631,8 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 	public function rename($from, $to)
 	{
-		$ret = @rename($from, $to);
 		$this->clearFileInOPCache($from);
+		$ret = @rename($from, $to);
 		$this->clearFileInOPCache($to);
 		return $ret;
 	}
