@@ -456,7 +456,7 @@ class File
 	 * @param   string   $dest             The path (including filename) to move the uploaded file to
 	 * @param   boolean  $useStreams       True to use streams
 	 * @param   boolean  $allowUnsafe      Allow the upload of unsafe files
-	 * @param   boolean  $safeFileOptions  Options to InputFilter::isSafeFile
+	 * @param   array    $safeFileOptions  Options to InputFilter::isSafeFile
 	 *
 	 * @return  boolean  True on success
 	 *
