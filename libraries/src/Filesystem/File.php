@@ -407,6 +407,7 @@ class File
 			}
 
 			self::invalidateFileCache($dest);
+
 			return true;
 		}
 	}
