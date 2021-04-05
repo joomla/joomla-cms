@@ -183,57 +183,7 @@
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				useglobal="true"
-				parentclass="stack span-2"
-			/>
-
-			<field
-				name="num_intro_articles"
-				type="number"
-				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
-				useglobal="true"
-				parentclass="stack span-2-inline"
-			/>
-
-			<field
-				name="num_links"
-				type="text"
-				label="JGLOBAL_NUM_LINKS_LABEL"
-				parentclass="stack span-2-inline"
-				useglobal="true"
-			/>
-
-			<field
-				type="spacer"
-				parentclass="span-6"
-			/>
-
-			<field
-				name="blog_information"
-				type="spacer"
-				label="JGLOBAL_BLOG_STYLE_LABEL"
-				parentclass="stack span-2"
-				description="JGLOBAL_BLOG_STYLE_DESC"
-			/>
-
-			<field
-				name="blog_style"
-				type="list"
-				label="JGLOBAL_BLOG_STYLE"
-				default="0"
-				parentclass="span-2-inline stack"
-				filter="integer"
-				>
-				<option value="0">JGLOBAL_BLOG_STYLE_FIXED_OPTION</option>
-				<option value="1">JGLOBAL_BLOG_STYLE_GRID_OPTION</option>
-			</field>
-
-			<field
-				name="blog_information-grid"
-				type="spacer"
-				label="JGLOBAL_BLOG_STYLE_GRID_LABEL"
-				description="JGLOBAL_BLOG_STYLE_GRID_DESC"
-				parentclass="stack span-2"
-				showon="blog_style:1"
+				parentclass="stack span-1"
 			/>
 
 			<field
@@ -243,52 +193,51 @@
 				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="CssIdentifier"
-				showon="blog_style:1"
+			/>
+
+			<field
+				name="num_intro_articles"
+				type="number"
+				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+				useglobal="true"
+				parentclass="stack span-1"
 			/>
 
 			<field
 				name="blog_class"
 				type="text"
 				label="JGLOBAL_BLOG_CLASS"
+				description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
 				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="CssIdentifier"
-				showon="blog_style:1"
-			/>
-
-			<field
-				name="blog_information-fixed"
-				type="spacer"
-				label="JGLOBAL_BLOG_STYLE_FIXED_LABEL"
-				parentclass="stack span-2"
-				description="JGLOBAL_BLOG_STYLE_FIXED_DESC"
-				showon="blog_style:0"
 			/>
 
 			<field
 				name="num_columns"
-				type="number"
+				type="text"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
-				parentclass="stack span-2-inline"
+				parentclass="stack span-1-inline"
 				useglobal="true"
-				showon="blog_style:0"
 			/>
 
 			<field
 				name="multi_column_order"
 				type="list"
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-				parentclass="stack span-2-inline"
+				parentclass="stack span-1-inline"
 				useglobal="true"
-				showon="blog_style:0"
 				>
 				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
 			</field>
 
 			<field
-				type="spacer"
-				parentclass="span-6"
+				name="num_links"
+				type="number"
+				label="JGLOBAL_NUM_LINKS_LABEL"
+				parentclass="stack span-1"
+				useglobal="true"
 			/>
 
 			<field
@@ -299,7 +248,7 @@
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
-				parentclass="stack span-2"
+				parentclass="stack span-1"
 				>
 				<option value="show">JSHOW</option>
 				<option value="hide">JHIDE</option>
@@ -312,7 +261,7 @@
 				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
 				useglobal="true"
 				validate="options"
-				parentclass="stack span-2-inline"
+				parentclass="stack span-1-inline"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -324,7 +273,7 @@
 				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 				useglobal="true"
 				validate="options"
-				parentclass="stack span-2-inline"
+				parentclass="stack span-1-inline"
 				>
 				<option value="0">JNONE</option>
 				<option value="-1">JALL</option>
@@ -395,7 +344,7 @@
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
-				parentclass="stack span-2"
+				parentclass="stack span-1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -409,7 +358,7 @@
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
-				parentclass="stack span-2-inline"
+				parentclass="stack span-1-inline"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
