@@ -159,7 +159,7 @@ class Toolbar
 	/**
 	 * Append a button to toolbar.
 	 *
-	 * @param   ToolbarButton|string  $button  The button instance.
+	 * @param   ToolbarButton|string  $button  The button instance. String type is deprecated and will be removed with Joomla 5.0
 	 * @param   array                 $args    The more arguments.
 	 *
 	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
