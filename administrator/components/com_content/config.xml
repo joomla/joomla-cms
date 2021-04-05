@@ -280,17 +280,6 @@
 		/>
 
 		<field
-			name="show_hits"
-			type="radio"
-			label="JGLOBAL_SHOW_HITS_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
@@ -299,6 +288,18 @@
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="radio"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="record_hits:1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -315,13 +316,15 @@
 
 		<field
 			name="urls_position"
-			type="radio"
+			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			layout="joomla.form.field.radio.switcher"
 			default="0"
+			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+			<option value="-1">JHIDE</option>
 		</field>
 	</fieldset>
 	<fieldset

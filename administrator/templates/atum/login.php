@@ -106,7 +106,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 			<div class="d-flex align-items-center">
 				<div class="logo">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>"  <?php echo $logoBrandSmallAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />
@@ -138,7 +138,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 
 	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper order-0 p-4">
+	<div id="sidebar-wrapper" class="sidebar-wrapper order-0 px-3">
 		<div id="main-brand" class="main-brand">
 			<h1><?php echo $app->get('sitename'); ?></h1>
 			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>

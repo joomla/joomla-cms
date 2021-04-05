@@ -87,7 +87,8 @@
 
   .header-items {
     width: 50%;
-    margin: 15px 15px 15px auto;
+    margin: 15px;
+    margin-inline-start: auto;
     justify-content: flex-end;
     align-items: center;
 

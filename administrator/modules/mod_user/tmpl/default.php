@@ -37,12 +37,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php echo Text::sprintf('MOD_USER_TITLE', $user->name); ?>
 		</div>
 		<?php $uri   = Uri::getInstance(); ?>
-		<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-user_details'; ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-user_details'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="icon-user icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
 		</a>
-		<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="icon-universal-access icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>

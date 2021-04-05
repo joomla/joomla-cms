@@ -278,9 +278,9 @@
     if (subhead) {
       doc.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
-          subhead.classList.add('bg-white', 'shadow-sm');
+          subhead.classList.add('shadow-sm');
         } else {
-          subhead.classList.remove('bg-white', 'shadow-sm');
+          subhead.classList.remove('shadow-sm');
         }
       });
     }
