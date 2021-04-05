@@ -70,7 +70,7 @@ class Toolbar
 	/**
 	 * Stores the singleton instances of various toolbar.
 	 *
-	 * @var    Toolbar
+	 * @var    Toolbar[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
