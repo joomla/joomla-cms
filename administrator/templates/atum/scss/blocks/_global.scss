@@ -119,14 +119,18 @@ body .container-main {
   }
 }
 
-
 .content {
   padding: 0 2rem;
-  border-radius: $border-radius;
 
   .subhead + & {
     padding-top: 0;
   }
+}
+
+.main-card {
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
 }
 
 .row-selected {

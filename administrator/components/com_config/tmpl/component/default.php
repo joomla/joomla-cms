@@ -38,7 +38,7 @@ if ($this->fieldsets)
 $xml = $this->form->getXml();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" class="main-card" method="post" class="form-validate" name="adminForm" autocomplete="off">
 	<div class="row">
 
 		<?php // Begin Sidebar ?>
@@ -47,7 +47,7 @@ $xml = $this->form->getXml();
 				 <span class="icon-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
+			<div id="sidebar-nav" class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>

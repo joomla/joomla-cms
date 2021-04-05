@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" aria-label="<?php echo Text::_('COM_MESSAGES_FORM_NEW'); ?>" class="form-validate">
 	<div class="adminform mt-2">
-		<div class="card bg-light">
+		<div class="card">
 			<div class="card-body">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('user_id_to'); ?>

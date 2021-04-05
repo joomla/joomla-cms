@@ -19,9 +19,6 @@
 joomla-tab {
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: $border-radius;
-  box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
 
   &[orientation=horizontal]:not([view=accordion]) {
     margin-bottom: 0;
@@ -38,8 +35,7 @@ joomla-tab {
     padding: 5px 0 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-radius: 0;
-    border-image: none;
+    border-bottom: 1px solid var(--atum-bg-dark-5);
 
     li + li {
       margin-left: 1px;
