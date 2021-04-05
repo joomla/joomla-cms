@@ -54,8 +54,8 @@ class FilePathRuleTest extends UnitTestCase
 			[false, $xml, '\\images'], // Means \images
 			[true, $xml, 'ftp://images'],
 			[true, $xml, 'http://images'],
-			[false, $xml, 'media'],
-			[false, $xml, 'administrator'],
+			[true, $xml, 'media'],
+			[true, $xml, 'administrator'],
 			[false, $xml, '/4711images'],
 			[false, $xml, '4711images'],
 			[false, $xml, '1'],
