@@ -936,6 +936,15 @@ class FieldModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_user_id']))
+			{
+				unset($data['created_user_id']);
+			}
+		}
+
 		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))

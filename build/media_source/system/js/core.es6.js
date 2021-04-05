@@ -567,7 +567,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 
-        if (typeof(newOptions.data) === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
+        if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
       }
@@ -622,6 +622,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * Render messages send via JSON
    * Used by some javascripts such as validate.js
+   * PLEASE NOTE: do NOT use user supplied input in messages as potential HTML markup is NOT
+   * sanitized!
    *
    * @param   {object}  messages JavaScript object containing the messages to render.
    *          Example:
