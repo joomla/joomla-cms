@@ -135,3 +135,18 @@ ul#finder-filter-select-list {
 div#finder-filter-window .filter-branch .finder-selects {
 	float: left;
 }
+
+.result__item .highlight:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: calc(100% + 6px);
+  height: calc(100% + 2px);
+  background: hsla(60, 100%, 50%, .5);
+  pointer-events: none;
+  border-radius: 3px;
+}
