@@ -43,7 +43,7 @@ class JHtmlDateTest extends UnitTestCase
 	 * @return void
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function setUp()
+	protected function setUp() : void
 	{
 		parent::setUp();
 		$this->user = $this->createMock(User::class);
