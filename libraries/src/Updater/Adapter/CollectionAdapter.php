@@ -44,7 +44,7 @@ class CollectionAdapter extends UpdateAdapter
 	/**
 	 * Used to control if an item has a child or not
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	protected $pop_parent = 0;
