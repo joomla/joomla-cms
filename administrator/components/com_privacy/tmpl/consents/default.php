@@ -104,10 +104,7 @@ $stateMsgs  = array(
 								<?php echo $item->body; ?>
 							</td>
 							<td class="break-word">
-								<?php echo HTMLHelper::_('date.relative', new Date($item->created), null, $now); ?>
-								<div class="small">
-									<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php echo HTMLHelper::_('date.relativeFormatted', $item->created, null, $now, Text::_('DATE_FORMAT_LC1'), false, 'below'); ?>
 							</td>
 							<td>
 								<?php echo (int) $item->id; ?>

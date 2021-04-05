@@ -101,10 +101,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
 							</td>
 							<td>
-								<?php echo HTMLHelper::_('date.relative', $itemRequestedAt, null, $now); ?>
-								<div class="small">
-									<?php echo HTMLHelper::_('date', $item->requested_at, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php echo HTMLHelper::_('date.relativeFormatted', $itemRequestedAt, null, $now, Text::_('DATE_FORMAT_LC1'), false, 'below'); ?>
 							</td>
 							<td>
 								<?php echo (int) $item->id; ?>

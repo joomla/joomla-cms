@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -26,6 +27,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('com_actionlogs.admin-actionlogs');
 
+$now = Factory::getDate();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
@@ -86,10 +88,7 @@ $wa->useScript('keepalive')
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								<div class="small">
-									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, null, $now, Text::_('DATE_FORMAT_LC1'), false, 'below'); ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+$now = Factory::getDate();
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
@@ -29,7 +32,7 @@ use Joomla\CMS\Language\Text;
 				<?php echo $item->message; ?>
 			</td>
 			<td>
-				<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+				<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, null, $now, Text::_('DATE_FORMAT_LC5')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
