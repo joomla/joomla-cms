@@ -24,7 +24,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="main-card form-validate">
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-3">
@@ -32,7 +32,7 @@ Text::script('MESSAGE');
 				<span class="icon-align-justify" aria-hidden="true"></span>
 				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
+			<div id="sidebar-nav" class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>

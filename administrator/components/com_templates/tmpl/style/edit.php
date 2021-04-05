@@ -27,7 +27,7 @@ $user = Factory::getUser();
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
+	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
@@ -67,19 +67,15 @@ $user = Factory::getUser();
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php
-						// Set main fields.
-						$this->fields = array(
-							'home',
-							'client_id',
-							'template'
-						);
-						?>
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'home',
+					'client_id',
+					'template'
+				);
+				?>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
