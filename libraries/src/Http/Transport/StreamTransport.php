@@ -136,9 +136,10 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			array(
 				'http' => $options,
 				'ssl' => array(
-					'verify_peer'   => true,
-					'cafile'        => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
-					'verify_depth'  => 5,
+					'verify_peer'      => true,
+					'cafile'           => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
+					'verify_depth'     => 5,
+					'verify_peer_name' => true,
 				),
 			)
 		);

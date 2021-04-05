@@ -567,7 +567,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 
-        if (!newOptions.headers || !newOptions.headers['Content-Type']) {
+        if (typeof(newOptions.data) === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
       }
