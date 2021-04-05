@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Multilang
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1160,7 +1160,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return false;
 		}
 
-		$workflow = new Workflow(['extension' => 'com_content.article']);
+		$workflow = new Workflow('com_content.article');
 
 		try
 		{

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -36,6 +36,11 @@ $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
+
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
@@ -121,7 +126,8 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
@@ -142,14 +148,15 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
 			<div id="subhead" class="subhead mb-3">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="no" />
+						<jdoc:include type="modules" name="toolbar" style="none" />
 					</div>
 				</div>
 			</div>

@@ -7,10 +7,10 @@
 
   .btn-primary:not([href]),
   .btn-success:not([href]) {
-    color: #fff;
+    color: $white;
 
     &:hover {
-      color: #fff;
+      color: $white;
     }
   }
 }
@@ -39,7 +39,7 @@
 }
 
 .modal-title {
-  font-weight: normal;
+  font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
   line-height: $modal-header-height;
 }
 
@@ -52,6 +52,6 @@
   margin: 1rem;
 }
 
-.container-popup .custom-select {
+.container-popup .form-select {
   width: auto;
 }

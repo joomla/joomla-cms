@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -201,7 +201,23 @@ class ComponentController extends FormController
 		// Clear session data.
 		$this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
 
-		$this->setRedirect(Route::_('index.php?option=' . $component, false));
+		// Calculate redirect URL
+		$returnUri = $this->input->post->get('return', null, 'base64');
+
+		$redirect = 'index.php?option=' . $component;
+
+		if (!empty($returnUri))
+		{
+			$redirect = base64_decode($returnUri);
+		}
+
+		// Don't redirect to an external URL.
+		if (!Uri::isInternal($redirect))
+		{
+			$redirect = Uri::base();
+		}
+
+		$this->setRedirect(Route::_($redirect, false));
 
 		return true;
 	}

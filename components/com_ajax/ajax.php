@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,14 @@ elseif ($input->get('module'))
 
 		$method = $input->get('method') ?: 'get';
 
-		if (is_file($helperFile))
+		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+
+		if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3)))
+		{
+			$results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+		}
+
+		if ($results === null && is_file($helperFile))
 		{
 			JLoader::register($class, $helperFile);
 
@@ -120,7 +127,7 @@ elseif ($input->get('module'))
 			}
 		}
 		// The helper file does not exist
-		else
+		elseif ($results === null)
 		{
 			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}

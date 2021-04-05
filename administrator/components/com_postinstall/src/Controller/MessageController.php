@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,8 +99,6 @@ class MessageController extends BaseController
 
 				return;
 
-				break;
-
 			case 'action':
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
@@ -111,10 +109,6 @@ class MessageController extends BaseController
 
 					call_user_func($item->action);
 				}
-				break;
-
-			case 'message':
-			default:
 				break;
 		}
 

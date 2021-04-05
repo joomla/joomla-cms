@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -392,7 +392,7 @@ class AtomParserTest extends UnitTestCase
 
 		$feedEntryMock = $this->createMock(FeedEntry::class);
 		$feedEntryMock
-			->expects($this->any())
+			->expects($this->exactly(4))
 			->method('__set')
 			->withConsecutive(
 				['uri', 'http://example.com/id'],
@@ -400,6 +400,19 @@ class AtomParserTest extends UnitTestCase
 				['updatedDate', 'August 25, 1991'],
 				['content', 'summary']
 			);
+
+		/**
+		 * Ensure that for the test to work we correctly return the content element (as a normal class would do
+		 * when a property is set)
+		 */
+		$map = [
+			['content', 'summary'],
+		];
+
+		$feedEntryMock
+			->expects($this->any())
+			->method('__get')
+			->will($this->returnValueMap($map));
 
 		// Use reflection to test protected method
 		$atomParser = new AtomParser($this->createMock(XMLReader::class));

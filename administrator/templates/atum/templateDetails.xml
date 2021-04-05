@@ -5,7 +5,7 @@
 	<creationDate>September 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -13,7 +13,6 @@
 		<filename>error.php</filename>
 		<filename>error_full.php</filename>
 		<filename>error_login.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>login.php</filename>

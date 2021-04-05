@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,7 +112,14 @@ if (!Joomla) {
               const searchBox = document.getElementById('com-apps-searchbox');
               searchBox.value = '';
               this.initiateSearch();
+              document.getElementById('search-reset').setAttribute('disabled', 'disabled');
             });
+
+            if (document.getElementById('com-apps-searchbox').value === '') {
+              document.getElementById('search-reset').setAttribute('disabled', 'disabled');
+            }
+
+            document.getElementById('search-reset').innerHTML = Joomla.JText._('JSEARCH_FILTER_CLEAR');
 
             // eslint-disable-next-line no-shadow
             const orderingSelect = document.getElementById('com-apps-ordering');
@@ -237,6 +244,7 @@ if (!Joomla) {
     }
 
     initiateSearch() {
+      document.getElementById('search-reset').removeAttribute('disabled');
       webInstallerOptions.view = 'dashboard';
       this.installfromwebajaxsubmit();
     }

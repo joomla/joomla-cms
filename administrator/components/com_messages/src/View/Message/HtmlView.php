@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,10 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+		elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id))
+		{
+			throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		parent::display($tpl);

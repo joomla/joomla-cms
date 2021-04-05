@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -441,6 +441,18 @@ class SubformField extends FormField
 
 		// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
 		$subForm = $this->loadSubForm();
+
+		// Subform field may have a default value, that is a JSON string
+		if ($value && is_string($value))
+		{
+			$value = json_decode($value, true);
+
+			// The string is invalid json
+			if (!$value)
+			{
+				return null;
+			}
+		}
 
 		if ($this->multiple)
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Filesystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
@@ -352,12 +353,19 @@ class LocalAdapter implements AdapterInterface
 		if (MediaHelper::isImage($obj->name))
 		{
 			// Get the image properties
-			$props       = Image::getImageFileProperties($path);
-			$obj->width  = $props->width;
-			$obj->height = $props->height;
+			try
+			{
+				$props       = Image::getImageFileProperties($path);
+				$obj->width  = $props->width;
+				$obj->height = $props->height;
 
-			// Todo : Change this path to an actual thumbnail path
-			$obj->thumb_path = $this->getUrl($obj->path);
+				// Todo : Change this path to an actual thumbnail path
+				$obj->thumb_path = $this->getUrl($obj->path);
+			}
+			catch (UnparsableImageException $e)
+			{
+				// Ignore the exception - it's an image that we don't know how to parse right now
+			}
 		}
 
 		return $obj;

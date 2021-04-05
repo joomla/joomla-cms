@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Get the order array
       for (i = 0, l = rows.length; l > i; i += 1) {
         rows[i].value = i + 1;
-        result.push(`order[]=${encodeURIComponent(i)}`);
+        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ class Filter
 		}
 
 		$branch_keys = array_keys($branches);
-		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plugin language files.
@@ -425,7 +425,7 @@ class Filter
 			$html .= '<div class="controls">';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
+				$branches[$bk]->nodes, 't[]', 'class="form-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . OutputFilter::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';

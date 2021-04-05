@@ -53,7 +53,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -65,7 +65,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -77,7 +77,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -135,7 +135,7 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -147,7 +147,7 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -168,7 +168,7 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -183,7 +183,7 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -195,7 +195,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -208,7 +208,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -251,7 +251,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>

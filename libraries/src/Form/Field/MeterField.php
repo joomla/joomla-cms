@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search)
  * @since  3.2
  */
 class MeterField extends FormField

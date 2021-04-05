@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,6 +108,14 @@ class MediaField extends FormField
 	 * @since  3.5
 	 */
 	protected $layout = 'joomla.form.field.media';
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.

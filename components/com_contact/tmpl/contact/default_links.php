@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 <?php echo '<h3>' . Text::_('COM_CONTACT_LINKS') . '</h3>'; ?>
 
 <div class="com-contact__links contact-links">
-	<ul class="nav flex-column">
+	<ul class="list-unstyled">
 		<?php
 		// Letters 'a' to 'e'
 		foreach (range('a', 'e') as $char) :
@@ -32,8 +32,8 @@ use Joomla\CMS\Language\Text;
 			// If no label is present, take the link
 			$label = $label ?: $link;
 			?>
-			<li class="nav-item">
-				<a class="nav-link" href="<?php echo $link; ?>" itemprop="url">
+			<li>
+				<a href="<?php echo $link; ?>" itemprop="url" rel="noopener noreferrer">
 					<?php echo $label; ?>
 				</a>
 			</li>

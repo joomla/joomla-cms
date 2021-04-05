@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@
     const button = document.getElementById('token-copy');
 
     button.addEventListener('click', ({ currentTarget }) => {
-      const input = currentTarget.parentNode.previousElementSibling;
+      const input = currentTarget.previousElementSibling;
 
       if (!navigator.clipboard) {
         copyToClipboardFallback(input);

@@ -39,7 +39,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			validate="options"
@@ -92,6 +92,7 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
+			validate="options"
 		/>
 	</fieldset>
 </form>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains the functions used by the com_postinstall code to deliver
@@ -29,7 +29,7 @@ function twofactorauth_postinstall_condition()
 		->select('*')
 		->from($db->quoteName('#__extensions'))
 		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-		->where($db->quoteName('enabled') . ' = ' . $db->quote('1'))
+		->where($db->quoteName('enabled') . ' = ' . 1)
 		->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
 	$db->setQuery($query);
 	$enabled_plugins = $db->loadObjectList();
@@ -53,11 +53,14 @@ function twofactorauth_postinstall_action()
 
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))
-		->set($db->quoteName('enabled') . ' = ' . $db->quote(1))
+		->set($db->quoteName('enabled') . ' = ' . 1)
 		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 		->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
 	$db->setQuery($query);
 	$db->execute();
+
+	// Clean cache.
+	Factory::getCache()->clean('com_plugins');
 
 	// Redirect the user to their profile editor page
 	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getUser()->id;

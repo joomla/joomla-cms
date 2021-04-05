@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,7 +210,7 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->checkin('articles.checkin')->listCheck(true);
 
-				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
+				if ($this->state->get('filter.published') != ContentComponent::CONDITION_TRASHED)
 				{
 					$childBar->trash('articles.trash')->listCheck(true);
 				}

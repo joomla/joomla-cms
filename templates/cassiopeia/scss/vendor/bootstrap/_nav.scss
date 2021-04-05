@@ -7,7 +7,7 @@
   border: 1px solid $cassiopeia-border-color;
   border-bottom: 0;
   border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -4px 0 rgba(0, 0, 0, .05) inset, $cassiopeia-box-shadow;
+  box-shadow: 0 1px $white inset, 0 2px 3px -3px hsla(0, 0%, 0%, .15), 0 -4px 0 hsla(0, 0%, 0%, .05) inset, $cassiopeia-box-shadow;
 
   .nav-item {
     margin-bottom: 0;
@@ -17,16 +17,16 @@
 
       &.active {
         border-radius: $border-radius 0 0;
-        box-shadow: -1px 0 1px -1px rgba(0, 0, 0, .06), inset -2px 0 1px -1px rgba(0, 0, 0, .08), inset 0 1px 0 rgba(0, 0, 0, .02);
+        box-shadow: -1px 0 1px -1px hsla(0, 0%, 0%, .06), inset -2px 0 1px -1px hsla(0, 0%, 0%, .08), inset 0 1px 0 hsla(0, 0%, 0%, .02);
       }
 
     }
 
     &:last-of-type .nav-link {
-      box-shadow: -1px 0 0 rgba(0, 0, 0, .05), 1px 0 0 rgba(0, 0, 0, .05);
+      box-shadow: -1px 0 0 hsla(0, 0%, 0%, .05), 1px 0 0 hsla(0, 0%, 0%, .05);
 
       &.active {
-        box-shadow: inset 2px 0 1px -1px rgba(0, 0, 0, .08), inset -2px 0 1px -1px rgba(0, 0, 0, .08), inset 0 1px 0 rgba(0, 0, 0, .02);
+        box-shadow: inset 2px 0 1px -1px hsla(0, 0%, 0%, .08), inset -2px 0 1px -1px hsla(0, 0%, 0%, .08), inset 0 1px 0 hsla(0, 0%, 0%, .02);
       }
 
     }
@@ -36,20 +36,20 @@
   .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: $cassiopeia-template-color;
+    color: var(--cassiopeia-color-primary);
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    box-shadow: -1px 0 0 rgba(0, 0, 0, .05);
+    box-shadow: -1px 0 0 hsla(0, 0%, 0%, .05);
 
     &.active {
       background-color: $cassiopeia-tabs-active-bg;
-      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .05) 100%);
+      background-image: linear-gradient(to bottom, hsla(0, 0%, 0%,0), hsla(0, 0%, 0%, .05) 100%);
       border-right: 0;
       border-left: 0;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      box-shadow: inset 2px 0 1px -1px rgba(0, 0, 0, .08), inset -2px 0 1px -1px rgba(0, 0, 0, .08), inset 0 1px 0 rgba(0, 0, 0, .02);
+      box-shadow: inset 2px 0 1px -1px hsla(0, 0%, 0%, .08), inset -2px 0 1px -1px hsla(0, 0%, 0%, .08), inset 0 1px 0 hsla(0, 0%, 0%, .02);
 
       &::after {
         position: absolute;
@@ -70,7 +70,7 @@
 
 .nav-tabs + .tab-content {
   padding: 15px;
-  background: $white-offset;
+  background: $white;
   border: 1px solid;
   border-color: $cassiopeia-border-color;
   border-radius: 0 0 $border-radius $border-radius;

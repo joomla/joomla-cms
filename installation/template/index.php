@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					<div class="m-2 d-flex align-items-center col justify-content-end">
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
 							<span class="icon-question" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+							<span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
 					</div>
 				</div>

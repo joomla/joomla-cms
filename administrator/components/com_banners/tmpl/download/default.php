@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php echo $this->form->renderField($field->fieldname); ?>
 		<?php endforeach; ?>
 
-		<button class="sr-only"
+		<button class="visually-hidden"
 			id="exportBtn"
 			type="button"
 			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">

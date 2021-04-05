@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ $html = array();
 $attr = '';
 
 // Initialize the field attributes.
-$attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
+$attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';

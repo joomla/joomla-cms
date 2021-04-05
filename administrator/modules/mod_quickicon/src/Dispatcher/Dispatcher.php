@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,8 @@ class Dispatcher extends AbstractModuleDispatcher
 	{
 		$data = parent::getLayoutData();
 
-		$data['buttons'] = QuickIconHelper::getButtons($data['params'], $this->getApplication());
+		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
 		return $data;
 	}

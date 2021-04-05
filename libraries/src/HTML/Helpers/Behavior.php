@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,7 +159,7 @@ abstract class Behavior
 			return;
 		}
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		$wa
@@ -225,7 +225,7 @@ abstract class Behavior
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+			/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 			$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 			$wa->registerAndUseScript('polyfill.' . $polyfillType, 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 

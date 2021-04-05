@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -311,12 +311,12 @@ class SetConfigurationCommand extends AbstractCommand
 		// Validate database name.
 		if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db']))
 		{
-			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'));
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
 			return false;
 		}
 
-		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['db']))
+		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db']))
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 

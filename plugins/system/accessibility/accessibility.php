@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,11 +52,20 @@ class PlgSystemAccessibility extends CMSPlugin
 			return;
 		}
 
+		// Are we in a modal?
+		if ($this->app->input->get('tmpl', '', 'cmd') === 'component')
+		{
+			return;
+		}
+
 		// Load language file.
 		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
 		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
+
+		// Detect the current active language
+		$lang = Factory::getLanguage()->getTag();
 
 		/**
 		* Add strings for translations in Javascript.
@@ -93,6 +102,8 @@ class PlgSystemAccessibility extends CMSPlugin
 					'enabled' => true,
 					'helpTitles' => true,
 				],
+				'textToSpeechLang' => [$lang],
+				'speechToTextLang' => [$lang],
 			]
 		);
 

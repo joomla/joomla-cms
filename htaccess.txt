@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+# @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -21,7 +21,7 @@ Options +FollowSymlinks
 Options -Indexes
 
 ## No directory listings
-<IfModule autoindex>
+<IfModule mod_autoindex.c>
 	IndexIgnore *
 </IfModule>
 
@@ -37,6 +37,13 @@ Options -Indexes
 #	Header always set Cross-Origin-Resource-Policy "same-origin"
 #	Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
+
+## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
+<FilesMatch "\.svg$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
+</FilesMatch>
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>

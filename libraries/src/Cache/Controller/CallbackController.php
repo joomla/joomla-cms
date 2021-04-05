@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,8 +183,8 @@ class CallbackController extends CacheController
 	/**
 	 * Generate a callback cache ID
 	 *
-	 * @param   callback  $callback  Callback to cache
-	 * @param   array     $args      Arguments to the callback method to cache
+	 * @param   mixed  $callback  Callback to cache
+	 * @param   array  $args      Arguments to the callback method to cache
 	 *
 	 * @return  string  MD5 Hash
 	 *

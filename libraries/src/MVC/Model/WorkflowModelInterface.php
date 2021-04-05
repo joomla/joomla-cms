@@ -2,13 +2,14 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Table\Table;
 
 \defined('JPATH_PLATFORM') or die;
 

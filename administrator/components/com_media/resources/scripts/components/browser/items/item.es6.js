@@ -1,3 +1,4 @@
+import { h } from 'vue';
 import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
@@ -94,7 +95,22 @@ export default {
                 thumb: this.item.thumb,
                 fileType: this.item.mime_type ? this.item.mime_type : false,
                 extension: this.item.extension ? this.item.extension : false,
+                width: this.item.width ? this.item.width : 0,
+                height: this.item.height ? this.item.height : 0,
               },
+            },
+          ),
+        );
+      }
+
+      if (this.item.type === 'dir') {
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: {},
             },
           ),
         );
@@ -110,6 +126,17 @@ export default {
         this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         return;
       }
+      this.$store.dispatch('toggleBrowserItemSelect', this.item);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
 
       // If more than one item was selected and the user clicks again on the selected item,
       // he most probably wants to unselect all other items.
@@ -128,8 +155,8 @@ export default {
       value ? this.mouseover() : this.mouseleave();
     },
   },
-  render(createElement) {
-    return createElement(
+  render() {
+    return h(
       'div',
       {
         class: {
@@ -137,21 +164,17 @@ export default {
           selected: this.isSelected(),
           active: this.isHoverActive(),
         },
-        on: {
-          click: this.handleClick,
-          mouseover: this.mouseover,
-          mouseleave: this.mouseleave,
-          focused: this.focused,
-        },
+        onClick: this.handleClick,
+        onMouseover: this.mouseover,
+        onMouseleave: this.mouseleave,
+        onFocused: this.focused,
       },
       [
-        createElement(
+        h(
           this.itemType(),
           {
-            props: {
-              item: this.item,
-              focused: this.focused,
-            },
+            item: this.item,
+            focused: this.focused,
           },
         ),
       ],

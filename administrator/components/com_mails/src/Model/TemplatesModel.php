@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,8 @@ class TemplatesModel extends ListModel
 				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
-				'htmlbody', 'a.htmlbody'
+				'htmlbody', 'a.htmlbody',
+				'extension'
 			);
 		}
 
@@ -169,7 +170,34 @@ class TemplatesModel extends ListModel
 				->bind(':language', $language);
 		}
 
+		// Add the list ordering clause
+		$listOrdering  = $this->state->get('list.ordering', 'a.template_id');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
+
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
+
 		return $query;
+	}
+
+	/**
+	 * Get list of extensions which are using mail templates
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getExtensions()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				'DISTINCT SUBSTRING(' . $db->quoteName('template_id')
+				. ', 1, POSITION(' . $db->quote('.') . ' IN ' . $db->quoteName('template_id') . ') - 1) AS ' . $db->quoteName('extension')
+			)
+			->from($db->quoteName('#__mail_templates'));
+		$db->setQuery($query);
+
+		return $db->loadColumn();
 	}
 
 	/**

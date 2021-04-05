@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -771,38 +771,6 @@ class HtmlDocument extends Document
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
-		}
-
-		$app      = CmsFactory::getApplication();
-		$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
-		$template = $app->getTemplate(true);
-
-		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-		$foldersToCheck = [
-			JPATH_BASE,
-			JPATH_ROOT . '/media/templates/' . $client . $template->template,
-			$directory,
-		];
-
-		foreach ($foldersToCheck as $base => $dir)
-		{
-			if ($template->parent !== ''
-				&& $base === 1
-				&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
-			{
-				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
-			}
-
-			if (is_file($dir . $icon))
-			{
-				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
-				$path    = str_replace($base, '', $dir);
-				$path    = str_replace('\\', '/', $path);
-				$this->addFavicon($urlBase . $path . $icon);
-				break;
-			}
 		}
 
 		return $contents;

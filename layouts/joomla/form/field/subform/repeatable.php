@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,8 +48,9 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
-						<span class="icon-plus icon-white" aria-hidden="true"></span> </a>
+					<button type="button" class="group-add btn btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+						<span class="icon-plus icon-white" aria-hidden="true"></span>
+					</button>
 				</div>
 			</div>
 			<?php endif; ?>

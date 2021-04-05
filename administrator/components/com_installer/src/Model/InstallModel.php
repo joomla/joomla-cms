@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extension Manager Install Model
@@ -151,7 +152,7 @@ class InstallModel extends BaseDatabaseModel
 		// Check if package was uploaded successfully.
 		if (!\is_array($package))
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 
 			return false;
 		}
@@ -391,6 +392,16 @@ class InstallModel extends BaseDatabaseModel
 		if (!$url)
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+
+			return false;
+		}
+
+		// We only allow http & https here
+		$uri = new Uri($url);
+
+		if (!in_array($uri->getScheme(), ['http', 'https']))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'), 'error');
 
 			return false;
 		}

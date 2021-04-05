@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		?>
 	>
 	<!-- Shows value which is allowed to manipulate like 'hue' -->
-	<label for="slider-input" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_INPUT'); ?></label>
+	<label for="slider-input" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_INPUT'); ?></label>
 	<input type="text" class="form-control" id="slider-input"
 		<?php echo
 		$autocomplete,
@@ -115,7 +115,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 	<span class="form-control-feedback"></span>
 
 	<?php if ($allSliders || in_array('hue', $displayValues)) : ?>
-		<label for="hue-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_HUE'); ?></label>
+		<label for="hue-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_HUE'); ?></label>
 		<input type="range" min="0" max="360" class="form-control color-slider" id="hue-slider" data-type="hue"
 			<?php echo
 			$autofocus,
@@ -124,7 +124,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('saturation', $displayValues)) : ?>
-		<label for="saturation-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_SATURATION'); ?></label>
+		<label for="saturation-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_SATURATION'); ?></label>
 		<input type="range" min="0" max="100" class="form-control color-slider" id="saturation-slider" data-type="saturation"
 			<?php echo
 			$autofocus,
@@ -133,7 +133,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('light', $displayValues)) : ?>
-		<label for="light-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_LIGHT'); ?></label>
+		<label for="light-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_LIGHT'); ?></label>
 		<input type="range" min="0" max="100" class="form-control color-slider" id="light-slider" data-type="light"
 			<?php echo
 			$autofocus,
@@ -142,7 +142,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		>
 	<?php endif ?>
 	<?php if ($alpha && ($allSliders || in_array('alpha', $displayValues))) : ?>
-		<label for="alpha-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_ALPHA'); ?></label>
+		<label for="alpha-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_ALPHA'); ?></label>
 		<input type="range" min="0" max="100" class="form-control color-slider" id="alpha-slider" data-type="alpha"
 			<?php echo
 			$autofocus,

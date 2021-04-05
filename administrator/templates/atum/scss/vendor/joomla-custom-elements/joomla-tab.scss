@@ -122,7 +122,7 @@ joomla-tab {
       border-radius: 0;
       box-shadow: none;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         flex: 0 0 100%;
         max-width: 100%;
       }
@@ -136,9 +136,10 @@ joomla-tab {
       position: relative;
       display: block;
       padding: .75em 1em;
+      margin: -1px 0;
       color: var(--atum-special-color);
       text-decoration: none;
-      border: 0;
+      border-top: 1px solid transparent;
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
 
@@ -157,6 +158,10 @@ joomla-tab {
           width: 5px;
           height: auto;
           background-color: var(--atum-bg-dark);
+        }
+
+        .text-muted {
+          color: var(--atum-text-light) !important;
         }
       }
     }
@@ -254,7 +259,7 @@ joomla-tab {
     #permissions-sliders section[active] {
       padding: 0 !important;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         [dir=ltr] & .respTable {
           text-align: right;
         }

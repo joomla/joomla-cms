@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -58,7 +59,7 @@ class CheckUpdatesCommand extends AbstractCommand
 
 		$symfonyStyle->success('Finished fetching updates');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

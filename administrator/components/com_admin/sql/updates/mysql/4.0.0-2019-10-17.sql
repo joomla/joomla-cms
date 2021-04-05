@@ -3,6 +3,7 @@ ALTER TABLE `#__users` MODIFY `registerDate` datetime NOT NULL;
 ALTER TABLE `#__users` MODIFY `lastvisitDate` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__users` MODIFY `lastResetTime` datetime NULL DEFAULT NULL;
 
+UPDATE `#__users` SET `registerDate` = '1980-01-01 00:00:00' WHERE `registerDate` = '0000-00-00 00:00:00';
 UPDATE `#__users` SET `lastvisitDate` = NULL WHERE `lastvisitDate` = '0000-00-00 00:00:00';
 UPDATE `#__users` SET `lastResetTime` = NULL WHERE `lastResetTime` = '0000-00-00 00:00:00';
 

@@ -6,13 +6,10 @@
   .card {
     display: flex;
 
-    &:hover {
-      box-shadow: 0 0 40px 10px rgba(0, 28, 73, .15);
-    }
-
     .btn {
       width: 100%;
-      border-radius: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 }

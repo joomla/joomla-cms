@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ trait UserProfileFields
 		$name = $form->getName();
 
 		$allowedForms = [
-			'com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration'
+			'com_users.user', 'com_users.profile', 'com_users.registration'
 		];
 
 		if (!in_array($name, $allowedForms))
@@ -187,7 +187,7 @@ trait UserProfileFields
 	 */
 	public function onContentPrepareData(?string $context, $data): bool
 	{
-		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user']))
 		{
 			return true;
 		}

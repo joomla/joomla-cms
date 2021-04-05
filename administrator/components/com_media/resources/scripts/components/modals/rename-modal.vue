@@ -36,9 +36,9 @@
               >
               <span
                 v-if="extension.length"
-                class="input-group-append"
+                class="input-group-text"
               >
-                <span class="input-group-text">{{ extension }}</span>
+                {{ extension }}
               </span>
             </div>
           </div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Votelist Field class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class VotelistField extends ListField
 {
@@ -25,7 +25,7 @@ class VotelistField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Votelist';
 
@@ -40,7 +40,7 @@ class VotelistField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{

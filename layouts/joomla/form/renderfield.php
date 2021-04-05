@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,14 @@ if (!empty($options['showonEnabled']))
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
-$hide            = empty($options['hiddenLabel']) ? '' : ' sr-only';
+$hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+
+if (!empty($parentclass))
+{
+	$class .= ' ' . $parentclass;
+}
+
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>

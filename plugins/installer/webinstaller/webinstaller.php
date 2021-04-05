@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'plg_installer_webinstaller/client.min.js',
 				[],
 				['defer' => true],
-				['core', 'jquery']
+				['core']
 			);
 
 		$devLevel = Version::PATCH_VERSION;
@@ -122,6 +122,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		ob_start();
 		include PluginHelper::getLayoutPath('installer', 'webinstaller');
 		$tab['content'] = ob_get_clean();
+		$tab['content'] = '<legend>' . $tab['label'] . '</legend>' . $tab['content'];
 
 		return $tab;
 	}

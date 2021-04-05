@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -144,7 +144,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbarButtons = [];
 
-		if ($canDo->get('core.edit') || $canDo->get('core.create'))
+		if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile)
 		{
 			ToolbarHelper::apply('user.apply');
 			$toolbarButtons[] = ['save', 'user.save'];

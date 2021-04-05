@@ -119,14 +119,14 @@
 .choices[data-type*="select-one"],
 .choices[data-type*="select-multiple"] {
   .choices__inner {
-    padding-inline-end: $custom-select-indicator-padding;
+    padding-inline-end: $form-select-indicator-padding;
     cursor: pointer;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-    background-color: $custom-select-bg;
+    background-color: $form-select-bg;
 
     [dir="rtl"] & {
       background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-      background-color: $custom-select-bg;
+      background-color: $form-select-bg;
     }
   }
 }

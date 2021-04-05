@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,10 +44,10 @@ $saveOrder = $listOrder == 'a.id';
 							'closeButton' => false,
 							'backdrop'    => 'static',
 							'keyboard'    => false,
-							'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
+							'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+								. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 								. Text::_("JSAVE") . '</button>'
 								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#applyBtn\'})">'
 								. Text::_("JAPPLY") . '</button>'
@@ -65,12 +65,12 @@ $saveOrder = $listOrder == 'a.id';
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="articleList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CSP_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -98,7 +98,7 @@ $saveOrder = $listOrder == 'a.id';
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<th scope="col" class="w-3 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -128,7 +128,7 @@ $saveOrder = $listOrder == 'a.id';
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
-									<td class="text-center d-none d-md-table-cell">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>

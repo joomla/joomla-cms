@@ -1,55 +1,63 @@
 // Custom Forms
 
 .custom-select {
+  @extend .form-select;
+}
+
+.form-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $custom-select-background;
-  background-color: $custom-select-bg;
+  background: $form-select-background;
+  background-color: $form-select-bg;
   border: $input-border;
   // var needed
   box-shadow: $input-box-shadow;
 
+  &:focus {
+    border-color: #000;
+    box-shadow: $cassiopeia-input-focus-shadow;
+  }
+
   [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background: $custom-select-background-rtl;
-    background-color: $custom-select-bg;
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
   }
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
+    background-color: $white;
 
     option {
-      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
-      background-color: var(--white);
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
+      background-color: $white;
 
       &:checked {
-        color: var(--white);
-        background-color: $cassiopeia-template-color-dark !important;
+        color: $white;
+        background-color: var(--cassiopeia-color-primary) !important;
       }
     }
   }
 
-  &.custom-select-color-state {
+  &.form-select-success,
+  &.custom-select-success {
+    color: $success;
+    background-color: $success;
 
-    &.custom-select-success {
-      color: theme-color("success");
-      background-color: theme-color("success");
-
-      option {
-        color: $custom-select-color;
-        background-color: $white-offset;
-      }
+    option {
+      color: $form-select-color;
+      background-color: $white;
     }
+  }
 
-    &.custom-select-danger {
-      color: theme-color("danger");
-      background-color: theme-color("danger");
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: $danger;
+    background-color: $danger;
 
-      option {
-        color: $custom-select-color;
-        background-color: $white-offset;
-      }
+    option {
+      color: $form-select-color;
+      background-color: $white;
     }
   }
 
@@ -58,4 +66,9 @@
     color: var(--dark);
     background-color: $white;
   }
+}
+
+// Backwards compat with BS4
+.form-group {
+  @extend .mb-3;
 }

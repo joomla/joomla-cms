@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_users.admin-users-groups.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-groups-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
       "name": "com_users.admin-users-groups",
       "type": "script",
       "uri": "com_users/admin-users-groups.min.js",
@@ -13,6 +25,18 @@
         "core"
       ],
       "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_users.admin-users-mail.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-mail-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -21,9 +45,21 @@
       "type": "script",
       "uri": "com_users/admin-users-mail.min.js",
       "dependencies": [
+        "com_users.admin-users-mail.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_users.two-factor-switcher.es5",
+      "type": "script",
+      "uri": "com_users/two-factor-switcher-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -32,10 +68,10 @@
       "type": "script",
       "uri": "com_users/two-factor-switcher.min.js",
       "dependencies": [
-        "core"
+        "com_users.two-factor-switcher.es5"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     }
   ]

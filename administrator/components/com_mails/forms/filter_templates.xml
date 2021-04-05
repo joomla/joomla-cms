@@ -17,7 +17,6 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
-			<option value="*">JALL</option>
 		</field>
 
 		<field
@@ -38,14 +37,10 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
-			default="a.id DESC"
+			default="a.template_id ASC"
 			validate="options"
 			>
-			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="">JGLOBAL_SORT_BY</option>						
 			<option value="a.template_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.template_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

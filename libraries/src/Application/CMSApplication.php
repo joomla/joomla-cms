@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -216,6 +216,38 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+	 * Ensure several core system input variables are not arrays.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9
+	 */
+	private function sanityCheckSystemVariables()
+	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function ($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
+		}
+	}
+
+	/**
 	 * Execute the application.
 	 *
 	 * @return  void
@@ -226,6 +258,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		try
 		{
+			$this->sanityCheckSystemVariables();
 			$this->setupLogging();
 			$this->createExtensionNamespaceMap();
 
@@ -233,7 +266,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->doExecute();
 
 			// If we have an application document object, render it.
-			if ($this->document instanceof \JDocument)
+			if ($this->document instanceof \Joomla\CMS\Document\Document)
 			{
 				// Render the application output.
 				$this->render();
@@ -263,7 +296,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Trigger the onError event.
 			$this->triggerEvent('onError', $event);
 
-			ExceptionHandler::render($event->getError());
+			ExceptionHandler::handleException($event->getError());
 		}
 
 		// Send the application response.
@@ -369,6 +402,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -1276,9 +1322,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
 		}
 
-		if ($option === 'com_admin' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply'], true)
-			|| ($option === 'com_admin' && $view === 'profile' && $layout === 'edit')
-			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
 			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
 		{
@@ -1287,7 +1331,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Redirect to com_admin profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_admin&task=profile.edit&id=' . $this->getIdentity()->id);
+		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
 	}
 
 	/**

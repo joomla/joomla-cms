@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Filter\InputFilter;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -119,7 +120,7 @@ class AddUserCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		// Get filter to remove invalid characters
@@ -154,7 +155,7 @@ class AddUserCommand extends AbstractCommand
 
 		$this->ioStyle->success("User created!");
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

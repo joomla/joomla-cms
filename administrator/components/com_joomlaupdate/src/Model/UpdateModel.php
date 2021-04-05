@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
@@ -42,7 +43,7 @@ class UpdateModel extends BaseDatabaseModel
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private $updateInformation = null;
 
@@ -224,7 +225,8 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest'] = $updateObject->version;
+		$this->updateInformation['latest']  = $updateObject->version;
+		$this->updateInformation['current'] = JVERSION;
 
 		// Check whether this is an update or not.
 		if (version_compare($updateObject->version, JVERSION, '>'))
@@ -337,7 +339,13 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir  = Factory::getApplication()->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		)
+			->clean(Factory::getApplication()->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = [];
 
@@ -751,7 +759,12 @@ ENDDATA;
 		{
 			if ($manifestClass->preflight('update', $installer) === false)
 			{
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
@@ -866,7 +879,12 @@ ENDDATA;
 			if ($manifestClass->update($installer) === false)
 			{
 				// Install failed, rollback changes.
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
@@ -957,7 +975,13 @@ ENDDATA;
 		}
 
 		// Unset the update filename from the session.
-		Factory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		$app = Factory::getApplication();
+		$app->setUserState('com_joomlaupdate.file', null);
+		$oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
+
+		// Trigger event after joomla update.
+		$app->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+		$app->setUserState('com_joomlaupdate.oldversion', null);
 	}
 
 	/**
@@ -1130,7 +1154,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1212,7 +1236,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1261,7 +1285,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1274,7 +1298,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1295,7 +1319,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1308,7 +1332,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1323,7 +1347,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1356,7 +1380,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1401,7 +1425,7 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
@@ -1427,6 +1451,11 @@ ENDDATA;
 						// Return the compatible version
 						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 					}
+					else
+					{
+						// Return the compatible version as false so we can say update server is supported but no compatible version found
+						return (object) array('state' => 1, 'compatibleVersion' => false);
+					}
 				}
 			}
 			else
@@ -1437,6 +1466,11 @@ ENDDATA;
 				{
 					// Return the compatible version
 					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
+				else
+				{
+					// Return the compatible version as false so we can say update server is supported but no compatible version found
+					return (object) array('state' => 1, 'compatibleVersion' => false);
 				}
 			}
 		}
@@ -1452,7 +1486,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getUpdateSitesInfo($extensionID)
 	{
@@ -1501,7 +1535,7 @@ ENDDATA;
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{
@@ -1559,7 +1593,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1579,7 +1613,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	protected function translateExtensionName(&$item)
 	{

@@ -5,12 +5,11 @@
 	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
@@ -57,7 +56,7 @@
 					name="siteTitle"
 					type="text"
 					default=""
-					label="JGLOBAL_TITLE"
+					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
 				/>
 
@@ -65,9 +64,43 @@
 					name="siteDescription"
 					type="text"
 					default=""
-					label="JGLOBAL_DESCRIPTION"
+					label="TPL_CASSIOPEIA_TAGLINE"
 					filter="string"
 				/>
+
+				<field
+					name="useFontScheme"
+					type="groupedlist"
+					label="TPL_CASSIOPEIA_FONT_LABEL"
+					default="0"
+					>
+					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
+						<option value="fonts-local_roboto">Roboto (local)</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
+						<option value="fonts-web_fira-sans">Fira Sans (web)</option>
+						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
+					</group>
+				</field>
+
+				<field
+					name="noteFontScheme"
+					type="note"
+					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
+					heading="p"
+					class="alert alert-warning"
+				/>
+
+				<field
+					name="colorName"
+					type="list"
+					default="colors_standard"
+					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					>
+					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
+					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
+				</field>
 
 				<field
 					name="fluidContainer"

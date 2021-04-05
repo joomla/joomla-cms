@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\Component\Newsfeeds\Api\View\Feeds;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\Component\Newsfeeds\Api\Serializer\NewsfeedSerializer;
 
 /**
  * The feeds view
@@ -28,7 +30,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'catid',
+		'category',
 		'name',
 		'alias',
 		'link',
@@ -71,7 +73,7 @@ class JsonapiView extends BaseApiView
 		'alias',
 		'checked_out',
 		'checked_out_time',
-		'catid',
+		'category',
 		'numarticles',
 		'cache_time',
 		'created_by',
@@ -87,4 +89,98 @@ class JsonapiView extends BaseApiView
 		'access_level',
 		'category_title',
 	];
+
+	/**
+	 * The relationships the item has
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $relationship = [
+		'category',
+		'created_by',
+		'modified_by',
+		'tags',
+	];
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          contentType: the name (optional) of the content type to use for the serialization
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct($config = [])
+	{
+		if (array_key_exists('contentType', $config))
+		{
+			$this->serializer = new NewsfeedSerializer($config['contentType']);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   object  $item  Item
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($item = null)
+	{
+		if (Multilanguage::isEnabled())
+		{
+			$this->fieldsToRenderItem[] = 'languageAssociations';
+			$this->relationship[]       = 'languageAssociations';
+		}
+
+		return parent::displayItem();
+	}
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		if (Multilanguage::isEnabled() && !empty($item->associations))
+		{
+			$associations = [];
+
+			foreach ($item->associations as $language => $association)
+			{
+				$itemId = explode(':', $association)[0];
+
+				$associations[] = (object) [
+					'id'       => $itemId,
+					'language' => $language,
+				];
+			}
+
+			$item->associations = $associations;
+		}
+
+		if (!empty($item->tags->tags))
+		{
+			$tagsIds   = explode(',', $item->tags->tags);
+			$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
+
+			$item->tags = array_combine($tagsIds, $tagsNames);
+		}
+		else
+		{
+			$item->tags = [];
+		}
+
+		return parent::prepareItem($item);
+	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,10 +47,10 @@ use Joomla\CMS\Router\Route;
 				</h2>
 				<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
-						<li class="list-group-item d-flex align-items-center">
-							<?php $params = $item->getParams(); ?>
-							<?php // Only if Menu-show = true
-								if ($params->get('menu_show', 1)) : ?>
+						<?php $params = $item->getParams(); ?>
+						<?php // Only if Menu-show = true ?>
+						<?php if ($params->get('menu_show', 1)) : ?>
+							<li class="list-group-item d-flex align-items-center">
 								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
 									<?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
 									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
@@ -65,7 +65,7 @@ use Joomla\CMS\Router\Route;
 									<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
 									<?php if ($item->ajaxbadge) : ?>
 										<span class="menu-badge">
-											<span class="icon-spin icon-spinner mt-1 system-counter float-right" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+											<span class="icon-spin icon-spinner mt-1 system-counter float-end" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 										</span>
 									<?php endif; ?>
 								</a>
@@ -89,7 +89,7 @@ use Joomla\CMS\Router\Route;
 											?>
 											<a href="<?php echo $link; ?>">
 												<span class="icon-<?php echo $icon; ?> icon-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
-												<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
+												<span class="visually-hidden"><?php echo htmlentities($sronly); ?></span>
 											</a>
 										</span>
 									<?php endif; ?>
@@ -101,8 +101,8 @@ use Joomla\CMS\Router\Route;
 										</a>
 									</span>
 								<?php endif; ?>
-							<?php endif; ?>
-						</li>
+							</li>
+						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
 			</div>

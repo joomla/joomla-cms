@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -153,6 +153,18 @@ class CategoryController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
+
+		// In case extension is not passed in the URL, get it directly from category instead of default to com_content
+		if (!$this->input->exists('extension') && $recordId > 0)
+		{
+			$table = $this->getModel('Category')->getTable();
+
+			if ($table->load($recordId))
+			{
+				$this->extension = $table->extension;
+			}
+		}
+
 		$append .= '&extension=' . $this->extension;
 
 		return $append;
