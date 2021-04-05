@@ -49,7 +49,7 @@ class Toolbar
 	 * @var    string
 	 * @since  1.5
 	 */
-	protected $_name = [];
+	protected $_name = '';
 
 	/**
 	 * Toolbar array
