@@ -5049,8 +5049,13 @@ class JoomlaInstallerScript
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/forms/profile.xml',
 			'/administrator/components/com_admin/postinstall/htaccess.php',
 			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
+			'/administrator/components/com_admin/src/Controller/ProfileController.php',
+			'/administrator/components/com_admin/src/Model/ProfileModel.php',
+			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
+			'/administrator/components/com_admin/tmpl/profile/edit.php',
 		);
 
 		$folders = array(
@@ -6241,6 +6246,9 @@ class JoomlaInstallerScript
 			'/plugins/content/imagelazyload',
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/tmpl/profile',
 		);
 
 		$status['files_checked'] = $files;
@@ -7162,21 +7170,21 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.9.25
 	 */
 	protected function fixFilenameCasing()
 	{
 		$files = array(
 			// 3.10 changes
-			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
-			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
 			// 4.0.0
-			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
+			'/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
 		);
 
 		foreach ($files as $old => $expected)
 		{
-			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+			$oldRealpath = realpath(JPATH_ROOT . $old);
 
 			// On Unix without incorrectly cased file.
 			if ($oldRealpath === false)
@@ -7185,7 +7193,7 @@ class JoomlaInstallerScript
 			}
 
 			$oldBasename      = basename($oldRealpath);
-			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
 			$newBasename      = basename($newRealpath);
 			$expectedBasename = basename($expected);
 
@@ -7193,8 +7201,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				File::move(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-				File::move(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+				File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -7209,14 +7217,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						File::move(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-						File::move(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+						File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					File::delete(JPATH_ROOT . '/' . $old);
+					File::delete(JPATH_ROOT . $old);
 				}
 			}
 		}

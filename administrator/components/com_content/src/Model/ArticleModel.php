@@ -498,7 +498,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = (int) $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -634,16 +634,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
 				unset($data['created_by']);
-			}
-
-			if (isset($data['modified_by']))
-			{
-				unset($data['modified_by']);
 			}
 		}
 

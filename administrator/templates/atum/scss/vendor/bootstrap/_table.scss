@@ -10,7 +10,6 @@
 
     th,
     td {
-      font-weight: $font-weight-normal;
       white-space: nowrap;
 
       @include media-breakpoint-down(md) {
@@ -19,7 +18,6 @@
     }
 
     a {
-      font-weight: $font-weight-normal;
       color: var(--atum-link-color);
 
       &#sorted {

@@ -154,8 +154,8 @@ class ModulepositionField extends TextField
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '"  data-bs-toggle="modal" data-bs-target="#modulePositionModal">'
+			. '<a class="btn" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '" href="' . $link
+			. '" data-bs-toggle="modal" data-bs-target="#modulePositionModal">'
 			. Text::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 
 		$html[] = HTMLHelper::_(
