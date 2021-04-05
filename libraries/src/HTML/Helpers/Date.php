@@ -107,20 +107,16 @@ abstract class Date
 	 *                                            - 'tooltip': Display the full date in a tooltip.
 	 *                                            - 'below': Display the full date below the relative date.
 	 *                                            - 'hide': Don't display the full date.
-	 * @param   User|null    $user              Date preference is based on the settings of this user. Defaults to the current user.
 	 *
 	 * @return  string  The relative or absolute date, plus the full date if applicable.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function relativeFormatted(
-		$date, $unit = null, $time = null, $format = null, $forceRelative = false, $showAbsoluteDate = 'tooltip', $user = null
+		$date, $unit = null, $time = null, $format = null, $forceRelative = false, $showAbsoluteDate = 'tooltip'
 	)
 	{
-		if ($user === null)
-		{
-			$user = Factory::getApplication()->getIdentity();
-		}
+		$user = Factory::getApplication()->getIdentity();
 
 		if ($user === null)
 		{
