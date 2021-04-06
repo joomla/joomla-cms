@@ -142,7 +142,7 @@ class JHtmlDateTest extends UnitTestCase
 			 */
 			// Relative with full date in tooltip - <span class="hasTooltip" title="2021-04-05 12:00:00">10 days ago</span>
 			[
-				'<span class="hasTooltip" title="2021-04-05 12:00:00">JLIB_HTML_DATE_RELATIVE_DAYS</span>',
+				'<span>JLIB_HTML_DATE_RELATIVE_DAYS</span><div role="tooltip">2021-04-05 12:00:00</div>',
 				new Date('2021-04-05 12:00:00'),
 				'day',
 				new Date('2021-04-15 12:00:00'),
@@ -178,7 +178,7 @@ class JHtmlDateTest extends UnitTestCase
 			 */
 			// Absolute with full date in tooltip - <span class="hasTooltip" title="2021-04-05 12:00:00">Monday, 05 April 2021</span>
 			[
-				'<span class="hasTooltip" title="2021-04-05 12:00:00">Monday, 05 April 2021</span>',
+				'<span>Monday, 05 April 2021</span><div role="tooltip">2021-04-05 12:00:00</div>',
 				new Date('2021-04-05 12:00:00'),
 				'day',
 				new Date('2021-04-15 12:00:00'),
@@ -214,7 +214,7 @@ class JHtmlDateTest extends UnitTestCase
 			 */
 			// Relative with full date in tooltip - <span class="hasTooltip" title="2021-04-05 12:00:00">10 days ago</span>
 			[
-				'<span class="hasTooltip" title="2021-04-05 12:00:00">JLIB_HTML_DATE_RELATIVE_DAYS</span>',
+				'<span>JLIB_HTML_DATE_RELATIVE_DAYS</span><div role="tooltip">2021-04-05 12:00:00</div>',
 				new Date('2021-04-05 12:00:00'),
 				'day',
 				new Date('2021-04-15 12:00:00'),
