@@ -31,3 +31,6 @@
 [submodule "media/com_rssfactory"]
 	path = media/com_rssfactory
 	url = https://github.com/PM84/rss_factory_component_media.git
+[submodule "plugins/system/pemasoft_telegram_webhook"]
+	path = plugins/system/pemasoft_telegram_webhook
+	url = https://github.com/PM84/pemasoft_telegram_webhook_plugin_system.git
