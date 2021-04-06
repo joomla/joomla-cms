@@ -181,14 +181,14 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo $this->escape($article->title); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'btn btn-badge btn-vsm btn-' . strtolower($association['language']->lang_code); ?>
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
 									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
 										<span class="sr-only"><?php echo $association['language']->title_native; ?></span>
 									</a>
@@ -207,14 +207,14 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1)) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'btn btn-badge btn-vsm btn-' . strtolower($association['language']->lang_code); ?>
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
 									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
 										<span class="sr-only"><?php echo $association['language']->title_native; ?></span>
 									</a>

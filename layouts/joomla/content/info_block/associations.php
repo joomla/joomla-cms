@@ -26,7 +26,7 @@ use Joomla\CMS\Router\Route;
 			<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 			<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 		<?php else : ?>
-			<?php $class = 'btn btn-badge btn-vsm btn-' . strtolower($association['language']->lang_code); ?>
+			<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
 			<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
 				<span class="sr-only"><?php echo $association['language']->title_native; ?></span>
 			</a>

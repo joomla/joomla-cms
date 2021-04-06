@@ -25,7 +25,8 @@
   }
 }
 
-.btn-badge {
+.article-info .association .btn-secondary,
+.cat-list-association .btn-secondary, {
   font-weight: 700;
   color: $white;
   background-color: $gray-600;
@@ -38,7 +39,8 @@
   }
 }
 
-.btn-vsm, .btn-group-vsm > .btn {
+.article-info .association .btn-sm, .btn-group-sm > .btn,
+.cat-list-association .btn-sm, .btn-group-sm > .btn {
   padding: 0 .25rem;
   font-size: .8rem;
   border-radius: .2rem;
