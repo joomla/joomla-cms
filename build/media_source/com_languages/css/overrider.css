@@ -14,11 +14,14 @@
 	display: none;
 }
 #overrider-spinner.show,
-#refresh-status.show,
 #more-results.show,
 #results-container.show,
 #language-results.show {
 	display: grid;
+}
+
+#refresh-status.show {
+	display: block;
 }
 
 #overrider-spinner-btn.show {

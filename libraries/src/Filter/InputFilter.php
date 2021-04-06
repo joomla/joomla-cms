@@ -298,7 +298,7 @@ class InputFilter extends BaseInputFilter
 					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = @fopen($tempName, 'r');
+					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
 
 					if ($fp !== false)
 					{

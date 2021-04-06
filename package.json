@@ -56,10 +56,9 @@
     "short-and-sweet": "^1.0.2",
     "skipto": "^4.0.4",
     "tinymce": "^5.7.1",
-    "vue": "^2.6.12",
-    "vue-focus-lock": "^1.4.1",
-    "vuex": "^3.6.0",
-    "vuex-persistedstate": "^3.2.0"
+    "vue": "^3.0.10",
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
@@ -71,6 +70,7 @@
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@rollup/plugin-replace": "^2.4.1",
+    "@vue/compiler-sfc": "^3.0.10",
     "autoprefixer": "^9.8.6",
     "babel-plugin-add-header-comment": "^1.0.3",
     "commander": "^5.1.0",
@@ -97,7 +97,7 @@
     "recursive-readdir": "^2.2.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.42.1",
-    "rollup-plugin-vue": "^5.1.9",
+    "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.32.8",
     "selenium-standalone": "6.23.0",
     "stylelint": "^13.12.0",
@@ -105,7 +105,6 @@
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.19.0",
     "terser": "^5.6.1",
-    "vue-template-compiler": "^2.6.12",
     "watch": "^1.0.2"
   }
 }
