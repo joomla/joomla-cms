@@ -333,6 +333,7 @@
 			name="cors"
 			type="radio"
 			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORSOFF_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
