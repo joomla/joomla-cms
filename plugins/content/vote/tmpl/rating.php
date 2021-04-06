@@ -48,8 +48,8 @@ $pathStar     = JPATH_ROOT . substr($iconStar, strlen(Uri::root(true)));
 $pathHalfstar = JPATH_ROOT . substr($iconHalfstar, strlen(Uri::root(true)));
 
 // Write inline '<svg>' elements
-$star     = file_get_contents($pathStar);
-$halfstar = file_get_contents($pathHalfstar);
+$star     = file_exists($pathStar) ? file_get_contents($pathStar) : '';
+$halfstar = file_exists($pathHalfstar) ? file_get_contents($pathHalfstar) : '';
 
 // Get rating
 $rating = (float) $row->rating;
