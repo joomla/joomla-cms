@@ -332,8 +332,8 @@
 		<field
 			name="cors"
 			type="radio"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
-			description="COM_CONFIG_FIELD_WEBSERVICES_CORSOFF_DESC"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
