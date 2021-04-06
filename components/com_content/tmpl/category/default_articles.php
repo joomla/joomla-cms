@@ -190,7 +190,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 								<?php else : ?>
 									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
 									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
-										<span class="sr-only"><?php echo $association['language']->title_native; ?></span>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
 									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
@@ -216,7 +216,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 								<?php else : ?>
 									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
 									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
-										<span class="sr-only"><?php echo $association['language']->title_native; ?></span>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
 									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>

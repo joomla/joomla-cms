@@ -25,25 +25,29 @@
   }
 }
 
-.article-info .association .btn-secondary,
-.cat-list-association .btn-secondary, {
-  font-weight: 700;
-  color: $white;
-  background-color: $gray-600;
-  border-color: $gray-400;
-
-  &:hover,
-  &:focus {
+.article-info .association,
+.cat-list-association {
+  .btn-secondary {
+    font-weight: 700;
     color: $white;
-    background-color: $gray-800;
+    background-color: $gray-600;
+    border-color: $gray-400;
+
+    &:hover,
+    &:focus {
+      color: $white;
+      background-color: $gray-800;
+    }
   }
 }
 
-.article-info .association .btn-sm, .btn-group-sm > .btn,
-.cat-list-association .btn-sm, .btn-group-sm > .btn {
-  padding: 0 .25rem;
-  font-size: .8rem;
-  border-radius: .2rem;
+.article-info .association,
+.cat-list-association {
+  btn-sm {
+    padding: 0 .25rem;
+    font-size: .8rem;
+    border-radius: .2rem;
+  }
 }
 
 @include media-breakpoint-down(md) {
