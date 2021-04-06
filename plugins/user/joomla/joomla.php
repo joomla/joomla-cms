@@ -50,7 +50,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Set as required the passwords fields when mail to user is set to No
 	 *
-	 * @param   Form   $form  The form to be altered.
+	 * @param   JForm  $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
