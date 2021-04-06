@@ -24,7 +24,7 @@ class FeedHelper
 	/**
 	 * Method to load a feed.
 	 *
-	 * @param   JRegisty  $params  The parameters object.
+	 * @param   JRegistry  $params  The parameters object.
 	 *
 	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
 	 *
