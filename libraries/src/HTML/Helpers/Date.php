@@ -140,7 +140,7 @@ abstract class Date
 
 		if ($showAbsoluteDate === 'tooltip')
 		{
-			return '<span class="hasTooltip" title="' . $dateAbsolute . '">' . $dateMain . '</span>';
+			return '<span>' . $dateMain . '</span><div role="tooltip">' . $dateAbsolute . '</div>';
 		}
 
 		if ($showAbsoluteDate === 'below')

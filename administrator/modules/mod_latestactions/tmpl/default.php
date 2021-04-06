@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 $now = Factory::getDate();
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
