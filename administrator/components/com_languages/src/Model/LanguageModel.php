@@ -220,7 +220,7 @@ class LanguageModel extends AdminModel
 		// Prevent saving an empty url language code
 		if ($data['sef'] === '')
 		{
-			$this->setError(JText::_('COM_LANGUAGES_ERROR_SEF'));
+			$this->setError(Text::_('COM_LANGUAGES_ERROR_SEF'));
 
 			return false;
 		}
