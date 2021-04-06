@@ -384,8 +384,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
 		
-		// Flush both system caches.
-		$this->cleanCache('_system', 0);
+		// Flush the system cache to ensure extra_query is correctly loaded next time.
 		$this->cleanCache('_system', 1);
 	}
 
