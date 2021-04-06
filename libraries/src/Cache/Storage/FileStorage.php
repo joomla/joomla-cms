@@ -542,6 +542,7 @@ class FileStorage extends CacheStorage
 
 				// In case of restricted permissions we delete it one way or the other as long as the owner is either the webserver or the ftp
 				File::invalidateFileCache($file);
+
 				if (@unlink($file) !== true)
 				{
 					Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
