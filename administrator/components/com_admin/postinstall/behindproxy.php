@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.9.26
  */
 function admin_postinstall_behindproxy_condition()
 {
@@ -48,7 +48,7 @@ function admin_postinstall_behindproxy_condition()
  *
  * @return  void
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.9.26
  */
 function behindproxy_postinstall_action()
 {
