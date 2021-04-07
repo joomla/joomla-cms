@@ -131,12 +131,12 @@
     if (headerItemsWidth > headerWrapperWidth) {
       if (!doc.querySelector('#header-more-items')) {
         const headerMoreItem = document.createElement('div');
-        headerMoreItem.className = 'header-item-more d-flex';
+        headerMoreItem.className = 'header-item-more';
         headerMoreItem.id = 'header-more-items';
         const headerItemContent = document.createElement('div');
-        headerItemContent.className = 'header-item-content header-more d-flex';
+        headerItemContent.className = 'header-item-content header-more';
         const headerMoreBtn = document.createElement('button');
-        headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
+        headerMoreBtn.className = 'header-more-btn';
         headerMoreBtn.setAttribute('type', 'button');
         headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
