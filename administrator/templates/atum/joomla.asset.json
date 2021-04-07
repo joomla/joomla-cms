@@ -48,7 +48,7 @@
       "name": "template.atum",
       "description": "The file containing the javascript for this template.",
       "type": "script",
-      "uri": "templates/atum/template.min.js",
+      "uri": "media/templates/administrator/atum/js/template.min.js",
       "dependencies": [
         "core"
       ]
@@ -67,7 +67,6 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "focus-visible#script",
         "template.atum#script"
       ]
     },

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -84,6 +85,8 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
+// @see administrator/templates/atum/html/layouts/chromes/status.php
+$statusModules = LayoutHelper::render('chromes.status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
@@ -122,9 +125,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 			</div>
 			<jdoc:include type="modules" name="title" />
 		</div>
-		<div class="header-items d-flex ms-auto">
-			<jdoc:include type="modules" name="status" style="header-item" />
-		</div>
+		<?php echo $statusModules; ?>
 	</div>
 </header>
 

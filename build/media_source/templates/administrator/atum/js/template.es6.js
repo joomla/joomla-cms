@@ -1,0 +1,304 @@
+/**
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+((Joomla, doc) => {
+  'use strict';
+
+  const storageEnabled = typeof Storage !== 'undefined';
+  const mobile = window.matchMedia('(max-width: 992px)');
+  const small = window.matchMedia('(max-width: 575.98px)');
+  const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
+  const menu = doc.querySelector('.sidebar-menu');
+  const sidebarNav = doc.querySelector('.sidebar-nav');
+  const subhead = doc.querySelector('.subhead');
+  const wrapper = doc.querySelector('.wrapper');
+  const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
+  const logo = doc.querySelector('.logo');
+  const isLogin = doc.querySelector('body.com_login');
+  const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
+  const headerTitleArea = document.querySelector('#header .header-title');
+  const headerItemsArea = document.querySelector('#header .header-items');
+  const headerExpandedItems = [].slice.call(headerItemsArea.children).filter((element) => element.classList.contains('header-item'));
+  const headerCondensedItemContainer = document.getElementById('header-more-items');
+  const headerCondensedItems = [].slice.call(headerCondensedItemContainer.querySelectorAll('.header-dd-item'));
+  let headerTitleWidth = headerTitleArea.getBoundingClientRect().width;
+  const headerItemWidths = headerExpandedItems.map((element) => element.getBoundingClientRect().width);
+
+  // Get the ellipsis button width
+  headerCondensedItemContainer.classList.remove('d-none');
+  headerCondensedItemContainer.paddingTop;
+  const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
+  headerCondensedItemContainer.classList.add('d-none');
+
+  console.log({
+    exp: headerExpandedItems,
+    cond: headerCondensedItems,
+    ellipsisWidth: ellipsisWidth,
+  })
+  /**
+   * Shrink or extend the logo, depending on sidebar
+   *
+   * @param {string} [change] is the sidebar 'open' or 'closed'
+   *
+   * @since   4.0.0
+   */
+  function changeLogo(change) {
+    if (!logo || isLogin) {
+      return;
+    }
+
+    const state = change
+      || (storageEnabled && localStorage.getItem('atum-sidebar'));
+
+    if (state === 'closed') {
+      logo.classList.add('small');
+    } else {
+      logo.classList.remove('small');
+    }
+  }
+
+  /**
+   * toggle arrow icon between down and up depending on position of the nav header
+   *
+   * @param {string} [positionTop] set if the nav header positioned to the 'top' otherwise 'bottom'
+   *
+   * @since   4.0.0
+   */
+  function toggleArrowIcon(positionTop) {
+    const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
+    const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
+
+    if (!navDropDownIcon) {
+      return;
+    }
+
+    navDropDownIcon.forEach((item) => {
+      item.classList.remove(remIcon);
+      item.classList.add(addIcon);
+    });
+  }
+
+  /**
+   *
+   * @param {[]} arr
+   * @returns {Number}
+   */
+  const getSum = (arr) => arr.reduce((a, b) => Number(a) + Number(b), 0);
+
+  /**
+   * put elements that are too much in the header in a dropdown
+   *
+   * @since   4.0.0
+   */
+  function headerItemsInDropdown() {
+    headerTitleWidth = headerTitleArea.getBoundingClientRect().width;
+    const minViable = headerTitleWidth + ellipsisWidth;
+    const totalHeaderItemWidths = getSum(headerItemWidths);
+
+    if (headerTitleWidth + totalHeaderItemWidths < document.body.getBoundingClientRect().width) {
+      headerExpandedItems.map((element) => element.classList.remove('d-none'));
+      headerCondensedItemContainer.classList.add('d-none');
+    } else {
+      headerCondensedItems.map((el) => el.classList.add('d-none'));
+      // let skipItem = false;
+      let reducedWidth = 0;
+      let hide = 0;
+      headerCondensedItemContainer.classList.remove('d-none');
+      headerItemWidths.forEach((width, index) => {
+        const tempArr = headerItemWidths.slice(index, headerItemWidths.length);
+
+        if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
+          reducedWidth += width;
+          hide += 1;
+          // skipItem = true;
+
+          headerExpandedItems[index].classList.add('d-none');
+          headerCondensedItems[index].classList.remove('d-none');
+        }
+      });
+
+      console.log({
+        hide,
+        reducedWidth,
+      })
+      // headerExpandedItems.reverse().forEach((item) => {
+      //
+      // });
+    }
+    // const headerWrapper = doc.querySelector('.header-items');
+    // const headerItems = doc.querySelectorAll('.header-items > .header-item');
+    // const headerWrapperWidth = headerWrapper.offsetWidth;
+    // let headerItemsWidth = 0;
+    // headerItems.forEach((item) => {
+    //   headerItemsWidth += item.offsetWidth;
+    // });
+    //
+    // if (headerItemsWidth > headerWrapperWidth) {
+    //   if (!doc.querySelector('#header-more-items')) {
+    //     const headerMoreItem = document.createElement('div');
+    //     headerMoreItem.className = 'header-item-more';
+    //     headerMoreItem.id = 'header-more-items';
+    //     const headerItemContent = document.createElement('div');
+    //     headerItemContent.className = 'header-item-content header-more';
+    //     const headerMoreBtn = document.createElement('button');
+    //     headerMoreBtn.className = 'header-more-btn';
+    //     headerMoreBtn.setAttribute('type', 'button');
+    //     headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
+    //     const spanFa = document.createElement('span');
+    //     spanFa.className = 'icon-ellipsis-h';
+    //     spanFa.setAttribute('aria-hidden', 'true');
+    //     const headerMoreMenu = document.createElement('div');
+    //     headerMoreMenu.className = 'header-more-menu';
+    //
+    //     headerMoreBtn.appendChild(spanFa);
+    //     headerItemContent.appendChild(headerMoreBtn);
+    //     headerMoreItem.appendChild(headerItemContent);
+    //     headerMoreItem.appendChild(headerMoreMenu);
+    //     headerWrapper.appendChild(headerMoreItem);
+    //     headerMoreBtn.addEventListener('click', (event) => {
+    //       event.stopPropagation();
+    //       headerMoreItem.classList.toggle('active');
+    //     });
+    //     window.onclick = () => {
+    //       headerMoreItem.classList.remove('active');
+    //     };
+    //
+    //     headerItemsWidth += headerMoreItem.offsetWidth;
+    //   }
+    //
+    //   const headerMoreWrapper = headerWrapper.querySelector('#header-more-items .header-more-menu');
+    //   const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
+    //
+    //   headerItems.forEach((item) => {
+    //     if (headerItemsWidth > headerWrapperWidth && item.id !== 'header-more-items') {
+    //       headerItemsWidth -= item.offsetWidth;
+    //       if (!headerMoreItems) {
+    //         headerMoreWrapper.appendChild(item);
+    //       } else {
+    //         headerMoreWrapper.insertBefore(item, headerMoreItems[0]);
+    //       }
+    //     }
+    //   });
+    // } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
+    //   const headerMore = headerWrapper.querySelector('#header-more-items');
+    //   const headerMoreItems = headerMore.querySelectorAll('.header-item');
+    //
+    //   headerMoreItems.forEach((item) => {
+    //     headerItemsWidth += item.offsetWidth;
+    //     if (headerItemsWidth < headerWrapperWidth) {
+    //       headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
+    //     }
+    //   });
+    //   if (!headerMore.querySelectorAll('.header-item').length) {
+    //     headerWrapper.removeChild(headerMore);
+    //   }
+    // }
+  }
+
+  /**
+   * Change appearance for mobile devices
+   *
+   * @since   4.0.0
+   */
+  function setMobile() {
+    changeLogo('closed');
+
+    if (small.matches) {
+      toggleArrowIcon();
+
+      if (menu) {
+        wrapper.classList.remove('closed');
+      }
+    } else {
+      toggleArrowIcon('top');
+    }
+
+    if (tablet.matches && menu) {
+      wrapper.classList.add('closed');
+    }
+
+    if (small.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subhead) subhead.classList.add('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
+    } else {
+      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      if (subhead) subhead.classList.remove('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
+    }
+  }
+
+  /**
+   * Change appearance for mobile devices
+   *
+   * @since   4.0.0
+   */
+  function setDesktop() {
+    if (!sidebarWrapper) {
+      changeLogo('closed');
+    } else {
+      changeLogo();
+      sidebarWrapper.classList.remove('collapse');
+    }
+
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    if (subhead) subhead.classList.remove('collapse');
+
+    toggleArrowIcon('top');
+  }
+
+  /**
+   * React on resizing window
+   *
+   * @since   4.0.0
+   */
+  function reactToResize() {
+    window.addEventListener('resize', () => {
+      if (mobile.matches) {
+        setMobile();
+      } else {
+        setDesktop();
+      }
+
+      headerItemsInDropdown();
+    });
+  }
+
+  /**
+   * Subhead gets white background when user scrolls down
+   *
+   * @since   4.0.0
+   */
+  function subheadScrolling() {
+    if (subhead) {
+      doc.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          subhead.classList.add('shadow-sm');
+        } else {
+          subhead.classList.remove('shadow-sm');
+        }
+      });
+    }
+  }
+
+  doc.addEventListener('DOMContentLoaded', () => {
+    headerItemsInDropdown();
+    reactToResize();
+    subheadScrolling();
+
+    if (mobile.matches) {
+      setMobile();
+    } else {
+      setDesktop();
+
+      if (!navigator.cookieEnabled) {
+        Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+      }
+      window.addEventListener('joomla:menu-toggle', () => {
+        headerItemsInDropdown();
+      });
+    }
+  });
+})(window.Joomla, document);
