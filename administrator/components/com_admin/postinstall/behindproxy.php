@@ -21,6 +21,13 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_behindproxy_condition()
 {
+	$app = JFactory::getApplication();
+
+	if ($app->get('behind_loadbalancer', '0') == "1")
+	{
+		return false;
+	}
+
 	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
 	{
 		return true;
