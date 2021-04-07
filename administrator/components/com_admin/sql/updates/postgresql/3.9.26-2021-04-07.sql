@@ -1,3 +1,3 @@
-INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "version_introduced", "enabled")
+INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "version_introduced", "enabled", "condition_file", "condition_method")
 VALUES
-(700, 'COM_ADMIN_POSTINSTALL_MSG_BEHIND_LOAD_BALANCER_TITLE', 'COM_ADMIN_POSTINSTALL_MSG_BEHIND_LOAD_BALANCER_DESCRIPTION', '', 'com_admin', 1, 'message', '3.9.26', 1);
+(700, 'COM_ADMIN_POSTINSTALL_MSG_BEHIND_LOAD_BALANCER_TITLE', 'COM_ADMIN_POSTINSTALL_MSG_BEHIND_LOAD_BALANCER_DESCRIPTION', '', 'com_admin', 1, 'message', '3.9.26', 1, 'admin://components/com_admin/postinstall/behindproxy.php', 'admin_postinstall_behindproxy_condition');
