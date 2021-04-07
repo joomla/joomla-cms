@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,15 +21,62 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_behindproxy_condition()
 {
-	if (in_array('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
 	{
 		return true;
 	}
 
-	if (in_array('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP']))
+	if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP']))
 	{
 		return true;
 	}
 
 	return false;
+}
+
+
+/**
+ * Enables the Behind Load Balancer setting in Global Configuration
+ *
+ * @return  void
+ *
+ * @since   __DEPLOY_VERSION__
+ */
+function behindproxy_postinstall_action()
+{
+	$prev = ArrayHelper::fromObject(new JConfig);
+	$data = array_merge($prev, array('behind_loadbalancer' => '1'));
+
+	$config = new Registry($data);
+
+	jimport('joomla.filesystem.path');
+	jimport('joomla.filesystem.file');
+
+	// Set the configuration file path.
+	$file = JPATH_CONFIGURATION . '/configuration.php';
+
+	// Get the new FTP credentials.
+	$ftp = JClientHelper::getCredentials('ftp', true);
+
+	// Attempt to make the file writeable if using FTP.
+	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+	{
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+	}
+
+	// Attempt to write the configuration file as a PHP class named JConfig.
+	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+
+	if (!JFile::write($file, $configuration))
+	{
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+
+		return;
+	}
+
+	// Attempt to make the file unwriteable if NOT using FTP.
+	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+	{
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+	}
 }
