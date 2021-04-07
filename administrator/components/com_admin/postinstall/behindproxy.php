@@ -18,20 +18,14 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_behindproxy_condition()
 {
-	$headers = array(
-		// Most common.
-		'x-forwarded-for',
-		// Joomla detects this as well.
-		'client-ip',
-	);
-
-	foreach ($_SERVER as $k => $v)
+	if (in_array('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
 	{
-		// Headers are case-insensitive so ensure comparing like for like, while still not trusting the user provided value
-		if (in_array(strtolower($k), $headers) && !empty($_SERVER[$k]))
-		{
-			return true;
-		}
+		return true;
+	}
+
+	if (in_array('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP']))
+	{
+		return true;
 	}
 
 	return false;
