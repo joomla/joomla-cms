@@ -209,6 +209,7 @@ foreach ($filesDifference as $file)
 		}
 	}
 
+	// File has been really deleted and not just renamed
 	$deletedFiles[] = $file;
 }
 
