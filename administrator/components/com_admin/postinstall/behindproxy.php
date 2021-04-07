@@ -22,6 +22,7 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_behindproxy_condition()
 {
+	$_SERVER['HTTP_X_FORWARDED_FOR'] = 'HTTP_X_FORWARDED_FOR';
 	$app = JFactory::getApplication();
 
 	if ($app->get('behind_loadbalancer', '0') == "1")
@@ -87,4 +88,7 @@ function behindproxy_postinstall_action()
 	{
 		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 	}
+
+	// Force JConfig to be reloaded for the page redirect, default of 2 seconds `opcache.revalidate_freq` is too slow!
+	\opcache_invalidate($file);
 }
