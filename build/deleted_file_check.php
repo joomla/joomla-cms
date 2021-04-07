@@ -150,8 +150,8 @@ $filesDifference = array_diff($previousReleaseFiles, $newReleaseFiles);
 
 $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
-// Remove any specific files (e.g. language files) that we want to keep on upgrade
-$filesToRemove = [
+// Specific files (e.g. language files) that we want to keep on upgrade
+$filesToKeep = [
 	"'/administrator/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
@@ -177,19 +177,45 @@ $filesToRemove = [
 	"'/language/en-GB/en-GB.mod_search.sys.ini',",
 ];
 
-foreach ($filesToRemove as $file)
-{
-	if (($key = array_search($file, $filesDifference)) !== false) {
-		unset($filesDifference[$key]);
-	}
-}
-
 asort($filesDifference);
 rsort($foldersDifference);
 
-// Write the deleted files list to a file for later reference
-file_put_contents(__DIR__ . '/deleted_files.txt', implode("\n", $filesDifference));
+$deletedFiles = [];
+$renamedFiles = [];
+
+foreach ($filesDifference as $file)
+{
+	// Don't remove any specific files (e.g. language files) that we want to keep on upgrade
+	if (array_search($file, $filesToKeep) !== false)
+	{
+		continue;
+	}
+
+	// Check for files which might have been renamed only
+	$matches = preg_grep('/^' . preg_quote($file, '/') . '$/i', $newReleaseFiles);
+
+	if ($matches !== false)
+	{
+		foreach ($matches as $match)
+		{
+			if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file)))
+			{
+				// File has been renamed only: Add to renamed files list
+				$renamedFiles[] = $file . ' => ' . $match;
+
+				// Go on with the next file in $filesDifference
+				continue 2;
+			}
+		}
+	}
+
+	$deletedFiles[] = $file;
+}
+
+// Write the lists to files for later reference
+file_put_contents(__DIR__ . '/deleted_files.txt', implode("\n", $deletedFiles));
 file_put_contents(__DIR__ . '/deleted_folders.txt', implode("\n", $foldersDifference));
+file_put_contents(__DIR__ . '/renamed_files.txt', implode("\n", $renamedFiles));
 
 echo PHP_EOL;
-echo 'There are ' . count($filesDifference) . ' deleted files and ' . count($foldersDifference) .  ' deleted folders in comparison to "' . $options['from'] . '"' . PHP_EOL;
+echo 'There are ' . count($deletedFiles) . ' deleted files, ' . count($foldersDifference) .  ' deleted folders and ' . count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;
