@@ -280,9 +280,6 @@ class CategoryModel extends ListModel
 			$menuParams = new Registry;
 		}
 
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
-
 		// List state information
 		$format = $app->input->getWord('format');
 
@@ -292,7 +289,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$limit = $app->getUserStateFromRequest('com_contact.category.list', 'limit', $app->get('contacts_display_num'), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
@@ -305,7 +302,7 @@ class CategoryModel extends ListModel
 		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
 
-		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+		$orderCol = $app->input->get('filter_order', $app->get('initial_sort', 'ordering'));
 
 		if (!in_array($orderCol, $this->filter_fields))
 		{
