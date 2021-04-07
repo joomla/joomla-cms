@@ -19,10 +19,14 @@ defined('_JEXEC') or die;
 function admin_postinstall_behindproxy_condition()
 {
 	$headers = array(
-		'x-forwarded-for', // Most common.
-		'x-proxyuser-ip',  // Some Google services.
-		'true-client-ip',  // Cloudflare.
-		'client-ip',       // Joomla detects this as well.
+		// Most common.
+		'x-forwarded-for',
+		// Some Google services.
+		'x-proxyuser-ip',
+		// Cloudflare.
+		'true-client-ip',
+		// Joomla detects this as well.
+		'client-ip',
 	);
 
 	foreach ($_SERVER as $k => $v)
