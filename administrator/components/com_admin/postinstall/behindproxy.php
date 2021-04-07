@@ -21,10 +21,6 @@ function admin_postinstall_behindproxy_condition()
 	$headers = array(
 		// Most common.
 		'x-forwarded-for',
-		// Some Google services.
-		'x-proxyuser-ip',
-		// Cloudflare.
-		'true-client-ip',
 		// Joomla detects this as well.
 		'client-ip',
 	);
