@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-
-defined('_JEXEC') or die;
 
 /**
  * Notifies users of the new Behind Load Balancer option in Global Config, if we detect they might be behind a proxy
@@ -22,9 +22,10 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_behindproxy_condition()
 {
+	$_SERVER['HTTP_X_FORWARDED_FOR'] = 'HTTP_X_FORWARDED_FOR';
 	$app = JFactory::getApplication();
 
-	if ($app->get('behind_loadbalancer', '0') == "1")
+	if ($app->get('behind_loadbalancer', '0'))
 	{
 		return false;
 	}
