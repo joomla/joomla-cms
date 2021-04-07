@@ -201,7 +201,7 @@ foreach ($filesDifference as $file)
 			if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file)))
 			{
 				// File has been renamed only: Add to renamed files list
-				$renamedFiles[] = $file . ' => ' . $match;
+				$renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 
 				// Go on with the next file in $filesDifference
 				continue 2;
