@@ -64,6 +64,7 @@ if (empty($options['to']))
 $previousReleaseExclude = [
 	$options['from'] . '/administrator/components/com_search',
 	$options['from'] . '/components/com_search',
+	$options['from'] . '/images/sampledata',
 	$options['from'] . '/modules/mod_search',
 	$options['from'] . '/plugins/search',
 	$options['from'] . '/plugins/fields/repeatable',
