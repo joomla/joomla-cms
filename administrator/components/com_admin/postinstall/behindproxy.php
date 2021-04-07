@@ -22,7 +22,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 function admin_postinstall_behindproxy_condition()
 {
-	$_SERVER['HTTP_X_FORWARDED_FOR'] = 'HTTP_X_FORWARDED_FOR';
 	$app = JFactory::getApplication();
 
 	if ($app->get('behind_loadbalancer', '0'))
