@@ -32,11 +32,6 @@
   const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
   headerCondensedItemContainer.classList.add('d-none');
 
-  console.log({
-    exp: headerExpandedItems,
-    cond: headerCondensedItems,
-    ellipsisWidth: ellipsisWidth,
-  })
   /**
    * Shrink or extend the logo, depending on sidebar
    *
@@ -101,100 +96,18 @@
       headerExpandedItems.map((element) => element.classList.remove('d-none'));
       headerCondensedItemContainer.classList.add('d-none');
     } else {
+      headerCondensedItemContainer.classList.remove('d-none');
       headerCondensedItems.map((el) => el.classList.add('d-none'));
-      // let skipItem = false;
-      let reducedWidth = 0;
-      let hide = 0;
       headerCondensedItemContainer.classList.remove('d-none');
       headerItemWidths.forEach((width, index) => {
         const tempArr = headerItemWidths.slice(index, headerItemWidths.length);
-
         if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
-          reducedWidth += width;
-          hide += 1;
-          // skipItem = true;
-
-          headerExpandedItems[index].classList.add('d-none');
-          headerCondensedItems[index].classList.remove('d-none');
+          return;
         }
+        headerExpandedItems[index].classList.add('d-none');
+        headerCondensedItems[index].classList.remove('d-none');
       });
-
-      console.log({
-        hide,
-        reducedWidth,
-      })
-      // headerExpandedItems.reverse().forEach((item) => {
-      //
-      // });
     }
-    // const headerWrapper = doc.querySelector('.header-items');
-    // const headerItems = doc.querySelectorAll('.header-items > .header-item');
-    // const headerWrapperWidth = headerWrapper.offsetWidth;
-    // let headerItemsWidth = 0;
-    // headerItems.forEach((item) => {
-    //   headerItemsWidth += item.offsetWidth;
-    // });
-    //
-    // if (headerItemsWidth > headerWrapperWidth) {
-    //   if (!doc.querySelector('#header-more-items')) {
-    //     const headerMoreItem = document.createElement('div');
-    //     headerMoreItem.className = 'header-item-more';
-    //     headerMoreItem.id = 'header-more-items';
-    //     const headerItemContent = document.createElement('div');
-    //     headerItemContent.className = 'header-item-content header-more';
-    //     const headerMoreBtn = document.createElement('button');
-    //     headerMoreBtn.className = 'header-more-btn';
-    //     headerMoreBtn.setAttribute('type', 'button');
-    //     headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
-    //     const spanFa = document.createElement('span');
-    //     spanFa.className = 'icon-ellipsis-h';
-    //     spanFa.setAttribute('aria-hidden', 'true');
-    //     const headerMoreMenu = document.createElement('div');
-    //     headerMoreMenu.className = 'header-more-menu';
-    //
-    //     headerMoreBtn.appendChild(spanFa);
-    //     headerItemContent.appendChild(headerMoreBtn);
-    //     headerMoreItem.appendChild(headerItemContent);
-    //     headerMoreItem.appendChild(headerMoreMenu);
-    //     headerWrapper.appendChild(headerMoreItem);
-    //     headerMoreBtn.addEventListener('click', (event) => {
-    //       event.stopPropagation();
-    //       headerMoreItem.classList.toggle('active');
-    //     });
-    //     window.onclick = () => {
-    //       headerMoreItem.classList.remove('active');
-    //     };
-    //
-    //     headerItemsWidth += headerMoreItem.offsetWidth;
-    //   }
-    //
-    //   const headerMoreWrapper = headerWrapper.querySelector('#header-more-items .header-more-menu');
-    //   const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
-    //
-    //   headerItems.forEach((item) => {
-    //     if (headerItemsWidth > headerWrapperWidth && item.id !== 'header-more-items') {
-    //       headerItemsWidth -= item.offsetWidth;
-    //       if (!headerMoreItems) {
-    //         headerMoreWrapper.appendChild(item);
-    //       } else {
-    //         headerMoreWrapper.insertBefore(item, headerMoreItems[0]);
-    //       }
-    //     }
-    //   });
-    // } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
-    //   const headerMore = headerWrapper.querySelector('#header-more-items');
-    //   const headerMoreItems = headerMore.querySelectorAll('.header-item');
-    //
-    //   headerMoreItems.forEach((item) => {
-    //     headerItemsWidth += item.offsetWidth;
-    //     if (headerItemsWidth < headerWrapperWidth) {
-    //       headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
-    //     }
-    //   });
-    //   if (!headerMore.querySelectorAll('.header-item').length) {
-    //     headerWrapper.removeChild(headerMore);
-    //   }
-    // }
   }
 
   /**
