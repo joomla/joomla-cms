@@ -34,3 +34,6 @@
 [submodule "plugins/system/pemasoft_telegram_webhook"]
 	path = plugins/system/pemasoft_telegram_webhook
 	url = https://github.com/PM84/pemasoft_telegram_webhook_plugin_system.git
+[submodule "modules/mod_pemasoft_feedreader"]
+	path = modules/mod_pemasoft_feedreader
+	url = https://github.com/PM84/mod_pemasoft_feedreader.git
