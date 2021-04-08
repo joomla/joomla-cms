@@ -76,7 +76,11 @@ extract($displayData);
 						</li>
 						<?php if($canCreate) : ?>
 						<li>
-							<button class="js-action-exec btn btn-link" type="button" data-task="templates.duplicate" data-item="<?php echo (int) $style->id; ?>">
+
+							<button class="js-action-exec-new btn btn-link"
+									type="button"
+									data-task="<?php $task = $style-inheritable === 1 && $style->parent === '' ? 'templates.createChild' : 'templates.duplicate' ?>"
+									data-item="<?php echo (int) $style->id; ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DUPLICATE'); ?></span>
 							</button>
