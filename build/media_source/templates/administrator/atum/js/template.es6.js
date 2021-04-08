@@ -24,10 +24,12 @@
   const headerCondensedItemContainer = document.getElementById('header-more-items');
   const headerCondensedItems = [].slice.call(headerCondensedItemContainer.querySelectorAll('.header-dd-item'));
   let headerTitleWidth = headerTitleArea.getBoundingClientRect().width;
-  const headerItemWidths = headerExpandedItems.map((element) => element.getBoundingClientRect().width);
+  const headerItemWidths = headerExpandedItems
+    .map((element) => element.getBoundingClientRect().width);
 
   // Get the ellipsis button width
   headerCondensedItemContainer.classList.remove('d-none');
+  // eslint-disable-next-line no-unused-expressions
   headerCondensedItemContainer.paddingTop;
   const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
   headerCondensedItemContainer.classList.add('d-none');
