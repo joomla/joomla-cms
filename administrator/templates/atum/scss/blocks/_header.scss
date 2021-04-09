@@ -6,6 +6,14 @@
   color: $white;
   background: var(--atum-bg-dark);
 
+  a {
+    color: $white;
+
+    &:before {
+      display: none;
+    }
+  }
+
   .header-title {
     .container-title {
       width: 100%;
@@ -42,33 +50,20 @@
         &.logo-collapsed {
           display: inline-block;
         }
-
-        path {
-          fill: $white;
-        }
       }
     }
 
     svg,
     img {
-      max-width: calc(18rem - .7rem);
-      max-height: 100%;
-      margin-inline-start: .35rem;
+      margin: 0 .35rem;
 
       &.logo-collapsed {
         display: none;
       }
     }
-
-    svg {
-      path {
-        fill: $white;
-      }
-    }
   }
 
   .page-title {
-    width: 100%;
     margin: 0;
     padding: 0 1rem;
     overflow: hidden;
@@ -77,265 +72,155 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
+    > span {
       margin-inline-end: .25rem;
     }
   }
-
-  .header-items {
-    width: 50%;
-    margin: 15px;
-    margin-inline-start: auto;
-    justify-content: flex-end;
-    align-items: center;
-
-    .header-item-icon {
-      > * {
-        background-color: var(--atum-bg-dark);
-        border-radius: 16px;
-        width: 28px;
-        height: 28px;
-        margin: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      [class^="icon-"],
-      [class*=" icon-"] {
-        margin: 4px;
-      }
-    }
-
-    .header-item-count {
-      margin-inline-end: .5rem;;
-    }
-  }
-
-  .header-item {
-    position: relative;
-    margin: 0 4px;
-
-    &:first-child {
-      margin-left: auto;
-
-      [dir=rtl] & {
-        margin-right: auto;
-        margin-left: 0;
-      }
-    }
-
-    .header-item-content {
-      display: flex;
-      align-items: center;
-      padding-inline-end: 4px;
-      background-color: var(--atum-bg-dark-60);
-      border-radius: 22px;
-      color: $white;
-      line-height: 1rem;
-
-      a,
-      button {
-        color: $white;
-        text-decoration: none;
-
-        &.disabled,
-        &.disabled:hover,
-        &.disabled[aria-expanded="true"] {
-          display: none;
-          color: #fff;
-          pointer-events: none;
-          background-color: transparent;
-          box-shadow: none;
-          opacity: .6;
-        }
-      }
-
-      &:not(.no-link):hover {
-        background-color: var(--atum-bg-dark-50);
-      }
-
-      .dropdown-toggle {
-        // Overwrite default button styling
-        background-color: transparent;
-        border: 0;
-
-        &::after {
-          display: none;
-        }
-      }
-    }
-
-    .header-item-text {
-      display: flex;
-      align-items: center;
-      padding: 0 8px 0 4px;
-      font-size: .75rem;
-      transition: all .2s ease-in-out;
-      white-space: nowrap;
-    }
-  }
-
-  a[target="_blank"]::before {
-    display: none;
-  }
-
-  .dropdown-menu {
-    z-index: $zindex-popover;
-    min-width: 18rem;
-    padding: 0;
-    background-color: var(--atum-bg-dark-70);
-
-    .dropdown-header {
-      padding: 1rem .75rem;
-      font-size: inherit;
-      color: $white;
-      background-color: var(--atum-bg-dark);
-      box-shadow: $atum-box-shadow;
-
-      [dir=rtl] & {
-        text-align: right;
-      }
-
-      [class^="#{$jicon-css-prefix}-"],
-      [class*=" #{$jicon-css-prefix}-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        [dir=ltr] & {
-          margin-right: $dropdown-item-padding-x;
-        }
-
-        [dir=rtl] & {
-          margin-left: $dropdown-item-padding-x;
-        }
-      }
-    }
-  }
-
+  
+  .dropdown-header,
   .dropdown-item {
     color: $white;
     background-color: var(--atum-bg-dark-70);
 
-    [dir=rtl] & {
-      text-align: right;
+    > span {
+      margin-inline-end:  $dropdown-item-padding-x;
     }
+  }
 
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      [dir=ltr] & {
-        margin-right: $dropdown-item-padding-x;
-      }
+  .dropdown-header {
+    padding: 1rem .75rem;
+    font-size: inherit;
+    background-color: var(--atum-bg-dark);
+  }
+}
 
-      [dir=rtl] & {
-        margin-left: $dropdown-item-padding-x;
-      }
+.header-items {
+  width: 50%;
+  margin: 15px;
+  margin-inline-start: auto;
+  justify-content: flex-end;
+  align-items: center;
+
+  .dropdown-toggle {
+    background-color: transparent;
+    border: 0;
+  
+    &::after {
+      display: none;
     }
+  }
+}
+
+.header-item {
+  position: relative;
+  margin: 0 4px;
+}
+
+.header-item-content {
+  display: flex;
+  align-items: center;
+  padding-inline-end: 4px;
+  background-color: var(--atum-bg-dark-60);
+  border-radius: 22px;
+  color: $white;
+  line-height: 1rem;
+
+  a,
+  button {
+    color: $white;
+    text-decoration: none;
+  }
+
+  a {
+    display: flex;
+  }
+
+  &:not(.no-link):hover {
+    background-color: var(--atum-bg-dark-50);
+  }
+}
+
+.header-item-icon {
+  > * {
+    border-radius: 16px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    margin: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--atum-bg-dark);
+    color: $white;
+  }
+
+  span {
+    margin: 4px;
+  }
+}
+
+.header-item-count {
+  margin-inline-end: .5rem;;
+}
+
+.header-item-text {
+  padding: 0 8px 0 4px;
+  font-size: .75rem;
+  white-space: nowrap;
+}
+
+.header-more-btn {
+  margin: 0 5px;
+  font-size: 1.7rem;
+}
+
+.header-dd-items {
+  .header-item-content {
+    background: transparent;
+  }
+
+  .header-item-text {
+    font-size: .75rem;
+  }
+}
+
+.header-dd-item {
+  padding: 3px 6px;
+}
+
+@include media-breakpoint-down(md) {
+  .header-items {
+    position: fixed;
+    bottom: 0;
+    flex-direction: row-reverse;
+    width: 100%;
+    padding: 10px 0;
+    margin: 0;
+    background: var(--atum-bg-dark);
   }
 
   .header-item-more {
-    .header-more-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: var(--atum-bg-dark-70);
-      box-shadow: $atum-box-shadow;
-
-
-      .header-item-content {
-        background-color: transparent;
-      }
-    }
-
     &.active .header-more-menu {
-      display: block;
+      left: 0;
+
+      [dir=rtl] & {
+        right: 0;
+        left: auto;
+      }
     }
 
-    .header-more-btn {
-      width: 3.8rem;
-      color: var(--white-offset);
-      background-color: var(--atum-bg-dark);
-      border: 0;
-
-      > span {
-        margin: auto;
-      }
-
-      &:hover {
-        background-color: var(--atum-bg-dark-80);
-      }
+    .header-item-content {
+      background: transparent;
     }
   }
 
-  @include media-breakpoint-down(md) {
-    position: static;
-    top: 0;
-    z-index: $zindex-header;
-    width: 100%;
-    padding: 0;
+  .header-more-menu {
+    top: auto;
+    bottom: 100%;
+  }
 
-    .header-items {
-      position: fixed;
-      bottom: 0;
-      z-index: $zindex-mobile-bottom;
-      flex-direction: row-reverse;
-      width: 100%;
-      max-width: 18rem;
-      padding: 10px 0;
-      margin: 0;
-      background: var(--atum-bg-dark);
-
-      &::after {
-        position: absolute;
-        z-index: -1;
-        width: 1000%;
-        height: 100%;
-        content: "";
-        background: var(--atum-bg-dark);
-      }
-    }
-
-    .header-item-more.active .header-more-menu {
-      top: auto;
-    }
-
-    .header-item-more {
-      &.active .header-more-menu {
-        left: 0;
-
-        [dir=rtl] & {
-          right: 0;
-          left: auto;
-        }
-      }
-
-      .header-item-content {
-        background: transparent;
-      }
-    }
-
-    .header-more-menu {
-      top: auto;
-      bottom: 100%;
-    }
-
-    .header-item:first-child {
-      margin-left: 0;
-
-      [dir=rtl] & {
-        margin-right: 0;
-        margin-left: auto;
-      }
-    }
-
-    .#{$jicon-css-prefix}-angle-down,
-    .#{$fa-css-prefix}-angle-down {
-      transform: rotate(180deg);
-    }
+  .#{$jicon-css-prefix}-angle-down,
+  .#{$fa-css-prefix}-angle-down {
+    transform: rotate(180deg);
   }
 }

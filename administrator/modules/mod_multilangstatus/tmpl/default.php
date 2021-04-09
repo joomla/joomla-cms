@@ -36,15 +36,12 @@ $app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['defer' => true]);
 
 ?>
-<div class="header-item-content multilanguage">
-	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
-		<div class="header-item-icon">
-			<span class="icon-language" aria-hidden="true"></span>
-		</div>
-		<div class="header-item-text">
-			<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
-		</div>
-	</a>
-
-	<?php echo $modalHTML; ?>
-</div>
+<a href="#multiLangModal" class="header-item-content multilanguage" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
+	<div class="header-item-icon">
+		<span class="icon-language" aria-hidden="true"></span>
+	</div>
+	<div class="header-item-text">
+		<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
+	</div>
+</a>
+<?php echo $modalHTML; ?>
