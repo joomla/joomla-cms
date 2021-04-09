@@ -683,7 +683,7 @@
 			</field>
 
 			<field
-				name="feed_"
+				name="feed_summary"
 				type="list"
 				label="JGLOBAL_FEED_SUMMARY_LABEL"
 				useglobal="true"
