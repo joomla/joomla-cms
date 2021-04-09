@@ -104,8 +104,6 @@ class HtmlView extends BaseHtmlView
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
-//			$this->addToolbar();
-
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
 			{
