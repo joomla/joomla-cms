@@ -1,7 +1,7 @@
 const { basename, resolve } = require('path');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const { babel } = require('@rollup/plugin-babel');
+const { babel, getBabelOutputPlugin } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
 const { minifyJs } = require('./minify.es6.js');
 
@@ -20,25 +20,46 @@ module.exports.handleESMToLegacy = async (file) => {
       commonjs(),
       babel({
         exclude: ['node_modules/core-js/**', 'media/system/js/core.js'],
-        babelHelpers: 'bundled', // runtime
+        babelHelpers: 'bundled',
         babelrc: false,
         presets: [
           [
             '@babel/preset-env',
             {
               corejs: '3.8',
-              useBuiltIns: 'entry', // usage
+              useBuiltIns: 'usage',
               targets: {
                 ie: '11',
               },
               loose: true,
-              bugfixes: false,
+              bugfixes: true,
               modules: false,
             },
           ],
         ],
-        // plugins: ['@babel/plugin-transform-runtime'],
       }),
+    ],
+    output: [
+      {
+        format: 'iife',
+        plugins: [getBabelOutputPlugin({
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                corejs: '3.8',
+                useBuiltIns: 'usage',
+                targets: {
+                  ie: '11',
+                },
+                loose: true,
+                bugfixes: true,
+                modules: false,
+              },
+            ],
+          ],
+        })],
+      },
     ],
   });
 

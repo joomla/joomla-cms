@@ -7,7 +7,7 @@ const rimraf = require('rimraf');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
-const { babel } = require('@rollup/plugin-babel');
+const { babel, getBabelOutputPlugin } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
 
 const tasks = [];
@@ -105,14 +105,14 @@ const buildLegacy = async () => {
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
-      commonjs(),
       nodeResolve(),
+      commonjs(),
       replace({
         preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
-        exclude: 'node_modules/core-js/**',
+        exclude: ['node_modules/core-js/**', 'media/system/js/core.js'],
         babelHelpers: 'bundled',
         babelrc: false,
         presets: [
@@ -122,7 +122,6 @@ const buildLegacy = async () => {
               corejs: '3.8',
               useBuiltIns: 'usage',
               targets: {
-                chrome: '58',
                 ie: '11',
               },
               loose: true,
@@ -132,6 +131,28 @@ const buildLegacy = async () => {
           ],
         ],
       }),
+    ],
+    output: [
+      {
+        format: 'iife',
+        plugins: [getBabelOutputPlugin({
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                corejs: '3.8',
+                useBuiltIns: 'usage',
+                targets: {
+                  ie: '11',
+                },
+                loose: true,
+                bugfixes: true,
+                modules: false,
+              },
+            ],
+          ],
+        })],
+      },
     ],
     external: [],
   });
