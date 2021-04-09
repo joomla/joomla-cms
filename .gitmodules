@@ -37,3 +37,9 @@
 [submodule "modules/mod_pemasoft_feedreader"]
 	path = modules/mod_pemasoft_feedreader
 	url = https://github.com/PM84/mod_pemasoft_feedreader.git
+[submodule "components/com_pemasoftfeedreader"]
+	path = components/com_pemasoftfeedreader
+	url = https://github.com/PM84/com_pemasoft_feed_reader_site.git
+[submodule "administrator/components/com_pemasoftfeedreader"]
+	path = administrator/components/com_pemasoftfeedreader
+	url = https://github.com/PM84/com_pemasoft_feed_reader_admin.git
