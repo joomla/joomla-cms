@@ -28,19 +28,19 @@ use Joomla\CMS\Language\Text;
 	<div>
 		<div class="control-group">
 			<div class="control-label">
-				<label id="username" for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+				<label id="ftp_user-lbl" for="ftp_user"><?php echo Text::_('COM_INSTALLER_FIELD_FTP_USERNAME_LABEL'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="text" name="username" id="username" class="form-control">
+				<input type="text" name="ftp_user" id="ftp_user" class="form-control">
 			</div>
 		</div>
 
 		<div class="control-group">
 			<div class="control-label">
-				<label id="password-lbl" for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+				<label id="ftp_pass-lbl" for="ftp_pass"><?php echo Text::_('COM_INSTALLER_FIELD_FTP_PASSWORD_LABEL'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="password" name="password" id="password" class="form-control">
+				<input type="password" name="ftp_pass" id="ftp_pass" class="form-control">
 			</div>
 		</div>
 	</div>
