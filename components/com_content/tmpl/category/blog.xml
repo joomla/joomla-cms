@@ -243,8 +243,8 @@
 			<field
 				name="show_featured"
 				type="list"
-				default=""
 				label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
+				default=""
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
