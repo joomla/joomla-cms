@@ -161,7 +161,8 @@ abstract class Behavior
 			'end'            => $end,
 		];
 
-		if ($className === 'js-highlight') {
+		if ($className === 'js-highlight')
+		{
 			$options = [
 				'class'          => 'js-highlight',
 				'iframes'        => false,
