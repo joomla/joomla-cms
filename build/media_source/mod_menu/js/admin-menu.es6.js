@@ -75,7 +75,8 @@
     };
 
     // Toggle menu
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (event) => {
+      event.preventDefault();
       wrapper.classList.toggle('closed');
       menuToggleIcon.classList.toggle('icon-toggle-on');
       menuToggleIcon.classList.toggle('icon-toggle-off');
