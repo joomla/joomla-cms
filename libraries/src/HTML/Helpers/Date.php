@@ -139,12 +139,12 @@ abstract class Date
 
 		if ($showAbsoluteDate === 'tooltip')
 		{
-			return '<span>' . $dateMain . '</span><div role="tooltip">' . $dateAbsolute . '</div>';
+			return '<span>' . $dateMain . '</span><time role="tooltip">' . $dateAbsolute . '</time>';
 		}
 
 		if ($showAbsoluteDate === 'below')
 		{
-			return $dateMain . '<div class="small">' . $dateAbsolute . '</div>';
+			return $dateMain . '<time class="small d-block">' . $dateAbsolute . '</time>';
 		}
 
 		return $dateMain;
