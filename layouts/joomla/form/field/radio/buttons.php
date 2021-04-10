@@ -92,20 +92,25 @@ if ($dataAttribute)
 			if ($isBtnYesNo)
 			{
 				// Set the button classes for the yes/no group
-				if ($option->value === "0")
+				switch ($option->value)
 				{
-					$optionClass = 'btn btn-outline-danger';
-				}
-				else
-				{
-					$optionClass = 'btn btn-outline-success';
+					case '0':
+						$optionClass = 'btn btn-outline-danger';
+						break;
+					case '1':
+						$optionClass = 'btn btn-outline-success';
+						break;
+					default:
+						$optionClass = 'btn btn-outline-secondary';
+						break;
 				}
 			}
 			else
 			{
 				$optionClass = !empty($option->class) ? $option->class : $btnClass;
-				$optionClass = trim($optionClass . ' ' . $disabled);
 			}
+
+			$optionClass = trim($optionClass . ' ' . $disabled);
 			$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 
 			// Initialize some JavaScript option attributes.
