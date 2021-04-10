@@ -37,8 +37,6 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
-<hr>
-
 <div id="uploader-wrapper">
 	<div id="dragarea" data-state="pending">
 		<div id="dragarea-content" class="text-center">

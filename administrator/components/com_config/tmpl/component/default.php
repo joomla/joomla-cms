@@ -39,8 +39,7 @@ $xml = $this->form->getXml();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" class="main-card" method="post" class="form-validate" name="adminForm" autocomplete="off">
-	<div class="row">
-
+	<div class="row main-card-columns">
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">

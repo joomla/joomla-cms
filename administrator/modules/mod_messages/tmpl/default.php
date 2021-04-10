@@ -17,7 +17,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 $uri   = Uri::getInstance();
 $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
 ?>
-<a class="header-item-content<?php echo ($hideLinks ? 'disabled' : ''); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
+<a class="header-item-content <?php echo ($hideLinks ? 'disabled' : ''); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 	<div class="header-item-icon">
 	<div class="w-auto">
 		<span class="icon-envelope" aria-hidden="true"></span>

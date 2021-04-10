@@ -1,21 +1,12 @@
 // Sidebar
 
-.sidebar-nav {  
-  background: $white;
-
-  ul {
-    padding-left: .5rem;
-  }
+.sidebar-nav {
+  padding: 1rem 2rem;
 
   li {
     margin-bottom: .5rem;
     font-size: .9rem;
     font-weight: $font-weight-bold;
-
-    &.nav-header {
-      padding: .5rem 0 .2rem;
-      color: var(--atum-text-dark);
-    }
 
     &.divider {
       margin: .3rem 0;
@@ -27,7 +18,6 @@
       text-decoration: none;
 
       &::before {
-        width: 2rem;
         margin-inline-end: .5rem;
         font-family: 'Font Awesome 5 Free';
         font-weight: 900;

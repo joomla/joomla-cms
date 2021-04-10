@@ -125,6 +125,10 @@ body .container-main {
   .subhead + & {
     padding-top: 0;
   }
+
+  @include media-breakpoint-down(md) {
+    padding: 0 1rem;
+  }
 }
 
 .main-card {
@@ -215,10 +219,18 @@ a[target="_blank"]::before {
 
 details {
   margin: 0 0 2rem;
-}
+  background: var(--atum-bg-dark-3);
+  padding: .5rem 1rem;
+  border: 1px solid var(--atum-bg-dark-10);
+  border-radius: $border-radius;
 
-summary {
-  color: var(--atum-link-color);
+  summary {
+    color: var(--atum-bg-dark);
+
+    ~ * {
+      margin-top: 1rem;
+    }
+  }
 }
 
 // meter element

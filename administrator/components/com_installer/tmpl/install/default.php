@@ -37,7 +37,7 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div class="col-md-12">
-				<div id="j-main-container" class="j-main-container">
+				<div id="j-main-container" class="j-main-container main-card">
 					<?php // Render messages set by extension install scripts here ?>
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>

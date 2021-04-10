@@ -297,4 +297,8 @@ joomla-tab {
       }
     }
   }
+
+  .main-card-columns & {
+    border-left: 1px solid var(--atum-bg-dark-5);
+  }
 }

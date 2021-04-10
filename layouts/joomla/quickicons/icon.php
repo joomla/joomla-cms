@@ -61,17 +61,19 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<?php if (isset($displayData['image'])): ?>
-				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
-				</div>
-			<?php endif; ?>
-			<?php if (isset($displayData['ajaxurl'])) : ?>
-				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-					<span class="icon-spinner" aria-hidden="true"></span>
-				</div>
-				<div class="quickicon-sr-desc visually-hidden"></div>
-			<?php endif; ?>
+			<div class="quickicon-info">
+				<?php if (isset($displayData['image'])): ?>
+					<div class="quickicon-icon <?php echo $size ?>">
+						<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+					</div>
+				<?php endif; ?>
+				<?php if (isset($displayData['ajaxurl'])) : ?>
+					<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
+						<span class="icon-spinner" aria-hidden="true"></span>
+					</div>
+					<div class="quickicon-sr-desc visually-hidden"></div>
+				<?php endif; ?>
+			</div>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
 				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>

@@ -20,7 +20,7 @@
     a,
     .menu-dashboard,
     .menu-quicktask {
-      color: var(--atum-sidebar-link-color);
+      color: $white;
       text-decoration: none;
 
       &:hover {
@@ -216,17 +216,16 @@
   }
 
   .main-nav a:hover .sidebar-item-title {
+    display: flex;
+    align-items: center;
     position: absolute;
-    top: .5rem;
-    left: 3.5rem;
-    display: inline-block;
-    padding: .2rem;
-    font-size: .875rem;
-    color: var(--primary);
-    white-space: pre;
+    left: 100%;
+    padding: 0 1rem;
+    height: 100%;
+    white-space: nowrap;
     pointer-events: none;
-    background-color: var(--atum-sidebar-link-color);
-    border-radius: .3rem;
+    background-color: var(--atum-bg-dark-60);
+    border-radius: 0 $border-radius $border-radius 0;
   }
 
   .main-nav > li > ul {
