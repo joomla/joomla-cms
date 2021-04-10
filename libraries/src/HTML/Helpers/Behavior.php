@@ -12,7 +12,9 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Utility class for JavaScript behaviors
@@ -139,59 +141,33 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   2.5
+	 *
+	 * @deprecated 5.0 Use the JLayout directly
 	 */
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
-		$sig = md5(serialize(array($terms, $start, $end)));
-
-		if (isset(static::$loaded[__METHOD__][$sig]))
-		{
-			return;
-		}
-
 		$terms = array_filter($terms, 'strlen');
 
 		// Nothing to Highlight
 		if (empty($terms))
 		{
-			static::$loaded[__METHOD__][$sig] = true;
-
 			return;
 		}
 
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		$wa
-			->registerScript('joomla.highlighter', 'legacy/highlighter.min.js', ['dependencies' => ['core', 'jquery']])
-			->useScript('joomla.highlighter');
-
-		foreach ($terms as $i => $term)
-		{
-			$terms[$i] = OutputFilter::stringJSSafe($term);
-		}
-
-		$document = Factory::getDocument();
-		$document->addScriptDeclaration("
-			jQuery(function ($) {
-				var start = document.getElementById('" . $start . "');
-				var end = document.getElementById('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
-					return true;
-				}
-				highlighter = new Joomla.Highlighter({
-					startElement: start,
-					endElement: end,
-					className: '" . $className . "',
-					onlyWords: false,
-					tag: '" . $tag . "'
-				}).highlight([\"" . implode('","', $terms) . "\"]);
-				$(start).remove();
-				$(end).remove();
-			});"
+		LayoutHelper::render(
+			'joomla.highlight.highlight',
+			[
+				'terms'   => $terms,
+				'options' => [
+					'class'          => 'js-highlight',
+					'iframes'        => false,
+					'iframesTimeout' => 100,
+					'compatibility'  => true,
+					'start'          => $start,
+					'end'            => $end,
+				]
+			]
 		);
-
-		static::$loaded[__METHOD__][$sig] = true;
 	}
 
 	/**
