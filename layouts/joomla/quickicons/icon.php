@@ -29,24 +29,6 @@ $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displa
 // The information
 $text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-$tmp = [];
-
-// Set id and class pulse for update icons
-if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
-	|| $displayData['id'] === 'plg_quickicon_extensionupdate'
-	|| $displayData['id'] === 'plg_quickicon_privacycheck'
-	|| $displayData['id'] === 'plg_quickicon_overridecheck'
-	|| !empty($displayData['class'])))
-{
-	$tmp[] = 'pulse';
-}
-
-// Add the button class
-if (!empty($displayData['class']))
-{
-	$tmp[] = $this->escape($displayData['class']);
-}
-
 // Make the class string
 $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : '';
 
