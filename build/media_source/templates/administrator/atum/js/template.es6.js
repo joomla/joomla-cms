@@ -92,7 +92,7 @@
   function headerItemsInDropdown() {
     headerTitleWidth = headerTitleArea.getBoundingClientRect().width;
     const minViable = headerTitleWidth + ellipsisWidth;
-    const totalHeaderItemWidths = getSum(headerItemWidths);
+    const totalHeaderItemWidths = 50 + getSum(headerItemWidths);
 
     if (headerTitleWidth + totalHeaderItemWidths < document.body.getBoundingClientRect().width) {
       headerExpandedItems.map((element) => element.classList.remove('d-none'));
@@ -106,8 +106,10 @@
         if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
           return;
         }
-        headerExpandedItems[index].classList.add('d-none');
-        headerCondensedItems[index].classList.remove('d-none');
+        if (!headerExpandedItems[index].children[0].classList.contains('dropdown')) {
+          headerExpandedItems[index].classList.add('d-none');
+          headerCondensedItems[index].classList.remove('d-none');
+        }
       });
     }
   }
