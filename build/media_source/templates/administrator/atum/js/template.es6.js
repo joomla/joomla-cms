@@ -106,7 +106,7 @@
         if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
           return;
         }
-        if (!headerExpandedItems[index].children[0].classList.contains('dropdown')) {
+        if (headerExpandedItems[index].children && !headerExpandedItems[index].children[0].classList.contains('dropdown')) {
           headerExpandedItems[index].classList.add('d-none');
           headerCondensedItems[index].classList.remove('d-none');
         }
