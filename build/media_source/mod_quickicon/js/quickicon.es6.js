@@ -8,7 +8,7 @@
  * A SR-only text is added
  * The class pulse gets 'warning', 'success' or 'error', depending on the retrieved data.
  */
- if (!Joomla) {
+if (!Joomla) {
   throw new Error('Joomla API was not properly initialized');
 }
 
