@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -75,14 +76,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
-
-$htmlRegistry = HTMLHelper::getServiceRegistry();
-
-// This may already be registered in main template file.
-if (!$htmlRegistry->hasService('atum'))
-{
-	$htmlRegistry->register('atum', 'JHtmlAtum');
-}
 
 // @see administrator/templates/atum/html/layouts/chromes/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);

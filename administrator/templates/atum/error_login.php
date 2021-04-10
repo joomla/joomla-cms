@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
@@ -78,14 +79,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
-
-$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
-
-// We may have registered this trying to load the main login page - so check before registering again
-if (!$htmlHelperRegistry->hasService('atum'))
-{
-	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
-}
 
 // @see administrator/templates/atum/html/layouts/chromes/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
