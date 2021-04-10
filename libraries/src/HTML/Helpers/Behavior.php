@@ -154,20 +154,25 @@ abstract class Behavior
 			return;
 		}
 
-		LayoutHelper::render(
-			'joomla.highlight.highlight',
-			[
-				'terms'   => $terms,
-				'options' => [
-					'class'          => 'js-highlight',
-					'iframes'        => false,
-					'iframesTimeout' => 100,
-					'compatibility'  => true,
-					'start'          => $start,
-					'end'            => $end,
-				]
-			]
-		);
+		$options = [
+			'class'          => 'js-highlight',
+			'iframes'        => false,
+			'iframesTimeout' => 100,
+			'compatibility'  => true,
+			'start'          => $start,
+			'end'            => $end,
+		];
+
+		if ($className === 'js-highlight') {
+			$options = [
+				'class'          => 'js-highlight',
+				'iframes'        => false,
+				'iframesTimeout' => 100,
+				'compatibility'  => false,
+			];
+		}
+
+		LayoutHelper::render('joomla.highlight.highlight', ['terms'   => $terms, 'options' => $options]);
 	}
 
 	/**

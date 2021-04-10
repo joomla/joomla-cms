@@ -86,12 +86,12 @@ class PlgSystemHighlight extends CMSPlugin
 		}
 
 		// Activate the highlighter.
-		HTMLHelper::_('behavior.highlighter', $cleanTerms);
+		HTMLHelper::_('behavior.highlighter', $cleanTerms, '', '', 'js-highlight');
 
 		// Adjust the component buffer.
 		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
+		$buf = '<div class="js-highlight" />' . $buf . '</div>';
 		$doc->setBuffer($buf, 'component');
 	}
 
