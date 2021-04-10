@@ -34,7 +34,9 @@ if ($value)
 	{
 		if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0)
 		{
-			$buffer = sprintf('<img src="%s"%s%s>',
+			$buffer = sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
+				$img->attributes['width'],
+				$img->attributes['height'],
 				$imgUrl,
 				$class,
 				$alt
@@ -42,9 +44,7 @@ if ($value)
 		}
 		else
 		{
-			$buffer = sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
-				$img->attributes['width'],
-				$img->attributes['height'],
+			$buffer = sprintf('<img src="%s"%s%s>',
 				$imgUrl,
 				$class,
 				$alt
