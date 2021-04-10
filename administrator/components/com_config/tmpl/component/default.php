@@ -38,7 +38,7 @@ if ($this->fieldsets)
 $xml = $this->form->getXml();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" class="main-card" method="post" class="form-validate" name="adminForm" autocomplete="off">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate main-card" name="adminForm" autocomplete="off">
 	<div class="row main-card-columns">
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
