@@ -86,13 +86,14 @@ $monochrome = (bool) $this->params->get('monochrome');
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 // @see administrator/templates/atum/html/layouts/chromes/status.php
-$statusModules = LayoutHelper::render('chromes.status', ['modules' => 'status']);
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
@@ -187,6 +188,5 @@ $statusModules = LayoutHelper::render('chromes.status', ['modules' => 'status'])
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

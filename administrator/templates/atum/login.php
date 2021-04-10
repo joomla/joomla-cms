@@ -81,12 +81,16 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
+
+// @see administrator/templates/atum/html/layouts/chromes/status.php
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
@@ -111,9 +115,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 			</div>
 			<jdoc:include type="modules" name="title" />
 		</div>
-		<div class="header-items d-flex">
-			<jdoc:include type="modules" name="status" style="header-item" />
-		</div>
+		<?php echo $statusModules; ?>
 	</div>
 </header>
 
@@ -149,6 +151,5 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>
