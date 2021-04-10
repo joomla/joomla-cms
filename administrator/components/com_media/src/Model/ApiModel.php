@@ -532,7 +532,7 @@ class ApiModel extends BaseDatabaseModel
 			// Get the setting from the params
 			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
 				'upload_extensions',
-				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+				'bmp,csv,doc,gif,ico,jpg,jpeg,webp,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,WEBP,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
 			);
 
 			// Make them an array

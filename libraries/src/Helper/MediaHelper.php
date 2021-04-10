@@ -33,7 +33,7 @@ class MediaHelper
 	 */
 	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -125,7 +125,7 @@ class MediaHelper
 		{
 			$allowedMime = $params->get(
 				'upload_mime',
-				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+				'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
 					'application/pdf,application/powerpoint,text/plain,application/x-zip'
 			);
 
@@ -200,8 +200,8 @@ class MediaHelper
 
 		$allowable = $params->get(
 			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			'bmp,csv,doc,gif,ico,jpg,jpeg,webp,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
+				'CSV,DOC,GIF,ICO,JPG,JPEG,WEBP,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
 		);
 		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
