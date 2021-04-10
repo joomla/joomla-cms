@@ -70,7 +70,7 @@ export default {
         return;
       }
 
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'webp'];
 
       // Show preview
       if (this.item.extension
@@ -81,17 +81,17 @@ export default {
     },
 
     /**
-             * Whether or not the item is currently selected
-             * @returns {boolean}
-             */
+    * Whether or not the item is currently selected
+    * @returns {boolean}
+    */
     isSelected() {
       return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
     },
 
     /**
-             * Handle the click event
-             * @param event
-             */
+    * Handle the click event
+    * @param event
+    */
     onClick(event) {
       const path = false;
       const data = {

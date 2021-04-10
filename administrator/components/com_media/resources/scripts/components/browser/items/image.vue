@@ -205,7 +205,7 @@ export default {
     },
     /* Check if the item is an image to edit */
     canEdit() {
-      return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
+      return ['jpg', 'jpeg', 'png', 'webp'].indexOf(this.item.extension.toLowerCase()) > -1;
     },
   },
   methods: {

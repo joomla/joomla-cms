@@ -9,7 +9,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
+			default="bmp,csv,doc,gif,ico,jpg,jpeg,webp,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,WEBP,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
 		/>
 
 		<field
@@ -75,7 +75,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,gif,jpg,png"
+			default="bmp,gif,jpg,png,webp"
 			showon="restrict_uploads:1"
 		/>
 
@@ -93,7 +93,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
-			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			showon="restrict_uploads:1"
 		/>
 
