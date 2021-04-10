@@ -31,7 +31,7 @@ $now = Factory::getDate();
 				<?php echo $item->message; ?>
 			</td>
 			<td>
-				<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, null, $now, Text::_('DATE_FORMAT_LC5')); ?>
+				<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, Text::_('DATE_FORMAT_LC5'), 'tooltip', $now); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

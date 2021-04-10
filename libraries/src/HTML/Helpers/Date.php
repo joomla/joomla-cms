@@ -97,23 +97,24 @@ abstract class Date
 	 * Converts a given date into relative or absolute format, depending on user preference, and displays it along with the full date.
 	 *
 	 * @param   string       $date              The date to convert
-	 * @param   string|null  $unit              The optional unit of measurement to return if the value of the diff is greater than one.
-	 *                                          Only applies to relative display.
-	 * @param   string|null  $time              An optional time to compare to, defaults to now.
 	 * @param   string|null  $format            An optional format for the HTMLHelper::date output. Used if the date display should be absolute,
 	 *                                          either because of user settings or because it is too far in the past for relative display.
-	 * @param   bool         $forceRelative     Whether to force relative date display, regardless of user preference.
 	 * @param   string       $showAbsoluteDate  One of:
 	 *                                            - 'tooltip': Display the full date in a tooltip.
 	 *                                            - 'below': Display the full date below the relative date.
 	 *                                            - 'hide': Don't display the full date.
+	 *
+	 * @param   string|null  $time              An optional time to compare to, defaults to now.
+	 * @param   bool         $forceRelative     Whether to force relative date display, regardless of user preference.
+	 * @param   string|null  $unit              The optional unit of measurement to return if the value of the diff is greater than one.
+	 *                                          Only applies to relative display.
 	 *
 	 * @return  string  The relative or absolute date, plus the full date if applicable.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function relativeFormatted(
-		$date, $unit = null, $time = null, $format = null, $forceRelative = false, $showAbsoluteDate = 'tooltip')
+		$date, $format = null, $showAbsoluteDate = 'tooltip', $time = null, $forceRelative = false, $unit = null)
 	{
 		$user = Factory::getApplication()->getIdentity();
 

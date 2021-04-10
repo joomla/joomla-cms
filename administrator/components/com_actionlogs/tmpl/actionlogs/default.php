@@ -88,7 +88,7 @@ $now = Factory::getDate();
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, null, $now, Text::_('DATE_FORMAT_LC1'), false, 'below'); ?>
+								<?php echo HTMLHelper::_('date.relativeFormatted', $item->log_date, Text::_('DATE_FORMAT_LC1'), 'below', $now); ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

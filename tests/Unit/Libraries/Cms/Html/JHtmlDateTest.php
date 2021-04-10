@@ -311,6 +311,6 @@ class JHtmlDateTest extends UnitTestCase
 	)
 	{
 		$this->user->method('getParam')->with('use_relative_dates', true)->willReturn($useRelativeDate);
-		$this->assertEquals($result, HTMLDate::relativeFormatted($date, $unit, $time, $format, $forceRelative, $showAbsoluteDate));
+		$this->assertEquals($result, HTMLDate::relativeFormatted($date, $format, $showAbsoluteDate, $time, $forceRelative, $unit));
 	}
 }
