@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * @var $displayData []
@@ -29,11 +28,7 @@ if (empty($terms))
 
 $doc = Factory::getDocument();
 
-//$doc->getWebAssetManager()->useScript('js-highlight');
-
-HTMLHelper::_('script', 'highlight.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
-//		HTMLHelper::_('stylesheet', 'plg_system_highlight/highlight.min.css', array('version' => 'auto', 'relative' => true));
-
+$doc->getWebAssetManager()->useScript('js-highlight');
 $doc->addScriptOptions(
 	'js-highlight',
 	[

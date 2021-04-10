@@ -113,6 +113,29 @@
       ]
     },
     {
+      "name": "js-highlight-es5",
+      "type": "script",
+      "uri": "system/highlight-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "js-highlight",
+      "type": "script",
+      "uri": "system/highlight.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "js-highlight-es5"
+      ]
+    },
+    {
       "name": "field.passwordview",
       "type": "script",
       "uri": "system/fields/passwordview.min.js",
