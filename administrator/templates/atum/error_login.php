@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
@@ -79,20 +80,15 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
-
-// We may have registered this trying to load the main login page - so check before registering again
-if (!$htmlHelperRegistry->hasService('atum'))
-{
-	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
-}
-
+// @see administrator/templates/atum/html/layouts/chromes/status.php
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
@@ -114,9 +110,7 @@ if (!$htmlHelperRegistry->hasService('atum'))
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ms-auto">
-			<jdoc:include type="modules" name="status" style="header-element"/>
-		</div>
+		<?php echo $statusModules; ?>
 	</div>
 </header>
 
@@ -176,6 +170,5 @@ if (!$htmlHelperRegistry->hasService('atum'))
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

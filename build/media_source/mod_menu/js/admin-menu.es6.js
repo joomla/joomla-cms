@@ -75,7 +75,8 @@
     };
 
     // Toggle menu
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (event) => {
+      event.preventDefault();
       wrapper.classList.toggle('closed');
       menuToggleIcon.classList.toggle('icon-toggle-on');
       menuToggleIcon.classList.toggle('icon-toggle-off');
@@ -180,17 +181,6 @@
         });
 
         mainNav.classList.remove('child-open');
-      });
-    });
-
-    // Accessibility
-    const allLiEls = [].slice.call(sidebar.querySelectorAll('ul[role="menubar"] li'));
-    allLiEls.forEach((liEl) => {
-      // We care for enter and space
-      liEl.addEventListener('keyup', (e) => {
-        if (e.keyCode === 32 || e.keyCode === 13) {
-          e.target.querySelector('a').click();
-        }
       });
     });
 
