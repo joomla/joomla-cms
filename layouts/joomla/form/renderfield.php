@@ -47,10 +47,8 @@ if (!empty($parentclass))
 	<div class="controls">
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
-			<div id="<?php echo $id; ?>">
-				<small class="form-text text-muted">
-					<?php echo $description; ?>
-				</small>
+			<div id="<?php echo $id; ?>" class="form-text">
+				<?php echo $description; ?>
 			</div>
 		<?php endif; ?>
 	</div>
