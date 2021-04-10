@@ -37,10 +37,9 @@ $doc->addScriptOptions(
 		'iframesTimeout' => !empty($options['iframesTimeout']) ? $options['iframesTimeout'] : 5000,
 		'debug'          => !empty($options['debug']) ? $options['debug'] : false,
 		'highLight'      => $terms,
-		"accuracy"       => "partially",
-		"diacritics"     => true,
-		"exclude"        => !empty($options['exclude']) ? $options['exclude'] : [],
-		"done"           => !empty($options['done']) ? $options['done'] : function(){},
+		'accuracy'       => 'partially',
+		'diacritics'     => true,
+		'exclude'        => !empty($options['exclude']) ? $options['exclude'] : [],
 
 		// For B/C with the old code!!!! will be remove @5.0
 		'compatibility'  => !empty($options['compatibility']) ? $options['compatibility'] : false,
