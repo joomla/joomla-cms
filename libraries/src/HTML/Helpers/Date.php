@@ -113,8 +113,7 @@ abstract class Date
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function relativeFormatted(
-		$date, $unit = null, $time = null, $format = null, $forceRelative = false, $showAbsoluteDate = 'tooltip'
-	)
+		$date, $unit = null, $time = null, $format = null, $forceRelative = false, $showAbsoluteDate = 'tooltip')
 	{
 		$user = Factory::getApplication()->getIdentity();
 
