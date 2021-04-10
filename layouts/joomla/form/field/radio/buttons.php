@@ -95,21 +95,18 @@ if ($dataAttribute)
 				switch ($option->value)
 				{
 					case '0':
-						$optionClass = 'btn btn-outline-danger';
+						$btnClass = 'btn btn-outline-danger';
 						break;
 					case '1':
-						$optionClass = 'btn btn-outline-success';
+						$btnClass = 'btn btn-outline-success';
 						break;
 					default:
-						$optionClass = 'btn btn-outline-secondary';
+						$btnClass = 'btn btn-outline-secondary';
 						break;
 				}
 			}
-			else
-			{
-				$optionClass = !empty($option->class) ? $option->class : $btnClass;
-			}
 
+			$optionClass = !empty($option->class) ? $option->class : $btnClass;
 			$optionClass = trim($optionClass . ' ' . $disabled);
 			$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 
