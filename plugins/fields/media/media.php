@@ -67,6 +67,31 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	}
 
 	/**
+	 * Prepares the field
+	 *
+	 * @param   string    $context  The context.
+	 * @param   stdclass  $item     The item.
+	 * @param   stdclass  $field    The field.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onCustomFieldsPrepareField($context, $item, $field)
+	{
+		/**
+		 * At this stage, $field->value supposes to be an array, however, in case it is part of a subfield with data
+		 * migrated repeatable field from Joomla! 3, it is still a string, so we need to to do some conversion here
+		 */
+		if (is_string($field->value) && strlen($field->value))
+		{
+			$field->value = $this->checkValue($field->value);
+		}
+
+		return parent::onCustomFieldsPrepareField($context, $item, $field);
+	}
+
+	/**
 	 * Before prepares the field value.
 	 *
 	 * @param   string  $value  The value to check.
