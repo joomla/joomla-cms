@@ -127,7 +127,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
-									<span class="badge bg-warning text-dark">
+									<span class="badge bg-warning text-light">
 										<?php echo Text::_('JTRASHED'); ?>
 									</span>
 								</div>

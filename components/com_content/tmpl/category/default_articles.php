@@ -295,7 +295,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<td class="list-ratings">
-						<span class="badge bg-warning text-dark">
+						<span class="badge bg-warning text-light">
 							<?php if ($this->params->get('show_headings')) : ?>
 								<?php echo $article->rating; ?>
 							<?php else : ?>
