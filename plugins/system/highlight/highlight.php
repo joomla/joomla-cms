@@ -103,7 +103,7 @@ class PlgSystemHighlight extends CMSPlugin
 		// Adjust the component buffer.
 		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<div class="js-highlight" />' . $buf . '</div>';
+		$buf = '<div class="js-highlight">' . $buf . '</div>';
 		$doc->setBuffer($buf, 'component');
 	}
 
