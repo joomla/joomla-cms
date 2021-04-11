@@ -57,8 +57,8 @@
       }
 
       .quickicon-amount {
-        font-weight: $bold-weight;
         padding: .25rem .5rem;
+        font-weight: $bold-weight;
         line-height: 1rem;
         background: hsl(var(--hue),50%,93%);
         border-radius: $border-radius;
@@ -104,8 +104,8 @@
       width: 100%;
 
       > * {
-        color: #30517b;
         margin-bottom: 10px;
+        color: #30517b;
       }
 
       &:hover,
@@ -123,9 +123,9 @@
   .quickicon-single,
   .quickicon-group {
     min-height: 6rem;
-    border-radius: 4px;
     overflow: hidden;
     border: 1px solid hsl(var(--hue),50%,93%);
+    border-radius: 4px;
   }
 }
 

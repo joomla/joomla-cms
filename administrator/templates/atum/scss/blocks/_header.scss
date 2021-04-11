@@ -55,8 +55,8 @@
   }
 
   .page-title {
-    margin: 0;
     padding: 0 1rem;
+    margin: 0;
     overflow: hidden;
     font-size: 1.2rem;
     color: $white;
@@ -71,7 +71,7 @@
   .dropdown-menu {
     font-size: .85rem;
   }
-  
+
   .dropdown-header,
   .dropdown-item {
     color: $white;
@@ -94,16 +94,16 @@
 }
 
 .header-items {
+  align-items: center;
+  justify-content: flex-end;
   width: 50%;
   margin: 15px;
   margin-inline-start: auto;
-  justify-content: flex-end;
-  align-items: center;
 
   .dropdown-toggle {
     background-color: transparent;
     border: 0;
-  
+
     &::after {
       display: none;
     }
@@ -118,11 +118,11 @@
 .header-item-content {
   display: flex;
   align-items: center;
-  padding-inline-end: 4px;
+  line-height: 1rem;
+  color: $white;
   background-color: var(--atum-bg-dark-60);
   border-radius: 22px;
-  color: $white;
-  line-height: 1rem;
+  padding-inline-end: 4px;
 
   a,
   button {
@@ -141,16 +141,16 @@
 
 .header-item-icon {
   > * {
-    border-radius: 16px;
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    margin: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--atum-bg-dark);
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    margin: 4px;
     color: $white;
+    background-color: var(--atum-bg-dark);
+    border-radius: 16px;
   }
 
   span {

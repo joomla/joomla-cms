@@ -4,7 +4,7 @@
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
   background-color: var(--atum-sidebar-bg);
-  box-shadow: 0px 0 20px -10px var(--atum-bg-dark-50);
+  box-shadow: 0 0 20px -10px var(--atum-bg-dark-50);
 
   .sidebar-sticky {
     position: sticky;
@@ -87,8 +87,8 @@
 // Sidebar navigation
 .main-nav {
   width: $sidebar-width;
-  font-size: .95rem;
   padding: 0;
+  font-size: .95rem;
 
   @include media-breakpoint-down(sm) {
     width: 100%;
@@ -101,10 +101,10 @@
     .menu-quicktask {
       > a {
         display: inline-flex;
-        justify-content: center;
         align-items: center;
-        height: 100%;
+        justify-content: center;
         width: 40px;
+        height: 100%;
       }
     }
   }
@@ -131,7 +131,7 @@
 
     .sidebar-item-title {
       color: var(--atum-bg-dark-30);
-    }    
+    }
   }
 
   // Dropdown indicator
@@ -216,12 +216,12 @@
   }
 
   .main-nav a:hover .sidebar-item-title {
-    display: flex;
-    align-items: center;
     position: absolute;
     left: 100%;
-    padding: 0 1rem;
+    display: flex;
+    align-items: center;
     height: 100%;
+    padding: 0 1rem;
     white-space: nowrap;
     pointer-events: none;
     background-color: var(--atum-bg-dark-60);
@@ -250,8 +250,8 @@
 
   .toggler-burger {
     position: fixed;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     z-index: $zindex-mobile-toggle;
     padding: 10px 15px;
 

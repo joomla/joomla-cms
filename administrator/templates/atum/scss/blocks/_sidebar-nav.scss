@@ -19,10 +19,10 @@
 
       &::before {
         margin-inline-end: .5rem;
-        font-family: 'Font Awesome 5 Free';
+        font-family: "Font Awesome 5 Free";
         font-weight: 900;
         content: "\f054";
-  
+
         [dir="rtl"] & {
           content: "\f053";
         }

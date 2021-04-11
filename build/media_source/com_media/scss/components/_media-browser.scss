@@ -1,8 +1,8 @@
 // Media browser
 .media-browser {
   position: relative;
-  transition: width .3s cubic-bezier(.4, 0, .2, 1);
   border-left: 1px solid $border-color;
+  transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
 // Grid View
@@ -39,8 +39,8 @@
   position: relative;
   font-size: 60px;
   color: #007eb7;
-  border-radius: $grid-item-border-radius;
   border: 1px solid hsl(var(--hue),35%,95%);
+  border-radius: $grid-item-border-radius;
   &::after {
     position: absolute;
     top: 0;

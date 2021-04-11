@@ -35,7 +35,7 @@
     img {
       max-height: 4.4rem;
     }
-    
+
     .logo {
       padding: 0 20px 20px;
     }
@@ -53,8 +53,8 @@
     &-watermark {
       position: absolute;
       z-index: -1;
-      transform: rotate(12deg) translate(40%, 10%);
       max-width: 500px;
+      transform: rotate(12deg) translate(40%, 10%);
     }
 
   }
@@ -115,7 +115,7 @@
 
   h1,
   h2 {
-    color: white;
+    color: $white;
   }
 
   h1 {
@@ -165,8 +165,8 @@
     }
 
     .card-header {
-      color: $white;
       font-size: ($font-size-base * 1.125);
+      color: $white;
     }
   }
 
