@@ -142,16 +142,9 @@
 
 @include media-breakpoint-down(sm) {
   .toggler-toolbar {
-    top: 20px;
+    top: 0;
+    bottom: auto;
     z-index: $zindex-alerts;
-
-    [dir=ltr] & {
-      right: 10px;
-    }
-
-    [dir=rtl] & {
-      left: 10px;
-    }
 
     .toggler-toolbar-icon::before {
       font: normal normal 900 30px/1 "Font Awesome 5 Free";
@@ -165,7 +158,6 @@
   }
 
   .subhead {
-
     joomla-toolbar-button,
     .btn-group,
     .btn {

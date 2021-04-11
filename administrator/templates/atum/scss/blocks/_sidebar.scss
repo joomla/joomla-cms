@@ -250,21 +250,17 @@
 
   .toggler-burger {
     position: fixed;
-    bottom: 20px;
+    bottom: 0;
+    right: 0;
     z-index: $zindex-mobile-toggle;
-    display: block;
-    width: 70px;
-    height: 70px;
-    background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
-    border-radius: 40px;
-
-    [dir="ltr"] & {
-      right: 10px;
-    }
+    padding: 10px 15px;
 
     [dir="rtl"] & {
-      left: 10px;
+      left: 0;
+    }
+
+    &:focus {
+      box-shadow: none;
     }
 
     .navbar-toggler-icon::before {

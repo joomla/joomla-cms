@@ -40,10 +40,6 @@
           font-size: $quickicon-icon-size;
           color: var(--icon-color);
         }
-
-        &.small > * {
-          font-size: $quickicon-icon-size-sm;
-        }
       }
 
       &:hover,
@@ -61,18 +57,12 @@
       }
 
       .quickicon-amount {
-        margin-top: .3rem !important;
-        font-size: $display1-size;
         font-weight: $bold-weight;
-
-        ~ .quickicon-name {
-          padding-top: 0;
-        }
-
-        > .#{$jicon-css-prefix}-spinner,
-        > .#{$fa-css-prefix}-spinner {
-          font-size: $display1-size;
-        }
+        padding: .25rem .5rem;
+        line-height: 1rem;
+        background: hsl(var(--hue),50%,93%);
+        border-radius: $border-radius;
+        margin-inline-start: .5rem;
       }
 
       .j-links-link {
@@ -96,6 +86,11 @@
         --bg-color-hvr: var(--success);
       }
     }
+  }
+
+  .quickicon-info {
+    display: flex;
+    align-items: flex-end;
   }
 
   .quickicon-linkadd {
