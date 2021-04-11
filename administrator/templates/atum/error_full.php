@@ -55,9 +55,9 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 
 	// Enable assets
 	$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-			->useStyle('template.active.language')
-			->useStyle('template.user')
-			->addInlineStyle(':root {
+		->useStyle('template.active.language')
+		->useStyle('template.user')
+		->addInlineStyle(':root {
 			--hue: ' . $matches[1] . ';
 			--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
 			--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
@@ -77,7 +77,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-// @see administrator/templates/atum/html/layouts/chromes/status.php
+// @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>

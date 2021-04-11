@@ -62,7 +62,6 @@
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
         "laminas/laminas-diactoros": "^2.2.2",
-        "ozdemirburak/iris": "2.0.*",
         "paragonie/sodium_compat": "~1.9.1",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
