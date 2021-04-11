@@ -525,7 +525,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
    *    onError:   (xhr) => {},           // Callback on the request error
-   *    onComplete: (xhr) => {},          // Callback on the request completed, with or without error
+   *    onComplete: (xhr) => {},          // Callback on the request completed, with/without error
    * }
    *
    * @return XMLHttpRequest|Boolean
