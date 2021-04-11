@@ -49,6 +49,7 @@ class FieldsModel extends ListModel
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
+				'use_in_subform',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -346,6 +347,15 @@ class FieldsModel extends ListModel
 			$groupId = (int) $groupId;
 			$query->where($db->quoteName('a.group_id') . ' = :groupid')
 				->bind(':groupid', $groupId, ParameterType::INTEGER);
+		}
+
+		$useInSubform = $this->getState('filter.use_in_subform');
+
+		if (is_numeric($useInSubform))
+		{
+			$useInSubform = (int) $useInSubform;
+			$query->where($db->quoteName('a.use_in_subform') . ' = :use_in_subform')
+				->bind(':use_in_subform', $useInSubform, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title

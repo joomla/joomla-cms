@@ -103,6 +103,11 @@ class SubfieldstypeField extends ListField
 			}
 		);
 
+		if (count($options) == 0)
+		{
+			\JFactory::getApplication()->enqueueMessage('You need to define some fields before creating subform fields', 'warning');
+		}
+
 		return $options;
 	}
 

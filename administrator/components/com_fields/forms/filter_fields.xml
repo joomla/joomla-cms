@@ -64,6 +64,18 @@
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
+
+		<field
+				name="use_in_subform"
+				type="list"
+				label="Use In Subform"
+				onchange="this.form.submit();"
+				default=""
+		>
+			<option value="">Use In Subform</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 	</fields>
 
 	<fields name="list">

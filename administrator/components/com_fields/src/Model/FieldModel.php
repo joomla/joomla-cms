@@ -160,11 +160,18 @@ class FieldModel extends AdminModel
 			return false;
 		}
 
+
+
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
 		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
 		$cats = ArrayHelper::toInteger($cats);
+
+		if ($data['use_in_subform'])
+		{
+			$cats=[-1];
+		}
 
 		$assignedCatIds = array();
 
