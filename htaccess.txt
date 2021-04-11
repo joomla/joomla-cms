@@ -129,7 +129,7 @@ Options -Indexes
 ##     directly or fallback to gzip any asset on the fly
 ## If your site starts to look strange after enabling this, and you see
 ##     ERR_CONTENT_DECODING_FAILED in your browser console network tab,
-##     then your server is already gzipping js files and you don't need this 
+##     then your server is already gzipping css and js files and you don't need this
 ##     block enabled in your .htaccess
 <IfModule mod_headers.c>
 	# Serve gzip compressed CSS files if they exist
