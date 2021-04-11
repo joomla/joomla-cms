@@ -141,13 +141,27 @@
 }
 
 @include media-breakpoint-down(sm) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3 {
+    padding: .5rem 1rem !important;
+  }
+
+  #myTab {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  joomla-tab[view=accordion] ul li {
+    width: 100%;
+  }
+
   .toggler-toolbar {
     top: 0;
     bottom: auto;
     z-index: $zindex-alerts;
 
     .toggler-toolbar-icon::before {
-      font: normal normal 900 30px/1 "Font Awesome 5 Free";
+      font: normal normal 900 28px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }
