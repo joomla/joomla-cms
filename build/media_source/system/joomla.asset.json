@@ -113,7 +113,7 @@
       ]
     },
     {
-      "name": "js-highlight-es5",
+      "name": "highlighter-legacy",
       "type": "script",
       "uri": "system/highlight-es5.min.js",
       "attributes": {
@@ -125,14 +125,14 @@
       ]
     },
     {
-      "name": "js-highlight",
+      "name": "highlighter",
       "type": "script",
       "uri": "system/highlight.min.js",
       "attributes": {
         "type": "module"
       },
       "dependencies": [
-        "js-highlight-es5"
+        "highlighter-legacy"
       ]
     },
     {

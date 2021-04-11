@@ -28,7 +28,7 @@ if (empty($terms))
 
 $doc = Factory::getDocument();
 
-$doc->getWebAssetManager()->useScript('js-highlight');
+$doc->getWebAssetManager()->useScript('highlighter');
 $doc->addScriptOptions(
 	'js-highlight',
 	[
