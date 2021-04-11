@@ -171,7 +171,7 @@ abstract class Behavior
 			];
 		}
 
-		LayoutHelper::render('joomla.highlight.highlight', ['terms'   => $terms, 'options' => $options]);
+		LayoutHelper::render('joomla.html.highlight', ['terms'   => $terms, 'options' => $options]);
 	}
 
 	/**

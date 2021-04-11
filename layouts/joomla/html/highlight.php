@@ -28,9 +28,9 @@ if (empty($terms))
 
 $doc = Factory::getDocument();
 
-$doc->getWebAssetManager()->useScript('highlighter');
+$doc->getWebAssetManager()->useScript('highlight');
 $doc->addScriptOptions(
-	'highlighter',
+	'highlight',
 	[
 		'class'          => !empty($options['class']) ? $options['class'] : 'js-highlight',
 		'iframes'        => !empty($options['iframes']) ? $options['iframes'] : false,

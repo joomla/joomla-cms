@@ -50,7 +50,7 @@ use Joomla\CMS\Uri\Uri;
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
 	<?php
 		LayoutHelper::render(
-				'joomla.highlight.highlight',
+				'joomla.html.highlight',
 				[
 						'terms'   => $this->query->highlight,
 						'options' => [

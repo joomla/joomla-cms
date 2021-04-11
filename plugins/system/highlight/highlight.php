@@ -87,7 +87,7 @@ class PlgSystemHighlight extends CMSPlugin
 
 		// Activate the highlighter.
 		LayoutHelper::render(
-			'joomla.highlight.highlight',
+			'joomla.html.highlight',
 			[
 				'terms'   => $cleanTerms,
 				'options' => [
