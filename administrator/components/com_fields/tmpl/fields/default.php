@@ -158,6 +158,11 @@ if ($saveOrder && !empty($this->items))
 													<?php endif; ?>
 												</div>
 											<?php endif; ?>
+											<?php if ($item->use_in_subform) : ?>
+                                                <div class="small badge bg-secondary">
+                                                    Subform Only
+                                                </div>
+											<?php endif; ?>
 										</div>
 									</th>
 									<td class="small">
