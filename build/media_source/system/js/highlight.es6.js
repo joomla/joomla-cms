@@ -1,7 +1,7 @@
 import Mark from 'mark.js/src/vanilla';
 
-if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-highlight')) {
-  const options = Joomla.getOptions('js-highlight');
+if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('highlighter')) {
+  const options = Joomla.getOptions('highlighter');
   const markOptions = {
     exclude: [],
     separateWordSearch: true,

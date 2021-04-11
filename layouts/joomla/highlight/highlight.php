@@ -30,7 +30,7 @@ $doc = Factory::getDocument();
 
 $doc->getWebAssetManager()->useScript('highlighter');
 $doc->addScriptOptions(
-	'js-highlight',
+	'highlighter',
 	[
 		'class'          => !empty($options['class']) ? $options['class'] : 'js-highlight',
 		'iframes'        => !empty($options['iframes']) ? $options['iframes'] : false,
