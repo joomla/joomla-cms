@@ -67,6 +67,10 @@
       margin-inline-end: .25rem;
     }
   }
+
+  .dropdown-menu {
+    font-size: .85rem;
+  }
   
   .dropdown-header,
   .dropdown-item {
@@ -74,7 +78,7 @@
     background-color: var(--atum-bg-dark-70);
 
     > span {
-      margin-inline-end:  $dropdown-item-padding-x;
+      margin-inline-end: .5rem;
     }
 
     &:hover {
@@ -83,7 +87,7 @@
   }
 
   .dropdown-header {
-    padding: 1rem .75rem;
+    padding: .75rem;
     font-size: inherit;
     background-color: var(--atum-bg-dark);
   }
