@@ -41,7 +41,7 @@ JHtml::_('bootstrap.framework');
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . htmlspecialchars(JUri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '" />';
 }
 elseif ($params->get('sitetitle'))
 {
