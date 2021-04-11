@@ -61,8 +61,7 @@ abstract class Grid
 			$form = ', document.getElementById(\'' . $form . '\')';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-			. ' title="' . htmlspecialchars(Text::_($tip ?: $title)) . '" >';
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;" >';
 
 		if (isset($title['0']) && $title['0'] === '<')
 		{
