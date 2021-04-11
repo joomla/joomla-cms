@@ -12,7 +12,6 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Utility class for JavaScript behaviors
@@ -140,38 +139,30 @@ abstract class Behavior
 	 *
 	 * @since   2.5
 	 *
-	 * @deprecated 5.0 Use the JLayout directly
+	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
 		$terms = array_filter($terms, 'strlen');
 
-		// Nothing to Highlight
-		if (empty($terms))
+		if (!empty($terms))
 		{
-			return;
+			$doc = Factory::getDocument();
+
+			$doc->getWebAssetManager()->useScript('highlight');
+			$doc->addScriptOptions(
+				'highlight',
+				[[
+					'class'         => 'js-highlight',
+					'highLight'     => $terms,
+					'accuracy'      => 'partially',
+					'diacritics'    => true,
+					'compatibility' => true,
+					'start'         => $start,
+					'end'           => $end,
+				]]
+			);
 		}
-
-		$options = [
-			'class'          => 'js-highlight',
-			'iframes'        => false,
-			'iframesTimeout' => 100,
-			'compatibility'  => true,
-			'start'          => $start,
-			'end'            => $end,
-		];
-
-		if ($className === 'js-highlight')
-		{
-			$options = [
-				'class'          => 'js-highlight',
-				'iframes'        => false,
-				'iframesTimeout' => 100,
-				'compatibility'  => false,
-			];
-		}
-
-		LayoutHelper::render('joomla.html.highlight', ['terms'   => $terms, 'options' => $options]);
 	}
 
 	/**

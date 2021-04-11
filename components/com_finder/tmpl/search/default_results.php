@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -49,19 +48,22 @@ use Joomla\CMS\Uri\Uri;
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
 	<?php
-		LayoutHelper::render(
-				'joomla.html.highlight',
-				[
-						'terms'   => $this->query->highlight,
-						'options' => [
-								'class'          => 'js-highlight',
-								'iframes'        => false,
-								'iframesTimeout' => 100,
-								'compatibility'  => false,
-						]
-				]
-		);
-	 ?>
+		if (!empty($terms))
+		{
+			$doc = Factory::getDocument();
+
+			$doc->getWebAssetManager()->useScript('highlight');
+			$doc->addScriptOptions(
+					'highlight',
+					[[
+							'class'      => 'js-highlight',
+							'highLight'  => $terms,
+							'accuracy'   => 'partially',
+							'diacritics' => true,
+					]]
+			);
+		}
+	?>
 <?php endif; ?>
 <?php // Display a list of results ?>
 <ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
