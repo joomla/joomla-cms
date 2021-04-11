@@ -221,21 +221,21 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 					<?php endif; ?>
 					<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JUNPUBLISHED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JEXPIRED'); ?>
 							</span>
 						</div>
