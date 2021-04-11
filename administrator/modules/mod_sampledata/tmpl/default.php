@@ -41,16 +41,16 @@ $app->getDocument()->addScriptOptions(
 					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
-			</li>
-			<?php // Progress bar ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<div class="progress">
-					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+				<?php // Progress bar ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none mb-3">
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+					</div>
 				</div>
-			</li>
-			<?php // Progress messages ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<ul class="list-unstyled"></ul>
+				<?php // Progress messages ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none">
+					<ul class="list-unstyled"></ul>
+				</div>
 			</li>
 		<?php endforeach; ?>
 	</ul>
