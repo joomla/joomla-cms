@@ -55,6 +55,7 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function formvalidator()
 	{
@@ -78,6 +79,7 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function combobox()
 	{
@@ -92,6 +94,7 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   1.7
+	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function multiselect($id = 'adminForm')
 	{
@@ -155,8 +158,6 @@ abstract class Behavior
 				[[
 					'class'         => 'js-highlight',
 					'highLight'     => $terms,
-					'accuracy'      => 'partially',
-					'diacritics'    => true,
 					'compatibility' => true,
 					'start'         => $start,
 					'end'           => $end,

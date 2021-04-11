@@ -96,8 +96,6 @@ class PlgSystemHighlight extends CMSPlugin
 				[[
 					'class'      => 'js-highlight',
 					'highLight'  => $cleanTerms,
-					'accuracy'   => 'partially',
-					'diacritics' => true,
 				]]
 			);
 		}

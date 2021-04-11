@@ -58,8 +58,6 @@ use Joomla\CMS\Uri\Uri;
 					[[
 							'class'      => 'js-highlight',
 							'highLight'  => $terms,
-							'accuracy'   => 'partially',
-							'diacritics' => true,
 					]]
 			);
 		}
