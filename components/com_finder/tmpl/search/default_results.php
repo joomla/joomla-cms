@@ -50,7 +50,7 @@ use Joomla\CMS\Uri\Uri;
 	<?php
 		if (!empty($terms))
 		{
-			$doc = Factory::getDocument();
+			$doc = $this->document;
 
 			$doc->getWebAssetManager()->useScript('highlight');
 			$doc->addScriptOptions(
