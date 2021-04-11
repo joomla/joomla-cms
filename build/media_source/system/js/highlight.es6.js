@@ -20,7 +20,7 @@ if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOp
   const scriptOptions = Joomla.getOptions('highlight');
   scriptOptions.forEach((currentOpts) => {
     const options = { ...defaultOptions, ...currentOpts };
-    console.log(options);
+
     // Continue only if the element exists
     if (!options.compatibility) {
       const element = document.querySelector(`.${options.class}`);
