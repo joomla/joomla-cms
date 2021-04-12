@@ -7,12 +7,16 @@ Build Status
 | ------------- | ------------- |
 |  [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
-What is this?
----------------------
+
+<details>
+  <summary>What is this?</summary>
+  
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 3.9 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.9_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/staging).
+  
+</details>
 
 What is Joomla?
 ---------------------
