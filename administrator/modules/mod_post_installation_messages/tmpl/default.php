@@ -16,7 +16,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
 	<a class="header-item-content <?php echo ($hideLinks ? 'disabled' : ''); ?>"
-		href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
+		<?php echo ($hideLinks ? 'disabled' : 'href="' . Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId) . '"'); ?>
+		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
 		<div class="header-item-icon">
 			<div class="w-auto">
 				<span class="icon-bell" aria-hidden="true"></span>

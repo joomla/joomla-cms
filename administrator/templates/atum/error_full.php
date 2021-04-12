@@ -64,7 +64,6 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 			--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
 			--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
 			--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
-			--atum-sidebar-link-color: ' . $this->params->get('sidebar-link-color', '--atum-sidebar-link-color') . ';
 		}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -72,8 +71,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-// @TODO sync with _variables.scss
-$this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
