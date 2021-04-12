@@ -9,11 +9,11 @@
  * Module chrome for rendering the module in a submenu
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-
-defined('_JEXEC') or die;
 
 $modulePosition = $displayData['modules'];
 
