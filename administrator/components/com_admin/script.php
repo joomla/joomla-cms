@@ -451,9 +451,10 @@ class JoomlaInstallerScript
 						continue;
 					}
 
+					$rowIndex = 0;
 					foreach ($fieldValue as $rowKey => $rowValue)
 					{
-						$rowKey                 = str_replace('repeatable', 'row', $rowKey);
+						$rowKey                 = 'row' . $rowIndex++;
 						$newFieldValue[$rowKey] = [];
 
 						foreach ($rowValue as $subFieldName => $subFieldValue)
@@ -461,7 +462,7 @@ class JoomlaInstallerScript
 							// This is a media field, so we need to convert data to new format required in Joomla! 4
 							if (in_array($subFieldName, $mediaFields))
 							{
-								$subFieldValue = json_encode(['imagefile' => $subFieldValue, 'alt_text' => '']);
+								$subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
 							}
 
 							if (isset($mapping[$subFieldName]))
