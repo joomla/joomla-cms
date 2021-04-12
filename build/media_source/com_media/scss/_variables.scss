@@ -59,13 +59,12 @@ $table-item-icon-bg-selected:       #006898;
 $table-item-bg-hover:               rgba(0, 0, 0, .03);
 
 // Media Info bar
-$info-bg:                           #fafafa;
-$info-title-bg:                     #f6f6f6;
-$info-title-height:                 2rem;
+$info-bg:                           var(--atum-bg-dark-3);
+$info-title-bg:                     var(--atum-bg-dark-5);
 $info-dt-width:                     33.33333%;
 $info-dd-width:                     66.66667%;
-$info-close-color:                  #ccc;
-$info-close-color-hover:            #aaa;
+$info-close-color:                  var(--atum-bg-dark-60);
+$info-close-color-hover:            var(--atum-bg-dark-40);
 
 // Table Icon Mapping
 $icon-type-default:                 "\f016";
