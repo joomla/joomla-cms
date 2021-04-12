@@ -9,7 +9,7 @@ Build Status
 
 
 <details>
-  <summary> **What is this?** </summary>
+  <summary> What is this? </summary>
   
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
@@ -19,7 +19,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**What is Joomla?**</summary>
+  <summary> What is Joomla? </summary>
 	
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
@@ -28,7 +28,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**Is Joomla! for you?**</summary>
+  <summary> Is Joomla! for you? </summary>
 
 * Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More).
 * View Joomla's [core features here](https://www.joomla.org/core-features.html).
@@ -37,7 +37,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**How to find a Joomla! translation?**</summary>
+  <summary> How to find a Joomla! translation? </summary>
 	
 * Repository of [accredited language packs](https://community.joomla.org/translations.html).
 * You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
@@ -46,7 +46,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**Learn Joomla!**</summary>
+  <summary> Learn Joomla! </summary>
 
 * Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J3.x:Getting_Started_with_Joomla!) to learn the basics.
 * Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Special:MyLanguage/Portal:Beginners).
@@ -54,7 +54,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**What are the benefits of Joomla?**</summary>
+  <summary> What are the benefits of Joomla? </summary>
 
 * The functionality of a Joomla! website can be extended by installing extensions that you can create (or download) to suit your needs.
 * There are many ready-made extensions that you can download and install.
@@ -63,7 +63,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**Is it easy to change the layout display?**</summary>
+  <summary> Is it easy to change the layout display? </summary>
 
 * The layout is controlled by templates that you can edit.
 * There are a lot of ready-made professional templates that you can download.
@@ -72,7 +72,7 @@ Build Status
 </details>
 
 <details>
-  <summary>**Ready to install Joomla?**</summary>
+  <summary> Ready to install Joomla? </summary>
 
 * Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
 * How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
@@ -82,14 +82,14 @@ When ready, it can be moved to an online hosting account of your choice.
 </details>
 
 <details>
-  <summary>**Updates are free!**</summary>
+  <summary> Updates are free! </summary>
 
 * Always use the [latest version](https://downloads.joomla.org/latest).
 
 </details>
 
 <details>
-  <summary>**Where can you get support and help?**</summary>
+  <summary> Where can you get support and help? </summary>
 
 * [The Joomla! Documentation](https://docs.joomla.org/Special:MyLanguage/Main_Page).
 * [Frequently Asked Questions](https://docs.joomla.org/Special:MyLanguage/Category:FAQ) (FAQ).
@@ -101,7 +101,7 @@ When ready, it can be moved to an online hosting account of your choice.
 </details>
 
 <details>
-  <summary>**Do you already have a Joomla! site that isn't built with Joomla! 3.x?**</summary>
+  <summary> Do you already have a Joomla! site that isn't built with Joomla! 3.x? </summary>
 
 * What's [new in Joomla! 3.x](https://www.joomla.org/3)?
 * What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
@@ -111,7 +111,7 @@ When ready, it can be moved to an online hosting account of your choice.
 </details>
 
 <details>
-  <summary>**Do you want to improve Joomla?**</summary>
+  <summary> Do you want to improve Joomla? </summary>
 
 * Where to [request a feature](https://issues.joomla.org)?
 * How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
@@ -122,7 +122,7 @@ When ready, it can be moved to an online hosting account of your choice.
 </details>
 
 <details>
-  <summary>**Copyright**</summary>
+  <summary> Copyright </summary>
 	
 * Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.
 * Distributed under the GNU General Public License version 2 or later
