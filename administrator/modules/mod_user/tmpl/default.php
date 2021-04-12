@@ -19,6 +19,11 @@ use Joomla\CMS\Uri\Uri;
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 $hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks)
+{
+	return '';
+}
 ?>
 <div class="header-item-content dropdown header-profile">
 	<button class="dropdown-toggle d-flex align-items-center ps-0 <?php echo ($hideLinks ? 'disabled' : ''); ?>"  data-bs-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>

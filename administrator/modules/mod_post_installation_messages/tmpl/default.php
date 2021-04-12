@@ -13,6 +13,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks)
+{
+	return '';
+}
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
 	<a class="header-item-content <?php echo ($hideLinks ? 'disabled' : ''); ?>"

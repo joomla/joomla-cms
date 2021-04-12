@@ -20,6 +20,7 @@ $modulePosition = $displayData['modules'];
 $renderer   = Factory::getDocument()->loadRenderer('module');
 $modules    = ModuleHelper::getModules($modulePosition);
 $moduleHtml = [];
+$moduleCollapsedHtml = [];
 
 foreach ($modules as $key => $mod)
 {
@@ -27,7 +28,21 @@ foreach ($modules as $key => $mod)
 
 	if ($out !== '')
 	{
+		if (strpos($out, 'data-bs-toggle="modal"') !== false)
+		{
+			$dom = new \DOMDocument();
+			$dom->loadHTML($out);
+			$els = $dom->getElementsByTagName('a');
+
+			$moduleCollapsedHtml[] = $dom->saveHTML($els[0]); //$els[0]->nodeValue;
+		}
+		else
+		{
+			$moduleCollapsedHtml[] = $out;
+		}
+
 		$moduleHtml[] = $out;
+
 	}
 }
 ?>
@@ -45,7 +60,7 @@ foreach ($modules as $key => $mod)
 		</button>
 		<div class="header-dd-items dropdown-menu">
 			<?php
-			foreach ($moduleHtml as $key => $mod)
+			foreach ($moduleCollapsedHtml as $key => $mod)
 			{
 				echo '<div class="header-dd-item dropdown-item" data-item="' . $key . '">' . $mod . '</div>';
 			}

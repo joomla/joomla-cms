@@ -31,6 +31,9 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
 	}');
 
+// No template.js for modals
+$wa->disableScript('template.atum');
+
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 

@@ -14,6 +14,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks)
+{
+	return '';
+}
+
 $uri   = Uri::getInstance();
 $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
 ?>
