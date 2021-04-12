@@ -43,7 +43,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	/**
 	 * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
 	 *
-	 * @param   JForm         $form  The form to manipulate
+	 * @param   Form          $form  The form to manipulate
 	 * @param   array|object  $data  The data of the form
 	 *
 	 * @return  void
@@ -250,7 +250,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @param   \stdClass   $field   The field
 	 * @param   DOMElement  $parent  The original parent element
-	 * @param   JForm       $form    The form
+	 * @param   Form        $form    The form
 	 *
 	 * @return  \DOMElement
 	 *

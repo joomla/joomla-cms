@@ -245,7 +245,7 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The form event.
 	 *
-	 * @param   JForm     $form  The form
+	 * @param   Form      $form  The form
 	 * @param   stdClass  $data  The data
 	 *
 	 * @return  boolean
