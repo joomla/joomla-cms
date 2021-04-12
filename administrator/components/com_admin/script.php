@@ -452,9 +452,10 @@ class JoomlaInstallerScript
 					}
 
 					$rowIndex = 0;
+
 					foreach ($fieldValue as $rowKey => $rowValue)
 					{
-						$rowKey                 = 'row' . $rowIndex++;
+						$rowKey                 = 'row' . ($rowIndex++);
 						$newFieldValue[$rowKey] = [];
 
 						foreach ($rowValue as $subFieldName => $subFieldValue)
