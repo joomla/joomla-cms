@@ -9,7 +9,7 @@ Build Status
 
 
 <details>
-  <summary>**What is this?**</summary>
+  <summary> **What is this?** </summary>
   
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
