@@ -77,8 +77,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-// @TODO sync with _variables.scss
-$this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
