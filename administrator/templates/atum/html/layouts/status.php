@@ -30,7 +30,7 @@ foreach ($modules as $key => $mod)
 	{
 		if (strpos($out, 'data-bs-toggle="modal"') !== false)
 		{
-			$dom = new \DOMDocument();
+			$dom = new \DOMDocument;
 			$dom->loadHTML($out);
 			$els = $dom->getElementsByTagName('a');
 
@@ -42,7 +42,6 @@ foreach ($modules as $key => $mod)
 		}
 
 		$moduleHtml[] = $out;
-
 	}
 }
 ?>
