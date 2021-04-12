@@ -48,11 +48,11 @@ endif;
 </div>
 
 <div id="new-modules-list">
-	<div class="new-modules card">
-		<div class="card-header pb-3">
+	<div class="new-modules">
+		<h4 class="pb-3">
 			<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
-		</div>
-		<div class="card-body card-columns py-0">
+		</h4>
+		<div class="card-columns py-0">
 			<?php foreach ($this->items as &$item) : ?>
 				<div class="new-module mb-3 comModulesSelectCard">
 					<?php // Prepare variables for the link. ?>
