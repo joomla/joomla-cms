@@ -42,14 +42,6 @@
         }
       }
 
-      &:hover,
-      &:focus,
-      &:active {
-        color: $white;
-        text-decoration: none;
-        background: var(--bg-color-hvr);
-      }
-
       .quickicon-name {
         padding: .25rem 0 .6rem;
         font-size: $display2-size;
@@ -69,6 +61,18 @@
         display: block;
         padding: 0 .2rem;
         line-height: 1.1;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $white;
+        text-decoration: none;
+        background: var(--bg-color-hvr);
+
+        .quickicon-amount {
+          background: var(--icon-color);
+        }
       }
 
       &.warning,
