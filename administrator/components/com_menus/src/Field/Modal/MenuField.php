@@ -292,7 +292,7 @@ class MenuField extends FormField
 		if ($this->allowNew)
 		{
 			$html .= '<button'
-				. ' class="btn btn-success' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-bs-toggle="modal"'
 				. ' type="button"'
@@ -318,7 +318,7 @@ class MenuField extends FormField
 		if ($this->allowClear)
 		{
 			$html .= '<button'
-				. ' class="btn btn-danger' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
