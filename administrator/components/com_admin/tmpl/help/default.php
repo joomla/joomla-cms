@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm" class="main-card">
 	<div class="row mt-sm-3">
 		<div id="sidebar" class="col-md-3">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="help-index" aria-expanded="false">
