@@ -302,10 +302,19 @@ abstract class ModuleHelper
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+
+		try
+		{
+			// Build the template and base path for the layout
+			$tPath = \JPath::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
+			$bPath = \JPath::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
+		}
+		catch (\Exception $e)
+		{
+			// On error fallback to the default path
+			return $dPath;
+		}
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
