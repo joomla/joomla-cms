@@ -41,7 +41,7 @@ $danger:                           $red;
 $theme-colors: ();
 $theme-colors: map-merge((
   primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
-  secondary:                       $gray-700, //used for btn-secondary
+  secondary:                       $light-blue, //used for btn-secondary
   success:                         $success,
   info:                            $light-blue,
   warning:                         $yellow,
