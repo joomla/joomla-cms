@@ -13,6 +13,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$hideLinks = $app->input->getBool('hidemainmenu');
+
 if (!$multilanguageEnabled)
 {
 	return;
@@ -34,13 +36,6 @@ $modalHTML = HTMLHelper::_(
 
 $app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['type' => 'module', 'defer' => true]);
-
-$hideLinks = $app->input->getBool('hidemainmenu');
-
-if ($hideLinks)
-{
-	return '';
-}
 ?>
 <a data-bs-target="#multiLangModal" class="header-item-content multilanguage" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
 	<div class="header-item-icon">
