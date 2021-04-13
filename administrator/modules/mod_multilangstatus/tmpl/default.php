@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-if (!$multilanguageEnabled)
+if (!$multilanguageEnabled || $hideLinks)
 {
 	return;
 }
