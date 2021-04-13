@@ -110,8 +110,8 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">
-					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?> width="150" height="30">
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?> width="20" height="20">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"

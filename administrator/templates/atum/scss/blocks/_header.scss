@@ -40,6 +40,8 @@
 
         &.logo-collapsed {
           display: inline-block;
+          width: 20px;
+          height: 20px;
         }
       }
     }
@@ -47,6 +49,8 @@
     svg,
     img {
       margin: 0 .35rem;
+      width: 150px;
+      height: 30px;
 
       &.logo-collapsed {
         display: none;

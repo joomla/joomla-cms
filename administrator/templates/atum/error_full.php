@@ -100,8 +100,8 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div class="d-flex align-items-center">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?> width="150" height="30">
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?> width="20" height="20">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 				</a>
 			</div>
 			<jdoc:include type="modules" name="title" />
