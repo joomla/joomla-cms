@@ -168,7 +168,7 @@ class CategoryField extends FormField
 		if ($allowNew)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-success' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-bs-toggle="modal"'
 				. ' type="button"'
@@ -194,7 +194,7 @@ class CategoryField extends FormField
 		if ($allowClear)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-danger' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
