@@ -161,8 +161,8 @@
     z-index: $zindex-alerts;
     padding: 5px 10px;
     margin: 5px;
-    border-radius: 30px;
     background-color: var(--atum-bg-dark);
+    border-radius: 30px;
 
     .toggler-toolbar-icon::before {
       font: normal normal 900 28px/1 "Font Awesome 5 Free";
@@ -176,8 +176,8 @@
   }
 
   .subhead {
-    padding-left: 0;
     padding-right: 0;
+    padding-left: 0;
 
     joomla-toolbar-button,
     .btn-group,
