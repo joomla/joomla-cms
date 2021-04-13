@@ -20,8 +20,8 @@ if ($hideLinks)
 }
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
-	<a class="header-item-content <?php echo ($hideLinks ? 'disabled' : ''); ?>"
-		<?php echo ($hideLinks ? 'disabled' : 'href="' . Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId) . '"'); ?>
+	<a class="header-item-content"
+		href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>"
 		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
 		<div class="header-item-icon">
 			<div class="w-auto">
