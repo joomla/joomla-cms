@@ -17,7 +17,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 if ($hideLinks)
 {
-	return '';
+	return;
 }
 
 $uri   = Uri::getInstance();
