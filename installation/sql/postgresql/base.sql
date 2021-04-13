@@ -372,7 +372,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 
 -- Templates
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
-(0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, 1, '', '{"hue":"hsl(210, 63%, 20%)","bg-light":"#d2d3db","text-dark":"#000000","text-light":"#ffffff","link-color":"#333333","sidebar-link-color":"#132f53","special-color":"#7188b3","monochrome":"0","loginLogo":"","loginLogoAlt":"","logoBrandLarge":"","logoBrandLargeAlt":"","logoBrandSmall":"","logoBrandSmallAlt":""}', '', 0, 0),
+(0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, 1, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', '', 0, 0);
 
 -- Files Extensions
@@ -811,7 +811,7 @@ CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("c
 -- Dumping data for table `#__template_styles`
 --
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "inheritable", "parent", "params") VALUES
-(10, 'atum', 1, '1', 'atum - Default', 0, '', ''),
+(10, 'atum', 1, '1', 'atum - Default', 0, '', '{"hue":"hsl(210, 63%, 20%)","bg-light":"#d2d3db","text-dark":"#000000","text-light":"#ffffff","link-color":"#333333","sidebar-link-color":"#132f53","special-color":"#7188b3","monochrome":"0","loginLogo":"","loginLogoAlt":"","logoBrandLarge":"","logoBrandLargeAlt":"","logoBrandSmall":"","logoBrandSmallAlt":""}'),
 (11, 'cassiopeia', 0, '1', 'cassiopeia - Default', 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
 SELECT setval('#__template_styles_id_seq', 12, false);
