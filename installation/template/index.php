@@ -29,11 +29,11 @@ $this->getWebAssetManager()
 	->useScript('webcomponent.core-loader')
 	->addInlineStyle(':root {
 		--hue: 214;
-    --atum-bg-light: #f0f4fb;
-    --atum-text-dark: #495057;
-    --atum-text-light: #ffffff;
-    --atum-link-color: #2a69b8;
-    --atum-special-color: #001b4c;
+		--atum-bg-light: #f0f4fb;
+		--atum-text-dark: #495057;
+		--atum-text-light: #ffffff;
+		--atum-link-color: #2a69b8;
+		--atum-special-color: #001b4c;
 	}');
 
 
