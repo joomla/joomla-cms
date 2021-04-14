@@ -79,7 +79,6 @@
 		folderFilter="^html"
 	/>
 
-
 	<field
 		name="entity_encoding"
 		type="list"
