@@ -707,10 +707,6 @@ class HtmlDocument extends Document
 		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
 			$template = 'system';
-		}
-
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
 			$file = 'index.php';
 		}
 
