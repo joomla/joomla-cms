@@ -54,21 +54,20 @@ endif;
 		</h4>
 		<div class="main-card card-columns p-4">
 			<?php foreach ($this->items as &$item) : ?>
-				<div class="new-module mb-3 comModulesSelectCard">
-					<?php // Prepare variables for the link. ?>
-					<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
-					<?php $name = $this->escape($item->name); ?>
-					<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-					<div class="new-module-details">
-						<h3 class="new-module-title"><?php echo $name; ?></h3>
-						<p class="card-body new-module-caption p-0">
-							<?php echo $desc; ?>
-						</p>
+				<a href="<?php echo Route::_($link); ?>" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<div class="new-module mb-3 comModulesSelectCard">
+						<?php // Prepare variables for the link. ?>
+						<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
+						<?php $name = $this->escape($item->name); ?>
+						<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+						<div class="new-module-details">
+							<h3 class="new-module-title"><?php echo $name; ?></h3>
+							<p class="card-body new-module-caption p-0">
+								<?php echo $desc; ?>
+							</p>
+						</div>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="new-module-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
-						<span class="icon-plus" aria-hidden="true"></span>
-					</a>
-				</div>
+				</a>
 			<?php endforeach; ?>
 		</div>
 	</div>
