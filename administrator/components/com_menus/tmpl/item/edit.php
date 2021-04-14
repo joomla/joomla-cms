@@ -142,10 +142,6 @@ if ($clientId === 1)
 						echo $this->loadTemplate('container');
 					}
 					?>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3">
 				<div class="card">
 					<div class="card-body">
 					<?php
