@@ -9,7 +9,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,webp,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,WEBP,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
+			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,webp,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,WEBP,XCF,XLS"
 		/>
 
 		<field
