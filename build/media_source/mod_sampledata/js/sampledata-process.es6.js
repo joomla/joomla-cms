@@ -12,8 +12,10 @@ const sampledataAjax = (type, steps, step) => {
   const options = Joomla.getOptions('sample-data');
 
   // Create list
-  const list = document.createElement('li');
+  const list = document.createElement('div');
   list.classList.add(`sampledata-steps-${type}-${step}`);
+  list.setAttribute('role', 'region');
+  list.setAttribute('aria-live', 'polite');
 
   // Create paragraph
   const para = document.createElement('p');
@@ -70,7 +72,7 @@ const sampledataAjax = (type, steps, step) => {
           if (success) {
             Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
           } else {
-            Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
+            Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`, false);
           }
         });
 
@@ -97,17 +99,29 @@ const sampledataAjax = (type, steps, step) => {
               left: 0,
               behavior: 'smooth',
             });
+            SampleData.inProgress = false;
           }
         }
       } else {
         // Display error alert
-        Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] }, `.sampledata-steps-${type}-${step}`);
+        Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] });
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
 
         SampleData.inProgress = false;
       }
     },
     onError: () => {
-      alert('Something went wrong! Please close and reopen the browser and try again!');
+      Joomla.renderMessages({ error: ['Something went wrong! Please close and reopen the browser and try again!'] });
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+      SampleData.inProgress = false;
     },
   });
 };
@@ -123,6 +137,7 @@ const sampledataApply = (element) => {
 
   if (element.getAttribute('data-processed')) {
     alert(Joomla.Text._('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED'));
+    SampleData.inProgress = false;
     return;
   }
 
