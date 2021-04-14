@@ -92,6 +92,11 @@ const sampledataAjax = (type, steps, step) => {
 
             bar.parentNode.removeChild(bar);
             Joomla.renderMessages({ message: [Joomla.Text._('MOD_SAMPLEDATA_COMPLETED')] });
+            window.scroll({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
           }
         }
       } else {
