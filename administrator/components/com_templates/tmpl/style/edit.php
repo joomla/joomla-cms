@@ -34,37 +34,33 @@ $user = Factory::getUser();
 
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<h2 class="card-header">
-						<?php echo Text::_($this->item->template); ?>
-					</h2>
-					<div class="card-body">
-						<div class="info-labels">
-							<span class="badge bg-secondary">
-								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
-							</span>
-						</div>
-						<div>
-							<p><?php echo Text::_($this->item->xml->description); ?></p>
-							<?php
-							$this->fieldset = 'description';
-							$description = LayoutHelper::render('joomla.edit.fieldset', $this);
-							?>
-							<?php if ($description) : ?>
-								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-									</a>
-								</p>
-							<?php endif; ?>
-						</div>
-						<?php
-						$this->fieldset = 'basic';
-						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-						echo $html ? '<hr>' . $html : '';
-						?>
-					</div>
+				<h2>
+					<?php echo Text::_($this->item->template); ?>
+				</h2>
+				<div class="info-labels">
+					<span class="badge bg-secondary">
+						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+					</span>
 				</div>
+				<div>
+					<p><?php echo Text::_($this->item->xml->description); ?></p>
+					<?php
+					$this->fieldset = 'description';
+					$description = LayoutHelper::render('joomla.edit.fieldset', $this);
+					?>
+					<?php if ($description) : ?>
+						<p class="readmore">
+							<a href="#" onclick="document.querySelector('#tab-description').click();">
+								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+							</a>
+						</p>
+					<?php endif; ?>
+				</div>
+				<?php
+				$this->fieldset = 'basic';
+				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+				echo $html ? '<hr>' . $html : '';
+				?>
 			</div>
 			<div class="col-lg-3">
 				<?php
