@@ -428,6 +428,19 @@
 		label="CONFIG_PROXY_SETTINGS_LABEL">
 
 		<field
+			name="behind_loadbalancer"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="proxy_enable"
 			type="radio"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"

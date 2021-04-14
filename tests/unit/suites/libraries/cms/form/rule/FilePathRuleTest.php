@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Rule\FilePathRule;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       __DEPLOY_VERSION__
+ * @since       3.9.26
  */
 class FilePathRuleTest extends TestCase
 {
@@ -24,7 +24,7 @@ class FilePathRuleTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.26
 	 */
 	public function dataTestPaths()
 	{
@@ -77,7 +77,7 @@ class FilePathRuleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.26
 	 * @dataProvider dataTestPaths
 	 */
 	public function testRule($expected, $element, $value)

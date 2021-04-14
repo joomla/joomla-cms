@@ -163,6 +163,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field
