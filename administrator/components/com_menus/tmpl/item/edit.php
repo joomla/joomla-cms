@@ -134,7 +134,47 @@ if ($clientId === 1)
 						$this->form->setFieldAttribute('publish_down', 'showon', '');
 					}
 
-					echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					echo $this->form->renderField('browserNav');
+					echo $this->form->renderField('template_style_id');
+
+					if (!$isModal && $this->item->type == 'container')
+					{
+						echo $this->loadTemplate('container');
+					}
+					?>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card">
+					<div class="card-body">
+					<?php
+						// Set main fields.
+						$this->fields = array(
+							'id',
+							'client_id',
+							'menutype',
+							'parent_id',
+							'menuordering',
+							'published',
+							'home',
+							'publish_up',
+							'publish_down',
+							'access',
+							'language',
+							'note',
+						);
+
+						if ($this->item->type != 'component')
+						{
+							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
+						}
+
+						echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

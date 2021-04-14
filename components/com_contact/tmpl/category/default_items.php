@@ -106,28 +106,28 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							</a>
 							<?php if ($item->published == 0) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JUNPUBLISHED'); ?>
 									</span>
 								</div>
 							<?php endif; ?>
 							<?php if (strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 									</span>
 								</div>
 							<?php endif; ?>
 							<?php if (!is_null($item->publish_down) && strtotime($item->publish_down) < strtotime(Factory::getDate())) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
 								</div
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
-									<span class="badge bg-warning text-dark">
+									<span class="badge bg-warning text-light">
 										<?php echo Text::_('JTRASHED'); ?>
 									</span>
 								</div>

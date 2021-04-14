@@ -48,10 +48,6 @@ $app->getDocument()->addScriptOptions(
 					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
 				</div>
 			</li>
-			<?php // Progress messages ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<ul class="list-unstyled"></ul>
-			</li>
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>

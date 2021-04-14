@@ -1048,15 +1048,7 @@ ENDDATA;
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		if (version_compare(\JVERSION, '3.4.0', 'ge'))
-		{
-			$result = File::upload($tmp_src, $tmp_dest, false, true);
-		}
-		else
-		{
-			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
-			$result = File::upload($tmp_src, $tmp_dest);
-		}
+		$result = File::upload($tmp_src, $tmp_dest, false, true);
 
 		if (!$result)
 		{
