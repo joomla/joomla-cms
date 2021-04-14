@@ -68,9 +68,9 @@ const sampledataAjax = (type, steps, step) => {
 
           // Display success alert
           if (success) {
-            Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`);
+            Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
           } else {
-            Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`);
+            Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
           }
         });
 
@@ -87,6 +87,11 @@ const sampledataAjax = (type, steps, step) => {
           const stepNew = step + 1;
           if (stepNew <= steps) {
             sampledataAjax(type, steps, stepNew);
+          } else {
+            const bar = document.querySelector(`.sampledata-progress-${type}`);
+
+            bar.parentNode.removeChild(bar);
+            Joomla.renderMessages({ message: [Joomla.Text._('MOD_SAMPLEDATA_COMPLETED')] });
           }
         }
       } else {
