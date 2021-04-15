@@ -160,8 +160,6 @@ class FieldModel extends AdminModel
 			return false;
 		}
 
-
-
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
