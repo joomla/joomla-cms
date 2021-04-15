@@ -67,7 +67,7 @@
   , keydown: function (e) {
       var $this
         , $items
-        , $active
+        
         , $parent
         , isActive
         , index
