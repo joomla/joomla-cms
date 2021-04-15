@@ -181,7 +181,6 @@ class Image
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
 
-		//
 		/**
 		 * Get the image file information.
 		 * Must use @ Error Suppressor here to avoid "Notice: getimagesize(): Error reading from" message on invalid image.
