@@ -165,12 +165,19 @@ class FieldModel extends AdminModel
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
 
-		if ($data['use_in_subform'])
+		/**
+		 * If the field is only use in subform, set Category to None automatically so that it will only be displayed
+		 * as part of SubForm on add/edit item screen
+		 */
+		if ($data['only_use_in_subform'])
 		{
-			$cats=[-1];
+			$cats = [-1];
+		}
+		else
+		{
+			$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+			$cats = ArrayHelper::toInteger($cats);
 		}
 
 		$assignedCatIds = array();

@@ -1,1 +1,1 @@
-ALTER TABLE `#__fields` ADD `use_in_subform` tinyint(3) NOT NULL DEFAULT 0;
+ALTER TABLE `#__fields` ADD `only_use_in_subform` tinyint(1) NOT NULL DEFAULT 0;

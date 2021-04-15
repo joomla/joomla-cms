@@ -158,10 +158,10 @@ if ($saveOrder && !empty($this->items))
 													<?php endif; ?>
 												</div>
 											<?php endif; ?>
-											<?php if ($item->use_in_subform) : ?>
-                                                <div class="small badge bg-secondary">
-                                                    Subform Only
-                                                </div>
+											<?php if ($item->only_use_in_subform) : ?>
+												<div class="small badge bg-secondary">
+													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_ON_SUBFORM_BADGE'); ?>
+												</div>
 											<?php endif; ?>
 										</div>
 									</th>

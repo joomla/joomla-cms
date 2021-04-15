@@ -49,7 +49,7 @@ class FieldsModel extends ListModel
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
-				'use_in_subform',
+				'only_use_in_subform',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -148,7 +148,7 @@ class FieldsModel extends ListModel
 				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required, a.use_in_subform'
+				', a.label, a.description, a.required, a.only_use_in_subform'
 			)
 		);
 		$query->from('#__fields AS a');
@@ -349,13 +349,13 @@ class FieldsModel extends ListModel
 				->bind(':groupid', $groupId, ParameterType::INTEGER);
 		}
 
-		$useInSubform = $this->getState('filter.use_in_subform');
+		$onlyUseInSubForm = $this->getState('filter.only_use_in_subform');
 
-		if (is_numeric($useInSubform))
+		if (is_numeric($onlyUseInSubForm))
 		{
-			$useInSubform = (int) $useInSubform;
-			$query->where($db->quoteName('a.use_in_subform') . ' = :use_in_subform')
-				->bind(':use_in_subform', $useInSubform, ParameterType::INTEGER);
+			$onlyUseInSubForm = (int) $onlyUseInSubForm;
+			$query->where($db->quoteName('a.only_use_in_subform') . ' = :only_use_in_subform')
+				->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
