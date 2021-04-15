@@ -71,7 +71,8 @@ class MediaHelper
 		{
 			if ($isImage && \function_exists('exif_imagetype'))
 			{
-				$mime = image_type_to_mime_type(exif_imagetype($file));
+				// Must use @ Error Suppressor here to avoid "Notice: exif_imagetype(): Error reading from" message on invalid image.
+				$mime = image_type_to_mime_type(@exif_imagetype($file));
 			}
 			elseif ($isImage && \function_exists('getimagesize'))
 			{
