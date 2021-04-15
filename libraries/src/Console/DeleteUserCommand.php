@@ -74,8 +74,10 @@ class DeleteUserCommand extends AbstractCommand
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO($input, $output);
-		$this->username = $this->getStringFromOption('username', 'Please enter a username');
+
 		$this->ioStyle->title('Delete users');
+
+		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 
 		$userId = UserHelper::getUserId($this->username);
 		$db = Factory::getDbo();
