@@ -132,7 +132,7 @@ class DeleteUserCommand extends AbstractCommand
 
 		if (!$result)
 		{
-			$this->ioStyle->error("Can't remove " . $this->username . ' form usertable');
+			$this->ioStyle->error("Can't remove " . $this->username . ' from usertable');
 
 			return Command::FAILURE;
 		}
