@@ -3,7 +3,7 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -64,7 +64,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
 					default="none"
 					>
-					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option>
 					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
 					<option value="none">JNO</option>
 				</field>
@@ -223,6 +223,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field

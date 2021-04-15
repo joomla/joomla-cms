@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,14 @@ class Installer extends \JAdapter
 	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
+
+	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  3.9.26
+	 */
+	public $extraQuery = '';
 
 	/**
 	 * Installer instance container.

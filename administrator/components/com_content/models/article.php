@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -413,10 +413,33 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		// Check for existing article.
+		// Object uses for checking edit state permission of article
+		$record = new stdClass;
+		$record->id = $id;
+
+		// Get the category which the article is being added to
+		if (!empty($data['catid']))
+		{
+			$catId = (int) $data['catid'];
+		}
+		else
+		{
+			$catIds  = $form->getValue('catid');
+
+			$catId = is_array($catIds)
+				? (int) reset($catIds)
+				: (int) $catIds;
+
+			if (!$catId)
+			{
+				$catId = (int) $form->getFieldAttribute('catid', 'default', 0);
+			}
+		}
+
+		$record->catid = $catId;
+
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+		if (!$this->canEditState($record))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');

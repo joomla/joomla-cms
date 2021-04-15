@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,12 +114,137 @@ defined('_JEXEC') or die;
 		</tr>
 		</tbody>
 		<tfoot>
-		<tr>
+		<tr id="preupdateCheckWarning">
+			<td colspan="2">
+				<div class="alert ">
+					<h4 class="alert-heading">
+						<?php echo JText::_('WARNING'); ?>
+					</h4>
+					<div class="alert-message">
+						<div class="preupdateCheckIncomplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr id="preupdateCheckCompleteProblems" class="hidden">
+			<td colspan="2">
+				<div class="alert ">
+					<h4 class="alert-heading">
+						<?php echo JText::_('WARNING'); ?>
+					</h4>
+					<div class="alert-message">
+						<div class="preupdateCheckComplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr id="preupdateconfirmation" >
+			<td colspan="2">
+				<label  class="preupdateconfirmation_label label label-warning span12">
+					<h3>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
+					</h3>
+				</label>
+			</td>
+		</tr>
+		<tr id="preupdatecheckheadings">
+			<td colspan="2">
+				<table class="table table-striped">
+					<thead>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_AUTHOR_INFORMATION'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_EXTENSION_AUTHOR_URL'); ?>
+						</th>
+					</thead>
+					<tbody>
+						<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
+							<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
+								<td>
+									<?php echo JText::_($nonCoreCriticalPlugin->name); ?>
+								</td>
+								<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
+									<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+										<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+											<td>
+												<?php echo $nonCoreExtension->name; ?>
+											</td>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								<?php else : ?>
+									<td/>
+								<?php endif; ?>
+								<td>
+									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->author)) : ?>
+									<?php echo JText::_($nonCoreCriticalPlugin->manifest_cache->author); ?>
+									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
+									<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+										<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+										<td>
+											<?php echo $nonCoreExtension->name; ?>
+										</td>
+										<?php endif; ?>
+									<?php endforeach; ?>
+									<?php endif;?>
+								</td>
+								<td>
+									<?php
+									$authorURL = "";
+									if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl))
+									{
+										$authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl;
+									}
+									elseif ($nonCoreCriticalPlugin->package_id > 0)
+									{
+										foreach ($this->nonCoreExtensions as $nonCoreExtension)
+										{
+											if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
+											{
+												$authorURL = $nonCoreExtension->manifest_cache->authorUrl;
+											}
+										}
+									}
+									?>
+									<?php if (!empty($authorURL)) : ?>
+										<a href="<?php echo $authorURL; ?>" target="_blank" >
+											<?php echo $authorURL; ?>
+											<span class="icon-out-2" aria-hidden="true"></span>
+											<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
+										</a>
+									<?php endif;?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr id="preupdatecheckbox" >
 			<td>
-				&nbsp;
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 			</td>
 			<td>
-				<button class="btn btn-primary" type="submit">
+				<input type="checkbox" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
+			</td>
+		</tr>
+
+		<tr>
+			<td >
+				&nbsp;
+			</td>
+			<td >
+				<button class="btn btn-primary disabled submitupdate" type="submit" disabled>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 				</button>
 			</td>

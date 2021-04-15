@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -465,7 +465,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   3.9.26
+	 * @since   3.9.25
 	 */
 	public function validate($form, $data, $group = null)
 	{

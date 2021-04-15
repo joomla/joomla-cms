@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,16 +39,17 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string   $name      The friendly name of the site
-	 * @param   string   $type      The type of site (e.g. collection or extension)
-	 * @param   string   $location  The URI for the site
-	 * @param   boolean  $enabled   If this site is enabled
+	 * @param   string   $name        The friendly name of the site
+	 * @param   string   $type        The type of site (e.g. collection or extension)
+	 * @param   string   $location    The URI for the site
+	 * @param   boolean  $enabled     If this site is enabled
+	 * @param   string   $extraQuery  Any additional request query to use when updating
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	private function addUpdateSite($name, $type, $location, $enabled)
+	private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
 	{
 		$db = JFactory::getDbo();
 
@@ -65,8 +66,23 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$query->clear()
 				->insert('#__update_sites')
-				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
-				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
+				->columns(
+					array(
+						$db->quoteName('name'),
+						$db->quoteName('type'),
+						$db->quoteName('location'),
+						$db->quoteName('enabled'),
+						$db->quoteName('extra_query')
+					)
+				)
+				->values(
+					$db->quote($name) . ', '
+					. $db->quote($type) . ', '
+					// Trim to remove any whitespace from the XML file before saving the location to the db
+					. $db->quote(trim($location)) . ', '
+					. (int) $enabled . ', '
+					. $db->quote($extraQuery)
+				);
 			$db->setQuery($query);
 
 			if ($db->execute())
@@ -247,7 +263,7 @@ class PlgExtensionJoomla extends JPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
+				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true, $this->installer->extraQuery);
 			}
 		}
 		else

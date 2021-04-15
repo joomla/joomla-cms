@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -241,6 +241,8 @@
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -801,6 +803,7 @@
 				if (self.inputField.onchange) {
 					self.inputField.onchange();
 				}
+				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -963,13 +966,13 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24) 
-			{ 
-				hoursEl.value = (hrs == "00") ? "12" : hrs; 
-			} 
-			else 
-			{ 
-				hoursEl.value = hrs; 
+			if (!this.params.time24)
+			{
+				hoursEl.value = (hrs == "00") ? "12" : hrs;
+			}
+			else
+			{
+				hoursEl.value = hrs;
 			}
 
 			/* remove the selected class  for the minutes*/
