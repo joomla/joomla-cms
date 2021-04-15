@@ -1016,14 +1016,14 @@ class InputFilter
 	 */
 	private function cleanPath($source)
 	{
-		$linuxPattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/]+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+		$linuxPattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/]+[A-Za-z0-9_\.-]+)*$/';
 
 		if (preg_match($linuxPattern, $source))
 		{
 			return preg_replace('~/+~', '/', $source);
 		}
 
-		$windowsPattern = '/^([A-Za-z]:(\\\\|\/))?[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*((\\\\|\/)+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+		$windowsPattern = '/^([A-Za-z]:(\\\\|\/))?[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*((\\\\|\/)+[A-Za-z0-9_\.-]+)*$/';
 
 		if (preg_match($windowsPattern, $source))
 		{
