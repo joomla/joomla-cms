@@ -21,13 +21,13 @@ class SearchHelperTest extends TestCase
 			SearchHelper::remove_accents('This "is a" test')
 		);
 
-		// test single quotes.
+		// Test single quotes.
 		$this->assertEquals(
 			"The 'Ledger' Contents may settle during",
 			SearchHelper::remove_accents("The 'Ledger' Contents may settle during")
 		);
 
-		// Test other
+		// Test other...
 		$this->assertEquals(
 			"ue => ue, ae => ae, ae => ae, et cetera",
 			SearchHelper::remove_accents("ü => ue, ä => ae, æ => ae, et cetera")
