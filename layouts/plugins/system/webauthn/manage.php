@@ -64,7 +64,7 @@ if ($displayData['allow_add'] === false)
 }
 
 // Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
-if (!$error && (function_exists('gmp_intval') === false) && (function_exists('bccomp') === false))
+if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false)
 {
 	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
 	$allow_add = false;
