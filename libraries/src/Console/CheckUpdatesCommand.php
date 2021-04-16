@@ -56,6 +56,7 @@ class CheckUpdatesCommand extends AbstractCommand
 
 		// Find all updates
 		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
+
 		if ($ret)
 		{
 			$symfonyStyle->note('There are available updates to apply');
