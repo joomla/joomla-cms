@@ -4,6 +4,7 @@
  * @subpackage encrypt
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 defined('FOF_INCLUDED') or die;
 
@@ -20,7 +21,14 @@ class FOFEncryptTotp
 
 	private $_pinModulo;
 
-	private $_secretLength = 10;
+	/**
+	 * The length of the secret in bytes.
+	 * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
+	 * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
+	 *
+	 * @var integer
+	 */
+	private $_secretLength = 20;
 
 	private $_timeStep = 30;
 
@@ -164,16 +172,14 @@ class FOFEncryptTotp
 	 * Generates a (semi-)random Secret Key for TOTP generation
 	 *
 	 * @return  string
+	 *
+	 * @note Since 3.9.25 we use the secure method "random_bytes" over the original insecure "rand" function.
+	 *       The random_bytes function has been backported to outdated PHP versions by the core shipped library paragonie/random_compat
 	 */
 	public function generateSecret()
 	{
-		$secret = "";
+		$secret = random_bytes($this->_secretLength);
 
-		for ($i = 1; $i <= $this->_secretLength; $i++)
-		{
-			$c = rand(0, 255);
-			$secret .= pack("c", $c);
-		}
 		$base32 = new FOFEncryptBase32;
 
 		return $this->_base32->encode($secret);

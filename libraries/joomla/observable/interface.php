@@ -36,8 +36,8 @@ interface JObservableInterface
 {
 	/**
 	 * Adds an observer to this JObservableInterface instance.
-	 * Ideally, this method should be called fron the constructor of JObserverInterface
-	 * which should be instanciated by JObserverMapper.
+	 * Ideally, this method should be called from the constructor of JObserverInterface
+	 * which should be instantiated by JObserverMapper.
 	 * The implementation of this function can use JObserverUpdater
 	 *
 	 * @param   JObserverInterface  $observer  The observer to attach to $this observable subject

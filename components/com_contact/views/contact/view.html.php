@@ -41,7 +41,7 @@ class ContactViewContact extends JViewLegacy
 	protected $item;
 
 	/**
-	 * The page to return to on sumission
+	 * The page to return to on submission
 	 *
 	 * @var         string
 	 * @since       1.6

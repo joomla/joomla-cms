@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Menus Menu Item TYpes View.
+ * The HTML Menus Menu Item Types View.
  *
  * @since  1.6
  */

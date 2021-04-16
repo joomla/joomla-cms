@@ -897,7 +897,7 @@ class Access
 	 *
 	 * @param   integer  $groupId  Id of the group for which to get the title of.
 	 *
-	 * @return  string  Tthe title of the group
+	 * @return  string   The title of the group
 	 *
 	 * @since   3.5
 	 */

@@ -111,7 +111,7 @@ class LanguagesModelStrings extends JModelLegacy
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array  Array of resuls on success, Exception object otherwise.
+	 * @return  array  Array of results on success, Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */

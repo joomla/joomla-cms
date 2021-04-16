@@ -12,7 +12,7 @@ $options = array(
 	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 
@@ -39,7 +39,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					<div id="batch-choose-action" class="combo controls">
 						<select name="batch[category_id]" id="batch-category-id">
 							<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
-							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
+							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $this->state->get('filter.published')))); ?>
 						</select>
 					</div>
 				</div>

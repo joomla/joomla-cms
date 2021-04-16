@@ -112,7 +112,7 @@ class JGithubPackageGists extends JGithubPackage
 		// Build the request path.
 		$path = '/gists/' . (int) $gistId;
 
-		// Craete the data object.
+		// Create the data object.
 		$data = new stdClass;
 
 		// If a description is set add it to the data object.

@@ -142,9 +142,12 @@ class JFormFieldModal_Menu extends JFormField
 		{
 			$this->allowSelect = ((string) $this->element['select']) !== 'false';
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
-			$this->allowNew = ((string) $this->element['new']) === 'true';
-			$this->allowEdit = ((string) $this->element['edit']) === 'true';
 			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
+
+			// Creating/editing menu items is not supported in frontend.
+			$isAdministrator = JFactory::getApplication()->isClient('administrator');
+			$this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
+			$this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
 		}
 
 		return $return;

@@ -4,12 +4,14 @@
  * @subpackage  view
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework HTML output class. Together with PHP-based view tempalates
+ * FrameworkOnFramework HTML output class. Together with PHP-based view templates
  * it will render your data into an HTML representation.
  *
  * @package  FrameworkOnFramework
@@ -133,7 +135,7 @@ class FOFViewHtml extends FOFViewRaw
 
 		// Set the document title
 		$title = $params->get('page_title', '');
-		$sitename = $app->getCfg('sitename');
+		$sitename = $app->get('sitename');
 
 		if ($title == $sitename)
 		{
@@ -144,13 +146,13 @@ class FOFViewHtml extends FOFViewRaw
 		{
 			$title = $sitename;
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$document->setTitle($title);

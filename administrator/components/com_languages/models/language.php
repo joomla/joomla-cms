@@ -203,6 +203,14 @@ class LanguagesModelLanguage extends JModelAdmin
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
 		$data['sef'] = JApplicationHelper::stringURLSafe($data['sef']);
 
+		// Prevent saving an empty url language code
+		if ($data['sef'] === '')
+		{
+			$this->setError(JText::_('COM_LANGUAGES_ERROR_SEF'));
+
+			return false;
+		}
+
 		// Bind the data.
 		if (!$table->bind($data))
 		{
@@ -252,14 +260,14 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Custom clean cache method.
 	 *
-	 * @param   string   $group      Optional cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Optional cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('_system');
 		parent::cleanCache('com_languages');

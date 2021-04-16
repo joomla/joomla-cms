@@ -129,6 +129,7 @@ class ConfigControllerComponentSave extends JControllerBase
 				break;
 
 			case 'save':
+				$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 			default:
 				$redirect = 'index.php?option=' . $option;
 

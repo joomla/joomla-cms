@@ -306,7 +306,7 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The filtered result should be an array.'
 		);
 
-		// Test that filtering is occuring (not that all filters work - done in testFilterField).
+		// Test that filtering is occurring (not that all filters work - done in testFilterField).
 
 		$this->assertThat(
 			$filtered['word'],
@@ -759,7 +759,7 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' A group path that does not exist should return an empty array.'
 		);
 
-		// Check that an existant field returns something.
+		// Check that an existent field returns something.
 		$this->assertThat(
 			count($form->findGroup('params.cache')),
 			$this->equalTo(1),

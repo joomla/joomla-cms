@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Pagebreak buton
+ * Editor Pagebreak button
  *
  * @since  1.5
  */

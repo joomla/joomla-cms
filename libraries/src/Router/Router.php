@@ -235,7 +235,7 @@ class Router
 		if (strlen($uri->getPath()) > 0 && array_key_exists('option', $vars)
 			&& ComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
 		{
-			throw new RouteNotFoundException('URL invalid');
+			throw new RouteNotFoundException(\JText::_('JERROR_PAGE_NOT_FOUND'));
 		}
 
 		return array_merge($this->getVars(), $vars);

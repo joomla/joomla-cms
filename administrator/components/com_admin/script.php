@@ -1519,7 +1519,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
 			'/media/mod_languages/images/km_kr.gif',
-			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
 			'/plugins/editors/codemirror/styles.min.css',
 
@@ -1539,7 +1538,6 @@ class JoomlaInstallerScript
 			'/libraries/simplepie/idn/idna_convert.class.php',
 			'/libraries/simplepie/idn/npdata.ser',
 			'/libraries/simplepie/simplepie.php',
-			'/media/mod_languages/images/si_lk.gif',
 			'/media/system/js/permissions.min.js',
 			'/plugins/editors/tinymce/fields/skins.php',
 			'/plugins/user/profile/fields/dob.php',
@@ -2033,6 +2031,26 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.17
 			'/administrator/components/com_templates/controllers/template.php.orig',
+
+			// Joomla! 3.9.21
+			'/.github/SECURITY.md',
+
+			// Joomla! 3.9.23
+			'/.drone.jsonnet',
+
+			// Joomla! added by the 3.9.23-rc1
+			'/libraries/vendor/bin/lessify',
+			'/libraries/vendor/bin/lessify.bat',
+			'/libraries/vendor/bin/plessc',
+			'/libraries/vendor/bin/plessc.bat',
+			'/libraries/vendor/joomla/archive/.drone.jsonnet',
+			'/libraries/vendor/joomla/archive/.drone.yml',
+			'/libraries/vendor/joomla/string/.drone.jsonnet',
+			'/libraries/vendor/joomla/string/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/phpunit.xml.dist',
+			'/libraries/vendor/leafo/lessphp/ruleset.xml',
+
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2304,6 +2322,8 @@ class JoomlaInstallerScript
 		{
 			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
+
+		$this->fixFilenameCasing();
 	}
 
 	/**
@@ -2464,11 +2484,17 @@ class JoomlaInstallerScript
 		{
 			$convertedStep1 = 2;
 			$convertedStep2 = 4;
+
+			// The first step has to be repeated if it has not been run (converted = 4 in database)
+			$convertedRequired = 5;
 		}
 		else
 		{
 			$convertedStep1 = 1;
 			$convertedStep2 = 3;
+
+			// All done after step 2
+			$convertedRequired = 3;
 		}
 
 		// Check conversion status in database
@@ -2495,7 +2521,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do, saved conversion status from DB is equal to required final status
-		if ($convertedDB == $convertedStep2)
+		if ($convertedDB == $convertedRequired)
 		{
 			return;
 		}
@@ -2504,7 +2530,7 @@ class JoomlaInstallerScript
 		$hasErrors = false;
 
 		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
-		if ($convertedDB < $convertedStep1)
+		if ($convertedDB < $convertedStep1 || ($convertedRequired == 5 && ($convertedDB == 3 || $convertedDB == 4)))
 		{
 			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
@@ -2591,11 +2617,11 @@ class JoomlaInstallerScript
 					}
 				}
 			}
+		}
 
-			if (!$hasErrors)
-			{
-				$converted = $convertedStep2;
-			}
+		if (!$hasErrors)
+		{
+			$converted = $convertedRequired;
 		}
 
 		if ($doDbFixMsg && $hasErrors)
@@ -2630,5 +2656,68 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.25
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => '/libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+			'/media/mod_languages/images/si_LK.gif' => '/media/mod_languages/images/si_lk.gif',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows or Unix with only the incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+
+				continue;
+			}
+
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
+			{
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . $old);
+				}
+			}
+		}
 	}
 }

@@ -18,7 +18,7 @@
 class JOAuth1ClientInspector extends JOAuth1Client
 {
 	/**
-	 * Mimic verifing credentials.
+	 * Mimic verifying credentials.
 	 *
 	 * @return void
 	 *

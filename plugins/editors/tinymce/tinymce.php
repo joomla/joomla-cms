@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * TinyMCE Editor Plugin
  *
@@ -583,7 +585,11 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = HTMLHelper::_(
+					'script',
+					'editors/tinymce/plugins/dragdrop/plugin.min.js',
+					array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+				);
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -1893,7 +1899,13 @@ class PlgEditorTinymce extends JPlugin
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(
-				array('jdragdrop' => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
+				array(
+					'jdragdrop' => HTMLHelper::_(
+						'script',
+						'editors/tinymce/plugins/dragdrop/plugin.min.js',
+						array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+					),
+				),
 			);
 		}
 

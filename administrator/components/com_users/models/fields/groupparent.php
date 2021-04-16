@@ -75,7 +75,7 @@ class JFormFieldGroupParent extends JFormFieldList
 		}
 
 		// We should not remove any groups when we are creating a new group
-		if (!is_null($currentGroupId))
+		if ($currentGroupId !== null && $currentGroupId !== 0)
 		{
 			// Prevent parenting direct children and children of children of this item.
 			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);

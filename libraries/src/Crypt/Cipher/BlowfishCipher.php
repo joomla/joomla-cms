@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Crypt cipher for Blowfish encryption, decryption and key generation.
  *
  * @since       3.0.0
- * @deprecated  4.0   Without replacment use CryptoCipher
+ * @deprecated  4.0   Without replacement use CryptoCipher
  */
 class BlowfishCipher extends McryptCipher
 {

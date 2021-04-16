@@ -110,7 +110,7 @@ class InstallerModel extends JModelList
 			}
 
 			// Process ordering.
-			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			// Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
 			// Process pagination.

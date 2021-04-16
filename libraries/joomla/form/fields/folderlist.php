@@ -219,6 +219,9 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), '/');
+
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
@@ -227,9 +230,6 @@ class JFormFieldFolderList extends JFormFieldList
 						continue;
 					}
 				}
-
-				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}

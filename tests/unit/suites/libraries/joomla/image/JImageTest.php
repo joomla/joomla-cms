@@ -306,7 +306,7 @@ class JImageTest extends TestCase
 
 		$image->resize(1000, 682, false);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 	}
@@ -331,7 +331,7 @@ class JImageTest extends TestCase
 
 		$image->resize(5, 5, false);
 
-		// Verify that the resizeed image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
 
@@ -654,7 +654,7 @@ class JImageTest extends TestCase
 
 	/**
 	 * Test the JImage::isTransparent method to make sure it gives the correct
-	 * result if the image does not haave an alpha channel.
+	 * result if the image does not have an alpha channel.
 	 *
 	 * @return  void
 	 *
@@ -980,7 +980,7 @@ class JImageTest extends TestCase
 	 * Tests the JImage::sanitizeOffset method.
 	 *
 	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param   integer  $expected  The expected result offset.
 	 *
 	 * @return  void
 	 *
@@ -997,7 +997,7 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Tests the JImage::destory method
+	 * Tests the JImage::destroy method
 	 *
 	 * @return  void
 	 *

@@ -232,7 +232,7 @@ div.current table#filter-config th.acl-groups {
 	text-align: right;
 }
 
-/* -------- Menu Assigments ---------- */
+/* -------- Menu Assignments ---------- */
 div#menu-assignment {
 	clear:right;
 }
@@ -541,7 +541,7 @@ table.adminform tr {
 }
 
 /**
- * Table formating styles
+ * Table formatting styles
  */
 
 	/* Avoid using the width classes. They are here for 3PD Extensions if needed

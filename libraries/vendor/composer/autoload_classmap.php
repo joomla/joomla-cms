@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
@@ -24,6 +25,8 @@ return array(
     'Joomla\\Application\\Web\\WebClient' => $vendorDir . '/joomla/application/src/Web/WebClient.php',
     'Joomla\\Archive\\Archive' => $vendorDir . '/joomla/archive/src/Archive.php',
     'Joomla\\Archive\\Bzip2' => $vendorDir . '/joomla/archive/src/Bzip2.php',
+    'Joomla\\Archive\\Exception\\UnknownArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+    'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
     'Joomla\\Archive\\ExtractableInterface' => $vendorDir . '/joomla/archive/src/ExtractableInterface.php',
     'Joomla\\Archive\\Gzip' => $vendorDir . '/joomla/archive/src/Gzip.php',
     'Joomla\\Archive\\Tar' => $vendorDir . '/joomla/archive/src/Tar.php',

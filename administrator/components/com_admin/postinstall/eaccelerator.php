@@ -73,7 +73,7 @@ function admin_postinstall_eaccelerator_action()
 		return;
 	}
 
-	// Attempt to make the file unwriteable if using FTP.
+	// Attempt to make the file unwriteable if NOT using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
 		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));

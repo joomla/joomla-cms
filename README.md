@@ -1,11 +1,11 @@
-Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) 
 ====================
 
 Build Status
 ---------------------
-| Travis-CI  | Drone-CI | AppVeyor |
-| ------------- | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
+| Drone-CI | AppVeyor |
+| ------------- | ------------- |
+|  [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
 What is this?
 ---------------------
@@ -67,7 +67,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here).
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html).
 * Post questions at [our forums](https://forum.joomla.org).
-* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
+* [Joomla Resources Directory](https://community.joomla.org/service-providers-directory/) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 ---------------------
@@ -86,6 +86,6 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)
