@@ -488,7 +488,11 @@ class PlgSampledataMultilang extends CMSPlugin
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
-		SampledataHelper::unpublish();
+		// If only one language then unpublish the module/plugins
+		if (count(LanguageHelper::getContentLanguages(array(0, 1))) === 1)
+		{
+			SampledataHelper::unpublish();
+		}
 
 		return $response;
 	}
