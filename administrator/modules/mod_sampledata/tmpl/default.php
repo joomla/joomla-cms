@@ -54,9 +54,4 @@ $app->getDocument()->addScriptOptions(
 			</li>
 		<?php endforeach; ?>
 	</ul>
-<?php else : ?>
-	<div class="alert alert-warning">
-		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
-	</div>
 <?php endif; ?>
