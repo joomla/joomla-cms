@@ -14,6 +14,7 @@ module.exports.compile = async (file) => {
     .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
   let compiled;
+
   try {
     compiled = await renderPromise({ file });
   } catch (error) {

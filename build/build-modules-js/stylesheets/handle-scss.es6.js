@@ -15,6 +15,7 @@ module.exports.handleScssFile = async (file) => {
     .replace('.scss', '.css');
 
   let compiled;
+
   try {
     compiled = await renderPromise({ file });
   } catch (error) {
