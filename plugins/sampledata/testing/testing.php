@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper;
 
 /**
  * Sampledata - Testing Plugin
@@ -4535,6 +4536,8 @@ class PlgSampledataTesting extends CMSPlugin
 	{
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
+
+		SampledataHelper::unpublish();
 
 		return $response;
 	}

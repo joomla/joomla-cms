@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
+use Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper;
 
 /**
  * Sampledata - Blog Plugin
@@ -1790,6 +1791,8 @@ class PlgSampledataBlog extends CMSPlugin
 
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
+
+		SampledataHelper::unpublish();
 
 		return $response;
 	}

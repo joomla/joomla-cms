@@ -23,6 +23,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper;
 
 /**
  * Sampledata - Multilang Plugin
@@ -486,6 +487,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
+
+		SampledataHelper::unpublish();
 
 		return $response;
 	}
