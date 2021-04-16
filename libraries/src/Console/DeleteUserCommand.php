@@ -123,7 +123,7 @@ class DeleteUserCommand extends AbstractCommand
 					{
 						$this->ioStyle->error("You can't delete the last active Super User");
 
-						return 1;
+						return Command::FAILURE;
 					}
 				}
 			}
