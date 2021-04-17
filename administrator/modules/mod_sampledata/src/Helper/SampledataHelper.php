@@ -44,6 +44,6 @@ abstract class SampledataHelper
 					]
 				)
 			)
-			->getArgument('result');
+			->getArgument('result') ?? [];
 	}
 }
