@@ -24,7 +24,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 <?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars_decode(htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'), ENT_NOQUOTES); ?>">
-	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
+	<select class="inputbox form-select" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
@@ -71,7 +71,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>

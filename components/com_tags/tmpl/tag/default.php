@@ -47,7 +47,10 @@ $htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
 	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)) : ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
-			<img src="<?php echo htmlspecialchars($this->params->get('tag_list_image'), ENT_QUOTES, 'UTF-8'); ?>" />
+			<?php $alt = empty($this->params->get('tag_list_image_alt')) && empty($this->params->get('tag_list_image_alt_empty'))
+			? ''
+			: 'alt="' . htmlspecialchars($this->params->get('tag_list_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+			<img src="<?php echo htmlspecialchars($this->params->get('tag_list_image'), ENT_QUOTES, 'UTF-8'); ?>" <?php echo $alt; ?>>
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
 			<?php echo HTMLHelper::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>

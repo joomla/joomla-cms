@@ -23,8 +23,8 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			default=""
 			filter="word"
-			showon="caching:1,2">
-		</field>
+			showon="caching:1,2"
+		/>
 
 		<field
 			name="cache_platformprefix"
@@ -33,7 +33,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			filter="integer"
-			showon="caching:1,2">
+			showon="caching:1,2"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -332,7 +333,8 @@
 		<field
 			name="cors"
 			type="radio"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -891,7 +893,8 @@
 			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
 			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
 			filter="path"
-			showon="session_handler:filesystem" />
+			showon="session_handler:filesystem"
+		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -969,6 +972,7 @@
 			filter="integer"
 			showon="session_handler:redis"
 		/>
+
 		<field
 			name="lifetime"
 			type="number"
@@ -1000,7 +1004,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
-			filter="boolean">
+			filter="boolean"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

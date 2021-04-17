@@ -74,7 +74,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
       elements.forEach((element) => {
         element.addEventListener('click', ({ target }) => {
-          const inputElement = target.querySelector('input');
+          const inputElement = document.querySelector(`#${target.getAttribute('for')}`);
           if (inputElement) {
             rotate(parseInt(inputElement.value, 10));
           }

@@ -174,12 +174,12 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-	</fieldset>
+		</fieldset>
 
-	<fieldset name="article"
-		label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
-		addfieldprefix="Joomla\Component\Content\Administrator\Field"
-	>
+		<fieldset name="article"
+			label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 			<field
 				name="show_title"
 				type="list"
@@ -390,7 +390,7 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"

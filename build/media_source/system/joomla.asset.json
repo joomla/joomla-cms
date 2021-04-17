@@ -86,8 +86,7 @@
         "defer": true
       },
       "dependencies": [
-        "core",
-        "punycode"
+        "core"
       ],
       "uri": "system/fields/validate.min.js"
     },

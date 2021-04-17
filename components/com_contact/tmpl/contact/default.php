@@ -35,7 +35,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 		<div class="page-header">
 			<<?php echo $htag; ?>>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+					<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
 			</<?php echo $htag; ?>>
