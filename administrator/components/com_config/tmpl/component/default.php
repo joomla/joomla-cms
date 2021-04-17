@@ -52,7 +52,7 @@ $xml = $this->form->getXml();
 		</div>
 		<?php // End Sidebar ?>
 
-		<div class="col-md-9 mt-2" id="config">
+		<div class="col-md-9" id="config">
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
