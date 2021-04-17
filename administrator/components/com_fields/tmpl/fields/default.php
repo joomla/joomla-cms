@@ -146,6 +146,11 @@ if ($saveOrder && !empty($this->items))
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
+											<?php if ($item->only_use_in_subform) : ?>
+                                                <div class="small badge bg-secondary">
+													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>
+                                                </div>
+											<?php endif; ?>
 											<?php if ($category) : ?>
 												<div class="small">
 													<?php echo Text::_('JCATEGORY') . ': '; ?>
@@ -156,11 +161,6 @@ if ($saveOrder && !empty($this->items))
 														<?php $category_ids = FieldsHelper::getAssignedCategoriesIds($item->id); ?>
 														<?php echo (in_array('-1', $category_ids)) ? Text::_('JNONE') : Text::_('JALL'); ?>
 													<?php endif; ?>
-												</div>
-											<?php endif; ?>
-											<?php if ($item->only_use_in_subform) : ?>
-												<div class="small badge bg-secondary">
-													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>
 												</div>
 											<?php endif; ?>
 										</div>
