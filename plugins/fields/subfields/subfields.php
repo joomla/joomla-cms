@@ -297,7 +297,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 		if ($field_params->get('max_rows'))
 		{
-			$parent_fieldset->setAttribute('max', $field_params->get('max_rows'));
+			$parent_field->setAttribute('max', $field_params->get('max_rows'));
 		}
 
 		// If this field should be repeatable, set some attributes on the modal
