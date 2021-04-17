@@ -18,7 +18,13 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
+			<field
+					name="max_rows"
+					type="number"
+					label="PLG_FIELDS_SUBFIELDS_PARAMS_MAX_ROWS_LABEL"
+					default="0"
+					filter="integer"
+			/>
 			<field
 				name="options"
 				type="subform"
