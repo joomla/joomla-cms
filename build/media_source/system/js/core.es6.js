@@ -525,6 +525,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
    *    onError:   (xhr) => {},           // Callback on the request error
+   *    onComplete: (xhr) => {},          // Callback on the request completed, with/without error
    * }
    *
    * @return XMLHttpRequest|Boolean
@@ -598,6 +599,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
           }
         } else if (newOptions.onError) {
           newOptions.onError.call(window, xhr);
+        }
+
+        if (newOptions.onComplete) {
+          newOptions.onComplete.call(window, xhr);
         }
       };
 
