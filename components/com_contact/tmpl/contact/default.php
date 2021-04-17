@@ -34,7 +34,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<div class="page-header">
 			<h2>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+					<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
 			</h2>

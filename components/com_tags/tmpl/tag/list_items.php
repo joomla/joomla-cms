@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</a>
 								<?php endif; ?>
 								<?php if ($item->core_state == 0) : ?>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JUNPUBLISHED'); ?>
 									</span>
 								<?php endif; ?>

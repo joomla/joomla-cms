@@ -41,16 +41,16 @@ $app->getDocument()->addScriptOptions(
 					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
-			</li>
-			<?php // Progress bar ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<div class="progress">
-					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+				<?php // Progress bar ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none mb-3">
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+					</div>
 				</div>
-			</li>
-			<?php // Progress messages ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<ul class="list-unstyled"></ul>
+				<?php // Progress messages ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none">
+					<ul class="list-unstyled"></ul>
+				</div>
 			</li>
 		<?php endforeach; ?>
 	</ul>
@@ -58,9 +58,4 @@ $app->getDocument()->addScriptOptions(
 		<span class="icon-tasks" aria-hidden="true"></span> <?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?>
 		<span class="visually-hidden"><?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?></span>
 	</a>
-<?php else : ?>
-	<div class="alert alert-warning">
-		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
-	</div>
 <?php endif; ?>
