@@ -48,19 +48,16 @@ use Joomla\CMS\Uri\Uri;
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
 	<?php
-		if (!empty($terms))
-		{
-			$doc = $this->document;
+		$doc = $this->document;
 
-			$doc->getWebAssetManager()->useScript('highlight');
-			$doc->addScriptOptions(
-					'highlight',
-					[[
-							'class'      => 'js-highlight',
-							'highLight'  => $terms,
-					]]
-			);
-		}
+		$doc->getWebAssetManager()->useScript('highlight');
+		$doc->addScriptOptions(
+			'highlight',
+			[[
+					'class'      => 'js-highlight',
+					'highLight'  => $terms,
+			]]
+		);
 	?>
 <?php endif; ?>
 <?php // Display a list of results ?>
