@@ -4,7 +4,7 @@ const { writeFile } = require('fs').promises;
 const { ensureDir } = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const { promisify } = require('util');
+const { promisify } = require('../utils/promisify.es6.js');
 const { render } = require('sass-embedded');
 
 const renderPromise = promisify(render);
