@@ -1,8 +1,6 @@
 // Table
 
 .table {
-  box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
-
   thead {
 
     th {
@@ -75,5 +73,9 @@
     .inactive [class*=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
+  }
+
+  .j-main-container > & {
+    box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
   }
 }
