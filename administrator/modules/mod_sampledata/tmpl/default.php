@@ -54,7 +54,7 @@ $app->getDocument()->addScriptOptions(
 			</li>
 		<?php endforeach; ?>
 	</ul>
-	<a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end">
+	<a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end me-3 mb-3">
 		<span class="icon-tasks" aria-hidden="true"></span> <?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?>
 		<span class="visually-hidden"><?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?></span>
 	</a>
