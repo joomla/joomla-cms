@@ -22,7 +22,7 @@
 					name="max_rows"
 					type="number"
 					label="PLG_FIELDS_SUBFIELDS_PARAMS_MAX_ROWS_LABEL"
-					default="0"
+					default=""
 					filter="integer"
 					showon="repeat:1"
 			/>
