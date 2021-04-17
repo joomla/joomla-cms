@@ -310,7 +310,7 @@ class ArticlesModel extends ListModel
 			// Join on voting table
 			$query->select(
 				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
 						. ' AS ' . $db->quoteName('rating'),
 					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
 				]

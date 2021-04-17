@@ -21,6 +21,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
+$htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
@@ -32,12 +33,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($this->item->name && $tparams->get('show_name')) : ?>
 		<div class="page-header">
-			<h2>
+			<<?php echo $htag; ?>>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+					<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
-			</h2>
+			</<?php echo $htag; ?>>
 		</div>
 	<?php endif; ?>
 
