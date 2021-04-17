@@ -53,7 +53,7 @@ use Joomla\CMS\Uri\Uri;
 			'highlight',
 			[[
 					'class'      => 'js-highlight',
-					'highLight'  => $this->query->highlight,,
+					'highLight'  => $this->query->highlight,
 			]]
 		);
 	?>
