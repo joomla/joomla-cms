@@ -24,6 +24,7 @@
 					label="PLG_FIELDS_SUBFIELDS_PARAMS_MAX_ROWS_LABEL"
 					default="0"
 					filter="integer"
+					showon="repeat:1"
 			/>
 			<field
 				name="options"
