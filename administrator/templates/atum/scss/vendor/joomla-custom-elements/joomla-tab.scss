@@ -35,7 +35,7 @@ joomla-tab {
     padding: 5px 0 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-bottom: 1px solid var(--atum-bg-dark-5);
+    border-bottom: 1px solid var(--atum-bg-dark-7);
 
     li + li {
       margin-left: 1px;
@@ -299,6 +299,6 @@ joomla-tab {
   }
 
   .main-card-columns > * > & {
-    border-left: 1px solid var(--atum-bg-dark-5);
+    border-left: 1px solid var(--atum-bg-dark-7);
   }
 }
