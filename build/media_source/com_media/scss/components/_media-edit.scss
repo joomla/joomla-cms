@@ -37,7 +37,7 @@
   .spacer hr {
     width: 100%;
   }
-  
+
   .form-select {
     min-width: 100%;
   }
@@ -54,12 +54,12 @@
   > div > img {
     padding: 0;
   }
-  
+
   &,
   > *:not(.hidden) {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
 }
 
