@@ -26,14 +26,6 @@
 			</field>
 
 			<field
-				name="page_subheading"
-				type="text"
-				label="JGLOBAL_SUBHEADING_LABEL"
-				description="JGLOBAL_SUBHEADING_DESC"
-				parentclass="stack span-3-inline"
-			/>
-
-			<field
 				name="layout_type"
 				type="hidden"
 				default="blog"
