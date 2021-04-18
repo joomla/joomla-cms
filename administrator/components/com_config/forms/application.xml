@@ -23,8 +23,8 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			default=""
 			filter="word"
-			showon="caching:1,2">
-		</field>
+			showon="caching:1,2"
+		/>
 
 		<field
 			name="cache_platformprefix"
@@ -33,7 +33,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			filter="integer"
-			showon="caching:1,2">
+			showon="caching:1,2"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -151,6 +152,7 @@
 			autocomplete="off"
 			size="30"
 			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -191,6 +193,18 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			hiddenDescription="true"
+			lock="true"
 		/>
 
 		<field
@@ -319,7 +333,8 @@
 		<field
 			name="cors"
 			type="radio"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -331,8 +346,9 @@
 		<field
 			name="cors_allow_origin"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_LABEL"
+			label="Access-Control-Allow-Origin"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			translate_label="false"
 			default="*"
 			showon="cors:1"
 		/>
@@ -340,8 +356,9 @@
 		<field
 			name="cors_allow_headers"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_LABEL"
+			label="Access-Control-Allow-Headers"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			translate_label="false"
 			default="Content-Type,X-Joomla-Token"
 			showon="cors:1"
 		/>
@@ -349,8 +366,9 @@
 		<field
 			name="cors_allow_methods"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_LABEL"
+			label="Access-Control-Allow-Methods"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			translate_label="false"
 			showon="cors:1"
 		/>
 	</fieldset>
@@ -408,7 +426,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
-			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -477,7 +495,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
-			hint="***************"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -656,7 +674,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
-			hint="***************"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -875,7 +893,8 @@
 			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
 			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
 			filter="path"
-			showon="session_handler:filesystem" />
+			showon="session_handler:filesystem"
+		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -942,7 +961,7 @@
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
-			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -953,6 +972,7 @@
 			filter="integer"
 			showon="session_handler:redis"
 		/>
+
 		<field
 			name="lifetime"
 			type="number"
@@ -984,7 +1004,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
-			filter="boolean">
+			filter="boolean"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

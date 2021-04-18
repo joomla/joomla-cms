@@ -43,7 +43,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	/**
 	 * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
 	 *
-	 * @param   JForm         $form  The form to manipulate
+	 * @param   Form          $form  The form to manipulate
 	 * @param   array|object  $data  The data of the form
 	 *
 	 * @return  void
@@ -185,15 +185,8 @@ class PlgFieldsSubfields extends FieldsPlugin
 			// For each row, iterate over all the subfields
 			foreach ($this->getSubfieldsFromField($field) as $subfield)
 			{
-				// Just to be sure, unset this subfields value (and rawvalue)
-				$subfield->rawvalue = $subfield->value = '';
-
-				// If we have data for this field in the current row
-				if (isset($row[$subfield->name]) && $row[$subfield->name])
-				{
-					// Take over the data into our virtual subfield
-					$subfield->rawvalue = $subfield->value = $row[$subfield->name];
-				}
+				// Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
+				$subfield->rawvalue = $subfield->value = isset($row[$subfield->name]) ? $row[$subfield->name] : '';
 
 				// Do we want to render the value of this field, and is the value non-empty?
 				if ($subfield->value !== '' && $subfield->render_values == '1')
@@ -257,7 +250,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @param   \stdClass   $field   The field
 	 * @param   DOMElement  $parent  The original parent element
-	 * @param   JForm       $form    The form
+	 * @param   Form        $form    The form
 	 *
 	 * @return  \DOMElement
 	 *

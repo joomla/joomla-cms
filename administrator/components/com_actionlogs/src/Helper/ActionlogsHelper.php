@@ -340,6 +340,9 @@ class ActionlogsHelper
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
 		}
 
+		// Load plg_system_actionlogs too
+		$lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
+
 		// Load com_privacy too.
 		$lang->load('com_privacy', JPATH_ADMINISTRATOR);
 	}

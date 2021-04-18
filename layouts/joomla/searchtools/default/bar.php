@@ -39,18 +39,12 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					<?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
 				</div>
 				<?php endif; ?>
-				<span class="input-group-append">
-					<label for="filter_search" class="sr-only">
-					<?php if (isset($filters['filter_search']->label)) : ?>
-						<?php echo Text::_($filters['filter_search']->label); ?>
-					<?php else : ?>
-						<?php echo Text::_('JSEARCH_FILTER'); ?>
-					<?php endif; ?>
-					</label>
-					<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
-						<span class="icon-search" aria-hidden="true"></span>
-					</button>
+				<span class="visually-hidden">
+					<?php echo $filters['filter_search']->label; ?>
 				</span>
+				<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
+					<span class="icon-search" aria-hidden="true"></span>
+				</button>
 			</div>
 		</div>
 		<div class="btn-group">

@@ -46,7 +46,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">
 	<nav aria-label="toolbar">
-		<div class="float-right mb-3">
+		<div class="float-end mb-3">
 			<button id="toolbar-load" type="submit" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
 				<span class="icon-upload" aria-hidden="true"></span>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
@@ -72,13 +72,13 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">
-			<caption id="captionTable" class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
 			</caption>
 			<thead>
 				<tr>
 					<td class="w-1 text-center">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
+						<input class="form-check-input" type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
 					<th scope="col" class="w-15">
 						<?php echo Text::_('JDATE'); ?>
@@ -92,7 +92,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" class="w-10 text-right">
+					<th scope="col" class="w-10 text-end">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -102,7 +102,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 			<?php foreach ($this->items as $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="text-center">
-						<?php echo HTMLHelper::_('grid.id', $i, $item->version_id); ?>
+						<?php echo HTMLHelper::_('grid.id', $i, $item->version_id, false, 'cid', 'cb', $item->save_date); ?>
 					</td>
 					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
@@ -110,7 +110,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
-							<span class="icon-star" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('JCURRENT'); ?></span>
+							<span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>
 						<?php endif; ?>
 					</th>
 					<td class="d-none d-md-table-cell">
@@ -132,7 +132,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-right">
+					<td class="text-end">
 						<?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

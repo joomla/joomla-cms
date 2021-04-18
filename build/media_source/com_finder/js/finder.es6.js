@@ -10,7 +10,7 @@
   }
 
   // Handle the autocomplete
-  const onKeyUp = ({ target }) => {
+  const onInputChange = ({ target }) => {
     if (target.value.length > 1) {
       target.awesomplete.list = [];
 
@@ -41,7 +41,7 @@
     const advanced = event.target.querySelector('.js-finder-advanced');
 
     // Disable select boxes with no value selected.
-    if (advanced.length) {
+    if (advanced) {
       const fields = [].slice.call(advanced.querySelectorAll('select'));
 
       fields.forEach((field) => {
@@ -62,7 +62,7 @@
         searchword.awesomplete = new Awesomplete(searchword);
 
         // If the current value is empty, set the previous value.
-        searchword.addEventListener('keyup', onKeyUp);
+        searchword.addEventListener('input', onInputChange);
       }
     });
 

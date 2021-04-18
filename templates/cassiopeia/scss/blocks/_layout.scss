@@ -3,9 +3,13 @@
 .grid-child {
   display: flex;
   width: 100%;
-  max-width: max-width(xl);
+  max-width: max-width(xxl);
   margin-right: auto;
   margin-left: auto;
+}
+
+.mod-custom {
+  position: relative;
 }
 
 .container-header header .site {
@@ -30,20 +34,24 @@
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
+  position: relative;
   padding: 4rem 0;
-
   > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     flex-direction: column;
 
     > * {
       flex: 0 1 auto;
     }
   }
+}
+
+.container-component nav {
+  position: relative;
 }
 
 .container-component,

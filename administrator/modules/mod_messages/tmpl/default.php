@@ -14,12 +14,18 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks)
+{
+	return;
+}
+
 $uri   = Uri::getInstance();
 $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
 ?>
 
 <div class="header-item-content">
-	<a class="d-flex align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
+	<a class="d-flex align-items-stretch" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-envelope" aria-hidden="true"></span>
 		</div>
@@ -27,7 +33,7 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
 		<?php if ($countUnread > 0) : ?>
-			<span class="badge badge-danger"><?php echo $countUnread; ?></span>
+			<span class="badge bg-danger"><?php echo $countUnread; ?></span>
 		<?php endif; ?>
 	</a>
 </div>

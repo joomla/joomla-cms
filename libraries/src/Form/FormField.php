@@ -332,6 +332,14 @@ abstract class FormField
 	protected $showon;
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parentclass;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -450,6 +458,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'parentclass':
 				return $this->$name;
 
 			case 'input':
@@ -514,6 +523,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'parentclass':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -680,6 +690,8 @@ abstract class FormField
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
+		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
+
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
@@ -822,7 +834,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1135,6 +1147,18 @@ abstract class FormField
 			{
 				$subForm = $this->loadSubForm();
 
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
+
 				if ($this->multiple)
 				{
 					$return = array();
@@ -1229,7 +1253,7 @@ abstract class FormField
 		if ($valid !== false && $this instanceof SubformField)
 		{
 			// Load the subform validation rule.
-			$rule = FormHelper::loadRuleType('SubForm');
+			$rule = FormHelper::loadRuleType('Subform');
 
 			try
 			{
@@ -1327,6 +1351,7 @@ abstract class FormField
 			'value'          => $this->value,
 			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
+			'parentclass'    => $this->parentclass,
 		];
 	}
 

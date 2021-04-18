@@ -52,13 +52,13 @@ $isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISH
 	<?php endif; ?>
 
 	<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 	<?php if ($isNotPublishedYet) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
 	<?php if ($isExpired) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
 	<?php if ($canEdit) : ?>

@@ -49,6 +49,21 @@ class FilePathRule extends FormRule
 			return true;
 		}
 
+		// Make sure $value starts with an a-z/A-Z character in ordern to not allow to break out of the current path
+		if (!preg_match("/^[A-Za-z]*$/", substr($value, 0, 1)))
+		{
+			return false;
+		}
+
+		// Check the exclude setting from the xml
+		$exclude = (array) explode('|', (string) $element['exclude']);
+		$path = explode('/', $value);
+
+		if (!empty($exclude) && (in_array(strtolower($path[0]), $exclude) || empty($path[0])))
+		{
+			return false;
+		}
+
 		// Append the root path
 		$value = JPATH_ROOT . '/' . $value;
 

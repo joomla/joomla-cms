@@ -96,13 +96,6 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$option = $this->app->input->getCmd('option');
-
-		if (!$this->checkLoggable($option))
-		{
-			return;
-		}
-
 		$params = ActionlogsHelper::getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
@@ -111,7 +104,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		list(, $contentType) = explode('.', $params->type_alias);
+		list($option, $contentType) = explode('.', $params->type_alias);
+
+		if (!$this->checkLoggable($option))
+		{
+			return;
+		}
 
 		if ($isNew)
 		{
@@ -707,7 +705,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after save user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $table    DataBase Table object
@@ -719,6 +717,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew): void
 	{
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
@@ -751,7 +750,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On deleting user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
 	 * @param   boolean  $success  True if user was successfully stored in the database

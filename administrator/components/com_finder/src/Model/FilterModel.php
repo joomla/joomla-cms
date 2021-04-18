@@ -14,6 +14,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
 
 /**
  * Filter model class for Finder.
@@ -56,7 +57,7 @@ class FilterModel extends AdminModel
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  \Joomla\Component\Finder\Administrator\Table\Filter|boolean  The filter data or false on a failure.
+	 * @return  FilterTable|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */

@@ -712,6 +712,7 @@ class ItemModel extends AdminModel
 		switch ($table->type)
 		{
 			case 'alias':
+			case 'url':
 				$table->component_id = 0;
 				$args = array();
 
@@ -723,13 +724,6 @@ class ItemModel extends AdminModel
 			case 'container':
 				$table->link = '';
 				$table->component_id = 0;
-				break;
-
-			case 'url':
-				$table->component_id = 0;
-
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
 			case 'component':

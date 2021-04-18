@@ -13,6 +13,7 @@ namespace Joomla\Component\Csp\Site\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Csp Controller
@@ -102,7 +103,7 @@ class ReportController extends BaseController
 		}
 
 		// Check the document-uri field
-		$documentUri = (string) $data['document-uri'];
+		$documentUri = (string) ArrayHelper::getValue($data, 'document-uri');
 
 		// Make sure the document-uri is a valid url
 		if (filter_var($documentUri, FILTER_VALIDATE_URL) === false)
@@ -114,7 +115,7 @@ class ReportController extends BaseController
 		$report->document_uri = $parsedDocumentUri['scheme'] . '://' . $parsedDocumentUri['host'];
 
 		// Check the blocked-uri field
-		$blockedUri = (string) $data['blocked-uri'];
+		$blockedUri = (string) ArrayHelper::getValue($data, 'blocked-uri');
 		$report->blocked_uri = false;
 
 		// Check for "eval" or "inline" lets make sure they get reported in the correct way
@@ -143,8 +144,8 @@ class ReportController extends BaseController
 		}
 
 		// Check the violated-directive && effective-directive fields
-		$report->directive = $this->cleanReportDirective((string) $data['violated-directive']);
-		$effectiveDirective = $this->cleanReportDirective((string) $data['effective-directive']);
+		$report->directive = $this->cleanReportDirective((string) ArrayHelper::getValue($data, 'violated-directive', ''));
+		$effectiveDirective = $this->cleanReportDirective((string) ArrayHelper::getValue($data, 'effective-directive', ''));
 
 		// Fallback to the effective-directive when the violated-directive is not set.
 		if ($report->directive === false && $effectiveDirective !== false)

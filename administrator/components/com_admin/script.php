@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -17,6 +18,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
@@ -54,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -233,7 +236,7 @@ class JoomlaInstallerScript
 	protected function uninstallRepeatableFieldsPlugin()
 	{
 		$app = Factory::getApplication();
-		$db = Factory::getDbo();
+		$db  = Factory::getDbo();
 
 		// Check if the plg_fields_repeatable plugin is present
 		$extensionId = $db->setQuery(
@@ -248,6 +251,9 @@ class JoomlaInstallerScript
 		{
 			return;
 		}
+
+		// Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		try
 		{
@@ -279,10 +285,16 @@ class JoomlaInstallerScript
 				 * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
 				 * of the `subfields` type.
 				 */
-				$newFieldparams = array(
+				$newFieldparams = [
 					'repeat'  => '1',
-					'options' => array(),
-				);
+					'options' => [],
+				];
+
+				/**
+				 * This array is used to store the mapping between the name of form fields from Repeatable field
+				 * with ID of the child-fields. It will then be used to migrate data later
+				 */
+				$mapping = [];
 
 				// If this repeatable fields actually had child-fields (normally this is always the case)
 				if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
@@ -305,24 +317,24 @@ class JoomlaInstallerScript
 							 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
 							 * for each of the sub fields of the `repeatable` instance.
 							 */
-							$data = array(
-								'context'       => $row->context,
-								'group_id'      => $row->group_id,
-								'title'         => $oldField->fieldname,
-								'name'          => (
+							$data = [
+								'context'          => $row->context,
+								'group_id'         => $row->group_id,
+								'title'            => $oldField->fieldname,
+								'name'             => (
 									$fieldname_prefix
 									. $oldField->fieldname
 									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
 								),
-								'label'         => $oldField->fieldname,
-								'default_value' => $row->default_value,
-								'type'          => $oldField->fieldtype,
-								'description'   => $row->description,
-								'state'         => '1',
-								'params'        => $row->params,
-								'language'      => '*',
+								'label'            => $oldField->fieldname,
+								'default_value'    => $row->default_value,
+								'type'             => $oldField->fieldtype,
+								'description'      => $row->description,
+								'state'            => '1',
+								'params'           => $row->params,
+								'language'         => '*',
 								'assigned_cat_ids' => [-1],
-							);
+							];
 
 							// `number` is not a valid custom field type, so use `text` instead.
 							if ($data['type'] == 'number')
@@ -375,12 +387,14 @@ class JoomlaInstallerScript
 						}
 
 						// And tell our new `subfields` field about his child
-						$newFieldparams['options'][('option' . $newFieldCount)] = array(
+						$newFieldparams['options'][('option' . $newFieldCount)] = [
 							'customfield'   => $subfield_id,
 							'render_values' => '1',
-						);
+						];
 
 						$newFieldCount++;
+
+						$mapping[$oldField->fieldname] = 'field' . $subfield_id;
 					}
 				}
 
@@ -392,6 +406,67 @@ class JoomlaInstallerScript
 						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
 						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
 				)->execute();
+
+				// Migrate data for this field
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->quoteName('#__fields_values'))
+					->where($db->quoteName('field_id') . ' = ' . $row->id);
+				$db->setQuery($query);
+
+				foreach ($db->loadObjectList() as $rowFieldValue)
+				{
+					// Do not do the version if no data is entered for the custom field this item
+					if (!$rowFieldValue->value)
+					{
+						continue;
+					}
+
+					/**
+					 * Here we will have to update the stored value of the field to new format
+					 * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
+					 * The key for each sub-field change from name of field to field + ID of the new sub-field
+					 * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
+					 * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
+					 */
+					$newFieldValue = [];
+
+					// Convert to array to change key
+					$fieldValue = json_decode($rowFieldValue->value, true);
+
+					// If data could not be decoded for some reason, ignore
+					if (!$fieldValue)
+					{
+						continue;
+					}
+
+					foreach ($fieldValue as $rowKey => $rowValue)
+					{
+						$rowKey                 = str_replace('repeatable', 'row', $rowKey);
+						$newFieldValue[$rowKey] = [];
+
+						foreach ($rowValue as $subFieldName => $subFieldValue)
+						{
+							if (isset($mapping[$subFieldName]))
+							{
+								$newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
+							}
+							else
+							{
+								// Not found, use the old key to avoid data lost
+								$newFieldValue[$subFieldName] = $subFieldValue;
+							}
+						}
+					}
+
+					$query->clear()
+						->update($db->quoteName('#__fields_values'))
+						->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
+						->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
+						->where($db->quoteName('item_id') . ' =' . $rowFieldValue->item_id);
+					$db->setQuery($query)
+						->execute();
+				}
 			}
 
 			// Now, unprotect the plugin so we can uninstall it
@@ -467,10 +542,24 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return  void
+	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 *
+	 * @return  array
 	 */
-	public function deleteUnexistingFiles()
+	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
+		$status = [
+			'files_exist'     => [],
+			'folders_exist'   => [],
+			'files_deleted'   => [],
+			'folders_deleted' => [],
+			'files_errors'    => [],
+			'folders_errors'  => [],
+			'folders_checked' => [],
+			'files_checked'   => [],
+		];
+
 		$files = array(
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
@@ -478,6 +567,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_actionlogs/controllers/actionlogs.php',
 			'/administrator/components/com_actionlogs/helpers/actionlogs.php',
 			'/administrator/components/com_actionlogs/helpers/actionlogsphp55.php',
+			'/administrator/components/com_actionlogs/layouts/logstable.php',
 			'/administrator/components/com_actionlogs/libraries/actionlogplugin.php',
 			'/administrator/components/com_actionlogs/models/actionlog.php',
 			'/administrator/components/com_actionlogs/models/actionlogs.php',
@@ -534,6 +624,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.3.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.5.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.2-2013-12-22.sql',
@@ -633,8 +724,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.16-2020-03-04.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.19-2020-05-16.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.19-2020-06-01.sql',
-			'/administrator/components/com_admin/sql/updates/mysql/3.9.21-2020-08-02.sql',
-			'/administrator/components/com_admin/sql/updates/mysql/3.9.22-2020-09-16.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.7-2019-04-23.sql',
@@ -652,6 +741,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.3.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.2-2013-12-22.sql',
@@ -746,8 +836,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.16-2020-02-15.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.16-2020-03-04.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.19-2020-06-01.sql',
-			'/administrator/components/com_admin/sql/updates/postgresql/3.9.21-2020-08-02.sql',
-			'/administrator/components/com_admin/sql/updates/postgresql/3.9.22-2020-09-16.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.7-2019-04-23.sql',
@@ -2681,6 +2769,7 @@ class JoomlaInstallerScript
 			'/bin/index.html',
 			'/bin/keychain.php',
 			'/cli/deletefiles.php',
+			'/cli/finder_indexer.php',
 			'/cli/garbagecron.php',
 			'/cli/sessionGc.php',
 			'/cli/sessionMetadataGc.php',
@@ -2926,6 +3015,7 @@ class JoomlaInstallerScript
 			'/components/com_users/helpers/html/users.php',
 			'/components/com_users/helpers/legacyrouter.php',
 			'/components/com_users/helpers/route.php',
+			'/components/com_users/layouts/joomla/form/renderfield.php',
 			'/components/com_users/models/forms/frontend.xml',
 			'/components/com_users/models/forms/frontend_admin.xml',
 			'/components/com_users/models/forms/login.xml',
@@ -3038,8 +3128,6 @@ class JoomlaInstallerScript
 			'/language/en-GB/en-GB.mod_random_image.sys.ini',
 			'/language/en-GB/en-GB.mod_related_items.ini',
 			'/language/en-GB/en-GB.mod_related_items.sys.ini',
-			'/language/en-GB/en-GB.mod_search.ini',
-			'/language/en-GB/en-GB.mod_search.sys.ini',
 			'/language/en-GB/en-GB.mod_stats.ini',
 			'/language/en-GB/en-GB.mod_stats.sys.ini',
 			'/language/en-GB/en-GB.mod_syndicate.ini',
@@ -3829,6 +3917,12 @@ class JoomlaInstallerScript
 			'/media/com_finder/js/autocompleter.js',
 			'/media/com_joomlaupdate/js/json2.js',
 			'/media/com_joomlaupdate/js/json2.min.js',
+			'/media/contacts/images/con_address.png',
+			'/media/contacts/images/con_fax.png',
+			'/media/contacts/images/con_info.png',
+			'/media/contacts/images/con_mobile.png',
+			'/media/contacts/images/con_tel.png',
+			'/media/contacts/images/emailButton.png',
 			'/media/editors/codemirror/LICENSE',
 			'/media/editors/codemirror/addon/comment/comment.js',
 			'/media/editors/codemirror/addon/comment/comment.min.js',
@@ -4760,10 +4854,6 @@ class JoomlaInstallerScript
 			'/modules/mod_menu/helper.php',
 			'/modules/mod_random_image/helper.php',
 			'/modules/mod_related_items/helper.php',
-			'/modules/mod_search/helper.php',
-			'/modules/mod_search/mod_search.php',
-			'/modules/mod_search/mod_search.xml',
-			'/modules/mod_search/tmpl/default.php',
 			'/modules/mod_stats/helper.php',
 			'/modules/mod_syndicate/helper.php',
 			'/modules/mod_tags_popular/helper.php',
@@ -4989,23 +5079,6 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
 			'/templates/system/images/selector-arrow.png',
-			// Joomla 4.0 Beta 2
-			'/administrator/components/com_finder/src/Indexer/Driver/Mysql.php',
-			'/administrator/components/com_finder/src/Indexer/Driver/Postgresql.php',
-			'/administrator/components/com_finder/src/Indexer/Driver/Mysql.php',
-			'/administrator/components/com_finder/src/Indexer/Driver/Postgresql.php',
-			'/administrator/components/com_workflow/access.xml',
-			'/api/components/com_installer/src/Controller/LanguagesController.php',
-			'/api/components/com_installer/src/View/Languages/JsonapiView.php',
-			'/libraries/vendor/joomla/controller/src/AbstractController.php',
-			'/libraries/vendor/joomla/controller/src/ControllerInterface.php',
-			'/libraries/vendor/joomla/controller/LICENSE',
-			'/media/com_users/js/admin-users-user.es6.js',
-			'/media/com_users/js/admin-users-user.es6.min.js',
-			'/media/com_users/js/admin-users-user.es6.min.js.gz',
-			'/media/com_users/js/admin-users-user.js',
-			'/media/com_users/js/admin-users-user.min.js',
-			'/media/com_users/js/admin-users-user.min.js.gz',
 			// Joomla 4.0 Beta 3
 			'/administrator/templates/atum/images/logo.svg',
 			'/administrator/templates/atum/images/logo-blue.svg',
@@ -5016,7 +5089,6 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 5
 			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-11.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-18.sql',
-			'/administrator/components/com_admin/sql/updates/postgresql/3.9.15-2020-01-08.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-11.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-04-18.sql',
 			'/administrator/components/com_config/tmpl/application/default_system.php',
@@ -5027,12 +5099,6 @@ class JoomlaInstallerScript
 			'/cli/finder_indexer.php',
 			'/components/com_users/layouts/joomla/form/renderfield.php',
 			'/libraries/vendor/spomky-labs/base64url/phpstan.neon',
-			'/media/contacts/images/con_address.png',
-			'/media/contacts/images/con_fax.png',
-			'/media/contacts/images/con_info.png',
-			'/media/contacts/images/con_mobile.png',
-			'/media/contacts/images/con_tel.png',
-			'/media/contacts/images/emailButton.png',
 			'/media/plg_system_webauthn/images/webauthn-black.png',
 			'/media/plg_system_webauthn/images/webauthn-color.png',
 			'/media/plg_system_webauthn/images/webauthn-white.png',
@@ -5048,9 +5114,19 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/forms/profile.xml',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
+			'/administrator/components/com_admin/src/Controller/ProfileController.php',
+			'/administrator/components/com_admin/src/Model/ProfileModel.php',
+			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
+			'/administrator/components/com_admin/tmpl/profile/edit.php',
 		);
 
-		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			// Joomla 4.0 Beta 1
 			'/templates/system/images',
@@ -5121,8 +5197,6 @@ class JoomlaInstallerScript
 			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
-			'/modules/mod_search/tmpl',
-			'/modules/mod_search',
 			'/media/system/images/modal',
 			'/media/plg_twofactorauth_totp/js',
 			'/media/plg_twofactorauth_totp',
@@ -5349,6 +5423,8 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/addon',
 			'/media/editors/codemirror',
 			'/media/editors',
+			'/media/contacts/images',
+			'/media/contacts',
 			'/media/com_contenthistory/css',
 			'/media/cms/css',
 			'/media/cms',
@@ -6228,6 +6304,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_actionlogs/models/fields',
 			'/administrator/components/com_actionlogs/models',
 			'/administrator/components/com_actionlogs/libraries',
+			'/administrator/components/com_actionlogs/layouts',
 			'/administrator/components/com_actionlogs/helpers',
 			'/administrator/components/com_actionlogs/controllers',
 			// Joomla 4.0 Beta 2
@@ -6235,29 +6312,71 @@ class JoomlaInstallerScript
 			'/api/components/com_installer/src/View/Languages',
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
-			'/components/com_users/layouts/joomla/form',
-			'/components/com_users/layouts/joomla',
-			'/components/com_users/layouts',
-			'/media/contacts/images',
-			'/media/contacts',
 			'/plugins/content/imagelazyload',
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/tmpl/profile',
 		);
+
+		$status['files_checked'] = $files;
+		$status['folders_checked'] = $folders;
 
 		foreach ($files as $file)
 		{
-			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
+			if ($fileExists = File::exists(JPATH_ROOT . $file))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
+				$status['files_exist'][] = $file;
+
+				if ($dryRun === false)
+				{
+					if (File::delete(JPATH_ROOT . $file))
+					{
+						$status['files_deleted'][] = $file;
+					}
+					else
+					{
+						$status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+					}
+				}
 			}
 		}
 
 		foreach ($folders as $folder)
 		{
-			if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
+			if ($folderExists = Folder::exists(JPATH_ROOT . $folder))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
+				$status['folders_exist'][] = $folder;
+
+				if ($dryRun === false)
+				{
+					// TODO There is an issue while deleting folders using the ftp mode
+					if (Folder::delete(JPATH_ROOT . $folder))
+					{
+						$status['folders_deleted'][] = $folder;
+					}
+					else
+					{
+						$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+					}
+				}
 			}
 		}
+
+		$this->fixFilenameCasing();
+
+		if ($suppressOutput === false && \count($status['folders_errors']))
+		{
+			echo implode('<br>', $status['folders_errors']);
+		}
+
+		if ($suppressOutput === false && \count($status['files_errors']))
+		{
+			echo implode('<br>', $status['files_errors']);
+		}
+
+		return $status;
 	}
 
 	/**
@@ -6602,6 +6721,8 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
+
+		$this->convertBlogLayouts();
 
 		return true;
 	}
@@ -6962,6 +7083,219 @@ class JoomlaInstallerScript
 
 			// Execute the query.
 			$db->execute();
+		}
+	}
+
+	/**
+	 * Converts layout parameters for blog / featured views into the according CSS classes.
+	 *
+	 * @return void
+	 *
+	 * @since 4.0.0
+	 */
+	private function convertBlogLayouts()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('m.id'),
+					$db->quoteName('m.link'),
+					$db->quoteName('m.params'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'm'))
+			->leftJoin($db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('m.component_id'))
+			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
+
+		$menuItems = $db->setQuery($query)->loadAssocList('id');
+		$contentParams = ComponentHelper::getParams('com_content');
+
+		foreach ($menuItems as $id => $menuItem)
+		{
+			$view = Uri::getInstance($menuItem['link'])->getVar('view');
+
+			if (!in_array($view, ['category', 'categories', 'featured']))
+			{
+				continue;
+			}
+
+			$params = json_decode($menuItem['params'], true);
+
+			// Don't update parameters if num_columns is unset.
+			if (!isset($params['num_columns']))
+			{
+				continue;
+			}
+
+			$useLocalCols = $params['num_columns'] !== '';
+
+			if ($useLocalCols)
+			{
+				$nColumns = (int) $params['num_columns'];
+			}
+			else
+			{
+				$nColumns = (int) $contentParams->get('num_columns', '1');
+			}
+
+			unset($params['num_columns']);
+
+			$order = 0;
+			$useLocalOrder = false;
+
+			if (isset($params['multi_column_order']))
+			{
+				if ($params['multi_column_order'] !== '')
+				{
+					$useLocalOrder = true;
+					$order = (int) $params['multi_column_order'];
+				}
+				else
+				{
+					$order = (int) $contentParams->get('multi_column_order', '0');
+				}
+
+				unset($params['multi_column_order']);
+			}
+
+			// Only add CSS class if columns > 1 and a local value was set for columns or order.
+			if ($nColumns > 1 && ($useLocalOrder || $useLocalCols))
+			{
+				// Convert to the according CSS class depending on order = "down" or "across".
+				$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+				if (!isset($params['blog_class']))
+				{
+					$params['blog_class'] = '';
+				}
+
+				if (strpos($params['blog_class'], $layout) === false)
+				{
+					$params['blog_class'] .= ' ' . $layout . $nColumns;
+				}
+			}
+
+			$newParams = json_encode($params);
+
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('params') . ' = :params')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':params', $newParams, ParameterType::STRING)
+				->bind(':id', $id, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
+		}
+
+		// Update global parameters for com_content.
+		$nColumns = $contentParams->get('num_columns');
+
+		if ($nColumns !== null)
+		{
+			$nColumns = (int) $nColumns;
+			$order  = (int) $contentParams->get('multi_column_order', '0');
+			$params = $contentParams->toArray();
+
+			if (!isset($params['blog_class']))
+			{
+				$params['blog_class'] = '';
+			}
+
+			// Convert to the according CSS class depending on order = "down" or "across".
+			$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+			if (strpos($params['blog_class'], $layout) === false && $nColumns > 1)
+			{
+				$params['blog_class'] .= ' ' . $layout . $nColumns;
+			}
+
+			unset($params['num_columns']);
+
+			$app = Factory::getApplication();
+			/** @var ComponentModel $configModel */
+			$configModel = $app->bootComponent('com_config')
+				->getMVCFactory()
+				->createModel('Component', 'Administrator', ['ignore_request' => true]);
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
+
+			$componentId = $db->setQuery($query)->loadResult();
+
+			$data = array(
+				'id'     => $componentId,
+				'option' => 'com_content',
+				'params' => $params,
+			);
+			$configModel->save($data);
+		}
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.25
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			// 3.10 changes
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
+			// 4.0.0
+			'/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows or Unix with only the incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+
+				continue;
+			}
+
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
+			{
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . $old);
+				}
+			}
 		}
 	}
 }

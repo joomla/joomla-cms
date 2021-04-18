@@ -7,7 +7,7 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     position: relative !important;
   }
 
@@ -23,6 +23,7 @@
   .site-description {
     font-size: 1rem;
     color: $white;
+    white-space: normal;
   }
 
   .navbar-brand {
@@ -57,7 +58,7 @@
     justify-content: space-between;
     padding-bottom: $cassiopeia-grid-gutter;
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       .container-search,
       nav {
         margin-top: $cassiopeia-grid-gutter;
@@ -129,7 +130,7 @@
         background: $white;
       }
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         &.active > a,
         &.active > span,
         > a:hover {
@@ -223,12 +224,13 @@
   }
 
   .mod-finder {
+    position: relative;
     display: flex;
     flex: 1 0 20rem;
     max-width: 100%;
 
     > label {
-      @include a11y-visually-hidden();
+      @include visually-hidden();
     }
   }
 }

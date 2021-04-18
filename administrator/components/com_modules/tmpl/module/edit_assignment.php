@@ -26,7 +26,7 @@ $this->document->getWebAssetManager()
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
-		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
+		<select class="form-select" name="jform[assignment]" id="jform_assignment">
 			<?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>
@@ -56,7 +56,7 @@ $this->document->getWebAssetManager()
 						</button>
 					</div>
 					<div role="search" class="flex-grow-1">
-						<label for="treeselectfilter" class="sr-only"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
+						<label for="treeselectfilter" class="visually-hidden"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
 						<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 					</div>
 				</section>
@@ -105,14 +105,14 @@ $this->document->getWebAssetManager()
 												<?php if ($link->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
 												<?php else : ?>
-													<?php echo '<span class="badge badge-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
+													<?php echo '<span class="badge bg-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
 												<?php endif; ?>
 											<?php endif; ?>
 											<?php if ($link->published == 0) : ?>
-												<?php echo ' <span class="badge badge-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
+												<?php echo ' <span class="badge bg-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
 											<?php endif; ?>
 											<?php if ($uselessMenuItem) : ?>
-												<?php echo ' <span class="badge badge-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
+												<?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
 											<?php endif; ?>
 										</label>
 									</div>
@@ -133,9 +133,9 @@ $this->document->getWebAssetManager()
 				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
+							<button type="button" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
-								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+								<span class="visually-hidden"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>
 							<div class="dropdown-menu">
 								<h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>

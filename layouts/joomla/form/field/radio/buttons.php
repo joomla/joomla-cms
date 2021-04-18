@@ -45,14 +45,13 @@ extract($displayData);
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
-$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
-$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
+$classToggle = $isBtnGroup ? ' class="btn-check"' : '';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
 		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
-	) . $classToggle . '"',];
+	) . '"',];
 
 if (!empty($disabled))
 {
@@ -69,11 +68,6 @@ if (!empty($autofocus))
 	$attribs[] = 'autofocus';
 }
 
-if (!empty($dataToggle))
-{
-	$attribs[] = $dataToggle;
-}
-
 if ($readonly || $disabled)
 {
 	$attribs[] = 'style="pointer-events: none"';
@@ -85,6 +79,9 @@ if ($dataAttribute)
 }
 ?>
 <fieldset id="<?php echo $id; ?>" >
+	<legend class="visually-hidden">
+		<?php echo $label; ?>
+	</legend>
 	<div <?php echo implode(' ', $attribs); ?>>
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
@@ -95,22 +92,23 @@ if ($dataAttribute)
 			if ($isBtnYesNo)
 			{
 				// Set the button classes for the yes/no group
-				if ($option->value === "0")
+				switch ($option->value)
 				{
-					$optionClass = 'btn btn-outline-danger';
-				}
-				else
-				{
-					$optionClass = 'btn btn-outline-success';
+					case '0':
+						$btnClass = 'btn btn-outline-danger';
+						break;
+					case '1':
+						$btnClass = 'btn btn-outline-success';
+						break;
+					default:
+						$btnClass = 'btn btn-outline-secondary';
+						break;
 				}
 			}
-			else
-			{
-				$optionClass = !empty($option->class) ? $option->class : $btnClass;
-				$optionClass = trim($optionClass . ' ' . $disabled);
-			}
+
+			$optionClass = !empty($option->class) ? $option->class : $btnClass;
+			$optionClass = trim($optionClass . ' ' . $disabled);
 			$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-			$optionClass .= $checked ? ' active' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
@@ -122,8 +120,8 @@ if ($dataAttribute)
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>
 			<?php endif; ?>
+			<input<?php echo $classToggle; ?> type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 			<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>">
-				<input type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>

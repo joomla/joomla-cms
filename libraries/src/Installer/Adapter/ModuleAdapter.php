@@ -280,7 +280,7 @@ class ModuleAdapter extends InstallerAdapter
 			}
 
 			// Wipe out any instances in the modules table
-			/** @var \JTableModule $module */
+			/** @var \Joomla\CMS\Table\Module $module */
 			$module = Table::getInstance('Module');
 
 			foreach ($modules as $modInstanceId)
@@ -549,7 +549,7 @@ class ModuleAdapter extends InstallerAdapter
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the module's manifest objecct
+		// Get the module's manifest object
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());
@@ -673,7 +673,7 @@ class ModuleAdapter extends InstallerAdapter
 			// Create unpublished module
 			$name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-			/** @var \JTableModule $module */
+			/** @var \Joomla\CMS\Table\Module $module */
 			$module            = Table::getInstance('module');
 			$module->title     = $name;
 			$module->content   = '';

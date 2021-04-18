@@ -190,7 +190,7 @@
       return;
     }
 
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
+    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
 
     Joomla.request({
       url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
@@ -208,7 +208,7 @@
   });
 
   /**
-   * A sipmle Custom Element for adding alt text and controlling
+   * A simple Custom Element for adding alt text and controlling
    * the lazy loading on a selected image
    *
    * Will be rendered only for editor content images
@@ -256,9 +256,7 @@
   <div class="">
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
         <input class="form-control" type="text" id="${this.parentId}-alt" />
       </div>
     </div>
@@ -277,25 +275,19 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-classes" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figclasses" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figcaption" />
       </div>
     </div>
@@ -363,27 +355,3 @@
 
   customElements.define('joomla-field-mediamore', JoomlaFieldMediaOptions);
 })(customElements, Joomla);
-
-// Patch the opening of the modal for XTD buttons
-((Joomla) => {
-  'use strict';
-
-  if (!Joomla) {
-    throw new Error('Joomla API is not properly initiated');
-  }
-
-  if (window.jQuery) {
-    const MediaXTDElements = Joomla.getOptions('xtdImageModal');
-
-    if (MediaXTDElements.length) {
-      MediaXTDElements.forEach((element) => {
-        window.jQuery(`#${element}`).on('show.bs.modal', (ev) => {
-          const addData = ev.target.querySelector('joomla-field-mediamore');
-          if (addData) {
-            addData.parentNode.removeChild(addData);
-          }
-        });
-      });
-    }
-  }
-})(Joomla);

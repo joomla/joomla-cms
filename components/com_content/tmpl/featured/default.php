@@ -20,11 +20,6 @@ defined('_JEXEC') or die;
 		</h1>
 	</div>
 	<?php endif; ?>
-	<?php if ($this->params->get('page_subheading')) : ?>
-		<h2>
-			<?php echo $this->escape($this->params->get('page_subheading')); ?>
-		</h2>
-	<?php endif; ?>
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
@@ -65,7 +60,7 @@ defined('_JEXEC') or die;
 	<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
 		<div class="w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter float-right pt-3 pr-2">
+				<p class="counter float-end pt-3 pe-2">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>

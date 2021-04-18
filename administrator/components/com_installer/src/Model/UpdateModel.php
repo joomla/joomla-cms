@@ -352,7 +352,13 @@ class UpdateModel extends ListModel
 		{
 			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
-			$instance->load($uid);
+
+			if (!$instance->load($uid))
+			{
+				// Update no longer available, maybe already updated by a package.
+				continue;
+			}
+
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 			$update->set('extra_query', $instance->extra_query);
 
@@ -447,7 +453,7 @@ class UpdateModel extends ListModel
 
 		if (empty($package))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
 
 			return false;
 		}

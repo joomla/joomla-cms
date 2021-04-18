@@ -13,10 +13,14 @@ namespace Joomla\Component\Finder\Administrator\View\Searches;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
+
 
 /**
  * View class for a list of search terms.
@@ -94,6 +98,9 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->enabled       = $this->state->params->get('gather_search_statistics', 0);
 		$this->canDo         = ContentHelper::getActions('com_finder');
+		$uri                 = Uri::getInstance();
+		$link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
+		$output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -101,10 +108,10 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Check if plugin is enabled
+		// Check if component is enabled
 		if (!$this->enabled)
 		{
-			$app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
 		}
 
 		// Prepare the view.

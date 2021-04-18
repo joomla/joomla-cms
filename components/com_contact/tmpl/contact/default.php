@@ -21,6 +21,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
+$htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
@@ -32,18 +33,18 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($this->item->name && $tparams->get('show_name')) : ?>
 		<div class="page-header">
-			<h2>
+			<<?php echo $htag; ?>>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+					<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
-			</h2>
+			</<?php echo $htag; ?>>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($canEdit) : ?>
 		<div class="icons">
-			<div class="float-right">
+			<div class="float-end">
 				<div>
 					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
 				</div>
@@ -93,7 +94,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
-			<div class="com-contact__thumbnail thumbnail float-right">
+			<div class="com-contact__thumbnail thumbnail float-end">
 				<?php echo HTMLHelper::_(
 					'image',
 					$this->item->image,
@@ -154,8 +155,8 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 			<dl class="dl-horizontal">
 				<dt>
 					<?php if (!$this->params->get('marker_misc')) : ?>
-						<span class="icon-tags" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span>
+						<span class="visually-hidden"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
 					<?php else : ?>
 						<span class="<?php echo $this->params->get('marker_class'); ?>">
 							<?php echo $this->params->get('marker_misc'); ?>

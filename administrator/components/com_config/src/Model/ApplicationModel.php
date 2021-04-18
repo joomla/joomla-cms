@@ -286,15 +286,6 @@ class ApplicationModel extends FormModel
 			}
 		}
 
-		// Unset all protected config fields to empty
-		foreach ($this->protectedConfigurationFields as $fieldKey)
-		{
-			if (isset($data[$fieldKey]))
-			{
-				$data[$fieldKey] = '';
-			}
-		}
-
 		return $data;
 	}
 
@@ -314,7 +305,7 @@ class ApplicationModel extends FormModel
 		// Try to load the values from the configuration file
 		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
-			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			if (!isset($data[$fieldKey]))
 			{
 				$data[$fieldKey] = $app->get($fieldKey, '');
 			}
@@ -325,7 +316,7 @@ class ApplicationModel extends FormModel
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $app->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
 		);
@@ -732,6 +723,131 @@ class ApplicationModel extends FormModel
 				catch (\RuntimeException $logException)
 				{
 					$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
+				}
+			}
+		}
+
+		/*
+		 * Look for a custom tmp_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultTmpPath = JPATH_ROOT . '/tmp';
+
+		if (!empty($data['tmp_path']))
+		{
+			$path = $data['tmp_path'];
+		}
+		elseif (!empty($prev['tmp_path']))
+		{
+			$path = $prev['tmp_path'];
+		}
+		else
+		{
+			$path = $defaultTmpPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the tmp-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default tmp path
+			if ($path !== $defaultTmpPath && is_dir($defaultTmpPath) && is_writable($defaultTmpPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+
+				$data['tmp_path'] = $defaultTmpPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), 'warning');
+				}
+			}
+		}
+
+		/*
+		 * Look for a custom log_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultLogPath = JPATH_ADMINISTRATOR . '/logs';
+
+		if (!empty($data['log_path']))
+		{
+			$path = $data['log_path'];
+		}
+		elseif (!empty($prev['log_path']))
+		{
+			$path = $prev['log_path'];
+		}
+		else
+		{
+			$path = $defaultLogPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the log-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default log path
+			if ($path !== $defaultLogPath && is_dir($defaultLogPath) && is_writable($defaultLogPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+				$data['log_path'] = $defaultLogPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), 'warning');
 				}
 			}
 		}
@@ -1158,7 +1274,7 @@ class ApplicationModel extends FormModel
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'badge badge-success';
+			$result['class'] = 'badge bg-success';
 			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
@@ -1169,13 +1285,13 @@ class ApplicationModel extends FormModel
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
@@ -1190,13 +1306,13 @@ class ApplicationModel extends FormModel
 			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -1205,7 +1321,7 @@ class ApplicationModel extends FormModel
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -1216,7 +1332,7 @@ class ApplicationModel extends FormModel
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
@@ -1249,7 +1365,7 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
-		$smtppass = $input->get('smtppass', '', 'RAW');
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
@@ -1262,7 +1378,7 @@ class ApplicationModel extends FormModel
 		$app->set('mailonline', $input->get('mailonline'));
 
 		// Use smtppass only if it was submitted
-		if ($smtppass)
+		if ($smtppass !== null)
 		{
 			$app->set('smtppass', $smtppass);
 		}

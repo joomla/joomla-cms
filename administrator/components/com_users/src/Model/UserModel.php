@@ -130,8 +130,10 @@ class UserModel extends AdminModel
 			return false;
 		}
 
+		$user = Factory::getUser();
+
 		// If the user needs to change their password, mark the password fields as required
-		if (Factory::getUser()->requireReset)
+		if ($user->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -143,12 +145,31 @@ class UserModel extends AdminModel
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
-		$userId = $form->getValue('id');
+		$userId = (int) $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
-		if ((int) $userId === (int) Factory::getUser()->id)
+		if ($userId === (int) $user->id)
 		{
 			$form->removeField('requireReset');
+		}
+
+		/**
+		 * If users without core.manage permission editing their own account, remove some fields which they should
+		 * not be allowed to change and prevent them to change user name if configured
+		 */
+		if (!$user->authorise('core.manage', 'com_users') && (int) $user->id === $userId)
+		{
+			if (!ComponentHelper::getParams('com_users')->get('change_login_name'))
+			{
+				$form->setFieldAttribute('username', 'required', 'false');
+				$form->setFieldAttribute('username', 'readonly', 'true');
+				$form->setFieldAttribute('username', 'description', 'COM_USERS_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			}
+
+			$form->removeField('lastResetTime');
+			$form->removeField('resetCount');
+			$form->removeField('sendEmail');
+			$form->removeField('block');
 		}
 
 		return $form;
@@ -257,7 +278,7 @@ class UserModel extends AdminModel
 		}
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
 

@@ -84,7 +84,7 @@ else
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 		<table class="table table-responsive" id="subfieldList">
-			<caption id="captionTable" class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
 			</caption>
 			<thead>
@@ -94,7 +94,7 @@ else
 						<td style="width:8%;">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
-									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+									<button type="button" class="group-add btn btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
 										<span class="icon-plus" aria-hidden="true"></span>
 									</button>
 								</div>

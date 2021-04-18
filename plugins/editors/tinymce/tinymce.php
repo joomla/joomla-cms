@@ -358,7 +358,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
-			// Valid elements are all whitelist entries in com_config, which are now missing in the filter blocked properties
+			// Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
 			$default_filter = InputFilter::getInstance();
 			$valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
@@ -404,6 +404,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'importcss',
+			'quickbars',
 		);
 
 		// Allowed elements
@@ -499,7 +500,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -577,6 +578,11 @@ class PlgEditorTinymce extends CMSPlugin
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
+				// Quickbars
+				'quickbars_image_toolbar'     => false,
+				'quickbars_insert_toolbar'    => false,
+				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
+
 				// Cleanup/Output
 				'inline_styles'    => true,
 				'gecko_spellcheck' => true,
@@ -605,7 +611,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
-				'toolbar_mode'       => 'sliding',
+				'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),
 
 				// Image plugin options
 				'a11y_advanced_options' => true,
@@ -748,17 +754,17 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$filters = $config->get('filters');
 
-		$blackListTags        = array();
-		$blackListAttributes  = array();
+		$forbiddenListTags        = array();
+		$forbiddenListAttributes  = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags        = array();
-		$whiteListAttributes  = array();
+		$allowedListTags        = array();
+		$allowedListAttributes  = array();
 
-		$whiteList  = false;
-		$blackList  = false;
+		$allowedList  = false;
+		$forbiddenList  = false;
 		$customList = false;
 		$unfiltered = false;
 
@@ -787,7 +793,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Forbidden or allowed lists.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -814,15 +820,17 @@ class PlgEditorTinymce extends CMSPlugin
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the list of forbidden or allowed tags and attributes.
 				// Each list is cumulative.
-				if ($filterType === 'BL')
+				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				if (in_array($filterType,  ['BL', 'FL']))
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$forbiddenList           = true;
+					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
+					$forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
 				}
-				elseif ($filterType === 'CBL')
+				// "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['CBL', 'CFL']))
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -832,22 +840,23 @@ class PlgEditorTinymce extends CMSPlugin
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType === 'WL')
+				// "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['WL', 'AL']))
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowedList           = true;
+					$allowedListTags       = array_merge($allowedListTags, $tempTags);
+					$allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
+		// Remove duplicates before processing (because the forbidden list uses both sets of arrays).
+		$forbiddenListTags        = array_unique($forbiddenListTags);
+		$forbiddenListAttributes  = array_unique($forbiddenListAttributes);
 		$customListTags       = array_unique($customListTags);
 		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		$allowedListTags        = array_unique($allowedListTags);
+		$allowedListAttributes  = array_unique($allowedListAttributes);
 
 		// Unfiltered assumes first priority.
 		if ($unfiltered)
@@ -857,12 +866,12 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		else
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom forbidden list precedes Default forbidden list.
 			if ($customList)
 			{
 				$filter = InputFilter::getInstance([], [], 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default forbidden tags and attributes
 				if ($customListTags)
 				{
 					$filter->blockedTags = $customListTags;
@@ -873,32 +882,32 @@ class PlgEditorTinymce extends CMSPlugin
 					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// Forbidden list takes second precedence.
+			elseif ($forbiddenList)
 			{
-				// Remove the white-listed tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the forbidden list.
+				$forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
+				$forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
-				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove allowed tags from filter's default forbidden list
+				if ($allowedListTags)
 				{
-					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove allowed attributes from filter's default forbidden list
+				if ($allowedListAttributes)
 				{
-					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// Allowed list take third precedence.
+			elseif ($allowedList)
 			{
 				// Turn off XSS auto clean
-				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -988,6 +997,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+			'help'           => array('label' => 'Help', 'plugin' => 'help'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		];
 
@@ -1017,7 +1027,7 @@ class PlgEditorTinymce extends CMSPlugin
 		];
 
 		$preset['medium'] = array(
-			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
@@ -1034,7 +1044,7 @@ class PlgEditorTinymce extends CMSPlugin
 		);
 
 		$preset['advanced'] = array(
-			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
