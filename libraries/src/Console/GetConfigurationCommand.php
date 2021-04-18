@@ -284,6 +284,14 @@ class GetConfigurationCommand extends AbstractCommand
 		{
 			return 'Not Set';
 		}
+		elseif (\is_array($value))
+		{
+			return \json_encode($value);
+		}
+		elseif (\is_object($value))
+		{
+			return \json_encode(\get_object_vars($value));
+		}
 		else
 		{
 			return $value;
@@ -356,7 +364,7 @@ class GetConfigurationCommand extends AbstractCommand
 			array_walk(
 				$configs,
 				function ($value, $key) use (&$options) {
-					$options[] = [$key, $value];
+					$options[] = [$key, $this->formatConfigValue($value)];
 				}
 			);
 
