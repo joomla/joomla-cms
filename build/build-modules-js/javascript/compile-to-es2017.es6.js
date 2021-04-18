@@ -10,7 +10,7 @@ const { babel } = require('@rollup/plugin-babel');
 const Postcss = require('postcss');
 const { renderSync } = require('sass');
 const { minifyJs } = require('./minify.es6.js');
-const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
+// const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
@@ -98,6 +98,6 @@ module.exports.handleESMFile = async (file) => {
   // eslint-disable-next-line no-console
   console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: ✅ transpiled`);
 
-  await handleESMToLegacy(resolve(`${newPath}.js`));
+  // await handleESMToLegacy(resolve(`${newPath}.js`));
   await minifyJs(resolve(`${newPath}.js`));
 };
