@@ -164,13 +164,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="page_subheading"
-				type="text"
-				label="JGLOBAL_SUBHEADING_LABEL"
-				size="20"
-			/>
-
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS"
