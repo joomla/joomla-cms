@@ -20,6 +20,7 @@ extract($displayData);
 
 ?>
 <div class="setoptions-form-wrapper">
+<?php echo $form->renderField('access'); ?>
 <?php foreach ($form->getGroup('basic') as $field) : ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
