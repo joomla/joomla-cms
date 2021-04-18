@@ -338,6 +338,11 @@ class ModuleAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
+			if (isset($this->getManifest()->element))
+			{
+				return (string) $this->getManifest()->element;
+			}
+
 			if (\count($this->getManifest()->files->children()))
 			{
 				foreach ($this->getManifest()->files->children() as $file)
