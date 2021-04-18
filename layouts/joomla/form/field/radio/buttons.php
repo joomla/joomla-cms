@@ -45,6 +45,7 @@ extract($displayData);
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
+$divClass    = $isBtnGroup ? 'btn-group' : '';
 $classToggle = $isBtnGroup ? 'btn-check' : 'form-check-input';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check-label';
 $blockStart  = $isBtnGroup ? '' : '<div class="form-check">';
@@ -52,7 +53,7 @@ $blockEnd    = $isBtnGroup ? '' : '</div>';
 
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
-		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
+		$divClass . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
 	) . '"',];
 
 if (!empty($disabled))
