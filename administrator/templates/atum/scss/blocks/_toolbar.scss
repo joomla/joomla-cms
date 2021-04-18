@@ -30,7 +30,6 @@
   }
 
   joomla-toolbar-button {
-
     .btn > span,
     .dropdown-item > span {
       margin-inline-end: .5rem;
@@ -97,7 +96,6 @@
         font-weight: 900;
         content: "\f078";
         border: 0;
-
       }
     }
 
@@ -137,6 +135,12 @@
   .dropdown-menu joomla-toolbar-button,
   .btn-group joomla-toolbar-button {
     margin-inline-start: 0;
+  }
+
+  .contentpane & {
+    margin: -15px -15px 0;
+    background-image: none;
+    border-bottom: 1px solid var(--atum-bg-dark-7);
   }
 }
 

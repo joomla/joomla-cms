@@ -8,6 +8,11 @@
   background-color: #fff;
   border-radius: $border-radius;
   box-shadow: $col-box-shadow;
+
+  .contentpane & {
+    margin: 0 -15px;
+    box-shadow: none;
+  }
 }
 
 .media-col-main-panel {
