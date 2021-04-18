@@ -45,9 +45,10 @@ extract($displayData);
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
-$classToggle = $isBtnGroup ? ' class="btn-check"' : '';
+$classToggle = $isBtnGroup ? 'btn-check' : 'form-check-input';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check-label';
-$divClass    = $isBtnYesNo || $isBtnGroup ? 'form-check-inline' : 'form-check';
+$blockStart  = $isBtnGroup ? '' : '<div class="form-check">';
+$blockEnd    = $isBtnGroup ? '' : '</div>';
 
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
@@ -85,7 +86,7 @@ if ($dataAttribute)
 	</legend>
 	<div <?php echo implode(' ', $attribs); ?>>
 		<?php foreach ($options as $i => $option) : ?>
-			<div class="<?php echo $divClass ?>">
+			<?php echo $blockStart; ?>
 				<?php
 				$disabled    = !empty($option->disable) ? 'disabled' : '';
 				$style       = $disabled ? 'style="pointer-events: none"' : '';
@@ -122,11 +123,11 @@ if ($dataAttribute)
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required'; ?>
 				<?php endif; ?>
-				<input<?php echo $classToggle; ?> type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?> class="form-check-input">
+				<input class="<?php echo $classToggle; ?>" type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>"> 
 					<?php echo $option->text; ?>
 				</label>
-			</div>
+			<?php echo $blockEnd; ?>
 		<?php endforeach; ?>
 	</div>
 </fieldset>
