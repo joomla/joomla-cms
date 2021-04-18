@@ -47,7 +47,7 @@ $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
 $classToggle = $isBtnGroup ? ' class="btn-check"' : '';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check-label';
-$divClass	 = $isBtnYesNo || $isBtnGroup ? 'form-check-inline' : 'form-check';
+$divClass    = $isBtnYesNo || $isBtnGroup ? 'form-check-inline' : 'form-check';
 
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
