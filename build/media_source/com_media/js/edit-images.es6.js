@@ -240,54 +240,43 @@ Joomla.UploadFile.exec = (name, data, uploadPath, url, type, stateChangeCallback
   xhr.send(data);
 };
 
-customElements.whenDefined('joomla-tab').then( async () => {
-  const func = () => {
-    const tabsUlElement = document.getElementById('myTab').firstElementChild;
+customElements.whenDefined('joomla-tab').then(async () => {
+  const tabsUlElement = document.getElementById('myTab').firstElementChild;
+  const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
 
-    if (tabsUlElement.tagName !== 'UL') {
-      setTimeout(func, 50);
-      return;
-    }
+  if (links[0]) {
+    activate(links[0].id.replace('tab-attrib-', ''), Joomla.MediaManager.Edit.original);
+  }
 
-    const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
+  // Couple the tabs with the plugin objects
+  links.forEach((link) => {
+    link.addEventListener('joomla.tab.shown', ({ relatedTarget, target }) => {
+      const container = document.getElementById('media-manager-edit-container');
+      if (relatedTarget) {
+        Joomla.MediaManager.Edit[relatedTarget.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
 
-    if (links[0]) {
-      activate(links[0].id.replace('tab-attrib-', ''), Joomla.MediaManager.Edit.original);
-    }
+        // Clear the DOM
+        container.innerHTML = '';
+      }
 
-    // Couple the tabs with the plugin objects
-    links.forEach((link) => {
-      link.addEventListener('joomla.tab.shown', ({ relatedTarget, target }) => {
-        const container = document.getElementById('media-manager-edit-container');
-        if (relatedTarget) {
-          Joomla.MediaManager.Edit[relatedTarget.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
+      let data = Joomla.MediaManager.Edit.current;
 
-          // Clear the DOM
-          container.innerHTML = '';
-        }
+      if (!('contents' in Joomla.MediaManager.Edit.current)) {
+        data = Joomla.MediaManager.Edit.original;
+      }
 
-        let data = Joomla.MediaManager.Edit.current;
+      // Move the container to the correct tab
+      const tab = document.getElementById(target.id.replace('tab-', ''));
+      tab.insertAdjacentElement('beforeend', container);
 
-        if (!('contents' in Joomla.MediaManager.Edit.current)) {
-          data = Joomla.MediaManager.Edit.original;
-        }
-
-        // Move the container to the correct tab
-        const tab = document.getElementById(target.id.replace('tab-', ''));
-        tab.insertAdjacentElement('beforeend', container);
-
-        activate(target.id.replace('tab-attrib-', ''), data);
-      });
-
-      link.click();
+      activate(target.id.replace('tab-attrib-', ''), data);
     });
 
-    if (links[0]) {
-      links[0].click();
-      activate(links[0].id.replace('tab-attrib-', ''), Joomla.MediaManager.Edit.original);
-    }
-  };
+    link.click();
+  });
 
-  // @TODO use promises here
-  setTimeout(func, 50);
+  if (links[0]) {
+    links[0].click();
+    activate(links[0].id.replace('tab-attrib-', ''), Joomla.MediaManager.Edit.original);
+  }
 });
