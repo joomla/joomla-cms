@@ -94,13 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
       },
+
+      mirrorContainer: container,
     })
       .on('drag', () => {
 
       })
       .on('cloned', () => {
-        const el = document.querySelector('.gu-mirror');
-        el.classList.add('table');
+
       })
       .on('drop', () => {
         if (url) {

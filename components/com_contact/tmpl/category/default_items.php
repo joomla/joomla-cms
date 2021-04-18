@@ -59,10 +59,13 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php if ($this->params->get('show_no_contacts', 1)) : ?>
+				<div class="alert alert-info">
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
-			</div>
+				</div>
+			<?php endif; ?>
+
 		<?php else : ?>
 			<table class="com-content-category__table category table table-striped table-bordered table-hover" id="contactList">
 				<caption class="visually-hidden">
@@ -103,28 +106,28 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							</a>
 							<?php if ($item->published == 0) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JUNPUBLISHED'); ?>
 									</span>
 								</div>
 							<?php endif; ?>
 							<?php if (strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 									</span>
 								</div>
 							<?php endif; ?>
 							<?php if (!is_null($item->publish_down) && strtotime($item->publish_down) < strtotime(Factory::getDate())) : ?>
 								<div>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
 								</div
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
-									<span class="badge bg-warning text-dark">
+									<span class="badge bg-warning text-light">
 										<?php echo Text::_('JTRASHED'); ?>
 									</span>
 								</div>

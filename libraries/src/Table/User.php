@@ -170,7 +170,7 @@ class User extends Table
 				->select($this->_db->quoteName('id'))
 				->select($this->_db->quoteName('title'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->whereIn($this->_db->quoteName('id'), $this->groups);
+				->whereIn($this->_db->quoteName('id'), array_values($this->groups));
 			$this->_db->setQuery($query);
 
 			// Set the titles for the user groups.

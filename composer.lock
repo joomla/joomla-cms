@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0955d7ab2dd79ed25e7cb52e299b81ff",
+    "content-hash": "d6ea791308d89b7eb383f389fc52dbc3",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -646,20 +646,20 @@
         },
         {
             "name": "joomla/archive",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-beta5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "d533a68cba5a5d4f3107bb16319fcb7fc226194b"
+                "reference": "fbaba1042083fb73f11575bc9efef3f583c1861d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/d533a68cba5a5d4f3107bb16319fcb7fc226194b",
-                "reference": "d533a68cba5a5d4f3107bb16319fcb7fc226194b",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/fbaba1042083fb73f11575bc9efef3f583c1861d",
+                "reference": "fbaba1042083fb73f11575bc9efef3f583c1861d",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "^1.3|^2.0",
+                "joomla/filesystem": "^2.0@beta",
                 "php": "^7.2.5"
             },
             "require-dev": {
@@ -694,7 +694,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-12-17T15:24:30+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/archive/issues",
+                "source": "https://github.com/joomla-framework/archive/tree/2.0.0-beta5"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-06T12:46:31+00:00"
         },
         {
             "name": "joomla/authentication",
@@ -753,16 +767,16 @@
         },
         {
             "name": "joomla/console",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338"
+                "reference": "972a0cb3d8498eb717e0f9b5fcb4584d41436bb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/355fb82d414e58e30ea9fd870fc211c29f3f6338",
-                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/972a0cb3d8498eb717e0f9b5fcb4584d41436bb9",
+                "reference": "972a0cb3d8498eb717e0f9b5fcb4584d41436bb9",
                 "shasum": ""
             },
             "require": {
@@ -803,7 +817,17 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-28T19:54:55+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-28T14:40:42+00:00"
         },
         {
             "name": "joomla/crypt",
@@ -1082,35 +1106,31 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "1.6.0",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "d8801f18db358b0284675381ab4195acd028b420"
+                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8801f18db358b0284675381ab4195acd028b420",
-                "reference": "d8801f18db358b0284675381ab4195acd028b420",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
+                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.10|~7.0"
+                "php": "^7.2.5"
             },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "mikey179/vfsstream": "~1.0",
-                "paragonie/random_compat": "~1.0|~2.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
-            },
-            "suggest": {
-                "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
+                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/test": "^2.0",
+                "mikey179/vfsstream": "^1.1",
+                "phpunit/phpunit": "^8.5|^9.0"
             },
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -1129,20 +1149,34 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-09-02T09:05:23+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/filesystem/issues",
+                "source": "https://github.com/joomla-framework/filesystem/tree/2.0-dev"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-02T17:35:07+00:00"
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-beta5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6"
+                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8d326ca1862c1cdb5b9b01d6719730b663e411c6",
-                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
+                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
                 "shasum": ""
             },
             "require": {
@@ -1153,7 +1187,7 @@
                 "joomla/language": "<2.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/language": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -1182,7 +1216,17 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-08T23:03:46+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-01T12:25:08+00:00"
         },
         {
             "name": "joomla/http",
@@ -1902,16 +1946,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.16.4",
+            "version": "v1.16.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "c86c717e4bf3c6d98422da5c38bfa7b0f494b04c"
+                "reference": "6d51ee9e94cff14412783785e79a4e7ef97b9d62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/c86c717e4bf3c6d98422da5c38bfa7b0f494b04c",
-                "reference": "c86c717e4bf3c6d98422da5c38bfa7b0f494b04c",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/6d51ee9e94cff14412783785e79a4e7ef97b9d62",
+                "reference": "6d51ee9e94cff14412783785e79a4e7ef97b9d62",
                 "shasum": ""
             },
             "require": {
@@ -1959,7 +2003,7 @@
                 "debug",
                 "debugbar"
             ],
-            "time": "2020-12-07T10:48:48+00:00"
+            "time": "2020-12-07T11:07:24+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -4396,28 +4440,28 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "v2.3.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9"
+                "reference": "04e14f38d4edfcc974114a07d2777d90c98f3d9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/03436ededa67c6e83b9b12defac15384cb399dc9",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/04e14f38d4edfcc974114a07d2777d90c98f3d9c",
+                "reference": "04e14f38d4edfcc974114a07d2777d90c98f3d9c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.5"
+                "symfony/phpunit-bridge": "^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -4444,7 +4488,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2017-05-14T17:21:12+00:00"
+            "time": "2020-09-25T08:01:41+00:00"
         }
     ],
     "packages-dev": [
@@ -8249,6 +8293,7 @@
         "joomla/di": 10,
         "joomla/event": 10,
         "joomla/filter": 10,
+        "joomla/filesystem": 10,
         "joomla/http": 10,
         "joomla/input": 10,
         "joomla/ldap": 10,
@@ -8277,5 +8322,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }

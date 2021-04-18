@@ -242,6 +242,8 @@
 			this.params.onUpdate(this);
 		}
 
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
+
 		if (this.dateClicked) {
 			this.close();
 		} else {
@@ -784,6 +786,7 @@
 				if (self.inputField.onchange) {
 					self.inputField.onchange();
 				}
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {

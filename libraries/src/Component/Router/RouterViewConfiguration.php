@@ -147,7 +147,7 @@ class RouterViewConfiguration
 	 *
 	 * @since   3.5
 	 */
-	public function setParent(RouterViewconfiguration $parent, $parentKey = false)
+	public function setParent(RouterViewconfiguration $parent, $parentKey = null)
 	{
 		if ($this->parent)
 		{
@@ -171,7 +171,7 @@ class RouterViewConfiguration
 		$this->path   = $parent->path;
 		$this->path[] = $this->name;
 
-		$this->parent_key = $parentKey;
+		$this->parent_key = $parentKey ?? false;
 
 		if ($parentKey)
 		{

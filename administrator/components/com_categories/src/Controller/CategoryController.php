@@ -119,6 +119,46 @@ class CategoryController extends FormController
 	}
 
 	/**
+	 * Override parent save method to store form data with right key as expected by edit category page
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		$result = parent::save($key, $urlVar);
+
+		$oldKey = $this->option . '.edit.category.data';
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, $this->app->getUserState($oldKey));
+
+		return $result;
+	}
+
+	/**
+	 * Override cancel method to clear form data for a failed edit action
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel($key);
+
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, null);
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object|null  $model  The model.
@@ -153,6 +193,18 @@ class CategoryController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
+
+		// In case extension is not passed in the URL, get it directly from category instead of default to com_content
+		if (!$this->input->exists('extension') && $recordId > 0)
+		{
+			$table = $this->getModel('Category')->getTable();
+
+			if ($table->load($recordId))
+			{
+				$this->extension = $table->extension;
+			}
+		}
+
 		$append .= '&extension=' . $this->extension;
 
 		return $append;
