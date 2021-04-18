@@ -89,8 +89,8 @@ if ($dataAttribute)
 		<?php foreach ($options as $i => $option) : ?>
 			<?php echo $blockStart; ?>
 				<?php
-				$disabled    = !empty($option->disable) ? 'disabled' : '';
-				$style       = $disabled ? 'style="pointer-events: none"' : '';
+				$disabled = !empty($option->disable) ? 'disabled' : '';
+				$style    = $disabled ? 'style="pointer-events: none"' : '';
 
 				// Initialize some option attributes.
 				if ($isBtnYesNo)
