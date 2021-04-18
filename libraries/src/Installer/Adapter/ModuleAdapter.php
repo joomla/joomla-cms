@@ -338,7 +338,7 @@ class ModuleAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			if (isset($this->getManifest()->element))
+			if ((string) $this->getManifest()->element)
 			{
 				return (string) $this->getManifest()->element;
 			}
