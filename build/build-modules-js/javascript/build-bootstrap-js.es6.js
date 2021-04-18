@@ -169,9 +169,11 @@ module.exports.bootstrapJs = async () => {
 
     // try {
     //   await buildLegacy(inputFolder, 'index.es6.js');
-    //   const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
+    //   const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'),
+    //   { encoding: 'utf8' });
     //   const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
-    //   await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
+    //   await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code,
+    //   { encoding: 'utf8' });
     //   // eslint-disable-next-line no-console
     //   console.log('✅ Legacy done!');
     // } catch (error) {
