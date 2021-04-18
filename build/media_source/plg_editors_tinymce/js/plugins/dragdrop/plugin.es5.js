@@ -130,7 +130,7 @@
       };
 
       reader.readAsDataURL(file);
-    } // Listers for drag and drop
+    } // Listeners for drag and drop
 
 
     if (typeof FormData !== 'undefined') {

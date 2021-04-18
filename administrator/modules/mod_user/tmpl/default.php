@@ -19,7 +19,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 if ($hideLinks)
 {
-	return '';
+	return;
 }
 
 // Load the Bootstrap Dropdown

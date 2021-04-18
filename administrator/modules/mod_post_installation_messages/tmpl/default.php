@@ -16,7 +16,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 if ($hideLinks)
 {
-	return '';
+	return;
 }
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
