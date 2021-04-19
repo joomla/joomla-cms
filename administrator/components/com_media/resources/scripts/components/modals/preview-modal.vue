@@ -10,7 +10,7 @@
     <template #header>
       <h3
         id="previewTitle"
-        class="modal-title"
+        class="modal-title text-light"
       >
         {{ item.name }}
       </h3>
