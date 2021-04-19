@@ -471,66 +471,40 @@ class PlgEditorTinymce extends CMSPlugin
 		if (!empty($allButtons['template']))
 		{
 			// Do we have a custom content_template_path
-			if (!empty($levelParams->get('content_template_path')))
+			$template_path = $levelParams->get('content_template_path');
+			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
+
+			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
 			{
-				$content_template = '/templates/' . $levelParams->get('content_template_path') . '/';
-				foreach (glob(JPATH_ROOT . $content_template . '*.txt') as $filename)
+				$fileinfo      = pathinfo($filepath);
+				$filename      = $fileinfo['filename'];
+				$full_filename = $fileinfo['basename'];
+
+				if ($filename === 'index')
 				{
-					$filename = basename($filename, '.txt');
-
-					if ($filename !== 'index')
-					{
-						$lang        = Factory::getLanguage();
-						$title       = $filename;
-						$description = ' ';
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
-						{
-							$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
-						}
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
-						{
-							$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
-						}
-
-						$templates[] = array(
-							'title' => $title,
-							'description' => $description,
-							'url' => Uri::root(true) . $content_template . $filename . '.txt',
-						);
-					}
+					continue;
 				}
-			}
-			else
-			{
-				foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
+
+				$lang        = Factory::getLanguage();
+				$title       = $filename;
+				$title_upper = strtoupper($filename);
+				$description = ' ';
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
 				{
-					$filename = basename($filename, '.html');
-
-					if ($filename !== 'index')
-					{
-						$lang        = Factory::getLanguage();
-						$title       = $filename;
-						$description = ' ';
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
-						{
-							$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
-						}
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
-						{
-							$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
-						}
-
-						$templates[] = array(
-							'title' => $title,
-							'description' => $description,
-							'url' => Uri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
-						);
-					}
+					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
 				}
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				{
+					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
+				}
+
+				$templates[] = array(
+					'title' => $title,
+					'description' => $description,
+					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
+				);
 			}
 		}
 
