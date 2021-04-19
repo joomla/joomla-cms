@@ -55,15 +55,17 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="span6">
-			<div class="control-group">
-				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
-					<?php echo JText::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
-				</label>
-				<?php echo JHtml::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+	<?php if ($extension === 'com_content') : ?>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
+						<?php echo JText::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
+					</label>
+					<?php echo JHtml::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+				</div>
 			</div>
 		</div>
-	</div>
+	<?php endif; ?>
 </div>
 
