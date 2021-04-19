@@ -21,6 +21,7 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>scss</folder>
+		<folder>tinymce</folder>
 	</files>
 	<positions>
 		<position>menu</position>
