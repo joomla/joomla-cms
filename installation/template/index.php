@@ -25,7 +25,7 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert')
+	->useScript('messages')
 	->useScript('webcomponent.core-loader')
 	->addInlineStyle(':root {
 		--hue: 214;
@@ -35,7 +35,6 @@ $this->getWebAssetManager()
 		--atum-link-color: #2a69b8;
 		--atum-special-color: #001b4c;
 	}');
-
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
