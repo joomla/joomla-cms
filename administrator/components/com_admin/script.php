@@ -561,7 +561,7 @@ class JoomlaInstallerScript
 		];
 
 		$files = array(
-			// Joomla 4.0 Beta 1
+			// From 3.10 to 4.0
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
 			'/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -591,7 +591,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/models/profile.php',
 			'/administrator/components/com_admin/models/sysinfo.php',
 			'/administrator/components/com_admin/postinstall/eaccelerator.php',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
 			'/administrator/components/com_admin/postinstall/joomla40checks.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql',
@@ -1273,6 +1275,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_finder/helpers/indexer/driver/mysql.php',
 			'/administrator/components/com_finder/helpers/indexer/driver/postgresql.php',
 			'/administrator/components/com_finder/helpers/indexer/driver/sqlsrv.php',
+			'/administrator/components/com_finder/helpers/indexer/indexer.php',
 			'/administrator/components/com_finder/helpers/indexer/parser/html.php',
 			'/administrator/components/com_finder/helpers/indexer/parser/rtf.php',
 			'/administrator/components/com_finder/helpers/indexer/parser/txt.php',
@@ -3156,6 +3159,7 @@ class JoomlaInstallerScript
 			'/language/en-GB/en-GB.tpl_protostar.ini',
 			'/language/en-GB/en-GB.tpl_protostar.sys.ini',
 			'/language/en-GB/en-GB.xml',
+			'/layouts/joomla/content/blog_style_default_links.php',
 			'/layouts/joomla/content/icons/email.php',
 			'/layouts/joomla/content/icons/print_popup.php',
 			'/layouts/joomla/content/icons/print_screen.php',
@@ -3167,13 +3171,23 @@ class JoomlaInstallerScript
 			'/layouts/joomla/html/formbehavior/chosen.php',
 			'/layouts/joomla/html/sortablelist.php',
 			'/layouts/joomla/html/tag.php',
+			'/layouts/joomla/modal/body.php',
+			'/layouts/joomla/modal/footer.php',
+			'/layouts/joomla/modal/header.php',
+			'/layouts/joomla/modal/iframe.php',
+			'/layouts/joomla/modal/main.php',
 			'/layouts/joomla/sidebars/toggle.php',
 			'/layouts/joomla/tinymce/buttons.php',
 			'/layouts/joomla/tinymce/buttons/button.php',
 			'/layouts/joomla/toolbar/confirm.php',
 			'/layouts/joomla/toolbar/help.php',
+			'/layouts/joomla/toolbar/modal.php',
 			'/layouts/joomla/toolbar/slider.php',
+			'/layouts/libraries/cms/html/bootstrap/addtab.php',
 			'/layouts/libraries/cms/html/bootstrap/addtabscript.php',
+			'/layouts/libraries/cms/html/bootstrap/endtab.php',
+			'/layouts/libraries/cms/html/bootstrap/endtabset.php',
+			'/layouts/libraries/cms/html/bootstrap/starttabset.php',
 			'/layouts/libraries/cms/html/bootstrap/starttabsetscript.php',
 			'/libraries/cms/class/loader.php',
 			'/libraries/cms/html/access.php',
@@ -3808,6 +3822,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/compat/src/CallbackFilterIterator.php',
 			'/libraries/vendor/joomla/compat/src/JsonSerializable.php',
 			'/libraries/vendor/joomla/event/src/DelegatingDispatcher.php',
+			'/libraries/vendor/joomla/filesystem/src/Stream/String.php',
 			'/libraries/vendor/joomla/image/LICENSE',
 			'/libraries/vendor/joomla/image/src/Filter/Backgroundfill.php',
 			'/libraries/vendor/joomla/image/src/Filter/Brightness.php',
@@ -3849,7 +3864,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_mcrypt.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_openssl.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_int.php',
-			'/libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php',
 			'/libraries/vendor/paragonie/sodium_compat/src/Core32/Curve25519/README.md',
 			'/libraries/vendor/phpmailer/phpmailer/PHPMailerAutoload.php',
 			'/libraries/vendor/phpmailer/phpmailer/class.phpmailer.php',
@@ -4764,6 +4778,7 @@ class JoomlaInstallerScript
 			'/media/system/css/adminlist.css',
 			'/media/system/css/jquery.Jcrop.min.css',
 			'/media/system/css/modal.css',
+			'/media/system/css/system.css',
 			'/media/system/images/modal/bg_e.png',
 			'/media/system/images/modal/bg_n.png',
 			'/media/system/images/modal/bg_ne.png',
@@ -4774,6 +4789,10 @@ class JoomlaInstallerScript
 			'/media/system/images/modal/bg_w.png',
 			'/media/system/images/modal/closebox.png',
 			'/media/system/images/modal/spinner.gif',
+			'/media/system/images/notice-alert.png',
+			'/media/system/images/notice-download.png',
+			'/media/system/images/notice-info.png',
+			'/media/system/images/notice-note.png',
 			'/media/system/js/associations-edit-uncompressed.js',
 			'/media/system/js/associations-edit.js',
 			'/media/system/js/calendar-setup-uncompressed.js',
@@ -5081,7 +5100,7 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
 			'/templates/system/images/selector-arrow.png',
-			// Joomla 4.0 Beta 2
+			// 4.0 from Beta 1 to Beta 2
 			'/administrator/components/com_finder/src/Indexer/Driver/Mysql.php',
 			'/administrator/components/com_finder/src/Indexer/Driver/Postgresql.php',
 			'/administrator/components/com_workflow/access.xml',
@@ -5096,14 +5115,14 @@ class JoomlaInstallerScript
 			'/media/com_users/js/admin-users-user.js',
 			'/media/com_users/js/admin-users-user.min.js',
 			'/media/com_users/js/admin-users-user.min.js.gz',
-			// Joomla 4.0 Beta 3
-			'/administrator/templates/atum/images/logo.svg',
+			// 4.0 from Beta 2 to Beta 3
 			'/administrator/templates/atum/images/logo-blue.svg',
 			'/administrator/templates/atum/images/logo-joomla-blue.svg',
 			'/administrator/templates/atum/images/logo-joomla-white.svg',
-			// Joomla 4.0 Beta 4
+			'/administrator/templates/atum/images/logo.svg',
+			// 4.0 from Beta 3 to Beta 4
 			'/components/com_config/src/Model/CmsModel.php',
-			// Joomla 4.0 Beta 5
+			// 4.0 from Beta 4 to Beta 5
 			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-11.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-18.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-11.sql',
@@ -5117,19 +5136,14 @@ class JoomlaInstallerScript
 			'/media/plg_system_webauthn/images/webauthn-black.png',
 			'/media/plg_system_webauthn/images/webauthn-color.png',
 			'/media/plg_system_webauthn/images/webauthn-white.png',
-			'/media/system/css/system.css',
 			'/media/system/css/system.min.css',
 			'/media/system/css/system.min.css.gz',
-			'/media/system/images/notice-alert.png',
-			'/media/system/images/notice-download.png',
-			'/media/system/images/notice-info.png',
-			'/media/system/images/notice-note.png',
 			'/plugins/content/imagelazyload/imagelazyload.php',
 			'/plugins/content/imagelazyload/imagelazyload.xml',
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
-			// Joomla 4.0 Beta 6
+			// 4.0 from Beta 5 to Beta 6
 			'/administrator/modules/mod_multilangstatus/src/Helper/MultilangstatusAdminHelper.php',
 			'/administrator/templates/atum/favicon.ico',
 			'/libraries/vendor/nyholm/psr7/phpstan.baseline.dist',
@@ -5156,18 +5170,7 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/_mixin.scss',
 			'/templates/cassiopeia/scss/_variables.scss',
 			'/templates/cassiopeia/scss/blocks/_demo-styling.scss',
-			// Joomla 4.0 Beta 7
-			'/administrator/components/com_finder/helpers/indexer/indexer.php',
-			'/layouts/joomla/modal/body.php',
-			'/layouts/joomla/modal/footer.php',
-			'/layouts/joomla/modal/header.php',
-			'/layouts/joomla/modal/iframe.php',
-			'/layouts/joomla/modal/main.php',
-			'/layouts/joomla/toolbar/modal.php',
-			'/layouts/libraries/cms/html/bootstrap/addtab.php',
-			'/layouts/libraries/cms/html/bootstrap/endtab.php',
-			'/layouts/libraries/cms/html/bootstrap/endtabset.php',
-			'/layouts/libraries/cms/html/bootstrap/starttabset.php',
+			// 4.0 from Beta 6 to Beta 7
 			'/media/legacy/js/bootstrap-init.js',
 			'/media/legacy/js/bootstrap-init.min.js',
 			'/media/legacy/js/bootstrap-init.min.js.gz',
@@ -5217,19 +5220,15 @@ class JoomlaInstallerScript
 			'/media/vendor/bootstrap/scss/utilities/_stretched-link.scss',
 			'/media/vendor/bootstrap/scss/utilities/_text.scss',
 			'/media/vendor/bootstrap/scss/utilities/_visibility.scss',
-			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
-			// Joomla 4.0 Beta 8
+			'/media/vendor/skipto/js/dropMenu.js',
+			// 4.0 from Beta 7 to Beta 8
 			'/administrator/components/com_admin/forms/profile.xml',
-			'/administrator/components/com_admin/postinstall/htaccess.php',
-			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 			'/administrator/components/com_admin/src/Controller/ProfileController.php',
 			'/administrator/components/com_admin/src/Model/ProfileModel.php',
 			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
 			'/administrator/components/com_admin/tmpl/profile/edit.php',
 			'/components/com_menus/src/Controller/DisplayController.php',
-			'/layouts/joomla/content/blog_style_default_links.php',
-			'/libraries/vendor/joomla/filesystem/src/Stream/String.php',
 			'/libraries/vendor/willdurand/negotiation/src/Negotiation/Match.php',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.js',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.min.js',
@@ -5633,7 +5632,7 @@ class JoomlaInstallerScript
 		);
 
 		$folders = array(
-			// Joomla 4.0 Beta 1
+			// From 3.10 to 4.0
 			'/templates/system/images',
 			'/templates/system/html',
 			'/templates/protostar/less',
@@ -5928,6 +5927,8 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/addon',
 			'/media/editors/codemirror',
 			'/media/editors',
+			'/media/contacts/images',
+			'/media/contacts',
 			'/media/com_contenthistory/css',
 			'/media/cms/css',
 			'/media/cms',
@@ -6120,7 +6121,11 @@ class JoomlaInstallerScript
 			'/libraries/cms/html',
 			'/libraries/cms/class',
 			'/libraries/cms',
+			'/layouts/libraries/cms/html/bootstrap',
+			'/layouts/libraries/cms/html',
+			'/layouts/libraries/cms',
 			'/layouts/joomla/tinymce/buttons',
+			'/layouts/joomla/modal',
 			'/layouts/joomla/html/formbehavior',
 			'/components/com_wrapper/views/wrapper/tmpl',
 			'/components/com_wrapper/views/wrapper',
@@ -6139,6 +6144,9 @@ class JoomlaInstallerScript
 			'/components/com_users/models/rules',
 			'/components/com_users/models/forms',
 			'/components/com_users/models',
+			'/components/com_users/layouts/joomla/form',
+			'/components/com_users/layouts/joomla',
+			'/components/com_users/layouts',
 			'/components/com_users/helpers/html',
 			'/components/com_users/helpers',
 			'/components/com_users/controllers',
@@ -6804,32 +6812,23 @@ class JoomlaInstallerScript
 			'/administrator/components/com_actionlogs/models/fields',
 			'/administrator/components/com_actionlogs/models',
 			'/administrator/components/com_actionlogs/libraries',
+			'/administrator/components/com_actionlogs/layouts',
 			'/administrator/components/com_actionlogs/helpers',
 			'/administrator/components/com_actionlogs/controllers',
-			// Joomla 4.0 Beta 2
+			// 4.0 from Beta 1 to Beta 2
 			'/libraries/vendor/joomla/controller/src',
 			'/libraries/vendor/joomla/controller',
 			'/api/components/com_installer/src/View/Languages',
 			'/administrator/components/com_finder/src/Indexer/Driver',
-			// Joomla 4.0 Beta 5
+			// 4.0 from Beta 2 to Beta 5
 			'/plugins/content/imagelazyload',
-			'/media/contacts/images',
-			'/media/contacts',
-			'/components/com_users/layouts/joomla/form',
-			'/components/com_users/layouts/joomla',
-			'/components/com_users/layouts',
-			// Joomla 4.0 Beta 6
+			// 4.0 from Beta 5 to Beta 6
 			'/media/system/js/core.es6',
 			'/administrator/modules/mod_multilangstatus/src/Helper',
 			'/administrator/modules/mod_multilangstatus/src',
-			'/administrator/components/com_actionlogs/layouts',
-			// Joomla 4.0 Beta 7
+			// 4.0 from Beta 6 to Beta 7
 			'/media/vendor/skipto/css',
-			'/layouts/libraries/cms/html/bootstrap',
-			'/layouts/libraries/cms/html',
-			'/layouts/libraries/cms',
-			'/layouts/joomla/modal',
-			// Joomla 4.0 Beta 8
+			// 4.0 from Beta 7 to Beta 8
 			'/templates/system/js',
 			'/templates/cassiopeia/scss/tools/mixins',
 			'/media/vendor/punycode/js',
