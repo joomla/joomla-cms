@@ -76,7 +76,7 @@
 		recursive="true"
 		exclude="system"
 		default=""
-		folderFilter="^html"
+		folderFilter="^tinymce"
 	/>
 
 	<field
