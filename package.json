@@ -48,6 +48,7 @@
     "joomla-ui-custom-elements": "0.0.40",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
+    "mark.js": "^8.11.1",
     "mediaelement": "^4.2.16",
     "metismenujs": "^1.2.1",
     "punycode": "^2.1.1",

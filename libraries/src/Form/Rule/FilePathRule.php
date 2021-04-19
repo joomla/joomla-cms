@@ -49,7 +49,7 @@ class FilePathRule extends FormRule
 			return true;
 		}
 
-		// Make sure $value starts with an a-z/A-Z character in ordern to not allow to break out of the current path
+		// Make sure $value starts with an a-z/A-Z character in order to not allow to break out of the current path
 		if (!preg_match("/^[A-Za-z]*$/", substr($value, 0, 1)))
 		{
 			return false;
@@ -64,7 +64,7 @@ class FilePathRule extends FormRule
 			return false;
 		}
 
-		// Append the root path
+		// Prepend the root path
 		$value = JPATH_ROOT . '/' . $value;
 
 		try
