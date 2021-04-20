@@ -33,7 +33,7 @@
 					<field
 						context=""
 						name="customfield"
-						type="subfieldstype"
+						type="subfields"
 						label="PLG_FIELDS_SUBFORM_PARAMS_CUSTOMFIELD_LABEL"
 						default=""
 						required="true"

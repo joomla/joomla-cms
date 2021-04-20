@@ -16,12 +16,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * Fields Subfieldstype. Represents a list field with the options being all possible
- * custom field types, except the 'subfields' custom field type.
+ * Fields Subfields. Represents a list field with the options being all possible
+ * custom field types, except the 'subform' custom field type.
  *
  * @since  4.0.0
  */
-class SubfieldstypeField extends ListField
+class SubfieldsField extends ListField
 {
 	/**
 	 * The name of this Field type.
@@ -30,7 +30,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @since 4.0.0
 	 */
-	public $type = 'Subfieldstype';
+	public $type = 'Subfields';
 
 	/**
 	 * Configuration option for this field type to could filter the displayed custom field instances

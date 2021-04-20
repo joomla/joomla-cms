@@ -71,11 +71,11 @@ class PlgFieldsSubform extends FieldsPlugin
 		$xmlxpath = new DOMXPath($xml);
 
 		/**
-		 * Get all fields of type "subfieldstype" in our own XML
+		 * Get all fields of type "subfields" in our own XML
 		 *
 		 * @var $valuefields \DOMNodeList
 		 */
-		$valuefields = $xmlxpath->evaluate('//field[@type="subfieldstype"]');
+		$valuefields = $xmlxpath->evaluate('//field[@type="subfields"]');
 
 		// If we haven't found it, something is wrong
 		if (!$valuefields || $valuefields->length != 1)
