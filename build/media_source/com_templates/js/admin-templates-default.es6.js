@@ -16,6 +16,22 @@ const onClick = async (event) => {
   form.submit();
 };
 
+const onClickNew = async (event) => {
+  const { currentTarget: button } = event;
+  button.setAttribute('disabled', '');
+  const { form } = button;
+  const hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'cid[]');
+  hiddenInput.setAttribute('value', button.dataset.item);
+  form.appendChild(hiddenInput);
+  // if (button.dataset.task === 'templates.createChild')
+  const task = form.querySelector('[name="task"]');
+  task.value = button.dataset.task;
+  form.submit();
+};
 const actionButtons = [].slice.call(document.querySelectorAll('button.js-action-exec'));
+const actionButtonsNew = [].slice.call(document.querySelectorAll('button.js-action-exec-new'));
 
 actionButtons.map((button) => button.addEventListener('click', onClick));
+actionButtonsNew.map((button) => button.addEventListener('click', onClickNew));
