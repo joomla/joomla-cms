@@ -168,10 +168,129 @@ class JFormFieldFileList extends JFormFieldList
 			$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
 
 			// Get the path in which to search for file options.
-			$this->directory = (string) $this->element['directory'];
+			$basedir = $this->getBaseDir((string) $this->element['basedir']);
+			$this->directory = ($basedir ? $basedir . '/' : '') . (string) $this->element['directory'];
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to resolve the optional base directory as one of several configuration-dependent values
+	 * The base dir can be any of the defined 'JPATH_' constants or one of the directories configured by com_media
+	 *
+	 * @param   string  $basedir  The name of one of the 'JPATH_' constants, a string specifying some parameter value, or empty
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDir($basedir = '')
+	{
+		if (empty($basedir))
+		{
+			return '';
+		}
+
+		// Basedir is any of the JPATH constants, resolve it
+		if (strpos($basedir, 'JPATH_') == 0 && defined($basedir))
+		{
+			return constant($basedir);
+		}
+
+		if (strpos($basedir, ':') > 0)
+		{
+			$parts = explode(':', $basedir);
+			$type = array_shift($parts);
+			$fn = array($this, 'getBaseDir' . ucfirst($type));
+
+			if (is_callable($fn))
+			{
+				return call_user_func_array($fn, $parts);
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get a basedir from the value of a component param
+	 *
+	 * @param   string  $component  The name of a component
+	 * @param   string  $param      A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirComponent($component, $param)
+	{
+		return JComponentHelper::getParams($component)->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a library param
+	 *
+	 * @param   string  $library  The name of a library
+	 * @param   string  $param    A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirLibrary($library, $param)
+	{
+		return JLibraryHelper::getParams($library)->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a module param
+	 *
+	 * @param   string  $moduleType   The module type
+	 * @param   string  $moduleTitle  The module title
+	 * @param   string  $param        A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirModule($moduleType, $moduleTitle, $param)
+	{
+		$module = JModuleHelper::getModule($moduleType, $moduleTitle);
+
+		if (empty($module))
+		{
+			return '';
+		}
+
+		$params = new JRegistry($module->params);
+
+		return $params->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a plugin param
+	 *
+	 * @param   string  $pluginType  The type of the plugin
+	 * @param   string  $pluginName  The name of the plugin
+	 * @param   string  $param       A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirPlugin($pluginType, $pluginName, $param)
+	{
+		$plugin = JPluginHelper::getPlugin($pluginType, $pluginName);
+
+		if (empty($plugin))
+		{
+			return '';
+		}
+
+		$params = new JRegistry($plugin->params);
+
+		return $params->get($param);
 	}
 
 	/**
@@ -194,7 +313,7 @@ class JFormFieldFileList extends JFormFieldList
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
-		
+
 		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
