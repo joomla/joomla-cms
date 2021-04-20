@@ -72,7 +72,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 		<div class="j-install">
 			<?php // Header ?>
 			<header id="header" class="header">
-				<div class="row">
+				<div class="row me-0">
 					<div class="col">
 						<div class="logo d-none d-md-block col">
 							<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
