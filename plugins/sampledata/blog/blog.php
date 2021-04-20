@@ -119,7 +119,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
@@ -837,7 +837,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		// Create the menu types.
@@ -1413,7 +1413,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		// Add Include Paths.

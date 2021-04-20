@@ -112,7 +112,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
@@ -223,7 +223,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		$factory = $this->app->bootComponent('com_banners')->getMVCFactory();
@@ -406,7 +406,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		// Insert first level of categories.
@@ -1059,7 +1059,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		$model  = $this->app->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
@@ -1414,7 +1414,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		/** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
@@ -1545,7 +1545,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
@@ -3260,7 +3260,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		$model = $this->app->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
@@ -4642,7 +4642,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$user   = Factory::getUser();
 		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
-		// Set debugging to false to prevent savving of prepend/appended debug_lang_const
+		// Set debugging to false to prevent saving of prepend/appended debug_lang_const
 		Factory::getLanguage()->setDebug(false);
 
 		foreach ($articles as $i => $article)
