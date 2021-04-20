@@ -199,6 +199,11 @@ class CMSApplication extends WebApplication
 	 */
 	public function execute()
 	{
+		if ($this->get('block_floc', 1))
+		{
+			$this->setHeader('Permissions-Policy', 'interest-cohort=()', true);
+		}
+
 		// Perform application routines.
 		$this->doExecute();
 
