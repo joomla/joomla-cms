@@ -19,6 +19,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+					name="version"
+					type="list"
+					label="PLG_RECAPTCHA_INVISIBLE_VERSION_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_VERSION_DESC"
+					default="2.0"
+					size="1"
+					validate="options"
+					>
+					<option value="2.0">PLG_RECAPTCHA_INVISIBLE_VERSION_V2</option>
+				</field>
 
 				<field
 					name="public_key"
