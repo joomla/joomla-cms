@@ -15,11 +15,11 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 /**
- * Fields subfields Plugin
+ * Fields subform Plugin
  *
  * @since  4.0.0
  */
-class PlgFieldsSubfields extends FieldsPlugin
+class PlgFieldsSubform extends FieldsPlugin
 {
 	/**
 	 * Two-dimensional array to hold to do a fast in-memory caching of rendered
@@ -52,7 +52,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
-		// Get the path to our own form definition (basically ./params/subfields.xml)
+		// Get the path to our own form definition (basically ./params/subform.xml)
 		$path = $this->getFormPath($form, $data);
 
 		if ($path === null)
@@ -166,7 +166,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		 * Each array entry is another array representing a row, containing all of the sub fields that
 		 * are valid for this row and their raw and rendered values.
 		 */
-		$subfields_rows = array();
+		$subform_rows = array();
 
 		// Create an array with entries being subfields forms, and if not repeatable, containing only one element.
 		$rows = $field->value;
@@ -234,11 +234,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 			}
 
 			// Store all the sub fields of this row
-			$subfields_rows[] = $row_subfields;
+			$subform_rows[] = $row_subfields;
 		}
 
 		// Store all the rows and their corresponding sub fields in $field->subfields_rows
-		$field->subfields_rows = $subfields_rows;
+		$field->subform_rows = $subform_rows;
 
 		// Call our parent to combine all those together for the final $field->value
 		return parent::onCustomFieldsPrepareField($context, $item, $field);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="plugin" group="fields" method="upgrade">
-	<name>plg_fields_subfields</name>
+	<name>plg_fields_subform</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2017</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
@@ -8,12 +8,12 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
-	<description>PLG_FIELDS_SUBFIELDS_XML_DESCRIPTION</description>
+	<description>PLG_FIELDS_SUBFORM_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="subfields">subfields.php</filename>
+		<filename plugin="subform">subform.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_subfields.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_subfields.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_subform.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_subform.sys.ini</language>
 	</languages>
 </extension>
