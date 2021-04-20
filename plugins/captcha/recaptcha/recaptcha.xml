@@ -21,15 +21,13 @@
 			<fieldset name="basic">
 				<field
 					name="version"
-					type="list"
+					type="text"
 					label="PLG_RECAPTCHA_VERSION_LABEL"
 					description="PLG_RECAPTCHA_VERSION_DESC"
-					default="2.0"
+					default="PLG_RECAPTCHA_VERSION_V2"
 					size="1"
-					validate="options"
-					>
-					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
-				</field>
+					readonly="true"
+					/>
 
 				<field
 					name="public_key"
