@@ -11,9 +11,7 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
-use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Tags Component Route Helper.
@@ -89,34 +87,12 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	public static function getTagRoute($id)
 	{
-		$needles = array(
-			'tag'  => array((int) $id)
-		);
-
 		if ($id < 1)
 		{
-			$link = '';
-		}
-		else
-		{
-			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
-
-			if ($item = self::_findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
-			}
-			else
-			{
-				$needles = array('tags' => array(1, 0));
-
-				if ($item = self::_findItem($needles))
-				{
-					$link .= '&Itemid=' . $item;
-				}
-			}
+			return '';
 		}
 
-		return $link;
+		return 'index.php?option=com_tags&view=tag&id=' . $id;
 	}
 
 	/**
@@ -128,108 +104,6 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	public static function getTagsRoute()
 	{
-		$needles = array(
-			'tags'  => array(0)
-		);
-
-		$link = 'index.php?option=com_tags&view=tags';
-
-		if ($item = self::_findItem($needles))
-		{
-			$link .= '&Itemid=' . $item;
-		}
-
-		return $link;
-	}
-
-	/**
-	 * Find Item static function
-	 *
-	 * @param   array  $needles  Array used to get the language value
-	 *
-	 * @return null
-	 *
-	 * @throws \Exception
-	 */
-	protected static function _findItem($needles = null)
-	{
-		$menus    = AbstractMenu::getInstance('site');
-		$language = $needles['language'] ?? '*';
-
-		// Prepare the reverse lookup array.
-		if (self::$lookup === null)
-		{
-			self::$lookup = array();
-
-			$component = ComponentHelper::getComponent('com_tags');
-			$items     = $menus->getItems('component_id', $component->id);
-
-			if ($items)
-			{
-				foreach ($items as $item)
-				{
-					if (isset($item->query, $item->query['view']))
-					{
-						$lang = ($item->language != '' ? $item->language : '*');
-
-						if (!isset(self::$lookup[$lang]))
-						{
-							self::$lookup[$lang] = array();
-						}
-
-						$view = $item->query['view'];
-
-						if (!isset(self::$lookup[$lang][$view]))
-						{
-							self::$lookup[$lang][$view] = array();
-						}
-
-						// Only match menu items that list one tag
-						if (isset($item->query['id']) && is_array($item->query['id']))
-						{
-							foreach ($item->query['id'] as $position => $tagId)
-							{
-								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
-								{
-									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
-								}
-							}
-						}
-						elseif ($view == 'tags')
-						{
-							self::$lookup[$lang]['tags'][] = $item->id;
-						}
-					}
-				}
-			}
-		}
-
-		if ($needles)
-		{
-			foreach ($needles as $view => $ids)
-			{
-				if (isset(self::$lookup[$language][$view]))
-				{
-					foreach ($ids as $id)
-					{
-						if (isset(self::$lookup[$language][$view][(int) $id]))
-						{
-							return self::$lookup[$language][$view][(int) $id];
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			$active = $menus->getActive();
-
-			if ($active)
-			{
-				return $active->id;
-			}
-		}
-
-		return null;
+		return 'index.php?option=com_tags&view=tags';
 	}
 }
