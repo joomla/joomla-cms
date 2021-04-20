@@ -38,6 +38,7 @@ class FilePathRuleTest extends UnitTestCase
 			size="50"
 			default="images"
 			validate="filePath"
+			exclude="administrator|media"
 		/>'
 		);
 
