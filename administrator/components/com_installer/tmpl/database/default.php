@@ -91,7 +91,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo $extension->type_translated; ?>
 										</td>
 										<td class="d-none d-md-table-cell">
-											<span class="badge bg-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?>" tabindex="0">
+											<span class="badge bg-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning text-dark' : 'success'); ?>" tabindex="0">
 												<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 											</span>
 											<div role="tooltip" id="tip<?php echo $i; ?>">
@@ -112,53 +112,9 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo $extension->extension_id; ?>
 										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<?php foreach ($this->changeSet as $i => $item) : ?>
-										<?php $extension = $item['extension']; ?>
-										<?php $manifest = json_decode($extension->manifest_cache); ?>
-
-										<tr>
-											<td class="text-center">
-												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id, false, 'cid', 'cb', $extension->name); ?>
-											</td>
-											<th scope="row">
-												<?php echo $extension->name; ?>
-												<div class="small">
-													<?php echo Text::_($manifest->description); ?>
-												</div>
-											</th>
-											<td>
-												<?php echo $extension->client_translated; ?>
-											</td>
-											<td>
-												<?php echo $extension->type_translated; ?>
-											</td>
-											<td class="d-none d-md-table-cell">
-												<span class="badge bg-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning text-dark' : 'success'); ?>" tabindex="0">
-													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
-												</span>
-												<div role="tooltip" id="tip<?php echo $i; ?>">
-													<strong><?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?></strong>
-													<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>
-												</div>
-											</td>
-											<td class="d-none d-md-table-cell text-end">
-												<?php echo $extension->version_id; ?>
-											</td>
-											<td class="d-none d-md-table-cell">
-												<?php echo '&#x200E;' . $extension->version; ?>
-											</td>
-											<td class="d-none d-md-table-cell">
-												<?php echo $extension->folder_translated; ?>
-											</td>
-											<td class="d-none d-md-table-cell">
-												<?php echo $extension->extension_id; ?>
-											</td>
-										</tr>
-									<?php endforeach; ?>
-								</tbody>
-							</table>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
 
 						<?php // load the pagination. ?>
 						<?php echo $this->pagination->getListFooter(); ?>
