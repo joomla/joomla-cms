@@ -149,7 +149,7 @@ class ArticleModel extends ItemModel
 							$db->quoteName('parent.path', 'parent_route'),
 							$db->quoteName('parent.alias', 'parent_alias'),
 							$db->quoteName('parent.language', 'parent_language'),
-							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0) AS '
+							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1) AS '
 								. $db->quoteName('rating'),
 							$db->quoteName('v.rating_count', 'rating_count'),
 						]

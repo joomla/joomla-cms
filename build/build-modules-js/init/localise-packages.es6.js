@@ -130,7 +130,7 @@ module.exports.localisePackages = async (options) => {
     await mkdir(mediaVendorPath, { recursive: true });
   }
 
-  // Loop to get some text for the packgage.json
+  // Loop to get some text for the package.json
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const packageName in options.settings.vendors) {
     const vendor = options.settings.vendors[packageName];
