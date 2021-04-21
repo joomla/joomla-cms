@@ -116,7 +116,7 @@ PHP;
 	 * @param string $name    The application name for the menu
 	 * @param array  $options An array of options to initialise the menu with
 	 *
-	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  An AbstractMenu object or null if not set.
+	 * @throws   \BadMethodCallException  Exception thrown as CLI Application has no menu.
 	 *
 	 * @since   4.0.0
 	 */
