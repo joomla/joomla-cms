@@ -17,7 +17,7 @@ if ($button->get('name')) :
 	$class   = 'btn btn-secondary';
 	$class  .= ($button->get('class')) ? ' ' . $button->get('class') : null;
 	$class  .= ($button->get('modal')) ? ' modal-button' : null;
-	$href    = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
+	$href    = '#' . strtolower($button->get('realName')) . '_modal';
 	$link    = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 	$onclick = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 	$title   = ($button->get('title')) ? $button->get('title') : $button->get('text');

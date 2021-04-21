@@ -64,6 +64,7 @@ class PlgButtonFields extends CMSPlugin
 			. $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
 
 		$button          = new CMSObject;
+		$button->realName = 'PlgButtonField';
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');

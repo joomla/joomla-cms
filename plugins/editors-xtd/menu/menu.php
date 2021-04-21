@@ -53,6 +53,7 @@ class PlgButtonMenu extends CMSPlugin
 			. Session::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button          = new CMSObject;
+		$button->realName = 'PlgButtonMenu';
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');

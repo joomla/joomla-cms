@@ -697,7 +697,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
-				$button->id = $name . '_' . $button->text . 'Modal';
+				$button->id = $name . '_' . strtolower($button->realName) . '_modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
@@ -705,7 +705,7 @@ class PlgEditorTinymce extends CMSPlugin
 				{
 					// Set some vars
 					$btnName = $button->get('text');
-					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
+					$modalId = $name . '_' . strtolower($button->realName);
 					$onclick = $button->get('onclick') ?: null;
 					$icon    = $button->get('name');
 

@@ -61,6 +61,7 @@ class PlgButtonPagebreak extends CMSPlugin
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
 		$button          = new CMSObject;
+		$button->realName = 'PlgButtonPageBreak';
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
