@@ -34,13 +34,13 @@ use Joomla\CMS\Router\Route;
 
 		<span class="me-2">
 		<?php echo $this->form->monthField; ?>
-	</span>
+		</span>
 		<span class="me-2">
 		<?php echo $this->form->yearField; ?>
-	</span>
+		</span>
 		<span class="me-2">
 		<?php echo $this->form->limitField; ?>
-	</span>
+		</span>
 
 		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 		<input type="hidden" name="view" value="archive">
