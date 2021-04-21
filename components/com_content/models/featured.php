@@ -71,15 +71,11 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$this->setState('filter.frontpage', true);
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
-		{
-			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
-		}
-		else
-		{
-			$this->setState('filter.published', array(0, 1, 2));
-		}
+		/*	Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
+			But here it's too early: we don't have article ids.
+			Or we find a way to authorize using just SQL queries (!), or we can here just authorise at component level, not at article level.
+			So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
+		*/
 
 		// Process show_noauth parameter
 		if (!$params->get('show_noauth'))
