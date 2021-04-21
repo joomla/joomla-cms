@@ -74,7 +74,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<?php $extension = $item['extension']; ?>
 									<?php $manifest = json_decode($extension->manifest_cache); ?>
 
-									<tr>
+									<tr class="row<?php echo $i % 2; ?>">
 										<td class="text-center">
 											<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id, false, 'cid', 'cb', $extension->name); ?>
 										</td>
