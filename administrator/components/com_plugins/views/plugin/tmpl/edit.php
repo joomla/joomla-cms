@@ -38,6 +38,50 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	};
 ");
+
+// Add plugin enable/disable AJAX
+JFactory::getDocument()->addScriptDeclaration("
+	jQuery(document).ready(function() {
+		jQuery('#jform_enabled').change(function(e) {
+			let pluginAction = e.target.value;
+			let coverDiv = document.createElement('div');
+
+			jQuery.ajax(
+				'index.php?option=com_plugins&extension_id=" . (int) $this->item->extension_id . "&".JSession::getFormToken()."=1',
+				{
+					cache: false,
+					data: { task: 'ajaxControlPlugin', pluginAction },
+					beforeSend: function() {
+						coverDiv.style.background = 'rgba(13, 13, 13, 0.5)';
+						coverDiv.style.zIndex = '9999';
+						coverDiv.style.height = '100vh';
+						coverDiv.style.width = '100vw';
+						coverDiv.style.position = 'fixed';
+						coverDiv.style.top = '0';
+						coverDiv.style.left = '0';
+
+						document.body.append(coverDiv);
+					},
+					complete: onComplete,
+					success: function(result, status, xhr) {
+						if (pluginAction == 1) {
+							alert('".JText::_( 'COM_PLUGINS_N_ITEMS_PUBLISHED_1')."');
+						} else {
+							alert('".JText::_( 'COM_PLUGINS_N_ITEMS_UNPUBLISHED_1')."');
+						}
+					},
+					error: function() {
+						alert('Something went wrong');
+					},
+				}
+			);
+
+			function onComplete() {
+				coverDiv.remove();
+			}
+		});
+	});
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

@@ -50,4 +50,64 @@ class PluginsController extends JControllerLegacy
 
 		parent::display();
 	}
+
+	public function ajaxControlPlugin()
+	{
+		// check token to prevent CSRF
+		JSession::checkToken('get') or die( 'Invalid Token' );
+
+		$input = JFactory::getApplication()->input;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// query to get plugin name
+		$query
+			->clear()
+			->select('name')
+			->from($db->quoteName('#__extensions'))
+			->where($db->qn('extension_id') . ' = ' . $input->get('extension_id'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$plgName = $db->loadResult();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			die;
+		}
+
+		if (empty($plgName))
+		{
+			die;
+		}
+
+		$query = $db->getQuery(true);
+
+		// enable or disable plugin
+
+		$plgAction = $input->get('pluginAction') == true ? 1 : 0;
+
+		$query
+			->clear()
+			->update($db->qn('#__extensions'))
+			->set($db->qn('enabled') . ' = ' . $plgAction)
+			->where($db->qn('name') . ' = ' . $db->q($plgName))
+			->where($db->qn('type') . ' = ' . $db->q('plugin'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			die;
+		}
+
+		die;
+    }
 }
