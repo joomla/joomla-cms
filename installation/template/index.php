@@ -25,7 +25,7 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert')
+	->useScript('messages')
 	->useScript('webcomponent.core-loader');
 
 
