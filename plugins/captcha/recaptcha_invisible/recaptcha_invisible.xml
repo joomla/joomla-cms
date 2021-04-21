@@ -19,6 +19,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				
 				<field
 					name="public_key"
 					type="text"
