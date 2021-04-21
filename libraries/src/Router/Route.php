@@ -129,7 +129,7 @@ class Route
 		// Get the router instance, only attempt when a client name is given.
 		if ($client && !isset(self::$_router[$client]))
 		{
-			$app = Factory::getApplication();
+			$app = Factory::getApplication($client);
 
 			self::$_router[$client] = $app->getRouter($client);
 		}
