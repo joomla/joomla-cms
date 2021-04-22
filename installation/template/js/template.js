@@ -167,6 +167,7 @@
    * @param tasks       An array of install tasks to execute
    */
   Joomla.install = function(tasks, form) {
+    const progress = document.getElementById('progressbar');
     if (!form) {
       throw new Error('No form provided')
     }
@@ -178,6 +179,10 @@
     var task = tasks.shift();
     var data = Joomla.serialiseForm(form);
     document.body.appendChild(document.createElement('joomla-core-loader'));
+    if (document.querySelector('#progress' + task + ' span')) {
+      document.getElementById('progress' + task).removeAttribute('aria-hidden');
+      document.querySelector('#progress' + task + ' span').classList.remove('text-white');
+    }
 
     Joomla.request({
       method: "POST",
@@ -191,6 +196,7 @@
           response = JSON.parse(response);
         } catch (e) {
           spinnerElement.parentNode.removeChild(spinnerElement);
+          Joomla.Modal.getCurrent().close();
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -203,6 +209,7 @@
         if (response.error === true)
         {
           spinnerElement.parentNode.removeChild(spinnerElement);
+          Joomla.Modal.getCurrent().close();
           Joomla.renderMessages({"error": [response.message]});
           return false;
         }
@@ -213,10 +220,16 @@
           return false;
         }
 
+        if (document.querySelector('#progress' + task + ' span'))
+          document.querySelector('#progress' + task + ' span').classList.value = 'fa fa-check-circle text-success';
+        progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
+        console.log((100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%', (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')), progress.getAttribute('aria-valuemax'), progress.getAttribute('aria-valuenow'));
+        progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
         spinnerElement.parentNode.removeChild(spinnerElement);
         Joomla.install(tasks, form);
       },
       onError: function(xhr){
+        Joomla.Modal.getCurrent().close();
         Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
         Joomla.goToPage('remove');
 
