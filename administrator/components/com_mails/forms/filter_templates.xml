@@ -22,7 +22,7 @@
 		<field
 			name="extension"
 			type="sql"
-			label="COM_MAILS_HEADING_COMPONENT"
+			label="COM_MAILS_HEADING_EXTENSION"
 			query="SELECT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS value, SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension FROM #__mail_templates GROUP BY extension ORDER BY extension ASC"
 			translate="true"
 			onchange="this.form.submit();"

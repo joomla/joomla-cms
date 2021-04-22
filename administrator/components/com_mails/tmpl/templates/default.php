@@ -42,7 +42,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
+									<?php echo Text::_('COM_MAILS_HEADING_EXTENSION'); ?>
 								</th>
 								<?php if (count($this->languages) > 1) : ?>
 								<th scope="col" class="w-10 text-center">
