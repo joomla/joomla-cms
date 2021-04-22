@@ -116,10 +116,7 @@ class PluginsModel extends ListModel
 		$ordering = $this->getState('list.ordering', 'ordering');
 
 		// If "Sort Table By:" is not set, set ordering to name
-		if ($ordering == '')
-		{
-			$ordering = 'name';
-		}
+		$ordering = $ordering ?? 'name';
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
