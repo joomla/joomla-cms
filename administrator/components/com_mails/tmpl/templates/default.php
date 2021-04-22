@@ -72,7 +72,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_($component); ?>
 								</td>
 								<?php if (count($this->languages) > 1) : ?>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="text-center">
 										<?php foreach ($this->languages as $language) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 												<?php if ($language->image) : ?>
