@@ -237,7 +237,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			$subform_rows[] = $row_subfields;
 		}
 
-		// Store all the rows and their corresponding sub fields in $field->subfields_rows
+		// Store all the rows and their corresponding sub fields in $field->subform_rows
 		$field->subform_rows = $subform_rows;
 
 		// Call our parent to combine all those together for the final $field->value
