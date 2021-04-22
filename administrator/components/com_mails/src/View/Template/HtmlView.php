@@ -90,30 +90,35 @@ class HtmlView extends BaseHtmlView
 		$language->load($component, JPATH_SITE, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
 
-		$this->master->subject_translated = Text::_($this->master->subject);
-		$this->master->body_translated    = Text::_($this->master->body);
+		$this->master->subject = Text::_($this->master->subject);
+		$this->master->body    = Text::_($this->master->body);
 
 		if ($this->master->htmlbody)
 		{
-			$this->master->htmlbody_translated = nl2br(Text::_($this->master->htmlbody));
+			$this->master->htmlbody = Text::_($this->master->htmlbody);
 		}
 		else
 		{
-			$this->master->htmlbody_translated = nl2br($this->master->body_translated);
+			$this->master->htmlbody = nl2br($this->master->body);
 		}
+
+		$this->templateData = [
+			'subject'  => $this->master->subject,
+			'body'     => $this->master->body,
+			'htmlbody' => $this->master->htmlbody,
+		];
 
 		foreach ($fields as $field)
 		{
-			$this->templateData[$field] = (object) ['master' => $this->master->$field, 'translated' => Text::_($this->master->$field)];
-
 			if (is_null($this->item->$field) || $this->item->$field == '')
 			{
-				$this->item->$field = $this->master->{$field . '_translated'};
+				$this->item->$field = $this->master->$field;
 				$this->form->setValue($field, null, $this->item->$field);
 			}
 		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 

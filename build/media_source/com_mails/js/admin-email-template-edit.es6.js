@@ -22,10 +22,6 @@
     }
 
     setBodyValue(value) {
-      if (this.inputBody.disabled) {
-        return;
-      }
-
       if (Joomla.editors.instances[this.inputBody.id]) {
         Joomla.editors.instances[this.inputBody.id].setValue(value);
       } else {
@@ -34,10 +30,6 @@
     }
 
     setHtmlBodyValue(value) {
-      if (this.inputHtmlBody.disabled) {
-        return;
-      }
-
       if (Joomla.editors.instances[this.inputHtmlBody.id]) {
         Joomla.editors.instances[this.inputHtmlBody.id].setValue(value);
       } else {
@@ -60,8 +52,6 @@
           return false;
       }
 
-      if (input.disabled) return false;
-
       if (Joomla.editors.instances[input.id]) {
         Joomla.editors.instances[input.id].replaceSelection(tag);
       } else {
@@ -75,7 +65,7 @@
       document.querySelector('#btnResetSubject').addEventListener('click', (event) => {
         event.preventDefault();
 
-        this.inputSubject.value = this.templateData.subject ? this.templateData.subject.translated : '';
+        this.inputSubject.value = this.templateData.subject ? this.templateData.subject : '';
       });
 
       const btnResetBody = document.querySelector('#btnResetBody');
@@ -84,7 +74,7 @@
         btnResetBody.addEventListener('click', (event) => {
           event.preventDefault();
 
-          this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
+          this.setBodyValue(this.templateData.body ? this.templateData.body : '');
         });
       }
 
@@ -94,7 +84,7 @@
         btnResetHtmlBody.addEventListener('click', (event) => {
           event.preventDefault();
 
-          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
+          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody : '');
         });
       }
 
