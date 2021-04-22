@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -86,13 +87,13 @@ class ApiController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSWebApplicationInterface       $app      The JApplication for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
 	{
 		$this->modelState = new CMSObject;
 
