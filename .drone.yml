@@ -27,7 +27,7 @@ steps:
     image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
-      - npm ci --unsafe-perm
+      - npm ci --unsafe-perm --no-bin-links
 
   - name: php72-unit
     depends_on: [ phpcs ]
