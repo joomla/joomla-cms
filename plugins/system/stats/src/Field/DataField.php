@@ -67,7 +67,7 @@ class DataField extends AbstractStatsField
 	}
 
 	/**
-	 * If the plugin is not published, we need to compile the stats manually, for that we need the params from the db.
+	 * If the plugin is disabled, we need to compile the stats manually, for that we need the params from the db.
 	 *
 	 * @return  string   The JSON of the params of this plugin.
 	 */
