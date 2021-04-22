@@ -45,9 +45,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
 								<?php if (count($this->languages) > 1) : ?>
-                                    <th scope="col" class="w-10 d-none d-md-table-cell text-center">
-										<?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
-                                    </th>
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+									<?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
+								</th>
 								<?php endif; ?>
 								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
@@ -64,26 +64,26 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
-                                    <a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
 										<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
-                                    </a>
+									</a>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
 								<?php if (count($this->languages) > 1) : ?>
-                                    <td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php foreach ($this->languages as $language) : ?>
-                                            <a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 												<?php if ($language->image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 												<?php else : ?>
-                                                    <span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+													<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
 												<?php endif; ?>
-                                            </a>
+											</a>
 										<?php endforeach; ?>
-                                    </td>
-                                <?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
