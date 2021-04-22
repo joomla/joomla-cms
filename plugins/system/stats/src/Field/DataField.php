@@ -53,7 +53,7 @@ class DataField extends AbstractStatsField
 
 		$result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
 
-		// If the plugin is not published, we need to compile the stats manually
+		// If the plugin is disabled, we need to compile the stats manually
 		if (!$result)
 		{
 			$stats         = Factory::getApplication()->bootPlugin('stats', 'system');
