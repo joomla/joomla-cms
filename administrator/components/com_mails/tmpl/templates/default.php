@@ -45,7 +45,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
 								<?php if (count($this->languages) > 1) : ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 text-center">
 									<?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
 								</th>
 								<?php endif; ?>
