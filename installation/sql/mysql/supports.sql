@@ -418,7 +418,7 @@ CREATE TABLE IF NOT EXISTS `#__mail_templates` (
   `body` TEXT NOT NULL,
   `htmlbody` TEXT NOT NULL,
   `attachments` TEXT NOT NULL,
-  `params` TEXT NOT NULL,  
+  `params` TEXT NOT NULL,
   PRIMARY KEY (`template_id`, `language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
