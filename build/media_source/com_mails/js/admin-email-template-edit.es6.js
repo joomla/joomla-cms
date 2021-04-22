@@ -72,7 +72,7 @@
     }
 
     bindListeners() {
-      document.querySelector('#btnResetSubject').addEventListener('click', event => {
+      document.querySelector('#btnResetSubject').addEventListener('click', (event) => {
         event.preventDefault();
 
         this.inputSubject.value = this.templateData.subject ? this.templateData.subject.translated : '';
@@ -81,7 +81,7 @@
       const btnResetBody = document.querySelector('#btnResetBody');
 
       if (btnResetBody) {
-        btnResetBody.addEventListener('click', event => {
+        btnResetBody.addEventListener('click', (event) => {
           event.preventDefault();
 
           this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
@@ -91,7 +91,7 @@
       const btnResetHtmlBody = document.querySelector('#btnResetHtmlBody');
 
       if (btnResetHtmlBody) {
-        btnResetHtmlBody.addEventListener('click', event => {
+        btnResetHtmlBody.addEventListener('click', (event) => {
           event.preventDefault();
 
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
