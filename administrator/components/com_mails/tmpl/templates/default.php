@@ -63,7 +63,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="break-word">
+								<td>
 									<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
 										<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 									</a>
