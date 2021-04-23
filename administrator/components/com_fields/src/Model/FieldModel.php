@@ -578,7 +578,7 @@ class FieldModel extends AdminModel
 
 			if ($fieldType->value == 'subform')
 			{
-				// Only Use In subform should not is available for subform field type, so we remove it
+				// Only Use In subform should not be available for subform field type, so we remove it
 				$form->removeField('only_use_in_subform');
 			}
 			else
