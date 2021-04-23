@@ -190,12 +190,11 @@ class PlgInstallerOverride extends CMSPlugin
 	public function finalize($result)
 	{
 		$num  = count($result);
-		$url  = Uri::base() . 'index.php?option=com_templates&view=templates';
-		$link = HTMLHelper::_('link', $url, Text::_('COM_TEMPLATES'), 'class="alert-link"');
 
 		if ($num != 0)
 		{
-			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
+			$url  = Uri::base() . 'index.php?option=com_templates&view=templates';
+			$link = HTMLHelper::_('link', $url, Text::_('COM_TEMPLATES'), 'class="alert-link"');			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
 			$this->app->enqueueMessage(Text::sprintf('PLG_INSTALLER_OVERRIDE_COMPONENT_LINK', $link), 'notice');
 			$this->saveOverrides($result);
 		}
