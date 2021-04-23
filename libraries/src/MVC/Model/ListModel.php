@@ -165,12 +165,11 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			->clear('values')
 			->clear('bounded')
 			->clear('where')
-			->select('count(*)')
-			->setLimit(1);
+			->select('count(*)');
 
 		$this->_db->setQuery($sql);
 
-		return (bool) (1 - $this->_db->loadResult());
+		return !($this->_db->loadResult() > 0);
 	}
 
 	/**
