@@ -143,7 +143,7 @@ class JNamespacePsr4Map
 			{
 				foreach ($constants as $constant)
 				{
-					$path = str_replace($constant,  constant($constant) , $path);
+					$path = str_replace($constant, constant($constant), $path);
 				}
 
 				$path = str_replace(["'", " ", "."], "", $path);
