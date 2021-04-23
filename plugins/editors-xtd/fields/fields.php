@@ -53,13 +53,6 @@ class PlgButtonFields extends CMSPlugin
 		$jinput = Factory::getApplication()->input;
 		$context = $jinput->get('option') . '.' . $jinput->get('view');
 
-		// Validate context.
-		$context = implode('.', FieldsHelper::extract($context));
-		if (!FieldsHelper::getFields($context))
-		{
-			return;
-		}
-
 		$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
 			. $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
 
