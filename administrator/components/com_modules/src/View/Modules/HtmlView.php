@@ -84,11 +84,6 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->clientId      = $this->state->get('client_id');
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
-		{
-			$this->setLayout('blankstate');
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
