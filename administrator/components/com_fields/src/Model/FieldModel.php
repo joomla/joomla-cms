@@ -168,7 +168,7 @@ class FieldModel extends AdminModel
 		 * If the field is only use in subform, set Category to None automatically so that it will only be displayed
 		 * as part of SubForm on add/edit item screen
 		 */
-		if ($data['only_use_in_subform'])
+		if (!empty($data['only_use_in_subform']))
 		{
 			$cats = [-1];
 		}
