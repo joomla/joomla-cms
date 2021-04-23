@@ -586,7 +586,6 @@ class FieldModel extends AdminModel
 				// Field type could not be changed, so remove showon attribute to avoid js errors
 				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
 			}
-		}
 
 		return $form;
 	}
