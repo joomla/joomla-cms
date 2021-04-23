@@ -29,6 +29,14 @@ class AdminPage extends AcceptanceTester
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
 
 	/**
+	 * The form element with id "adminForm"
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $adminForm = ['id' => 'adminForm'];
+
+	/**
 	 * The element id which contains page title in administrator header.
 	 *
 	 * @var    array
