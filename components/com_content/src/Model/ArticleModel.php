@@ -52,6 +52,20 @@ class ArticleModel extends ItemModel
 		$pk = $app->input->getInt('id');
 		$this->setState('article.id', $pk);
 
+		// Store any article alias used in the url as a slug for comparison check after loading from the db.
+		if (strpos($app->input->getRaw('id'), ':'))
+		{
+			list($void, $slug) = explode(':', $app->input->getRaw('id'));
+
+			// Careful, unfiltered user input, but safe as only going to be compared to article alias.
+			$this->setState('article.id.UNFILTERED.slug', $slug);
+		}
+		elseif ($app->input->exists('alias'))
+		{
+			// Careful, unfiltered user input, but safe as only going to be compared to article alias.
+			$this->setState('article.id.UNFILTERED.slug', $app->input->getRaw('alias'));
+		}
+
 		$offset = $app->input->getUInt('limitstart');
 		$this->setState('list.offset', $offset);
 
@@ -217,7 +231,8 @@ class ArticleModel extends ItemModel
 
 				$data = $db->loadObject();
 
-				if (empty($data))
+				// If no article found, or if an article was found, and the URL had a slug that doesnt match the alias.
+				if (empty($data) || $data->alias !== $this->getState('article.id.UNFILTERED.slug', $data->alias))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}

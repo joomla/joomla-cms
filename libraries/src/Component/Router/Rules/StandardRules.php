@@ -142,9 +142,12 @@ class StandardRules implements RulesInterface
 					if ($key)
 					{
 						// Found the right view and the right item
+						$found        = true;
 						$parent       = $views[$vars['view']];
 						$vars['view'] = $view->name;
-						$found        = true;
+
+						// Store any left over part of the segment that is not the $key (Its the article alias)
+						$vars['alias'] = str_replace($key . '-', '', $segment);
 
 						if ($view->parent_key && isset($vars[$parent->key]))
 						{
