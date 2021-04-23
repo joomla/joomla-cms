@@ -162,6 +162,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			->clear('select')
 			->clear('values')
 			->clear('bounded')
+			->clear('limit')
+			->clear('order')
 			->clear('where')
 			->select('count(*)');
 
