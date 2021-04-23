@@ -587,6 +587,7 @@ class FieldModel extends AdminModel
 				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
 			}
 		}
+
 		return $form;
 	}
 
