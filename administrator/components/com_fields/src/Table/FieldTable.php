@@ -73,7 +73,7 @@ class FieldTable extends Table
 
 		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
 		{
-			// Make sure $registry->options contains no duplicates when the field type is subfields
+			// Make sure $registry->options contains no duplicates when the field type is subform
 			if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options']))
 			{
 				// Fast lookup map to check which custom field ids we have already seen
