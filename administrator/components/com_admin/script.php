@@ -413,7 +413,7 @@ class JoomlaInstallerScript
 				$db->setQuery(
 					$db->getQuery(true)
 						->update('#__fields')
-						->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
+						->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
 						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
 						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
 				)->execute();
