@@ -26,14 +26,16 @@ $startMem  = memory_get_usage();
  */
 define('_JEXEC', 1);
 
-if (file_exists(__DIR__ . '/defines.php'))
+$dir = __DIR__ === DIRECTORY_SEPARATOR ? '' : __DIR__;
+
+if (file_exists($dir . '/defines.php'))
 {
-	include_once __DIR__ . '/defines.php';
+	include_once $dir . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', __DIR__);
+	define('JPATH_BASE', $dir);
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
