@@ -148,28 +148,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
 	}
-	/**
-	 * Is this a blank state, I.e: no items of this type regardless of the searched for states.
-	 *
-	 * @return boolean
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function getisBlankSlate()
-	{
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->select('count(*)');
 
-		$this->_db->setQuery($sql);
-
-		return !($this->_db->loadResult() > 0);
-	}
 	/**
 	 * Method to cache the last query constructed.
 	 *
