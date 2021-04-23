@@ -64,12 +64,12 @@ class JFormFieldRepeatable extends JFormField
 			$field->name = (string) $field->element['name'];
 
 			// Build heading
-			$head_row_str[] = '<th>' . strip_tags($field->getLabel($field->name));
+			$head_row_str[] = '<th>' . strip_tags($field->label);
 			$head_row_str[] = '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 			$head_row_str[] = '</th>';
 
 			// Build body
-			$body_row_str[] = '<td>' . $field->getInput() . '</td>';
+			$body_row_str[] = '<td>' . $field->input . '</td>';
 		}
 
 		// Append buttons
