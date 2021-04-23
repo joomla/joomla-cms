@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 			</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 				<a href="<?php echo Route::_('index.php?option=com_content&view=article&layout=edit'); ?>" class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_('COM_CONTENT_BLANKSTATE_BUTTON_ADD'); ?></a>
-				<a href="https://docs.joomla.org/Adding_a_new_article" class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('COM_CONTENT_BLANKSTATE_BUTTON_LEARNMORE'); ?></a>
+				<a href="https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article" class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('COM_CONTENT_BLANKSTATE_BUTTON_LEARNMORE'); ?></a>
 			</div>
 		</div>
 	</div>
