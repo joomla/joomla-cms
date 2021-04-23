@@ -30,9 +30,9 @@ use Joomla\CMS\Language\Text;
 					</div>
 					<div class="controls">
 						<input class="form-control" type="text" name="new_url" id="new_url" value="" size="50">
-					</div>
-					<div id="new_url-desc" class="form-text">
-						<?php echo Text::_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
+						<div id="new_url-desc" class="form-text">
+							<?php echo Text::_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
