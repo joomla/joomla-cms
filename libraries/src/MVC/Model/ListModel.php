@@ -17,7 +17,6 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Database\Mysqli\MysqliQuery;
 
 /**
  * Model class for handling lists of items.
@@ -159,7 +158,6 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	public function getisBlankSlate()
 	{
-		/** @var MysqliQuery $sql */
 		$sql = $this->query
 			->clear('select')
 			->clear('values')
