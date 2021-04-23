@@ -571,7 +571,7 @@ class FieldModel extends AdminModel
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
-		// In case are editing a field, field type could not be changed, so some extra handle below is needed
+		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
 		if ($fieldId)
 		{
 			$fieldType = $form->getField('type');
