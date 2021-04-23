@@ -24,4 +24,3 @@ use Joomla\CMS\Language\Text;
 		</div>
 	</div>
 </div>
-
