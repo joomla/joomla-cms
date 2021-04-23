@@ -165,7 +165,7 @@ class FieldModel extends AdminModel
 		$id = (int) $this->getState('field.id');
 
 		/**
-		 * If the field is only use in subform, set Category to None automatically so that it will only be displayed
+		 * If the field is only used in subform, set Category to None automatically so that it will only be displayed
 		 * as part of SubForm on add/edit item screen
 		 */
 		if (!empty($data['only_use_in_subform']))
