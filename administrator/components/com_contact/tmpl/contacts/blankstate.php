@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 			</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 				<a href="<?php echo Route::_('index.php?option=com_contact&view=contact&layout=edit'); ?>" class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_('COM_CONTACT_BLANKSTATE_BUTTON_ADD'); ?></a>
-				<a href="https://docs.joomla.org/Special:MyLanguage/#######" class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('COM_CONTACT_BLANKSTATE_BUTTON_LEARNMORE'); ?></a>
+				<a href="https://docs.joomla.org/Special:MyLanguage/Help4.x:Contacts" class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('COM_CONTACT_BLANKSTATE_BUTTON_LEARNMORE'); ?></a>
 			</div>
 		</div>
 	</div>
