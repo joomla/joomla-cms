@@ -82,6 +82,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$this->items         = $this->get('Items');
+		$this->isBlankState  = count($this->items) ? false : $this->get('IsBlankSlate');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');

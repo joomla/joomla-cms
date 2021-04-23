@@ -17,6 +17,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Mysqli\MysqliQuery;
 
 /**
  * Model class for handling lists of items.
@@ -147,6 +148,29 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		{
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
+	}
+
+	/**
+	 * Is this a blank state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getisBlankSlate()
+	{
+		/** @var MysqliQuery $sql */
+		$sql = $this->query
+			->clear('select')
+			->clear('values')
+			->clear('bounded')
+			->clear('where')
+			->select('count(*)')
+			->setLimit(1);
+
+		$this->_db->setQuery($sql);
+
+		return (bool) (1 - $this->_db->loadResult());
 	}
 
 	/**

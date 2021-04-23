@@ -24,6 +24,13 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+if ($this->isBlankState === true)
+{
+	require 'blankstate.php';
+
+	return;
+}
+
 HTMLHelper::_('behavior.multiselect');
 
 // Just for the tests :(
