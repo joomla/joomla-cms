@@ -161,10 +161,10 @@ class TemplatesModel extends ListModel
 			// Only show mail template from enabled extensions
 			$subQuery = $db->getQuery(true)
 				->select($db->quoteName('name'))
-				->from('#__extensions')
+				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('enabled') . ' = 1');
 
-			$query->where($db->quoteName('extension') . ' IN(' . $subQuery . ')');
+			$query->where($db->quoteName('a.extension') . ' IN(' . $subQuery . ')');
 		}
 
 		// Filter on the language.
@@ -200,7 +200,7 @@ class TemplatesModel extends ListModel
 		$db       = $this->getDbo();
 		$subQuery = $db->getQuery(true)
 			->select($db->quoteName('name'))
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('enabled') . ' = 1');
 
 		$query = $db->getQuery(true)
