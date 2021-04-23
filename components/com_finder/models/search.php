@@ -223,7 +223,7 @@ class FinderModelSearch extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('l.link_id')
+			->select('DISTINCT l.link_id')
 			->from($db->quoteName('#__finder_links') . ' AS l')
 			->where('l.access IN (' . $groups . ')')
 			->where('l.state = 1')
