@@ -21,7 +21,7 @@
 			<field
 				name="max_rows"
 				type="number"
-				label="PLG_FIELDS_SUBFIELDS_PARAMS_MAX_ROWS_LABEL"
+				label="PLG_FIELDS_SUBFORM_PARAMS_MAX_ROWS_LABEL"
 				default=""
 				filter="integer"
 				showon="repeat:1"
