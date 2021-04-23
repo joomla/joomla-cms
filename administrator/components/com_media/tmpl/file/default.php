@@ -34,7 +34,9 @@ $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
 {
+	echo '<div class="subhead noshadow">';
 	echo Toolbar::getInstance('toolbar')->render();
+	echo '</div>';
 }
 
 // Populate the media config

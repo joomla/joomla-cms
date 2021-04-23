@@ -460,7 +460,7 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   3.9.26
+	 * @since   3.9.25
 	 */
 	public function validate($form, $data, $group = null)
 	{

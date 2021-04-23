@@ -11,6 +11,7 @@ namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -42,6 +43,13 @@ class HtmlView extends BaseHtmlView
 	 * @var  array
 	 */
 	protected $languages;
+
+	/**
+	 * Site default language
+	 *
+	 * @var \stdClass
+	 */
+	protected $defaultLanguage;
 
 	/**
 	 * The pagination object
@@ -94,6 +102,18 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Find and set site default language
+		$defaultLanguageTag = ComponentHelper::getParams('com_languages')->get('site');
+
+		foreach ($this->languages as $tag => $language)
+		{
+			if ($tag === $defaultLanguageTag)
+			{
+				$this->defaultLanguage = $language;
+				break;
+			}
 		}
 
 		foreach ($extensions as $extension)
