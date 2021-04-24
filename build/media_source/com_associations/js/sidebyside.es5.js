@@ -71,7 +71,10 @@ jQuery(document).ready(function($) {
       var currentLang = targetLang.replace(/_/,'-');
       $('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
       currentLangSelect.val('');
-      Joomla.Event.dispatch(currentLangSelect[0], 'change');
+      currentLangSelect[0].dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');

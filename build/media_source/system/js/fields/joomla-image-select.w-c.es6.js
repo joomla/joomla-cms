@@ -208,7 +208,7 @@
   });
 
   /**
-   * A sipmle Custom Element for adding alt text and controlling
+   * A simple Custom Element for adding alt text and controlling
    * the lazy loading on a selected image
    *
    * Will be rendered only for editor content images

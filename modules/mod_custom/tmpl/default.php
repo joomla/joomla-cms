@@ -8,9 +8,24 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
+
+$modId = 'mod-custom' . $module->id;
+
+if ($params->get('backgroundimage'))
+{
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->addInlineStyle('
+#' . $modId . '{background-image: url("' . Uri::root(true) . '/' . HTMLHelper::_('cleanImageURL', $params->get('backgroundimage'))->url . '");}
+', ['name' => $modId]);
+}
+
 ?>
 
-
-<div class="mod-custom custom" <?php if ($params->get('backgroundimage')) : ?> style="background-image:url(<?php echo $params->get('backgroundimage'); ?>)"<?php endif; ?>>
+<div id="<?php echo $modId; ?>" class="mod-custom custom">
 	<?php echo $module->content; ?>
 </div>

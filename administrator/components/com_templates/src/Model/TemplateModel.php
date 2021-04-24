@@ -1647,6 +1647,9 @@ class TemplateModel extends FormModel
 
 				switch ($properties->mime)
 				{
+					case 'image/webp':
+						$imageType = \IMAGETYPE_WEBP;
+						break;
 					case 'image/png':
 						$imageType = \IMAGETYPE_PNG;
 						break;
@@ -1696,6 +1699,9 @@ class TemplateModel extends FormModel
 
 				switch ($properties->mime)
 				{
+					case 'image/webp':
+						$imageType = \IMAGETYPE_WEBP;
+						break;
 					case 'image/png':
 						$imageType = \IMAGETYPE_PNG;
 						break;

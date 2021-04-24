@@ -20,11 +20,6 @@ defined('_JEXEC') or die;
 		</h1>
 	</div>
 	<?php endif; ?>
-	<?php if ($this->params->get('page_subheading')) : ?>
-		<h2>
-			<?php echo $this->escape($this->params->get('page_subheading')); ?>
-		</h2>
-	<?php endif; ?>
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
@@ -43,7 +38,12 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 
 	<?php if (!empty($this->intro_items)) : ?>
-		<div class="blog-items <?php echo $this->params->get('blog_class'); ?>">
+		<?php $blogClass = $this->params->get('blog_class', ''); ?>
+		<?php if ((int) $this->params->get('num_columns') > 1) : ?>
+			<?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
+			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
+		<?php endif; ?>
+		<div class="blog-items <?php echo $blogClass; ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">

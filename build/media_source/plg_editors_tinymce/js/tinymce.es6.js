@@ -94,7 +94,7 @@
 
         if (xtdButton.href) {
           tmp.onAction = () => {
-            document.getElementById(`${xtdButton.id}Modal`).open();
+            document.getElementById(`${xtdButton.id}_modal`).open();
           };
         } else {
           tmp.onAction = () => {

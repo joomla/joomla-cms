@@ -210,31 +210,6 @@ class CategoryModel extends AdminModel
 			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
 
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new Date($result->modified_time);
-				$date->setTimezone($tz);
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
-
 			if (!empty($result->id))
 			{
 				$result->tags = new TagsHelper;
@@ -382,7 +357,7 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -394,6 +369,15 @@ class CategoryModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_user_id']))
+			{
+				unset($data['created_user_id']);
+			}
+		}
+
 		if (!Factory::getUser()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))

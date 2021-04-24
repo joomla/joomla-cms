@@ -46,7 +46,7 @@
 					label="MOD_LOGINSUPPORT_FIELD_NEWS_URL_LABEL"
 					filter="url"
 					size="50"
-					default="https://www.joomla.org/"
+					default="https://www.joomla.org/announcements.html"
 				/>
 			</fieldset>
 

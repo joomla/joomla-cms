@@ -214,7 +214,19 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
-				return $this->buildSession(new RuntimeStorage, $app, $container->get(DispatcherInterface::class), $options);
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
+				return $this->buildSession(
+					new JoomlaStorage($app->input, $handler),
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
 			},
 			true
 		);

@@ -496,7 +496,7 @@ class Workflow
 	}
 
 	/**
-	 * Removes associations form the workflow_associations table
+	 * Removes associations from the workflow_associations table
 	 *
 	 * @param   integer[]  $pks  ID of content
 	 *

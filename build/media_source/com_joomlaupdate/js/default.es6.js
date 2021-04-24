@@ -262,7 +262,7 @@ Joomla = window.Joomla || {};
       serverError: 1,
     };
 
-    // Request the server to check the compatiblity for the passed extension and joomla version
+    // Request the server to check the compatibility for the passed extension and joomla version
     Joomla.request({
       url: `${PreUpdateChecker.config.serverUrl
       }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)

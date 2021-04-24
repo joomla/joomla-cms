@@ -131,7 +131,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
 		{
 			$form->loadFile('information', false);
 

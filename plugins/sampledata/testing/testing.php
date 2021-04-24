@@ -2135,7 +2135,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'menutype'     => $menuTypes[6],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => 25,
+				'component_id' => ComponentHelper::getComponent('com_users')->id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
