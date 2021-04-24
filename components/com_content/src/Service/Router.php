@@ -39,14 +39,6 @@ class Router extends RouterView
 	protected $noIDs = false;
 
 	/**
-	 * Flag to set Legacy Router in Strict or Loose mode
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $legacyStrict = false;
-
-	/**
 	 * The category factory
 	 *
 	 * @var CategoryFactoryInterface
@@ -86,13 +78,9 @@ class Router extends RouterView
 		$this->categoryFactory = $categoryFactory;
 		$this->db              = $db;
 
-		$params             = ComponentHelper::getParams('com_content');
-		$this->noIDs        = (bool) $params->get('sef_ids');
-		$categories         = new RouterViewConfiguration('categories');
-		$params             = ComponentHelper::getParams('com_content');
-		$this->noIDs        = (bool) $params->get('sef_ids');
-		$this->legacyStrict = (bool) $params->get('legacy_strict');
-		$categories         = new RouterViewConfiguration('categories');
+		$params = ComponentHelper::getParams('com_content');
+		$this->noIDs = (bool) $params->get('sef_ids');
+		$categories = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new RouterViewConfiguration('category');
@@ -216,47 +204,31 @@ class Router extends RouterView
 	 */
 	public function getCategoryId($segment, $query)
 	{
-                if (isset($query['id']))
-                {
-                        $category = $this->getCategories(['access' => false])->get($query['id']);
+		if (isset($query['id']))
+		{
+			$category = $this->getCategories(['access' => false])->get($query['id']);
 
-                        if ($category)
-                        {
-                                foreach ($category->getChildren() as $child)
-                                {
-                                        if ($this->noIDs)
-                                        {
-                                                if ($child->alias == $segment)
-                                                {
-                                                        return $child->id;
-                                                }
-                                        }
-                                        else
-                                        {
-                                                [$id, $alias] = explode('-', $segment, 2);
-
-                                                if ($child->id == (int) $id)
-                                                {
-                                                        if ($this->legacyStrict)
-                                                        {
-                                                                if ($child->alias == $alias)
-                                                                {
-                                                                        return $child->id;
-                                                                }
-                                                                else
-                                                                {
-                                                                        return false;
-                                                                }
-                                                        }
-                                                        else
-                                                        {
-                                                                return $child->id;
-                                                        }
-                                                }
-                                        }
-                                }
-                        }
-                }
+			if ($category)
+			{
+				foreach ($category->getChildren() as $child)
+				{
+					if ($this->noIDs)
+					{
+						if ($child->alias == $segment)
+						{
+							return $child->id;
+						}
+					}
+					else
+					{
+						if ($child->id . '-' . $child->alias == $segment)
+						{
+							return $child->id;
+						}
+					}
+				}
+			}
+		}
 
 		return false;
 	}
@@ -301,8 +273,7 @@ class Router extends RouterView
 
 			return (int) $this->db->loadResult();
 		}
-
-		if ($this->legacyStrict)
+		else
 		{
 			[$id, $alias] = explode('-', $segment, 2);
 
