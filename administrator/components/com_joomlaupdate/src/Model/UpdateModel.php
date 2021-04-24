@@ -503,7 +503,7 @@ class UpdateModel extends BaseDatabaseModel
 		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
-		$siteroot = JPATH_SITE;
+		$siteroot = Path::clean(JPATH_SITE, '/');
 
 		// If the package name is not specified, get it from the update info.
 		if (empty($basename))
@@ -515,7 +515,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Get the package name.
 		$config  = $app->getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = Path::clean($config->get('tmp_path'), '/');
 		$file    = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
@@ -546,11 +546,12 @@ ENDDATA;
 			 * allowed as raw mode, otherwise something like !@<sdf34>43H% would be
 			 * sanitised to !@43H% which is just plain wrong.
 			 */
-			$ftp_host = $app->input->get('ftp_host', '');
-			$ftp_port = $app->input->get('ftp_port', '21');
-			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
-			$ftp_root = $app->input->get('ftp_root', '');
+
+			$ftp_host = $app->getUserStateFromRequest('com_joomlaupdate.ftp_host', 'ftp_host', '', 'cmd');
+			$ftp_port = $app->getUserStateFromRequest('com_joomlaupdate.ftp_port', 'ftp_port', '21', 'cmd');
+			$ftp_user = $app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', '', 'string');
+			$ftp_pass = addcslashes($app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', '', 'raw'), "'\\");
+			$ftp_root = $app->getUserStateFromRequest('com_joomlaupdate.ftp_root', 'ftp_root', '', 'path');
 
 			// Is the tempdir really writable?
 			$writable = @is_writable($tempdir);

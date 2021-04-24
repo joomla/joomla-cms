@@ -278,6 +278,18 @@ class UpdateController extends BaseController
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
+		$method = $this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
+
+		if ($method !== 'direct')
+		{
+			// Get and store FTP Credentials into session to write to restoration.php in later steps
+			$this->app->getUserStateFromRequest('com_joomlaupdate.ftp_host', 'ftp_host', '', 'cmd');
+			$this->app->getUserStateFromRequest('com_joomlaupdate.ftp_port', 'ftp_port', '21', 'cmd');
+			$this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', '', 'string');
+			$this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', '', 'raw');
+			$this->app->getUserStateFromRequest('com_joomlaupdate.ftp_root', 'ftp_root', '', 'path');
+		}
+
 		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */

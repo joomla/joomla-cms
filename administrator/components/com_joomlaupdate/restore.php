@@ -1824,7 +1824,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 
 		// Try to download ourselves
-		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
+		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : 'index.php';
 		$tempHandle   = fopen('php://temp', 'r+');
 		if (@ftp_fget($this->handle, $tempHandle, $testFilename, FTP_ASCII, 0) === false)
 		{
