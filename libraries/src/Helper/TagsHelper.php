@@ -66,7 +66,7 @@ class TagsHelper extends CMSHelper
 		$typeId = $this->getTypeId($this->typeAlias);
 
 		// Insert the new tag maps
-		if (strpos('#', implode(',', $tags)) === false)
+		if (strpos(implode(',', $tags), '#new#') !== false)
 		{
 			$tags = self::createTagsFromField($tags);
 		}
@@ -214,21 +214,12 @@ class TagsHelper extends CMSHelper
 
 			foreach ($tags as $key => $tag)
 			{
-				// User is not allowed to create tags, so don't create.
-				if (!$canCreate && strpos($tag, '#new#') !== false)
+				// Check for prefix that identifies new tag.
+				if (strpos($tag, '#new#') === 0)
 				{
-					continue;
-				}
+					// Remove the new tag prefix.
+					$tagText = substr($tag, 5);
 
-				// Remove the #new# prefix that identifies new tags
-				$tagText = str_replace('#new#', '', $tag);
-
-				if ($tagText === $tag)
-				{
-					$newTags[] = (int) $tag;
-				}
-				else
-				{
 					// Clear old data if exist
 					$tagTable->reset();
 
@@ -239,6 +230,12 @@ class TagsHelper extends CMSHelper
 					}
 					else
 					{
+						// User is not allowed to create tags.
+						if (!$canCreate)
+						{
+							continue;
+						}
+
 						// Prepare tag data
 						$tagTable->id = 0;
 						$tagTable->title = $tagText;
@@ -264,14 +261,18 @@ class TagsHelper extends CMSHelper
 						}
 					}
 				}
+				else
+				{
+					// Existing tag.
+					$newTags[] = (int) $tag;
+				}
 			}
 
 			// At this point $tags is an array of all tag ids
 			$this->tags = $newTags;
-			$result = $newTags;
 		}
 
-		return $result;
+		return $newTags;
 	}
 
 	/**
