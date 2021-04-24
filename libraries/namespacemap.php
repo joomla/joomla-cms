@@ -131,7 +131,7 @@ class JNamespacePsr4Map
 		}
 
 		$content[] = '];';
-		
+
 		/**
 		 * Backup the current error_reporting level and set a new level
 		 *
@@ -164,7 +164,7 @@ class JNamespacePsr4Map
 
 			$this->cachedMap = $map;
 		}
-		
+
 		// Restore previous value of error_reporting
 		error_reporting($error_reporting);
 	}
