@@ -273,27 +273,23 @@ class Router extends RouterView
 
 			return (int) $this->db->loadResult();
 		}
-		else
-		{
-			[$id, $alias] = explode('-', $segment, 2);
 
-			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($this->db->quoteName('id'))
-				->from($this->db->quoteName('#__content'))
-				->where(
-					[
-						$this->db->quoteName('id') . ' = :id',
-						$this->db->quoteName('alias') . ' = :alias',
-					]
-				)
-				->bind(':id', $id, ParameterType::INTEGER)
-				->bind(':alias', $alias);
-			$this->db->setQuery($dbquery);
+		[$id, $alias] = explode('-', $segment, 2);
 
-			return (int) $this->db->loadResult();
-		}
+		$dbquery = $this->db->getQuery(true);
+		$dbquery->select($this->db->quoteName('id'))
+			->from($this->db->quoteName('#__content'))
+			->where(
+				[
+					$this->db->quoteName('id') . ' = :id',
+					$this->db->quoteName('alias') . ' = :alias',
+				]
+			)
+			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':alias', $alias);
+		$this->db->setQuery($dbquery);
 
-		return (int) $segment;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
