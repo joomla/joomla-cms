@@ -48,13 +48,17 @@ $params = array('params' => json_encode($param));
 	<div class="col-md-8">
 <?php endif; ?>
 <?php if (empty($this->items)) : ?>
-	<div class="bg-light p-3 rounded">
-		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
-		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-		<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
-			<span class="icon-eye" aria-hidden="true"></span>
-			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
-		</a>
+	<div class="px-4 py-5 my-5 text-center">
+		<span class="fa-8x icon-generic mb-4 article" aria-hidden="true"></span>
+		<h1 class="display-5 fw-bold"><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h1>
+		<div class="col-lg-6 mx-auto">
+			<p class="lead mb-4">
+				<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?>
+			</p>
+			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?></a>
+			</div>
+		</div>
 	</div>
 <?php else : ?>
 	<?php foreach ($this->items as $item) : ?>
