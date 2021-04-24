@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Subfields
+ * @subpackage  Fields.Subform
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -269,11 +269,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		// Override the fieldname attribute of the subform - this is being used to index the rows
 		$parent_field->setAttribute('fieldname', 'row');
 
-		// Make sure this `field` DOMElement has an attribute type=subform - our parent set this to
-		// subfields, because that is our name. But we want the XML to be a subform.
-		$parent_field->setAttribute('type', 'subform');
-
-		// If the user configured this subfields instance as required
+		// If the user configured this subform instance as required
 		if ($field->required)
 		{
 			// Then we need to have at least one row
