@@ -23,8 +23,8 @@ HTMLHelper::_('behavior.formvalidator');
 		</legend>
 		<div class="j-install-step-form">
 			<div class="alert alert-error">
-				<h3 class="alert-heading"><?php echo JText::_('JNOTICE'); ?></h3>
-				<p><?php echo JText::_('INSTL_CONFPROBLEM'); ?></p>
+				<h3 class="alert-heading"><?php echo Text::_('JNOTICE'); ?></h3>
+				<p><?php echo Text::_('INSTL_CONFPROBLEM'); ?></p>
 				<textarea rows="10" cols="80" style="width: 100%;" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();"><?php echo $this->buffer; ?></textarea>
 			</div>
 			<div class="form-group">

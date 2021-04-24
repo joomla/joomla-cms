@@ -401,7 +401,7 @@ class ChecksModel extends BaseInstallationModel
 
 		if ($cwdFolders === false || count($cwdFolders) === 0)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NODIRECTORYLISTING'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_FTP_NODIRECTORYLISTING'), 'error');
 
 			return false;
 		}
