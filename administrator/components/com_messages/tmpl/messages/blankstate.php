@@ -9,26 +9,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
+$displayData = array(
+		'textPrefix' => 'COM_MESSAGES',
+		'formURL'    => 'index.php?option=com_messages&view=messages',
+		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
+);
+$user        = Factory::getUser();
+
+if ($user->authorise('core.create', 'com_messages'))
+{
+	$displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
+}
+
+echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
 ?>
-<form action="<?php echo Route::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
 
-	<div class="px-4 py-5 my-5 text-center">
-		<span class="fa-8x icon-envelope inbox mb-4" aria-hidden="true"></span>
-		<h1 class="display-5 fw-bold"><?php echo Text::_('COM_MESSAGES_BLANKSTATE_TITLE'); ?></h1>
-		<div class="col-lg-6 mx-auto">
-			<p class="lead mb-4">
-				<?php echo Text::_('COM_MESSAGES_BLANKSTATE_REQUESTS'); ?>
-			</p>
-			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<a href="<?php echo Route::_('index.php?option=com_messages&view=message&layout=edit'); ?>" class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_('COM_MESSAGES_BLANKSTATE_BUTTON_ADD'); ?></a>
-				<a href="https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages" class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('COM_MESSAGES_BLANKSTATE_BUTTON_LEARNMORE'); ?></a>
-			</div>
-		</div>
-	</div>
-
-	<input type="hidden" name="task" value="">
-	<input type="hidden" name="boxchecked" value="0">
-</form>

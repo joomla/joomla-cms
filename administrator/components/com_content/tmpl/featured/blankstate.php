@@ -9,4 +9,19 @@
 
 defined('_JEXEC') or die;
 
-require __DIR__ . '/../articles/blankstate.php';
+use Joomla\CMS\Factory;
+
+$displayData = array(
+	'textPrefix' => 'COM_CONTENT',
+	'formURL'    => 'index.php?option=com_content&view=featured',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
+);
+$user        = Factory::getUser();
+
+if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
+{
+	$displayData['createURL'] = 'index.php?option=com_content&task=article.add';
+}
+
+echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+?>
