@@ -135,7 +135,7 @@ class JNamespacePsr4Map
 		/**
 		 * Backup the current error_reporting level and set a new level
 		 *
-		 * We do this because file_put_contents can raise a Warning if it cannot write the fautoload_psr4.php file
+		 * We do this because file_put_contents can raise a Warning if it cannot write the autoload_psr4.php file
 		 * and this will output to the response BEFORE the session has started, causing the session start to fail
 		 * and ultimately leading us to a 500 Internal Server Error page just because of the output warning, which
 		 * we can safely ignore as we can use an in-memory autoload_psr4 map temporarily, and display real errors later.
