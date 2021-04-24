@@ -24,4 +24,3 @@ if ($user->authorise('core.create', 'com_content') || count($user->getAuthorised
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>

@@ -24,5 +24,4 @@ if (Factory::getApplication()->get('mailonline', 1))
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>
 

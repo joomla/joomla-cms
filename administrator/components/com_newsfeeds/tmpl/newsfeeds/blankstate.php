@@ -24,4 +24,3 @@ if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>

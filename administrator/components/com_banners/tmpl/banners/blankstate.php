@@ -24,4 +24,3 @@ if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>

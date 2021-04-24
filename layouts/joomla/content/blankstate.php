@@ -40,7 +40,7 @@ $helpURL    = $displayData['helpURL'] ?? '';
 					   class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_($textPrefix . '_BLANKSTATE_BUTTON_ADD'); ?></a>
 				<?php endif; ?>
 				<?php if ($helpURL) : ?>
-					<a href="<?php echo $helpURL; ?>"
+					<a href="<?php echo $helpURL; ?>" target="_blank"
 					   class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('JGLOBAL_LEARNMORE'); ?></a>
 				<?php endif; ?>
 			</div>

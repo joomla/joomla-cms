@@ -25,4 +25,3 @@ if ($user->get('core.create', 'com_contact') || count($user->getAuthorisedCatego
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>

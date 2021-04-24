@@ -24,5 +24,4 @@ if ($user->authorise('core.create', 'com_messages'))
 }
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>
 

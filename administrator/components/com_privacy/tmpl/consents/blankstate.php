@@ -16,4 +16,3 @@ $displayData = array(
 );
 
 echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
-?>
