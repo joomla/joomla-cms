@@ -1,0 +1,39 @@
+<form>
+	<fields>
+
+		<field
+			name="required"
+			label="Value Required"
+			type="list"
+			default="0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="notrequired"
+			label="Blank Required"
+			type="list"
+			default="0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="contains"
+			label="Contains"
+			type="text"
+		>
+		</field>
+
+		<field
+			name="containsNot"
+			label="Contains NOT"
+			type="text"
+		>
+		</field>
+
+	</fields>
+</form>
