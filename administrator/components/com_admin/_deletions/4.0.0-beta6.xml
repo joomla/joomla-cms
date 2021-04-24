@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<files>
+	<filename>administrator/components/com_actionlogs/layouts/logstable.php</filename>
+	<filename>administrator/modules/mod_multilangstatus/src/Helper/MultilangstatusAdminHelper.php</filename>
+	<filename>administrator/templates/atum/favicon.ico</filename>
+	<filename>libraries/vendor/nyholm/psr7/phpstan.baseline.dist</filename>
+	<filename>libraries/vendor/spomky-labs/base64url/.php_cs.dist</filename>
+	<filename>libraries/vendor/spomky-labs/base64url/infection.json.dist</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.es6.js</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.es6.min.js</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.es6.min.js.gz</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.js</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.min.js</filename>
+	<filename>media/layouts/js/joomla/html/batch/batch-language.min.js.gz</filename>
+	<filename>media/plg_system_webauthn/images/webauthn-black.svg</filename>
+	<filename>media/plg_system_webauthn/images/webauthn-white.svg</filename>
+	<filename>media/system/js/core.es6/ajax.es6</filename>
+	<filename>media/system/js/core.es6/customevent.es6</filename>
+	<filename>media/system/js/core.es6/event.es6</filename>
+	<filename>media/system/js/core.es6/form.es6</filename>
+	<filename>media/system/js/core.es6/message.es6</filename>
+	<filename>media/system/js/core.es6/options.es6</filename>
+	<filename>media/system/js/core.es6/text.es6</filename>
+	<filename>media/system/js/core.es6/token.es6</filename>
+	<filename>media/system/js/core.es6/webcomponent.es6</filename>
+	<filename>templates/cassiopeia/favicon.ico</filename>
+	<filename>templates/cassiopeia/scss/_mixin.scss</filename>
+	<filename>templates/cassiopeia/scss/_variables.scss</filename>
+	<filename>templates/cassiopeia/scss/blocks/_demo-styling.scss</filename>
+</files>

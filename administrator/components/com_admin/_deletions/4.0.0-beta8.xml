@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<files>
+	<filename>/administrator/components/com_admin/postinstall/htaccess.php</filename>
+	<filename>/administrator/components/com_admin/postinstall/updatedefaultsettings.php</filename>
+</files>

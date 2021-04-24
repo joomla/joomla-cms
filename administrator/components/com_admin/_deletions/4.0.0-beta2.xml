@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<files>
+	<filename>administrator/components/com_finder/src/Indexer/Driver/Mysql.php</filename>
+	<filename>administrator/components/com_finder/src/Indexer/Driver/Postgresql.php</filename>
+	<filename>administrator/components/com_workflow/access.xml</filename>
+	<filename>api/components/com_installer/src/Controller/LanguagesController.php</filename>
+	<filename>api/components/com_installer/src/View/Languages/JsonapiView.php</filename>
+	<filename>libraries/vendor/joomla/controller/LICENSE</filename>
+	<filename>libraries/vendor/joomla/controller/src/AbstractController.php</filename>
+	<filename>libraries/vendor/joomla/controller/src/ControllerInterface.php</filename>
+	<filename>media/com_users/js/admin-users-user.es6.js</filename>
+	<filename>media/com_users/js/admin-users-user.es6.min.js</filename>
+	<filename>media/com_users/js/admin-users-user.es6.min.js.gz</filename>
+	<filename>media/com_users/js/admin-users-user.js</filename>
+	<filename>media/com_users/js/admin-users-user.min.js</filename>
+	<filename>media/com_users/js/admin-users-user.min.js.gz</filename>
+	<folder>/administrator/components/com_finder/src/Indexer/Driver</folder>
+	<folder>/api/components/com_installer/src/View/Languages</folder>
+	<folder>/libraries/vendor/joomla/controller</folder>
+</files>
