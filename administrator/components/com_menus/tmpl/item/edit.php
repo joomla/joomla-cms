@@ -142,35 +142,31 @@ if ($clientId === 1)
 						echo $this->loadTemplate('container');
 					}
 					?>
-				<div class="card">
-					<div class="card-body">
-					<?php
-						// Set main fields.
-						$this->fields = array(
-							'id',
-							'client_id',
-							'menutype',
-							'parent_id',
-							'menuordering',
-							'published',
-							'home',
-							'publish_up',
-							'publish_down',
-							'access',
-							'language',
-							'note',
-						);
+				<?php
+					// Set main fields.
+					$this->fields = array(
+						'id',
+						'client_id',
+						'menutype',
+						'parent_id',
+						'menuordering',
+						'published',
+						'home',
+						'publish_up',
+						'publish_down',
+						'access',
+						'language',
+						'note',
+					);
 
-						if ($this->item->type != 'component')
-						{
-							$this->fields = array_diff($this->fields, array('home'));
-							$this->form->setFieldAttribute('publish_up', 'showon', '');
-							$this->form->setFieldAttribute('publish_down', 'showon', '');
-						}
+					if ($this->item->type != 'component')
+					{
+						$this->fields = array_diff($this->fields, array('home'));
+						$this->form->setFieldAttribute('publish_up', 'showon', '');
+						$this->form->setFieldAttribute('publish_down', 'showon', '');
+					}
 
-						echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+					echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
