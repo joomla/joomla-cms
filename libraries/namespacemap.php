@@ -140,7 +140,7 @@ class JNamespacePsr4Map
 		 * and ultimately leading us to a 500 Internal Server Error page just because of the output warning, which
 		 * we can safely ignore as we can use an in-memory autoload_psr4 map temporarily, and display real errors later.
 		 */
-		$error_reporting  = error_reporting(0);
+		$error_reporting = error_reporting(0);
 
 		if (!File::write($this->file, implode("\n", $content)))
 		{
