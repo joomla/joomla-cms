@@ -664,7 +664,7 @@ class RegistrationModel extends FormModel
 				$jdate     = new Date;
 				$dateToSql = $jdate->toSql();
 				$subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
-				$message   = Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']);
+				$message   = Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $data['username']);
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
