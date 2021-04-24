@@ -325,4 +325,29 @@ class TagsModel extends ListModel
 			$component->countTagItems($items, $extension);
 		}
 	}
+
+	/**
+	 * Is this a blank state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getisEmptyState()
+	{
+		$sql = $this->query
+			->clear('select')
+			->clear('values')
+			->clear('bounded')
+			->clear('limit')
+			->clear('order')
+			->clear('where')
+			->select('count(*)');
+
+		$sql->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+
+		$this->_db->setQuery($sql);
+
+		return !($this->_db->loadResult() > 0);
+	}
 }
