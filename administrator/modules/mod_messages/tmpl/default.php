@@ -21,7 +21,7 @@ if ($hideLinks)
 }
 
 $uri   = Uri::getInstance();
-$route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
+$route = 'index.php?option=com_messages&view=messages';
 ?>
 
 <div class="header-item-content">
@@ -37,5 +37,3 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 		<?php endif; ?>
 	</a>
 </div>
-
-
