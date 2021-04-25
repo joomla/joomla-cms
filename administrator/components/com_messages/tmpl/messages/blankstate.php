@@ -24,4 +24,3 @@ if (Factory::getUser()->authorise('core.create', 'com_messages'))
 }
 
 echo LayoutHelper::render('joomla.content.blankstate', $displayData);
-
