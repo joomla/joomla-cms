@@ -32,7 +32,7 @@ $param    = array(
 	'cache'       => 0,
 	);
 $params = array('params' => json_encode($param));
-$extension_options_count = count((array) $this->extension_options);
+$extension_options_count = count($this->extension_options);
 
 ?>
 
