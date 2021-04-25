@@ -176,7 +176,6 @@ class HtmlView extends BaseHtmlView
 				'workflow.cancel',
 				'JTOOLBAR_CLOSE'
 			);
-
 		}
 	}
 }
