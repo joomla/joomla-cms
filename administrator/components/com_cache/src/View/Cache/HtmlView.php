@@ -106,6 +106,11 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
+		if (!count($this->data))
+		{
+			$this->setLayout('blankstate');
+		}
+
 		$this->addToolbar();
 
 		parent::display($tpl);
