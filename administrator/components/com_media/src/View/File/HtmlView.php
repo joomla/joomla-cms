@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View to edit an file.
+ * View to edit a file.
  *
  * @since  4.0.0
  */
