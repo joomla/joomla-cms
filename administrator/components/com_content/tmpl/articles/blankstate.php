@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 	'textPrefix' => 'COM_CONTENT',
@@ -23,4 +24,4 @@ if ($user->authorise('core.create', 'com_content') || count($user->getAuthorised
 	$displayData['createURL'] = 'index.php?option=com_content&task=article.add';
 }
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);

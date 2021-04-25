@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 		'textPrefix' => 'COM_USERS_NOTES',
@@ -23,4 +24,4 @@ if ($user->authorise('core.create', 'com_users'))
 	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);

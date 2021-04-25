@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 defined('_JEXEC') or die;
 
 $displayData = array(
@@ -15,4 +17,4 @@ $displayData = array(
 		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Consents',
 );
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);

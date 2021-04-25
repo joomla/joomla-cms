@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 		'textPrefix' => 'COM_PRIVACY_REQUESTS',
@@ -23,5 +24,5 @@ if (Factory::getApplication()->get('mailonline', 1))
 	$displayData['createURL'] = 'index.php?option=com_privacy&task=request.add';
 }
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);
 

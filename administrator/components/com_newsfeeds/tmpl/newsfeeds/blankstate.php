@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 		'textPrefix' => 'COM_NEWSFEEDS',
@@ -23,4 +24,4 @@ if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 	$displayData['createURL'] = 'index.php?option=com_newsfeeds&task=newsfeed.add';
 }
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);

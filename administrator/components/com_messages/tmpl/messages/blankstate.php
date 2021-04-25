@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 		'textPrefix' => 'COM_MESSAGES',
@@ -23,5 +24,5 @@ if ($user->authorise('core.create', 'com_messages'))
 	$displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
 }
 
-echo \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.blankstate', $displayData);
 
