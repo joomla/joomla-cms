@@ -281,7 +281,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		// Trigger the change state event.
 		$eventResult = $this->app->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			'onContentBeforeChangeFeatured',
 			AbstractEvent::create(
 				'onContentBeforeChangeFeatured',
 				[
