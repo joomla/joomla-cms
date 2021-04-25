@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Filesystem\Path;
 
 /**
