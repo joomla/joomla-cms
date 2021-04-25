@@ -36,7 +36,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 
 ?>
 
-<form action="index.php"  method="post" name="adminForm" class="<?php echo $adminFormClass; ?>" id="adminForm">
+<form action="index.php" method="post" name="adminForm" class="<?php echo $adminFormClass; ?>" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
