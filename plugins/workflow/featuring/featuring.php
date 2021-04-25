@@ -221,7 +221,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
 			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+				var dropdown = document.getElementById('toolbar-status-group');
 
 				if (!dropdown)
 				{
