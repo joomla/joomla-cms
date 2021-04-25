@@ -24,8 +24,6 @@ if ($class)
 
 $value  = $field->value;
 
-$buffer = '';
-
 if ($value)
 {
 	$img       = HTMLHelper::cleanImageURL($value['imagefile']);
@@ -34,14 +32,26 @@ if ($value)
 
 	if (file_exists($img->url))
 	{
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
-			$img->attributes['width'],
-			$img->attributes['height'],
-			$imgUrl,
-			$class,
-			$alt
-		);
+		if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0)
+		{
+			$buffer = sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
+				$img->attributes['width'],
+				$img->attributes['height'],
+				$imgUrl,
+				$class,
+				$alt
+			);
+		}
+		else
+		{
+			$buffer = sprintf('<img src="%s"%s%s>',
+				$imgUrl,
+				$class,
+				$alt
+			);
+		}
+
+		echo $buffer;
 	}
 }
 
-echo $buffer;

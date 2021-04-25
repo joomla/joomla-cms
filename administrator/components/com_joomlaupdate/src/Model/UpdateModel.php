@@ -18,7 +18,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
@@ -338,7 +340,13 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir  = Factory::getApplication()->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		)
+			->clean(Factory::getApplication()->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = [];
 
@@ -1040,15 +1048,7 @@ ENDDATA;
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		if (version_compare(\JVERSION, '3.4.0', 'ge'))
-		{
-			$result = File::upload($tmp_src, $tmp_dest, false, true);
-		}
-		else
-		{
-			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
-			$result = File::upload($tmp_src, $tmp_dest);
-		}
+		$result = File::upload($tmp_src, $tmp_dest, false, true);
 
 		if (!$result)
 		{

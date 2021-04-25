@@ -210,11 +210,11 @@ class Patcher
 	/**
 	 * Add a unified diff file to the patcher
 	 *
-	 * @param   string  $filename  Path to the unified diff file
-	 * @param   string  $root      The files root path
-	 * @param   string  $strip     The number of '/' to strip
+	 * @param   string   $filename  Path to the unified diff file
+	 * @param   string   $root      The files root path
+	 * @param   integer  $strip     The number of '/' to strip
 	 *
-	 * @return	FilesystemPatcher  $this for chaining
+	 * @return  FilesystemPatcher  $this for chaining
 	 *
 	 * @since   3.0.0
 	 */
@@ -226,11 +226,11 @@ class Patcher
 	/**
 	 * Add a unified diff string to the patcher
 	 *
-	 * @param   string  $udiff  Unified diff input string
-	 * @param   string  $root   The files root path
-	 * @param   string  $strip  The number of '/' to strip
+	 * @param   string   $udiff  Unified diff input string
+	 * @param   string   $root   The files root path
+	 * @param   integer  $strip  The number of '/' to strip
 	 *
-	 * @return	FilesystemPatcher  $this for chaining
+	 * @return  FilesystemPatcher  $this for chaining
 	 *
 	 * @since   3.0.0
 	 */

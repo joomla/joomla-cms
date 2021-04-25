@@ -316,7 +316,7 @@ class SetConfigurationCommand extends AbstractCommand
 			return false;
 		}
 
-		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['db']))
+		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db']))
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 

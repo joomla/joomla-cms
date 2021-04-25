@@ -29,7 +29,7 @@ use Joomla\CMS\Language\Text;
 				<?php echo $item->message; ?>
 			</td>
 			<td>
-				<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC5')); ?>
+				<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

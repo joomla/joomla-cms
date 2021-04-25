@@ -102,7 +102,7 @@ trait UserProfileFields
 		$name = $form->getName();
 
 		$allowedForms = [
-			'com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration'
+			'com_users.user', 'com_users.profile', 'com_users.registration'
 		];
 
 		if (!in_array($name, $allowedForms))
@@ -187,7 +187,7 @@ trait UserProfileFields
 	 */
 	public function onContentPrepareData(?string $context, $data): bool
 	{
-		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user']))
 		{
 			return true;
 		}

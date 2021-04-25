@@ -25,8 +25,8 @@
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-<fields name="params">
-	<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
+	<fields name="params">
+		<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
 
 			<field
 				name="show_base_description"
@@ -448,7 +448,9 @@
 			</field>
 		</fieldset>
 
-	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 			<field
 				name="article_layout"
@@ -619,7 +621,7 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
@@ -677,9 +679,9 @@
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-		</field>
-	</fieldset>
-	<fieldset name="integration">
+			</field>
+		</fieldset>
+		<fieldset name="integration">
 
 			<field
 				name="show_feed_link"
@@ -704,5 +706,5 @@
 				<option value="1">JGLOBAL_FULL_TEXT</option>
 			</field>
 		</fieldset>
-</fields>
+	</fields>
 </metadata>

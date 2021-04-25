@@ -95,6 +95,9 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -115,6 +118,13 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
+
+		<?php if ($this->countModules('topbar')) : ?>
+			<div class="container-topbar">
+			<jdoc:include type="modules" name="topbar" style="none" />
+			</div>
+		<?php endif; ?>
+
 		<div class="grid-child">
 			<div class="navbar-brand">
 				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
@@ -216,6 +226,5 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
 </body>
 </html>

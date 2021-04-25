@@ -71,7 +71,6 @@ export default {
     setFullHeight() {
       this.fullHeight = `${window.innerHeight - this.$el.getBoundingClientRect().top}px`;
     },
-
   },
 };
 </script>

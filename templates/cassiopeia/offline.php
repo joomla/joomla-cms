@@ -75,12 +75,16 @@ else
 	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
+	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<jdoc:include type="head" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 <body class="site">
 	<div class="outer">
