@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Subfields
+ * @subpackage  Fields.Subform
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,7 +11,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 defined('_JEXEC') or die;
 
-if (!$context || empty($field->subfields_rows))
+if (!$context || empty($field->subform_rows))
 {
 	return;
 }
@@ -19,13 +19,13 @@ if (!$context || empty($field->subfields_rows))
 $result = '';
 
 // Iterate over each row that we have
-foreach ($field->subfields_rows as $subfields_row)
+foreach ($field->subform_rows as $subform_row)
 {
 	// Placeholder array to generate this rows output
 	$row_output = array();
 
 	// Iterate over each sub field inside of that row
-	foreach ($subfields_row as $subfield)
+	foreach ($subform_row as $subfield)
 	{
 		$class   = trim($subfield->params->get('render_class', ''));
 		$layout  = trim($subfield->params->get('layout', 'render'));

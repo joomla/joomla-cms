@@ -24,17 +24,17 @@
     <template #footer>
       <div>
         <button
+          class="btn btn-success"
+          @click="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+        <button
           id="media-delete-item"
           class="btn btn-danger"
           @click="deleteItem()"
         >
           {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL') }}
-        </button>
-        <button
-          class="btn btn-success"
-          @click="close()"
-        >
-          {{ translate('JCANCEL') }}
         </button>
       </div>
     </template>
