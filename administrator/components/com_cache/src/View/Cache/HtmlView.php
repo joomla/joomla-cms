@@ -101,12 +101,12 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		if (!count($this->data))
+		if (!\count($this->data))
 		{
 			$this->setLayout('blankstate');
 		}
@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if (count($this->data))
+		if (\count($this->data))
 		{
 			ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
 			ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
