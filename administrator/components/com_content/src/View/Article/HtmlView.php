@@ -159,7 +159,7 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('article.cancel');
 		}
 		else
 		{

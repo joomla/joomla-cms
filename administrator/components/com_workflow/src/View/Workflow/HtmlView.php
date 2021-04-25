@@ -144,6 +144,10 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			ToolbarHelper::cancel(
+				'workflow.cancel'
+			);
 		}
 		else
 		{
@@ -167,8 +171,12 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
-		}
 
-		ToolbarHelper::cancel('workflow.cancel');
+			ToolbarHelper::cancel(
+				'workflow.cancel',
+				'JTOOLBAR_CLOSE'
+			);
+
+		}
 	}
 }
