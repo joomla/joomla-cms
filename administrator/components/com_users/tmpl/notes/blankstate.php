@@ -17,9 +17,8 @@ $displayData = array(
 		'formURL'    => 'index.php?option=com_users&view=notes',
 		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
 );
-$user        = Factory::getUser();
 
-if ($user->authorise('core.create', 'com_users'))
+if (Factory::getUser()->authorise('core.create', 'com_users'))
 {
 	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
