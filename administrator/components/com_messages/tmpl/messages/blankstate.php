@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
-		'textPrefix' => 'COM_MESSAGES',
-		'formURL'    => 'index.php?option=com_messages&view=messages',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
-);
+$displayData =[
+	'textPrefix' => 'COM_MESSAGES',
+	'formURL'    => 'index.php?option=com_messages&view=messages',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
+];
 
-if (Factory::getUser()->authorise('core.create', 'com_messages'))
+if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_messages'))
 {
 	$displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
 }

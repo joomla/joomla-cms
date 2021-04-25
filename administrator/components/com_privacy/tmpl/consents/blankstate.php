@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
-		'textPrefix' => 'COM_PRIVACY_CONSENTS',
-		'formURL'    => 'index.php?option=com_privacy&view=consents',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Consents',
-);
+$displayData = [
+	'textPrefix' => 'COM_PRIVACY_CONSENTS',
+	'formURL'    => 'index.php?option=com_privacy&view=consents',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Consents',
+];
 
 echo LayoutHelper::render('joomla.content.blankstate', $displayData);

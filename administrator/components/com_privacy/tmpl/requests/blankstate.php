@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
-		'textPrefix' => 'COM_PRIVACY_REQUESTS',
-		'formURL'    => 'index.php?option=com_privacy&view=requests',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Information_Requests',
-);
+$displayData = [
+	'textPrefix' => 'COM_PRIVACY_REQUESTS',
+	'formURL'    => 'index.php?option=com_privacy&view=requests',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Information_Requests',
+];
 
 if (Factory::getApplication()->get('mailonline', 1))
 {

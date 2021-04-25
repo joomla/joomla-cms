@@ -12,14 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
-		'textPrefix' => 'COM_NEWSFEEDS',
-		'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:News_Feeds',
-);
-$user        = Factory::getUser();
+$displayData = [
+	'textPrefix' => 'COM_NEWSFEEDS',
+	'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:News_Feeds',
+];
 
-if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 {
 	$displayData['createURL'] = 'index.php?option=com_newsfeeds&task=newsfeed.add';
 }
