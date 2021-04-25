@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Layout\LayoutHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
 		'textPrefix' => 'COM_PRIVACY_CONSENTS',
