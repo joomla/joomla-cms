@@ -36,7 +36,7 @@ $extension_options_count = count((array) $this->extension_options);
 
 ?>
 
-<?php if ($extension_options_count != 1) : ?>
+<?php if ($extension_options_count > 1) : ?>
 	<form action="index.php" method="post" name="adminForm" class="form-inline mb-3" id="adminForm">
 		<input type="hidden" name="option" value="com_postinstall">
 		<input type="hidden" name="task" value="">
