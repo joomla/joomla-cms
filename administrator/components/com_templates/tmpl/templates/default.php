@@ -71,11 +71,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<div>
 										<?php if ($this->preview) : ?>
 											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
-											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>"
-												target="_blank"
-												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
-											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?> "target="_blank">
+												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
+											<div role="tooltip" id="preview-<?php echo (int) $item->id; ?>"><?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $item->name); ?></div>
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
