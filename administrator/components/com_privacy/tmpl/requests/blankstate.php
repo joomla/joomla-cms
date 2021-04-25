@@ -17,7 +17,6 @@ $displayData = array(
 		'formURL'    => 'index.php?option=com_privacy&view=requests',
 		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Information_Requests',
 );
-$user        = Factory::getUser();
 
 if (Factory::getApplication()->get('mailonline', 1))
 {
