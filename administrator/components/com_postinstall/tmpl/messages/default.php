@@ -32,16 +32,19 @@ $param    = array(
 	'cache'       => 0,
 	);
 $params = array('params' => json_encode($param));
+$extension_options_count = count((array) $this->extension_options);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline mb-3" id="adminForm">
-	<input type="hidden" name="option" value="com_postinstall">
-	<input type="hidden" name="task" value="">
-	<?php echo HTMLHelper::_('form.token'); ?>
-	<label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
-</form>
+<?php if ($extension_options_count != 1) : ?>
+	<form action="index.php" method="post" name="adminForm" class="form-inline mb-3" id="adminForm">
+		<input type="hidden" name="option" value="com_postinstall">
+		<input type="hidden" name="task" value="">
+		<?php echo HTMLHelper::_('form.token'); ?>
+		<label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
+		<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
+	</form>
+<?php endif; ?>
 
 <?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>
 <div class="row">
