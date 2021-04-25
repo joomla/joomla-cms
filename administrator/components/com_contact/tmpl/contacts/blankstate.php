@@ -20,7 +20,7 @@ $displayData = array(
 );
 $user        = Factory::getUser();
 
-if ($user->get('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
+if ($user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 {
 	$displayData['createURL'] = 'index.php?option=com_contact&task=contact.add';
 }
