@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `description` text NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 0,
   `required` tinyint(1) NOT NULL DEFAULT 0,
+  `only_use_in_subform` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `ordering` int(11) NOT NULL DEFAULT 0,

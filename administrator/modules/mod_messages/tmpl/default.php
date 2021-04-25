@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
@@ -20,8 +19,7 @@ if ($hideLinks)
 	return;
 }
 
-$uri   = Uri::getInstance();
-$route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
+$route = 'index.php?option=com_messages&view=messages';
 ?>
 <a class="header-item-content" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 	<div class="header-item-icon">
