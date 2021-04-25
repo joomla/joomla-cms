@@ -163,8 +163,20 @@ class FieldModel extends AdminModel
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
+
+		/**
+		 * If the field is only used in subform, set Category to None automatically so that it will only be displayed
+		 * as part of SubForm on add/edit item screen
+		 */
+		if (!empty($data['only_use_in_subform']))
+		{
+			$cats = [-1];
+		}
+		else
+		{
+			$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+			$cats = ArrayHelper::toInteger($cats);
+		}
 
 		$assignedCatIds = array();
 
@@ -557,6 +569,23 @@ class FieldModel extends AdminModel
 			// Disable fields while saving. The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+		if ($fieldId)
+		{
+			$fieldType = $form->getField('type');
+
+			if ($fieldType->value == 'subform')
+			{
+				// Only Use In subform should not be available for subform field type, so we remove it
+				$form->removeField('only_use_in_subform');
+			}
+			else
+			{
+				// Field type could not be changed, so remove showon attribute to avoid js errors
+				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
+			}
 		}
 
 		return $form;

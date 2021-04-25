@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Subfields
+ * @subpackage  Fields.Subform
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,11 +15,11 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 /**
- * Fields subfields Plugin
+ * Fields subform Plugin
  *
  * @since  4.0.0
  */
-class PlgFieldsSubfields extends FieldsPlugin
+class PlgFieldsSubform extends FieldsPlugin
 {
 	/**
 	 * Two-dimensional array to hold to do a fast in-memory caching of rendered
@@ -52,7 +52,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
-		// Get the path to our own form definition (basically ./params/subfields.xml)
+		// Get the path to our own form definition (basically ./params/subform.xml)
 		$path = $this->getFormPath($form, $data);
 
 		if ($path === null)
@@ -71,11 +71,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 		$xmlxpath = new DOMXPath($xml);
 
 		/**
-		 * Get all fields of type "subfieldstype" in our own XML
+		 * Get all fields of type "subfields" in our own XML
 		 *
 		 * @var $valuefields \DOMNodeList
 		 */
-		$valuefields = $xmlxpath->evaluate('//field[@type="subfieldstype"]');
+		$valuefields = $xmlxpath->evaluate('//field[@type="subfields"]');
 
 		// If we haven't found it, something is wrong
 		if (!$valuefields || $valuefields->length != 1)
@@ -166,7 +166,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		 * Each array entry is another array representing a row, containing all of the sub fields that
 		 * are valid for this row and their raw and rendered values.
 		 */
-		$subfields_rows = array();
+		$subform_rows = array();
 
 		// Create an array with entries being subfields forms, and if not repeatable, containing only one element.
 		$rows = $field->value;
@@ -234,11 +234,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 			}
 
 			// Store all the sub fields of this row
-			$subfields_rows[] = $row_subfields;
+			$subform_rows[] = $row_subfields;
 		}
 
-		// Store all the rows and their corresponding sub fields in $field->subfields_rows
-		$field->subfields_rows = $subfields_rows;
+		// Store all the rows and their corresponding sub fields in $field->subform_rows
+		$field->subform_rows = $subform_rows;
 
 		// Call our parent to combine all those together for the final $field->value
 		return parent::onCustomFieldsPrepareField($context, $item, $field);
@@ -269,11 +269,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Override the fieldname attribute of the subform - this is being used to index the rows
 		$parent_field->setAttribute('fieldname', 'row');
 
-		// Make sure this `field` DOMElement has an attribute type=subform - our parent set this to
-		// subfields, because that is our name. But we want the XML to be a subform.
-		$parent_field->setAttribute('type', 'subform');
-
-		// If the user configured this subfields instance as required
+		// If the user configured this subform instance as required
 		if ($field->required)
 		{
 			// Then we need to have at least one row
@@ -294,6 +290,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 		$parent_fieldset = $parent_field->appendChild(new DOMElement('form'));
 		$parent_fieldset->setAttribute('hidden', 'true');
 		$parent_fieldset->setAttribute('name', ($field->name . '_modal'));
+
+		if ($field_params->get('max_rows'))
+		{
+			$parent_field->setAttribute('max', $field_params->get('max_rows'));
+		}
 
 		// If this field should be repeatable, set some attributes on the modal
 		if ($field_params->get('repeat', '1') == '1')

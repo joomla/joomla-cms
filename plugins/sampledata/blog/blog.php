@@ -1200,6 +1200,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
+				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,

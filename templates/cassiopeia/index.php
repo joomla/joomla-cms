@@ -118,6 +118,13 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
+
+		<?php if ($this->countModules('topbar')) : ?>
+			<div class="container-topbar">
+			<jdoc:include type="modules" name="topbar" style="none" />
+			</div>
+		<?php endif; ?>
+
 		<div class="grid-child">
 			<div class="navbar-brand">
 				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">

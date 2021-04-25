@@ -16,6 +16,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
+HTMLHelper::_('behavior.multiselect');
+
 /** @var HtmlView $this */
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
@@ -75,7 +77,7 @@ $wa->useScript('keepalive')
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
 						ActionlogsHelper::loadTranslationFiles($extension); ?>
-						<tr>
+						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
