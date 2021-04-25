@@ -17,9 +17,8 @@ $displayData = array(
 		'formURL'    => 'index.php?option=com_messages&view=messages',
 		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
 );
-$user        = Factory::getUser();
 
-if ($user->authorise('core.create', 'com_messages'))
+if (Factory::getUser()->authorise('core.create', 'com_messages'))
 {
 	$displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
 }
