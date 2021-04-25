@@ -41,7 +41,7 @@ $helpURL    = $displayData['helpURL'] ?? '';
 				<?php endif; ?>
 				<?php if ($helpURL) : ?>
 					<a href="<?php echo $helpURL; ?>" target="_blank"
-					   class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('JGLOBAL_LEARNMORE'); ?></a>
+					   class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('JGLOBAL_LEARN_MORE'); ?></a>
 				<?php endif; ?>
 			</div>
 		</div>
