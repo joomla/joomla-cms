@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData =[
+$displayData = [
 	'textPrefix' => 'COM_MESSAGES',
 	'formURL'    => 'index.php?option=com_messages&view=messages',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Private_Messages',
