@@ -30,11 +30,11 @@
   color: $modal-preview-text-color;
 
   .modal-dialog {
-    max-width: 70vw;
-    max-height: 70vh;
     position: fixed;
     top: 50%;
     left: 50%;
+    max-width: 70vw;
+    max-height: 70vh;
     transform: translate(-50%, -50%);
   }
   .modal-content {
