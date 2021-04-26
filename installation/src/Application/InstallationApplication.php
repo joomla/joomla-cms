@@ -591,6 +591,5 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function getMenu($name = null, $options = array())
 	{
-		
 	}
 }
