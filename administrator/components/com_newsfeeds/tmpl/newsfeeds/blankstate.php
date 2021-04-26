@@ -16,6 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_NEWSFEEDS',
 	'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:News_Feeds',
+	'icon'       => 'icon-rss newsfeeds',
 ];
 
 if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
