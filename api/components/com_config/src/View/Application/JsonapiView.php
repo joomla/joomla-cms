@@ -53,7 +53,7 @@ class JsonapiView extends BaseApiView
 
 		$offset              = $currentPageQuery['offset'];
 		$limit               = $currentPageQuery['limit'];
-		$totalItemsCount     = count($items);
+		$totalItemsCount     = \count($items);
 		$totalPagesAvailable = ceil($totalItemsCount / $limit);
 
 		$items = array_splice($items, $offset, $limit);

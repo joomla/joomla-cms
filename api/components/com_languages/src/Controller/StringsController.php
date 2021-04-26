@@ -51,12 +51,12 @@ class StringsController extends ApiController
 	{
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		if (!isset($data['searchstring']) || !is_string($data['searchstring']))
+		if (!isset($data['searchstring']) || !\is_string($data['searchstring']))
 		{
 			throw new InvalidParameterException("Invalid param 'searchstring'");
 		}
 
-		if (!isset($data['searchtype']) || !in_array($data['searchtype'], ['constant', 'value']))
+		if (!isset($data['searchtype']) || !\in_array($data['searchtype'], ['constant', 'value']))
 		{
 			throw new InvalidParameterException("Invalid param 'searchtype'");
 		}

@@ -50,27 +50,27 @@ class ArticlesController extends ApiController
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		if (array_key_exists('author', $apiFilterInfo))
+		if (\array_key_exists('author', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.author_id', $filter->clean($apiFilterInfo['author'], 'INT'));
 		}
 
-		if (array_key_exists('category', $apiFilterInfo))
+		if (\array_key_exists('category', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.category_id', $filter->clean($apiFilterInfo['category'], 'INT'));
 		}
 
-		if (array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('state', $apiFilterInfo))
+		if (\array_key_exists('state', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
-		if (array_key_exists('language', $apiFilterInfo))
+		if (\array_key_exists('language', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
 		}

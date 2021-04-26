@@ -113,7 +113,7 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created_by',
 		'tags',
-		'modified_by'
+		'modified_by',
 	];
 
 	/**
@@ -126,7 +126,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function __construct($config = [])
 	{
-		if (array_key_exists('contentType', $config))
+		if (\array_key_exists('contentType', $config))
 		{
 			$this->serializer = new ContentSerializer($config['contentType']);
 		}
