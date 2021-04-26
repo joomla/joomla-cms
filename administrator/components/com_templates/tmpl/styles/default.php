@@ -89,6 +89,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</a>
 										<div role="tooltip" id="preview-<?php echo (int) $item->id; ?>"><?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $item->title); ?></div>
 									<?php else : ?>
+										<a href="#" aria-labelledby="nopreview-<?php echo (int) $item->id; ?>">
 										<span class="icon-eye-slash" aria-hidden="true"></span>
 										<div role="tooltip" id="nopreview-<?php echo (int) $item->id; ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></div>
 										<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
