@@ -45,7 +45,7 @@ $app->getDocument()->addScriptOptions(
 			</li>
 			<?php // Progress bar ?>
 			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<div class="progress">
+				<div class="progress mb-3">
 					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
 				</div>
 			</li>
