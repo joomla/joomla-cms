@@ -90,7 +90,7 @@ class RouteHelper extends CMSRouteHelper
 	public static function getTagRoute($id)
 	{
 		$needles = array(
-			'tag'  => array((int) $id)
+			'tag'  => array((int) $id),
 		);
 
 		if ($id < 1)
@@ -129,7 +129,7 @@ class RouteHelper extends CMSRouteHelper
 	public static function getTagsRoute()
 	{
 		$needles = array(
-			'tags'  => array(0)
+			'tags'  => array(0),
 		);
 
 		$link = 'index.php?option=com_tags&view=tags';
@@ -185,11 +185,11 @@ class RouteHelper extends CMSRouteHelper
 						}
 
 						// Only match menu items that list one tag
-						if (isset($item->query['id']) && is_array($item->query['id']))
+						if (isset($item->query['id']) && \is_array($item->query['id']))
 						{
 							foreach ($item->query['id'] as $position => $tagId)
 							{
-								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
+								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || \count($item->query['id']) == 1)
 								{
 									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
 								}
@@ -230,6 +230,6 @@ class RouteHelper extends CMSRouteHelper
 			}
 		}
 
-		return null;
+		return;
 	}
 }

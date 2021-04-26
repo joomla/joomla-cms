@@ -47,7 +47,7 @@ class DisplayController extends BaseController
 		}
 
 		// Set a Referrer-Policy header for views which require it
-		if (in_array($view, ['confirm', 'remind']))
+		if (\in_array($view, ['confirm', 'remind']))
 		{
 			Factory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
 		}

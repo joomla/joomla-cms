@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		$this->params = $this->state->get('params');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$tfa = AuthenticationHelper::getTwoFactorMethods();
-		$this->tfa = is_array($tfa) && count($tfa) > 1;
+		$this->tfa = \is_array($tfa) && \count($tfa) > 1;
 
 		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 

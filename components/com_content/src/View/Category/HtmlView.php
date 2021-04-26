@@ -184,7 +184,7 @@ class HtmlView extends CategoryView
 			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
-		if (!is_object($this->category->metadata))
+		if (!\is_object($this->category->metadata))
 		{
 			$this->category->metadata = new Registry($this->category->metadata);
 		}
@@ -228,7 +228,7 @@ class HtmlView extends CategoryView
 		$menu = $this->menu;
 
 		if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
-			&& in_array($menu->query['view'], ['categories', 'category']))
+			&& \in_array($menu->query['view'], ['categories', 'category']))
 		{
 			$id = $menu->query['id'];
 		}

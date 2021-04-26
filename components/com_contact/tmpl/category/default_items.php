@@ -142,11 +142,11 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo Text::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
 							<?php endif; ?>
 
-							<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
+							<?php if ($this->params->get('show_mobile_headings') && !empty($item->mobile)) : ?>
 								<?php echo Text::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br>
 							<?php endif; ?>
 
-							<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
+							<?php if ($this->params->get('show_fax_headings') && !empty($item->fax)) : ?>
 								<?php echo Text::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 

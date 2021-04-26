@@ -52,7 +52,7 @@ class DisplayController extends BaseController
 			'limitstart'       => 'UINT',
 			'filter_order'     => 'CMD',
 			'filter_order_Dir' => 'CMD',
-			'lang'             => 'CMD'
+			'lang'             => 'CMD',
 		);
 
 		return parent::display($cachable, $safeurlparams);

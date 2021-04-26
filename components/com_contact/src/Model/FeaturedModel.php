@@ -61,7 +61,7 @@ class FeaturedModel extends ListModel
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		for ($i = 0, $n = \count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
 
@@ -182,7 +182,7 @@ class FeaturedModel extends ListModel
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
 
-		if (!in_array($orderCol, $this->filter_fields))
+		if (!\in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
@@ -191,7 +191,7 @@ class FeaturedModel extends ListModel
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		if (!\in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}

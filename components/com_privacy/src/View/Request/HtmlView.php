@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		$this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}

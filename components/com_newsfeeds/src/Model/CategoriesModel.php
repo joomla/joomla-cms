@@ -78,8 +78,8 @@ class CategoriesModel extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.access', true);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class CategoriesModel extends ListModel
 			$categories = Categories::getInstance('Newsfeeds', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
-			if (is_object($this->_parent))
+			if (\is_object($this->_parent))
 			{
 				$this->_items = $this->_parent->getChildren();
 			}
@@ -151,7 +151,7 @@ class CategoriesModel extends ListModel
 	 */
 	public function getParent()
 	{
-		if (!is_object($this->_parent))
+		if (!\is_object($this->_parent))
 		{
 			$this->getItems();
 		}

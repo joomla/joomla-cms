@@ -27,7 +27,8 @@ if ($field->context == 'com_contact.mail')
 	// Prepare the value for the contact form mail
 	$value = html_entity_decode($value);
 
-	echo ($showLabel ? $label . ': ' : '') . $value . "\r\n";
+	echo($showLabel ? $label . ': ' : '') . $value . "\r\n";
+
 	return;
 }
 

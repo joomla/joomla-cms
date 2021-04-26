@@ -171,7 +171,7 @@ class BannersModel extends ListModel
 					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 		}
-		elseif (is_array($categoryId) && (count($categoryId) > 0))
+		elseif (\is_array($categoryId) && (\count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 
@@ -230,7 +230,7 @@ class BannersModel extends ListModel
 						. ' = SUBSTRING(' . $bounded[1] . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
 						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
 						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
-						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+						. ' AND ' . ($prefix == substr($keyword, 0, \strlen($prefix)) ? '0 = 0' : '0 != 0');
 
 					$condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
 
@@ -316,7 +316,7 @@ class BannersModel extends ListModel
 		$db        = $this->getDbo();
 		$bid       = [];
 
-		if (!count($items))
+		if (!\count($items))
 		{
 			return;
 		}

@@ -23,7 +23,6 @@ foreach ($fieldSets as $name => $fieldSet) :
 $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL';
 $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
-
 if (isset($fieldSet->description) && trim($fieldSet->description)) :
 echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 endif;

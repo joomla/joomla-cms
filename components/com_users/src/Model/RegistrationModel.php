@@ -58,7 +58,7 @@ class RegistrationModel extends FormModel
 	{
 		$config = array_merge(
 			array(
-				'events_map' => array('validate' => 'user')
+				'events_map' => array('validate' => 'user'),
 			), $config
 		);
 
@@ -303,7 +303,7 @@ class RegistrationModel extends FormModel
 			foreach ($temp as $k => $v)
 			{
 				// Here we could have a grouped field, let's check it
-				if (is_array($v))
+				if (\is_array($v))
 				{
 					$this->data->$k = new \stdClass;
 
@@ -659,7 +659,7 @@ class RegistrationModel extends FormModel
 				return false;
 			}
 
-			if (count($userids) > 0)
+			if (\count($userids) > 0)
 			{
 				$jdate     = new Date;
 				$dateToSql = $jdate->toSql();

@@ -89,7 +89,7 @@ class ReportController extends BaseController
 		$report->client = $this->app->getInput()->get('client', false);
 
 		// Make sure the client is passed and has an valid value
-		if ($report->client === false || !in_array($report->client, ['site', 'administrator']))
+		if ($report->client === false || !\in_array($report->client, ['site', 'administrator']))
 		{
 			$this->app->close();
 		}
@@ -119,7 +119,7 @@ class ReportController extends BaseController
 		$report->blocked_uri = false;
 
 		// Check for "eval" or "inline" lets make sure they get reported in the correct way
-		if (in_array($blockedUri, ['eval', 'inline']))
+		if (\in_array($blockedUri, ['eval', 'inline']))
 		{
 			$report->blocked_uri = "'unsafe-" . $blockedUri . "'";
 		}
@@ -242,7 +242,7 @@ class ReportController extends BaseController
 		$cleandedDirective = strtolower($explodeDirective[0]);
 
 		// Make sure this is a valid directive.
-		if (!in_array($cleandedDirective, $this->validDirectives))
+		if (!\in_array($cleandedDirective, $this->validDirectives))
 		{
 			return false;
 		}

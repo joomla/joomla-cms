@@ -95,7 +95,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 		echo $this->item->pagination;
 	endif;
 	?>
-	<?php if (isset ($this->item->toc)) :
+	<?php if (isset($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
 	<div itemprop="articleBody" class="com-content-article__body">

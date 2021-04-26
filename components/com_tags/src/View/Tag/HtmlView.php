@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
 		// Flag indicates to not add limitstart=0 to URL
 		$pagination->hideEmptyLimitstart = true;
 
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -143,7 +143,7 @@ class HtmlView extends BaseHtmlView
 
 		foreach ($item as $itemElement)
 		{
-			if (!in_array($itemElement->access, $groups))
+			if (!\in_array($itemElement->access, $groups))
 			{
 				unset($itemElement);
 			}
@@ -201,7 +201,7 @@ class HtmlView extends BaseHtmlView
 					$itemElement->core_images = json_encode(
 						array(
 							'image_intro' => $itemElement->core_params->get('image', ''),
-							'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+							'image_intro_alt' => $itemElement->core_params->get('image_alt', ''),
 						)
 					);
 				}
@@ -334,7 +334,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (count($this->item) === 1)
+		if (\count($this->item) === 1)
 		{
 			foreach ($this->item[0]->metadata->toArray() as $k => $v)
 			{
@@ -373,7 +373,7 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($this->item as $item)
 			{
-				if (in_array($item->access, $groups))
+				if (\in_array($item->access, $groups))
 				{
 					$tags_title[] = $item->title;
 				}

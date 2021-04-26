@@ -103,7 +103,7 @@ class CategoryModel extends ListModel
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
 				'sortname3', 'a.sortname3',
-				'featuredordering', 'a.featured'
+				'featuredordering', 'a.featured',
 			);
 		}
 
@@ -126,7 +126,7 @@ class CategoryModel extends ListModel
 		}
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		for ($i = 0, $n = \count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
 
@@ -198,7 +198,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$query->whereIn($db->quoteName('c.published'), [0,1,2]);
+			$query->whereIn($db->quoteName('c.published'), [0, 1, 2]);
 		}
 
 		// Filter by start and end dates.
@@ -312,7 +312,7 @@ class CategoryModel extends ListModel
 
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 
-		if (!in_array($orderCol, $this->filter_fields))
+		if (!\in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
@@ -321,7 +321,7 @@ class CategoryModel extends ListModel
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		if (!\in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
@@ -357,7 +357,7 @@ class CategoryModel extends ListModel
 	 */
 	public function getCategory()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
@@ -377,7 +377,7 @@ class CategoryModel extends ListModel
 			$categories = Categories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
-			if (is_object($this->_item))
+			if (\is_object($this->_item))
 			{
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
@@ -407,7 +407,7 @@ class CategoryModel extends ListModel
 	 */
 	public function getParent()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -422,7 +422,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getLeftSibling()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -437,7 +437,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getRightSibling()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -452,7 +452,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getChildren()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}

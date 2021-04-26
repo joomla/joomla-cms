@@ -288,11 +288,11 @@ class ContactModel extends FormModel
 
 					if ($data->catid == 0 || $data->category_access === null)
 					{
-						$data->params->set('access-view', in_array($data->access, $groups));
+						$data->params->set('access-view', \in_array($data->access, $groups));
 					}
 					else
 					{
-						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+						$data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
 					}
 				}
 

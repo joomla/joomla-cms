@@ -71,7 +71,7 @@ class Router extends RouterBase
 		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
 		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
-		if (is_array($mId))
+		if (\is_array($mId))
 		{
 			$mId = ArrayHelper::toInteger($mId);
 		}
@@ -100,12 +100,12 @@ class Router extends RouterBase
 
 		if ($view === 'tag')
 		{
-			$notActiveTag = is_array($mId) ? (count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
+			$notActiveTag = \is_array($mId) ? (\count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
 
 			if ($notActiveTag || $mView != $view)
 			{
 				// ID in com_tags can be either an integer, a string or an array of IDs
-				$id = is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
+				$id = \is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
 				$segments[] = $id;
 			}
 
@@ -122,7 +122,7 @@ class Router extends RouterBase
 			}
 		}
 
-		$total = count($segments);
+		$total = \count($segments);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -150,7 +150,7 @@ class Router extends RouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
+		$total = \count($segments);
 		$vars = array();
 
 		for ($i = 0; $i < $total; $i++)
@@ -162,7 +162,7 @@ class Router extends RouterBase
 		$item = $this->menu->getActive();
 
 		// Count route segments
-		$count = count($segments);
+		$count = \count($segments);
 
 		// Standard routing for tags.
 		if (!isset($item))

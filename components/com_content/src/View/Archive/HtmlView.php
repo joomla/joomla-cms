@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 			'9'  => Text::_('SEPTEMBER_SHORT'),
 			'10' => Text::_('OCTOBER_SHORT'),
 			'11' => Text::_('NOVEMBER_SHORT'),
-			'12' => Text::_('DECEMBER_SHORT')
+			'12' => Text::_('DECEMBER_SHORT'),
 		);
 		$form->monthField = HTMLHelper::_(
 			'select.genericlist',
@@ -182,7 +182,7 @@ class HtmlView extends BaseHtmlView
 			array(
 				'list.attr' => 'class="form-select"',
 				'list.select' => $state->get('filter.month'),
-				'option.key' => null
+				'option.key' => null,
 			)
 		);
 
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 		$years = array();
 		$years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
-		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
+		for ($i = 0, $iMax = \count($this->years); $i < $iMax; $i++)
 		{
 			$years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
 		}

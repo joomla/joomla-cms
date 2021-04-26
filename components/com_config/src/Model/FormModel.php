@@ -62,7 +62,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Check if this is the user has previously checked out the row.
-			if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if (!\is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				throw new \RuntimeException($table->getError());
 			}
@@ -102,7 +102,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if (!is_null($table->checked_out) && $table->checked_out != $user->get('id'))
+			if (!\is_null($table->checked_out) && $table->checked_out != $user->get('id'))
 			{
 				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}

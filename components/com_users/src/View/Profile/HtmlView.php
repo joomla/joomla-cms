@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
 		$this->db               = Factory::getDbo();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -149,7 +149,7 @@ class HtmlView extends BaseHtmlView
 
 		PluginHelper::importPlugin('content');
 		$this->data->text = '';
-		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
 		// Check for layout from menu item.

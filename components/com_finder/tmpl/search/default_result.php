@@ -65,7 +65,7 @@ endif;
 					Route::_($this->result->route),
 					'<span class="result__title-text">' . $icon . $this->result->title . '</span>' . $show_url,
 					[
-							'class' => 'result__title-link'
+							'class' => 'result__title-link',
 					]
 			); ?>
 		<?php else : ?>

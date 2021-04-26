@@ -170,7 +170,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 		// Check if access is not public
 		$groups = $user->getAuthorisedViewLevels();
 
-		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
+		if ((!\in_array($item->access, $groups)) || (!\in_array($item->category_access, $groups)))
 		{
 			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
@@ -220,26 +220,26 @@ class HtmlView extends BaseHtmlView
 		{
 			case 1:
 				// Text
-				$item->params->set('marker_address',   Text::_('COM_CONTACT_ADDRESS') . ': ');
-				$item->params->set('marker_email',     Text::_('JGLOBAL_EMAIL') . ': ');
+				$item->params->set('marker_address', Text::_('COM_CONTACT_ADDRESS') . ': ');
+				$item->params->set('marker_email', Text::_('JGLOBAL_EMAIL') . ': ');
 				$item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
-				$item->params->set('marker_fax',       Text::_('COM_CONTACT_FAX') . ': ');
-				$item->params->set('marker_mobile',    Text::_('COM_CONTACT_MOBILE') . ': ');
-				$item->params->set('marker_webpage',   Text::_('COM_CONTACT_WEBPAGE') . ': ');
-				$item->params->set('marker_misc',      Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
-				$item->params->set('marker_class',     'jicons-text');
+				$item->params->set('marker_fax', Text::_('COM_CONTACT_FAX') . ': ');
+				$item->params->set('marker_mobile', Text::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_webpage', Text::_('COM_CONTACT_WEBPAGE') . ': ');
+				$item->params->set('marker_misc', Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
+				$item->params->set('marker_class', 'jicons-text');
 				break;
 
 			case 2:
 				// None
-				$item->params->set('marker_address',   '');
-				$item->params->set('marker_email',     '');
+				$item->params->set('marker_address', '');
+				$item->params->set('marker_email', '');
 				$item->params->set('marker_telephone', '');
-				$item->params->set('marker_mobile',    '');
-				$item->params->set('marker_fax',       '');
-				$item->params->set('marker_misc',      '');
-				$item->params->set('marker_webpage',   '');
-				$item->params->set('marker_class',     'jicons-none');
+				$item->params->set('marker_mobile', '');
+				$item->params->set('marker_fax', '');
+				$item->params->set('marker_misc', '');
+				$item->params->set('marker_webpage', '');
+				$item->params->set('marker_class', 'jicons-none');
 				break;
 
 			default:
@@ -287,7 +287,7 @@ class HtmlView extends BaseHtmlView
 				{
 					$item->params->set(
 						'marker_mobile',
-						HTMLHelper::_('image', $item->params->get('icon_mobile', ''),  Text::_('COM_CONTACT_MOBILE'), false)
+						HTMLHelper::_('image', $item->params->get('icon_mobile', ''), Text::_('COM_CONTACT_MOBILE'), false)
 					);
 				}
 
@@ -295,16 +295,16 @@ class HtmlView extends BaseHtmlView
 				{
 					$item->params->set(
 						'marker_webpage',
-						HTMLHelper::_('image', $item->params->get('icon_webpage', ''),  Text::_('COM_CONTACT_WEBPAGE'), false)
+						HTMLHelper::_('image', $item->params->get('icon_webpage', ''), Text::_('COM_CONTACT_WEBPAGE'), false)
 					);
 				}
 
-				$item->params->set('marker_class',     'jicons-icons');
+				$item->params->set('marker_class', 'jicons-icons');
 				break;
 		}
 
 		// Add links to contacts
-		if ($item->params->get('show_contact_list') && count($contacts) > 1)
+		if ($item->params->get('show_contact_list') && \count($contacts) > 1)
 		{
 			foreach ($contacts as &$contact)
 			{
@@ -326,7 +326,7 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
@@ -349,7 +349,7 @@ class HtmlView extends BaseHtmlView
 		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			$app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->jcfields))
 			{

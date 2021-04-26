@@ -42,7 +42,7 @@ class VcfView extends AbstractView
 		$item = $this->get('Item');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -56,7 +56,7 @@ class VcfView extends AbstractView
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 
-		if (count($namearray) > 1)
+		if (\count($namearray) > 1)
 		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
@@ -69,7 +69,7 @@ class VcfView extends AbstractView
 				$namearray = explode(' ', $name_and_midname);
 
 				$firstname = $namearray[0];
-				$middlename = (count($namearray) > 1) ? $namearray[1] : '';
+				$middlename = (\count($namearray) > 1) ? $namearray[1] : '';
 				$card_name = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') . $card_name;
 			}
 		}
@@ -78,9 +78,9 @@ class VcfView extends AbstractView
 		{
 			$namearray = explode(' ', $item->name);
 
-			$middlename = (count($namearray) > 2) ? $namearray[1] : '';
+			$middlename = (\count($namearray) > 2) ? $namearray[1] : '';
 			$firstname = array_shift($namearray);
-			$lastname = count($namearray) ? end($namearray) : '';
+			$lastname = \count($namearray) ? end($namearray) : '';
 			$card_name = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
 		}
 

@@ -51,7 +51,7 @@ class ProfileModel extends FormModel
 	{
 		$config = array_merge(
 			array(
-				'events_map' => array('validate' => 'user')
+				'events_map' => array('validate' => 'user'),
 			), $config
 		);
 
@@ -128,7 +128,7 @@ class ProfileModel extends FormModel
 
 		if ($username)
 		{
-			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
+			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || \strlen(utf8_decode($username)) < 2
 				|| trim($username) !== $username);
 		}
 
@@ -263,7 +263,7 @@ class ProfileModel extends FormModel
 		unset($data['block'], $data['sendEmail']);
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (\array_key_exists('twofactor', $data))
 		{
 			$model = $this->bootComponent('com_users')->getMVCFactory()
 				->createModel('User', 'Administrator');
@@ -282,7 +282,7 @@ class ProfileModel extends FormModel
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
 				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
+					if (!\is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
 					{
 						continue;
 					}

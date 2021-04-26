@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 // It will be a separate class if the user starts it with a space
 ?>
 <div class="com-contact-featured blog-featured">
-<?php if ($this->params->get('show_page_heading') != 0 ) : ?>
+<?php if ($this->params->get('show_page_heading') != 0) : ?>
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>

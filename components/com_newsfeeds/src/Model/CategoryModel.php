@@ -254,7 +254,7 @@ class CategoryModel extends ListModel
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
 
-		if (!in_array($orderCol, $this->filter_fields))
+		if (!\in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
@@ -263,7 +263,7 @@ class CategoryModel extends ListModel
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		if (!\in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
@@ -299,7 +299,7 @@ class CategoryModel extends ListModel
 	 */
 	public function getCategory()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
@@ -319,7 +319,7 @@ class CategoryModel extends ListModel
 			$categories = Categories::getInstance('Newsfeeds', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
-			if (is_object($this->_item))
+			if (\is_object($this->_item))
 			{
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
@@ -349,7 +349,7 @@ class CategoryModel extends ListModel
 	 */
 	public function getParent()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -364,7 +364,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getLeftSibling()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -379,7 +379,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getRightSibling()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -394,7 +394,7 @@ class CategoryModel extends ListModel
 	 */
 	public function &getChildren()
 	{
-		if (!is_object($this->_item))
+		if (!\is_object($this->_item))
 		{
 			$this->getCategory();
 		}

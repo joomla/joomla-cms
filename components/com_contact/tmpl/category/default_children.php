@@ -38,7 +38,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<?php if (count($child->getChildren()) > 0 ) :
+		<?php if (count($child->getChildren()) > 0) :
 			$this->children[$child->id] = $child->getChildren();
 			$this->category = $child;
 			$this->maxLevel--;

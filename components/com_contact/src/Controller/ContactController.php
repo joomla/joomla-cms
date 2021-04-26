@@ -251,7 +251,7 @@ class ContactController extends FormController
 			'subject'  => $data['contact_subject'],
 			'body'     => stripslashes($data['contact_message']),
 			'url'      => Uri::base(),
-			'customfields' => ''
+			'customfields' => '',
 		];
 
 		// Load the custom fields
@@ -369,7 +369,7 @@ class ContactController extends FormController
 			// Fallback on edit.own.
 			if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId))
 			{
-				return ($record->created_by === $user->id);
+				return $record->created_by === $user->id;
 			}
 
 			return false;

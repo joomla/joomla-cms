@@ -80,7 +80,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 
 		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'
-			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' )))
+			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive')))
 		{
 			$cachable = false;
 		}
@@ -101,7 +101,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			'filter-search' => 'STRING',
 			'print' => 'BOOLEAN',
 			'lang' => 'CMD',
-			'Itemid' => 'INT');
+			'Itemid' => 'INT', );
 
 		// Check for edit form.
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))

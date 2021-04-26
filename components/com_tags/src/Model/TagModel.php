@@ -189,7 +189,7 @@ class TagModel extends ListModel
 		// Load state from the request.
 		$ids = $app->input->get('id', array(), 'array');
 
-		if (count($ids) == 1)
+		if (\count($ids) == 1)
 		{
 			$ids = explode(',', $ids[0]);
 		}
@@ -240,7 +240,7 @@ class TagModel extends ListModel
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
-		if (!in_array($orderCol, $this->filter_fields))
+		if (!\in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'c.core_title';
 		}
@@ -250,7 +250,7 @@ class TagModel extends ListModel
 		$listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
 		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		if (!\in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
@@ -306,7 +306,7 @@ class TagModel extends ListModel
 						}
 					}
 
-					if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels()))
+					if (!\in_array($table->access, Factory::getUser()->getAuthorisedViewLevels()))
 					{
 						continue;
 					}

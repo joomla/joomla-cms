@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
 		$this->pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Run an event on each result item
-		if (is_array($this->results))
+		if (\is_array($this->results))
 		{
 			// Import Finder plugins
 			PluginHelper::importPlugin('finder');
@@ -259,7 +259,7 @@ class HtmlView extends BaseHtmlView
 		$filetofind = $this->_createFileName('template', array('name' => $file));
 		$exists     = Path::find($this->_path['template'], $filetofind);
 
-		return ($exists ? $layout : 'result');
+		return $exists ? $layout : 'result';
 	}
 
 	/**

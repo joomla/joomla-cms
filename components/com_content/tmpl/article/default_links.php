@@ -24,7 +24,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
 			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
-			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
+			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c'),
 			);
 			foreach ($urlarray as $url) :
 				$link = $url[0];
@@ -32,7 +32,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				$target = $url[2];
 				$id = $url[3];
 
-				if ( ! $link) :
+				if (! $link) :
 					continue;
 				endif;
 
@@ -74,7 +74,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 									'modalWidth'  => '500',
 									'bodyHeight'  => '500',
 									'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-										. \Joomla\CMS\Language\Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+										. \Joomla\CMS\Language\Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 								)
 							);
 							break;

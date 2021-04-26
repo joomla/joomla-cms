@@ -128,7 +128,7 @@ class CategoriesModel extends ListModel
 			$categories = Categories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
-			if (is_object($this->_parent))
+			if (\is_object($this->_parent))
 			{
 				$this->cache[$store] = $this->_parent->getChildren($recursive);
 			}
@@ -150,7 +150,7 @@ class CategoriesModel extends ListModel
 	 */
 	public function getParent()
 	{
-		if (!is_object($this->_parent))
+		if (!\is_object($this->_parent))
 		{
 			$this->getItems();
 		}

@@ -27,13 +27,13 @@ class HtmlView extends CategoryView
 	 * @var    string  The name of the extension for the category
 	 * @since  3.2
 	 */
-	protected  $extension = 'com_contact';
+	protected $extension = 'com_contact';
 
 	/**
 	 * @var    string  Default title to use for page title
 	 * @since  3.2
 	 */
-	protected  $defaultPageTitle = 'COM_CONTACT_DEFAULT_PAGE_TITLE';
+	protected $defaultPageTitle = 'COM_CONTACT_DEFAULT_PAGE_TITLE';
 
 	/**
 	 * @var    string  The name of the view to link individual items to
@@ -111,7 +111,7 @@ class HtmlView extends CategoryView
 		$menu = $this->menu;
 
 		if ($menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-			&& in_array($menu->query['view'], ['categories', 'category']))
+			&& \in_array($menu->query['view'], ['categories', 'category']))
 		{
 			$id = $menu->query['id'];
 		}
