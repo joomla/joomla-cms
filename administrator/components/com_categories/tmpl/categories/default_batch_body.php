@@ -17,7 +17,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 
 ?>
 
-<div class="container-fluid">
+<div class="p-3">
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
