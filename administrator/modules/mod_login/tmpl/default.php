@@ -136,7 +136,7 @@ Text::script('JHIDEPASSWORD');
 			[
 				'target' => '_blank',
 				'rel'    => 'noopener nofollow',
-				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
+				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')),
 			]
 		); ?>
 	</div>

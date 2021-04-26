@@ -158,7 +158,7 @@ class QuickIconHelper
 					'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
 					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
 					'access'  => array('core.manage', 'com_modules'),
-					'group'   => 'MOD_QUICKICON_SITE'
+					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
 				if ($params->get('show_modules') == 2)
@@ -176,7 +176,7 @@ class QuickIconHelper
 					'link'   => Route::_('index.php?option=com_plugins'),
 					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
 					'access' => array('core.manage', 'com_plugins'),
-					'group'  => 'MOD_QUICKICON_SITE'
+					'group'  => 'MOD_QUICKICON_SITE',
 				];
 
 				if ($params->get('show_plugins') == 2)
@@ -194,7 +194,7 @@ class QuickIconHelper
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
 					'access' => array('core.admin', 'com_templates'),
-					'group'  => 'MOD_QUICKICON_SITE'
+					'group'  => 'MOD_QUICKICON_SITE',
 				];
 			}
 
@@ -205,7 +205,7 @@ class QuickIconHelper
 					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
 					'access' => array('core.admin', 'com_templates'),
-					'group'  => 'MOD_QUICKICON_SITE'
+					'group'  => 'MOD_QUICKICON_SITE',
 				];
 			}
 
@@ -216,7 +216,7 @@ class QuickIconHelper
 					'link'    => Route::_('index.php?option=com_checkin'),
 					'name'    => 'MOD_QUICKICON_CHECKINS',
 					'access'  => array('core.admin', 'com_checkin'),
-					'group'   => 'MOD_QUICKICON_SYSTEM'
+					'group'   => 'MOD_QUICKICON_SYSTEM',
 				];
 
 				if ($params->get('show_checkin') == 2)
@@ -234,7 +234,7 @@ class QuickIconHelper
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
-					'group'   => 'MOD_QUICKICON_SYTEM'
+					'group'   => 'MOD_QUICKICON_SYTEM',
 				];
 
 				if ($params->get('show_cache') == 2)

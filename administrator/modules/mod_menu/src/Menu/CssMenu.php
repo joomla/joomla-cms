@@ -504,7 +504,7 @@ class CssMenu
 	 *
 	 * @param   AdministratorMenuItem  $node  Node to get icon data from
 	 *
-	 * @return  string	CSS class name
+	 * @return  string|void	CSS class name
 	 *
 	 * @since   3.8.0
 	 */
@@ -515,7 +515,7 @@ class CssMenu
 		// Top level is special
 		if (trim($identifier) == '')
 		{
-			return null;
+			return;
 		}
 
 		// We were passed a class name
@@ -528,7 +528,7 @@ class CssMenu
 		{
 			if ($identifier == null)
 			{
-				return null;
+				return;
 			}
 
 			$class = preg_replace('#\.[^.]*$#', '', basename($identifier));

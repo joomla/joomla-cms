@@ -140,7 +140,7 @@ elseif ($current->title != '' && $current->type !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
-		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
+		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($current->title != '' && $current->type === 'separator')
 {
