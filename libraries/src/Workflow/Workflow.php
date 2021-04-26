@@ -274,7 +274,7 @@ class Workflow
 	 * @param   integer[]  $pks           The item IDs, which should use the transition
 	 * @param   integer    $transitionId  The transition which should be executed
 	 *
-	 * @return  object | null
+	 * @return  object|void
 	 */
 	public function getValidTransition(array $pks, int $transitionId)
 	{
@@ -330,8 +330,6 @@ class Workflow
 		{
 			return $transition;
 		}
-
-		return;
 	}
 
 	/**
