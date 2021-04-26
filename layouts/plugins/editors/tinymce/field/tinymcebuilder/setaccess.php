@@ -19,8 +19,6 @@ extract($displayData);
  */
 
 ?>
-<div class="setoptions-form-wrapper">
-<?php foreach ($form->getGroup('basic') as $field) : ?>
-	<?php echo $field->renderField(); ?>
-<?php endforeach; ?>
+<div class="setaccess-form-wrapper my-3">
+	<?php echo $form->renderField('access'); ?>
 </div>

@@ -6,7 +6,7 @@
 		label="PLG_TINY_FIELD_SETACCESS_LABEL"
 		multiple="true"
 		class="access-select"
-		labelclass="badge bg-success"
+		labelclass="h3"
 		layout="joomla.form.field.list-fancy-select"
 	/>
 

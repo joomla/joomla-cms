@@ -82,6 +82,27 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 HTMLHelper::_('bootstrap.tab', '#setTabs')
 ?>
 <div id="joomla-tinymce-builder">
+
+	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+
+	<div class="tox tox-tinymce">
+		<div class="tox-editor-container">
+
+			<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
+				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
+			</div>
+
+			<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
+				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
+			</div>
+
+		</div>
+	</div>
+
+	<hr>
+	<h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
+	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+
 	<?php // Render tabs for each set ?>
 	<ul class="nav nav-tabs" id="setTabs">
 		<?php foreach ($setsNames as $num => $title) :
@@ -129,28 +150,11 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
-		<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
-
-			<div class="clearfix mt-3"></div>
-			<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
-
-			<div class="tox tox-tinymce">
-				<div class="tox-editor-container">
-
-					<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
-						data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
-					</div>
-
-					<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
-						data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
-					</div>
-
-				</div>
-			</div>
-				<hr>
-				<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
-				<div class="btn-toolbar mb-2">
+			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
+				<?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+				<div class="btn-toolbar float-end mt-3">
 					<div class="btn-group btn-group-sm">
+
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
 						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
@@ -159,6 +163,7 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 							<?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
+
 						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
 							<?php echo Text::_('JCLEAR'); ?>
