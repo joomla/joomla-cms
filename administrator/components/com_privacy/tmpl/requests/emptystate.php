@@ -24,4 +24,4 @@ if (Factory::getApplication()->get('mailonline', 1))
 	$displayData['createURL'] = 'index.php?option=com_privacy&task=request.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

@@ -26,4 +26,4 @@ if ($user->authorise('core.create', 'com_content') || count($user->getAuthorised
 	$displayData['createURL'] = 'index.php?option=com_content&task=article.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

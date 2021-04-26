@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!count($this->items) && $this->get('IsBlankSlate'))
 		{
-			$this->setLayout('blankstate');
+			$this->setLayout('emptystate');
 		}
 
 		// Check for errors.

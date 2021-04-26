@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!count($this->items) && $this->get('IsBlankSlate'))
 		{
-			$this->setLayout('blankstate');
+			$this->setLayout('emptystate');
 		}
 
 		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
