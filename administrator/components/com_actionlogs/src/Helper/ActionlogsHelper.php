@@ -119,7 +119,7 @@ class ActionlogsHelper
 			case 'plg':
 				$parts = explode('_', $extension, 3);
 
-				if (count($parts) > 2)
+				if (\count($parts) > 2)
 				{
 					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				}
@@ -363,7 +363,7 @@ class ActionlogsHelper
 			return $value;
 		}
 
-		if (in_array($value[0], self::$characters, true))
+		if (\in_array($value[0], self::$characters, true))
 		{
 			$value = ' ' . $value;
 		}
