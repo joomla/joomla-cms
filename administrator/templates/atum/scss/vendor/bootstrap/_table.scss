@@ -11,6 +11,10 @@
     td {
       white-space: nowrap;
 
+      .sysinfo & {
+        white-space: normal;
+      }
+
       @include media-breakpoint-down(md) {
         white-space: normal;
       }
