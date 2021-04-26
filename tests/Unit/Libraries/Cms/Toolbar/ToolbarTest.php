@@ -117,7 +117,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar = $this->createToolbar();
 		$toolbar->setItems([
 			$this->createMock(ToolbarButton::class),
-			$this->createMock(ToolbarButton::class),]
+			$this->createMock(ToolbarButton::class), ]
 		);
 
 		$button = $this->createMock(ToolbarButton::class);
@@ -141,7 +141,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar = $this->createToolbar();
 		$toolbar->setItems([
 			$this->createMock(ToolbarButton::class),
-			$this->createMock(ToolbarButton::class),]
+			$this->createMock(ToolbarButton::class), ]
 		);
 
 		$button = ['Separator', 'spacer', 25];
@@ -151,7 +151,6 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 *
 	 * @return  void
 	 * @since   4.0.0
 	 * @throws \Exception

@@ -6,6 +6,7 @@
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
@@ -106,9 +107,9 @@ class MicrodataTest extends UnitTestCase
 			[
 				'Article' => [
 					'properties' => [
-						'articleBody' => []
-					]
-				]
+						'articleBody' => [],
+					],
+				],
 			]
 		);
 
@@ -131,9 +132,9 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'extends'    => '',
 					'properties' => [
-						'articleBody' => []
-					]
-				]
+						'articleBody' => [],
+					],
+				],
 			]
 		);
 
@@ -205,10 +206,10 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'properties' => [
 						'url' => [
-							'expectedTypes' => ['URL']
-						]
-					]
-				]
+							'expectedTypes' => ['URL'],
+						],
+					],
+				],
 			]
 		);
 
@@ -232,10 +233,10 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'properties' => [
 						'url' => [
-							'expectedTypes' => ['URL']
-						]
-					]
-				]
+							'expectedTypes' => ['URL'],
+						],
+					],
+				],
 			]
 		);
 
@@ -260,10 +261,10 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'properties' => [
 						'url' => [
-							'expectedTypes' => ['URL']
-						]
-					]
-				]
+							'expectedTypes' => ['URL'],
+						],
+					],
+				],
 			]
 		);
 
@@ -287,10 +288,10 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'properties' => [
 						'author' => [
-							'expectedTypes' => ['Organization', 'Person']
-						]
-					]
-				]
+							'expectedTypes' => ['Organization', 'Person'],
+						],
+					],
+				],
 			]
 		);
 
@@ -314,10 +315,10 @@ class MicrodataTest extends UnitTestCase
 				'Article' => [
 					'properties' => [
 						'author' => [
-							'expectedTypes' => ['Organization', 'Person']
-						]
-					]
-				]
+							'expectedTypes' => ['Organization', 'Person'],
+						],
+					],
+				],
 			]
 		);
 
@@ -347,18 +348,18 @@ class MicrodataTest extends UnitTestCase
 						'author' => [
 							'expectedTypes' => [
 								'Organization',
-								'Person'
-							]
-						]
-					]
+								'Person',
+							],
+						],
+					],
 				],
 				'Person'  => [
 					'properties' => [
 						'name' => [
-							'expectedTypes' => ['Text']
-						]
-					]
-				]
+							'expectedTypes' => ['Text'],
+						],
+					],
+				],
 			]
 		);
 
@@ -388,18 +389,18 @@ class MicrodataTest extends UnitTestCase
 						'author' => [
 							'expectedTypes' => [
 								'Organization',
-								'Person'
-							]
-						]
-					]
+								'Person',
+							],
+						],
+					],
 				],
 				'Person'  => [
 					'properties' => [
 						'name' => [
-							'expectedTypes' => ['Text']
-						]
-					]
-				]
+							'expectedTypes' => ['Text'],
+						],
+					],
+				],
 			]
 		);
 
@@ -425,9 +426,9 @@ class MicrodataTest extends UnitTestCase
 						'datePublished' => [
 							'expectedTypes' => [
 								'Date',
-							]
-						]
-					]
+							],
+						],
+					],
 				],
 			]
 		);
@@ -454,9 +455,9 @@ class MicrodataTest extends UnitTestCase
 						'datePublished' => [
 							'expectedTypes' => [
 								'Date',
-							]
-						]
-					]
+							],
+						],
+					],
 				],
 			]
 		);
@@ -485,9 +486,9 @@ class MicrodataTest extends UnitTestCase
 						'datePublished' => [
 							'expectedTypes' => [
 								'Date',
-							]
-						]
-					]
+							],
+						],
+					],
 				],
 			]
 		);
@@ -576,10 +577,10 @@ class MicrodataTest extends UnitTestCase
 						'about' => [
 							'expectedTypes' => [
 								'Thing',
-							]
-						]
-					]
-				]
+							],
+						],
+					],
+				],
 			]
 		);
 
@@ -607,10 +608,10 @@ class MicrodataTest extends UnitTestCase
 						'about' => [
 							'expectedTypes' => [
 								'Thing',
-							]
-						]
-					]
-				]
+							],
+						],
+					],
+				],
 			]
 		);
 
@@ -637,8 +638,8 @@ class MicrodataTest extends UnitTestCase
 			[
 				'Article' => [
 					'extends'    => '',
-					'properties' => []
-				]
+					'properties' => [],
+				],
 			]
 		);
 
@@ -661,16 +662,16 @@ class MicrodataTest extends UnitTestCase
 			[
 				'Article' => [
 					'extends'    => 'Thing',
-					'properties' => []
+					'properties' => [],
 				],
 				'Thing'   => [
 					'extends'    => '',
 					'properties' => [
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -694,16 +695,16 @@ class MicrodataTest extends UnitTestCase
 			[
 				'Article' => [
 					'extends'    => 'Thing',
-					'properties' => []
+					'properties' => [],
 				],
 				'Thing'   => [
 					'extends'    => '',
 					'properties' => [
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -723,7 +724,6 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * @return array
 	 * @since 4.0
-	 *
 	 */
 	public function displayTypes(): array
 	{
@@ -751,10 +751,10 @@ class MicrodataTest extends UnitTestCase
 					'extends'    => 'Thing',
 					'properties' => [
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -769,7 +769,6 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * @return array
 	 * @since 4.0
-	 *
 	 */
 	public function displayTypesWithContent(): array
 	{
@@ -798,10 +797,10 @@ class MicrodataTest extends UnitTestCase
 					'extends'    => 'Thing',
 					'properties' => [
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -842,10 +841,10 @@ class MicrodataTest extends UnitTestCase
 					'extends'    => '',
 					'properties' => [
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -871,16 +870,16 @@ class MicrodataTest extends UnitTestCase
 					'extends'    => '',
 					'properties' => [
 						'articleBody'   => [
-							'expectedTypes' => ['Text']
+							'expectedTypes' => ['Text'],
 						],
 						'about'         => [
-							'expectedTypes' => ['Thing']
+							'expectedTypes' => ['Thing'],
 						],
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 
@@ -907,8 +906,8 @@ class MicrodataTest extends UnitTestCase
 			[
 				'Article' => [
 					'extends'    => '',
-					'properties' => []
-				]
+					'properties' => [],
+				],
 			]
 		);
 
@@ -945,16 +944,16 @@ class MicrodataTest extends UnitTestCase
 					'extends'    => '',
 					'properties' => [
 						'articleBody'   => [
-							'expectedTypes' => ['Text']
+							'expectedTypes' => ['Text'],
 						],
 						'about'         => [
-							'expectedTypes' => ['Thing']
+							'expectedTypes' => ['Thing'],
 						],
 						'datePublished' => [
-							'expectedTypes' => ['Date']
-						]
-					]
-				]
+							'expectedTypes' => ['Date'],
+						],
+					],
+				],
 			]
 		);
 

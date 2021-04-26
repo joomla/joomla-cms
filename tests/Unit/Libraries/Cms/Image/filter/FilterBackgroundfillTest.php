@@ -146,9 +146,9 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 					'red' => -5,
 					'green' => 0,
 					'blue' => 300,
-					'alpha' => 300
+					'alpha' => 300,
 				),
-				0, 0, 255, 127
+				0, 0, 255, 127,
 			),
 		);
 	}
@@ -178,7 +178,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 				'red'   => $red,
 				'green' => $green,
 				'blue'  => $blue,
-				'alpha' => $alpha
+				'alpha' => $alpha,
 			),
 			TestHelper::invoke($filter, 'sanitizeColor', $color)
 		);

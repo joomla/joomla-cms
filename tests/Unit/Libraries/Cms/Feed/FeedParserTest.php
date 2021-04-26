@@ -547,7 +547,6 @@ class FeedParserStub extends FeedParser
  */
 class FeedParserStubUnregistered implements NamespaceParserInterface
 {
-
 	/**
 	 * Method to handle an element for the feed given that a certain namespace is present.
 	 *

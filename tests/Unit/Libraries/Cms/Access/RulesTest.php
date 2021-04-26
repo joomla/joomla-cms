@@ -6,6 +6,7 @@
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
@@ -23,7 +24,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 class RulesTest extends UnitTestCase
 {
 	/**
-	 *
 	 * @return void
 	 * @since   4.0.0
 	 */
@@ -32,23 +32,22 @@ class RulesTest extends UnitTestCase
 		$ruleIdentities = [
 			-42 => 1,
 			2 => 1,
-			3 => 0
+			3 => 0,
 		];
 
 		$input = [
-			'edit' => $ruleIdentities
+			'edit' => $ruleIdentities,
 		];
 
 		// Test input as string.
 		$rules = new Rules(json_encode($input));
 
 		$editRule = $rules->getData()['edit'];
-		$this->assertInstanceOf(Rule::class,  $editRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
 		$this->assertEquals($ruleIdentities, $editRule->getData());
 	}
 
 	/**
-	 *
 	 * @return void
 	 * @since   4.0.0
 	 */
@@ -57,17 +56,17 @@ class RulesTest extends UnitTestCase
 		$ruleIdentities = [
 			-42 => 1,
 			2 => 1,
-			3 => 0
+			3 => 0,
 		];
 
 		$input = [
-			'edit' => $ruleIdentities
+			'edit' => $ruleIdentities,
 		];
 
 		$rules = new Rules($input);
 
 		$editRule = $rules->getData()['edit'];
-		$this->assertInstanceOf(Rule::class,  $editRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
 		$this->assertEquals($ruleIdentities, $editRule->getData());
 	}
 
@@ -83,17 +82,17 @@ class RulesTest extends UnitTestCase
 		$ruleIdentities = [
 			-42 => 1,
 			2 => 1,
-			3 => 0
+			3 => 0,
 		];
 
 		$input = [
-			'edit' => $ruleIdentities
+			'edit' => $ruleIdentities,
 		];
 
 		$rules = new Rules((object) $input);
 
 		$editRule = $rules->getData()['edit'];
-		$this->assertInstanceOf(Rule::class,  $editRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
 		$this->assertEquals($ruleIdentities, $editRule->getData());
 	}
 
@@ -109,7 +108,7 @@ class RulesTest extends UnitTestCase
 		$ruleIdentities = [
 			-42 => 1,
 			2 => 1,
-			3 => 0
+			3 => 0,
 		];
 
 		// Construct and empty \Joomla\CMS\Access\Rules.
@@ -117,7 +116,7 @@ class RulesTest extends UnitTestCase
 		$rules->mergeAction('edit', $ruleIdentities);
 
 		$editRule = $rules->getData()['edit'];
-		$this->assertInstanceOf(Rule::class,  $editRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
 		$this->assertEquals($ruleIdentities, $editRule->getData());
 
 		// Merge a new set, flipping some bits.
@@ -126,7 +125,7 @@ class RulesTest extends UnitTestCase
 			-42 => 0,
 			2 => 1,
 			3 => 1,
-			4 => 1
+			4 => 1,
 		);
 		$rules->mergeAction('edit', $newRuleIdentities);
 
@@ -136,7 +135,7 @@ class RulesTest extends UnitTestCase
 				-42 => 0,
 				2 => 1,
 				3 => 0,
-				4 => 1
+				4 => 1,
 			],
 			$editRule->getData()
 		);
@@ -153,32 +152,32 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData1 = [
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
-				-42 => 0
-			]
+				-42 => 0,
+			],
 		];
 
 		$ruleData2 = [
 			'create' => [
-				2 => 1
+				2 => 1,
 			],
 			'delete' => [
-				2 => 0
-			]
+				2 => 0,
+			],
 		];
 
 		$expectedResult = [
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
 				-42 => 0,
-				2 => 0
+				2 => 0,
 			],
 			'create' => [
-				2 => 1
+				2 => 1,
 			],
 		];
 
@@ -190,9 +189,9 @@ class RulesTest extends UnitTestCase
 		$deleteRule = $rules1->getData()['delete'];
 		$createRule = $rules1->getData()['create'];
 
-		$this->assertInstanceOf(Rule::class,  $editRule);
-		$this->assertInstanceOf(Rule::class,  $deleteRule);
-		$this->assertInstanceOf(Rule::class,  $createRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
+		$this->assertInstanceOf(Rule::class, $deleteRule);
+		$this->assertInstanceOf(Rule::class, $createRule);
 		$this->assertEquals($expectedResult['edit'], $editRule->getData());
 		$this->assertEquals($expectedResult['delete'], $deleteRule->getData());
 		$this->assertEquals($expectedResult['create'], $createRule->getData());
@@ -209,11 +208,11 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData = array(
 			'edit' => array(
-				-42 => 1
+				-42 => 1,
 			),
 			'delete' => array(
-				-42 => 0
-			)
+				-42 => 0,
+			),
 		);
 
 		$rules1 = new Rules($ruleData);
@@ -223,8 +222,8 @@ class RulesTest extends UnitTestCase
 		$editRule = $rules1->getData()['edit'];
 		$deleteRule = $rules1->getData()['delete'];
 
-		$this->assertInstanceOf(Rule::class,  $editRule);
-		$this->assertInstanceOf(Rule::class,  $deleteRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
+		$this->assertInstanceOf(Rule::class, $deleteRule);
 		$this->assertEquals($ruleData['edit'], $editRule->getData());
 		$this->assertEquals($ruleData['delete'], $deleteRule->getData());
 	}
@@ -240,32 +239,32 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData1 = [
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
-				-42 => 0
-			]
+				-42 => 0,
+			],
 		];
 
 		$ruleData2 = [
 			'create' => [
-				2 => 1
+				2 => 1,
 			],
 			'delete' => [
-				2 => 0
-			]
+				2 => 0,
+			],
 		];
 
 		$expectedResult = [
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
 				-42 => 0,
-				2 => 0
+				2 => 0,
 			],
 			'create' => [
-				2 => 1
+				2 => 1,
 			],
 		];
 
@@ -276,9 +275,9 @@ class RulesTest extends UnitTestCase
 		$deleteRule = $rules1->getData()['delete'];
 		$createRule = $rules1->getData()['create'];
 
-		$this->assertInstanceOf(Rule::class,  $editRule);
-		$this->assertInstanceOf(Rule::class,  $deleteRule);
-		$this->assertInstanceOf(Rule::class,  $createRule);
+		$this->assertInstanceOf(Rule::class, $editRule);
+		$this->assertInstanceOf(Rule::class, $deleteRule);
+		$this->assertInstanceOf(Rule::class, $createRule);
 		$this->assertEquals($expectedResult['edit'], $editRule->getData());
 		$this->assertEquals($expectedResult['delete'], $deleteRule->getData());
 		$this->assertEquals($expectedResult['create'], $createRule->getData());
@@ -295,12 +294,12 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData = [
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
 				-42 => 0,
-				2 => 1
-			]
+				2 => 1,
+			],
 		];
 
 		$rules = new Rules($ruleData);
@@ -326,15 +325,15 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData = [
 			'create' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
 				-42 => 0,
-				2 => 1
-			]
+				2 => 1,
+			],
 		];
 
 		$rules = new Rules($ruleData);
@@ -347,7 +346,6 @@ class RulesTest extends UnitTestCase
 	}
 
 	/**
-	 *
 	 * @return void
 	 * @since   4.0.0
 	 */
@@ -355,15 +353,15 @@ class RulesTest extends UnitTestCase
 	{
 		$ruleData = [
 			'create' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'edit' => [
-				-42 => 1
+				-42 => 1,
 			],
 			'delete' => [
 				-42 => 0,
-				2 => 1
-			]
+				2 => 1,
+			],
 		];
 
 		$rules = new Rules($ruleData);

@@ -94,7 +94,7 @@ class CMSObjectTest extends UnitTestCase
 		$object = new CMSObject([
 			'_privateproperty1' => 'valuep1',
 			'property1'         => 'value1',
-			'property2'         => 5]
+			'property2'         => 5, ]
 		);
 
 		$this->assertEquals(
@@ -102,7 +102,7 @@ class CMSObjectTest extends UnitTestCase
 				'_errors'           => [],
 				'_privateproperty1' => 'valuep1',
 				'property1'         => 'value1',
-				'property2'         => 5
+				'property2'         => 5,
 			],
 			$object->getProperties(false),
 			'Should get all properties, including private ones'
@@ -111,7 +111,7 @@ class CMSObjectTest extends UnitTestCase
 		$this->assertEquals(
 			[
 				'property1' => 'value1',
-				'property2' => 5
+				'property2' => 5,
 			],
 			$object->getProperties(),
 			'Should get all public properties'

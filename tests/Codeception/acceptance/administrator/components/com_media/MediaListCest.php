@@ -37,7 +37,7 @@ class MediaListCest
 			'headers',
 			'sampledata',
 			'joomla_black.png',
-			'powered_by.png'
+			'powered_by.png',
 		],
 		'/banners' => [
 			'banner.jpg',
@@ -45,8 +45,8 @@ class MediaListCest
 			'osmbanner2.png',
 			'shop-ad.jpg',
 			'shop-ad-books.jpg',
-			'white.png'
-		]
+			'white.png',
+		],
 	];
 
 	/**

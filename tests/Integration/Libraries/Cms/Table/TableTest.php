@@ -6,6 +6,7 @@
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Tests\Integration\Libraries\Cms\Table;
 
 use Joomla\CMS\Table\Table;
@@ -79,7 +80,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'publish_up',
 			'publish_down',
 			'ordering',
-			'params'
+			'params',
 		];
 
 		$this->assertEquals(
@@ -100,7 +101,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'title' => 'Test Title',
 			'hits' => 42,
 			'published' => 1,
-			'ordering' => 23
+			'ordering' => 23,
 		];
 
 		$this->object->bind($data);
@@ -134,7 +135,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'fakefield' => 'Not present!',
 			'published' => 1,
 			'ordering' => 23,
-			'fakefield2' => 'Not present either!'
+			'fakefield2' => 'Not present either!',
 		];
 
 		$this->object->bind($data);
@@ -159,11 +160,11 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'title' => 'Test Title',
 			'hits' => 42,
 			'published' => 1,
-			'ordering' => 23
+			'ordering' => 23,
 		];
 		$ignore = [
 			'hits',
-			'ordering'
+			'ordering',
 		];
 
 		// Check for ignore fields as array
@@ -200,13 +201,13 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 				'key' => 'value',
 				'nested' => [
 					'more' => 'values',
-					'even' => 'more'
+					'even' => 'more',
 				],
 				'object' => (object) [
 					'attribute1' => 'value1',
-					'attribute2' => 'value2'
-				]
-			]
+					'attribute2' => 'value2',
+				],
+			],
 		];
 
 		$this->object->set('_jsonEncode', ['params']);
@@ -241,7 +242,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'title' => 'Test Title',
 			'hits' => 42,
 			'published' => 1,
-			'ordering' => 23
+			'ordering' => 23,
 		];
 
 		$dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();

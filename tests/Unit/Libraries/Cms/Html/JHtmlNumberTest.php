@@ -127,25 +127,25 @@ class JHtmlNumberTest extends UnitTestCase
 				'1.3 kB',
 				1357,
 				null,
-				1
+				1,
 			],
 			[
 				'1.33 kB',
 				1357,
 				null,
-				2
+				2,
 			],
 			[
 				'1.325 kB',
 				1357,
 				null,
-				3
+				3,
 			],
 			[
 				'1.3252 kB',
 				1357,
 				null,
-				4
+				4,
 			],
 
 			// Test unit suffixed inputs
@@ -156,12 +156,12 @@ class JHtmlNumberTest extends UnitTestCase
 			[
 				'1,024.00 MB',
 				'1 GB',
-				'MB'
+				'MB',
 			],
 			[
 				'10.50 GB',
 				'1.0752E+4 MB',
-				'GB'
+				'GB',
 			],
 
 			// Test IEC aware input
@@ -170,14 +170,14 @@ class JHtmlNumberTest extends UnitTestCase
 				'1024 KB',
 				'',
 				2,
-				true
+				true,
 			],
 			[
 				'1048576',
 				'1024 KiB',
 				'',
 				2,
-				true
+				true,
 			],
 
 			// Test IEC aware output with automatic unit
@@ -186,7 +186,7 @@ class JHtmlNumberTest extends UnitTestCase
 				1000 * 1000,
 				'auto',
 				2,
-				true
+				true,
 			],
 
 			// Test automatic binary units output
@@ -195,14 +195,14 @@ class JHtmlNumberTest extends UnitTestCase
 				1024 * 1024,
 				'binary',
 				2,
-				true
+				true,
 			],
 			[
 				'1.00 MiB',
 				1024 * 1024,
 				'binary',
 				2,
-				false
+				false,
 			],
 
 			// Test IEC aware specific unit output
@@ -211,14 +211,14 @@ class JHtmlNumberTest extends UnitTestCase
 				'1024 KB',
 				'KiB',
 				2,
-				true
+				true,
 			],
 			[
 				'1,048.58 kB',
 				'1024 KiB',
 				'kB',
 				2,
-				true
+				true,
 			],
 		];
 	}

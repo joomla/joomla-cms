@@ -28,7 +28,6 @@ use XMLReader;
  */
 class RssParserTest extends UnitTestCase
 {
-
 	/**
 	 * Tests RssParser::handleCategory()
 	 *
@@ -232,7 +231,7 @@ class RssParserTest extends UnitTestCase
 				$this->callback(
 					function ($value) use ($image)
 					{
-						return $value instanceOf FeedLink
+						return $value instanceof FeedLink
 							&& $value->uri === $image['url']
 							&& $value->relation === null
 							&& $value->type === 'logo'
@@ -337,7 +336,7 @@ class RssParserTest extends UnitTestCase
 				$this->callback(
 					function ($value) use ($link)
 					{
-						return $value instanceOf FeedLink && $value->uri === $link;
+						return $value instanceof FeedLink && $value->uri === $link;
 					}
 				)
 			);
@@ -362,7 +361,7 @@ class RssParserTest extends UnitTestCase
 	{
 		$editor = [
 			'name' => 'The Editor',
-			'email' => 'editor@domain.com'
+			'email' => 'editor@domain.com',
 		];
 
 		// It's currently not possible to mock simple xml element
@@ -377,7 +376,7 @@ class RssParserTest extends UnitTestCase
 				$this->callback(
 					function ($value) use ($editor)
 					{
-						return $value instanceOf FeedPerson
+						return $value instanceof FeedPerson
 							&& $value->name === $editor['name']
 							&& $value->email === $editor['email'];
 					}
@@ -554,7 +553,7 @@ class RssParserTest extends UnitTestCase
 	{
 		$webmaster = [
 			'name' => 'The Webmaster',
-			'email' => 'webmaster@domain.com'
+			'email' => 'webmaster@domain.com',
 		];
 
 		// It's currently not possible to mock simple xml element
@@ -670,7 +669,7 @@ class RssParserTest extends UnitTestCase
 							&& $value->name === $entry['authorName']
 							&& $value->email === $entry['authorEmail'];
 					}
-				)
+				),
 				]
 			);
 

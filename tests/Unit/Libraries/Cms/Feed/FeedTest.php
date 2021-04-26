@@ -71,7 +71,6 @@ class FeedTest extends UnitTestCase
 		$this->assertEquals('', $this->feed->uri);
 	}
 
-
 	/**
 	 * Tests the Feed::__get method when the property has not been set to a value.
 	 *

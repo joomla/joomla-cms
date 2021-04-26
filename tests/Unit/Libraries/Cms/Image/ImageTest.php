@@ -136,7 +136,7 @@ class ImageTest extends UnitTestCase
 			array(44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
 			array(24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
 			array(33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50),
-			array(12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50)
+			array(12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50),
 		);
 	}
 
@@ -156,7 +156,7 @@ class ImageTest extends UnitTestCase
 			array('40%', 56.2, 10, 10, 4, 56),
 			array(42.5, '5%', 10, 10, 43, 1),
 			array('33%', '25%', 10, 10, 3, 3),
-			array('40%', null, 10, 10, 4, 4)
+			array('40%', null, 10, 10, 4, 4),
 		);
 	}
 
@@ -195,7 +195,7 @@ class ImageTest extends UnitTestCase
 		return array(
 			// Note: input, expected
 			array(42.5, 43),
-			array(56.2, 56)
+			array(56.2, 56),
 		);
 	}
 

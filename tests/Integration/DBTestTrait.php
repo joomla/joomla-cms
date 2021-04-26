@@ -8,6 +8,7 @@
  *
  * @since   4.0.0
  */
+
 namespace Joomla\Tests\Integration;
 
 use Joomla\Database\DatabaseDriver;
@@ -40,7 +41,6 @@ trait DBTestTrait
 	}
 
 	/**
-	 *
 	 * @return mixed
 	 *
 	 * @since   4.0.0
@@ -51,7 +51,6 @@ trait DBTestTrait
 	}
 
 	/**
-	 *
 	 * @return array
 	 *
 	 * @since   4.0.0

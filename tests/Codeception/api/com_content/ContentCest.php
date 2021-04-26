@@ -74,7 +74,7 @@ class ContentCest
 			'catid' => 2,
 			'articletext' => 'A dummy article to save to the database',
 			'language' => '*',
-			'alias' => 'tobias'
+			'alias' => 'tobias',
 		];
 
 		$I->sendPOST('/content/article', $testarticle);
@@ -120,8 +120,8 @@ class ContentCest
 			'title' => 'A test category',
 			'parent_id' => 2,
 			'params' => [
-				'workflow_id' => 'inherit'
-			]
+				'workflow_id' => 'inherit',
+			],
 		];
 
 		$I->sendPOST('/content/categories', $testarticle);
