@@ -56,6 +56,8 @@ return PhpCsFixer\Config::create()
 		    'no_whitespace_in_blank_line' => true,
 		    // contrib
 		    'concat_space' => ['spacing' => 'one'],
+		    // PHP7+
+		    'native_function_invocation'=> ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
       )
     )
     ->setFinder($mainFinder);
