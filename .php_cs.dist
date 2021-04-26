@@ -14,7 +14,7 @@
  *
  * This configuration is only valid for php-cs-fixer v2.x and will not work with php-cs-fixer v3.x
  *
- * If you would like to run the automated clean up, then open a command line and type on of the commands below
+ * If you would like to run the automated clean up, then open a command line and type one of the commands below
  *
  * To run a quick dry run to see the files that would be modified:
  *
