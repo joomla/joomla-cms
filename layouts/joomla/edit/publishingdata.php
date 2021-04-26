@@ -23,7 +23,7 @@ $fields = $displayData->get('fields') ?: array(
 	array('modified_by', 'modified_user_id'),
 	'version',
 	'hits',
-	'id'
+	'id',
 );
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();

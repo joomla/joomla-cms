@@ -118,7 +118,7 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 
 $modalHTML = HTMLHelper::_('bootstrap.renderModal',
-		'imageModal_'. $id,
+		'imageModal_' . $id,
 		array(
 				'url'         => $url,
 				'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
@@ -134,7 +134,6 @@ $modalHTML = HTMLHelper::_('bootstrap.renderModal',
 
 $wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
-
 
 ?>
 <joomla-field-media class="field-media-wrapper"

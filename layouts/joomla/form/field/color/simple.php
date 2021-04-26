@@ -65,7 +65,7 @@ Factory::getDocument()->getWebAssetManager()
 	echo $disabled; ?><?php echo $readonly; ?><?php echo $dataAttribute; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 	echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
 		<?php foreach ($colors as $i => $c) : ?>
-			<option<?php echo ($c === $color ? ' selected="selected"' : ''); ?> value="<?php echo $c; ?>"></option>
+			<option<?php echo $c === $color ? ' selected="selected"' : ''; ?> value="<?php echo $c; ?>"></option>
 		<?php endforeach; ?>
 	</select>
 </joomla-field-simple-color>

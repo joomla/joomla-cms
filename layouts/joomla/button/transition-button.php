@@ -74,7 +74,7 @@ if ($tip)
 		<?php
 			$default = [
 				HTMLHelper::_('select.option', '', $this->escape($options['title'])),
-				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
+				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]),
 			];
 
 			$transitions = array_merge($default, $options['transitions']);
@@ -83,7 +83,7 @@ if ($tip)
 				'id'        => 'transition-select_' . (int) $row ?? '',
 				'list.attr' => [
 					'class'    => 'form-select form-select-sm w-auto',
-					'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
+					'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')", ],
 				];
 
 			echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);

@@ -26,7 +26,7 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 			<?php endif; ?>
 		</dt>
 
-		<?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author )) : ?>
+		<?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author)) : ?>
 			<?php echo $this->sublayout('author', $displayData); ?>
 		<?php endif; ?>
 

@@ -76,7 +76,7 @@ if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER'))
 }
 
 $inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)
+	'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName),
 );
 if ($class)
 {

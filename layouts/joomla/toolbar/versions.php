@@ -45,7 +45,7 @@ echo HTMLHelper::_(
 				'layout' => 'modal',
 				'tmpl' => 'component',
 				'item_id' => $itemId,
-				Session::getFormToken() => 1
+				Session::getFormToken() => 1,
 			]
 		),
 		'title'  => $title,
@@ -54,7 +54,7 @@ echo HTMLHelper::_(
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
 		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 	)
 );
 ?>

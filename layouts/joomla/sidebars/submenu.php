@@ -26,7 +26,7 @@ HTMLHelper::_('behavior.core');
 			<?php if ($displayData->displayMenu) : ?>
 			<ul class="nav flex-column">
 				<?php foreach ($displayData->list as $item) :
-				if (isset ($item[2]) && $item[2] == 1) : ?>
+				if (isset($item[2]) && $item[2] == 1) : ?>
 					<li class="active">
 				<?php else : ?>
 					<li>

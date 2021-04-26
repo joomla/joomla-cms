@@ -36,7 +36,7 @@ $icon       = str_replace('icon-icon-', 'icon-', $icon);
 
 switch ($icon)
 {
-	case (strpos($icon, 'icon-') !== false):
+	case strpos($icon, 'icon-') !== false:
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
@@ -57,7 +57,7 @@ if ($html !== false)
 {
 	$iconAttribs = [
 		'class'       => $icon,
-		'aria-hidden' => "true"
+		'aria-hidden' => "true",
 	];
 
 	if ($tabindex)

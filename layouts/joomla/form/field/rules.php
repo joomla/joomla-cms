@@ -153,11 +153,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 
 											<?php // Build the dropdowns for the permissions sliders
 												// The parent group has "Not Set", all children can rightly "Inherit" from that.?>
-											<option value="" <?php echo ($assetRule === null ? ' selected="selected"' : ''); ?>>
+											<option value="" <?php echo $assetRule === null ? ' selected="selected"' : ''; ?>>
 											<?php echo Text::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED'); ?></option>
-											<option value="1" <?php echo ($assetRule === true ? ' selected="selected"' : ''); ?>>
+											<option value="1" <?php echo $assetRule === true ? ' selected="selected"' : ''; ?>>
 											<?php echo Text::_('JLIB_RULES_ALLOWED'); ?></option>
-											<option value="0" <?php echo ($assetRule === false ? ' selected="selected"' : ''); ?>>
+											<option value="0" <?php echo $assetRule === false ? ' selected="selected"' : ''; ?>>
 											<?php echo Text::_('JLIB_RULES_DENIED'); ?></option>
 
 										</select>&#160;
@@ -233,7 +233,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
 											$result['class'] = 'badge bg-danger';
-											$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+											$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 										}
 									}
 									?>
