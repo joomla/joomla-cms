@@ -131,7 +131,7 @@ body .container-main {
   }
 }
 
-.main-card {
+:not(.contentpane) .main-card {
   background: $white;
   border-radius: $border-radius;
   box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
