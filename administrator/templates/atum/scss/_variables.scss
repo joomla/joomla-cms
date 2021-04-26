@@ -56,7 +56,7 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
-  card-bg:                         rgba(255,255,255.7),
+  card-bg:                         rgba(255, 255, 255, .7),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
