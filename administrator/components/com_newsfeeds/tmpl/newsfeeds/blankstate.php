@@ -16,6 +16,7 @@ $displayData = array(
 		'textPrefix' => 'COM_NEWSFEEDS',
 		'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
 		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:News_Feeds',
+		'icon'       => 'icon-rss newsfeeds',
 );
 $user        = Factory::getUser();
 
