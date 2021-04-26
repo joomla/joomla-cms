@@ -12,14 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
-		'textPrefix' => 'COM_BANNERS',
-		'formURL'    => 'index.php?option=com_banners&view=banners',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
-);
-$user        = Factory::getUser();
+$displayData = [
+	'textPrefix' => 'COM_BANNERS',
+	'formURL'    => 'index.php?option=com_banners&view=banners',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
+];
 
-if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
+if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 {
 	$displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
 }

@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
+$displayData = [
 	'textPrefix' => 'COM_CONTENT',
 	'formURL'    => 'index.php?option=com_content&view=articles',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
-);
-$user        = Factory::getUser();
+];
+
+$user = Factory::getApplication()->getIdentity();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 {
