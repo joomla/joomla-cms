@@ -77,7 +77,7 @@ elseif ($params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/' . $templatePath. '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 // Container
@@ -103,7 +103,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ' ' . $pageclass;
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	echo $this->direction == 'rtl' ? ' rtl' : '';
 ?>">
 	<header class="header container-header full-width">
 		<div class="grid-child">
