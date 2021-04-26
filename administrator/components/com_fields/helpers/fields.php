@@ -60,6 +60,10 @@ class FieldsHelper
 				{
 					$parts[1] = $section;
 				}
+				else
+				{
+					return null;
+				}
 			}
 		}
 
