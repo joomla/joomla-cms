@@ -36,7 +36,7 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->get('eid');
+		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
 		{
@@ -127,7 +127,7 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->get('eid');
+		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
 		{
