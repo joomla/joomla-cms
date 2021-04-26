@@ -85,7 +85,7 @@ if (JDEBUG || $config->error_reporting === 'maximum')
 	$errorHandler->setExceptionHandler(
 		[
 			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
-			'renderException'
+			'renderException',
 		]
 	);
 }
