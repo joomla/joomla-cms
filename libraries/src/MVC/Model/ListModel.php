@@ -156,7 +156,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getisBlankSlate()
+	public function getIsEmptyState()
 	{
 		$sql = $this->query
 			->clear('select')
