@@ -267,12 +267,12 @@ class Result implements \Serializable
 	public function getElement($name)
 	{
 		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
+		if (\array_key_exists($name, $this->elements))
 		{
 			return $this->elements[$name];
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -328,7 +328,7 @@ class Result implements \Serializable
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
 		// Check if the property exists in the group.
-		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
+		if (\array_key_exists($group, $this->instructions) && !\in_array($property, $this->instructions[$group], true))
 		{
 			// Add the property to the group.
 			$this->instructions[$group][] = $property;
@@ -348,7 +348,7 @@ class Result implements \Serializable
 	public function removeInstruction($group, $property)
 	{
 		// Check if the group exists. We can't remove instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		if (\array_key_exists($group, $this->instructions))
 		{
 			// Search for the property in the group.
 			$key = array_search($property, $this->instructions[$group]);
@@ -507,7 +507,7 @@ class Result implements \Serializable
 			$taxonomy,
 			$this->title,
 			$this->type_id,
-			$this->url
+			$this->url,
 			]
 		);
 	}

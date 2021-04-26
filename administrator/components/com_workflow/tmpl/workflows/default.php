@@ -103,7 +103,7 @@ $userId = $user->id;
 
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
 							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
-							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
+							$canEditOwn = $user->authorise('core.edit.own', $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">

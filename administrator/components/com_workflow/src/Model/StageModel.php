@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
+
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 \defined('_JEXEC') or die;
@@ -188,7 +189,7 @@ class StageModel extends AdminModel
 		$context = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
-		if (!\property_exists($record, 'workflow_id'))
+		if (!property_exists($record, 'workflow_id'))
 		{
 			$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 			$record->workflow_id = $workflowID;
@@ -222,7 +223,7 @@ class StageModel extends AdminModel
 			'stage',
 			array(
 				'control' => 'jform',
-				'load_data' => $loadData
+				'load_data' => $loadData,
 			)
 		);
 

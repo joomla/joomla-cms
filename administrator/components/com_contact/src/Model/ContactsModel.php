@@ -169,7 +169,7 @@ class ContactsModel extends ListModel
 		$query->select(
 			array(
 				$db->quoteName('ul.name', 'linked_user'),
-				$db->quoteName('ul.email')
+				$db->quoteName('ul.email'),
 			)
 		)
 			->join(
@@ -226,7 +226,7 @@ class ContactsModel extends ListModel
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
 
-		if (in_array($featured, ['0','1']))
+		if (\in_array($featured, ['0', '1']))
 		{
 			$query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
 		}
@@ -335,13 +335,13 @@ class ContactsModel extends ListModel
 		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
 
-		if (!is_array($categoryId))
+		if (!\is_array($categoryId))
 		{
 			$categoryId = $categoryId ? array($categoryId) : array();
 		}
 
 		// Case: Using both categories filter and by level filter
-		if (count($categoryId))
+		if (\count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = Table::getInstance('Category', 'JTable');

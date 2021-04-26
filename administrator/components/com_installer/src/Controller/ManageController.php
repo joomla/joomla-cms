@@ -44,7 +44,7 @@ class ManageController extends BaseController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('unpublish', 'publish');
-		$this->registerTask('publish',   'publish');
+		$this->registerTask('publish', 'publish');
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ManageController extends BaseController
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, \count($ids)));
 			}
 		}
 
@@ -166,6 +166,6 @@ class ManageController extends BaseController
 
 		$output = $model->loadChangelog($eid, $source);
 
-		echo (new JsonResponse($output));
+		echo new JsonResponse($output);
 	}
 }

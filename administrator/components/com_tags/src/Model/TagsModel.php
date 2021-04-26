@@ -100,7 +100,7 @@ class TagsModel extends ListModel
 		$this->setState('filter.component', $parts[0]);
 
 		// Extract the optional section name
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		$this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_tags');
@@ -313,7 +313,7 @@ class TagsModel extends ListModel
 	{
 		$parts = explode('.', $extension);
 
-		if (count($parts) < 2)
+		if (\count($parts) < 2)
 		{
 			return;
 		}

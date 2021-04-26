@@ -93,9 +93,9 @@ if ($saveOrder && !empty($this->items))
 							<?php foreach ($this->items as $i => $item) :
 								$ordering  = ($listOrder == 'ordering');
 								$item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
-								$canCreate  = $user->authorise('core.create',     'com_banners.category.' . $item->catid);
-								$canEdit    = $user->authorise('core.edit',       'com_banners.category.' . $item->catid);
-								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+								$canCreate  = $user->authorise('core.create', 'com_banners.category.' . $item->catid);
+								$canEdit    = $user->authorise('core.edit', 'com_banners.category.' . $item->catid);
+								$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 								$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
@@ -183,7 +183,7 @@ if ($saveOrder && !empty($this->items))
 							'collapseModal',
 							[
 								'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
-								'footer' => $this->loadTemplate('batch_footer')
+								'footer' => $this->loadTemplate('batch_footer'),
 							],
 							$this->loadTemplate('batch_body')
 						); ?>

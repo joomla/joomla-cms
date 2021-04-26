@@ -50,7 +50,7 @@ class ContenthistoryHelper
 		{
 			$result[$name] = $value;
 
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				foreach ($value as $subName => $subValue)
 				{
@@ -75,7 +75,7 @@ class ContenthistoryHelper
 	{
 		$object = json_decode($jsonString);
 
-		if (is_object($object))
+		if (\is_object($object))
 		{
 			foreach ($object as $name => $value)
 			{
@@ -140,7 +140,7 @@ class ContenthistoryHelper
 
 						$valueText = null;
 
-						if (is_array($optionFieldArray) && count($optionFieldArray))
+						if (\is_array($optionFieldArray) && \count($optionFieldArray))
 						{
 							$valueText = trim((string) $optionFieldArray[0]);
 						}
@@ -174,7 +174,7 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile))
+		if (\is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile))
 		{
 			$result = JPATH_ROOT . '/' . $options->formFile;
 		}
@@ -244,7 +244,7 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typeTable->content_history_options))
 		{
-			if (isset($options->hideFields) && is_array($options->hideFields))
+			if (isset($options->hideFields) && \is_array($options->hideFields))
 			{
 				foreach ($options->hideFields as $field)
 				{
@@ -269,7 +269,7 @@ class ContenthistoryHelper
 	{
 		$aliasArray = explode('.', $typeAlias);
 
-		if (is_array($aliasArray) && count($aliasArray) == 2)
+		if (\is_array($aliasArray) && \count($aliasArray) == 2)
 		{
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
 			$lang = Factory::getLanguage();
@@ -318,7 +318,7 @@ class ContenthistoryHelper
 			$result->$name->value = $valuesArray[$name] ?? $value;
 			$result->$name->label = $labelsArray[$name] ?? $name;
 
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				$subObject = new \stdClass;
 
@@ -375,7 +375,7 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typesTable->content_history_options))
 		{
-			if (isset($options->displayLookup) && is_array($options->displayLookup))
+			if (isset($options->displayLookup) && \is_array($options->displayLookup))
 			{
 				foreach ($options->displayLookup as $lookup)
 				{

@@ -58,7 +58,7 @@ class BannerModel extends AdminModel
 	 */
 	protected $batch_commands = array(
 		'client_id'   => 'batchClient',
-		'language_id' => 'batchLanguage'
+		'language_id' => 'batchLanguage',
 	);
 
 	/**

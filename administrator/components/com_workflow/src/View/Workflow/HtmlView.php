@@ -6,6 +6,7 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
 \defined('_JEXEC') or die;
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

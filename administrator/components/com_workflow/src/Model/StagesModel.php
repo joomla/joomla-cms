@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
+
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 \defined('_JEXEC') or die;
@@ -37,8 +38,8 @@ class StagesModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 's.id',
 				'title', 's.title',
-				'ordering','s.ordering',
-				'published', 's.published'
+				'ordering', 's.ordering',
+				'published', 's.published',
 			);
 		}
 

@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
@@ -112,14 +112,14 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			if ($isNew && (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
 				ToolbarHelper::apply('contact.apply');
 
 				ToolbarHelper::saveGroup(
 					[
 						['save', 'contact.save'],
-						['save2new', 'contact.save2new']
+						['save2new', 'contact.save2new'],
 					],
 					'btn-success'
 				);

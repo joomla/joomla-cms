@@ -30,7 +30,6 @@ class DisplayController extends BaseController
 	 */
 	protected $default_view = 'application';
 
-
 	/**
 	 * Typical view method for MVC based architecture
 	 *
@@ -50,7 +49,7 @@ class DisplayController extends BaseController
 		$component = $this->input->get('component');
 
 		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
-		if (in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))
+		if (\in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))
 			&& !$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');

@@ -191,7 +191,7 @@ class MenusModel extends ListModel
 			$query->extendWhere(
 				'AND',
 				[
-					$db->quoteName('a.title') . ' LIKE :search1' ,
+					$db->quoteName('a.title') . ' LIKE :search1',
 					$db->quoteName('a.menutype') . ' LIKE :search2',
 				],
 				'OR'

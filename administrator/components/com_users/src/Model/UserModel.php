@@ -59,7 +59,7 @@ class UserModel extends AdminModel
 				'event_after_save'    => 'onUserAfterSave',
 				'event_before_delete' => 'onUserBeforeDelete',
 				'event_before_save'   => 'onUserBeforeSave',
-				'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
+				'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user'),
 			), $config
 		);
 
@@ -294,7 +294,7 @@ class UserModel extends AdminModel
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
 				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
+					if (!\is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
 					{
 						continue;
 					}
@@ -370,7 +370,7 @@ class UserModel extends AdminModel
 
 		PluginHelper::importPlugin($this->events_map['delete']);
 
-		if (in_array($user->id, $pks))
+		if (\in_array($user->id, $pks))
 		{
 			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
@@ -501,7 +501,7 @@ class UserModel extends AdminModel
 						// Trigger the before save event.
 						$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
-						if (in_array(false, $result, true))
+						if (\in_array(false, $result, true))
 						{
 							// Plugin will have to raise its own error or throw an exception.
 							return false;
@@ -598,7 +598,7 @@ class UserModel extends AdminModel
 						// Trigger the before save event.
 						$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
-						if (in_array(false, $result, true))
+						if (\in_array(false, $result, true))
 						{
 							// Plugin will have to raise it's own error or throw an exception.
 							return false;
@@ -881,7 +881,7 @@ class UserModel extends AdminModel
 
 			foreach ($userIds as $id)
 			{
-				if (!in_array($id, $users))
+				if (!\in_array($id, $users))
 				{
 					$query->values($id . ',' . $groupId);
 					$groups = true;
@@ -935,7 +935,7 @@ class UserModel extends AdminModel
 		}
 		else
 		{
-			return null;
+			return;
 		}
 	}
 
@@ -1002,7 +1002,7 @@ class UserModel extends AdminModel
 		$otpConfig = (object) array(
 			'method' => 'none',
 			'config' => array(),
-			'otep'   => array()
+			'otep'   => array(),
 		);
 
 		/**
@@ -1088,22 +1088,22 @@ class UserModel extends AdminModel
 		 * two-factor authentication. This prevents impossible to log in sites
 		 * if the site admin changes the site secret for any reason.
 		 */
-		if (is_null($otpConfig->config))
+		if (\is_null($otpConfig->config))
 		{
 			$otpConfig->config = array();
 		}
 
-		if (is_object($otpConfig->config))
+		if (\is_object($otpConfig->config))
 		{
 			$otpConfig->config = (array) $otpConfig->config;
 		}
 
-		if (is_null($otpConfig->otep))
+		if (\is_null($otpConfig->otep))
 		{
 			$otpConfig->otep = array();
 		}
 
-		if (is_object($otpConfig->otep))
+		if (\is_object($otpConfig->otep))
 		{
 			$otpConfig->otep = (array) $otpConfig->otep;
 		}
@@ -1131,7 +1131,7 @@ class UserModel extends AdminModel
 		$updates = (object) array(
 			'id'     => $userId,
 			'otpKey' => '',
-			'otep'   => ''
+			'otep'   => '',
 		);
 
 		// Create an encryptor class
@@ -1215,19 +1215,19 @@ class UserModel extends AdminModel
 		}
 
 		$salt = '0123456789';
-		$base = strlen($salt);
+		$base = \strlen($salt);
 		$length = 16;
 
 		for ($i = 0; $i < $count; $i++)
 		{
 			$makepass = '';
 			$random = Crypt::genRandomBytes($length + 1);
-			$shift = ord($random[0]);
+			$shift = \ord($random[0]);
 
 			for ($j = 1; $j <= $length; ++$j)
 			{
-				$makepass .= $salt[($shift + ord($random[$j])) % $base];
-				$shift += ord($random[$j]);
+				$makepass .= $salt[($shift + \ord($random[$j])) % $base];
+				$shift += \ord($random[$j]);
 			}
 
 			$oteps[] = $makepass;
@@ -1272,7 +1272,7 @@ class UserModel extends AdminModel
 	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{
 		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
-		if (!array_key_exists('otp_config', $options))
+		if (!\array_key_exists('otp_config', $options))
 		{
 			$otpConfig = $this->getOtpConfig($userId);
 			$options['otp_config'] = $otpConfig;
@@ -1296,12 +1296,12 @@ class UserModel extends AdminModel
 			$warn = true;
 			$warnMessage = Text::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
 
-			if (array_key_exists('warn_if_not_req', $options))
+			if (\array_key_exists('warn_if_not_req', $options))
 			{
 				$warn = $options['warn_if_not_req'];
 			}
 
-			if (array_key_exists('warn_irq_msg', $options))
+			if (\array_key_exists('warn_irq_msg', $options))
 			{
 				$warnMessage = $options['warn_irq_msg'];
 			}
@@ -1375,7 +1375,7 @@ class UserModel extends AdminModel
 	 */
 	public function isValidOtep($userId, $otep, $otpConfig = null)
 	{
-		if (is_null($otpConfig))
+		if (\is_null($otpConfig))
 		{
 			$otpConfig = $this->getOtpConfig($userId);
 		}
@@ -1408,7 +1408,7 @@ class UserModel extends AdminModel
 		$check = false;
 
 		// Did we find a valid OTEP?
-		if (in_array($otep, $otpConfig->otep))
+		if (\in_array($otep, $otpConfig->otep))
 		{
 			// Remove the OTEP from the array
 			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));

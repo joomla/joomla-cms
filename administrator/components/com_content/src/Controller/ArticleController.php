@@ -85,7 +85,7 @@ class ArticleController extends FormController
 			$this->app->setUserState('com_menus.edit.item', array(
 				'data' => $editState,
 				'type' => $type,
-				'link' => $link)
+				'link' => $link, )
 			);
 
 			$this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));

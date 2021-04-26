@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
+		if (!\count($this->items) && $this->get('IsBlankSlate'))
 		{
 			$this->setLayout('blankstate');
 		}
@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -135,12 +135,12 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
+		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state') || count($this->transitions))
+		if ($canDo->get('core.edit.state') || \count($this->transitions))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -151,7 +151,7 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-			if (count($this->transitions))
+			if (\count($this->transitions))
 			{
 				$childBar->separatorButton('transition-headline')
 					->text('COM_CONTENT_RUN_TRANSITIONS')

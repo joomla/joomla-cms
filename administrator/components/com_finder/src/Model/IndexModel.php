@@ -134,7 +134,7 @@ class IndexModel extends ListModel
 					// Trigger the onContentBeforeDelete event.
 					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
-					if (in_array(false, $result, true))
+					if (\in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
 
@@ -383,7 +383,7 @@ class IndexModel extends ListModel
 			'alias' => 'root',
 			'state' => 1,
 			'access' => 1,
-			'language' => '*'
+			'language' => '*',
 		);
 		$db->insertObject('#__finder_taxonomy', $root);
 
@@ -474,7 +474,7 @@ class IndexModel extends ListModel
 		// Trigger the onContentChangeState event.
 		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 

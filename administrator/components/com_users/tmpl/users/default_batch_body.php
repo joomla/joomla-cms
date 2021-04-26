@@ -15,14 +15,14 @@ use Joomla\CMS\Language\Text;
 $options = array(
 	HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')),
 	HTMLHelper::_('select.option', 'del', Text::_('COM_USERS_BATCH_DELETE')),
-	HTMLHelper::_('select.option', 'set', Text::_('COM_USERS_BATCH_SET'))
+	HTMLHelper::_('select.option', 'set', Text::_('COM_USERS_BATCH_SET')),
 );
 
 // Create the reset password options.
 $resetOptions = array(
 	HTMLHelper::_('select.option', '', Text::_('COM_USERS_NO_ACTION')),
 	HTMLHelper::_('select.option', 'yes', Text::_('JYES')),
-	HTMLHelper::_('select.option', 'no', Text::_('JNO'))
+	HTMLHelper::_('select.option', 'no', Text::_('JNO')),
 );
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */

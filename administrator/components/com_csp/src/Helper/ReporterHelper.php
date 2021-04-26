@@ -78,7 +78,7 @@ class ReporterHelper
 			return false;
 		}
 
-		return boolval($result);
+		return \boolval($result);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class ReporterHelper
 			return false;
 		}
 
-		return boolval($result);
+		return \boolval($result);
 	}
 
 	/**
@@ -140,6 +140,6 @@ class ReporterHelper
 			return false;
 		}
 
-		return boolval($result);
+		return \boolval($result);
 	}
 }

@@ -138,7 +138,7 @@ class ActionlogModel extends BaseDatabaseModel
 		{
 			$extensions = json_decode($user->extensions, true);
 
-			if ($extensions && in_array(strtok($context, '.'), $extensions))
+			if ($extensions && \in_array(strtok($context, '.'), $extensions))
 			{
 				$recipients[] = $user->email;
 			}
@@ -165,7 +165,7 @@ class ActionlogModel extends BaseDatabaseModel
 		}
 
 		$templateData = [
-			'messages'     => $temp
+			'messages'     => $temp,
 		];
 
 		$mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());

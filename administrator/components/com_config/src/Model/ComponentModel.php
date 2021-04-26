@@ -237,7 +237,7 @@ class ComponentModel extends FormModel
 		$result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
 
 		// Store the data.
-		if (in_array(false, $result, true) || !$table->store())
+		if (\in_array(false, $result, true) || !$table->store())
 		{
 			throw new \RuntimeException($table->getError());
 		}

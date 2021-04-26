@@ -48,8 +48,8 @@ class Filter
 
 		// Get the configuration options.
 		$filterId    = $options['filter_id'] ?? null;
-		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
-		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
+		$activeNodes = \array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
+		$classSuffix = \array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
@@ -67,7 +67,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Initialize the filter parameters.
@@ -103,13 +103,13 @@ class Filter
 		}
 		catch (\RuntimeException $e)
 		{
-			return null;
+			return;
 		}
 
 		// Check that we have at least one branch.
-		if (count($branches) === 0)
+		if (\count($branches) === 0)
 		{
-			return null;
+			return;
 		}
 
 		$branch_keys = array_keys($branches);
@@ -151,7 +151,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Translate node titles if possible.
@@ -176,7 +176,7 @@ class Filter
 			$html .= HTMLHelper::_('bootstrap.addSlide',
 				'accordion',
 				Text::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
-					Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . count($nodes)
+					Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . \count($nodes)
 				),
 				'accordion-' . $bk
 			);
@@ -191,7 +191,7 @@ class Filter
 			foreach ($nodes as $nk => $nv)
 			{
 				// Determine if the node should be checked.
-				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
+				$checked = \in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
 				$html .= '<div class="form-check">';
@@ -260,7 +260,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return null;
+					return;
 				}
 
 				// Initialize the filter parameters.
@@ -300,13 +300,13 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Check that we have at least one branch.
-			if (count($branches) === 0)
+			if (\count($branches) === 0)
 			{
-				return null;
+				return;
 			}
 
 			// Iterate through the branches and build the branch groups.
@@ -347,7 +347,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return null;
+					return;
 				}
 
 				// Translate branch nodes if possible.
@@ -405,14 +405,14 @@ class Filter
 			$active = null;
 
 			// Check if the branch is in the filter.
-			if (array_key_exists($bv->title, $idxQuery->filters))
+			if (\array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
 				$temp   = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);
-				$active = count($active) === 1 ? array_shift($active) : null;
+				$active = \count($active) === 1 ? array_shift($active) : null;
 			}
 
 			// Build a node.

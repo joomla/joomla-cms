@@ -120,7 +120,7 @@ class ManageModel extends InstallerModel
 		 * Ensure eid is an array of extension ids
 		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
-		if (!is_array($eid))
+		if (!\is_array($eid))
 		{
 			$eid = array($eid);
 		}
@@ -189,7 +189,7 @@ class ManageModel extends InstallerModel
 	 */
 	public function refresh($eid)
 	{
-		if (!is_array($eid))
+		if (!\is_array($eid))
 		{
 			$eid = array($eid => 0);
 		}
@@ -231,7 +231,7 @@ class ManageModel extends InstallerModel
 		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
-		if (!is_array($eid))
+		if (!\is_array($eid))
 		{
 			$eid = array($eid => 0);
 		}
@@ -420,7 +420,7 @@ class ManageModel extends InstallerModel
 						'extensions.folder',
 						'extensions.changelogurl',
 						'extensions.manifest_cache',
-						'extensions.client_id'
+						'extensions.client_id',
 					]
 				)
 			)
@@ -456,7 +456,7 @@ class ManageModel extends InstallerModel
 			'change'   => array(),
 			'remove'   => array(),
 			'language' => array(),
-			'note'     => array()
+			'note'     => array(),
 		);
 
 		array_walk(

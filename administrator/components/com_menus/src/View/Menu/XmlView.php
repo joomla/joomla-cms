@@ -149,11 +149,11 @@ class XmlView extends BaseHtmlView
 			$node['target'] = '_blank';
 		}
 
-		if (count($item->getParams()))
+		if (\count($item->getParams()))
 		{
 			$hideitems = $item->getParams()->get('hideitems');
 
-			if (count($hideitems))
+			if (\count($hideitems))
 			{
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);

@@ -161,7 +161,7 @@ class UsersModel extends ListModel
 			$groups  = $this->getState('filter.groups');
 			$groupId = $this->getState('filter.group_id');
 
-			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups)))
+			if (isset($groups) && (empty($groups) || $groupId && !\in_array($groupId, $groups)))
 			{
 				$items = array();
 			}
@@ -335,7 +335,7 @@ class UsersModel extends ListModel
 							'a.resetCount',
 							'a.otpKey',
 							'a.otep',
-							'a.requireReset'
+							'a.requireReset',
 						)
 					)
 				);

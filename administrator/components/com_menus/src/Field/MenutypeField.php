@@ -104,7 +104,7 @@ class MenutypeField extends ListField
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
 				'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 			)
 		);
 

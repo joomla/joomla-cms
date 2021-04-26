@@ -52,7 +52,7 @@ class ActionlogsHelper
 				sprintf(
 					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
 					__METHOD__,
-					gettype($data) === 'object' ? get_class($data) : gettype($data)
+					\gettype($data) === 'object' ? \get_class($data) : \gettype($data)
 				)
 			);
 		}
@@ -74,7 +74,7 @@ class ActionlogsHelper
 				'extension'  => self::escapeCsvFormula(Text::_($extension)),
 				'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'name'       => self::escapeCsvFormula($log->name),
-				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
+				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
 			);
 		}
 	}
@@ -119,7 +119,7 @@ class ActionlogsHelper
 			case 'plg':
 				$parts = explode('_', $extension, 3);
 
-				if (count($parts) > 2)
+				if (\count($parts) > 2)
 				{
 					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				}
@@ -255,7 +255,7 @@ class ActionlogsHelper
 
 			\JLoader::register($cName, $file);
 
-			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			if (class_exists($cName) && \is_callable(array($cName, 'getContentTypeLink')))
 			{
 				return $cName::getContentTypeLink($contentType, $id);
 			}
@@ -292,13 +292,13 @@ class ActionlogsHelper
 						'folder',
 						'element',
 						'params',
-						'extension_id'
+						'extension_id',
 					),
 					array(
 						'type',
 						'name',
 						'params',
-						'id'
+						'id',
 					)
 				)
 			)
@@ -363,7 +363,7 @@ class ActionlogsHelper
 			return $value;
 		}
 
-		if (in_array($value[0], self::$characters, true))
+		if (\in_array($value[0], self::$characters, true))
 		{
 			$value = ' ' . $value;
 		}

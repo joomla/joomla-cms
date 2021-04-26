@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
@@ -139,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		);
 
 		// For new records, check the create permission.
-		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
+		if ($isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
 			$toolbar->apply('article.apply');
 

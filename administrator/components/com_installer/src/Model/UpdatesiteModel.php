@@ -96,7 +96,7 @@ class UpdatesiteModel extends AdminModel
 						'extensions.element',
 						'extensions.folder',
 						'extensions.client_id',
-						'extensions.checked_out'
+						'extensions.checked_out',
 					]
 				)
 			)

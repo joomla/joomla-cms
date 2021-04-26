@@ -238,7 +238,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.folder', $object, true, $object]);
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \Exception($object->getError());
 		}
@@ -304,7 +304,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \Exception($object->getError());
 		}
@@ -354,7 +354,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, false, $object]);
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \Exception($object->getError());
 		}
@@ -397,7 +397,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$result = $app->triggerEvent('onContentBeforeDelete', ['com_media.' . $type, $object]);
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \Exception($object->getError());
 		}
@@ -543,6 +543,6 @@ class ApiModel extends BaseDatabaseModel
 		$extension = substr($path, strrpos($path, '.') + 1);
 
 		// Check if the extension exists in the allowed extensions
-		return in_array($extension, $this->allowedExtensions);
+		return \in_array($extension, $this->allowedExtensions);
 	}
 }

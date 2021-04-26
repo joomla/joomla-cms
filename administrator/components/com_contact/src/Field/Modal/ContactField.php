@@ -71,7 +71,7 @@ class ContactField extends FormField
 		{
 			static $scriptSelect = null;
 
-			if (is_null($scriptSelect))
+			if (\is_null($scriptSelect))
 			{
 				$scriptSelect = array();
 			}
@@ -192,10 +192,10 @@ class ContactField extends FormField
 		}
 
 		// Propagate contact button
-		if ($allowPropagate && count($languages) > 2)
+		if ($allowPropagate && \count($languages) > 2)
 		{
 			// Strip off language tag at the end
-			$tagLength = (int) strlen($this->element['language']);
+			$tagLength = (int) \strlen($this->element['language']);
 			$callbackFunctionStem = substr("jSelectContact_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'

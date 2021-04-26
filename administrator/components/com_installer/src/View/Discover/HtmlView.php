@@ -47,7 +47,7 @@ class HtmlView extends InstallerViewDefault
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -95,6 +95,6 @@ class HtmlView extends InstallerViewDefault
 		$db->setQuery($query);
 		$discoveredExtensions = $db->loadObjectList();
 
-		return (count($discoveredExtensions) === 0) ? false : true;
+		return (\count($discoveredExtensions) === 0) ? false : true;
 	}
 }

@@ -6,6 +6,7 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
 \defined('_JEXEC') or die;
@@ -103,7 +104,7 @@ class StagesController extends AdminController
 			}
 		}
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -153,11 +154,11 @@ class StagesController extends AdminController
 			return;
 		}
 
-		if (empty($cid) || !is_array($cid))
+		if (empty($cid) || !\is_array($cid))
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
-		elseif (count($cid) > 1)
+		elseif (\count($cid) > 1)
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_STAGES'), 'error');
 		}

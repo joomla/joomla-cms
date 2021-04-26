@@ -6,6 +6,7 @@
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Model;
 
 \defined('_JEXEC') or die;
@@ -505,8 +506,8 @@ class TracksModel extends ListModel
 					'track' => array(
 						'name' => $this->getBasename() . '.csv',
 						'data' => $this->content,
-						'time' => time()
-					)
+						'time' => time(),
+					),
 				);
 				$ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 

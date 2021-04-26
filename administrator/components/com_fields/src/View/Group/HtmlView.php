@@ -57,7 +57,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $canDo;
 
-
 	/**
 	 * Execute and display a template script.
 	 *
@@ -85,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -118,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -150,7 +149,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'group.save'],
-					['save2new', 'group.save2new']
+					['save2new', 'group.save2new'],
 				],
 				'btn-success'
 			);

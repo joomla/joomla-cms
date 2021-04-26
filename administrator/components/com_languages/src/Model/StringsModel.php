@@ -65,7 +65,7 @@ class StringsModel extends BaseDatabaseModel
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
-		$base = constant('JPATH_' . strtoupper($client));
+		$base = \constant('JPATH_' . strtoupper($client));
 		$path = $base . '/language/' . $language;
 
 		$files = array();

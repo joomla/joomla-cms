@@ -24,7 +24,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-
 	/**
 	 * Execute and display a template script.
 	 *
@@ -70,7 +69,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::apply('apply');
 		ToolbarHelper::save('save');
-		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
+		ToolbarHelper::custom('reset', 'refresh', '', 'COM_MEDIA_RESET', false);
 
 		ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
 	}

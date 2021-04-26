@@ -69,7 +69,7 @@ class MenusController extends BaseController
 		$user = $this->app->getIdentity();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
-		if (count($cids) < 1)
+		if (\count($cids) < 1)
 		{
 			$this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
 		}
@@ -86,7 +86,7 @@ class MenusController extends BaseController
 				}
 			}
 
-			if (count($cids) > 0)
+			if (\count($cids) > 0)
 			{
 				// Get the model.
 				/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
@@ -102,7 +102,7 @@ class MenusController extends BaseController
 				}
 				else
 				{
-					$this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+					$this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', \count($cids)));
 				}
 			}
 		}

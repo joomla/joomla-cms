@@ -59,7 +59,7 @@ class FieldsModel extends ListModel
 				'group_title', 'g.title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
-				'assigned_cat_ids'
+				'assigned_cat_ids',
 			);
 		}
 
@@ -180,7 +180,7 @@ class FieldsModel extends ListModel
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			if (is_array($access))
+			if (\is_array($access))
 			{
 				$access = ArrayHelper::toInteger($access);
 				$query->whereIn($db->quoteName('a.access'), $access);
@@ -210,7 +210,7 @@ class FieldsModel extends ListModel
 						if (!$componentObject instanceof CategoryServiceInterface)
 						{
 							// No CategoryService -> no categories
-							return null;
+							return;
 						}
 
 						$cat = null;
@@ -230,7 +230,7 @@ class FieldsModel extends ListModel
 							catch (SectionNotFoundException $e)
 							{
 								// If we haven't found it now, return (no categories available for this component)
-								return null;
+								return;
 							}
 						}
 
@@ -266,7 +266,7 @@ class FieldsModel extends ListModel
 			// Join over the assigned categories
 			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
-			if (in_array('0', $categories))
+			if (\in_array('0', $categories))
 			{
 				$query->where(
 					'(' .
@@ -290,7 +290,7 @@ class FieldsModel extends ListModel
 				'AND',
 				[
 					$db->quoteName('a.group_id') . ' = 0',
-					$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
+					$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')',
 				],
 				'OR'
 			);
@@ -333,7 +333,7 @@ class FieldsModel extends ListModel
 					'AND',
 					[
 						$db->quoteName('a.group_id') . ' = 0',
-						$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
+						$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')',
 					],
 					'OR'
 				);
@@ -430,7 +430,7 @@ class FieldsModel extends ListModel
 	{
 		$result = parent::_getList($query, $limitstart, $limit);
 
-		if (is_array($result))
+		if (\is_array($result))
 		{
 			foreach ($result as $field)
 			{

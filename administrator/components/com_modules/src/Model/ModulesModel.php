@@ -116,7 +116,7 @@ class ModulesModel extends ListModel
 		else
 		{
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+			$clientId = (!\in_array($clientId, array(0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
 		}
 
@@ -175,7 +175,7 @@ class ModulesModel extends ListModel
 		$listDirn  = $this->getState('list.direction', 'asc');
 
 		// If ordering by fields that need translate we need to sort the array of objects after translating them.
-		if (in_array($listOrder, array('pages', 'name')))
+		if (\in_array($listOrder, array('pages', 'name')))
 		{
 			// Fetch the results.
 			$this->_db->setQuery($query);
@@ -188,7 +188,7 @@ class ModulesModel extends ListModel
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
 			// Process pagination.
-			$total = count($result);
+			$total = \count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
 			if ($total < $limitstart)
@@ -197,7 +197,7 @@ class ModulesModel extends ListModel
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ?: null);
+			return \array_slice($result, $limitstart, $limit ?: null);
 		}
 
 		// If ordering by fields that doesn't need translate just order the query.
@@ -245,7 +245,7 @@ class ModulesModel extends ListModel
 				|| $lang->load("$extension.sys", $source);
 			$item->name = Text::_($item->name);
 
-			if (is_null($item->pages))
+			if (\is_null($item->pages))
 			{
 				$item->pages = Text::_('JNONE');
 			}

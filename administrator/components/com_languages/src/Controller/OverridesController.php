@@ -45,7 +45,7 @@ class OverridesController extends AdminController
 		// Get items to delete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -57,7 +57,7 @@ class OverridesController extends AdminController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
 			}
 			else
 			{

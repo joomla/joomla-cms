@@ -67,7 +67,7 @@ class Helper
 			$tuplecount = $params->get('tuplecount', 1);
 		}
 
-		if (is_null($multilingual))
+		if (\is_null($multilingual))
 		{
 			$multilingual = Multilanguage::isEnabled();
 			$config = ComponentHelper::getParams('com_finder');
@@ -121,7 +121,7 @@ class Helper
 		 * tokenize the individual terms and we do not create the two and three
 		 * term combinations. The phrase must contain more than one word!
 		 */
-		if ($phrase === true && count($terms) > 1)
+		if ($phrase === true && \count($terms) > 1)
 		{
 			// Create tokens from the phrase.
 			$tokens[] = new Token($terms, $language->language, $language->spacer);
@@ -129,7 +129,7 @@ class Helper
 		else
 		{
 			// Create tokens from the terms.
-			for ($i = 0, $n = count($terms); $i < $n; $i++)
+			for ($i = 0, $n = \count($terms); $i < $n; $i++)
 			{
 				if (isset($cache[$lang][$terms[$i]]))
 				{
@@ -146,7 +146,7 @@ class Helper
 			// Create multi-word phrase tokens from the individual words.
 			if ($tuplecount > 1)
 			{
-				for ($i = 0, $n = count($tokens); $i < $n; $i++)
+				for ($i = 0, $n = \count($tokens); $i < $n; $i++)
 				{
 					$temp = array($tokens[$i]->term);
 
@@ -178,7 +178,7 @@ class Helper
 		}
 
 		// Prevent the cache to fill up the memory
-		while (count($cache[$lang]) > 1024)
+		while (\count($cache[$lang]) > 1024)
 		{
 			/**
 			 * We want to cache the most common words/tokens. At the same time
@@ -207,7 +207,7 @@ class Helper
 		static $multilingual;
 		static $defaultStemmer;
 
-		if (is_null($multilingual))
+		if (\is_null($multilingual))
 		{
 			$multilingual = Multilanguage::isEnabled();
 			$config = ComponentHelper::getParams('com_finder');
@@ -300,7 +300,7 @@ class Helper
 	{
 		static $data, $default, $multilingual;
 
-		if (is_null($multilingual))
+		if (\is_null($multilingual))
 		{
 			$multilingual = Multilanguage::isEnabled();
 			$config = ComponentHelper::getParams('com_finder');
@@ -331,7 +331,7 @@ class Helper
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang], true);
+		return \in_array($token, $data[$lang], true);
 	}
 
 	/**
@@ -396,7 +396,7 @@ class Helper
 		// Only parse the identifier if necessary.
 		if (!isset($data[$lang]))
 		{
-			if (is_callable(array('Locale', 'getPrimaryLanguage')))
+			if (\is_callable(array('Locale', 'getPrimaryLanguage')))
 			{
 				// Get the language key using the Locale package.
 				$data[$lang] = \Locale::getPrimaryLanguage($lang);

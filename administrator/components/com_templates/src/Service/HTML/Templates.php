@@ -49,7 +49,7 @@ class Templates
 
 			if (file_exists($preview))
 			{
-				$html = '<button type="button" data-bs-target="#' . $template . '-Modal" class="thumbnail" data-bs-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				$html = '<button type="button" data-bs-target="#' . $template . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 

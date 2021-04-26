@@ -41,7 +41,7 @@ class ClientsModel extends ListModel
 				'state', 'a.state',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'purchase_type', 'a.purchase_type'
+				'purchase_type', 'a.purchase_type',
 			);
 		}
 

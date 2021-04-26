@@ -57,10 +57,10 @@ class El extends Language
 	public function tokenise($input)
 	{
 		// Replace Greek calligraphic double quotes (various styles) to dumb double quotes
-		$input = str_replace(['“', '”', '„', '«' ,'»'], '"', $input);
+		$input = str_replace(['“', '”', '„', '«', '»'], '"', $input);
 
 		// Replace Greek calligraphic single quotes (various styles) to dumb single quotes
-		$input = str_replace(['‘','’','‚'], "'", $input);
+		$input = str_replace(['‘', '’', '‚'], "'", $input);
 
 		// Replace the middle dot (ano teleia) with a comma, adequate for the purpose of stemming
 		$input = str_replace('·', ',', $input);
@@ -369,7 +369,7 @@ class El extends Language
 
 		// Step 1
 		// step1list is used in Step 1. 41 stems
-		$step1list             = Array();
+		$step1list             = array();
 		$step1list["ΦΑΓΙΑ"]    = "ΦΑ";
 		$step1list["ΦΑΓΙΟΥ"]   = "ΦΑ";
 		$step1list["ΦΑΓΙΩΝ"]   = "ΦΑ";
@@ -421,7 +421,7 @@ class El extends Language
 		{
 			$stem   = $match[1];
 			$suffix = $match[2];
-			$token  = $stem . (array_key_exists($suffix, $step1list) ? $step1list[$suffix] : '');
+			$token  = $stem . (\array_key_exists($suffix, $step1list) ? $step1list[$suffix] : '');
 			$test1  = false;
 		}
 
@@ -892,7 +892,7 @@ class El extends Language
 		for ($i = 0; $i < mb_strlen($token); $i++)
 		{
 			$char    = mb_substr($token, $i, 1);
-			$isLower = array_key_exists($char, $caseConvert);
+			$isLower = \array_key_exists($char, $caseConvert);
 
 			if (!$isLower)
 			{
@@ -906,17 +906,17 @@ class El extends Language
 
 			$wCase[$i] = 1;
 
-			if (in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς']))
+			if (\in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς']))
 			{
 				$wCase[$i] = 2;
 			}
 
-			if (in_array($char, ['ϊ', 'ϋ']))
+			if (\in_array($char, ['ϊ', 'ϋ']))
 			{
 				$wCase[$i] = 3;
 			}
 
-			if (in_array($char, ['ΐ', 'ΰ']))
+			if (\in_array($char, ['ΐ', 'ΰ']))
 			{
 				$wCase[$i] = 4;
 			}
@@ -980,7 +980,7 @@ class El extends Language
 					'Ο' => 'ό',
 					'Υ' => 'ύ',
 					'Ω' => 'ώ',
-					'Σ' => 'ς'
+					'Σ' => 'ς',
 				];
 
 				$newToken .= $charMap[$char];
@@ -993,7 +993,7 @@ class El extends Language
 			{
 				$charMap = [
 					'Ι' => 'ϊ',
-					'Υ' => 'ϋ'
+					'Υ' => 'ϋ',
 				];
 
 				$newToken .= $charMap[$char];
@@ -1006,7 +1006,7 @@ class El extends Language
 			{
 				$charMap = [
 					'Ι' => 'ΐ',
-					'Υ' => 'ΰ'
+					'Υ' => 'ΰ',
 				];
 
 				$newToken .= $charMap[$char];

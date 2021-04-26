@@ -35,7 +35,7 @@ class Dispatcher extends ComponentDispatcher
 		$allowedTasks = ['user.edit', 'user.apply', 'user.save', 'user.cancel'];
 
 		// Allow users to edit their own account
-		if (in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit'))
+		if (\in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit'))
 		{
 			$user = $this->app->getIdentity();
 			$id   = $this->input->getInt('id');

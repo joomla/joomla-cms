@@ -200,7 +200,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Set some needed variables.
 			$this->user = Factory::getUser();
 			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
+			$this->tableClassName = \get_class($this->table);
 			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
@@ -356,7 +356,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && \intval($table->publish_down) == 0)
 		{
 			$table->publish_down = null;
 		}
@@ -510,7 +510,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			$assignedCatids = $data['catid'] ?? $form->getValue('catid');
 
-			$assignedCatids = is_array($assignedCatids)
+			$assignedCatids = \is_array($assignedCatids)
 				? (int) reset($assignedCatids)
 				: (int) $assignedCatids;
 
@@ -550,7 +550,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			{
 				$catIds  = $form->getValue('catid');
 
-				$catId = is_array($catIds)
+				$catId = \is_array($catIds)
 					? (int) reset($catIds)
 					: (int) $catIds;
 
@@ -702,7 +702,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
 		}
 
-		if (isset($data['images']) && is_array($data['images']))
+		if (isset($data['images']) && \is_array($data['images']))
 		{
 			$registry = new Registry($data['images']);
 
@@ -714,7 +714,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Create new category, if needed.
 		$createCategory = true;
 
-		if (is_null($data['catid']))
+		if (\is_null($data['catid']))
 		{
 			// When there is no catid passed don't try to create one
 			$createCategory = false;
@@ -754,7 +754,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
-		if (isset($data['urls']) && is_array($data['urls']))
+		if (isset($data['urls']) && \is_array($data['urls']))
 		{
 			$check = $input->post->get('jform', array(), 'array');
 
@@ -802,7 +802,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
+		if (\in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{
@@ -954,7 +954,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$oldFeatured = $db->loadColumn();
 
 				// Update old featured articles
-				if (count($oldFeatured))
+				if (\count($oldFeatured))
 				{
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__content_frontpage'))
@@ -1076,7 +1076,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-			if (count($languages) > 1)
+			if (\count($languages) > 1)
 			{
 				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');

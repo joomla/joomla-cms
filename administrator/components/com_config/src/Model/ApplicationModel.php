@@ -387,7 +387,7 @@ class ApplicationModel extends FormModel
 				$response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
+				if (!\in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
 					throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
@@ -876,7 +876,7 @@ class ApplicationModel extends FormModel
 		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
 
 		// Store the data.
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
 		}
@@ -915,7 +915,7 @@ class ApplicationModel extends FormModel
 		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
 
 		// Store the data.
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
 		}
@@ -964,9 +964,9 @@ class ApplicationModel extends FormModel
 		}
 
 		// Invalidates the cached configuration file
-		if (function_exists('opcache_invalidate'))
+		if (\function_exists('opcache_invalidate'))
 		{
-			\opcache_invalidate($file);
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if NOT using FTP.
@@ -995,7 +995,7 @@ class ApplicationModel extends FormModel
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
 
-		if (is_null($permission))
+		if (\is_null($permission))
 		{
 			// Get data from input.
 			$permission = array(
@@ -1003,7 +1003,7 @@ class ApplicationModel extends FormModel
 				'action'    => $app->input->Json->get('action'),
 				'rule'      => $app->input->Json->get('rule'),
 				'value'     => $app->input->Json->get('value'),
-				'title'     => $app->input->Json->get('title', '', 'RAW')
+				'title'     => $app->input->Json->get('title', '', 'RAW'),
 			);
 		}
 
@@ -1032,7 +1032,7 @@ class ApplicationModel extends FormModel
 		$isSuperUserGroupBefore = Access::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
-		$currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
+		$currentUserBelongsToGroup = \in_array((int) $permission['rule'], $user->groups) ? true : false;
 
 		// Get current user groups tree.
 		$currentUserGroupsTree = Access::getGroupsByUser($user->id, true);
@@ -1049,7 +1049,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// If user is not Super User cannot change the permissions of a group it belongs to.
-		if (!$currentUserSuperUser && in_array((int) $permission['rule'], $currentUserGroupsTree))
+		if (!$currentUserSuperUser && \in_array((int) $permission['rule'], $currentUserGroupsTree))
 		{
 			$app->enqueueMessage(Text::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
 
@@ -1390,7 +1390,7 @@ class ApplicationModel extends FormModel
 		$mailer->addTemplateData(
 			array(
 				'sitename' => $app->get('sitename'),
-				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
+				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
 			)
 		);
 		$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));

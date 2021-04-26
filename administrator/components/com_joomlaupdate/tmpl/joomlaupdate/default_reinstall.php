@@ -43,7 +43,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 					[
 						'target' => '_blank',
 						'rel'    => 'noopener noreferrer',
-						'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->downloadurl->_data)
+						'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->downloadurl->_data),
 					]
 				); ?>
 			</div>
@@ -62,7 +62,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 						[
 							'target' => '_blank',
 							'rel'    => 'noopener noreferrer',
-							'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title)
+							'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title),
 						]
 					); ?>
 				</div>

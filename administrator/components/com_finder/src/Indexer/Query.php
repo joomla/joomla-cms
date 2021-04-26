@@ -250,7 +250,7 @@ class Query
 		// Get the number of matching terms.
 		foreach ($this->included as $token)
 		{
-			$this->terms += count($token->matches);
+			$this->terms += \count($token->matches);
 		}
 
 		// Remove the temporary date storage.
@@ -311,7 +311,7 @@ class Query
 			{
 				foreach ($nodes as $node)
 				{
-					if (!in_array($node, $t))
+					if (!\in_array($node, $t))
 					{
 						continue;
 					}
@@ -385,7 +385,7 @@ class Query
 		$results = array();
 
 		// Iterate through the excluded tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->excluded); $i < $c; $i++)
+		for ($i = 0, $c = \count($this->excluded); $i < $c; $i++)
 		{
 			foreach ($this->excluded[$i]->matches as $match)
 			{
@@ -411,7 +411,7 @@ class Query
 		$results = array();
 
 		// Iterate through the included tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->included); $i < $c; $i++)
+		for ($i = 0, $c = \count($this->included); $i < $c; $i++)
 		{
 			// Check if we have any terms.
 			if (empty($this->included[$i]->matches))
@@ -423,7 +423,7 @@ class Query
 			$term = $this->included[$i]->term;
 
 			// Prepare the container for the term if necessary.
-			if (!array_key_exists($term, $results))
+			if (!\array_key_exists($term, $results))
 			{
 				$results[$term] = array();
 			}
@@ -457,7 +457,7 @@ class Query
 		$results = array();
 
 		// Iterate through the included tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->included); $i < $c; $i++)
+		for ($i = 0, $c = \count($this->included); $i < $c; $i++)
 		{
 			// Check if the token is required.
 			if ($this->included[$i]->required)
@@ -466,7 +466,7 @@ class Query
 				$term = $this->included[$i]->term;
 
 				// Prepare the container for the term if necessary.
-				if (!array_key_exists($term, $results))
+				if (!\array_key_exists($term, $results))
 				{
 					$results[$term] = array();
 				}
@@ -543,7 +543,7 @@ class Query
 		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
-		if (in_array(0, $filters, true) !== false)
+		if (\in_array(0, $filters, true) !== false)
 		{
 			unset($filters[array_search(0, $filters, true)]);
 		}
@@ -606,7 +606,7 @@ class Query
 		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
-		if (in_array(0, $filters, true) !== false)
+		if (\in_array(0, $filters, true) !== false)
 		{
 			unset($filters[array_search(0, $filters, true)]);
 		}
@@ -655,7 +655,7 @@ class Query
 		foreach ($results as $result)
 		{
 			// Check if the branch has been cleared.
-			if (!in_array($result->branch, $cleared, true))
+			if (!\in_array($result->branch, $cleared, true))
 			{
 				// Clear the branch.
 				$this->filters[$result->branch] = array();
@@ -712,7 +712,7 @@ class Query
 		{
 			// Set the date filter.
 			$this->date1 = $date->toSql();
-			$this->when1 = in_array($when1, $whens, true) ? $when1 : 'before';
+			$this->when1 = \in_array($when1, $whens, true) ? $when1 : 'before';
 		}
 
 		// The value of 'today' is a special case that we need to handle.
@@ -729,7 +729,7 @@ class Query
 		{
 			// Set the date filter.
 			$this->date2 = $date->toSql();
-			$this->when2 = in_array($when2, $whens, true) ? $when2 : 'before';
+			$this->when2 = \in_array($when2, $whens, true) ? $when2 : 'before';
 		}
 
 		return true;
@@ -837,7 +837,7 @@ class Query
 						{
 							// Set the date filter.
 							$this->date1 = $date->toSql();
-							$this->when1 = in_array($modifier, $whens, true) ? $modifier : 'before';
+							$this->when1 = \in_array($modifier, $whens, true) ? $modifier : 'before';
 						}
 
 						break;
@@ -853,7 +853,7 @@ class Query
 						if ($return)
 						{
 							// Check if the branch has been cleared.
-							if (!in_array($modifier, $cleared, true))
+							if (!\in_array($modifier, $cleared, true))
 							{
 								// Clear the branch.
 								$this->filters[$modifier] = array();
@@ -917,13 +917,13 @@ class Query
 					$tuplecount = $params->get('tuplecount', 1);
 
 					// Check if the phrase is longer than our $tuplecount.
-					if (count($parts) > $tuplecount && $tuplecount > 1)
+					if (\count($parts) > $tuplecount && $tuplecount > 1)
 					{
-						$chunk = array_slice($parts, 0, $tuplecount);
-						$parts = array_slice($parts, $tuplecount);
+						$chunk = \array_slice($parts, 0, $tuplecount);
+						$parts = \array_slice($parts, $tuplecount);
 
 						// If the chunk is not empty, add it as a phrase.
-						if (count($chunk))
+						if (\count($chunk))
 						{
 							$phrases[] = implode(' ', $chunk);
 							$terms[] = implode(' ', $chunk);
@@ -937,13 +937,13 @@ class Query
 						 * found for the complete phrase and not just portions
 						 * of it.
 						 */
-						for ($i = 0, $c = count($parts); $i < $c; $i++)
+						for ($i = 0, $c = \count($parts); $i < $c; $i++)
 						{
 							array_shift($chunk);
 							$chunk[] = array_shift($parts);
 
 							// If the chunk is not empty, add it as a phrase.
-							if (count($chunk))
+							if (\count($chunk))
 							{
 								$phrases[] = implode(' ', $chunk);
 								$terms[]   = implode(' ', $chunk);
@@ -985,10 +985,10 @@ class Query
 		 * done based on boolean search operators. Terms that are before an
 		 * and/or/not modifier have to be handled in relation to their operator.
 		 */
-		for ($i = 0, $c = count($terms); $i < $c; $i++)
+		for ($i = 0, $c = \count($terms); $i < $c; $i++)
 		{
 			// Check if the term is followed by an operator that we understand.
-			if (isset($terms[$i + 1]) && in_array($terms[$i + 1], $operators, true))
+			if (isset($terms[$i + 1]) && \in_array($terms[$i + 1], $operators, true))
 			{
 				// Get the operator mode.
 				$op = array_search($terms[$i + 1], $operators, true);
@@ -1222,12 +1222,12 @@ class Query
 		 * phrases as autonomous units and do not break them down into two and
 		 * three word combinations.
 		 */
-		for ($i = 0, $c = count($phrases); $i < $c; $i++)
+		for ($i = 0, $c = \count($phrases); $i < $c; $i++)
 		{
 			// Tokenize the phrase.
 			$token = Helper::tokenize($phrases[$i], $lang, true);
 
-			if (!count($token))
+			if (!\count($token))
 			{
 				continue;
 			}
@@ -1271,7 +1271,7 @@ class Query
 			$tokens = Helper::tokenize($terms, $lang, false);
 
 			// Make sure we are working with an array.
-			$tokens = is_array($tokens) ? $tokens : array($tokens);
+			$tokens = \is_array($tokens) ? $tokens : array($tokens);
 
 			// Get the token data and required state for all the tokens.
 			foreach ($tokens as $token)
@@ -1355,7 +1355,7 @@ class Query
 		if ((bool) $matches)
 		{
 			// Add the matches to the token.
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			for ($i = 0, $c = \count($matches); $i < $c; $i++)
 			{
 				if (!isset($token->matches[$matches[$i]->term]))
 				{

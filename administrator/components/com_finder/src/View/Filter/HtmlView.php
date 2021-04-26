@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		$this->total = $this->get('Total');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == Factory::getUser()->id);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == Factory::getUser()->id);
 		$canDo = ContentHelper::getActions('com_finder');
 
 		// Configure the toolbar.
@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::saveGroup(
 					[
 						['save', 'filter.save'],
-						['save2new', 'filter.save2new']
+						['save2new', 'filter.save2new'],
 					],
 					'btn-success'
 				);

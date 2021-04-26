@@ -77,12 +77,12 @@ abstract class PrivacyPlugin extends CMSPlugin
 
 		foreach ($data as $key => $value)
 		{
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				$value = (array) $value;
 			}
 
-			if (is_array($value))
+			if (\is_array($value))
 			{
 				$value = print_r($value, true);
 			}
@@ -130,7 +130,7 @@ abstract class PrivacyPlugin extends CMSPlugin
 	 */
 	protected function createCustomFieldsDomain($context, $items = array())
 	{
-		if (!is_array($items))
+		if (!\is_array($items))
 		{
 			$items = [$items];
 		}
@@ -153,7 +153,7 @@ abstract class PrivacyPlugin extends CMSPlugin
 
 			foreach ($fields as $field)
 			{
-				$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
+				$fieldValue = \is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
 				$data = [
 					$type . '_id' => $item->id,

@@ -53,7 +53,7 @@ class ConsentsController extends FormController
 			}
 			else
 			{
-				$this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids)));
+				$this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', \count($ids)));
 			}
 		}
 

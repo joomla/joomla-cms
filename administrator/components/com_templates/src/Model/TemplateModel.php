@@ -276,7 +276,7 @@ class TemplateModel extends FormModel
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (in_array($value, array('.', '..', 'node_modules')))
+			if (\in_array($value, array('.', '..', 'node_modules')))
 			{
 				continue;
 			}
@@ -432,7 +432,7 @@ class TemplateModel extends FormModel
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (!in_array($value, array('.', '..', 'node_modules')))
+			if (!\in_array($value, array('.', '..', 'node_modules')))
 			{
 				if (is_dir($dir . $value))
 				{
@@ -526,7 +526,7 @@ class TemplateModel extends FormModel
 			if (stristr($subtype, 'com_'))
 			{
 				$folder    = $explodeArray['3'];
-				$subFolder = array_slice($explodeArray, 4, -1);
+				$subFolder = \array_slice($explodeArray, 4, -1);
 				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
 				$htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
 				$fileName  = $this->getSafeName($fileName);
@@ -536,7 +536,7 @@ class TemplateModel extends FormModel
 			}
 			elseif (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins'))
 			{
-				$subFolder = array_slice($explodeArray, 3, -1);
+				$subFolder = \array_slice($explodeArray, 3, -1);
 				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
 				$htmlPath  = Path::clean($layoutPath . $subFolder);
 				$fileName  = $this->getSafeName($fileName);
@@ -567,12 +567,12 @@ class TemplateModel extends FormModel
 
 			// Remove ( Date ) from file
 			$explodeArray = explode('-', $name);
-			$size = count($explodeArray);
+			$size = \count($explodeArray);
 			$date = $explodeArray[$size - 2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size - 1]);
 
 			if ($this->validateDate($date))
 			{
-				$nameWithoutExtension = implode('-', array_slice($explodeArray, 0, -2));
+				$nameWithoutExtension = implode('-', \array_slice($explodeArray, 0, -2));
 
 				// Filtered name
 				$name = $nameWithoutExtension . '.' . $extension;
@@ -689,7 +689,7 @@ class TemplateModel extends FormModel
 			->bind(':name', $name);
 		$db->setQuery($query);
 
-		return ($db->loadResult() == 0);
+		return $db->loadResult() == 0;
 	}
 
 	/**
@@ -826,7 +826,7 @@ class TemplateModel extends FormModel
 		foreach ($files as $file)
 		{
 			$newFile = '/' . str_replace($oldName, $newName, basename($file));
-			$result  = File::move($file, dirname($file) . $newFile) && $result;
+			$result  = File::move($file, \dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file
@@ -1051,7 +1051,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @since   3.2
 	 */
-	public function getOverridesFolder($name,$path)
+	public function getOverridesFolder($name, $path)
 	{
 		$folder = new \stdClass;
 		$folder->name = $name;
@@ -1198,7 +1198,7 @@ class TemplateModel extends FormModel
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$size = count($explodeArray);
+				$size = \count($explodeArray);
 
 				$url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
@@ -1213,13 +1213,13 @@ class TemplateModel extends FormModel
 			}
 			elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
 			{
-				$size       = count($explodeArray);
+				$size       = \count($explodeArray);
 				$layoutPath = Path::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
 				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
 			}
 			else
 			{
-				$layoutPath = implode('/', array_slice($explodeArray, -2));
+				$layoutPath = implode('/', \array_slice($explodeArray, -2));
 				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
 			}
 
@@ -1982,6 +1982,6 @@ class TemplateModel extends FormModel
 			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 		}
 
-		return in_array($ext, $this->allowedFormats);
+		return \in_array($ext, $this->allowedFormats);
 	}
 }

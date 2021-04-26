@@ -14,12 +14,12 @@
 namespace
 {
 	// Require the restoration environment or fail cold. Prevents direct web access.
-	\defined('_AKEEBA_RESTORATION') or die();
+	defined('_AKEEBA_RESTORATION') or die();
 
 	// Fake a miniature Joomla environment
-	if (!\defined('_JEXEC'))
+	if (!defined('_JEXEC'))
 	{
-		\define('_JEXEC', 1);
+		define('_JEXEC', 1);
 	}
 
 	if (!function_exists('jimport'))
@@ -54,9 +54,9 @@ namespace
 		 */
 		function finalizeRestore($siteRoot, $restorePath)
 		{
-			if (!\defined('JPATH_ROOT'))
+			if (!defined('JPATH_ROOT'))
 			{
-				\define('JPATH_ROOT', $siteRoot);
+				define('JPATH_ROOT', $siteRoot);
 			}
 
 			$filePath = JPATH_ROOT . '/administrator/components/com_admin/script.php';
@@ -78,7 +78,7 @@ namespace
 			// Clear OPcache
 			if (function_exists('opcache_reset'))
 			{
-				\opcache_reset();
+				opcache_reset();
 			}
 		}
 	}

@@ -87,9 +87,9 @@ if ($saveOrder && !empty($this->items))
 				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'a.ordering');
-					$canCreate  = $user->authorise('core.create',     'com_modules');
-					$canEdit    = $user->authorise('core.edit',		  'com_modules.module.' . $item->id);
-					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
+					$canCreate  = $user->authorise('core.create', 'com_modules');
+					$canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
+					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">

@@ -161,7 +161,7 @@ class Modules
 
 			$positions = TemplatesHelper::getPositions($clientId, $template);
 
-			if (is_array($positions))
+			if (\is_array($positions))
 			{
 				foreach ($positions as $position)
 				{
@@ -211,7 +211,7 @@ class Modules
 		// Create the copy/move options.
 		$options = array(
 			HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-			HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+			HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE')),
 		);
 
 		echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
@@ -251,9 +251,9 @@ class Modules
 		}
 
 		// Pop the first item off the array if it's blank
-		if (count($options))
+		if (\count($options))
 		{
-			if (strlen($options[0]->text) < 1)
+			if (\strlen($options[0]->text) < 1)
 			{
 				array_shift($options);
 			}

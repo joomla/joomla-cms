@@ -65,7 +65,7 @@ class PreviewModel extends ItemModel
 		// Let's use custom calendars when present
 		$result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-		$dateProperties = array (
+		$dateProperties = array(
 			'modified_time',
 			'created_time',
 			'modified',
@@ -142,7 +142,7 @@ class PreviewModel extends ItemModel
 				$id = array_pop($typeAlias);
 				$typeAlias        = implode('.', $typeAlias);
 				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $id, $typeEditables);
+				$result = \in_array((int) $id, $typeEditables);
 			}
 		}
 

@@ -54,7 +54,7 @@ class UserMessagesField extends UserField
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
-			return null;
+			return;
 		}
 
 		foreach ($groups as $i => $group)

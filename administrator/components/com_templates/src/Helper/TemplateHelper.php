@@ -62,18 +62,18 @@ abstract class TemplateHelper
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
+			'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'jar',
 			'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
+			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
 		);
 		$explodedFileName = explode('.', $file['name']);
 
-		if (count($explodedFileName) > 2)
+		if (\count($explodedFileName) > 2)
 		{
 			foreach ($executable as $extensionName)
 			{
-				if (in_array($extensionName, $explodedFileName))
+				if (\in_array($extensionName, $explodedFileName))
 				{
 					$app = Factory::getApplication();
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
@@ -100,7 +100,7 @@ abstract class TemplateHelper
 
 		$allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-		if ($format == '' || $format == false || (!in_array($format, $allowable)))
+		if ($format == '' || $format == false || (!\in_array($format, $allowable)))
 		{
 			$app = Factory::getApplication();
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
@@ -108,7 +108,7 @@ abstract class TemplateHelper
 			return false;
 		}
 
-		if (in_array($format, $archiveTypes))
+		if (\in_array($format, $archiveTypes))
 		{
 			$zip = new \ZipArchive;
 
@@ -124,7 +124,7 @@ abstract class TemplateHelper
 						$explodeArray = explode('.', $entry);
 						$ext          = end($explodeArray);
 
-						if (!in_array($ext, $allowable))
+						if (!\in_array($ext, $allowable))
 						{
 							$app = Factory::getApplication();
 							$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
@@ -163,7 +163,7 @@ abstract class TemplateHelper
 			'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option',
 			'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike',
 			'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml',
-			'xmp', '!DOCTYPE', '!--'
+			'xmp', '!DOCTYPE', '!--',
 		);
 
 		foreach ($html_tags as $tag)

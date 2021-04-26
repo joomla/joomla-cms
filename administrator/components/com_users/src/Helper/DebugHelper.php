@@ -43,7 +43,7 @@ class DebugHelper
 
 		$items = $db->setQuery($query)->loadObjectList();
 
-		if (count($items))
+		if (\count($items))
 		{
 			$lang = Factory::getLanguage();
 
@@ -128,7 +128,7 @@ class DebugHelper
 
 									$actions[(string) $action['title']] = array(
 										(string) $action['name'],
-										$descr
+										$descr,
 									);
 								}
 

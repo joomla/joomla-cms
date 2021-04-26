@@ -19,5 +19,4 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class WorkflowHelper extends ContentHelper
 {
-
 }

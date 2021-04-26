@@ -59,7 +59,7 @@ class UpdatesitesModel extends InstallerModel
 				'folder_translated',
 				'update_site_id',
 				'enabled',
-				'supported'
+				'supported',
 			];
 		}
 
@@ -76,7 +76,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.4
-	 *
 	 */
 	public function publish(&$eid = [], $value = 1)
 	{
@@ -88,7 +87,7 @@ class UpdatesitesModel extends InstallerModel
 		$result = true;
 
 		// Ensure eid is an array of extension ids
-		if (!is_array($eid))
+		if (!\is_array($eid))
 		{
 			$eid = [$eid];
 		}
@@ -121,7 +120,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.6
-	 *
 	 */
 	public function delete($ids = [])
 	{
@@ -131,7 +129,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Ensure eid is an array of extension ids
-		if (!is_array($ids))
+		if (!\is_array($ids))
 		{
 			$ids = [$ids];
 		}
@@ -156,7 +154,7 @@ class UpdatesitesModel extends InstallerModel
 		foreach ($ids as $i => $id)
 		{
 			// Don't allow to delete Joomla Core update sites.
-			if (in_array((int) $id, $joomlaUpdateSitesIds))
+			if (\in_array((int) $id, $joomlaUpdateSitesIds))
 			{
 				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
 				continue;
@@ -254,7 +252,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.6
-	 *
 	 */
 	public function rebuild(): void
 	{
@@ -530,7 +527,7 @@ class UpdatesitesModel extends InstallerModel
 						'e.client_id',
 						'e.state',
 						'e.manifest_cache',
-						'u.name'
+						'u.name',
 					],
 					[
 						'update_site_id',
@@ -549,7 +546,7 @@ class UpdatesitesModel extends InstallerModel
 						'client_id',
 						'state',
 						'manifest_cache',
-						'editor'
+						'editor',
 					]
 				)
 			)
@@ -598,7 +595,7 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true))
+		if ($folder !== '' && \in_array($type, ['plugin', 'library', ''], true))
 		{
 			$folderForBinding = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')

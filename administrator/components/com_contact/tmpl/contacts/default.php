@@ -92,10 +92,10 @@ if ($saveOrder && !empty($this->items))
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :
-							$canCreate  = $user->authorise('core.create',     'com_contact.category.' . $item->catid);
-							$canEdit    = $user->authorise('core.edit',       'com_contact.category.' . $item->catid);
-							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-							$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.' . $item->catid) && $item->created_by == $userId;
+							$canCreate  = $user->authorise('core.create', 'com_contact.category.' . $item->catid);
+							$canEdit    = $user->authorise('core.edit', 'com_contact.category.' . $item->catid);
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+							$canEditOwn = $user->authorise('core.edit.own', 'com_contact.category.' . $item->catid) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_contact.category.' . $item->catid) && $canCheckin;
 
 							$item->cat_link = Route::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);

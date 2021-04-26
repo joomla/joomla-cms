@@ -54,7 +54,7 @@ class HistoryController extends AdminController
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -69,7 +69,7 @@ class HistoryController extends AdminController
 			// Remove the items.
 			if ($model->keep($cid))
 			{
-				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
 			}
 			else
 			{

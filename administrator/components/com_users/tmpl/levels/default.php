@@ -72,8 +72,8 @@ if ($saveOrder && !empty($this->items))
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$ordering  = ($listOrder == 'a.ordering');
-							$canCreate = $user->authorise('core.create',     'com_users');
-							$canEdit   = $user->authorise('core.edit',       'com_users');
+							$canCreate = $user->authorise('core.create', 'com_users');
+							$canEdit   = $user->authorise('core.edit', 'com_users');
 							$canChange = $user->authorise('core.edit.state', 'com_users');
 
 							// Decode level groups

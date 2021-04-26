@@ -449,7 +449,7 @@ class ContactModel extends AdminModel
 		{
 			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-			if (count($languages) > 1)
+			if (\count($languages) > 1)
 			{
 				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');

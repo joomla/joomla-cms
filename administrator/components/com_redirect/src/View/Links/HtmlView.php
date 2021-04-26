@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
 		$this->params               = ComponentHelper::getParams('com_redirect');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

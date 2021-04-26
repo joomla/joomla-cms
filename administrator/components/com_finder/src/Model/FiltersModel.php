@@ -41,7 +41,7 @@ class FiltersModel extends ListModel
 				'state', 'a.state',
 				'created_by_alias', 'a.created_by_alias',
 				'created', 'a.created',
-				'map_count', 'a.map_count'
+				'map_count', 'a.map_count',
 			);
 		}
 

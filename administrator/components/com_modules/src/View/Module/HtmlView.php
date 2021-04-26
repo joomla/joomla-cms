@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
 		ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'module.save'],
-					['save2new', 'module.save2new']
+					['save2new', 'module.save2new'],
 				],
 				'btn-success'
 			);

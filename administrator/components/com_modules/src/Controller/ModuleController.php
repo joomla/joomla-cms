@@ -314,7 +314,7 @@ class ModuleController extends FormController
 		}
 
 		$orders2 = array();
-		$n = count($orders);
+		$n = \count($orders);
 
 		if ($n > 0)
 		{

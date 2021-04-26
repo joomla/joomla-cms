@@ -57,7 +57,7 @@ class LinksController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
 			}
 		}
 
@@ -98,7 +98,7 @@ class LinksController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
 			}
 		}
 
@@ -166,7 +166,7 @@ class LinksController extends AdminController
 			// Execute the batch process
 			if ($model->batchProcess($batch_urls))
 			{
-				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', \count($batch_urls)));
 			}
 		}
 

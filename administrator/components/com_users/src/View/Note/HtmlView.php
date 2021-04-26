@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
@@ -103,19 +103,19 @@ class HtmlView extends BaseHtmlView
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
+		if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			ToolbarHelper::apply('note.apply');
 			$toolbarButtons[] = ['save', 'note.save'];
 		}
 
-		if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create')))
+		if (!$checkedOut && \count($user->getAuthorisedCategories('com_users', 'core.create')))
 		{
 			$toolbarButtons[] = ['save2new', 'note.save2new'];
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0))
+		if (!$isNew && (\count($user->getAuthorisedCategories('com_users', 'core.create')) > 0))
 		{
 			$toolbarButtons[] = ['save2copy', 'note.save2copy'];
 		}

@@ -164,24 +164,24 @@ class HtmlView extends BaseHtmlView
 		$fontTypes    = explode(',', $params->get('font_formats'));
 		$archiveTypes = explode(',', $params->get('compressed_formats'));
 
-		if (in_array($ext, $sourceTypes))
+		if (\in_array($ext, $sourceTypes))
 		{
 			$this->form   = $this->get('Form');
 			$this->form->setFieldAttribute('source', 'syntax', $ext);
 			$this->source = $this->get('Source');
 			$this->type   = 'file';
 		}
-		elseif (in_array($ext, $imageTypes))
+		elseif (\in_array($ext, $imageTypes))
 		{
 			$this->image = $this->get('Image');
 			$this->type  = 'image';
 		}
-		elseif (in_array($ext, $fontTypes))
+		elseif (\in_array($ext, $fontTypes))
 		{
 			$this->font = $this->get('Font');
 			$this->type = 'font';
 		}
-		elseif (in_array($ext, $archiveTypes))
+		elseif (\in_array($ext, $archiveTypes))
 		{
 			$this->archive = $this->get('Archive');
 			$this->type    = 'archive';
@@ -195,7 +195,7 @@ class HtmlView extends BaseHtmlView
 		$this->id            = $this->state->get('extension.id');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			$app->enqueueMessage(implode("\n", $errors));
 
@@ -294,7 +294,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (count($this->updatedList) !== 0 && $this->pluginState)
+		if (\count($this->updatedList) !== 0 && $this->pluginState)
 		{
 			ToolbarHelper::custom('template.deleteOverrideHistory', 'times', '', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}

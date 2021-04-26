@@ -47,7 +47,7 @@ use Joomla\CMS\Language\Text;
 
 			<div class="clr"></div>
 			<div class="ubody">
-				<?php echo (isset($item->body) ? HTMLHelper::_('content.prepare', $item->body) : ''); ?>
+				<?php echo isset($item->body) ? HTMLHelper::_('content.prepare', $item->body) : ''; ?>
 			</div>
 		</li>
 	<?php endforeach; ?>

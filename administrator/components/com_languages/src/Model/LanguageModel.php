@@ -45,8 +45,8 @@ class LanguageModel extends AdminModel
 				'event_after_save'  => 'onExtensionAfterSave',
 				'event_before_save' => 'onExtensionBeforeSave',
 				'events_map'        => array(
-					'save' => 'extension'
-				)
+					'save' => 'extension',
+				),
 			), $config
 		);
 
@@ -245,7 +245,7 @@ class LanguageModel extends AdminModel
 		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		// Check the event responses.
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 

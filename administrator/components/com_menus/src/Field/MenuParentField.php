@@ -70,7 +70,7 @@ class MenuParentField extends ListField
 		// Filter by client id.
 		$clientId = $this->getAttribute('clientid');
 
-		if (!is_null($clientId))
+		if (!\is_null($clientId))
 		{
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('a.client_id') . ' = :clientId')
@@ -104,7 +104,7 @@ class MenuParentField extends ListField
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		for ($i = 0, $n = \count($options); $i < $n; $i++)
 		{
 			if ($clientId != 0)
 			{

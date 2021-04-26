@@ -41,7 +41,7 @@ class GroupModel extends AdminModel
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
-		'language_id'   => 'batchLanguage'
+		'language_id'   => 'batchLanguage',
 	);
 
 	/**
@@ -238,7 +238,7 @@ class GroupModel extends AdminModel
 		$component = $parts[0];
 
 		// Extract the optional section name
-		$section = (count($parts) > 1) ? $parts[1] : null;
+		$section = (\count($parts) > 1) ? $parts[1] : null;
 
 		if ($parts)
 		{

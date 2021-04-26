@@ -77,7 +77,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 		}
 
 		// We don't know other sections.
-		return null;
+		return;
 	}
 
 	/**

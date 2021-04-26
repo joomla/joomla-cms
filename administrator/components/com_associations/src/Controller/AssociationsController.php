@@ -98,7 +98,7 @@ class AssociationsController extends AdminController
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
 
-		if (!array_key_exists($typeName, $types))
+		if (!\array_key_exists($typeName, $types))
 		{
 			return;
 		}

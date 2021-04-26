@@ -18,5 +18,4 @@ namespace Joomla\Component\Menus\Administrator\Table;
  */
 class MenuTypeTable extends \JTableMenuType
 {
-
 }

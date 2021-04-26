@@ -199,7 +199,7 @@ if ($saveOrder && !empty($this->items))
 								'collapseModal',
 								array(
 									'title' => Text::_('COM_FIELDS_VIEW_FIELDS_BATCH_OPTIONS'),
-									'footer' => $this->loadTemplate('batch_footer')
+									'footer' => $this->loadTemplate('batch_footer'),
 								),
 								$this->loadTemplate('batch_body')
 							); ?>

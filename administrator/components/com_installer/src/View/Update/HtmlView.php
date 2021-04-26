@@ -70,7 +70,7 @@ class HtmlView extends InstallerViewDefault
 
 		$this->paths = &$paths;
 
-		if (count($this->items) > 0)
+		if (\count($this->items) > 0)
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
 		}

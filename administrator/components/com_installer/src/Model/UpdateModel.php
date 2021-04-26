@@ -128,7 +128,7 @@ class UpdateModel extends ListModel
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && \in_array($type, array('plugin', 'library', '')))
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('u.folder') . ' = :folder')
@@ -229,13 +229,13 @@ class UpdateModel extends ListModel
 		$listDirn  = $this->getState('list.direction', 'asc');
 
 		// Process ordering.
-		if (in_array($listOrder, array('client_translated', 'folder_translated', 'type_translated')))
+		if (\in_array($listOrder, array('client_translated', 'folder_translated', 'type_translated')))
 		{
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-			$total = count($result);
+			$total = \count($result);
 
 			if ($total < $limitstart)
 			{
@@ -243,7 +243,7 @@ class UpdateModel extends ListModel
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ?: null);
+			return \array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{
@@ -597,9 +597,9 @@ class UpdateModel extends ListModel
 				{
 					require_once $path;
 
-					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					if (class_exists($cname) && \is_callable(array($cname, 'prepareUpdate')))
 					{
-						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+						\call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
 					}
 				}
 
@@ -614,9 +614,9 @@ class UpdateModel extends ListModel
 				{
 					require_once $path;
 
-					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					if (class_exists($cname) && \is_callable(array($cname, 'prepareUpdate')))
 					{
-						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+						\call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
 					}
 				}
 

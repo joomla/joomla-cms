@@ -80,7 +80,7 @@ class DatabaseModel extends InstallerModel
 				'status',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
-				'extension_id'
+				'extension_id',
 			);
 		}
 
@@ -115,7 +115,7 @@ class DatabaseModel extends InstallerModel
 	private function fetchSchemaCache($cid = 0)
 	{
 		// We already have it
-		if (array_key_exists($cid, $this->changeSetList))
+		if (\array_key_exists($cid, $this->changeSetList))
 		{
 			return;
 		}
@@ -263,7 +263,7 @@ class DatabaseModel extends InstallerModel
 				'errorsCount'   => $errorCount,
 				'results'       => $changeSet->getStatus(),
 				'schema'        => $schema,
-				'extension'     => $result
+				'extension'     => $result,
 			);
 		}
 	}
@@ -329,7 +329,7 @@ class DatabaseModel extends InstallerModel
 				 */
 				$statusArray = $changeSet['changeset']->getStatus();
 
-				if (count($statusArray['error']) == 0)
+				if (\count($statusArray['error']) == 0)
 				{
 					$installer->convertTablesToUtf8mb4(false);
 				}
@@ -377,7 +377,7 @@ class DatabaseModel extends InstallerModel
 						'extensions.manifest_cache',
 						'extensions.name',
 						'extensions.type',
-						'schemas.version_id'
+						'schemas.version_id',
 					]
 				)
 			)
@@ -418,7 +418,7 @@ class DatabaseModel extends InstallerModel
 				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 
-		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && \in_array($type, array('plugin', 'library', '')))
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('extensions.folder') . ' = :folder')
@@ -454,7 +454,7 @@ class DatabaseModel extends InstallerModel
 
 		foreach ($results as $result)
 		{
-			if (array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id])
+			if (\array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id])
 			{
 				$finalResults[] = $changeSetList[$result->extension_id];
 			}
@@ -575,7 +575,7 @@ class DatabaseModel extends InstallerModel
 			return Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -590,8 +590,8 @@ class DatabaseModel extends InstallerModel
 	private function getOtherInformationMessage($status)
 	{
 		$problemsMessage = array();
-		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
-		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
+		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', \count($status['ok']));
+		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', \count($status['skipped']));
 
 		return $problemsMessage;
 	}

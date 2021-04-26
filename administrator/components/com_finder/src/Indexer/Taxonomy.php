@@ -435,12 +435,12 @@ class Taxonomy
 	 */
 	public static function getTaxonomy($id = 0)
 	{
-		if (!count(self::$taxonomies))
+		if (!\count(self::$taxonomies))
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+			$query->select(array('id', 'parent_id', 'lft', 'rgt', 'level', 'path', 'title', 'alias', 'state', 'access', 'language'))
 				->from($db->quoteName('#__finder_taxonomy'))
 				->order($db->quoteName('lft'));
 
@@ -472,7 +472,7 @@ class Taxonomy
 	 */
 	public static function getBranch($title = '')
 	{
-		if (!count(self::$branches))
+		if (!\count(self::$branches))
 		{
 			$taxonomies = self::getTaxonomy();
 

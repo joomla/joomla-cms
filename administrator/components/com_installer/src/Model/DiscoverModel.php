@@ -117,7 +117,7 @@ class DiscoverModel extends InstallerModel
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && \in_array($type, array('plugin', 'library', '')))
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
@@ -178,7 +178,7 @@ class DiscoverModel extends InstallerModel
 			// Check if we have a match on the element
 			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
 
-			if (!array_key_exists($key, $extensions))
+			if (!\array_key_exists($key, $extensions))
 			{
 				// Put it into the table
 				$result->check();
@@ -200,9 +200,9 @@ class DiscoverModel extends InstallerModel
 		$input = $app->input;
 		$eid   = $input->get('cid', 0, 'array');
 
-		if (is_array($eid) || $eid)
+		if (\is_array($eid) || $eid)
 		{
-			if (!is_array($eid))
+			if (!\is_array($eid))
 			{
 				$eid = array($eid);
 			}

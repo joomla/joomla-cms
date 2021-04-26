@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->assoc = $this->get('Assoc');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
 		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories')
@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		// The extension can be in the form com_foo.section
 		$parts = explode('.', $extension);
 		$component = $parts[0];
-		$section = (count($parts) > 1) ? $parts[1] : null;
+		$section = (\count($parts) > 1) ? $parts[1] : null;
 		$componentParams = ComponentHelper::getParams($component);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
@@ -196,13 +196,13 @@ class HtmlView extends BaseHtmlView
 		);
 
 		// For new records, check the create permission.
-		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
+		if ($isNew && (\count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
 			ToolbarHelper::apply('category.apply');
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'category.save'],
-					['save2new', 'category.save2new']
+					['save2new', 'category.save2new'],
 				],
 				'btn-success'
 			);

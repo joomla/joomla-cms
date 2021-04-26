@@ -77,8 +77,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					$version = new Version;
 					$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
 					foreach ($this->rows as $i => $row) :
-						$canCreate = $user->authorise('core.create',     'com_languages');
-						$canEdit   = $user->authorise('core.edit',       'com_languages');
+						$canCreate = $user->authorise('core.create', 'com_languages');
+						$canEdit   = $user->authorise('core.edit', 'com_languages');
 						$canChange = $user->authorise('core.edit.state', 'com_languages');
 					?>
 						<tr class="row<?php echo $i % 2; ?>">

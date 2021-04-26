@@ -64,14 +64,14 @@ class FieldTable extends Table
 	 */
 	public function bind($src, $ignore = '')
 	{
-		if (isset($src['params']) && is_array($src['params']))
+		if (isset($src['params']) && \is_array($src['params']))
 		{
 			$registry = new Registry;
 			$registry->loadArray($src['params']);
 			$src['params'] = (string) $registry;
 		}
 
-		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
+		if (isset($src['fieldparams']) && \is_array($src['fieldparams']))
 		{
 			// Make sure $registry->options contains no duplicates when the field type is subform
 			if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options']))
@@ -107,7 +107,7 @@ class FieldTable extends Table
 		}
 
 		// Bind the rules.
-		if (isset($src['rules']) && is_array($src['rules']))
+		if (isset($src['rules']) && \is_array($src['rules']))
 		{
 			$rules = new Rules($src['rules']);
 			$this->setRules($rules);

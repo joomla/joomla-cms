@@ -80,7 +80,7 @@ abstract class ModulesHelper
 		try
 		{
 			$positions = $db->loadColumn();
-			$positions = is_array($positions) ? $positions : array();
+			$positions = \is_array($positions) ? $positions : array();
 		}
 		catch (\RuntimeException $e)
 		{

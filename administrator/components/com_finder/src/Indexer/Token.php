@@ -134,7 +134,7 @@ class Token
 		}
 
 		// Tokens can be a single word or an array of words representing a phrase.
-		if (is_array($term))
+		if (\is_array($term))
 		{
 			// Populate the token instance.
 			$this->term = implode($spacer, $term);

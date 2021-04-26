@@ -47,7 +47,7 @@ class LevelController extends FormController
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		return ($this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
+		return $this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class LevelController extends FormController
 			// Remove the items.
 			if ($model->delete($ids))
 			{
-				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
+				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', \count($ids)));
 			}
 		}
 

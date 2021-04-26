@@ -265,7 +265,6 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 		return $this->alias;
 	}
 
-
 	/**
 	 * Get the type alias for the history table
 	 *

@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the toolbar.
 		ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
+		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
 			$toolbar->addNew('category.add');
 		}

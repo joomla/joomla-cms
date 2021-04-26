@@ -191,7 +191,7 @@ class UpdateController extends BaseController
 
 			foreach ($unfiltered_updates as $update)
 			{
-				if (!in_array($update->extension_id, $skip))
+				if (!\in_array($update->extension_id, $skip))
 				{
 					$updates[] = $update;
 				}

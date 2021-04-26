@@ -127,9 +127,9 @@ if ($saveOrder && !empty($this->items))
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
-								$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
-								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-								$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
+								$canEdit    = $user->authorise('core.edit', $extension . '.category.' . $item->id);
+								$canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+								$canEditOwn = $user->authorise('core.edit.own', $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
 								$canChange  = $user->authorise('core.edit.state', $extension . '.category.' . $item->id) && $canCheckin;
 
 								// Get the parents of item for sorting

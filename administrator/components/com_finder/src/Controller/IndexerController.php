@@ -166,12 +166,12 @@ class IndexerController extends BaseController
 		$lang = Factory::getLanguage();
 
 		// Get the document properties.
-		$attributes = array (
+		$attributes = array(
 			'charset'   => 'utf-8',
 			'lineend'   => 'unix',
 			'tab'       => '  ',
 			'language'  => $lang->getTag(),
-			'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
+			'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
 		);
 
 		// Start the indexer.

@@ -165,7 +165,7 @@ class Users
 	 *
 	 * @since  3.0
 	 */
-	public function blockStates( $self = false)
+	public function blockStates($self = false)
 	{
 		if ($self)
 		{
@@ -187,7 +187,7 @@ class Users
 					'tip'            => true,
 					'active_class'   => 'publish',
 					'inactive_class' => 'publish',
-				)
+				),
 			);
 		}
 		else
@@ -210,7 +210,7 @@ class Users
 					'tip'            => true,
 					'active_class'   => 'publish',
 					'inactive_class' => 'publish',
-				)
+				),
 			);
 		}
 
@@ -244,7 +244,7 @@ class Users
 				'tip'            => true,
 				'active_class'   => 'publish',
 				'inactive_class' => 'publish',
-			)
+			),
 		);
 
 		return $states;
@@ -261,7 +261,7 @@ class Users
 	 */
 	public function value($value)
 	{
-		if (is_string($value))
+		if (\is_string($value))
 		{
 			$value = trim($value);
 		}
@@ -271,7 +271,7 @@ class Users
 			return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
 
-		elseif (!is_array($value))
+		elseif (!\is_array($value))
 		{
 			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 		}

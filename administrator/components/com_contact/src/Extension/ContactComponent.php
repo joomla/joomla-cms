@@ -95,7 +95,7 @@ class ContactComponent extends MVCComponent implements
 		if ($section !== 'mail' && $section !== 'contact')
 		{
 			// We don't know other sections
-			return null;
+			return;
 		}
 
 		return $section;
@@ -115,7 +115,7 @@ class ContactComponent extends MVCComponent implements
 		$contexts = array(
 			'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
 			'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-			'com_contact.categories' => Text::_('JCATEGORY')
+			'com_contact.categories' => Text::_('JCATEGORY'),
 		);
 
 		return $contexts;
@@ -132,7 +132,7 @@ class ContactComponent extends MVCComponent implements
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return ($section === 'category' ? 'categories' : 'contact_details');
+		return $section === 'category' ? 'categories' : 'contact_details';
 	}
 
 	/**

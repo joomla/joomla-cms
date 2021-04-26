@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
+$expired = ($this->state->get('cache_expired') == 1) ? '1' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ( (int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ((int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<div class="row mt-3">
 		<div class="col-md-6">
 			<fieldset id="fieldset-override" class="options-form">

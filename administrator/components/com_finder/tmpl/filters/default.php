@@ -71,8 +71,8 @@ $wa->useScript('com_finder.filters');
 					</thead>
 					<tbody>
 						<?php
-						$canCreate                  = $user->authorise('core.create',     'com_finder');
-						$canEdit                    = $user->authorise('core.edit',       'com_finder');
+						$canCreate                  = $user->authorise('core.create', 'com_finder');
+						$canEdit                    = $user->authorise('core.edit', 'com_finder');
 						$userAuthoriseCoreManage    = $user->authorise('core.manage', 'com_checkin');
 						$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
 						$userId                     = $user->id;

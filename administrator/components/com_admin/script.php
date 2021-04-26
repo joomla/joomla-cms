@@ -378,7 +378,7 @@ class JoomlaInstallerScript
 									}
 
 									// And start again with the while loop.
-									continue 1;
+									continue;
 								}
 
 								// Else bail out with the error. Something is totally wrong.
@@ -386,7 +386,7 @@ class JoomlaInstallerScript
 							}
 
 							// Break out of the while loop, saving was successful.
-							break 1;
+							break;
 						}
 
 						// Get the newly created id
@@ -6386,12 +6386,12 @@ class JoomlaInstallerScript
 
 		$this->fixFilenameCasing();
 
-		if ($suppressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false && count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);
 		}
 
-		if ($suppressOutput === false && \count($status['files_errors']))
+		if ($suppressOutput === false && count($status['files_errors']))
 		{
 			echo implode('<br>', $status['files_errors']);
 		}
@@ -6483,7 +6483,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-		if (\count($rows) === 0)
+		if (count($rows) === 0)
 		{
 			return;
 		}
@@ -6579,7 +6579,7 @@ class JoomlaInstallerScript
 
 								$rows = $db->loadRowList(0);
 
-								if (\count($rows) > 0)
+								if (count($rows) > 0)
 								{
 									$db->setQuery($query2)->execute();
 								}
@@ -6851,7 +6851,7 @@ class JoomlaInstallerScript
 				'client_id'         => 1,
 				'publish_up'        => null,
 				'publish_down'      => null,
-			]
+			],
 		];
 
 		return $menuItems;
@@ -7011,7 +7011,7 @@ class JoomlaInstallerScript
 				'client_id'         => 1,
 				'publish_up'        => null,
 				'publish_down'      => null,
-			]
+			],
 		];
 
 		return $menuItems;

@@ -45,7 +45,6 @@ else
 	$orderingColumn = 'created';
 }
 
-
 if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -176,10 +175,10 @@ $assoc = Associations::isEnabled();
 							$canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
 							$canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
-							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
-							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
-							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
-							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
+							$canEditCat       = $user->authorise('core.edit', 'com_content.category.' . $item->catid);
+							$canEditOwnCat    = $user->authorise('core.edit.own', 'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+							$canEditParCat    = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
+							$canEditOwnParCat = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
@@ -220,7 +219,7 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'transitions' => $transitions,
 										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
+										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
 									];
 
 									echo (new TransitionButton($options))
@@ -233,7 +232,7 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange
+										'disabled' => $workflow_featured || !$canChange,
 									];
 
 									echo (new FeaturedButton)
@@ -244,7 +243,7 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange
+										'disabled' => $workflow_state || !$canChange,
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);

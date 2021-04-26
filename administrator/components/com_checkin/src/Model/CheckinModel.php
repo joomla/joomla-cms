@@ -82,7 +82,7 @@ class CheckinModel extends ListModel
 	{
 		$db = $this->getDbo();
 
-		if (!is_array($ids))
+		if (!\is_array($ids))
 		{
 			return 0;
 		}
@@ -221,7 +221,7 @@ class CheckinModel extends ListModel
 				}
 			}
 
-			$this->total = count($results);
+			$this->total = \count($results);
 
 			// Order items by table
 			if ($this->getState('list.ordering') == 'table')
@@ -253,7 +253,7 @@ class CheckinModel extends ListModel
 
 			if ($limit !== 0)
 			{
-				$this->items = array_slice($results, $this->getState('list.start'), $limit);
+				$this->items = \array_slice($results, $this->getState('list.start'), $limit);
 			}
 			else
 			{

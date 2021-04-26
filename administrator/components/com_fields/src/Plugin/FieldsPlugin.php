@@ -178,13 +178,13 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Check if the field should be processed by us
 		if (!$this->isTypeSupported($field->type))
 		{
-			return null;
+			return;
 		}
 
 		// Detect if the field is configured to be displayed on the form
 		if (!FieldsHelper::displayFieldOnForm($field))
 		{
-			return null;
+			return;
 		}
 
 		// Create the node
@@ -213,13 +213,13 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Set the specific field parameters
 		foreach ($params->toArray() as $key => $param)
 		{
-			if (is_array($param))
+			if (\is_array($param))
 			{
 				// Multidimensional arrays (eg. list options) can't be transformed properly
-				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+				$param = \count($param) == \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
 			}
 
-			if ($param === '' || (!is_string($param) && !is_numeric($param)))
+			if ($param === '' || (!\is_string($param) && !is_numeric($param)))
 			{
 				continue;
 			}
@@ -276,7 +276,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Check if the field form is calling us
 		if (strpos($form->getName(), 'com_fields.field') !== 0)
 		{
-			return null;
+			return;
 		}
 
 		// Ensure it is an object
@@ -293,7 +293,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Not us
 		if (!$this->isTypeSupported($type))
 		{
-			return null;
+			return;
 		}
 
 		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/params/' . $type . '.xml';
@@ -301,7 +301,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Check if params file exists
 		if (!file_exists($path))
 		{
-			return null;
+			return;
 		}
 
 		return $path;

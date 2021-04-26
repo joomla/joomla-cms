@@ -152,7 +152,7 @@ class ContentComponent extends MVCComponent implements
 		if ($section != 'article')
 		{
 			// We don't know other sections
-			return null;
+			return;
 		}
 
 		return $section;
@@ -171,7 +171,7 @@ class ContentComponent extends MVCComponent implements
 
 		$contexts = array(
 			'com_content.article'    => Text::_('COM_CONTENT'),
-			'com_content.categories' => Text::_('JCATEGORY')
+			'com_content.categories' => Text::_('JCATEGORY'),
 		);
 
 		return $contexts;
@@ -189,7 +189,7 @@ class ContentComponent extends MVCComponent implements
 		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => Text::_('COM_CONTENT')
+			'com_content.article'    => Text::_('COM_CONTENT'),
 		);
 
 		return $contexts;
@@ -234,7 +234,7 @@ class ContentComponent extends MVCComponent implements
 	{
 		$parts = explode('.', $context);
 
-		if (count($parts) < 2)
+		if (\count($parts) < 2)
 		{
 			return '';
 		}
@@ -288,7 +288,7 @@ class ContentComponent extends MVCComponent implements
 			'group_col'      => 'catid',
 			'relation_type'  => 'category_or_group',
 			'uses_workflows' => true,
-			'workflows_component' => 'com_content'
+			'workflows_component' => 'com_content',
 		);
 
 		LibraryContentHelper::countRelations($items, $config);
@@ -308,7 +308,7 @@ class ContentComponent extends MVCComponent implements
 	public function countTagItems(array $items, string $extension)
 	{
 		$parts   = explode('.', $extension);
-		$section = count($parts) > 1 ? $parts[1] : null;
+		$section = \count($parts) > 1 ? $parts[1] : null;
 
 		$config = (object) array(
 			'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),

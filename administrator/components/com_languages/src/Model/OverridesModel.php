@@ -70,7 +70,7 @@ class OverridesModel extends ListModel
 		$client = strtoupper($this->getState('filter.client'));
 
 		// Parse the override.ini file in order to get the keys and strings.
-		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$fileName = \constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		// Delete the override.ini file if empty.
@@ -86,7 +86,7 @@ class OverridesModel extends ListModel
 		{
 			$search = preg_quote($search, '~');
 			$matchvals = preg_grep('~' . $search . '~i', $strings);
-			$matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i',  array_keys($strings))));
+			$matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i', array_keys($strings))));
 			$strings = array_merge($matchvals, $matchkeys);
 		}
 
@@ -117,7 +117,7 @@ class OverridesModel extends ListModel
 		// Consider the pagination.
 		if (!$all && $this->getState('list.limit') && $this->getTotal() > $this->getState('list.limit'))
 		{
-			$strings = array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
+			$strings = \array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
 		}
 
 		// Add the items to the internal cache.
@@ -145,7 +145,7 @@ class OverridesModel extends ListModel
 		}
 
 		// Add the total to the internal cache.
-		$this->cache[$store] = count($this->getOverrides(true));
+		$this->cache[$store] = \count($this->getOverrides(true));
 
 		return $this->cache[$store];
 	}
@@ -227,7 +227,7 @@ class OverridesModel extends ListModel
 		}
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted
@@ -247,7 +247,7 @@ class OverridesModel extends ListModel
 
 		$this->cleanCache();
 
-		return count($cids);
+		return \count($cids);
 	}
 
 	/**

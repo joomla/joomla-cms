@@ -101,7 +101,7 @@ class CompareModel extends ListModel
 			// Let's use custom calendars when present
 			$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-			$dateProperties = array (
+			$dateProperties = array(
 				'modified_time',
 				'created_time',
 				'modified',
@@ -180,7 +180,7 @@ class CompareModel extends ListModel
 				$typeAlias        = implode('.', $typeAlias);
 				$contentTypeTable->load(array('type_alias' => $typeAlias));
 				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $id, $typeEditables);
+				$result = \in_array((int) $id, $typeEditables);
 			}
 		}
 

@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
+
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 \defined('_JEXEC') or die;
@@ -40,7 +41,7 @@ class TransitionsModel extends ListModel
 				'ordering', 't.ordering',
 				'title', 't.title',
 				'from_stage', 't.from_stage_id',
-				'to_stage', 't.to_stage_id'
+				'to_stage', 't.to_stage_id',
 			);
 		}
 

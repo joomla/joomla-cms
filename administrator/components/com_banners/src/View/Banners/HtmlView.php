@@ -101,13 +101,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
+		if (!\count($this->items) && $this->get('IsBlankSlate'))
 		{
 			$this->setLayout('blankstate');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
-		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
+		if (\count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
 			$toolbar->addNew('banner.add');
 		}

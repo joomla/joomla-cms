@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 						. Text::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-						. Text::_("JAPPLY") . '</button>'
+						. Text::_("JAPPLY") . '</button>',
 				)
 			); ?>
 		<?php endif; ?>
@@ -96,7 +96,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
-					$canEdit   = $user->authorise('core.edit',       'com_redirect');
+					$canEdit   = $user->authorise('core.edit', 'com_redirect');
 					$canChange = $user->authorise('core.edit.state', 'com_redirect');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">

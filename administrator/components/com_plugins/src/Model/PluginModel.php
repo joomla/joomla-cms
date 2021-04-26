@@ -64,8 +64,8 @@ class PluginModel extends AdminModel
 				'event_after_save'  => 'onExtensionAfterSave',
 				'event_before_save' => 'onExtensionBeforeSave',
 				'events_map'        => array(
-					'save' => 'extension'
-				)
+					'save' => 'extension',
+				),
 			), $config
 		);
 

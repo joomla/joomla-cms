@@ -107,7 +107,7 @@ class MessageController extends BaseController
 				{
 					require_once $file;
 
-					call_user_func($item->action);
+					\call_user_func($item->action);
 				}
 				break;
 		}

@@ -6,6 +6,7 @@
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 \defined('_JEXEC') or die;
@@ -42,7 +43,7 @@ class ItemsController extends AdminController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -166,7 +167,7 @@ class ItemsController extends AdminController
 					$ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($cid)));
+				$this->setMessage(Text::plural($ntext, \count($cid)));
 			}
 		}
 
@@ -243,7 +244,7 @@ class ItemsController extends AdminController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($cid)), $messageType);
+				$this->setMessage(Text::plural($ntext, \count($cid)), $messageType);
 			}
 			catch (\Exception $e)
 			{

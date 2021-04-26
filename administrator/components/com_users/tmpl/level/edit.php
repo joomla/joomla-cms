@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.keepalive');
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" aria-label="<?php echo Text::_('COM_USERS_LEVEL_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" aria-label="<?php echo Text::_('COM_USERS_LEVEL_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<fieldset class="options-form mt-4">
 		<legend><?php echo Text::_('COM_USERS_LEVEL_DETAILS'); ?></legend>
 		<div>

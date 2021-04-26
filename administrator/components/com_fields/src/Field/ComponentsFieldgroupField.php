@@ -55,7 +55,7 @@ class ComponentsFieldgroupField extends ListField
 
 		$options = [];
 
-		if (count($items))
+		if (\count($items))
 		{
 			$lang = Factory::getLanguage();
 

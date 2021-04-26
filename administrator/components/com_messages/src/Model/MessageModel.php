@@ -421,7 +421,7 @@ class MessageModel extends AdminModel
 				'siteurl' => $siteURL,
 				'fromemail' => $fromUser->email,
 				'toname' => $toUser->name,
-				'toemail' => $toUser->email
+				'toemail' => $toUser->email,
 			];
 			$mailer->addTemplateData($data);
 			$mailer->setReplyTo($fromUser->email, $fromUser->name);

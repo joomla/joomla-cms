@@ -19,7 +19,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 $loginmodule = \Joomla\Component\Login\Administrator\Model\LoginModel::getLoginModule('mod_login');
 echo ModuleHelper::renderModule($loginmodule, array('id' => 'section-box'));
 
-
 /**
  * Get any other modules in the login position.
  * If you want to use a different position for the modules, change the name here in your override.

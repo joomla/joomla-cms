@@ -20,5 +20,4 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class DisplayController extends BaseController
 {
-
 }

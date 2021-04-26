@@ -188,7 +188,7 @@ class FieldController extends FormController
 	{
 		$item = $model->getItem();
 
-		if (isset($item->params) && is_array($item->params))
+		if (isset($item->params) && \is_array($item->params))
 		{
 			$registry = new Registry;
 			$registry->loadArray($item->params);

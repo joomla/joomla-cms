@@ -93,12 +93,12 @@ class InstallModel extends BaseDatabaseModel
 		// (e.g. from a \JSON description).
 		$results = $app->triggerEvent('onInstallerBeforeInstallation', array($this, &$package));
 
-		if (in_array(true, $results, true))
+		if (\in_array(true, $results, true))
 		{
 			return true;
 		}
 
-		if (in_array(false, $results, true))
+		if (\in_array(false, $results, true))
 		{
 			return false;
 		}
@@ -134,14 +134,14 @@ class InstallModel extends BaseDatabaseModel
 		// This event allows a custom installation of the package or a customization of the package:
 		$results = $app->triggerEvent('onInstallerBeforeInstaller', array($this, &$package));
 
-		if (in_array(true, $results, true))
+		if (\in_array(true, $results, true))
 		{
 			return true;
 		}
 
-		if (in_array(false, $results, true))
+		if (\in_array(false, $results, true))
 		{
-			if (in_array($installType, array('upload', 'url')))
+			if (\in_array($installType, array('upload', 'url')))
 			{
 				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
@@ -177,7 +177,7 @@ class InstallModel extends BaseDatabaseModel
 				if (file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml'))
 				{
 					// We have a Joomla package
-					if (in_array($installType, array('upload', 'url')))
+					if (\in_array($installType, array('upload', 'url')))
 					{
 						InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 					}
@@ -195,7 +195,7 @@ class InstallModel extends BaseDatabaseModel
 		// Was the package unpacked?
 		if (empty($package['type']))
 		{
-			if (in_array($installType, array('upload', 'url')))
+			if (\in_array($installType, array('upload', 'url')))
 			{
 				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
@@ -275,7 +275,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Make sure that zlib is loaded so that the package can be unpacked.
-		if (!extension_loaded('zlib'))
+		if (!\extension_loaded('zlib'))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
 
@@ -283,7 +283,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// If there is no uploaded file, we have a problem...
-		if (!is_array($userfile))
+		if (!\is_array($userfile))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
 
@@ -399,7 +399,7 @@ class InstallModel extends BaseDatabaseModel
 		// We only allow http & https here
 		$uri = new Uri($url);
 
-		if (!in_array($uri->getScheme(), ['http', 'https']))
+		if (!\in_array($uri->getScheme(), ['http', 'https']))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'), 'error');
 

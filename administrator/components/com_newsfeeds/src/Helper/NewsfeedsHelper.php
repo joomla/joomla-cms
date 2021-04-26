@@ -108,7 +108,7 @@ class NewsfeedsHelper extends ContentHelper
 		$parts     = explode('.', $extension);
 		$section   = null;
 
-		if (count($parts) > 1)
+		if (\count($parts) > 1)
 		{
 			$section = $parts[1];
 		}

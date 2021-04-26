@@ -80,7 +80,7 @@ class LoginModel extends BaseDatabaseModel
 	{
 		$result = null;
 		$modules = self::_load($name);
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -93,7 +93,7 @@ class LoginModel extends BaseDatabaseModel
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object.
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
+		if (\is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
 			$result = new \stdClass;
 			$result->id = 0;
@@ -153,7 +153,7 @@ class LoginModel extends BaseDatabaseModel
 							'm.module',
 							'm.position',
 							'm.showtitle',
-							'm.params'
+							'm.params',
 						]
 					)
 				)

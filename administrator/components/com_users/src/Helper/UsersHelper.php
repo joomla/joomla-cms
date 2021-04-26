@@ -131,7 +131,7 @@ class UsersHelper extends ContentHelper
 		{
 			foreach ($identities as $identity)
 			{
-				if (!is_object($identity))
+				if (!\is_object($identity))
 				{
 					continue;
 				}

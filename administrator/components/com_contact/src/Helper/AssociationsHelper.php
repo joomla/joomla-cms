@@ -116,7 +116,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 	{
 		if (empty($id))
 		{
-			return null;
+			return;
 		}
 
 		$table = null;
@@ -134,7 +134,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 
 		if (empty($table))
 		{
-			return null;
+			return;
 		}
 
 		$table->load($id);
@@ -159,7 +159,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 		$support = $this->getSupportTemplate();
 		$title   = '';
 
-		if (in_array($typeName, $this->itemTypes))
+		if (\in_array($typeName, $this->itemTypes))
 		{
 			switch ($typeName)
 			{
@@ -174,7 +174,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 					$support['save2copy'] = true;
 
 					$tables = array(
-						'a' => '#__contact_details'
+						'a' => '#__contact_details',
 					);
 
 					$title = 'contact';
@@ -193,7 +193,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 					$support['level'] = true;
 
 					$tables = array(
-						'a' => '#__categories'
+						'a' => '#__categories',
 					);
 
 					$title = 'category';
@@ -206,7 +206,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 			'support' => $support,
 			'tables'  => $tables,
 			'joins'   => $joins,
-			'title'   => $title
+			'title'   => $title,
 		);
 	}
 }

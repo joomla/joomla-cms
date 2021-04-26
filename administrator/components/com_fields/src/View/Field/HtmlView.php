@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'field.save'],
-					['save2new', 'field.save2new']
+					['save2new', 'field.save2new'],
 				],
 				'btn-success'
 			);

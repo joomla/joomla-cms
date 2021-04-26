@@ -108,7 +108,7 @@ class MapsModel extends ListModel
 					// Trigger the onContentBeforeDelete event.
 					$result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
 
-					if (in_array(false, $result, true))
+					if (\in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
 
@@ -356,7 +356,7 @@ class MapsModel extends ListModel
 		// Trigger the onContentChangeState event.
 		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 

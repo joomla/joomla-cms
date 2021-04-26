@@ -126,7 +126,7 @@ class CacheModel extends ListModel
 				$cache = $this->getCache();
 				$data  = $cache->getAll();
 
-				if ($data && count($data) > 0)
+				if ($data && \count($data) > 0)
 				{
 					// Process filter by search term.
 					if ($search = $this->getState('filter.search'))
@@ -154,7 +154,7 @@ class CacheModel extends ListModel
 					{
 						$start = (int) $this->getState('list.start', 0);
 
-						return array_slice($this->_data, $start, $limit);
+						return \array_slice($this->_data, $start, $limit);
 					}
 				}
 				else
@@ -190,7 +190,7 @@ class CacheModel extends ListModel
 			'defaultgroup' => '',
 			'storage'      => $app->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => $app->get('cache_path', JPATH_CACHE)
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 		);
 
 		return Cache::getInstance('', $options);
@@ -205,7 +205,7 @@ class CacheModel extends ListModel
 	{
 		if (empty($this->_total))
 		{
-			$this->_total = count($this->getData());
+			$this->_total = \count($this->getData());
 		}
 
 		return $this->_total;

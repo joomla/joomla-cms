@@ -74,7 +74,7 @@ $user = Factory::getUser();
 						$this->fields = array(
 							'home',
 							'client_id',
-							'template'
+							'template',
 						);
 						?>
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>

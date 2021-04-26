@@ -155,9 +155,9 @@ class FilterTable extends Table
 			}
 		}
 
-		if (is_array($this->data))
+		if (\is_array($this->data))
 		{
-			$this->map_count = count($this->data);
+			$this->map_count = \count($this->data);
 			$this->data = implode(',', $this->data);
 		}
 		else

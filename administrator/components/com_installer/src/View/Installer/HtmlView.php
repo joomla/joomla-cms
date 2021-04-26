@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 		// Are there messages to display?
 		$showMessage = false;
 
-		if (is_object($state))
+		if (\is_object($state))
 		{
 			$message1    = $state->get('message');
 			$message2    = $state->get('extension_message');

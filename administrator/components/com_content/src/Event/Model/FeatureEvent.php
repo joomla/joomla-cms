@@ -37,7 +37,7 @@ class FeatureEvent extends AbstractImmutableEvent
 			throw new BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
 		}
 
-		if (!isset($arguments['extension']) || !is_string($arguments['extension']))
+		if (!isset($arguments['extension']) || !\is_string($arguments['extension']))
 		{
 			throw new BadMethodCallException("Argument 'extension' of event {$this->name} is not of type 'string'");
 		}
@@ -55,7 +55,7 @@ class FeatureEvent extends AbstractImmutableEvent
 			$arguments['section']       = $arguments['section'] ?? $parts[1];
 		}
 
-		if (!isset($arguments['pks']) || !is_array($arguments['pks']))
+		if (!isset($arguments['pks']) || !\is_array($arguments['pks']))
 		{
 			throw new BadMethodCallException("Argument 'pks' of event {$this->name} is not of type 'array'");
 		}

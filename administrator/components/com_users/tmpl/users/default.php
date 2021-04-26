@@ -91,7 +91,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canEdit   = $this->canDo->get('core.edit');
-							$canChange = $loggeduser->authorise('core.edit.state',	'com_users');
+							$canChange = $loggeduser->authorise('core.edit.state', 'com_users');
 
 							// If this group is super admin and this user is not super admin, $canEdit is false
 							if ((!$loggeduser->authorise('core.admin')) && Access::check($item->id, 'core.admin'))
@@ -151,7 +151,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</td>
 								<td class="text-center d-md-table-cell">
 									<?php
-									$activated = empty( $item->activation) ? 0 : 1;
+									$activated = empty($item->activation) ? 0 : 1;
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>

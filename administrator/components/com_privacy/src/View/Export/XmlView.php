@@ -42,7 +42,7 @@ class XmlView extends AbstractView
 		$exportData = $model->collectDataForExportRequest();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}

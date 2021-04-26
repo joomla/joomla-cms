@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
+
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 \defined('_JEXEC') or die;
@@ -42,7 +43,7 @@ class WorkflowsModel extends ListModel
 				'created', 'w.created',
 				'ordering', 'w.ordering',
 				'modified', 'w.modified',
-				'description', 'w.description'
+				'description', 'w.description',
 			);
 		}
 
@@ -77,7 +78,7 @@ class WorkflowsModel extends ListModel
 		$this->setState('filter.component', $parts[0]);
 
 		// Extract the optional section name
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		$this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
 		parent::populateState($ordering, $direction);
 	}

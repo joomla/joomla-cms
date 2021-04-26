@@ -137,7 +137,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'smtphost',
 			'tmp_path',
 			'open_basedir',
-		)
+		),
 	);
 
 	/**
@@ -188,12 +188,12 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($dataArray as $section => $values)
 		{
-			if (is_array($values))
+			if (\is_array($values))
 			{
 				$dataArray[$section] = $this->cleanPrivateData($values, $dataType);
 			}
 
-			if (in_array($section, $privateSettings, true))
+			if (\in_array($section, $privateSettings, true))
 			{
 				$dataArray[$section] = $this->cleanSectionPrivateData($values);
 			}
@@ -213,19 +213,19 @@ class SysinfoModel extends BaseDatabaseModel
 	 */
 	protected function cleanSectionPrivateData($sectionValues)
 	{
-		if (!is_array($sectionValues))
+		if (!\is_array($sectionValues))
 		{
 			if (strstr($sectionValues, JPATH_ROOT))
 			{
 				$sectionValues = 'xxxxxx';
 			}
 
-			return strlen($sectionValues) ? 'xxxxxx' : '';
+			return \strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
 		foreach ($sectionValues as $setting => $value)
 		{
-			$sectionValues[$setting] = strlen($value) ? 'xxxxxx' : '';
+			$sectionValues[$setting] = \strlen($value) ? 'xxxxxx' : '';
 		}
 
 		return $sectionValues;
@@ -257,11 +257,11 @@ class SysinfoModel extends BaseDatabaseModel
 			'session.save_path'   => ini_get('session.save_path'),
 			'session.auto_start'  => ini_get('session.auto_start'),
 			'disable_functions'   => ini_get('disable_functions'),
-			'xml'                 => extension_loaded('xml'),
-			'zlib'                => extension_loaded('zlib'),
-			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
-			'mbstring'            => extension_loaded('mbstring'),
-			'iconv'               => function_exists('iconv'),
+			'xml'                 => \extension_loaded('xml'),
+			'zlib'                => \extension_loaded('zlib'),
+			'zip'                 => \function_exists('zip_open') && \function_exists('zip_read'),
+			'mbstring'            => \extension_loaded('mbstring'),
+			'iconv'               => \function_exists('iconv'),
 			'max_input_vars'      => ini_get('max_input_vars'),
 		);
 
@@ -287,7 +287,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$hidden = array(
 			'host', 'user', 'password', 'ftp_user', 'ftp_pass',
 			'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
-			'proxy_user', 'proxy_pass', 'secret'
+			'proxy_user', 'proxy_pass', 'secret',
 		);
 
 		foreach ($hidden as $key)
@@ -341,7 +341,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 */
 	public function phpinfoEnabled()
 	{
-		return !in_array('phpinfo', explode(',', ini_get('disable_functions')));
+		return !\in_array('phpinfo', explode(',', ini_get('disable_functions')));
 	}
 
 	/**
@@ -391,7 +391,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->php_info;
 		}
 
-		if (!is_null($this->php_info))
+		if (!\is_null($this->php_info))
 		{
 			return $this->php_info;
 		}
@@ -480,7 +480,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($extensions as $extension)
 		{
-			if (strlen($extension->name) == 0)
+			if (\strlen($extension->name) == 0)
 			{
 				continue;
 			}
@@ -501,7 +501,7 @@ class SysinfoModel extends BaseDatabaseModel
 				'author'       => $manifest->get('author', ''),
 				'version'      => $manifest->get('version', ''),
 				'creationDate' => $manifest->get('creationDate', ''),
-				'authorUrl'    => $manifest->get('authorUrl', '')
+				'authorUrl'    => $manifest->get('authorUrl', ''),
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
@@ -681,7 +681,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 */
 	private function addDirectory($name, $path, $message = '')
 	{
-		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message,);
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
 	}
 
 	/**
@@ -694,7 +694,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 */
 	public function &getEditor()
 	{
-		if (!is_null($this->editor))
+		if (!\is_null($this->editor))
 		{
 			return $this->editor;
 		}
@@ -721,7 +721,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
 		$t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$r = array();
-		$count = count($t);
+		$count = \count($t);
 		$p1 = '<info>([^<]+)<\/info>';
 		$p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
 		$p3 = '/' . $p1 . '\s*' . $p1 . '/';
@@ -733,12 +733,12 @@ class SysinfoModel extends BaseDatabaseModel
 				$name = trim($matchs[1]);
 				$vals = explode("\n", $t[$i + 1]);
 
-				foreach ($vals AS $val)
+				foreach ($vals as $val)
 				{
 					// 3cols
 					if (preg_match($p2, $val, $matchs))
 					{
-						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]),);
+						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
 					}
 					// 2cols
 					elseif (preg_match($p3, $val, $matchs))

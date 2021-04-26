@@ -104,11 +104,11 @@ class UsersController extends AdminController
 			{
 				if ($value == 1)
 				{
-					$this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+					$this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
 				}
 				elseif ($value == 0)
 				{
-					$this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
+					$this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
 				}
 			}
 		}
@@ -146,7 +146,7 @@ class UsersController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
+				$this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', \count($ids)));
 			}
 		}
 

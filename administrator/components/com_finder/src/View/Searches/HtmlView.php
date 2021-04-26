@@ -21,7 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
-
 /**
  * View class for a list of search terms.
  *
@@ -103,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		$output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

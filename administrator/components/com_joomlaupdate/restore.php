@@ -224,7 +224,7 @@ abstract class AKAbstractObject
 			// Default, return the last item
 			$item = end($array);
 		}
-		else if (!array_key_exists($i, $array))
+		elseif (!array_key_exists($i, $array))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -632,7 +632,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 			'Step'     => $this->active_step,
 			'Substep'  => $this->active_substep,
 			'Error'    => $this->getError(),
-			'Warnings' => $warnings
+			'Warnings' => $warnings,
 		);
 
 		return $out;
@@ -746,7 +746,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	 *
 	 * @param AKAbstractPartObserver $obs
 	 */
-	function attach(AKAbstractPartObserver $obs)
+	public function attach(AKAbstractPartObserver $obs)
 	{
 		$this->observers["$obs"] = $obs;
 	}
@@ -756,7 +756,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	 *
 	 * @param AKAbstractPartObserver $obs
 	 */
-	function detach(AKAbstractPartObserver $obs)
+	public function detach(AKAbstractPartObserver $obs)
 	{
 		delete($this->observers["$obs"]);
 	}
@@ -954,7 +954,6 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 							}
 						}
 
-
 						break;
 
 					// Should I restore permissions?
@@ -1118,7 +1117,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 * Concrete classes are supposed to use this method in order to read the archive's header and
 	 * prepare themselves to the point of being ready to extract the first file.
 	 */
-	protected abstract function readArchiveHeader();
+	abstract protected function readArchiveHeader();
 
 	protected function _run()
 	{
@@ -1242,7 +1241,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 *
 	 * @return bool True if reading the file was successful, false if an error occurred or we reached end of archive
 	 */
-	protected abstract function readFileHeader();
+	abstract protected function readFileHeader();
 
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
@@ -1250,7 +1249,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 *
 	 * @return bool True if processing the file data was successful, false if an error occurred
 	 */
-	protected abstract function processFileData();
+	abstract protected function processFileData();
 
 	protected function _finalize()
 	{
@@ -1477,7 +1476,6 @@ abstract class AKAbstractPostproc extends AKAbstractObject
 	abstract public function rename($from, $to);
 }
 
-
 /**
  * Akeeba Restore
  * A JSON-powered JPA, JPS and ZIP archive extraction library
@@ -1492,13 +1490,11 @@ abstract class AKAbstractPostproc extends AKAbstractObject
  * Descendants of this class can be used in the unarchiver's observer methods (attach, detach and notify)
  *
  * @author Nicholas
- *
  */
 abstract class AKAbstractPartObserver
 {
 	abstract public function update($object, $message);
 }
-
 
 /**
  * Akeeba Restore
@@ -1985,7 +1981,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 	}
 
-	function __wakeup()
+	public function __wakeup()
 	{
 		$this->connect();
 	}
@@ -2115,7 +2111,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 			$this->filename     = null;
 			$this->tempFilename = null;
 
-			return null;
+			return;
 		}
 
 		// Strip absolute filesystem path to website's root
@@ -2210,7 +2206,6 @@ class AKPostprocFTP extends AKAbstractPostproc
 	}
 
 }
-
 
 /**
  * Akeeba Restore
@@ -2647,7 +2642,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 		}
 	}
 
-	function __wakeup()
+	public function __wakeup()
 	{
 		$this->connect();
 	}
@@ -2797,7 +2792,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 			$this->filename     = null;
 			$this->tempFilename = null;
 
-			return null;
+			return;
 		}
 
 		// Strip absolute filesystem path to website's root
@@ -2859,7 +2854,6 @@ class AKPostprocSFTP extends AKAbstractPostproc
 
 }
 
-
 /**
  * Akeeba Restore
  * A JSON-powered JPA, JPS and ZIP archive extraction library
@@ -2875,7 +2869,6 @@ class AKPostprocSFTP extends AKAbstractPostproc
  */
 class AKPostprocHybrid extends AKAbstractPostproc
 {
-
 	/** @var bool Should I use the FTP layer? */
 	public $useFTP = false;
 
@@ -3309,7 +3302,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 	/**
 	 * Called after unserialisation, tries to reconnect to FTP
 	 */
-	function __wakeup()
+	public function __wakeup()
 	{
 		if ($this->useFTP)
 		{
@@ -3317,7 +3310,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 		}
 	}
 
-	function __destruct()
+	public function __destruct()
 	{
 		if (!$this->useFTP)
 		{
@@ -3488,7 +3481,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 			$this->filename     = null;
 			$this->tempFilename = null;
 
-			return null;
+			return;
 		}
 
 		// Strip absolute filesystem path to website's root
@@ -3701,7 +3694,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			'filecount'        => $header_data['count'],
 			'uncompressedsize' => $header_data['uncsize'],
 			'compressedsize'   => $header_data['csize'],
-			'unknowndata'      => $junk
+			'unknowndata'      => $junk,
 		);
 
 		// Array-to-object conversion
@@ -4431,7 +4424,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
  */
 class AKUnarchiverZIP extends AKUnarchiverJPA
 {
-	var $expectDataDescriptor = false;
+	public $expectDataDescriptor = false;
 
 	protected function readArchiveHeader()
 	{
@@ -4469,7 +4462,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		$multiPartSigs = array(
 			0x08074b50,        // Multi-part ZIP
 			0x30304b50,        // Multi-part ZIP (alternate)
-			0x04034b50        // Single file
+			0x04034b50,        // Single file
 		);
 		if (!in_array($headerData['sig'], $multiPartSigs))
 		{
@@ -4551,6 +4544,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				{
 				}
 				@fseek($this->fp, 0, SEEK_END); // Go to EOF
+
 				return false;
 			}
 			else
@@ -4629,7 +4623,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		}
 
 		debugMsg('*' . ftell($this->fp) . ' IS START OF ' . $this->fileHeader->file . ' (' . $this->fileHeader->compressed . ' bytes)');
-
 
 		// Decide filetype -- Check for directories
 		$this->fileHeader->type = 'file';
@@ -4819,7 +4812,6 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 		AKEncryptionAES::setPbkdf2StaticSalt($this->pbkdf2StaticSalt);
 	}
 
-
 	protected function readArchiveHeader()
 	{
 		// Initialize header data array
@@ -4874,7 +4866,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			'signature' => $sig,
 			'major'     => $header_data['major'],
 			'minor'     => $header_data['minor'],
-			'spanned'   => $header_data['spanned']
+			'spanned'   => $header_data['spanned'],
 		);
 		// Array-to-object conversion
 		foreach ($temp as $key => $value)
@@ -5702,7 +5694,7 @@ class AKCoreTimer extends AKAbstractObject
 	{
 		list($usec, $sec) = explode(" ", microtime());
 
-		return ((float) $usec + (float) $sec);
+		return (float) $usec + (float) $sec;
 	}
 
 	/**
@@ -6413,7 +6405,7 @@ class AKText extends AKAbstractObject
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
 
-		if (isset ($text->strings[$key]))
+		if (isset($text->strings[$key]))
 		{
 			$string = $text->strings[$key];
 		}
@@ -6598,14 +6590,14 @@ class AKFactory
 				'remove_path'         => self::get('kickstart.setup.removepath', ''),
 				'rename_files'        => self::get('kickstart.setup.renamefiles', array(
 					'.htaccess' => 'htaccess.bak', 'php.ini' => 'php.ini.bak', 'web.config' => 'web.config.bak',
-					'.user.ini' => '.user.ini.bak'
+					'.user.ini' => '.user.ini.bak',
 				)),
 				'skip_files'          => self::get('kickstart.setup.skipfiles', array(
 					basename(__FILE__), 'kickstart.php', 'abiautomation.ini', 'htaccess.bak', 'php.ini.bak',
-					'cacert.pem'
+					'cacert.pem',
 				)),
 				'ignoredirectories'   => self::get('kickstart.setup.ignoredirectories', array(
-					'tmp', 'log', 'logs'
+					'tmp', 'log', 'logs',
 				)),
 			);
 
@@ -6836,7 +6828,7 @@ abstract class AKEncryptionAESAdapterAbstract
 	{
 		if (empty($key))
 		{
-			return null;
+			return;
 		}
 
 		$keyLength = strlen($key);
@@ -7141,7 +7133,7 @@ class AKEncryptionAES
 			0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
 			0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
 			0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
-			0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16);
+			0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16, );
 
 	// Rcon is Round Constant used for the Key Expansion [1st col is 2^(r-1) in GF(2^8)] [�5.2]
 	protected static $Rcon = array(
@@ -7155,7 +7147,7 @@ class AKEncryptionAES
 		array(0x40, 0x00, 0x00, 0x00),
 		array(0x80, 0x00, 0x00, 0x00),
 		array(0x1b, 0x00, 0x00, 0x00),
-		array(0x36, 0x00, 0x00, 0x00));
+		array(0x36, 0x00, 0x00, 0x00), );
 
 	protected static $passwords = array();
 
@@ -7364,6 +7356,7 @@ class AKEncryptionAES
 				$s[$r][$c] = $t[$c];
 			}         // and copy back
 		}          // note that this will work for Nb=4,5,6, but not 7,8 (always 4 for AES):
+
 		return $s;  // see fp.gladman.plus.com/cryptography_technology/rijndael/aes.spec.311.pdf
 	}
 
@@ -7435,7 +7428,7 @@ class AKEncryptionAES
 					$temp[$t] ^= self::$Rcon[$rConIndex][$t];
 				}
 			}
-			else if ($Nk > 6 && $i % $Nk == 4)
+			elseif ($Nk > 6 && $i % $Nk == 4)
 			{
 				$temp = self::SubWord($temp);
 			}
@@ -8203,7 +8196,7 @@ if (!defined('KICKSTART'))
 
 	$retArray = array(
 		'status'  => true,
-		'message' => null
+		'message' => null,
 	);
 
 	$enabled = AKFactory::get('kickstart.enabled', false);
@@ -8313,15 +8306,15 @@ if (!defined('KICKSTART'))
 					// opcode cache busting before including the filename
 					if (function_exists('opcache_invalidate'))
 					{
-						\opcache_invalidate($filename);
+						opcache_invalidate($filename);
 					}
 					if (function_exists('apc_compile_file'))
 					{
-						\apc_compile_file($filename);
+						apc_compile_file($filename);
 					}
 					if (function_exists('wincache_refresh_if_changed'))
 					{
-						\wincache_refresh_if_changed(array($filename));
+						wincache_refresh_if_changed(array($filename));
 					}
 					if (function_exists('xcache_asm'))
 					{

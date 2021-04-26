@@ -94,9 +94,9 @@ $params     = $this->state->params ?? new CMSObject;
 						</thead>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) :
-								$canCreate  = $user->authorise('core.create',     'com_banners');
-								$canEdit    = $user->authorise('core.edit',       'com_banners');
-								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+								$canCreate  = $user->authorise('core.create', 'com_banners');
+								$canEdit    = $user->authorise('core.edit', 'com_banners');
+								$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 								$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">

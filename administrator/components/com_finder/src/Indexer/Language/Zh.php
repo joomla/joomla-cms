@@ -61,7 +61,7 @@ class Zh extends Language
 		$terms = parent::tokenise($input);
 
 		// Iterate through the terms and test if they contain Chinese.
-		for ($i = 0, $n = count($terms); $i < $n; $i++)
+		for ($i = 0, $n = \count($terms); $i < $n; $i++)
 		{
 			$charMatches = array();
 			$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);

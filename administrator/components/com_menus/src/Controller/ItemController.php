@@ -348,7 +348,7 @@ class ItemController extends FormController
 					'modem', 'git', 'sms',
 				);
 
-				if (!in_array($protocol, $scheme))
+				if (!\in_array($protocol, $scheme))
 				{
 					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
 					$this->setRedirect(
@@ -370,7 +370,7 @@ class ItemController extends FormController
 		{
 			$removeArgs = array();
 
-			if (!isset($data['request']) || !is_array($data['request']))
+			if (!isset($data['request']) || !\is_array($data['request']))
 			{
 				$data['request'] = array();
 			}
@@ -408,7 +408,7 @@ class ItemController extends FormController
 			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -529,7 +529,7 @@ class ItemController extends FormController
 
 		$specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
 
-		if (!in_array($title, $specialTypes))
+		if (!\in_array($title, $specialTypes))
 		{
 			$title = 'component';
 		}
@@ -605,7 +605,7 @@ class ItemController extends FormController
 			$results = $model->getItems();
 
 			// Pad the option text with spaces using depth level as a multiplier.
-			for ($i = 0, $n = count($results); $i < $n; $i++)
+			for ($i = 0, $n = \count($results); $i < $n; $i++)
 			{
 				$results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
 			}

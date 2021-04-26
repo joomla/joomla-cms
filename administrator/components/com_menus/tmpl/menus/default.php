@@ -91,7 +91,7 @@ $wa->useScript('com_menus.admin-menus');
 						</thead>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
-							$canEdit        = $user->authorise('core.edit',   'com_menus.menu.' . (int) $item->id);
+							$canEdit        = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
 							$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 						?>
 							<tr class="row<?php echo $i % 2; ?>">

@@ -47,7 +47,7 @@ class ModulesController extends AdminController
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+			$this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', \count($pks)));
 		}
 		catch (\Exception $e)
 		{

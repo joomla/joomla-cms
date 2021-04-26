@@ -67,7 +67,7 @@ class Languages
 	{
 		return array(
 			HTMLHelper::_('select.option', 0, Text::_('JSITE')),
-			HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR'))
+			HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR')),
 		);
 	}
 

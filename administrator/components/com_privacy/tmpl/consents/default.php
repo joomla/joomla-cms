@@ -28,7 +28,7 @@ $stateIcons = array(-1 => 'delete', 0 => 'archive', 1 => 'publish');
 $stateMsgs  = array(
 	-1 => Text::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
 	0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
-	1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
+	1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID'),
 );
 
 ?>

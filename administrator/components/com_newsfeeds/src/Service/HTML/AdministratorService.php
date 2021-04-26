@@ -91,7 +91,7 @@ class AdministratorService
 
 				foreach ($items as &$item)
 				{
-					if (in_array($item->lang_code, $content_languages))
+					if (\in_array($item->lang_code, $content_languages))
 					{
 						$text    = $item->lang_code;
 						$url     = Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);

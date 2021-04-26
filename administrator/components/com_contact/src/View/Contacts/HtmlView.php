@@ -77,13 +77,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
+		if (!\count($this->items) && $this->get('IsBlankSlate'))
 		{
 			$this->setLayout('blankstate');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
+		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
 			$toolbar->addNew('contact.add');
 		}

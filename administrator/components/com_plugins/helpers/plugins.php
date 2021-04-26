@@ -18,5 +18,4 @@ defined('_JEXEC') or die;
  */
 class PluginsHelper extends \Joomla\Component\Plugins\Administrator\Helper\PluginsHelper
 {
-
 }

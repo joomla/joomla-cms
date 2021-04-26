@@ -160,7 +160,7 @@ class WorkflowModel extends AdminModel
 			'workflow',
 			array(
 				'control'   => 'jform',
-				'load_data' => $loadData
+				'load_data' => $loadData,
 			)
 		);
 

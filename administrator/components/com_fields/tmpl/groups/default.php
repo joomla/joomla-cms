@@ -163,7 +163,7 @@ $context = $this->escape($this->state->get('filter.context'));
 								'collapseModal',
 								array(
 									'title' => Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
-									'footer' => $this->loadTemplate('batch_footer')
+									'footer' => $this->loadTemplate('batch_footer'),
 								),
 								$this->loadTemplate('batch_body')
 							); ?>

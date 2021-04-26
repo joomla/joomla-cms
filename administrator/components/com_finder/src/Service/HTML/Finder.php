@@ -128,7 +128,7 @@ class Finder
 	{
 		return array(
 			HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
+			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED'))),
 		);
 	}
 }

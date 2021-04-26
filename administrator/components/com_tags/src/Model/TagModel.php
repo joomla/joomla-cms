@@ -295,7 +295,7 @@ class TagModel extends AdminModel
 			// Trigger the before save event.
 			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
 

@@ -50,7 +50,7 @@ $saveOrder = $listOrder == 'a.id';
 								. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 								. Text::_("JSAVE") . '</button>'
 								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-								. Text::_("JAPPLY") . '</button>'
+								. Text::_("JAPPLY") . '</button>',
 						)
 					); ?>
 				<?php endif; ?>

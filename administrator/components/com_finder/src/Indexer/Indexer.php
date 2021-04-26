@@ -130,7 +130,7 @@ class Indexer
 					$db->quoteName('phrase'),
 					$db->quoteName('weight'),
 					$db->quoteName('context'),
-					$db->quoteName('language')
+					$db->quoteName('language'),
 				)
 			);
 	}
@@ -168,7 +168,7 @@ class Indexer
 				self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
 				self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
 				self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
-				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
+				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2),
 			);
 
 			// Set the current time as the start time.
@@ -377,7 +377,7 @@ class Indexer
 				}
 
 				// Tokenize the property.
-				if (is_array($item->$property))
+				if (\is_array($item->$property))
 				{
 					// Tokenize an array of content and add it to the database.
 					foreach ($item->$property as $ip)
@@ -724,7 +724,7 @@ class Indexer
 			'#__finder_terms_common',
 			'#__finder_types',
 			'#__finder_taxonomy_map',
-			'#__finder_taxonomy'
+			'#__finder_taxonomy',
 		];
 
 		foreach ($tables as $table)
@@ -764,7 +764,7 @@ class Indexer
 		$config = array(
 			$state->weights,
 			$state->options->get('stem', 1),
-			$state->options->get('stemmer', 'porter_en')
+			$state->options->get('stemmer', 'porter_en'),
 		);
 
 		return md5(serialize(array($item, $config)));
@@ -794,7 +794,7 @@ class Indexer
 		}
 
 		// If the input is a resource, batch the process out.
-		if (is_resource($input))
+		if (\is_resource($input))
 		{
 			// Batch the process out to avoid memory limits.
 			while (!feof($input))
@@ -875,7 +875,7 @@ class Indexer
 		// Tokenize the input.
 		$tokens = Helper::tokenize($input, $lang);
 
-		if (count($tokens) == 0)
+		if (\count($tokens) == 0)
 		{
 			return $count;
 		}
@@ -907,7 +907,7 @@ class Indexer
 	{
 		static $filterCommon, $filterNumeric;
 
-		if (is_null($filterCommon))
+		if (\is_null($filterCommon))
 		{
 			$params = ComponentHelper::getParams('com_finder');
 			$filterCommon = $params->get('filter_commonwords', false);

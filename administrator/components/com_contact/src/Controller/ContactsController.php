@@ -41,7 +41,7 @@ class ContactsController extends AdminController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**
@@ -92,11 +92,11 @@ class ContactsController extends AdminController
 
 			if ($value == 1)
 			{
-				$message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+				$message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', \count($ids));
 			}
 			else
 			{
-				$message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+				$message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', \count($ids));
 			}
 		}
 

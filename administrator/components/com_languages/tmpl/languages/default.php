@@ -87,8 +87,8 @@ if ($saveOrder && !empty($this->items))
 						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php
 						foreach ($this->items as $i => $item) :
-							$canCreate = $user->authorise('core.create',     'com_languages');
-							$canEdit   = $user->authorise('core.edit',       'com_languages');
+							$canCreate = $user->authorise('core.create', 'com_languages');
+							$canEdit   = $user->authorise('core.edit', 'com_languages');
 							$canChange = $user->authorise('core.edit.state', 'com_languages');
 						?>
 							<tr class="row<?php echo $i % 2; ?>">

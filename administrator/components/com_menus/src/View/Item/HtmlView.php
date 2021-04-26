@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 		$clientId   = $this->state->get('item.client_id', 0);
 

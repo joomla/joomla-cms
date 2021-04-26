@@ -83,7 +83,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return null;
+			return;
 		}
 
 		$support = self::$extensionsSupport[$extensionName];
@@ -126,12 +126,12 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function hasSupport($extensionName)
 	{
-		if (is_null(self::$extensionsSupport))
+		if (\is_null(self::$extensionsSupport))
 		{
 			self::getSupportedExtensions();
 		}
 
-		return in_array($extensionName, self::$supportedExtensionsList);
+		return \in_array($extensionName, self::$supportedExtensionsList);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class AssociationsHelper extends ContentHelper
 		// Check if associations helper exists
 		if (!file_exists(JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php'))
 		{
-			return null;
+			return;
 		}
 
 		require_once JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php';
@@ -164,7 +164,7 @@ class AssociationsHelper extends ContentHelper
 
 		if (!class_exists($componentAssociationsHelperClassName, false))
 		{
-			return null;
+			return;
 		}
 
 		// Create an instance of the helper class
@@ -229,7 +229,7 @@ class AssociationsHelper extends ContentHelper
 		// Display warning if Content Language is trashed or deleted
 		foreach ($items as $item)
 		{
-			if (!in_array($item['language'], $content_languages))
+			if (!\in_array($item['language'], $content_languages))
 			{
 				Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item['language']), 'warning');
 			}
@@ -353,7 +353,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getSupportedExtensions()
 	{
-		if (!is_null(self::$extensionsSupport))
+		if (!\is_null(self::$extensionsSupport))
 		{
 			return self::$extensionsSupport;
 		}
@@ -628,7 +628,7 @@ class AssociationsHelper extends ContentHelper
 
 		$userId = Factory::getUser()->id;
 
-		return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+		return $item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0;
 	}
 
 	/**

@@ -60,7 +60,7 @@ class ItemsModel extends ListModel
 				'parent_id', 'a.parent_id',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'a.ordering'
+				'a.ordering',
 			);
 
 			if (Associations::isEnabled())
@@ -489,7 +489,7 @@ class ItemsModel extends ListModel
 			}
 		}
 		// Default behavior => load all items from a specific menu
-		elseif (strlen($menuType))
+		elseif (\strlen($menuType))
 		{
 			$query->where($db->quoteName('a.menutype') . ' = :menuType')
 				->bind(':menuType', $menuType);

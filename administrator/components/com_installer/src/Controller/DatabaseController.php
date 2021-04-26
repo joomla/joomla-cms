@@ -42,7 +42,7 @@ class DatabaseController extends BaseController
 		// Get items to fix the database.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->app->getLogger()->warning(
 				Text::_(

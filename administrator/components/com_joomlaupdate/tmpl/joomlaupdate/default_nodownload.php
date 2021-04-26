@@ -20,7 +20,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 		<?php echo Text::_('COM_JOOMLAUPDATE_SYSTEM_CHECK'); ?>
 	</legend>
 	<div>
-	<?php if ( !$this->getModel()->isDatabaseTypeSupported()) : ?>
+	<?php if (!$this->getModel()->isDatabaseTypeSupported()) : ?>
 		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED'); ?>
 		</p>

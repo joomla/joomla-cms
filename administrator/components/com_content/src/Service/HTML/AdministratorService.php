@@ -26,7 +26,6 @@ use Joomla\Database\ParameterType;
  */
 class AdministratorService
 {
-
 	/**
 	 * Render the list of associated items
 	 *
@@ -87,7 +86,7 @@ class AdministratorService
 
 				foreach ($items as &$item)
 				{
-					if (in_array($item->lang_code, $content_languages))
+					if (\in_array($item->lang_code, $content_languages))
 					{
 						$text    = $item->lang_code;
 						$url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);

@@ -47,7 +47,7 @@ class GroupModel extends AdminModel
 				'event_after_save'    => 'onUserAfterSaveGroup',
 				'event_before_delete' => 'onUserBeforeDeleteGroup',
 				'event_before_save'   => 'onUserBeforeSaveGroup',
-				'events_map'          => array('delete' => 'user', 'save' => 'user')
+				'events_map'          => array('delete' => 'user', 'save' => 'user'),
 			), $config
 		);
 
@@ -132,7 +132,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = '')
 	{
-		$obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+		$obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
 		{
@@ -201,7 +201,7 @@ class GroupModel extends AdminModel
 			// Next, are we a member of the current group?
 			$myGroups = Access::getGroupsByUser(Factory::getUser()->get('id'), false);
 
-			if (in_array($data['id'], $myGroups))
+			if (\in_array($data['id'], $myGroups))
 			{
 				// Now, would we have super admin permissions without the current group?
 				$otherGroups = array_diff($myGroups, array($data['id']));
@@ -263,7 +263,7 @@ class GroupModel extends AdminModel
 		// Do not allow to delete groups to which the current user belongs
 		foreach ($pks as $pk)
 		{
-			if (in_array($pk, $groups))
+			if (\in_array($pk, $groups))
 			{
 				Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 

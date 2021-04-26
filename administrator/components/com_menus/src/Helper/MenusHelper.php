@@ -66,7 +66,7 @@ class MenusHelper extends ContentHelper
 		}
 
 		// Check if the link is in the form of index.php?...
-		if (is_string($request))
+		if (\is_string($request))
 		{
 			$args = array();
 
@@ -85,7 +85,7 @@ class MenusHelper extends ContentHelper
 		// Only take the option, view and layout parts.
 		foreach ($request as $name => $value)
 		{
-			if ((!in_array($name, self::$_filter)) && (!($name == 'task' && !array_key_exists('view', $request))))
+			if ((!\in_array($name, self::$_filter)) && (!($name == 'task' && !\array_key_exists('view', $request))))
 			{
 				// Remove the variables we want to ignore.
 				unset($request[$name]);
@@ -358,7 +358,7 @@ class MenusHelper extends ContentHelper
 				'OR'
 			);
 
-		if (count($exclude))
+		if (\count($exclude))
 		{
 			$exId = array_map('intval', array_filter($exclude, 'is_numeric'));
 			$exEl = array_filter($exclude, 'is_string');
@@ -398,7 +398,7 @@ class MenusHelper extends ContentHelper
 					static::resolveAlias($menuitem);
 				}
 
-				if ($menuitem->link = in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link))
+				if ($menuitem->link = \in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link))
 				{
 					$menuitem->submenu = array();
 					$menuitem->class   = $menuitem->img ?? '';
@@ -446,7 +446,7 @@ class MenusHelper extends ContentHelper
 	{
 		$root = static::loadPreset($preset, false);
 
-		if (count($root->getChildren()) == 0)
+		if (\count($root->getChildren()) == 0)
 		{
 			throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
 		}
@@ -548,7 +548,7 @@ class MenusHelper extends ContentHelper
 			}
 
 			// Translate "hideitems" param value from "element" into "menu-item-id"
-			if ($item->type == 'container' && count($hideitems = (array) $item->getParams()->get('hideitems')))
+			if ($item->type == 'container' && \count($hideitems = (array) $item->getParams()->get('hideitems')))
 			{
 				foreach ($hideitems as &$hel)
 				{
@@ -636,7 +636,7 @@ class MenusHelper extends ContentHelper
 			$replace = false;
 		}
 
-		if (($replace || !array_key_exists($name, static::$presets)) && is_file($path))
+		if (($replace || !\array_key_exists($name, static::$presets)) && is_file($path))
 		{
 			$preset = new \stdClass;
 
@@ -822,7 +822,7 @@ class MenusHelper extends ContentHelper
 			static::resolveAlias($item);
 		}
 
-		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
+		if ($item->link = \in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
 			$item->class  = $item->img ?? '';
 			$item->scope  = $item->scope ?? null;

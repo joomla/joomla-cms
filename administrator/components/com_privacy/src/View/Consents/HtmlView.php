@@ -91,13 +91,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
+		if (!\count($this->items) && $this->get('IsBlankSlate'))
 		{
 			$this->setLayout('blankstate');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new Genericdataexception(implode("\n", $errors), 500);
 		}

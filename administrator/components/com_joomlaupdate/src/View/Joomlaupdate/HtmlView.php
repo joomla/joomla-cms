@@ -143,7 +143,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
-		if (!is_null($this->updateInfo['object']))
+		if (!\is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
@@ -189,7 +189,7 @@ class HtmlView extends BaseHtmlView
 		/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
 		$warningsModel = $this->getModel('warnings');
 
-		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
+		if (\is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
 		{
 			$language = Factory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
@@ -267,7 +267,7 @@ class HtmlView extends BaseHtmlView
 				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
-			if (is_null($joomlaUpdateComponentObject))
+			if (\is_null($joomlaUpdateComponentObject))
 			{
 				// No Update great!
 				return false;

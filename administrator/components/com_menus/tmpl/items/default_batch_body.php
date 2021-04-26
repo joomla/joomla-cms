@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $options = [
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE')),
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
