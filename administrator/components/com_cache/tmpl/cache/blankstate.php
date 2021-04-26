@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = array(
 	'textPrefix' => 'COM_CACHE',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Cache',
+	'icon'       => 'icon-bolt clear',
 );
 
 echo LayoutHelper::render('joomla.content.blankstate', $displayData);
