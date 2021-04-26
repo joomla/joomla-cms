@@ -40,7 +40,7 @@ foreach ($field->subform_rows as $subform_row)
 		// Skip empty output
 		if ($content === '')
 		{
-			continue 1;
+			continue;
 		}
 
 		// Generate the output for this sub field and row
@@ -50,7 +50,7 @@ foreach ($field->subform_rows as $subform_row)
 	// Skip empty rows
 	if (count($row_output) == 0)
 	{
-		continue 1;
+		continue;
 	}
 
 	$result .= '<li>' . implode(', ', $row_output) . '</li>';

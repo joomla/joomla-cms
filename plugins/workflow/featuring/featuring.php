@@ -81,7 +81,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			'onTableBeforeStore'              => 'onTableBeforeStore',
 			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
 			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
-			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed'
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed',
 		];
 	}
 
@@ -215,7 +215,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		// List of related batch functions we need to hide
 		$states = [
 			'featured',
-			'unfeatured'
+			'unfeatured',
 		];
 
 		$js = "
@@ -228,7 +228,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 					return;
 				}
 
-				" . \json_encode($states) . ".forEach((action) => {
+				" . json_encode($states) . ".forEach((action) => {
 					var button = document.getElementById('status-group-children-' + action);
 
 					if (button)
@@ -342,7 +342,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		$options = [
 			'ignore_request'               => true,
 			// We already have triggered onContentBeforeChangeFeatured, so use our own
-			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured'
+			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured',
 		];
 
 		$modelName = $component->getModelName($context);

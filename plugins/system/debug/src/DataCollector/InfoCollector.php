@@ -84,7 +84,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 				'widget'  => 'PhpDebugBar.Widgets.InfoWidget',
 				'map'     => $this->name,
 				'default' => '{}',
-			]
+			],
 		];
 	}
 
@@ -168,7 +168,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	private function getResponseInfo(ResponseInterface $response): array
 	{
 		return [
-			'status_code' => $response->getStatusCode()
+			'status_code' => $response->getStatusCode(),
 		];
 	}
 
