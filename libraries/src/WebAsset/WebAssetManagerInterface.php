@@ -81,4 +81,3 @@ interface WebAssetManagerInterface
 	public function getAssets(string $type, bool $sort = false): array;
 
 }
-

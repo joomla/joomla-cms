@@ -405,7 +405,7 @@ abstract class AbstractMenu
 	 *
 	 * @param   string  $propName  Name of the missing or protected property.
 	 *
-	 * @return User|null
+	 * @return User|void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -417,8 +417,5 @@ abstract class AbstractMenu
 				? Factory::getUser()
 				: $this->storedUser;
 		}
-
-		return null;
 	}
 }
-

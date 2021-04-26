@@ -129,7 +129,7 @@ class Image
 		 * If the source input is a resource, set it as the image handle.
 		 * TODO: Remove check for resource when we only support PHP 8
 		 */
-		if ($source && (\is_object($source) && get_class($source) == 'GdImage')
+		if ($source && (\is_object($source) && \get_class($source) == 'GdImage')
 			|| (\is_resource($source) && get_resource_type($source) == 'gd'))
 		{
 			$this->handle = $source;
@@ -218,8 +218,6 @@ class Image
 		{
 			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
-
-		return null;
 	}
 
 	/**
@@ -236,10 +234,10 @@ class Image
 	{
 		switch (true)
 		{
-			case ($width > $height) :
+			case $width > $height :
 				return self::ORIENTATION_LANDSCAPE;
 
-			case ($width < $height) :
+			case $width < $height :
 				return self::ORIENTATION_PORTRAIT;
 
 			default:
@@ -545,7 +543,7 @@ class Image
 		 * Make sure the resource handle is valid.
 		 * TODO: Remove check for resource when we only support PHP 8
 		 */
-		if (!((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
+		if (!((\is_object($this->handle) && \get_class($this->handle) == 'GdImage')
 			|| (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd')))
 		{
 			return false;

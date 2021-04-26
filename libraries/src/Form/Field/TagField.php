@@ -213,7 +213,7 @@ class TagField extends ListField
 			$topIds = $db->loadColumn();
 
 			// Merge the used values into the most used tags
-			if (!empty($this->value) && is_array($this->value))
+			if (!empty($this->value) && \is_array($this->value))
 			{
 				$topIds = array_merge($topIds, $this->value);
 				$topIds = array_keys(array_flip($topIds));
@@ -240,7 +240,7 @@ class TagField extends ListField
 				}
 
 				// Limit the main query to the missing amount of tags
-				$count = count($options);
+				$count = \count($options);
 				$prefillLimit = $prefillLimit - $count;
 				$query->setLimit($prefillLimit);
 

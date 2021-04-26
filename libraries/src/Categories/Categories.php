@@ -165,7 +165,7 @@ class Categories implements CategoryInterface
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
+	 * @return  CategoryNode|void  CategoryNode object or null if $id is not valid
 	 *
 	 * @since   1.6
 	 */
@@ -192,8 +192,6 @@ class Categories implements CategoryInterface
 		{
 			return $this->_nodes[$id];
 		}
-
-		return null;
 	}
 
 	/**

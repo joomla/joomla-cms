@@ -128,7 +128,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag'
+		'tag' => 'batchTag',
 	);
 
 	/**
@@ -1801,7 +1801,7 @@ abstract class AdminModel extends FormModel
 		 * load directly the associated target item in the side by side view
 		 * otherwise select already the target language
 		 */
-		if (count($languages) === 2)
+		if (\count($languages) === 2)
 		{
 			foreach ($languages as $language)
 			{

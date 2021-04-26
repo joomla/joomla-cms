@@ -270,7 +270,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
 	 *
 	 * @since   1.7.0
 	 */
@@ -278,7 +278,7 @@ class HtmlDocument extends Document
 	{
 		if (empty($data) || !\is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title         = $data['title'] ?? $this->title;
@@ -560,7 +560,7 @@ class HtmlDocument extends Document
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			$hash = md5(serialize(array($name, $attribs, null, \get_class($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))

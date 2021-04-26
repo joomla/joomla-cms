@@ -100,7 +100,7 @@ abstract class Select
 		// Set default options
 		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'id' => false));
 
-		if (is_array($attribs) && func_num_args() === 3)
+		if (\is_array($attribs) && \func_num_args() === 3)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
@@ -120,7 +120,7 @@ abstract class Select
 
 		if (isset($options['list.attr']))
 		{
-			if (is_array($options['list.attr']))
+			if (\is_array($options['list.attr']))
 			{
 				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
@@ -213,7 +213,7 @@ abstract class Select
 
 		if (isset($options['list.attr']))
 		{
-			if (is_array($options['list.attr']))
+			if (\is_array($options['list.attr']))
 			{
 				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
@@ -243,14 +243,14 @@ abstract class Select
 		{
 			$label = $dataKey;
 			$id = '';
-			$noGroup = is_int($dataKey);
+			$noGroup = \is_int($dataKey);
 
 			if ($options['group.items'] == null)
 			{
 				// Sub-list is an associative array
 				$subList = $group;
 			}
-			elseif (is_array($group))
+			elseif (\is_array($group))
 			{
 				// Sub-list is in an element of an array.
 				$subList = $group[$options['group.items']];
@@ -267,7 +267,7 @@ abstract class Select
 					$noGroup = false;
 				}
 			}
-			elseif (is_object($group))
+			elseif (\is_object($group))
 			{
 				// Sub-list is in a property of an object
 				$subList = $group->{$options['group.items']};
@@ -328,7 +328,7 @@ abstract class Select
 		// Set default options
 		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
 
-		if (is_array($attribs) && func_num_args() === 5)
+		if (\is_array($attribs) && \func_num_args() === 5)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
@@ -404,7 +404,7 @@ abstract class Select
 			'option.text' => 'text',
 		);
 
-		if (is_array($optKey))
+		if (\is_array($optKey))
 		{
 			// Merge in caller's options
 			$options = array_merge($options, $optKey);
@@ -503,7 +503,7 @@ abstract class Select
 			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
 
-		if (is_array($optKey))
+		if (\is_array($optKey))
 		{
 			// Set default options and overwrite with anything passed in
 			$options = array_merge($options, $optKey);
@@ -527,7 +527,7 @@ abstract class Select
 			$label = '';
 			$id = '';
 
-			if (is_array($element))
+			if (\is_array($element))
 			{
 				$key = $options['option.key'] === null ? $elementKey : $element[$options['option.key']];
 				$text = $element[$options['option.text']];
@@ -552,7 +552,7 @@ abstract class Select
 					$extra .= ' disabled="disabled"';
 				}
 			}
-			elseif (is_object($element))
+			elseif (\is_object($element))
 			{
 				$key = $options['option.key'] === null ? $elementKey : $element->{$options['option.key']};
 				$text = $element->{$options['option.text']};
@@ -635,7 +635,7 @@ abstract class Select
 					$label = htmlentities($label);
 				}
 
-				if (is_array($attr))
+				if (\is_array($attr))
 				{
 					$attr = ArrayHelper::toString($attr);
 				}
@@ -646,11 +646,11 @@ abstract class Select
 
 				$extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;
 
-				if (is_array($options['list.select']))
+				if (\is_array($options['list.select']))
 				{
 					foreach ($options['list.select'] as $val)
 					{
-						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
+						$key2 = \is_object($val) ? $val->{$options['option.key']} : $val;
 
 						if ($key == $key2)
 						{
@@ -701,7 +701,7 @@ abstract class Select
 	)
 	{
 
-		if (is_array($attribs))
+		if (\is_array($attribs))
 		{
 			$attribs = ArrayHelper::toString($attribs);
 		}
@@ -721,11 +721,11 @@ abstract class Select
 			$extra = '';
 			$id = $id ? $obj->id : $id_text . $k;
 
-			if (is_array($selected))
+			if (\is_array($selected))
 			{
 				foreach ($selected as $val)
 				{
-					$k2 = is_object($val) ? $val->$optKey : $val;
+					$k2 = \is_object($val) ? $val->$optKey : $val;
 
 					if ($k == $k2)
 					{

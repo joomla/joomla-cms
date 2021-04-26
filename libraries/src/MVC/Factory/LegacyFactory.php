@@ -76,7 +76,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface|void  The view object
 	 *
 	 * @since   3.10.0
 	 * @throws  \Exception
@@ -97,7 +97,7 @@ class LegacyFactory implements MVCFactoryInterface
 
 			if (!$path)
 			{
-				return null;
+				return;
 			}
 
 			\JLoader::register($viewClass, $path);

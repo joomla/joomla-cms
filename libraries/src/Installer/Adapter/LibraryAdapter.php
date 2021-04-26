@@ -334,7 +334,7 @@ class LibraryAdapter extends InstallerAdapter
 		// Don't install libraries which would override core folders
 		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
 
-		if (in_array($group, $restrictedFolders))
+		if (\in_array($group, $restrictedFolders))
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
 		}

@@ -120,7 +120,7 @@ class ApiRouter extends Router
 					return [
 						'controller' => $controller[0],
 						'task'       => $controller[1],
-						'vars'       => $vars
+						'vars'       => $vars,
 					];
 				}
 			}

@@ -82,7 +82,6 @@ final class ApiApplication extends CMSApplication
 		Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
 	}
 
-
 	/**
 	 * Method to run the application routines.
 	 *

@@ -292,7 +292,7 @@ class BaseController implements ControllerInterface
 		if (strpos($command, '.') !== false)
 		{
 			// Explode the controller.task command.
-			list ($type, $task) = explode('.', $command);
+			list($type, $task) = explode('.', $command);
 
 			// Define the controller filename and path.
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));

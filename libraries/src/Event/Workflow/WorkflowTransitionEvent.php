@@ -55,5 +55,4 @@ class WorkflowTransitionEvent extends AbstractEvent
 		}
 	}
 
-
 }

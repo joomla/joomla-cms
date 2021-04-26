@@ -116,7 +116,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 			'support' => $support,
 			'tables'  => $tables,
 			'joins'   => $joins,
-			'title'   => $title
+			'title'   => $title,
 		);
 	}
 
@@ -261,7 +261,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 		return array(
 			'state'    => false,
 			'acl'      => false,
-			'checkout' => false
+			'checkout' => false,
 		);
 	}
 
@@ -287,7 +287,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 			'state'               => 'a.state',
 			'created_user_id'     => 'a.created_by',
 			'checked_out'         => 'a.checked_out',
-			'checked_out_time'    => 'a.checked_out_time'
+			'checked_out_time'    => 'a.checked_out_time',
 		);
 	}
 }

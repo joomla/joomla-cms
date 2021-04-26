@@ -32,12 +32,11 @@ class UnsetFilter implements FormFilterInterface
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
-	 * @return  mixed   The filtered value.
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		return null;
 	}
 }

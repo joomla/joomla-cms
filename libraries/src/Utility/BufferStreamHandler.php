@@ -53,7 +53,7 @@ class BufferStreamHandler
 	 * @var    boolean
 	 * @since  3.8.2
 	 */
-	static private $registered = false;
+	private static $registered = false;
 
 	/**
 	 * Function to register the stream wrapper

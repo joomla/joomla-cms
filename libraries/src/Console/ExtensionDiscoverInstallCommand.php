@@ -93,7 +93,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{

@@ -717,7 +717,7 @@ abstract class HTMLHelper
 			unset($urlParams['joomla_image_width']);
 		}
 
-		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
+		$obj->url  = $pieces[0] . (\count($urlParams) ? '?' . http_build_query($urlParams) : '');
 
 		return $obj;
 	}
@@ -1112,7 +1112,6 @@ abstract class HTMLHelper
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
-	 *
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{

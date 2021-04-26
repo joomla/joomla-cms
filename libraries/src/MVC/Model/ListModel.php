@@ -415,7 +415,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 
 		if (empty($this->filterFormName))
 		{
-			return null;
+			return;
 		}
 
 		try
@@ -427,7 +427,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		{
 		}
 
-		return null;
+		return;
 	}
 
 	/**

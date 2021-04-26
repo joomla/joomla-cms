@@ -17,5 +17,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class InvalidActionException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }

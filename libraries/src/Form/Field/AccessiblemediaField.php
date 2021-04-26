@@ -158,7 +158,7 @@ class AccessiblemediaField extends SubformField
 				}
 			}
 		}
-		elseif (!is_object($value)
+		elseif (!\is_object($value)
 			|| !property_exists($value, 'imagefile')
 			|| !property_exists($value, 'alt_text'))
 		{

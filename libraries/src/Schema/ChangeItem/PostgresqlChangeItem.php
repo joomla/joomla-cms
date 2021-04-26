@@ -105,7 +105,7 @@ class PostgresqlChangeItem extends ChangeItem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array(
 					$this->fixQuote($wordArray[2]),
-					$this->fixQuote($wordArray[5])
+					$this->fixQuote($wordArray[5]),
 				);
 			}
 			elseif ($alterCommand === 'DROP COLUMN')
@@ -120,7 +120,7 @@ class PostgresqlChangeItem extends ChangeItem
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array(
 					$this->fixQuote($wordArray[2]),
-					$this->fixQuote($wordArray[5])
+					$this->fixQuote($wordArray[5]),
 				);
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
@@ -165,7 +165,7 @@ class PostgresqlChangeItem extends ChangeItem
 					$this->msgElements = array(
 						$this->fixQuote($wordArray[2]),
 						$this->fixQuote($wordArray[5]),
-						$type
+						$type,
 					);
 				}
 				elseif ($alterAction === 'SET')
@@ -184,7 +184,7 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->msgElements = array(
 							$this->fixQuote($wordArray[2]),
 							$this->fixQuote($wordArray[5]),
-							'NOT NULL'
+							'NOT NULL',
 						);
 					}
 					elseif ($alterType === 'DEFAULT')
@@ -205,7 +205,7 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->msgElements = array(
 							$this->fixQuote($wordArray[2]),
 							$this->fixQuote($wordArray[5]),
-							'DEFAULT ' . $wordArray[8]
+							'DEFAULT ' . $wordArray[8],
 						);
 					}
 				}
@@ -226,7 +226,7 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->msgElements = array(
 							$this->fixQuote($wordArray[2]),
 							$this->fixQuote($wordArray[5]),
-							'NOT DEFAULT'
+							'NOT DEFAULT',
 						);
 					}
 					elseif ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL')
@@ -242,7 +242,7 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->msgElements = array(
 							$this->fixQuote($wordArray[2]),
 							$this->fixQuote($wordArray[5]),
-							'NULL'
+							'NULL',
 						);
 					}
 				}

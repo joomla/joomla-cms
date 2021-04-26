@@ -99,13 +99,12 @@ trait CategoryServiceTrait
 	 *
 	 * @param   string  $section  The section
 	 *
-	 * @return  string|null
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return null;
 	}
 
 	/**

@@ -59,7 +59,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 		{
 			foreach ($status['files_checked'] as $file)
 			{
-				$exists = in_array($file, array_values($status['files_exist']));
+				$exists = \in_array($file, array_values($status['files_exist']));
 
 				if ($exists)
 				{
@@ -73,7 +73,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
 			foreach ($status['folders_checked'] as $folder)
 			{
-				$exists = in_array($folder, array_values($status['folders_exist']));
+				$exists = \in_array($folder, array_values($status['folders_exist']));
 
 				if ($exists)
 				{

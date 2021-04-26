@@ -129,7 +129,6 @@ class ChromestyleField extends GroupedlistField
 		return $result;
 	}
 
-
 	/**
 	 * Method to get the list of template chrome style options
 	 * grouped by template.

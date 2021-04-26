@@ -124,7 +124,7 @@ trait ExtensionManagerTrait
 					'subject'       => $this,
 					'type'          => $type,
 					'extensionName' => $extensionName,
-					'container'     => $container
+					'container'     => $container,
 				]
 			)
 		);
@@ -169,7 +169,7 @@ trait ExtensionManagerTrait
 					'subject'       => $this,
 					'type'          => $type,
 					'extensionName' => $extensionName,
-					'container'     => $container
+					'container'     => $container,
 				]
 			)
 		);

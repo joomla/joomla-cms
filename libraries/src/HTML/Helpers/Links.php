@@ -34,7 +34,7 @@ abstract class Links
 	{
 		$html = array();
 
-		if (count($groupsOfLinks) > 0)
+		if (\count($groupsOfLinks) > 0)
 		{
 			$layout = new FileLayout('joomla.links.groupsopen');
 			$html[] = $layout->render('');
@@ -103,7 +103,7 @@ abstract class Links
 	{
 		if (isset($link['access']))
 		{
-			if (is_bool($link['access']))
+			if (\is_bool($link['access']))
 			{
 				if ($link['access'] == false)
 				{
@@ -116,7 +116,7 @@ abstract class Links
 				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
-				for ($i = 0, $n = count($link['access']); $i < $n; $i += 2)
+				for ($i = 0, $n = \count($link['access']); $i < $n; $i += 2)
 				{
 					if (!$user->authorise($link['access'][$i], $link['access'][$i + 1]))
 					{

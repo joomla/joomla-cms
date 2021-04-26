@@ -44,7 +44,7 @@ class HelperFactory implements HelperFactoryInterface
 	 * @param   string  $name    The name
 	 * @param   array   $config  The config
 	 *
-	 * @return  \stdClass
+	 * @return  \stdClass|void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -54,7 +54,7 @@ class HelperFactory implements HelperFactoryInterface
 
 		if (!class_exists($className))
 		{
-			return null;
+			return;
 		}
 
 		return new $className($config);

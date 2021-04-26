@@ -70,7 +70,7 @@ abstract class Tag
 					$query->where('a.published = :published')
 						->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 				}
-				elseif (is_array($config['filter.published']))
+				elseif (\is_array($config['filter.published']))
 				{
 					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 					$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
@@ -80,12 +80,12 @@ abstract class Tag
 			// Filter on the language
 			if (isset($config['filter.language']))
 			{
-				if (is_string($config['filter.language']))
+				if (\is_string($config['filter.language']))
 				{
 					$query->where($db->quoteName('a.language') . ' = :language')
 						->bind(':language', $config['filter.language']);
 				}
-				elseif (is_array($config['filter.language']))
+				elseif (\is_array($config['filter.language']))
 				{
 					$query->whereIn($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
 				}
@@ -144,7 +144,7 @@ abstract class Tag
 				$query->where($db->quoteName('a.published') . ' = :published')
 					->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 			}
-			elseif (is_array($config['filter.published']))
+			elseif (\is_array($config['filter.published']))
 			{
 				$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 				$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
@@ -206,7 +206,7 @@ abstract class Tag
 				'dataType'       => 'json',
 				'jsonTermKey'    => 'like',
 				'afterTypeDelay' => 500,
-				'minTermLength'  => $minTermLength
+				'minTermLength'  => $minTermLength,
 			)
 		);
 

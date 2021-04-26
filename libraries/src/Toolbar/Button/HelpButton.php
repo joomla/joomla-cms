@@ -107,7 +107,7 @@ class HelpButton extends BasicButton
 				'ref',
 				'useComponent',
 				'component',
-				'url'
+				'url',
 			]
 		);
 	}

@@ -23,7 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 /**
  * Console command to add a user to group
  *
@@ -128,7 +127,6 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		return Command::SUCCESS;
 	}
-
 
 	/**
 	 * Method to get a value from option

@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for Bootstrap elements.
@@ -55,7 +54,7 @@ abstract class Bootstrap
 			$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
 			$options       = [$selector];
 
-			if (is_array($scriptOptions))
+			if (\is_array($scriptOptions))
 			{
 				$options = array_merge($scriptOptions, $options);
 			}
@@ -98,7 +97,7 @@ abstract class Bootstrap
 			$scriptOptions = $doc->getScriptOptions('bootstrap.button');
 			$options       = [$selector];
 
-			if (is_array($scriptOptions))
+			if (\is_array($scriptOptions))
 			{
 				$options = array_merge($scriptOptions, $options);
 			}

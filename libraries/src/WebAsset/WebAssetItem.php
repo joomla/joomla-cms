@@ -93,13 +93,13 @@ class WebAssetItem implements WebAssetItemInterface
 		$this->name    = $name;
 		$this->uri     = $uri;
 
-		if (array_key_exists('version', $options))
+		if (\array_key_exists('version', $options))
 		{
 			$this->version = $options['version'];
 			unset($options['version']);
 		}
 
-		if (array_key_exists('attributes', $options))
+		if (\array_key_exists('attributes', $options))
 		{
 			$this->attributes = (array) $options['attributes'];
 			unset($options['attributes']);
@@ -109,7 +109,7 @@ class WebAssetItem implements WebAssetItemInterface
 			$this->attributes = $attributes;
 		}
 
-		if (array_key_exists('dependencies', $options))
+		if (\array_key_exists('dependencies', $options))
 		{
 			$this->dependencies = (array) $options['dependencies'];
 			unset($options['dependencies']);
@@ -201,7 +201,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 */
 	public function getOption(string $key, $default = null)
 	{
-		if (array_key_exists($key, $this->options))
+		if (\array_key_exists($key, $this->options))
 		{
 			return $this->options[$key];
 		}
@@ -250,7 +250,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 */
 	public function getAttribute(string $key, $default = null)
 	{
-		if (array_key_exists($key, $this->attributes))
+		if (\array_key_exists($key, $this->attributes))
 		{
 			return $this->attributes[$key];
 		}

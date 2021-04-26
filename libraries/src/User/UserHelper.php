@@ -129,7 +129,7 @@ abstract class UserHelper
 		self::HASH_BCRYPT => BCryptHandler::class,
 		self::HASH_BCRYPT_BC => BCryptHandler::class,
 		self::HASH_MD5 => MD5Handler::class,
-		self::HASH_PHPASS => PHPassHandler::class
+		self::HASH_PHPASS => PHPassHandler::class,
 	];
 
 	/**

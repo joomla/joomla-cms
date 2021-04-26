@@ -26,7 +26,6 @@ use Joomla\CMS\Table\Table;
  */
 trait LegacyModelLoaderTrait
 {
-
 	/**
 	 * Create the filename for a resource
 	 *

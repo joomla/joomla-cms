@@ -49,14 +49,12 @@ class MailTemplate
 	protected $language;
 
 	/**
-	 *
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
 	protected $data = array();
 
 	/**
-	 *
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
@@ -322,7 +320,7 @@ class MailTemplate
 	{
 		foreach ($tags as $key => $value)
 		{
-			if (is_array($value))
+			if (\is_array($value))
 			{
 				$matches = array();
 
@@ -334,7 +332,7 @@ class MailTemplate
 
 						foreach ($value as $subvalue)
 						{
-							if (is_array($subvalue))
+							if (\is_array($subvalue))
 							{
 								$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
 							}
@@ -465,4 +463,3 @@ class MailTemplate
 		return $db->execute();
 	}
 }
-

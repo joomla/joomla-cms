@@ -13,8 +13,6 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Filesystem\Path;
 
 /**
  * Utility class for icons.
@@ -62,7 +60,7 @@ abstract class Icons
 	{
 		if (isset($button['access']))
 		{
-			if (is_bool($button['access']))
+			if (\is_bool($button['access']))
 			{
 				if ($button['access'] == false)
 				{
@@ -75,7 +73,7 @@ abstract class Icons
 				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
-				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2)
+				for ($i = 0, $n = \count($button['access']); $i < $n; $i += 2)
 				{
 					if (!$user->authorise($button['access'][$i], $button['access'][$i + 1]))
 					{

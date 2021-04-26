@@ -23,13 +23,13 @@ abstract class AbstractAES
 	 * @param   string $key  The key or IV to treat
 	 * @param   int    $size The block size of the currently used algorithm
 	 *
-	 * @return  null|string  Null if $key is null, treated string of $size byte length otherwise
+	 * @return  void|string  Void if $key is null, treated string of $size byte length otherwise
 	 */
 	public function resizeKey($key, $size)
 	{
 		if (empty($key))
 		{
-			return null;
+			return;
 		}
 
 		$keyLength = \strlen($key);

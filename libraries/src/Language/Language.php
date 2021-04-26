@@ -389,7 +389,7 @@ class Language
 	public function transliterate($string)
 	{
 		// Override custom and core transliterate method with native php function if enabled
-		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		if (\function_exists('transliterator_transliterate') && \function_exists('iconv'))
 		{
 			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
 		}

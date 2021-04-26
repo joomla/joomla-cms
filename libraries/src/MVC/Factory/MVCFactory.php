@@ -71,7 +71,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$controller = new $className($config, $this, $app, $input);
@@ -115,7 +115,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$model = new $className($config, $this);
@@ -161,7 +161,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$view = new $className($config);
@@ -206,7 +206,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		if (\array_key_exists('dbo', $config))
@@ -242,7 +242,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!class_exists($className))
 		{
-			return null;
+			return;
 		}
 
 		return $className;
