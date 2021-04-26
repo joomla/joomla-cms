@@ -18,3 +18,20 @@ Pull Request for Issue # .
 
 ### Documentation Changes Required
 
+<!--
+
+Two quick commands you can run to ensure code quality before submitting your PRs.
+
+  Joomla 3
+      Unit Tests (Requires PHP 7 maximum) - run command: 
+          ./libraries/vendor/bin/phpunit
+      Code Style Checks - run command: 
+          ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      
+  Joomla 4
+      Unit Tests - run command: 
+          ./libraries/vendor/bin/phpunit
+      Code Style Checks - run command:
+          ./libraries/vendor/bin/phpcs --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+          
+-->
