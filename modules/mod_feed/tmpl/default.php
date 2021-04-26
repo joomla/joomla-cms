@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // Check if feed URL has been set
-if (empty ($rssurl))
+if (empty($rssurl))
 {
 	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
 

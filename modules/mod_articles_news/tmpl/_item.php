@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+
 ?>
 <?php if ($params->get('item_title')) : ?>
 

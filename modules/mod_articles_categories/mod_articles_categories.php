@@ -24,4 +24,3 @@ $list       = ModuleHelper::moduleCache($module, $params, $cacheparams);
 $startLevel = $list ? reset($list)->getParent()->level : null;
 
 require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default'));
-

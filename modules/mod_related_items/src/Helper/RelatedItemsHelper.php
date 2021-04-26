@@ -132,7 +132,7 @@ abstract class RelatedItemsHelper
 						'AND',
 						[
 							$db->quoteName('a.publish_down') . ' IS NULL',
-							$db->quoteName('a.publish_down') . ' >= :nowDate2'
+							$db->quoteName('a.publish_down') . ' >= :nowDate2',
 						],
 						'OR'
 					)

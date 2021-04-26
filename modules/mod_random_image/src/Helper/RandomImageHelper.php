@@ -38,7 +38,7 @@ class RandomImageHelper
 
 		if ($i === 0)
 		{
-			return null;
+			return;
 		}
 
 		$random = mt_rand(0, $i - 1);
