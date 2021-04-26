@@ -20,7 +20,7 @@ Pull Request for Issue # .
 
 <!--
 
-Two quick commands you can run to ensure code quality before submitting your PRs.
+Three quick commands you can run to ensure code quality before submitting your PRs.
 
   Joomla 3
       Unit Tests (Requires PHP 7 maximum) - run command: 
@@ -33,5 +33,7 @@ Two quick commands you can run to ensure code quality before submitting your PRs
           ./libraries/vendor/bin/phpunit
       Code Style Checks - run command:
           ./libraries/vendor/bin/phpcs --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      PHP-CS-Fixer
+          ./libraries/vendor/bin/php-cs-fixer fix /path/to/a/file/or/folder/you/modified
           
 -->
