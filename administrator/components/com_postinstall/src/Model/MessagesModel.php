@@ -190,6 +190,61 @@ class MessagesModel extends BaseDatabaseModel
 	}
 
 	/**
+	 * Returns a count of all messages from the #__postinstall_messages table
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0
+	 */
+	public function getItemsCount()
+	{
+		$published = (int) $this->getState('published', 1);
+
+		// Build a cache ID 'all.1' for the resulting data object.
+		$cacheId = 'all.' . $published;
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select(
+			[
+				$db->quoteName('language_extension'),
+				$db->quoteName('language_client_id'),
+				$db->quoteName('condition_file'),
+				$db->quoteName('condition_method'),
+			]
+		)
+			->from($db->quoteName('#__postinstall_messages'));
+
+		// Force filter only enabled messages
+		$query->where($db->quoteName('enabled') . ' = :published')
+			->bind(':published', $published, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		try
+		{
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app = Factory::getApplication();
+			$app->getLogger()->warning(
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
+
+			return 0;
+		}
+
+		$this->onProcessList($result);
+
+		return count($result);
+	}
+
+	/**
 	 * Returns the name of an extension, as registered in the #__extensions table
 	 *
 	 * @param   integer  $eid  The extension ID
