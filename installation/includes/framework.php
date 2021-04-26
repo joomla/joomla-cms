@@ -40,7 +40,7 @@ if (JDEBUG)
 	$errorHandler->setExceptionHandler(
 		[
 			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
-			'renderException'
+			'renderException',
 		]
 	);
 }

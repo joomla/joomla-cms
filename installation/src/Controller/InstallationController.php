@@ -145,13 +145,13 @@ class InstallationController extends JSONController
 			'populate2' => 'supports',
 			'populate3' => 'extensions',
 			'custom1' => 'localise',
-			'custom2' => 'custom'
+			'custom2' => 'custom',
 		];
 
 		$schema = $files[$step];
 		$serverType = $db->getServerType();
 
-		if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql'))
+		if (\in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql'))
 		{
 			$this->sendJsonResponse($r);
 

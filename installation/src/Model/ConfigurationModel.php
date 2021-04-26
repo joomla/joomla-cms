@@ -115,7 +115,7 @@ class ConfigurationModel extends BaseInstallationModel
 			->columns(
 				array(
 					$db->quoteName('extension_id'),
-					$db->quoteName('version_id')
+					$db->quoteName('version_id'),
 				)
 			)
 			->values($eid . ', ' . $db->quote($version));
@@ -169,7 +169,7 @@ class ConfigurationModel extends BaseInstallationModel
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$languages = Factory::getApplication()->getLocaliseAdmin($db);
 
-		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
+		if (\in_array($options->language, $languages['admin']) || \in_array($options->language, $languages['site']))
 		{
 			// Build the language parameters for the language manager.
 			$params = array();
@@ -178,12 +178,12 @@ class ConfigurationModel extends BaseInstallationModel
 			$params['administrator'] = 'en-GB';
 			$params['site']          = 'en-GB';
 
-			if (in_array($options->language, $languages['admin']))
+			if (\in_array($options->language, $languages['admin']))
 			{
 				$params['administrator'] = $options->language;
 			}
 
-			if (in_array($options->language, $languages['site']))
+			if (\in_array($options->language, $languages['site']))
 			{
 				$params['site'] = $options->language;
 			}
@@ -507,7 +507,7 @@ class ConfigurationModel extends BaseInstallationModel
 		 */
 		$useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(\dirname($path) . '/')))
 		{
 			return false;
 
@@ -605,7 +605,7 @@ class ConfigurationModel extends BaseInstallationModel
 				$db->quoteName('registerDate'),
 				$db->quoteName('lastvisitDate'),
 				$db->quoteName('activation'),
-				$db->quoteName('params')
+				$db->quoteName('params'),
 			);
 			$query->clear()
 				->insert('#__users', true)

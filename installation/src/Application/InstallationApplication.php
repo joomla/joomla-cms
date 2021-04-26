@@ -116,7 +116,7 @@ final class InstallationApplication extends CMSApplication
 
 		$errorfiles = $lang->getErrorFiles();
 
-		if (count($errorfiles))
+		if (\count($errorfiles))
 		{
 			$output .= '<ul>';
 
@@ -136,7 +136,7 @@ final class InstallationApplication extends CMSApplication
 		$output .= '<pre>';
 		$orphans = $lang->getOrphans();
 
-		if (count($orphans))
+		if (\count($orphans))
 		{
 			ksort($orphans, SORT_STRING);
 
@@ -148,7 +148,7 @@ final class InstallationApplication extends CMSApplication
 
 				$parts = explode(' ', $guess);
 
-				if (count($parts) > 1)
+				if (\count($parts) > 1)
 				{
 					array_shift($parts);
 					$guess = implode(' ', $parts);
@@ -550,7 +550,7 @@ final class InstallationApplication extends CMSApplication
 				'file'             => $file . '.php',
 				'directory'        => JPATH_THEMES,
 				'params'           => '{}',
-				"templateInherits" => ''
+				"templateInherits" => '',
 			];
 		}
 
@@ -585,12 +585,12 @@ final class InstallationApplication extends CMSApplication
 	 * @param   string|null  $name     The name of the application/client.
 	 * @param   array        $options  An optional associative array of configuration settings.
 	 *
-	 * @return  null
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
 	public function getMenu($name = null, $options = array())
 	{
-		return null;
+		
 	}
 }

@@ -347,7 +347,7 @@ class LanguagesModel extends BaseInstallationModel
 			$row  = new \stdClass;
 			$row->language = $lang;
 
-			if (!is_array($info))
+			if (!\is_array($info))
 			{
 				continue;
 			}

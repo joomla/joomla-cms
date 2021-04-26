@@ -28,7 +28,6 @@ $this->getWebAssetManager()
 	->useScript('messages')
 	->useScript('webcomponent.core-loader');
 
-
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
 
