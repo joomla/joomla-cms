@@ -16,6 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_USERS_NOTES',
 	'formURL'    => 'index.php?option=com_users&view=notes',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
+	'icon'       => 'icon-users user',
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users'))
