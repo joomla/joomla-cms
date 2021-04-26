@@ -259,7 +259,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					'hits' => 1,
 					'published' => 0,
 					'created_date' => $nowDate,
-					'modified_date' => $nowDate
+					'modified_date' => $nowDate,
 				);
 
 				try
