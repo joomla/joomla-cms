@@ -25,8 +25,8 @@ if ($hideLinks)
 			href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
 			<div class="d-flex align-items-end mx-auto">
 				<span class="icon-bell" aria-hidden="true"></span>
-				<?php if (count($messages) > 0) : ?>
-					<span class="badge bg-danger"><?php echo count($messages); ?></span>
+				<?php if ($messagesCount > 0) : ?>
+					<span class="badge bg-danger"><?php echo $messagesCount; ?></span>
 				<?php endif; ?>
 			</div>
 			<div class="tiny">
