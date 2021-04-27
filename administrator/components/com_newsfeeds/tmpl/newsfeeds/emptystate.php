@@ -24,4 +24,4 @@ if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com
 	$displayData['createURL'] = 'index.php?option=com_newsfeeds&task=newsfeed.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

@@ -24,4 +24,4 @@ if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_user
 	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

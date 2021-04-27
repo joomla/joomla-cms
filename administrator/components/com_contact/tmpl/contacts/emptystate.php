@@ -26,4 +26,4 @@ if ($user->authorise('core.create', 'com_contact') || count($user->getAuthorised
 	$displayData['createURL'] = 'index.php?option=com_contact&task=contact.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

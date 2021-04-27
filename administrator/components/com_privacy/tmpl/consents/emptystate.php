@@ -18,4 +18,4 @@ $displayData = [
 	'icon'       => 'icon-lock',
 ];
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);
