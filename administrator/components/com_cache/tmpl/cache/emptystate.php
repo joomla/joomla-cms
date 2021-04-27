@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-$displayData = array(
+$displayData = [
 	'textPrefix' => 'COM_CACHE',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Cache',
 	'icon'       => 'icon-bolt clear',
-);
+];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
