@@ -212,8 +212,8 @@
 
 .file-background, .folder-background {
   padding-bottom: 100%;
-  background-color: hsl(var(--hue),20%,97%);
-  border: 1px solid hsl(var(--hue),35%,95%);
+  background-color: hsl(var(--hue), 20%, 97%);
+  border: 1px solid hsl(var(--hue), 35%, 95%);
   border-radius: $grid-item-border-radius;
 }
 
@@ -226,7 +226,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: hsl(var(--hue),20%,60%);
+  color: hsl(var(--hue), 20%, 60%);
 }
 
 .media-dragoutline {
