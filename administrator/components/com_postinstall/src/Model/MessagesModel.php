@@ -241,7 +241,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$this->onProcessList($result);
 
-		return count($result);
+		return \count($result);
 	}
 
 	/**
