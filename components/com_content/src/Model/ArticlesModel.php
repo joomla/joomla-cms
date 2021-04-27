@@ -582,7 +582,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Process the filter for list views with user-entered filters
-		if (\is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
+		if (\is_object($params) && $params->get('filter_field') !== 'hide' && $filter = $this->getState('list.filter'))
 		{
 			// Clean filter variable
 			$filter      = StringHelper::strtolower($filter);
