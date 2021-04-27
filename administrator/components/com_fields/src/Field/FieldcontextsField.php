@@ -57,9 +57,9 @@ class FieldcontextsField extends ListField
 
 		if ($component instanceof FieldsServiceInterface)
 		{
-			return $component->getContexts();
+			$contexts = $component->getContexts();
 		}
 
-		return [];
+		return count($contexts) > 1 ? $contexts : [];
 	}
 }
