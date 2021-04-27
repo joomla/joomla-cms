@@ -8,7 +8,7 @@ UPDATE `#__modules`
        'mod_logged',
        'mod_popular',
        'mod_privacy_dashboard',
-       'mod_privacy_status'
+       'mod_privacy_status',
        'mod_quickicon',
        'mod_sampledata',
        'mod_submenu'
@@ -38,7 +38,7 @@ UPDATE `#__modules`
        'mod_logged',
        'mod_popular',
        'mod_privacy_dashboard',
-       'mod_privacy_status'
+       'mod_privacy_status',
        'mod_quickicon',
        'mod_sampledata',
        'mod_submenu'
