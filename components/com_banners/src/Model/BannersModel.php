@@ -171,7 +171,7 @@ class BannersModel extends ListModel
 					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 		}
-		elseif (\is_array($categoryId) && (\count($categoryId) > 0))
+		elseif (\is_array($categoryId) && \count($categoryId) > 0)
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 
