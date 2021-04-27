@@ -151,11 +151,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$categoryId   = $this->state->get('filter.category_id');
-		$component    = $this->state->get('filter.component');
-		$section      = $this->state->get('filter.section');
-		$canDo        = ContentHelper::getActions($component, 'category', $categoryId);
-		$user         = Factory::getApplication()->getIdentity();
+		$categoryId = $this->state->get('filter.category_id');
+		$component  = $this->state->get('filter.component');
+		$section    = $this->state->get('filter.section');
+		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
+		$user       = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
