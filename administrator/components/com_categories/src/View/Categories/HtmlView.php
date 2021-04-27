@@ -72,6 +72,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $isEmptyState = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -87,7 +95,8 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!count($this->items) && $this->get('IsEmptyState'))
+		// Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
 		}
@@ -142,11 +151,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$categoryId = $this->state->get('filter.category_id');
-		$component  = $this->state->get('filter.component');
-		$section    = $this->state->get('filter.section');
-		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-		$user       = Factory::getUser();
+		$categoryId   = $this->state->get('filter.category_id');
+		$component    = $this->state->get('filter.component');
+		$section      = $this->state->get('filter.section');
+		$canDo        = ContentHelper::getActions($component, 'category', $categoryId);
+		$user         = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -200,7 +209,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -220,7 +229,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('categories.archive')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($user->authorise('core.admin'))
 			{
 				$childBar->checkin('categories.checkin')->listCheck(true);
 			}
@@ -242,14 +251,14 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($canDo->get('core.admin'))
+		if (!$this->isEmptyState && $canDo->get('core.admin'))
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')
 				->task('categories.rebuild');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
 			$toolbar->delete('categories.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
