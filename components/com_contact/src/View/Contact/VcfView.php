@@ -78,7 +78,7 @@ class VcfView extends AbstractView
 		{
 			$namearray = explode(' ', $item->name);
 
-			$middlename = (\count($namearray) > 2) ? $namearray[1] : '';
+			$middlename = \count($namearray) > 2 ? $namearray[1] : '';
 			$firstname = array_shift($namearray);
 			$lastname = \count($namearray) ? end($namearray) : '';
 			$card_name = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
