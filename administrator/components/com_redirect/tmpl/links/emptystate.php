@@ -30,14 +30,15 @@ if ($user->authorise('core.create', 'com_redirect'))
 
 if ($user->authorise('core.create', 'com_redirect')
 	&& $user->authorise('core.edit', 'com_redirect')
-	&& $user->authorise('core.edit.state', 'com_redirect')) {
+	&& $user->authorise('core.edit.state', 'com_redirect'))
+{
 	$displayData['formAppend'] = HTMLHelper::_(
 		'bootstrap.renderModal',
 		'collapseModal',
-		array(
+		[
 			'title' => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
 			'footer' => $this->loadTemplate('batch_footer'),
-		),
+		],
 		$this->loadTemplate('batch_body')
 	);
 }
