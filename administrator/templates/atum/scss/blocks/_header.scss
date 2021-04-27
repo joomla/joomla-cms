@@ -138,8 +138,12 @@
     display: flex;
   }
 
-  &:not(.no-link):hover {
+  &:not(.no-link):not(.joomlaversion):hover {
     background-color: var(--atum-bg-dark-50);
+  }
+
+  &.joomlaversion {
+    background-color: var(--atum-bg-dark-70);
   }
 }
 
