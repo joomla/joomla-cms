@@ -220,7 +220,7 @@ class Router extends RouterView
 					}
 					else
 					{
-						if ($child->id == (int) $segment)
+						if ($child->id . '-' . $child->alias == $segment)
 						{
 							return $child->id;
 						}
@@ -273,7 +273,22 @@ class Router extends RouterView
 			return (int) $this->db->loadResult();
 		}
 
-		return (int) $segment;
+		[$id, $alias] = explode('-', $segment, 2);
+
+		$dbquery = $this->db->getQuery(true);
+		$dbquery->select($this->db->quoteName('id'))
+			->from($this->db->quoteName('#__contact_details'))
+			->where(
+				[
+					$this->db->quoteName('id') . ' = :id',
+					$this->db->quoteName('alias') . ' = :alias',
+				]
+			)
+			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':alias', $alias);
+		$this->db->setQuery($dbquery);
+
+		return (int) $this->db->loadResult();
 	}
 
 	/**
