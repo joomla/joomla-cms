@@ -13,15 +13,16 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = array(
-		'textPrefix' => 'COM_BANNERS',
-		'formURL'    => 'index.php?option=com_banners&view=banners',
-		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
+		'textPrefix' => 'COM_BANNERS_CLIENT',
+		'formURL'    => 'index.php?option=com_banners&view=clients',
+		'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Clients',
+		'icon'       => 'icon-bookmark banners',
 );
 $user        = Factory::getUser();
 
 if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 {
-	$displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
+	$displayData['createURL'] = 'index.php?option=com_banners&task=client.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);
