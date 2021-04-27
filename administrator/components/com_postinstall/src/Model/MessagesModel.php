@@ -194,7 +194,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItemsCount()
 	{
