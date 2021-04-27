@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 		// Check if access is not public
 		$groups = $user->getAuthorisedViewLevels();
 
-		if ((!\in_array($item->access, $groups)) || (!\in_array($item->category_access, $groups)))
+		if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups))
 		{
 			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
