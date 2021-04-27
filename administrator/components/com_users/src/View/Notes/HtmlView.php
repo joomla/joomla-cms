@@ -77,6 +77,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Override the display method for the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -95,13 +103,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!count($this->items) && $this->get('IsEmptyState'))
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -137,7 +145,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('note.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
