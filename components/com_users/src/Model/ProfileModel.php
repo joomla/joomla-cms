@@ -128,7 +128,7 @@ class ProfileModel extends FormModel
 
 		if ($username)
 		{
-			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || \strlen(utf8_decode($username)) < 2
+			$isUsernameCompliant = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || \strlen(utf8_decode($username)) < 2
 				|| trim($username) !== $username);
 		}
 
