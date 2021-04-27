@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!\count($this->data))
 		{
-			$this->setLayout('blankstate');
+			$this->setLayout('emptystate');
 		}
 
 		$this->addToolbar();
