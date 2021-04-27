@@ -490,7 +490,7 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * Is this a blank state, I.e: no items of this type regardless of the searched for states.
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
 	 *
 	 * @return boolean
 	 *
