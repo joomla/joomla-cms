@@ -498,6 +498,8 @@ class CategoriesModel extends ListModel
 	 */
 	public function getisEmptyState()
 	{
+		$extension = $this->getState('filter.extension');
+
 		$sql = $this->query
 			->clear('select')
 			->clear('values')
@@ -507,7 +509,8 @@ class CategoriesModel extends ListModel
 			->clear('where')
 			->select('count(*)');
 
-		$sql->where($this->_db->quoteName('extension') . ' = ' . $this->_db->quote($this->getState('filter.extension')));
+		$sql->where($this->_db->quoteName('extension') . ' = :extension')
+			->bind(':extension', $extension);
 
 		$this->_db->setQuery($sql);
 
