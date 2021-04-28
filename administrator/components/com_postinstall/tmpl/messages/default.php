@@ -33,7 +33,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 			<p class="lead mb-4">
 				<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?>
 			</p>
-			<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?></a>
+			<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-primary btn-lg px-4"><?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?></a>
 		</div>
 	</div>
 <?php else : ?>

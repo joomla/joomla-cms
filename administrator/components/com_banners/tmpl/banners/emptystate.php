@@ -16,6 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_BANNERS',
 	'formURL'    => 'index.php?option=com_banners&view=banners',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
+	'icon'       => 'icon-bookmark banners',
 ];
 
 if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com_banners', 'core.create')) > 0)
@@ -23,4 +24,4 @@ if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com
 	$displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

@@ -16,6 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_USERS_NOTES',
 	'formURL'    => 'index.php?option=com_users&view=notes',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
+	'icon'       => 'icon-users user',
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users'))
@@ -23,4 +24,4 @@ if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_user
 	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
-echo LayoutHelper::render('joomla.content.blankstate', $displayData);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);

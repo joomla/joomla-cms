@@ -88,9 +88,9 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
-		if (!count($this->items) && $this->get('IsBlankSlate'))
+		if (!count($this->items) && $this->get('IsEmptyState'))
 		{
-			$this->setLayout('blankstate');
+			$this->setLayout('emptystate');
 		}
 
 		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))

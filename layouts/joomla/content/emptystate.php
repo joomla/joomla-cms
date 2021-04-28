@@ -23,21 +23,22 @@ if (!$textPrefix)
 $formURL    = $displayData['formURL'] ?? '';
 $createURL  = $displayData['createURL'] ?? '';
 $helpURL    = $displayData['helpURL'] ?? '';
+$icon       = $displayData['icon'] ?? 'icon-copy article';
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
 
 	<div class="px-4 py-5 my-5 text-center">
-		<span class="fa-8x icon-copy mb-4 article" aria-hidden="true"></span>
-		<h1 class="display-5 fw-bold"><?php echo Text::_($textPrefix . '_BLANKSTATE_TITLE'); ?></h1>
+		<span class="fa-8x mb-4 <?php echo $icon; ?>" aria-hidden="true"></span>
+		<h1 class="display-5 fw-bold"><?php echo Text::_($textPrefix . '_EMPTYSTATE_TITLE'); ?></h1>
 		<div class="col-lg-6 mx-auto">
 			<p class="lead mb-4">
-				<?php echo Text::_($textPrefix . '_BLANKSTATE_CONTENT'); ?>
+				<?php echo Text::_($textPrefix . '_EMPTYSTATE_CONTENT'); ?>
 			</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<?php if ($createURL) : ?>
+				<?php if ($createURL && Factory::getApplication()->input->get('tmpl') !== 'component') : ?>
 					<a href="<?php echo Route::_($createURL); ?>"
-					   class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_($textPrefix . '_BLANKSTATE_BUTTON_ADD'); ?></a>
+					   class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD'); ?></a>
 				<?php endif; ?>
 				<?php if ($helpURL) : ?>
 					<a href="<?php echo $helpURL; ?>" target="_blank"

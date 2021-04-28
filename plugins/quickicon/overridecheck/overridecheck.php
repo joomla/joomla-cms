@@ -69,7 +69,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		$options  = array(
 			'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
 			'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
-			'pluginId' => $this->getOverridePluginId()
+			'pluginId' => $this->getOverridePluginId(),
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-override-check', $options);
@@ -89,8 +89,8 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
 				'id'    => 'plg_quickicon_overridecheck',
-				'group' => 'MOD_QUICKICON_MAINTENANCE'
-			)
+				'group' => 'MOD_QUICKICON_MAINTENANCE',
+			),
 		);
 	}
 
