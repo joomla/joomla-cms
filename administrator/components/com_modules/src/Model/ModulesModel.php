@@ -456,4 +456,33 @@ class ModulesModel extends ListModel
 
 		return $query;
 	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getisEmptyState()
+	{
+		$clientId = $this->getState('client_id');
+
+		$sql = $this->query
+			->clear('select')
+			->clear('values')
+			->clear('bounded')
+			->clear('limit')
+			->clear('order')
+			->clear('where')
+			->clear('where')
+			->select('count(*)');
+
+		$sql->where($this->_db->quoteName('a.client_id') . ' = :client_id')
+			->bind(':client_id', $clientId);
+
+		$this->_db->setQuery($sql);
+
+		return !($this->_db->loadResult() > 0);
+	}
 }
