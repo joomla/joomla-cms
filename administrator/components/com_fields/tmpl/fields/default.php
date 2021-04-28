@@ -54,7 +54,7 @@ $searchToolsOptions = [];
 // Only show field contexts filter if there are more than one option
 if (count($this->filterForm->getField('context')->options) > 1)
 {
-    $searchToolsOptions['selectorFieldName'] = 'context';
+	$searchToolsOptions['selectorFieldName'] = 'context';
 }
 ?>
 
