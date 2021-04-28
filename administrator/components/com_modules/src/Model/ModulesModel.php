@@ -466,7 +466,7 @@ class ModulesModel extends ListModel
 	 */
 	public function getisEmptyState()
 	{
-		$clientId = $this->getState('client_id');
+		$clientId = (int) $this->getState('client_id');
 
 		$sql = $this->query
 			->clear('select')
@@ -479,7 +479,7 @@ class ModulesModel extends ListModel
 			->select('count(*)');
 
 		$sql->where($this->_db->quoteName('a.client_id') . ' = :client_id')
-			->bind(':client_id', $clientId);
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 
 		$this->_db->setQuery($sql);
 
