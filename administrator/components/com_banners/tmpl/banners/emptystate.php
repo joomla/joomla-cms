@@ -19,7 +19,9 @@ $displayData = [
 	'icon'       => 'icon-bookmark banners',
 ];
 
-if (count(Factory::getApplication()->getIdentity()->getAuthorisedCategories('com_banners', 'core.create')) > 0)
+$user = Factory::getApplication()->getIdentity();
+
+if ($user->authorise('core.create', 'com_banners') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 {
 	$displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
 }
