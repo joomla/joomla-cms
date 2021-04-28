@@ -495,7 +495,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable the user needs to fix this..
+		 * is not writable the user needs to fix this.
 		 */
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
