@@ -141,7 +141,10 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
-		$toolbar->addNew('banner.add');
+		if ($canDo->get('core.create'))
+		{
+			$toolbar->addNew('banner.add');
+		}
 
 		if ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))
 		{
