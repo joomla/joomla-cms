@@ -12,6 +12,12 @@
   position: relative;
 }
 
+.container-topbar {
+  color: $white;
+  a {
+    color: currentColor;
+  }
+}
 .container-header header .site {
   background-color: $gray-100;
 
