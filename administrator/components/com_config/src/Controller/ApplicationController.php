@@ -82,9 +82,6 @@ class ApplicationController extends BaseController
 
 		$this->app->setUserState('com_config.config.global.data', null);
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
-
 		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 

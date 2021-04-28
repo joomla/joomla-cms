@@ -50,7 +50,7 @@ class ApplicationModel extends FormModel
 	 * @var    array
 	 * @since  3.9.23
 	 */
-	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+	private $protectedConfigurationFields = array('password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
 
 	/**
 	 * Method to get a form object.
@@ -861,14 +861,6 @@ class ApplicationModel extends FormModel
 		$app->set('cors_allow_headers', $data['cors_allow_headers']);
 		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
-		// Overwrite the old FTP credentials with the new ones.
-		$app->set('ftp_enable', $data['ftp_enable']);
-		$app->set('ftp_host', $data['ftp_host']);
-		$app->set('ftp_port', $data['ftp_port']);
-		$app->set('ftp_user', $data['ftp_user']);
-		$app->set('ftp_pass', $data['ftp_pass']);
-		$app->set('ftp_root', $data['ftp_root']);
-
 		// Clear cache of com_config component.
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
@@ -944,13 +936,10 @@ class ApplicationModel extends FormModel
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
-		// Get the new FTP credentials.
-		$ftp = ClientHelper::getCredentials('ftp', true);
-
 		$app = Factory::getApplication();
 
-		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
+		// Attempt to make the file writeable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -969,8 +958,8 @@ class ApplicationModel extends FormModel
 			\opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if NOT using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
+		// Attempt to make the file unwriteable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}

@@ -6371,7 +6371,6 @@ class JoomlaInstallerScript
 
 				if ($dryRun === false)
 				{
-					// TODO There is an issue while deleting folders using the ftp mode
 					if (Folder::delete(JPATH_ROOT . $folder))
 					{
 						$status['folders_deleted'][] = $folder;

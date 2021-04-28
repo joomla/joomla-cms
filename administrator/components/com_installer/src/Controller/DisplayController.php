@@ -58,9 +58,6 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
-
 			// Get the model for the view.
 			$model = $this->getModel($vName);
 

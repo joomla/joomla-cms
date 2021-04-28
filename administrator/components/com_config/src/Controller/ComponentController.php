@@ -62,9 +62,6 @@ class ComponentController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
-
 		$data    = $this->input->get('jform', [], 'ARRAY');
 		$id      = $this->input->get('id', null, 'INT');
 		$option  = $this->input->get('component');

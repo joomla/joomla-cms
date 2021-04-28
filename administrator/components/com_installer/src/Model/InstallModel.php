@@ -80,8 +80,6 @@ class InstallModel extends BaseDatabaseModel
 	{
 		$this->setState('action', 'install');
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 		$app = Factory::getApplication();
 
 		// Load installer plugins for assistance if required:

@@ -36,11 +36,6 @@ class InstalledModel extends ListModel
 	protected $user = null;
 
 	/**
-	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exception
-	 */
-	protected $ftp = null;
-
-	/**
 	 * @var string option name
 	 */
 	protected $option = null;
@@ -153,23 +148,6 @@ class InstalledModel extends ListModel
 	public function getClient()
 	{
 		return ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-	}
-
-	/**
-	 * Method to get the ftp credentials.
-	 *
-	 * @return  object
-	 *
-	 * @since   1.6
-	 */
-	public function getFtp()
-	{
-		if (is_null($this->ftp))
-		{
-			$this->ftp = ClientHelper::setCredentialsFromRequest('ftp');
-		}
-
-		return $this->ftp;
 	}
 
 	/**

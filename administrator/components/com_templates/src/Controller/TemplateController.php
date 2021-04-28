@@ -183,9 +183,6 @@ class TemplateController extends BaseController
 				return false;
 			}
 
-			// Set FTP credentials, if given
-			ClientHelper::setCredentialsFromRequest('ftp');
-
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
 			{
