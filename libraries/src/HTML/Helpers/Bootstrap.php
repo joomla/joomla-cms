@@ -809,25 +809,24 @@ HTMLSTR;
 	 */
 	public static function startTabSet($selector = 'myTab', $params = []) :string
 	{
-		$sig = md5(serialize([$selector, $params]));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Setup options object
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
-
-			// Initialise with the Joomla specifics
-			$opt['isJoomla'] = true;
-
-			// Include the Bootstrap Tab Component
-			HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^[\.#]/', '', $selector), $opt);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
-
-			return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
+			return '';
 		}
+
+		// Setup options object
+		$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+
+		// Initialise with the Joomla specifics
+		$opt['isJoomla'] = true;
+
+		// Include the Bootstrap Tab Component
+		HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^[\.#]/', '', $selector), $opt);
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
+
+		return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
 	}
 
 	/**
