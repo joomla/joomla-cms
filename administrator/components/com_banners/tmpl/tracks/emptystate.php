@@ -13,7 +13,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
 	'textPrefix' => 'COM_BANNERS_TRACKS',
-	'formURL'    => 'index.php?option=com_banners&view=tracks',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Tracks',
 	'icon'       => 'icon-bookmark banners',
 ];
