@@ -22,7 +22,7 @@ Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 $app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
-		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
+		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif',
 	]
 );
 ?>
@@ -54,7 +54,7 @@ $app->getDocument()->addScriptOptions(
 			</li>
 		<?php endforeach; ?>
 	</ul>
-	<a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end me-3 mb-3">
+	<a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end mt-1 me-3 mb-3">
 		<span class="icon-tasks" aria-hidden="true"></span> <?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?>
 	</a>
 <?php endif; ?>
