@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
@@ -18,6 +19,7 @@ $displayData = [
 	'formURL'    => 'index.php?option=com_installer&task=discover.refresh',
 	'helpURL'    => 'https://docs.joomla.org/Help4.x:Extensions:_Discover',
 	'icon'       => 'icon-puzzle-piece install',
+	'content'    => Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
 ];
 
 $user = Factory::getApplication()->getIdentity();
