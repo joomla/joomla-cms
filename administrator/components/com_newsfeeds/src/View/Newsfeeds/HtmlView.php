@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
-		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			$toolbar->addNew('newsfeed.add');
 		}
