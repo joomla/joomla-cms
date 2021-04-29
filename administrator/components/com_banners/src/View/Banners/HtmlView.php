@@ -101,6 +101,11 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
+		if (!count($this->items) && $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

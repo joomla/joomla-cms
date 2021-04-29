@@ -47,7 +47,7 @@ class WebauthnField extends FormField
 	{
 		$userId = $this->form->getData()->get('id', null);
 
-		if (is_null($userId))
+		if (\is_null($userId))
 		{
 			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}

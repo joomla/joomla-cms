@@ -69,7 +69,7 @@ class PlgButtonImage extends CMSPlugin
 				->useStyle('webcomponent.image-select');
 
 			$doc->addScriptOptions('xtdImageModal', [
-				$name . '_ImageModal'
+				$name . '_ImageModal',
 			]);
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
@@ -88,20 +88,21 @@ class PlgButtonImage extends CMSPlugin
 			$button->modal   = true;
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
-			$button->name    = 'pictures';
+			$button->name    = $this->_type . '_' . $this->_name;
+			$button->icon    = 'pictures';
 			$button->iconSVG = '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
 								. ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
 								. ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
 								. 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
 								. '.686-16.971 0L96 304v48z"></path></svg>';
 			$button->options = [
-				'height'     => '400px',
-				'width'      => '800px',
-				'bodyHeight' => '70',
-				'modalWidth' => '80',
-				'tinyPath'   => $link,
+				'height'          => '400px',
+				'width'           => '800px',
+				'bodyHeight'      => '70',
+				'modalWidth'      => '80',
+				'tinyPath'        => $link,
 				'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
-				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT')
+				'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
 			];
 
 			return $button;

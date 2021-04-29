@@ -259,7 +259,7 @@ trait AjaxHandlerLogin
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
-		if (!is_object($publicKeyCredentialCreationOptions)
+		if (!\is_object($publicKeyCredentialCreationOptions)
 			|| !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
 		{
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

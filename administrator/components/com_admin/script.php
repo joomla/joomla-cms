@@ -296,6 +296,12 @@ class JoomlaInstallerScript
 				 */
 				$mapping = [];
 
+				/**
+				 * Store name of media fields which we need to convert data from old format (string) to new
+				 * format (json) during the migration
+				 */
+				$mediaFields = [];
+
 				// If this repeatable fields actually had child-fields (normally this is always the case)
 				if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
 				{
@@ -318,28 +324,34 @@ class JoomlaInstallerScript
 							 * for each of the sub fields of the `repeatable` instance.
 							 */
 							$data = [
-								'context'          => $row->context,
-								'group_id'         => $row->group_id,
-								'title'            => $oldField->fieldname,
-								'name'             => (
+								'context'             => $row->context,
+								'group_id'            => $row->group_id,
+								'title'               => $oldField->fieldname,
+								'name'                => (
 									$fieldname_prefix
 									. $oldField->fieldname
 									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
 								),
-								'label'            => $oldField->fieldname,
-								'default_value'    => $row->default_value,
-								'type'             => $oldField->fieldtype,
-								'description'      => $row->description,
-								'state'            => '1',
-								'params'           => $row->params,
-								'language'         => '*',
-								'assigned_cat_ids' => [-1],
+								'label'               => $oldField->fieldname,
+								'default_value'       => $row->default_value,
+								'type'                => $oldField->fieldtype,
+								'description'         => $row->description,
+								'state'               => '1',
+								'params'              => $row->params,
+								'language'            => '*',
+								'assigned_cat_ids'    => [-1],
+								'only_use_in_subform' => 1,
 							];
 
 							// `number` is not a valid custom field type, so use `text` instead.
 							if ($data['type'] == 'number')
 							{
 								$data['type'] = 'text';
+							}
+
+							if ($data['type'] == 'media')
+							{
+								$mediaFields[] = $oldField->fieldname;
 							}
 
 							// Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
@@ -402,7 +414,7 @@ class JoomlaInstallerScript
 				$db->setQuery(
 					$db->getQuery(true)
 						->update('#__fields')
-						->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
+						->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
 						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
 						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
 				)->execute();
@@ -440,13 +452,21 @@ class JoomlaInstallerScript
 						continue;
 					}
 
+					$rowIndex = 0;
+
 					foreach ($fieldValue as $rowKey => $rowValue)
 					{
-						$rowKey                 = str_replace('repeatable', 'row', $rowKey);
+						$rowKey                 = 'row' . ($rowIndex++);
 						$newFieldValue[$rowKey] = [];
 
 						foreach ($rowValue as $subFieldName => $subFieldValue)
 						{
+							// This is a media field, so we need to convert data to new format required in Joomla! 4
+							if (in_array($subFieldName, $mediaFields))
+							{
+								$subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
+							}
+
 							if (isset($mapping[$subFieldName]))
 							{
 								$newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
