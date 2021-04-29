@@ -27,7 +27,7 @@ Header always set X-Content-Type-Options "nosniff"
 ##
 # Joomla considers the feature of Federated Learning of Cohorts (FLoC) to be against the
 # interest of users and site owners. We encourage you to block this feature by
-# uncomment the below directive. Read more about this in the Post-Installation message
+# uncommenting the below directive. Read more about this in the Post-Installation message
 # in the backend.
 ##
 # Header always set Permissions-Policy "interest-cohort=()"
