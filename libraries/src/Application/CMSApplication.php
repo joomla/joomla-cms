@@ -199,11 +199,6 @@ class CMSApplication extends WebApplication
 	 */
 	public function execute()
 	{
-		if ($this->get('block_floc', 1))
-		{
-			$this->setHeader('Permissions-Policy', 'interest-cohort=()');
-		}
-
 		// Perform application routines.
 		$this->doExecute();
 
@@ -212,6 +207,11 @@ class CMSApplication extends WebApplication
 		{
 			// Render the application output.
 			$this->render();
+		}
+
+		if ($this->get('block_floc', 1))
+		{
+			$this->setHeader('Permissions-Policy', 'interest-cohort=()');
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
