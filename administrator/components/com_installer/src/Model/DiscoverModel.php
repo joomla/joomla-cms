@@ -290,7 +290,7 @@ class DiscoverModel extends InstallerModel
 			->clear('where')
 			->select('count(*)');
 
-		$sql->where($this->_db->quoteName('state') . ' = -1')));
+		$sql->where($this->_db->quoteName('state') . ' = -1');
 
 		$this->_db->setQuery($sql);
 
