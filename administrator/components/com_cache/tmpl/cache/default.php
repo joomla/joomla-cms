@@ -68,7 +68,7 @@ $wa->useScript('keepalive')
 						<?php foreach ($this->data as $folder => $item) : ?>
 							<tr>
 								<td>
-									<input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" class="cache-entry">
+									<input class="form-check-input cache-entry" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>">
 								</td>
 								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
