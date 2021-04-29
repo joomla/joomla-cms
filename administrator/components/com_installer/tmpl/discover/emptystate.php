@@ -19,11 +19,8 @@ $displayData = [
 	'formURL'    => 'index.php?option=com_installer&task=discover.refresh',
 	'helpURL'    => 'https://docs.joomla.org/Help4.x:Extensions:_Discover',
 	'icon'       => 'icon-puzzle-piece install',
+	'createURL'  => 'index.php?option=com_installer&task=discover.refresh&' . Session::getFormToken() . '=1',
 	'content'    => Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
 ];
-
-$user = Factory::getApplication()->getIdentity();
-
-$displayData['createURL'] = 'index.php?option=com_installer&task=discover.refresh&' . Session::getFormToken() . '=1';
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
