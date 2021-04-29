@@ -90,8 +90,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// If no item found, dont show the edit screen, redirect with message
+		if (false === $this->item = $this->get('Item'))
+		{
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'warning');
+			$app->redirect('index.php?option=com_users&view=users');
+		}
+
 		$this->form      = $this->get('Form');
-		$this->item      = $this->get('Item');
 		$this->state     = $this->get('State');
 		$this->tfaform   = $this->get('Twofactorform');
 		$this->otpConfig = $this->get('otpConfig');
