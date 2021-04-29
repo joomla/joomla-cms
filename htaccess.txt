@@ -24,7 +24,13 @@
 ## Suppress mime type detection in browsers for unknown types
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
-Header always set Permissions-Policy: interest-cohort=()
+##
+# Joomla considers the feature of Federated Learning of Cohorts (FLoC) to be against the
+# interest of users and site owners. We encourage you to block this feature by
+# uncomment the below directive. Read more about this in the Post-Installation message
+# in the backend.
+##
+# Header always set Permissions-Policy: interest-cohort=()
 </IfModule>
 
 ## Can be commented out if causes errors, see notes above.

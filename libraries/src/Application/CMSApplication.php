@@ -201,7 +201,7 @@ class CMSApplication extends WebApplication
 	{
 		if ($this->get('block_floc', 1))
 		{
-			$this->setHeader('Permissions-Policy', 'interest-cohort=()', true);
+			$this->setHeader('Permissions-Policy', 'interest-cohort=()');
 		}
 
 		// Perform application routines.
