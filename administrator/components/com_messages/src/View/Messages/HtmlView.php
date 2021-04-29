@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
 		ToolbarHelper::divider();
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('messages.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
