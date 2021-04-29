@@ -184,14 +184,14 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('links.trash')->listCheck(true);
 			}
+		}
 
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('links.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('links.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))

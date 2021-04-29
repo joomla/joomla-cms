@@ -170,14 +170,14 @@ class HtmlView extends BaseHtmlView
 					->selector('collapseModal')
 					->listCheck(true);
 			}
+		}
 
-			if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-			{
-				$childBar->delete('newsfeeds.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('newsfeeds.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
