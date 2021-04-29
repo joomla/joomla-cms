@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('languages.publish')->listCheck(true);
 			$childBar->unpublish('languages.unpublish')->listCheck(true);
 
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			if ($this->state->get('filter.published') != -2)
 			{
 				$childBar->trash('languages.trash')->listCheck(true);
 			}
