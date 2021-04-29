@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
 		if (false === $this->item = $this->get('Item'))
 		{
 			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'warning');
+			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
 			$app->redirect('index.php?option=com_users&view=users');
 		}
 
@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Prevent user from modifying own group(s)
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
 		{
@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user      = Factory::getUser();
+		$user      = Factory::getApplication()->getIdentity();
 		$canDo     = ContentHelper::getActions('com_users');
 		$isNew     = ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
