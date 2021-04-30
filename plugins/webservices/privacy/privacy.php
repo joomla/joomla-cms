@@ -46,7 +46,7 @@ class PlgWebservicesPrivacy extends CMSPlugin
 			new Route(['GET'], 'v1/privacy/request', 'requests.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/request/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['GET'], 'v1/privacy/request/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
-			new Route(['POST'], 'v1/privacy/request', 'requests.add', [], $defaults)
+			new Route(['POST'], 'v1/privacy/request', 'requests.add', [], $defaults),
 		];
 
 		$router->addRoutes($routes);
@@ -54,7 +54,7 @@ class PlgWebservicesPrivacy extends CMSPlugin
 		$routes = [
 			new Route(['GET'], 'v1/privacy/consent', 'consents.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/consent/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['DELETE'], 'v1/privacy/consent/:id', 'consents.delete', ['id' => '(\d+)'], $defaults)
+			new Route(['DELETE'], 'v1/privacy/consent/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
 		];
 
 		$router->addRoutes($routes);

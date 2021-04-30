@@ -23,7 +23,7 @@ Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 $app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
-		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
+		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif',
 	]
 );
 ?>

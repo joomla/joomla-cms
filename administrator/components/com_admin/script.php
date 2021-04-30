@@ -324,22 +324,23 @@ class JoomlaInstallerScript
 							 * for each of the sub fields of the `repeatable` instance.
 							 */
 							$data = [
-								'context'          => $row->context,
-								'group_id'         => $row->group_id,
-								'title'            => $oldField->fieldname,
-								'name'             => (
+								'context'             => $row->context,
+								'group_id'            => $row->group_id,
+								'title'               => $oldField->fieldname,
+								'name'                => (
 									$fieldname_prefix
 									. $oldField->fieldname
 									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
 								),
-								'label'            => $oldField->fieldname,
-								'default_value'    => $row->default_value,
-								'type'             => $oldField->fieldtype,
-								'description'      => $row->description,
-								'state'            => '1',
-								'params'           => $row->params,
-								'language'         => '*',
-								'assigned_cat_ids' => [-1],
+								'label'               => $oldField->fieldname,
+								'default_value'       => $row->default_value,
+								'type'                => $oldField->fieldtype,
+								'description'         => $row->description,
+								'state'               => '1',
+								'params'              => $row->params,
+								'language'            => '*',
+								'assigned_cat_ids'    => [-1],
+								'only_use_in_subform' => 1,
 							];
 
 							// `number` is not a valid custom field type, so use `text` instead.

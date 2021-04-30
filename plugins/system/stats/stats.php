@@ -456,7 +456,7 @@ class PlgSystemStats extends CMSPlugin
 			return true;
 		}
 
-		return (abs(time() - $last) > $interval * 3600);
+		return abs(time() - $last) > $interval * 3600;
 	}
 
 	/**
