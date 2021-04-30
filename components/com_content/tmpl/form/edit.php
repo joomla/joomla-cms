@@ -165,7 +165,7 @@ if (!$editoroptions)
 				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
-			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+			<?php if ($this->form->hasField('version_note')) : ?>
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			<?php endif; ?>
 		</div>

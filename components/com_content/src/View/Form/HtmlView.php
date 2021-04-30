@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\View\Form;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -130,12 +131,39 @@ class HtmlView extends BaseHtmlView
 			return false;
 		}
 
-		$this->item->tags = new TagsHelper;
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($user->authorise('core.edit')
+			|| ($user->authorise('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
+		}
+
+		// If the plugin Taggable behaviour is disabled then remove the tags feature.
+		if (!PluginHelper::isEnabled('behaviour', 'taggable'))
+		{
+			$this->form->removeField('tags');
+		}
+		else
+		{
+			$this->item->tags = new TagsHelper;
+
+			if (!empty($this->item->id))
+			{
+				$this->item->tags->getItemTags('com_content.article', $this->item->id);
+			}
+		}
 
 		if (!empty($this->item->id))
 		{
-			$this->item->tags->getItemTags('com_content.article', $this->item->id);
-
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 

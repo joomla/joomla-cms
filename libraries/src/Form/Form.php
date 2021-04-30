@@ -801,6 +801,18 @@ class Form
 	}
 
 	/**
+	 * @param   string  $name  The field name to check for
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function hasField(string $name): bool
+	{
+		return (bool) $this->findField($name);
+	}
+
+	/**
 	 * Method to remove a group from the form definition.
 	 *
 	 * @param   string  $group  The dot-separated form group path for the group to remove.
