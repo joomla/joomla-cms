@@ -159,7 +159,9 @@ class PlgBehaviourVersionable extends CMSPlugin
 	}
 
 	/**
-	 * @param   string $component The component name
+	 * Attempt to detect if this extension supports Versionable by trying to find one Table that implements VersionableTableInterface
+	 *
+	 * @param   string $extension The component name
 	 *
 	 * @return boolean
 	 *
@@ -167,16 +169,16 @@ class PlgBehaviourVersionable extends CMSPlugin
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function isSupported(string $component): bool
+	private function isSupported(string $extension): bool
 	{
 		try
 		{
 			// Paths where we might find table classes
 			$paths = [
-				JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Table/',
-				JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Tables/',
-				JPATH_ADMINISTRATOR . '/components/' . $component . '/Tables/',
-				JPATH_ADMINISTRATOR . '/components/' . $component . '/Table/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/src/Table/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/src/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/Table/',
 			];
 
 			foreach ($paths as $path)
@@ -197,7 +199,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 
 					$name = str_replace('Table.php', '', $file->getFileName());
 
-					$model = Factory::getApplication()->bootComponent($component)
+					$model = Factory::getApplication()->bootComponent($extension)
 						->getMVCFactory()
 						->createModel($name, 'Administrator', ['ignore_request' => true]);
 
