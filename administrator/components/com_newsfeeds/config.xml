@@ -18,26 +18,6 @@
 		/>
 
 		<field
-			name="save_history"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="history_limit"
-			type="number"
-			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			default="5"
-			filter="integer"
-			showon="save_history:1"
-		/>
-
-		<field
 			name="show_feed_image"
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
