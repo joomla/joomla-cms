@@ -64,34 +64,6 @@
 	</fieldset>
 
 	<fieldset
-		name="banners"
-		label="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
-		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC"
-		>
-
-		<field
-			name="save_history"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="history_limit"
-			type="number"
-			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			filter="integer"
-			default="10"
-			showon="save_history:1"
-		/>
-
-	</fieldset>
-
-	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"

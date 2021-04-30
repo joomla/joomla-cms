@@ -136,14 +136,83 @@ class PlgBehaviourVersionable extends CMSPlugin
 	 */
 	public function onContentPrepareForm($event): bool
 	{
-		if (Factory::getApplication()->isClient('administrator'))
+		if (!Factory::getApplication()->isClient('administrator'))
 		{
-			list($form, $data) = $event->getArguments();
+			return true;
+		}
 
-			JForm::addFormPath(__DIR__);
-			$form->loadFile('config', false);
+		list($form, $data) = $event->getArguments();
+
+		if ('com_config.component' !== $form->getName())
+		{
+			return true;
+		}
+
+		$component = Factory::getApplication()->input->getWord('component');
+
+		if ($this->isSupported($component))
+		{
+
+			$form->setField(simplexml_load_file(__DIR__ . '/config.xml'), null, true, 'integration');
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param   string $component The component name
+	 *
+	 * @return boolean
+	 *
+	 * @throws ReflectionException
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function isSupported(string $component): bool
+	{
+		// Paths where we might find table classes
+		$paths = [
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Table/',
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Tables/',
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/Tables/',
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/Table/',
+		];
+
+		foreach ($paths as $path)
+		{
+			if (!file_exists($path))
+			{
+				continue;
+			}
+
+			$files = new DirectoryIterator($path);
+
+			foreach ($files as $file)
+			{
+				if ($file->getFileName() === '.'||$file->getFileName() === '..')
+				{
+					continue;
+				}
+
+				$name = str_replace('Table.php', '', $file->getFileName());
+
+				$model = Factory::getApplication()->bootComponent($component)
+					->getMVCFactory()
+					->createModel($name, 'Administrator', ['ignore_request' => true]);
+
+				if (!$model)
+				{
+					continue;
+				}
+
+				$reflect = new ReflectionClass($model->getTable());
+
+				if ($reflect->implementsInterface(VersionableTableInterface::class))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }
