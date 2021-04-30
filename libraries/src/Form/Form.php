@@ -801,6 +801,8 @@ class Form
 	}
 
 	/**
+	 * Check if this form has a field with a certain name.
+	 *
 	 * @param   string  $name  The field name to check for
 	 *
 	 * @return boolean
