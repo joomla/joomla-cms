@@ -659,6 +659,64 @@ class JTableNestedTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the `_getTreeRepositionValues` method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test_getTreeRepositionValues()
+	{
+		$object = (object) array('id' => 1, 'parent_id' => 0, 'lft' => 2, 'rgt' => 4, 'level' => 1);
+
+		$before = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'before');
+		$this->assertEquals(
+			array('new_parent_id' => 0, 'new_level' => 1, 'position' => 2),
+			(array) $before,
+			'Checks the before case.'
+		);
+
+		$after = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'after');
+		$this->assertEquals(
+			array('new_parent_id' => 0, 'new_level' => 1, 'position' => 5),
+			(array) $after,
+			'Checks the after case.'
+		);
+
+		$firstChild = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'first-child');
+		$this->assertEquals(
+			array('new_parent_id' => 1, 'new_level' => 2, 'position' => 3),
+			(array) $firstChild,
+			'Checks the first-child case.'
+		);
+
+		$lastChild = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'last-child');
+		$this->assertEquals(
+			array('new_parent_id' => 1, 'new_level' => 2, 'position' => 4),
+			(array) $lastChild,
+			'Checks the last-child case.'
+		);
+
+		$default = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object);
+		$this->assertEquals($default, $before, 'Checks the default handling is before.');
+
+		$this->assertFalse(
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', 'foo'),
+			'Checks an invalid data type.'
+		);
+
+		$this->assertFalse(
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', (object) array('rgt' => 1)),
+			'Checks an object with invalid rgt.'
+		);
+
+		$this->assertFalse(
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', (object) array('lft' => 1)),
+			'Checks an object with invalid lft.'
+		);
+	}
+
+	/**
 	 * Tests the `_getTreeRepositionData` method.
 	 *
 	 * @return  void

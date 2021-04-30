@@ -313,7 +313,7 @@ class Nested extends Table
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
 
-		$k = $this->_tbl_key;
+		$k  = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// Get the node by id.
@@ -354,52 +354,11 @@ class Nested extends Table
 			return false;
 		}
 
-		/*
-		 * Move the sub-tree out of the nested sets by negating its left and right values.
-		 */
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft * (-1), rgt = rgt * (-1)')
-			->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		/*
-		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
-		 */
-		// Compress the left values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft - ' . (int) $node->width)
-			->where('lft > ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		// Compress the right values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = rgt - ' . (int) $node->width)
-			->where('rgt > ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
 		// We are moving the tree relative to a reference node.
 		if ($referenceId)
 		{
 			// Get the reference node by primary key.
 			if (!$reference = $this->_getNode($referenceId))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-
-				return false;
-			}
-
-			// Get the reposition data for shifting the tree and re-inserting the node.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position))
 			{
 				// Error message set in getNode method.
 				$this->_unlock();
@@ -424,52 +383,87 @@ class Nested extends Table
 				$this->_logtable(false);
 			}
 
-			// Get the reposition data for re-inserting the node after the found root.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-
-				return false;
-			}
+			$position = 'last-child';
 		}
 
-		/*
-		 * Create space in the nested sets at the new location for the moved sub-tree.
-		 */
+		// Get the reposition data for shifting the tree and re-inserting the node.
+		$repositionData = $this->_getTreeRepositionValues($reference, $position);
 
-		// Shift left values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft + ' . (int) $node->width)
-			->where($repositionData->left_where);
-		$this->_db->setQuery($query);
+		if (!$repositionData)
+		{
+			// Error message set in getNode method.
+			$this->_unlock();
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+			return false;
+		}
 
-		// Shift right values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = rgt + ' . (int) $node->width)
-			->where($repositionData->right_where);
-		$this->_db->setQuery($query);
+		// Get boundaries of nodes that should be moved to new position
+		$from = min($node->lft, $repositionData->position);
+		$to   = max($node->rgt, $repositionData->position - 1);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		// The width of node that is being moved
+		$width = $node->width;
 
-		/*
-		 * Calculate the offset between where the node used to be in the tree and
-		 * where it needs to be in the tree for left ids (also works for right ids).
-		 */
-		$offset = $repositionData->new_lft - $node->lft;
+		// The distance that our node will travel to reach its destination
+		$distance = $to - $from + 1 - $width;
+
+		// If no distance to travel, just return
+		if ($distance === 0)
+		{
+			return true;
+		}
+
+		if ($repositionData->position > $node->lft)
+		{
+			$width *= -1;
+		}
+		else
+		{
+			$distance *= -1;
+		}
+
 		$levelOffset = $repositionData->new_level - $node->level;
 
-		// Move the nodes back into position in the tree using the calculated offsets.
+		if ($width > 0)
+		{
+			$width = '+' . $width;
+		}
+
+		if ($distance > 0)
+		{
+			$distance = '+' . $distance;
+		}
+
+		$conditions = array();
+		$orBetween  = array();
+
+		if ($levelOffset != 0)
+		{
+			if ($levelOffset > 0)
+			{
+				$levelOffset = '+' . $levelOffset;
+			}
+
+			$conditions[] = "level = CASE"
+				. " WHEN lft >= {$node->lft} AND rgt <= {$node->rgt} THEN level {$levelOffset}"
+				. " ELSE level END";
+		}
+
+		foreach (array('lft', 'rgt') as $col)
+		{
+			$conditions[] = "{$col} = CASE"
+				. " WHEN {$col} BETWEEN {$node->lft} AND {$node->rgt} THEN {$col}{$distance}" // Move the node
+				. " WHEN {$col} BETWEEN {$from} AND {$to} THEN {$col}{$width}" // Move other nodes
+				. " ELSE {$col} END";
+
+			$orBetween[] = "{$col} BETWEEN {$from} AND {$to}";
+		}
+
 		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = ' . (int) $offset . ' - rgt')
-			->set('lft = ' . (int) $offset . ' - lft')
-			->set('level = level + ' . (int) $levelOffset)
-			->where('lft < 0');
+			->update($this->_db->quoteName($this->_tbl))
+			->set($conditions)
+			->where('(' . implode(' OR ', $orBetween) . ')');
+
 		$this->_db->setQuery($query);
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
@@ -510,9 +504,9 @@ class Nested extends Table
 
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
-		$this->level = $repositionData->new_level;
-		$this->lft = $repositionData->new_lft;
-		$this->rgt = $repositionData->new_rgt;
+		$this->level     = $repositionData->new_level;
+		$this->lft       = $node->lft + $distance;
+		$this->rgt       = $node->rgt + $distance;
 
 		return true;
 	}
@@ -599,18 +593,22 @@ class Nested extends Table
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
-			// Compress the left values.
-			$query->clear()
-				->update($this->_tbl)
-				->set('lft = lft - ' . (int) $node->width)
-				->where('lft > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$conditions = array();
+			$or         = array();
 
-			// Compress the right values.
+			// Compress values.
+			foreach (array('lft', 'rgt') as $col)
+			{
+				$conditions[] = "{$col} = CASE"
+					. " WHEN {$col} > {$node->rgt} THEN {$col} - {$node->width}"
+					. " ELSE {$col} END";
+				$or[]         = "{$col} > {$node->rgt}";
+			}
+
 			$query->clear()
 				->update($this->_tbl)
-				->set('rgt = rgt - ' . (int) $node->width)
-				->where('rgt > ' . (int) $node->rgt);
+				->set($conditions)
+				->where('(' . implode(' OR ', $or) . ')');
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
 		// Leave the children and move them up a level.
@@ -619,37 +617,42 @@ class Nested extends Table
 			// Delete the node.
 			$query->clear()
 				->delete($this->_tbl)
-				->where('lft = ' . (int) $node->lft);
+				->where("{$k} = {$node->$k}");
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
-			// Shift all node's children up a level.
-			$query->clear()
-				->update($this->_tbl)
-				->set('lft = lft - 1')
-				->set('rgt = rgt - 1')
-				->set('level = level - 1')
-				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$conditions = array();
+			$or         = array();
 
-			// Adjust all the parent values for direct children of the deleted node.
-			$query->clear()
-				->update($this->_tbl)
-				->set('parent_id = ' . (int) $node->parent_id)
-				->where('parent_id = ' . (int) $node->$k);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			if ($node->width > 2)
+			{
+				$searchLevel  = $node->level + 1;
+				$conditions[] = "parent_id = CASE"
+					. " WHEN lft BETWEEN {$node->lft} AND {$node->rgt} AND level = {$searchLevel} THEN {$node->parent_id}"
+					. " ELSE parent_id END";
+				$conditions[] = "level = CASE"
+					. " WHEN lft BETWEEN {$node->lft} AND {$node->rgt} THEN level - 1"
+					. " ELSE level END";
+			}
 
-			// Shift all of the left values that are right of the node.
-			$query->clear()
-				->update($this->_tbl)
-				->set('lft = lft - 2')
-				->where('lft > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			foreach (array('lft', 'rgt') as $col)
+			{
+				$condition = array("{$col} = CASE");
 
-			// Shift all of the right values that are right of the node.
+				if ($node->width > 2)
+				{
+					$condition[] = "WHEN {$col} BETWEEN {$node->lft} AND {$node->rgt} THEN {$col} - 1";
+				}
+
+				$condition[]  = "WHEN {$col} > {$node->{$col}} THEN {$col} - 2";
+				$condition[]  = "ELSE {$col} END";
+				$conditions[] = implode(' ', $condition);
+				$or[]         = "{$col} > {$node->lft}";
+			}
+
 			$query->clear()
 				->update($this->_tbl)
-				->set('rgt = rgt - 2')
-				->where('rgt > ' . (int) $node->rgt);
+				->set($conditions)
+				->where('(' . implode(' OR ', $or) . ')');
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
 
@@ -783,7 +786,9 @@ class Nested extends Table
 				}
 
 				// Get the reposition data for shifting the tree and re-inserting the node.
-				if (!($repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)))
+				$repositionData = $this->_getTreeRepositionValues($reference, $this->_location);
+
+				if (!$repositionData)
 				{
 					// Error message set in getNode method.
 					$this->_unlock();
@@ -791,25 +796,26 @@ class Nested extends Table
 					return false;
 				}
 
-				// Create space in the tree at the new location for the new node in left ids.
+				$conditions = array();
+				$or         = array();
+
+				foreach (array('lft', 'rgt') as $col)
+				{
+					$conditions[] = "{$col} = CASE WHEN {$col} >= {$repositionData->position} THEN {$col} + 2 ELSE {$col} END";
+					$or[]         = "{$col} >= {$repositionData->position}";
+				}
+
 				$query = $this->_db->getQuery(true)
 					->update($this->_tbl)
-					->set('lft = lft + 2')
-					->where($repositionData->left_where);
-				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
-
-				// Create space in the tree at the new location for the new node in right ids.
-				$query->clear()
-					->update($this->_tbl)
-					->set('rgt = rgt + 2')
-					->where($repositionData->right_where);
+					->set($conditions)
+					->where('(' . implode(' OR ', $or) . ')');
 				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
 				// Set the object values.
 				$this->parent_id = $repositionData->new_parent_id;
-				$this->level = $repositionData->new_level;
-				$this->lft = $repositionData->new_lft;
-				$this->rgt = $repositionData->new_rgt;
+				$this->level     = $repositionData->new_level;
+				$this->lft       = $repositionData->position;
+				$this->rgt       = $repositionData->position + 1;
 			}
 			else
 			{
@@ -1294,71 +1300,182 @@ class Nested extends Table
 			}
 		}
 
-		$query = $this->_db->getQuery(true);
+		$parent = $this->_getNode($parentId);
+		$query  = $this->_db->getQuery(true);
+
+		$availableFields = $this->getFields();
 
 		// Build the structure of the recursive query.
-		if (!isset($this->_cache['rebuild.sql']))
+		$query->clear()
+			->select($this->_tbl_key . ', lft, rgt, level')
+			->from($this->_tbl)
+			->where('parent_id = %d');
+
+		if (array_key_exists('alias', $availableFields)
+			&& array_key_exists('path', $availableFields))
 		{
-			$query->clear()
-				->select($this->_tbl_key . ', alias')
-				->from($this->_tbl)
-				->where('parent_id = %d');
-
-			// If the table has an ordering field, use that for ordering.
-			$orderingField = $this->getColumnAlias('ordering');
-
-			if (property_exists($this, $orderingField))
-			{
-				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
-			}
-			else
-			{
-				$query->order('parent_id, lft');
-			}
-
-			$this->_cache['rebuild.sql'] = (string) $query;
+			$query->select('alias, path');
 		}
 
-		// Make a shortcut to database object.
+		// This table doesn't have required fields for build path
+		else
+		{
+			$path = false;
+		}
+
+		// If the table has an ordering field, use that for ordering.
+		$orderingField = $this->getColumnAlias('ordering');
+
+		if (property_exists($this, $orderingField))
+		{
+			$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
+		}
+		else
+		{
+			$query->order('parent_id, lft');
+		}
+
+		$this->_cache['rebuild.sql']        = (string) $query;
+		$this->_cache['rebuild.conditions'] = array(
+			'lft' => array(),
+			'rgt' => array(),
+			'level' => array(),
+			'path' => array(),
+			'combineBy' => 50,
+			'counter' => 0,
+			'firstParent' => $parentId
+		);
+
+		$return = $this->_gatherRebuildConditions($parent, $leftId, $level, $path);
+
+		$this->_cache['rebuild.conditions'] = null;
+
+		return $return;
+	}
+
+	/**
+	 * Method to recursively rebuild the whole nested set tree.
+	 *
+	 * @param   object        $parent  The root of the tree to rebuild.
+	 * @param   integer       $lft     The left id to start with in building the tree.
+	 * @param   integer       $level   The level to assign to the current nodes.
+	 * @param   string|false  $path    The path to the current nodes or false if table has no 'path' field.
+	 *
+	 * @return  integer  1 + value of root rgt on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException on database error.
+	 */
+	protected function _gatherRebuildConditions($parent, $lft = 0, $level = 0, $path = '')
+	{
+		$parentId = (int) $parent->{$this->_tbl_key};
+		$cache    = &$this->_cache['rebuild.conditions'];
+		$fields   = array('lft', 'rgt', 'level');
+
+		if ($path !== false)
+		{
+			$fields[] = 'path';
+		}
 
 		// Assemble the query to find all children of this node.
-		$this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+		$this->_db->setQuery(sprintf($this->_cache['rebuild.sql'],  $parentId));
 
 		$children = $this->_db->loadObjectList();
 
 		// The right value of this node is the left value + 1
-		$rightId = $leftId + 1;
+		$rgt = $lft + 1;
 
 		// Execute this function recursively over all children
 		foreach ($children as $node)
 		{
 			/*
-			 * $rightId is the current right value, which is incremented on recursion return.
+			 * $rgt is the current right value, which is incremented on recursion return.
 			 * Increment the level for the children.
 			 * Add this item's alias to the path (but avoid a leading /)
 			 */
-			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path . (empty($path) ? '' : '/') . $node->alias);
+			$rgt = $this->_gatherRebuildConditions(
+				$node, $rgt, $level + 1, $path !== false ? $path . (empty($path) ? '' : '/') . $node->alias : false
+			);
 
 			// If there is an update failure, return false to break out of the recursion.
-			if ($rightId === false)
+			if ($rgt === false)
 			{
 				return false;
 			}
 		}
 
-		// We've got the left value, and now that we've processed
-		// the children of this node we also know the right value.
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = ' . (int) $leftId)
-			->set('rgt = ' . (int) $rightId)
-			->set('level = ' . (int) $level)
-			->set('path = ' . $this->_db->quote($path))
-			->where($this->_tbl_key . ' = ' . (int) $parentId);
-		$this->_db->setQuery($query)->execute();
+		$foundChanges = false;
+
+		foreach ($fields as $col)
+		{
+			// Update only fields which has a wrong value
+			if ($parent->{$col} != ${$col})
+			{
+				if (is_numeric(${$col}))
+				{
+					$cache[$col][$parentId] = (int) ${$col};
+				}
+				else
+				{
+					$cache[$col][$parentId] = $this->_db->quote(${$col});
+				}
+
+				$foundChanges = true;
+			}
+		}
+
+		if ($foundChanges)
+		{
+			$cache['counter']++;
+		}
+
+		if ($cache['counter'] >= $cache['combineBy']
+			|| ($cache['firstParent'] == $parentId && $cache['counter'] > 0))
+		{
+			$conditions = array();
+			$items      = array();
+
+			foreach ($fields as $fieldName)
+			{
+				if (empty($cache[$fieldName]))
+				{
+					continue;
+				}
+
+				$condition = array("{$fieldName} = CASE");
+
+				foreach ($cache[$fieldName] as $key => $value)
+				{
+					$condition[] = "WHEN {$this->_tbl_key} = {$key} THEN $value";
+
+					if (!in_array($key, $items))
+					{
+						$items[] = $key;
+					}
+				}
+
+				$condition[]  = "ELSE {$fieldName} END";
+				$conditions[] = implode(' ', $condition);
+			}
+
+			$query = $this->_db->getQuery(true)
+				->update($this->_tbl)
+				->set($conditions)
+				->where($this->_tbl_key . ' IN (' . implode(',', $items) . ')');
+			$this->_db->setQuery($query)->execute();
+
+			// Remove updated values
+			foreach ($fields as $col)
+			{
+				$cache[$col] = array();
+			}
+
+			// Reset counter
+			$cache['counter'] = 0;
+		}
 
 		// Return the right value of this node + 1.
-		return $rightId + 1;
+		return $rgt + 1;
 	}
 
 	/**
@@ -1609,6 +1726,14 @@ class Nested extends Table
 			->from($this->_tbl)
 			->where($k . ' = ' . (int) $id);
 
+		$availableFields = $this->getFields();
+
+		if (array_key_exists('path', $availableFields)
+			&& array_key_exists('alias', $availableFields))
+		{
+			$query->select('path, alias');
+		}
+
 		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
 
 		// Check for no $row returned
@@ -1628,6 +1753,59 @@ class Nested extends Table
 	}
 
 	/**
+	 * Method to get various data necessary to move a node and its children to new location
+	 *
+	 * @param   object  $referenceNode  A node object with at least a 'lft' and 'rgt' with
+	 *                                  which to make room in the tree around for a new node.
+	 * @param   string  $position       The position relative to the reference node where the room
+	 *                                  should be made.
+	 *
+	 * @return  mixed    Boolean false on failure or true if no action needed or data object.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _getTreeRepositionValues($referenceNode, $position = 'before')
+	{
+		// Make sure the reference an object with a left and right id.
+		if (!is_object($referenceNode)
+			|| !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
+		{
+			return false;
+		}
+
+		$k    = $this->_tbl_key;
+		$data = new \stdClass;
+
+		// Run the calculations and build the data object by reference position.
+		switch ($position)
+		{
+			case 'first-child':
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level     = $referenceNode->level + 1;
+				$data->position      = $referenceNode->lft + 1;
+				break;
+			case 'last-child':
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level     = $referenceNode->level + 1;
+				$data->position      = $referenceNode->rgt;
+				break;
+			case 'before':
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level     = $referenceNode->level;
+				$data->position      = $referenceNode->lft;
+				break;
+			default:
+			case 'after':
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level     = $referenceNode->level;
+				$data->position      = $referenceNode->rgt + 1;
+				break;
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to get various data necessary to make room in the tree at a location
 	 * for a node and its children.  The returned data object includes conditions
 	 * for SQL WHERE clauses for updating left and right id values to make room for
@@ -1642,6 +1820,7 @@ class Nested extends Table
 	 * @return  mixed    Boolean false on failure or data object on success.
 	 *
 	 * @since   1.7.0
+	 * @deprecated 4.0
 	 */
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{
