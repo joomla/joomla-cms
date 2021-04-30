@@ -1,27 +1,22 @@
-
-<fieldset
-		name="integration_versionable"
-		label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-><fields>
-
-	<field
+<fieldset name="integration_versionable" label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL">
+	<fields>
+		<field
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-	>
-		<option value="0">JNO</option>
-		<option value="1">JYES</option>
-	</field>
-
-	<field
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field
 			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="10"
 			showon="save_history:1"
 			name="history_limit"
-	/>
-</fields>
+		/>
+	</fields>
 </fieldset>
