@@ -240,10 +240,8 @@ class TemplateController extends BaseController
 
 			return true;
 		}
-		else
-		{
-			$this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
-		}
+
+		$this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
 		return false;
 	}
