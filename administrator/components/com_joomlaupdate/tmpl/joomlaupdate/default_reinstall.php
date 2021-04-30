@@ -69,7 +69,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 			</div>
 		<?php endif; ?>
 
-        <hr>
+		<hr>
 
 		<div class="control-group">
 			<div class="controls">
