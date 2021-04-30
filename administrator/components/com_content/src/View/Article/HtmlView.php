@@ -237,7 +237,6 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-
 				if ($this->isVersionable)
 				{
 					$toolbar->versions('com_content.article', $this->item->id);
