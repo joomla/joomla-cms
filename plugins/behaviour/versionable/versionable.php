@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 
 /**
  * Implements the Versionable behaviour which allows extensions to automatically support content history for their content items.
@@ -122,5 +123,27 @@ class PlgBehaviourVersionable extends CMSPlugin
 		{
 			Versioning::delete($typeAlias, $table->getId());
 		}
+	}
+
+	/**
+	 * Prepare form and add the behaviour configuration fields
+	 *
+	 * @param   Event  $event  The event containing the form to manipulate
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentPrepareForm($event): bool
+	{
+		if (Factory::getApplication()->isClient('administrator'))
+		{
+			list($form, $data) = $event->getArguments();
+
+			JForm::addFormPath(__DIR__);
+			$form->loadFile('config', false);
+		}
+
+		return true;
 	}
 }
