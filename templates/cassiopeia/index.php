@@ -94,7 +94,7 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$stickyHeader = $this->params->get('stickyHeader') ? ' position-sticky sticky-top' : '';
+$stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
 // Defer font awesome
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
@@ -114,10 +114,10 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($pageclass ? ' ' . $pageclass : '')
-	. ($hasClass ? ' ' . $hasClass : '');
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	. ($hasClass ? ' ' . $hasClass : '')
+	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header container-header full-width<?php echo $stickyHeader; ?>">
+	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
 		<?php if ($this->countModules('topbar')) : ?>
 			<div class="container-topbar">
