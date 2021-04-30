@@ -52,6 +52,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,13 +76,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!count($this->items) && $this->get('IsEmptyState'))
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -123,7 +131,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -135,7 +143,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
