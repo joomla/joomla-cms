@@ -84,14 +84,12 @@ Text::script('JHIDEPASSWORD');
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
-			
 					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
 						<span class="icon-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
 					<button type="submit" class="btn btn-primary">
 						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
 					</button>
-
 			</div>
 		</div>
 
