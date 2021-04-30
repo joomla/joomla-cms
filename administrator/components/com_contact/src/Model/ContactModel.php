@@ -547,7 +547,7 @@ class ContactModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -555,12 +555,12 @@ class ContactModel extends AdminModel
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   3.9.26
+	 * @since   3.9.25
 	 */
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{

@@ -75,6 +75,14 @@ class HtmlView extends BaseHtmlView
 	protected $httpHeadersId = 0;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,6 +98,11 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->filterForm    = $this->get('FilterForm');
+
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -120,9 +133,12 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'shield-alt');
 
-		if ($canDo->get('core.delete'))
+		if (!$this->isEmptyState)
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'reports.delete', 'JTOOLBAR_DELETE');
+			if ($canDo->get('core.delete'))
+			{
+				ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'reports.delete', 'JTOOLBAR_DELETE');
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

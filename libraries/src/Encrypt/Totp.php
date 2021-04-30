@@ -35,8 +35,8 @@ class Totp
 
 	/**
 	 * The length of the secret in bytes.
-	 * RFC 4226: "The length of the shared secret MUST be atleast 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
-	 * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla 3.9.25
+	 * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
+	 * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
 	 *
 	 * @var   integer
 	 */
@@ -194,6 +194,9 @@ class Totp
 	 * Generates a (semi-)random Secret Key for TOTP generation
 	 *
 	 * @return  string
+	 *
+	 * @note Since 3.9.25 we use the secure method "random_bytes" over the original insecure "rand" function.
+	 *       The random_bytes function has been backported to outdated PHP versions by the core shipped library paragonie/random_compat
 	 */
 	public function generateSecret()
 	{
