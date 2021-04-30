@@ -6741,7 +6741,7 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
