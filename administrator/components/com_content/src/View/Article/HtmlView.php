@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -66,6 +67,14 @@ class HtmlView extends BaseHtmlView
 	protected $eName;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -91,6 +100,28 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
+		}
+
+		// If the plugin Taggable behaviour is disabled then remove the tags feature.
+		if (!PluginHelper::isEnabled('behaviour', 'taggable'))
+		{
+			$this->form->removeField('tags');
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -204,13 +235,13 @@ class HtmlView extends BaseHtmlView
 
 			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				$toolbar->versions('com_content.article', $this->item->id);
-			}
-
 			if (!$isNew)
 			{
+				if ($this->isVersionable)
+				{
+					$toolbar->versions('com_content.article', $this->item->id);
+				}
+
 				$url = Route::link(
 					'site',
 					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
