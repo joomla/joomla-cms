@@ -153,7 +153,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
+					iconv <?php echo Text::_('COM_ADMIN_EXTENSION_AVAILABLE'); ?>
 				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['iconv']); ?>
@@ -161,7 +161,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php echo Text::_('COM_ADMIN_INTL_AVAILABLE'); ?>
+					intl <?php echo Text::_('COM_ADMIN_EXTENSION_AVAILABLE'); ?>
 				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['intl']); ?>
