@@ -73,7 +73,9 @@ $wa->useScript('keepalive')
 									<input class="form-check-input cache-entry" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>">
 								</td>
 								<th scope="row">
+									<label for="cb<?php echo $i; ?>">
 										<?php echo $this->escape($item->group); ?>
+									</label>
 								</th>
 								<td class="text-center">
 									<?php echo $item->count; ?>
