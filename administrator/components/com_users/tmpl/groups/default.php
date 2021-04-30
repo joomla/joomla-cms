@@ -59,13 +59,13 @@ $wa->useScript('com_users.admin-users-groups');
 								</th>
 								<th scope="col" class="w-10 text-center">
 									<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
-									<span class="visually-hidden"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+									<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center">
 									<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
-									<span class="visually-hidden"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+									<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
