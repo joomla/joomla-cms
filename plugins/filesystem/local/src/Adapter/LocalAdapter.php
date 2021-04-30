@@ -546,10 +546,16 @@ class LocalAdapter implements AdapterInterface
 		$name     = $this->getFileName($destinationPath);
 		$safeName = $this->getSafeName($name);
 
+		// If transliterating could not happen, and 100% of the chars are filtered out, then throw an error. 3 = file extension
+		if ($safeName === pathinfo($sourcePath, PATHINFO_EXTENSION))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+		}
+
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
 		}
 
 		if (is_dir($sourcePath))
