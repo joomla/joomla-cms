@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				->text('JFEATURE')
 				->task('contacts.featured')
 				->listCheck(true);
-			$childBar->standardButton('unfeatured')
+			$childBar->standardButton('circle')
 				->text('JUNFEATURE')
 				->task('contacts.unfeatured')
 				->listCheck(true);

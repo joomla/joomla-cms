@@ -214,7 +214,7 @@ class HtmlView extends BaseHtmlView
 					->task('articles.featured')
 					->listCheck(true);
 
-				$childBar->standardButton('unfeatured')
+				$childBar->standardButton('circle')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
