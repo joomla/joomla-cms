@@ -38,32 +38,31 @@ class FilePathRuleTest extends UnitTestCase
 			size="50"
 			default="images"
 			validate="filePath"
+			exclude="administrator|media"
 		/>'
 		);
 
-		// These all pass today,
-		// BUT, Joomla 3.9.26 SHOULD break this test, as a security fix is applied, thus proving the test valuable
 		return [
 			[true, $xml, ''],
 			[true, $xml, '.images'],
-			[true, $xml, './images'],
-			[true, $xml, '.\images'],
+			[false, $xml, './images'],
+			[false, $xml, '.\images'],
 			[false, $xml, '../images'],
 			[false, $xml, '.../images'],
 			[true, $xml, 'c:\images'],
-			[true, $xml, '\\images'], // Means \images
+			[false, $xml, '\\images'], // Means \images
 			[true, $xml, 'ftp://images'],
 			[true, $xml, 'http://images'],
-			[true, $xml, 'media'],
-			[true, $xml, 'administrator'],
-			[true, $xml, '/4711images'],
+			[false, $xml, 'media'],
+			[false, $xml, 'administrator'],
+			[false, $xml, '/4711images'],
 			[true, $xml, '4711images'],
 			[true, $xml, '1'],
 			[true, $xml, '_'],
 			[true, $xml, '*'],
 			[true, $xml, '%'],
 			[true, $xml, '://foo'],
-			[true, $xml, '/4711i/images'],
+			[false, $xml, '/4711i/images'],
 			[false, $xml, '../4711i/images'],
 			[true, $xml, 'Εικόνες'],
 			[true, $xml, 'Изображений'],

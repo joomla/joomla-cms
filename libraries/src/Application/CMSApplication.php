@@ -19,6 +19,7 @@ use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -203,10 +204,21 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!\in_array($message, $this->messageQueue))
 		{
@@ -1346,7 +1358,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Redirect to com_admin profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_user&task=user.edit&id=' . $this->getIdentity()->id);
+		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
 	}
 
 	/**

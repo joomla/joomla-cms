@@ -11,18 +11,25 @@
 			<field
 				name="repeat"
 				type="radio"
-				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
+				label="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_LABEL"
 				layout="joomla.form.field.radio.switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
+			<field
+				name="max_rows"
+				type="number"
+				label="PLG_FIELDS_SUBFORM_PARAMS_MAX_ROWS_LABEL"
+				default=""
+				filter="integer"
+				showon="repeat:1"
+			/>
 			<field
 				name="options"
 				type="subform"
-				label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_LABEL"
+				label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_LABEL"
 				icon="list"
 				layout="joomla.form.field.subform.repeatable-table"
 				min="1"
@@ -33,8 +40,8 @@
 					<field
 						context=""
 						name="customfield"
-						type="subfieldstype"
-						label="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_LABEL"
+						type="subfields"
+						label="PLG_FIELDS_SUBFORM_PARAMS_CUSTOMFIELD_LABEL"
 						default=""
 						required="true"
 					/>
@@ -42,7 +49,7 @@
 					<field
 						name="render_values"
 						type="radio"
-						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
+						label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
 						layout="joomla.form.field.radio.switcher"
 						default="1"
 						>

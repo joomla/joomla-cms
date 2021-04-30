@@ -199,6 +199,11 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
+		if (!$this->unpublishPlugin())
+		{
+			throw new RuntimeException('Unable to unpublish stats plugin', 500);
+		}
+
 		echo json_encode(['sent' => 0]);
 	}
 
@@ -210,7 +215,7 @@ class PlgSystemStats extends CMSPlugin
 	 * @since   3.5
 	 *
 	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
+	 * @throws  RuntimeException  If there is an error saving the params, unpublishing the plugin or sending the data.
 	 */
 	public function onAjaxSendOnce()
 	{
@@ -228,6 +233,11 @@ class PlgSystemStats extends CMSPlugin
 
 		$this->sendStats();
 
+		if (!$this->unpublishPlugin())
+		{
+			throw new RuntimeException('Unable to unpublish stats plugin', 500);
+		}
+
 		echo json_encode(['sent' => 1]);
 	}
 
@@ -240,7 +250,7 @@ class PlgSystemStats extends CMSPlugin
 	 * @since   3.5
 	 *
 	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
+	 * @throws  RuntimeException  If there is an error saving the params, unpublishing the plugin or sending the data.
 	 */
 	public function onAjaxSendStats()
 	{
@@ -446,7 +456,7 @@ class PlgSystemStats extends CMSPlugin
 			return true;
 		}
 
-		return (abs(time() - $last) > $interval * 3600);
+		return abs(time() - $last) > $interval * 3600;
 	}
 
 	/**
@@ -613,5 +623,63 @@ class PlgSystemStats extends CMSPlugin
 				// Ignore it
 			}
 		}
+	}
+
+	/**
+	 * Unpublish this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
+	 * therefore regaining a tiny bit of performance
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return  boolean
+	 */
+	private function unpublishPlugin()
+	{
+		$db = $this->db;
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('stats'));
+
+		try
+		{
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$db->lockTable('#__extensions');
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $db->setQuery($query)->execute();
+
+			$this->clearCacheGroups(['com_plugins']);
+		}
+		catch (Exception $exc)
+		{
+			// If we failed to execute
+			$db->unlockTables();
+			$result = false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$db->unlockTables();
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables assume we have somehow failed
+			$result = false;
+		}
+
+		return $result;
 	}
 }

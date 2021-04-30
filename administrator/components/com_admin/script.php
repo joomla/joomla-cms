@@ -236,7 +236,7 @@ class JoomlaInstallerScript
 	protected function uninstallRepeatableFieldsPlugin()
 	{
 		$app = Factory::getApplication();
-		$db = Factory::getDbo();
+		$db  = Factory::getDbo();
 
 		// Check if the plg_fields_repeatable plugin is present
 		$extensionId = $db->setQuery(
@@ -285,10 +285,22 @@ class JoomlaInstallerScript
 				 * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
 				 * of the `subfields` type.
 				 */
-				$newFieldparams = array(
+				$newFieldparams = [
 					'repeat'  => '1',
-					'options' => array(),
-				);
+					'options' => [],
+				];
+
+				/**
+				 * This array is used to store the mapping between the name of form fields from Repeatable field
+				 * with ID of the child-fields. It will then be used to migrate data later
+				 */
+				$mapping = [];
+
+				/**
+				 * Store name of media fields which we need to convert data from old format (string) to new
+				 * format (json) during the migration
+				 */
+				$mediaFields = [];
 
 				// If this repeatable fields actually had child-fields (normally this is always the case)
 				if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
@@ -311,29 +323,35 @@ class JoomlaInstallerScript
 							 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
 							 * for each of the sub fields of the `repeatable` instance.
 							 */
-							$data = array(
-								'context'       => $row->context,
-								'group_id'      => $row->group_id,
-								'title'         => $oldField->fieldname,
-								'name'          => (
+							$data = [
+								'context'             => $row->context,
+								'group_id'            => $row->group_id,
+								'title'               => $oldField->fieldname,
+								'name'                => (
 									$fieldname_prefix
 									. $oldField->fieldname
 									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
 								),
-								'label'         => $oldField->fieldname,
-								'default_value' => $row->default_value,
-								'type'          => $oldField->fieldtype,
-								'description'   => $row->description,
-								'state'         => '1',
-								'params'        => $row->params,
-								'language'      => '*',
-								'assigned_cat_ids' => [-1],
-							);
+								'label'               => $oldField->fieldname,
+								'default_value'       => $row->default_value,
+								'type'                => $oldField->fieldtype,
+								'description'         => $row->description,
+								'state'               => '1',
+								'params'              => $row->params,
+								'language'            => '*',
+								'assigned_cat_ids'    => [-1],
+								'only_use_in_subform' => 1,
+							];
 
 							// `number` is not a valid custom field type, so use `text` instead.
 							if ($data['type'] == 'number')
 							{
 								$data['type'] = 'text';
+							}
+
+							if ($data['type'] == 'media')
+							{
+								$mediaFields[] = $oldField->fieldname;
 							}
 
 							// Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
@@ -381,12 +399,14 @@ class JoomlaInstallerScript
 						}
 
 						// And tell our new `subfields` field about his child
-						$newFieldparams['options'][('option' . $newFieldCount)] = array(
+						$newFieldparams['options'][('option' . $newFieldCount)] = [
 							'customfield'   => $subfield_id,
 							'render_values' => '1',
-						);
+						];
 
 						$newFieldCount++;
+
+						$mapping[$oldField->fieldname] = 'field' . $subfield_id;
 					}
 				}
 
@@ -394,10 +414,79 @@ class JoomlaInstallerScript
 				$db->setQuery(
 					$db->getQuery(true)
 						->update('#__fields')
-						->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
+						->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
 						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
 						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
 				)->execute();
+
+				// Migrate data for this field
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->quoteName('#__fields_values'))
+					->where($db->quoteName('field_id') . ' = ' . $row->id);
+				$db->setQuery($query);
+
+				foreach ($db->loadObjectList() as $rowFieldValue)
+				{
+					// Do not do the version if no data is entered for the custom field this item
+					if (!$rowFieldValue->value)
+					{
+						continue;
+					}
+
+					/**
+					 * Here we will have to update the stored value of the field to new format
+					 * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
+					 * The key for each sub-field change from name of field to field + ID of the new sub-field
+					 * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
+					 * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
+					 */
+					$newFieldValue = [];
+
+					// Convert to array to change key
+					$fieldValue = json_decode($rowFieldValue->value, true);
+
+					// If data could not be decoded for some reason, ignore
+					if (!$fieldValue)
+					{
+						continue;
+					}
+
+					$rowIndex = 0;
+
+					foreach ($fieldValue as $rowKey => $rowValue)
+					{
+						$rowKey                 = 'row' . ($rowIndex++);
+						$newFieldValue[$rowKey] = [];
+
+						foreach ($rowValue as $subFieldName => $subFieldValue)
+						{
+							// This is a media field, so we need to convert data to new format required in Joomla! 4
+							if (in_array($subFieldName, $mediaFields))
+							{
+								$subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
+							}
+
+							if (isset($mapping[$subFieldName]))
+							{
+								$newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
+							}
+							else
+							{
+								// Not found, use the old key to avoid data lost
+								$newFieldValue[$subFieldName] = $subFieldValue;
+							}
+						}
+					}
+
+					$query->clear()
+						->update($db->quoteName('#__fields_values'))
+						->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
+						->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
+						->where($db->quoteName('item_id') . ' =' . $rowFieldValue->item_id);
+					$db->setQuery($query)
+						->execute();
+				}
 			}
 
 			// Now, unprotect the plugin so we can uninstall it
@@ -6299,12 +6388,12 @@ class JoomlaInstallerScript
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
-			echo implode('<br/>', $status['folders_errors']);
+			echo implode('<br>', $status['folders_errors']);
 		}
 
 		if ($suppressOutput === false && \count($status['files_errors']))
 		{
-			echo implode('<br/>', $status['files_errors']);
+			echo implode('<br>', $status['files_errors']);
 		}
 
 		return $status;
@@ -7170,21 +7259,21 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   3.10.0
+	 * @since   3.9.25
 	 */
 	protected function fixFilenameCasing()
 	{
 		$files = array(
 			// 3.10 changes
-			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
-			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
 			// 4.0.0
-			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
+			'/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
 		);
 
 		foreach ($files as $old => $expected)
 		{
-			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+			$oldRealpath = realpath(JPATH_ROOT . $old);
 
 			// On Unix without incorrectly cased file.
 			if ($oldRealpath === false)
@@ -7193,7 +7282,7 @@ class JoomlaInstallerScript
 			}
 
 			$oldBasename      = basename($oldRealpath);
-			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
 			$newBasename      = basename($newRealpath);
 			$expectedBasename = basename($expected);
 
@@ -7201,8 +7290,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-				rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -7217,14 +7306,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-						rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . '/' . $old);
+					unlink(JPATH_ROOT . $old);
 				}
 			}
 		}

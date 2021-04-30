@@ -484,7 +484,7 @@ class Filter
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
@@ -497,7 +497,7 @@ class Filter
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';

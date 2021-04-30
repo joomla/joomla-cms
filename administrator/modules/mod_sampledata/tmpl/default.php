@@ -22,7 +22,7 @@ Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 $app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
-		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
+		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif',
 	]
 );
 ?>
@@ -41,22 +41,20 @@ $app->getDocument()->addScriptOptions(
 					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
-			</li>
-			<?php // Progress bar ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<div class="progress">
-					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+				<?php // Progress bar ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none mb-3">
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+					</div>
 				</div>
-			</li>
-			<?php // Progress messages ?>
-			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<ul class="list-unstyled"></ul>
+				<?php // Progress messages ?>
+				<div class="sampledata-progress-<?php echo $item->name; ?> d-none">
+					<ul class="list-unstyled"></ul>
+				</div>
 			</li>
 		<?php endforeach; ?>
 	</ul>
-<?php else : ?>
-	<div class="alert alert-warning">
-		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
-	</div>
+	<a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end mt-1 me-3 mb-3">
+		<span class="icon-tasks" aria-hidden="true"></span> <?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?>
+	</a>
 <?php endif; ?>

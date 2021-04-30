@@ -42,6 +42,7 @@ $wa->useScript('keepalive')
 				<?php echo $this->form->renderField('label'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 				<?php echo $this->form->renderField('required'); ?>
+				<?php echo $this->form->renderField('only_use_in_subform'); ?>
 				<?php echo $this->form->renderField('default_value'); ?>
 
 				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
