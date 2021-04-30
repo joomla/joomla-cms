@@ -113,8 +113,8 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass
-	. $hasClass;
+	. ($pageclass ? ' ' . $pageclass : '')
+	. ($hasClass ? ' ' . $hasClass : '');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<header class="header container-header full-width<?php echo $stickyHeader; ?>">
