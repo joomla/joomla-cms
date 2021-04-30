@@ -145,7 +145,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
-      // The choices.js always auto-hightlight first element
+      // The choices.js always auto-highlights the first element
       // in the dropdown that not allow to add a custom Term.
       //
       // This workaround can be removed when choices.js

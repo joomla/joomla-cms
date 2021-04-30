@@ -21,7 +21,7 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert');
+	->useScript('messages');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);

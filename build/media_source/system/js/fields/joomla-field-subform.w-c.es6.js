@@ -211,9 +211,10 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        Joomla.Event.dispatch(row, 'joomla:updated');
-      }
+      row.dispatchEvent(new CustomEvent('joomla:updated', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       return row;
     }
@@ -235,9 +236,10 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        Joomla.Event.dispatch(row, 'joomla:removed');
-      }
+      row.dispatchEvent(new CustomEvent('joomla:removed', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       row.parentNode.removeChild(row);
     }

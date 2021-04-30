@@ -273,7 +273,7 @@ class PlgEditorTinymce extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1')
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
 				]
 			);
 
@@ -706,7 +706,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
-				$button->id = $name . '_' . $button->text . 'Modal';
+				$button->id = $name . '_' . $button->name . '_modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
@@ -714,9 +714,9 @@ class PlgEditorTinymce extends CMSPlugin
 				{
 					// Set some vars
 					$btnName = $button->get('text');
-					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
+					$modalId = $name . '_' . $button->name;
 					$onclick = $button->get('onclick') ?: null;
-					$icon    = $button->get('name');
+					$icon    = $button->get('icon');
 
 					if ($button->get('link') !== '#')
 					{
@@ -832,7 +832,7 @@ class PlgEditorTinymce extends CMSPlugin
 				// Collect the list of forbidden or allowed tags and attributes.
 				// Each list is cumulative.
 				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
-				if (in_array($filterType,  ['BL', 'FL']))
+				if (in_array($filterType, ['BL', 'FL']))
 				{
 					$forbiddenList           = true;
 					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
@@ -1030,7 +1030,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext', 'jxtdbuttons'
+				'pastetext', 'jxtdbuttons',
 			],
 			'toolbar2' => [],
 		];
@@ -1047,7 +1047,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons',
 			),
 			'toolbar2' => array(),
 		);
@@ -1073,7 +1073,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
 			),
 			'toolbar2' => array(),
 		);
@@ -1121,6 +1121,7 @@ class PlgEditorTinymce extends CMSPlugin
 				unset($array[$subKey]);
 			}
 		}
+
 		return $array;
 	}
 }

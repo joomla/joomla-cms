@@ -23,6 +23,7 @@
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');
         const toggleButton = editor.querySelector('.js-tiny-toggler-button');
+        const toggleIcon = editor.querySelector('.icon-eye');
 
         // Setup the editor
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
@@ -32,8 +33,10 @@
           toggleButton.removeAttribute('disabled');
           toggleButton.addEventListener('click', () => {
             if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
+              toggleIcon.setAttribute('class', 'icon-eye');
               Joomla.editors.instances[currentEditor.id].instance.show();
             } else {
+              toggleIcon.setAttribute('class', 'icon-eye-slash');
               Joomla.editors.instances[currentEditor.id].instance.hide();
             }
           });
@@ -94,7 +97,7 @@
 
         if (xtdButton.href) {
           tmp.onAction = () => {
-            document.getElementById(`${xtdButton.id}Modal`).open();
+            document.getElementById(`${xtdButton.id}_modal`).open();
           };
         } else {
           tmp.onAction = () => {
