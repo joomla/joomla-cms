@@ -175,7 +175,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	protected function cleanPrivateData($dataArray, $dataType = 'other')
+	protected function cleanPrivateData(array $dataArray, string $dataType = 'other'): array
 	{
 		$dataType = isset($this->privateSettings[$dataType]) ? $dataType : 'other';
 
@@ -207,7 +207,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *
-	 * @return  mixed
+	 * @return  string|array
 	 *
 	 * @since   3.5
 	 */
@@ -238,7 +238,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getPhpSettings()
+	public function &getPhpSettings(): array
 	{
 		if (!empty($this->php_settings))
 		{
@@ -276,7 +276,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getConfig()
+	public function &getConfig(): array
 	{
 		if (!empty($this->config))
 		{
@@ -306,7 +306,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getInfo()
+	public function &getInfo(): array
 	{
 		if (!empty($this->info))
 		{
@@ -340,7 +340,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.4.1
 	 */
-	public function phpinfoEnabled()
+	public function phpinfoEnabled(): bool
 	{
 		return !\in_array('phpinfo', explode(',', ini_get('disable_functions')));
 	}
@@ -355,7 +355,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	public function getSafeData($dataType, $public = true)
+	public function getSafeData(string $dataType, bool $public = true): array
 	{
 		if (isset($this->safeData[$dataType]))
 		{
@@ -383,7 +383,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getPHPInfo()
+	public function &getPHPInfo(): string
 	{
 		if (!$this->phpinfoEnabled())
 		{
@@ -407,7 +407,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);
-		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+		$output = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
 		$output = str_replace('</table>', '</tbody></table>', $output);
 		$output = str_replace('</div>', '', $output);
 		$this->php_info = $output;
@@ -422,7 +422,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	public function getPhpInfoArray()
+	public function getPhpInfoArray(): array
 	{
 		// Already cached
 		if (null !== $this->phpInfoArray)
@@ -444,10 +444,10 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since  3.5
 	 */
-	public function getExtensions()
+	public function getExtensions(): array
 	{
 		$installed = [];
-		$db = Factory::getApplication()->getContainer()->get('DatabaseDriver');
+		$db = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'));
@@ -514,13 +514,14 @@ class SysinfoModel extends BaseDatabaseModel
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param   bool  $public  If true no information is going to be removed
+	 * @param   bool $public If true no information is going to be removed
 	 *
 	 * @return  array States of directories
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
-	public function getDirectory($public = false)
+	public function getDirectory(bool $public = false): array
 	{
 		if (!empty($this->directories))
 		{
@@ -680,7 +681,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	private function addDirectory($name, $path, $message = '')
+	private function addDirectory(string $name, string $path, string $message = ''): void
 	{
 		$this->directories[$name] = ['writable' => is_writable($path), 'message' => $message,];
 	}
@@ -693,7 +694,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @note    Has to be removed (it is present in the config...)
 	 * @since   1.6
 	 */
-	public function &getEditor()
+	public function &getEditor(): string
 	{
 		if (!is_null($this->editor))
 		{
@@ -715,7 +716,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	protected function parsePhpInfo($html)
+	protected function parsePhpInfo(string $html): array
 	{
 		$html = strip_tags($html, '<h2><th><td>');
 		$html = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
