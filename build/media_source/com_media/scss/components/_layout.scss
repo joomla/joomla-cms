@@ -3,8 +3,6 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 1rem;
-  margin-right: -($col-gutter-width / 2);
-  margin-left: -($col-gutter-width / 2);
   background-color: #fff;
   border-radius: $border-radius;
   box-shadow: $col-box-shadow;
@@ -42,13 +40,12 @@
 
 .media-main {
   position: relative;
-  flex: 1 0;
+  flex: 1 1 600px;
   min-height: 75vh;
-  overflow: hidden;
 }
 
 .media-sidebar {
-  flex-basis: 280px;
+  flex: 0 0 280px;
   padding: 1rem;
   overflow-y: auto;
 }
