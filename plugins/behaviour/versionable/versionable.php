@@ -164,52 +164,60 @@ class PlgBehaviourVersionable extends CMSPlugin
 	 * @return boolean
 	 *
 	 * @throws ReflectionException
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	private function isSupported(string $component): bool
 	{
-		// Paths where we might find table classes
-		$paths = [
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Table/',
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Tables/',
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/Tables/',
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/Table/',
-		];
-
-		foreach ($paths as $path)
+		try
 		{
-			if (!file_exists($path))
-			{
-				continue;
-			}
+			// Paths where we might find table classes
+			$paths = [
+				JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Table/',
+				JPATH_ADMINISTRATOR . '/components/' . $component . '/src/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $component . '/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $component . '/Table/',
+			];
 
-			$files = new DirectoryIterator($path);
-
-			foreach ($files as $file)
+			foreach ($paths as $path)
 			{
-				if ($file->getFileName() === '.'||$file->getFileName() === '..')
+				if (!file_exists($path))
 				{
 					continue;
 				}
 
-				$name = str_replace('Table.php', '', $file->getFileName());
+				$files = new DirectoryIterator($path);
 
-				$model = Factory::getApplication()->bootComponent($component)
-					->getMVCFactory()
-					->createModel($name, 'Administrator', ['ignore_request' => true]);
-
-				if (!$model)
+				foreach ($files as $file)
 				{
-					continue;
-				}
+					if ($file->getFileName() === '.' || $file->getFileName() === '..')
+					{
+						continue;
+					}
 
-				$reflect = new ReflectionClass($model->getTable());
+					$name = str_replace('Table.php', '', $file->getFileName());
 
-				if ($reflect->implementsInterface(VersionableTableInterface::class))
-				{
-					return true;
+					$model = Factory::getApplication()->bootComponent($component)
+						->getMVCFactory()
+						->createModel($name, 'Administrator', ['ignore_request' => true]);
+
+					if (!$model)
+					{
+						continue;
+					}
+
+					$reflect = new ReflectionClass($model->getTable());
+
+					if ($reflect->implementsInterface(VersionableTableInterface::class))
+					{
+						return true;
+					}
 				}
 			}
+		}
+		catch (\ReflectionException $exception)
+		{
+			return false;
 		}
 
 		return false;
