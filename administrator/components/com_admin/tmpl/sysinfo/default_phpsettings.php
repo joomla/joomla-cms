@@ -161,6 +161,14 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_INTL_AVAILABLE'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['intl']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
 				</th>
 				<td>
