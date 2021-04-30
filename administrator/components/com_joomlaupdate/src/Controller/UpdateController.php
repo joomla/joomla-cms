@@ -52,8 +52,6 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model  = $this->getModel('Update');
 		$result = $model->download();
@@ -134,8 +132,6 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
@@ -178,8 +174,6 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
@@ -221,8 +215,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -277,8 +269,6 @@ class UpdateController extends BaseController
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -432,33 +422,6 @@ class UpdateController extends BaseController
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Applies FTP credentials to Joomla! itself, when required
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5.4
-	 */
-	protected function _applyCredentials()
-	{
-		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
-
-		if (!ClientHelper::hasCredentials('ftp'))
-		{
-			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
-			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
-
-			if ($user != '' && $pass != '')
-			{
-				// Add credentials to the session
-				if (!ClientHelper::setCredentials('ftp', $user, $pass))
-				{
-					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
-				}
-			}
-		}
 	}
 
 	/**

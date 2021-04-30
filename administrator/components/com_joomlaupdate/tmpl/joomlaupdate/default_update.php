@@ -79,60 +79,6 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 		</div>
 	<?php endif; ?>
 
-	<div class="control-group">
-		<label for="extraction_method" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-		</label>
-		<div class="controls">
-			<?php echo $this->methodSelect; ?>
-		</div>
-	</div>
-
-	<div class="control-group" id="row_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
-		<label for="ftp_host" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-		</label>
-		<div class="controls">
-			<input type="text" id="ftp_host" name="ftp_host" class="form-control" value="<?php echo $this->ftp['host']; ?>">
-		</div>
-	</div>
-
-	<div class="control-group" id="row_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
-		<label for="ftp_port" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-		</label>
-		<div class="controls">
-			<input type="text" id="ftp_port" name="ftp_port" class="form-control" value="<?php echo $this->ftp['port']; ?>">
-		</div>
-	</div>
-
-	<div class="control-group" id="row_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
-		<label for="ftp_user" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-		</label>
-		<div class="controls">
-			<input type="text" id="ftp_user" name="ftp_user" class="form-control" value="<?php echo $this->ftp['username']; ?>">
-		</div>
-	</div>
-
-	<div class="control-group" id="row_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
-		<label for="ftp_pass" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-		</label>
-		<div class="controls">
-			<input type="password" id="ftp_pass" name="ftp_pass" class="form-control" value="<?php echo $this->ftp['password']; ?>">
-		</div>
-	</div>
-
-	<div class="control-group" id="row_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
-		<label for="ftp_root" class="control-label">
-			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-		</label>
-		<div class="controls">
-			<input type="text" id="ftp_root" name="ftp_root" class="form-control" value="<?php echo $this->ftp['directory']; ?>">
-		</div>
-	</div>
-
 	<hr>
 
 	<div class="control-group">
