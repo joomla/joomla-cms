@@ -87,6 +87,7 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+
 		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
@@ -178,14 +179,14 @@ class HtmlView extends BaseHtmlView
 					->selector('collapseModal')
 					->listCheck(true);
 			}
+		}
 
-			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-			{
-				$childBar->delete('tags.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('tags.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -23,17 +24,22 @@ if (!$textPrefix)
 $formURL    = $displayData['formURL'] ?? '';
 $createURL  = $displayData['createURL'] ?? '';
 $helpURL    = $displayData['helpURL'] ?? '';
+$title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
+$content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 $icon       = $displayData['icon'] ?? 'icon-copy article';
+$append     = $displayData['formAppend'] ?? '';
+$title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
+$content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
 
 	<div class="px-4 py-5 my-5 text-center">
 		<span class="fa-8x mb-4 <?php echo $icon; ?>" aria-hidden="true"></span>
-		<h1 class="display-5 fw-bold"><?php echo Text::_($textPrefix . '_EMPTYSTATE_TITLE'); ?></h1>
+		<h1 class="display-5 fw-bold"><?php echo $title; ?></h1>
 		<div class="col-lg-6 mx-auto">
 			<p class="lead mb-4">
-				<?php echo Text::_($textPrefix . '_EMPTYSTATE_CONTENT'); ?>
+				<?php echo $content; ?>
 			</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 				<?php if ($createURL && Factory::getApplication()->input->get('tmpl') !== 'component') : ?>
@@ -48,6 +54,12 @@ $icon       = $displayData['icon'] ?? 'icon-copy article';
 		</div>
 	</div>
 
+	<?php
+		// Allow appending any modals (Eg: Bulk Import on com_redirect).
+		echo $append;
+	?>
+
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="boxchecked" value="0">
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

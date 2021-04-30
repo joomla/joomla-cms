@@ -488,4 +488,32 @@ class CategoriesModel extends ListModel
 			$component->countItems($items, $section);
 		}
 	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getisEmptyState()
+	{
+		$extension = $this->getState('filter.extension');
+
+		$sql = $this->query
+			->clear('select')
+			->clear('values')
+			->clear('bounded')
+			->clear('limit')
+			->clear('order')
+			->clear('where')
+			->select('count(*)');
+
+		$sql->where($this->_db->quoteName('extension') . ' = :extension')
+			->bind(':extension', $extension);
+
+		$this->_db->setQuery($sql);
+
+		return !($this->_db->loadResult() > 0);
+	}
 }
