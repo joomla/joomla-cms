@@ -152,7 +152,6 @@ class PlgBehaviourVersionable extends CMSPlugin
 
 		if ($this->isSupported($component))
 		{
-
 			$form->setField(simplexml_load_file(__DIR__ . '/config.xml'), null, true, 'integration');
 		}
 
