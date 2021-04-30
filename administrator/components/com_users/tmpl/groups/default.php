@@ -58,11 +58,11 @@ $wa->useScript('com_users.admin-users-groups');
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<span class="icon-check" aria-hidden="true"></span>
 									<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+									<span class="icon-times" aria-hidden="true"></span>
 									<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
 								</th>
 								<th scope="col" class="w-5 d-none d-md-table-cell">
