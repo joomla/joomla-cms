@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Module\Latest\Administrator\Helper\LatestHelper;
 
 $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
@@ -20,4 +21,18 @@ if ($params->get('automatic_title', 0))
 	$module->title = LatestHelper::getTitle($params);
 }
 
-require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
+if (!count($list))
+{
+	$app->getLanguage()->load('com_content');
+
+	echo LayoutHelper::render('joomla.content.emptystate_module', [
+			'textPrefix' => 'COM_CONTENT',
+			'textSuffix' => '_RECENT',
+			'icon'       => 'icon-copy',
+		]
+	);
+}
+else
+{
+	require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
+}
