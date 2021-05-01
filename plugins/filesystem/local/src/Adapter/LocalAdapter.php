@@ -549,7 +549,7 @@ class LocalAdapter implements AdapterInterface
 		// If transliterating could not happen, and all characters except of the file extension are filtered out, then throw an error.
 		if ($safeName === pathinfo($sourcePath, PATHINFO_EXTENSION))
 		{
-			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
 		}
 
 		// If the safe name is different normalise the file name
@@ -780,12 +780,12 @@ class LocalAdapter implements AdapterInterface
 		// Make the filename safe
 		if (!$name = File::makeSafe($name))
 		{
-			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
 		}
 
 		if (!$name = Factory::getLanguage()->transliterate($name))
 		{
-			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
 		}
 
 		// Transform filename to punycode
