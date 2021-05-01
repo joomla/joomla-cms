@@ -1412,22 +1412,6 @@ ENDDATA;
 	}
 
 	/**
-<<<<<<< HEAD:administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
-=======
-	 * Checks if extension is non core extension.
-	 *
-	 * @param   object  $extension  The extension to be checked
-	 *
-	 * @return  bool  true if extension is not a core extension
-	 *
-	 * @since   3.10.0
-	 */
-	private static function isNonCoreExtension($extension)
-	{
-		return !ExtensionHelper::checkIfCoreExtension($extension->type, $extension->element, $extension->client_id, $extension->folder);
-	}
-
-	/**
 	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
 	 *
 	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
