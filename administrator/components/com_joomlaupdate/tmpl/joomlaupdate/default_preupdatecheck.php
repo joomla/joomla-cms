@@ -207,9 +207,9 @@ $compatibilityTypes = array(
 								<th class="extype col-md-4">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 								</th>
-                                <th class="instver hidden">
+								<th class="instver hidden">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
-                                </th>
+								</th>
 								<th class="upcomp hidden">
 									<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION); ?>
 								</th>
@@ -229,10 +229,10 @@ $compatibilityTypes = array(
 									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 									</td>
-                                    <td class="instver hidden">
+									<td class="instver hidden">
 										<?php echo $extension->version; ?>
-                                    </td>
-                                    <td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
+									</td>
+									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
 									<td
 										class="extension-check upcomp hidden"
 										data-extension-id="<?php echo $extension->extension_id; ?>"
