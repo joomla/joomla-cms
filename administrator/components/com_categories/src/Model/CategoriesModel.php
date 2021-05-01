@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -490,30 +491,28 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
 	 *
-	 * @return boolean
+	 * @return DatabaseQuery
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getisEmptyState()
+	protected function getEmptyStateQuery(): DatabaseQuery
 	{
+		$query = parent::getEmptyStateQuery();
+
+		// Remove select because it contains fields from joined tables, that have been removed from join.
+		$query->clear('select');
+
+		// Add back a simple count select.
+		$query->select('count(*)');
+
+		// Get the extension from the filter
 		$extension = $this->getState('filter.extension');
 
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->select('count(*)');
-
-		$sql->where($this->_db->quoteName('extension') . ' = :extension')
+		$query->where($this->_db->quoteName('extension') . ' = :extension')
 			->bind(':extension', $extension);
 
-		$this->_db->setQuery($sql);
-
-		return !($this->_db->loadResult() > 0);
+		return $query;
 	}
 }
