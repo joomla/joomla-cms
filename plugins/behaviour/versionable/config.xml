@@ -1,4 +1,6 @@
-<fieldset name="integration_versionable" label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL">
+<fieldset name="integration_versionable"
+		  label="JGLOBAL_INTEGRATION_LABEL"
+		  >
 	<fields>
 		<field
 			name="save_history"

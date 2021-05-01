@@ -90,16 +90,6 @@
 			<option value="none">COM_NEWSFEEDS_NONE</option>
 		</field>
 
-		<field
-			name="show_tags"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
 	</fieldset>
 
 	<fieldset

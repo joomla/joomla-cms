@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -52,6 +53,21 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
+	 * @var CMSObject
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $canDo;
+
+	/**
 	 * Override the display method for the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,10 +84,29 @@ class HtmlView extends BaseHtmlView
 		$this->item  = $this->get('Item');
 		$this->form  = $this->get('Form');
 
+		// Since we don't track these assets at the item level, use the category id.
+		$this->canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
 		}
 
 		parent::display($tpl);
@@ -95,15 +130,12 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
-
 		ToolbarHelper::title(Text::_('COM_USERS_NOTES'), 'users user');
 
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
+		if (!$checkedOut && ($this->canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			ToolbarHelper::apply('note.apply');
 			$toolbarButtons[] = ['save', 'note.save'];
@@ -133,7 +165,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if ($this->isVersionable)
 			{
 				ToolbarHelper::versions('com_users.note', $this->item->id);
 			}

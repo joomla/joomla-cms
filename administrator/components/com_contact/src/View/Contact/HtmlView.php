@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -49,6 +50,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -61,11 +70,34 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+		$this->canDo = ContentHelper::getActions('com_contact');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
+		}
+
+		// If the plugin Taggable behaviour is disabled then remove the tags feature.
+		if (!PluginHelper::isEnabled('behaviour', 'taggable'))
+		{
+			$this->form->removeField('tags');
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -161,7 +193,7 @@ class HtmlView extends BaseHtmlView
 
 			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if ($this->isVersionable)
 			{
 				ToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}

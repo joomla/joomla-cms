@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -63,6 +64,14 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -74,11 +83,28 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+		$this->canDo = ContentHelper::getActions('com_tags');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
 		}
 
 		$this->addToolbar();
@@ -102,8 +128,6 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
-		$canDo = ContentHelper::getActions('com_tags');
-
 		ToolbarHelper::title($isNew ? Text::_('COM_TAGS_MANAGER_TAG_NEW') : Text::_('COM_TAGS_MANAGER_TAG_EDIT'), 'tag');
 
 		// Build the actions for new and existing records.
@@ -123,7 +147,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+			$itemEditable = $this->canDo->get('core.edit') || ($this->canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
 			$toolbarButtons = [];
 
@@ -134,14 +158,14 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save', 'tag.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+				if ($this->canDo->get('core.create'))
 				{
 					$toolbarButtons[] = ['save2new', 'tag.save2new'];
 				}
 			}
 
 			// If checked out, we can still save
-			if ($canDo->get('core.create'))
+			if ($this->canDo->get('core.create'))
 			{
 				$toolbarButtons[] = ['save2copy', 'tag.save2copy'];
 			}
@@ -153,7 +177,7 @@ class HtmlView extends BaseHtmlView
 
 			ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if ($this->isVersionable)
 			{
 				ToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}

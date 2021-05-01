@@ -10,11 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event as CmsEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -353,5 +355,105 @@ class PlgBehaviourTaggable extends CMSPlugin
 			 */
 			$sourceTable->clearTagsHelper();
 		}
+	}
+
+	/**
+	 * Prepare form and add the behaviour configuration fields
+	 *
+	 * @param   Event  $event  The event containing the form to manipulate
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentPrepareForm($event): bool
+	{
+		if (!Factory::getApplication()->isClient('administrator'))
+		{
+			return true;
+		}
+
+		list($form, $data) = $event->getArguments();
+
+		if ('com_config.component' !== $form->getName())
+		{
+			return true;
+		}
+
+		$component = Factory::getApplication()->input->getWord('component');
+
+		if ($this->isSupported($component))
+		{
+			$form->setField(simplexml_load_file(__DIR__ . '/config.xml'), null, true, 'integration');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Attempt to detect if this extension supports Versionable by trying to find one Table that implements VersionableTableInterface
+	 *
+	 * @param   string $extension The component name
+	 *
+	 * @return boolean
+	 *
+	 * @throws ReflectionException
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function isSupported(string $extension): bool
+	{
+		try
+		{
+			// Paths where we might find table classes
+			$paths = [
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/src/Table/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/src/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/Tables/',
+				JPATH_ADMINISTRATOR . '/components/' . $extension . '/Table/',
+			];
+
+			foreach ($paths as $path)
+			{
+				if (!file_exists($path))
+				{
+					continue;
+				}
+
+				$files = new DirectoryIterator($path);
+
+				foreach ($files as $file)
+				{
+					if ($file->getFileName() === '.' || $file->getFileName() === '..')
+					{
+						continue;
+					}
+
+					$name = str_replace('Table.php', '', $file->getFileName());
+
+					$model = Factory::getApplication()->bootComponent($extension)
+						->getMVCFactory()
+						->createModel($name, 'Administrator', ['ignore_request' => true]);
+
+					if (!$model)
+					{
+						continue;
+					}
+
+					$reflect = new ReflectionClass($model->getTable());
+
+					if ($reflect->implementsInterface(TaggableTableInterface::class))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		catch (\ReflectionException $exception)
+		{
+			return false;
+		}
+
+		return false;
 	}
 }

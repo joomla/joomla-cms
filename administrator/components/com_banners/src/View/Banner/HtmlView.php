@@ -19,6 +19,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\BannerModel;
 
@@ -54,6 +55,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -71,11 +80,28 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $model->getForm();
 		$this->item  = $model->getItem();
 		$this->state = $model->getState();
+		$this->canDo = ContentHelper::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
 		}
 
 		$this->addToolbar();
@@ -138,7 +164,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if ($this->isVersionable)
 			{
 				ToolbarHelper::versions('com_banners.banner', $this->item->id);
 			}

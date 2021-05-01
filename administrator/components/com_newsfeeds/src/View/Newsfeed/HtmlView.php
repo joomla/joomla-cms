@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -52,6 +53,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is Versionable plugin enabled
+	 *
+	 * @var  boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isVersionable = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -65,11 +74,34 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 		$this->item  = $this->get('Item');
 		$this->form  = $this->get('Form');
+		$this->canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Cache isVersionable so we can reuse when adding toolbar, and if isVersionable is false, remove form fields
+		if (PluginHelper::isEnabled('behaviour', 'versionable')
+			&& ComponentHelper::isEnabled('com_contenthistory')
+			&& $this->state->params->get('save_history', 0)
+			&& ($this->canDo->get('core.edit')
+			|| ($this->canDo->get('core.edit.own')
+			&& $this->item->created_by == Factory::getApplication()->getIdentity()->get('id')))
+		)
+		{
+			$this->isVersionable = true;
+		}
+		else
+		{
+			$this->form->removeField('version_note');
+		}
+
+		// If the plugin Taggable behaviour is disabled then remove the tags feature.
+		if (!PluginHelper::isEnabled('behaviour', 'taggable'))
+		{
+			$this->form->removeField('tags');
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -105,16 +137,13 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
-
 		$title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
 		ToolbarHelper::title($title, 'rss newsfeeds');
 
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
+		if (!$checkedOut && ($this->canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
 		{
 			ToolbarHelper::apply('newsfeed.apply');
 
@@ -127,7 +156,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
+		if (!$isNew && $this->canDo->get('core.create'))
 		{
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
@@ -145,7 +174,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if ($this->isVersionable)
 			{
 				ToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
