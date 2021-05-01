@@ -23,7 +23,7 @@ Factory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" . 
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
-		'class' => 'alert-default',
+		'class' => 'alert-secondary',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
 		'group' => 0,
 	),
