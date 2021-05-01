@@ -469,7 +469,6 @@ class UpdateModel extends BaseDatabaseModel
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
-		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Trigger event before joomla update.
 		$app->triggerEvent('onJoomlaBeforeUpdate');
