@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 					</small>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="text" id="new_name" name="new_name">
+					<input class="form-control" type="text" id="new_name" name="new_name" required>
 				</div>
 			</div>
 		</div>
