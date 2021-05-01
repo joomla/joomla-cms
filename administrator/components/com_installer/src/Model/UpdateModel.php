@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -629,5 +630,21 @@ class UpdateModel extends ListModel
 				PluginHelper::importPlugin($table->folder, $cname);
 				break;
 		}
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getEmptyStateQuery(): DatabaseQuery
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('extension_id') . ' != 0');
+
+		return $query;
 	}
 }
