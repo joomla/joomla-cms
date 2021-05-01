@@ -81,7 +81,7 @@ $hasClass = '';
 
 if ($this->countModules('sidebar-left', true))
 {
-	$hasClass .= 'has-sidebar-left';
+	$hasClass .= ' has-sidebar-left';
 }
 
 if ($this->countModules('sidebar-right', true))
