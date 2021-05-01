@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+
 <form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" id="adminForm">
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
