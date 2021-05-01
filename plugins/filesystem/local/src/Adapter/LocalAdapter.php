@@ -778,7 +778,15 @@ class LocalAdapter implements AdapterInterface
 	private function getSafeName(string $name): string
 	{
 		// Make the filename safe
-		$name = File::makeSafe($name);
+		if (!$name = File::makeSafe($name))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+		}
+
+		if (!$name = Factory::getLanguage()->transliterate($name))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_RENAME_FILE_ERROR_MAKESAFE'));
+		}
 
 		// Transform filename to punycode
 		$name = PunycodeHelper::toPunycode($name);
