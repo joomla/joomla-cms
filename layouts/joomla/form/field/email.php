@@ -49,6 +49,13 @@ extract($displayData);
  */
 
 $attributes = array(
+	'<input',
+	'type="email"',
+	'inputmode="email"',
+	'name="' . $name . '"',
+	'class="form-control validate-email' . (!empty($class) ? ' ' . $class : '') . '"',
+	'id="' . $id . '"',
+	'value="' . htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8') . '"',
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
@@ -64,12 +71,4 @@ $attributes = array(
 	$dataAttribute,
 );
 
-?>
-<input
-	type="email"
-	inputmode="email"
-	name="<?php echo $name; ?>"
-	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+echo implode(' ', array_values(array_filter($attributes))) . '>';
