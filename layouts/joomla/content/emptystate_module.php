@@ -12,13 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-if (!$textPrefix = $displayData['textPrefix'] ?? '')
-{
-	$textPrefix = strtoupper(Factory::getApplication()->input->get('option'));
-}
-
+$textPrefix = $displayData['textPrefix'];
 $icon = $displayData['icon'] ?? 'icon-copy article';
-
 $componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
 $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
 $moduleTitle = Text::_($moduleLangString);
