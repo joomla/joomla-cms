@@ -48,8 +48,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
-	'<input',
+$attributes = [
 	'type="email"',
 	'inputmode="email"',
 	'name="' . $name . '"',
@@ -69,6 +68,6 @@ $attributes = array(
 	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 	$dataAttribute,
-);
+];
 
-echo implode(' ', array_values(array_filter($attributes))) . '>';
+echo '<input ' . implode(' ', array_values(array_filter($attributes))) . '>';
