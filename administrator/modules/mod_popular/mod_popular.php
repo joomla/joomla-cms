@@ -22,7 +22,11 @@ if ($params->get('automatic_title', 0))
 	$module->title = PopularHelper::getTitle($params);
 }
 
-if (!count($list))
+if (count($list))
+{
+	require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
+}
+else
 {
 	$app->getLanguage()->load('com_content');
 
@@ -32,8 +36,4 @@ if (!count($list))
 			'icon'       => 'icon-copy',
 		]
 	);
-}
-else
-{
-	require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
 }

@@ -30,15 +30,15 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR)
 
 $list = PrivacyDashboardHelper::getData();
 
-if (!count($list))
+if (count($list))
 {
-	echo LayoutHelper::render('joomla.content.emptystate_module', [
-		'textPrefix' => 'COM_PRIVACY_REQUESTS',
-		'icon'       => 'icon-lock',
-		]
-	);
+	require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
 }
 else
 {
-	require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
+	echo LayoutHelper::render('joomla.content.emptystate_module', [
+			'textPrefix' => 'COM_PRIVACY_REQUESTS',
+			'icon'       => 'icon-lock',
+		]
+	);
 }
