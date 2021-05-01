@@ -181,7 +181,7 @@ class HtmlView extends BaseHtmlView
 			catch (\RuntimeException $exception)
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILALE'));
-				$this->type  = 'home';
+				$this->type = 'home';
 			}
 		}
 		elseif (in_array($ext, $fontTypes))
