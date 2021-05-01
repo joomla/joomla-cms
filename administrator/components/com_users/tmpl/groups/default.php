@@ -57,11 +57,11 @@ $wa->useScript('com_users.admin-users-groups');
 								<th scope="col" class="w-10 text-center">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" class="w-10 text-center">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<span class="icon-check" aria-hidden="true"></span>
 									<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
 								</th>
-								<th scope="col" class="w-10 text-center">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<span class="icon-times" aria-hidden="true"></span>
 									<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
 								</th>
@@ -103,11 +103,11 @@ $wa->useScript('com_users.admin-users-groups');
 										<span class="visually-hidden"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
-								<td class="text-center btns itemnumber">
+								<td class="text-center btns itemnumber d-none d-md-table-cell">
 									<a class="btn <?php echo $item->count_enabled > 0 ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 										<?php echo $item->count_enabled; ?></a>
 								</td>
-								<td class="text-center btns itemnumber">
+								<td class="text-center btns itemnumber d-none d-md-table-cell">
 									<a class="btn <?php echo $item->count_disabled > 0 ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 										<?php echo $item->count_disabled; ?></a>
 								</td>
