@@ -1,5 +1,5 @@
 <fieldset name="integration_versionable"
-		  label="JGLOBAL_INTEGRATION_LABEL"
+		  label="JTOOLBAR_VERSIONS"
 		  >
 	<fields>
 		<field
