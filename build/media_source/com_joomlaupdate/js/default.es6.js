@@ -440,7 +440,7 @@ Joomla = window.Joomla || {};
       }
     }
     // Insert the generated html
-    const extensionId = extensionData.element.getAttribute('data-extension-id');
+    const extensionId = parseInt(extensionData.element.getAttribute('data-extension-id'), 10);
     document.getElementById(`available-version-${extensionId}`).innerText = html;
 
     const compatType = document.querySelector(`#compatibilitytype${extensionData.compatibilityData.resultGroup} tbody`);
@@ -455,9 +455,8 @@ Joomla = window.Joomla || {};
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
       PreUpdateChecker.nonCoreCriticalPlugins.foreach((cpi) => {
-        // TODO: Make this typesafe
-        if (PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id == extensionId
-            || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id == extensionId) {
+        if (parseInt(PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id, 10) === extensionId
+            || parseInt(PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id, 10) === extensionId) {
           document.getElementById(`#plg_${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
