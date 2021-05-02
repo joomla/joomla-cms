@@ -8,12 +8,11 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
-
       if (pressbutton === 'mail.cancel') {
         Joomla.submitform(pressbutton);
         return;
       }
-
+      
       if (pressbutton === 'mail.send') {
         Joomla.submitform(pressbutton);
       }
