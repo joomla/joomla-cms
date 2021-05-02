@@ -57,7 +57,7 @@ $activeRequests = 0;
 	</tbody>
 </table>
 <?php if (count($list)) : ?>
-	<div class="row">
+	<div class="row p-3">
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
 	</div>
