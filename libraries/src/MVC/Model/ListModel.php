@@ -187,19 +187,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	public function getIsEmptyState(): bool
 	{
-		static $state;
-
-		if (empty($state))
-		{
-			$state = !($this->_getListCount($this->getEmptyStateQuery()));
-		}
-
-		if (true === $state)
-		{
-			$this->resetState($this->getActiveFilters(), true);
-		}
-
-		return $state;
+		return $this->_getListCount($this->getEmptyStateQuery()) === 0;
 	}
 
 	/**

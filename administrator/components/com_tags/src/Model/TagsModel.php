@@ -336,7 +336,10 @@ class TagsModel extends ListModel
 	 */
 	protected function getEmptyStateQuery(): DatabaseQuery
 	{
-		return parent::getEmptyStateQuery()
-			->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+
+		return $query;
 	}
 }

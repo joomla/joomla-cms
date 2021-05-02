@@ -10,7 +10,6 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -99,30 +98,5 @@ trait StateBehaviorTrait
 	 */
 	protected function populateState()
 	{
-	}
-
-	/**
-	 * Reset active filter states.
-	 *
-	 * @param   array    $activefilters  The array of filters to clear.
-	 * @param   boolean  $session        Should we clear the userState also.
-	 *
-	 * @throws \Exception
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function resetState(array $activefilters, bool $session = false): void
-	{
-		$app = Factory::getApplication();
-
-		foreach ($activefilters as $activefilter => $filterstate)
-		{
-			if ($session === true)
-			{
-				$app->setUserState($this->context . '.filter.' . $activefilter, '');
-			}
-
-			$this->setState('filter.' . $activefilter, '');
-		}
 	}
 }
