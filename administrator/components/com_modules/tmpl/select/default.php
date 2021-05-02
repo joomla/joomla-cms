@@ -49,9 +49,9 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
-		<h4 class="pb-3 ms-3">
+		<h2 class="pb-3 ms-3">
 			<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
-		</h4>
+		</h2>
 		<div class="main-card card-columns p-4">
 			<?php foreach ($this->items as &$item) : ?>
 				<a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
