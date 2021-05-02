@@ -16,8 +16,7 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_users.admin-users-mail')
-	->useScript('form.validate');
+$wa->useScript('form.validate');
 
 $comUserParams = ComponentHelper::getParams('com_users');
 ?>
