@@ -37,7 +37,7 @@ $lang     = Factory::getLanguage()->getTag();
 	<?php // Add the translation of the workflow item title when client is administrator ?>
 	<?php if ($clientId === 0 && $this->item->id != 0) : ?>
 		<div class="row title-alias form-vertical mb-3">
-			<div class="col-12">
+			<div class="col-12 col-md-6">
 				<div class="control-group">
 					<div class="control-label">
 						<label for="workflow_title_translation"><?php echo Text::sprintf('COM_WORKFLOW_TITLE_TRANSLATION', $lang); ?></label>
@@ -54,25 +54,28 @@ $lang     = Factory::getLanguage()->getTag();
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
-		<div class="row">
-			<div class="col-lg-9">
-				<div class="card card-block">
-					<div class="card-body form-vertical">
-					<?php echo $this->form->renderField('description'); ?>
+		<fieldset class="options-form">
+			<legend><?php echo Text::_('COM_WORKFLOW_DESCRIPTION'); ?></legend>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="card card-block">
+							<div class="card-body form-vertical">
+							<?php echo $this->form->renderField('description'); ?>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="card card-block">
+							<div class="card-body">
+								<fieldset class="form-vertical">
+									<?php echo $this->form->renderField('published'); ?>
+									<?php echo $this->form->renderField('default'); ?>
+								</fieldset>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="card card-block">
-					<div class="card-body">
-						<fieldset class="form-vertical">
-							<?php echo $this->form->renderField('published'); ?>
-							<?php echo $this->form->renderField('default'); ?>
-						</fieldset>
-					</div>
-				</div>
-			</div>
-		</div>
+		</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if ($user->authorise('core.admin', $this->extension)) : ?>
