@@ -361,7 +361,15 @@ class UpdateModel extends ListModel
 			}
 
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
-			$update->set('extra_query', $instance->extra_query);
+			
+			// Find and use extra_query from update_site if available
+			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance->load($instance->update_site_id);
+
+			if ($updateSiteInstance->extra_query)
+			{
+				$update->set('extra_query', $updateSiteInstance->extra_query);
+			}
 
 			$this->preparePreUpdate($update, $instance);
 

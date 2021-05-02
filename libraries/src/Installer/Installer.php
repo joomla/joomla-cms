@@ -122,6 +122,14 @@ class Installer extends Adapter
 	protected $packageUninstall = false;
 
 	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $extraQuery = '';
+
+	/**
 	 * JInstaller instances container.
 	 *
 	 * @var    Installer[]
