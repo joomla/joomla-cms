@@ -12,7 +12,6 @@
         Joomla.submitform(pressbutton);
         return;
       }
-      
       if (pressbutton === 'mail.send') {
         Joomla.submitform(pressbutton);
       }
