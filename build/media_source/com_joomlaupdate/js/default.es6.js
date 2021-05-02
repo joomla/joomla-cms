@@ -314,11 +314,11 @@ Joomla = window.Joomla || {};
 
     // Grab all extensions based on the selector set in the config object
     [].slice.call(extensions)
-        .forEach((extension) => {
-          // Check compatibility for each extension, pass an object and a callback
-          // function after completing the request
-          PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
-        });
+      .forEach((extension) => {
+        // Check compatibility for each extension, pass an object and a callback
+        // function after completing the request
+        PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
+      });
   };
 
   /**
@@ -389,8 +389,8 @@ Joomla = window.Joomla || {};
           } else {
             // eslint-disable-next-line max-len
             html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
-                ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
-                : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+              ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+              : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
           }
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
@@ -423,8 +423,8 @@ Joomla = window.Joomla || {};
         case PreUpdateChecker.STATE.COMPATIBLE:
           // eslint-disable-next-line max-len
           html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false
-              ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
-              : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+            ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+            : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
           // No compatible version found -> display error label
@@ -483,7 +483,7 @@ Joomla = window.Joomla || {};
           const tableRow = problemPluginRow.closest('tr');
           tableRow.classList.add('error');
           const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.innerHTML =`${pluginTitleTableCell.innerHTML}
+          pluginTitleTableCell.innerHTML = `${pluginTitleTableCell.innerHTML}
               <span class="label label-warning " >
               <span class="icon-warning"></span>
               ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
