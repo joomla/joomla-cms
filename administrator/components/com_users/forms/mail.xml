@@ -48,6 +48,7 @@
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
 			size="30"
+			required="true"
 		/>
 
 		<field
@@ -56,6 +57,7 @@
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
 			cols="70"
 			rows="20"
+			required="true"
 		/>
 	</fieldset>
 </form>
