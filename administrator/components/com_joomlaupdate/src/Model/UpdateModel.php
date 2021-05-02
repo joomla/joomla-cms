@@ -1405,6 +1405,62 @@ ENDDATA;
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
+			$extension->manifest_cache = $decode;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
+	 *
+	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
+	 *
+	 * @return  array  name,version,updateserver
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNonCorePlugins($folderFilter = array())
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn('ex.name') . ', ' .
+			$db->qn('ex.extension_id') . ', ' .
+			$db->qn('ex.manifest_cache') . ', ' .
+			$db->qn('ex.type') . ', ' .
+			$db->qn('ex.folder') . ', ' .
+			$db->qn('ex.element') . ', ' .
+			$db->qn('ex.client_id') . ', ' .
+			$db->qn('ex.package_id')
+		)->from(
+			$db->qn('#__extensions', 'ex')
+		)->where(
+			$db->qn('ex.type') . ' = ' . $db->quote('plugin')
+		)->where(
+			$db->qn('ex.enabled') . ' = 1'
+		)->whereNotIn(
+			$db->quoteName('ex.extension_id'), ExtensionHelper::getCoreExtensionIds()
+		);
+
+		if (count($folderFilter) > 0)
+		{
+			$folderFilter = array_map(array($db, 'quote'), $folderFilter);
+
+			$query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+		}
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		foreach ($rows as $plugin)
+		{
+			$decode = json_decode($plugin->manifest_cache);
+			$this->translateExtensionName($plugin);
+			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+			unset($plugin->manifest_cache);
+			$plugin->manifest_cache = $decode;
 		}
 
 		return $rows;
