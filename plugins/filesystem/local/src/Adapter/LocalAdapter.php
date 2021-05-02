@@ -783,11 +783,6 @@ class LocalAdapter implements AdapterInterface
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
 		}
 
-		if (!$name = Factory::getLanguage()->transliterate($name))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
-		}
-
 		// Transform filename to punycode
 		$name = PunycodeHelper::toPunycode($name);
 
