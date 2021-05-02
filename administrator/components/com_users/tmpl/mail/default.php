@@ -14,18 +14,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true);
-Text::script('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true);
-Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true);
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_users.admin-users-mail');
+$wa->useScript('com_users.admin-users-mail')
+	->useScript('form.validate');
 
 $comUserParams = ComponentHelper::getParams('com_users');
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm" aria-label="<?php echo Text::_('COM_USERS_MASSMAIL_FORM_NEW'); ?>">
+<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm" aria-label="<?php echo Text::_('COM_USERS_MASSMAIL_FORM_NEW'); ?>" class="form-validate">
 	<div class="row mt-2">
 		<div class="col-md-9">
 			<div class="card">
