@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Maps model for the Finder package.
@@ -391,5 +392,24 @@ class MapsModel extends ListModel
 		$db->execute();
 
 		return true;
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$title = 'ROOT';
+
+		$query->where($this->_db->quoteName('title') . ' != :title')
+			->bind(':title', $title);
+
+		return $query;
 	}
 }
