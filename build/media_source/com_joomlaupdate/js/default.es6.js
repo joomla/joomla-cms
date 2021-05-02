@@ -156,7 +156,7 @@ Joomla = window.Joomla || {};
     });
 
     // eslint-disable-next-line no-undef
-    PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+    PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins');
 
     // If there are no non Core Critical Plugins installed, and we are in the update view, then
     // disable the warnings upfront
@@ -314,11 +314,11 @@ Joomla = window.Joomla || {};
 
     // Grab all extensions based on the selector set in the config object
     [].slice.call(extensions)
-      .forEach((extension) => {
-        // Check compatibility for each extension, pass an object and a callback
-        // function after completing the request
-        PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
-      });
+        .forEach((extension) => {
+          // Check compatibility for each extension, pass an object and a callback
+          // function after completing the request
+          PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
+        });
   };
 
   /**
@@ -389,8 +389,8 @@ Joomla = window.Joomla || {};
           } else {
             // eslint-disable-next-line max-len
             html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
-              ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
-              : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+                ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+                : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
           }
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
@@ -423,8 +423,8 @@ Joomla = window.Joomla || {};
         case PreUpdateChecker.STATE.COMPATIBLE:
           // eslint-disable-next-line max-len
           html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false
-            ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
-            : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+              ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+              : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
           // No compatible version found -> display error label
@@ -454,10 +454,10 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.foreach((cpi) => {
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cp, cpi) => {
         // TODO: Make this typesafe
-        if (PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id == extensionId
-            || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id == extensionId) {
+        if (PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id.toString() === extensionId
+            || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id.toString() === extensionId) {
           document.getElementById(`#plg_${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
@@ -474,19 +474,19 @@ Joomla = window.Joomla || {};
     // Have we finished?
     if (!document.querySelector('#compatibilitytype0 tbody td')) {
       document.getElementById('compatibilitytype0').style.display = 'none';
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cpi) => {
-        let problemPluginRow = document.querySelectorAll(`td[data-extension-id=${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}]`);
-        if (!problemPluginRow.length) {
-          problemPluginRow = document.querySelectorAll(`td[data-extension-id=${PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id}]`);
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cp, cpi) => {
+        let problemPluginRow = document.querySelector(`td[data-extension-id="${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}"]`);
+        if (!problemPluginRow) {
+          problemPluginRow = document.querySelector(`td[data-extension-id="${PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id}"]`);
         }
-        if (problemPluginRow.length) {
+        if (problemPluginRow) {
           const tableRow = problemPluginRow.closest('tr');
-          tableRow.addClass('error');
+          tableRow.classList.add('error');
           const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.html(`${pluginTitleTableCell.html()}
+          pluginTitleTableCell.innerHTML =`${pluginTitleTableCell.innerHTML}
               <span class="label label-warning " >
               <span class="icon-warning"></span>
-              Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
+              ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
               </span>
 
               <span class="label label-important hasPopover"
@@ -495,10 +495,12 @@ Joomla = window.Joomla || {};
               >
               <span class="icon-help"></span>
               ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')}
-              </span>`);
-          const popoverElement = pluginTitleTableCell.find('.hasPopover');
-          popoverElement.style.cursor = 'pointer';
-          popoverElement.popover({ placement: 'top', trigger: 'focus click' });
+              </span>`;
+          const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
+          if (popoverElement) {
+            // popoverElement.style.cursor = 'pointer';
+            // popoverElement.popover({placement: 'top', trigger: 'focus click'});
+          }
         }
       });
 
