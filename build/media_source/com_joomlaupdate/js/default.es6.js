@@ -473,7 +473,7 @@ Joomla = window.Joomla || {};
     // Have we finished?
     if (!document.querySelector('#compatibilitytype0 tbody td')) {
       document.getElementById('compatibilitytype0').style.display = 'none';
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin) => {
         let problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`);
         if (!problemPluginRow) {
           problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.package_id}"]`);
