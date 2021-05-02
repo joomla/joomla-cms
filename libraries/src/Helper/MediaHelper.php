@@ -200,8 +200,8 @@ class MediaHelper
 
 		$allowable = $params->get(
 			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,webp,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,WEBP,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,webp,xcf,xls,BMP,' .
+				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,WEBP,XCF,XLS'
 		);
 		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
