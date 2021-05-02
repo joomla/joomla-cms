@@ -497,7 +497,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function getEmptyStateQuery(): DatabaseQuery
+	protected function getEmptyStateQuery()
 	{
 		$query = parent::getEmptyStateQuery();
 
