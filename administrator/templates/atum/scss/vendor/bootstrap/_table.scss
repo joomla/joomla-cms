@@ -34,7 +34,6 @@
       @include media-breakpoint-down(md) {
         width: 28%;
       }
-
     }
   }
 
@@ -62,6 +61,10 @@
 
     th {
       font-weight: $medium-weight;
+    }
+
+    a:not(.badge) {
+      text-decoration: underline;
     }
   }
 
