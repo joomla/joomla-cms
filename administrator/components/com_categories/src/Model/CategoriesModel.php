@@ -501,12 +501,6 @@ class CategoriesModel extends ListModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		// Remove select because it contains fields from joined tables, that have been removed from join.
-		$query->clear('select');
-
-		// Add back a simple count select.
-		$query->select('count(*)');
-
 		// Get the extension from the filter
 		$extension = $this->getState('filter.extension');
 
