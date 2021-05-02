@@ -44,18 +44,10 @@
 				/>
 
 				<field
-					name="width"
-					type="number"
-					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
-					default="100"
-					filter="integer"
-				/>
-
-				<field
-					name="height"
-					type="number"
-					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
-					filter="integer"
+					name="class"
+					type="text"
+					label="MOD_RANDOM_IMAGE_FIELD_CLASS_LABEL"
+					validate="CssIdentifier"
 				/>
 
 			</fieldset>
