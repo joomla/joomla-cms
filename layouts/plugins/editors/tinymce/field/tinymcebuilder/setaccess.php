@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,6 @@ extract($displayData);
  */
 
 ?>
-<div class="setoptions-form-wrapper">
-<?php foreach ($form->getFieldset('basic') as $field) : ?>
-	<?php echo $field->renderField(); ?>
-<?php endforeach; ?>
+<div class="setaccess-form-wrapper my-3">
+	<?php echo $form->renderField('access'); ?>
 </div>
