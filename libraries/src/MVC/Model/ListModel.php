@@ -157,7 +157,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function getEmptyStateQuery(): DatabaseQuery
+	protected function getEmptyStateQuery()
 	{
 		$query = clone $this->_getListQuery();
 
