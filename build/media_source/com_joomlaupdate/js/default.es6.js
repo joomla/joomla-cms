@@ -454,11 +454,10 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cp, cpi) => {
-        // TODO: Make this typesafe
-        if (PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id.toString() === extensionId
-            || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id.toString() === extensionId) {
-          document.getElementById(`#plg_${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}`).remove();
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
+        if (plugin.package_id.toString() === extensionId
+            || plugin.extension_id.toString() === extensionId) {
+          document.getElementById(`#plg_${plugin.extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
       });
@@ -474,10 +473,10 @@ Joomla = window.Joomla || {};
     // Have we finished?
     if (!document.querySelector('#compatibilitytype0 tbody td')) {
       document.getElementById('compatibilitytype0').style.display = 'none';
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cp, cpi) => {
-        let problemPluginRow = document.querySelector(`td[data-extension-id="${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}"]`);
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
+        let problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`);
         if (!problemPluginRow) {
-          problemPluginRow = document.querySelector(`td[data-extension-id="${PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id}"]`);
+          problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.package_id}"]`);
         }
         if (problemPluginRow) {
           const tableRow = problemPluginRow.closest('tr');
