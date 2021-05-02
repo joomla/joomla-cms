@@ -125,7 +125,7 @@ class Installer extends Adapter
 	 * Backup extra_query during update_sites rebuild
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.26
 	 */
 	public $extraQuery = '';
 
