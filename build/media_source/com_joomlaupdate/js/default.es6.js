@@ -503,8 +503,7 @@ Joomla = window.Joomla || {};
       });
 
       // If we aren't in the update view now - bail early.
-      if (document.getElementById('updateView') === null)
-      {
+      if (document.getElementById('updateView') === null) {
         return;
       }
 
