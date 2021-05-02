@@ -50,7 +50,7 @@
       color: hsl(var(--hue), 30%, 40%);
     }
 
-    &:hover {
+    .new-module:hover & {
       background: var(--atum-bg-dark);
 
       span {

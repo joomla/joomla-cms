@@ -54,7 +54,7 @@ endif;
 		</h4>
 		<div class="main-card card-columns p-4">
 			<?php foreach ($this->items as &$item) : ?>
-				<div class="new-module mb-3 comModulesSelectCard">
+				<a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
 					<?php // Prepare variables for the link. ?>
 					<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
 					<?php $name = $this->escape($item->name); ?>
@@ -65,10 +65,10 @@ endif;
 							<?php echo $desc; ?>
 						</p>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="new-module-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<span class="new-module-link">
 						<span class="icon-plus" aria-hidden="true"></span>
-					</a>
-				</div>
+					</span>
+				</a>
 			<?php endforeach; ?>
 		</div>
 	</div>
