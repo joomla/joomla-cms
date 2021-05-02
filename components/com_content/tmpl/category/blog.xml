@@ -209,11 +209,17 @@
 
 			<field
 				name="num_columns"
-				type="text"
+				type="list"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				parentclass="stack span-1-inline"
 				useglobal="true"
-			/>
+				validate="options"
+			>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+			</field>
 
 			<field
 				name="multi_column_order"
