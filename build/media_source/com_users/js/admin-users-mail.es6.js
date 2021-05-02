@@ -8,13 +8,13 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
-      const form = document.adminForm;
-      const html = document.createElement('joomla-alert');
 
       if (pressbutton === 'mail.cancel') {
         Joomla.submitform(pressbutton);
         return;
-      } else {
+      }
+
+      if (pressbutton === 'mail.send') {
         Joomla.submitform(pressbutton);
       }
     };
