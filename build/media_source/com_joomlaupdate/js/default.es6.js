@@ -440,7 +440,7 @@ Joomla = window.Joomla || {};
       }
     }
     // Insert the generated html
-    const extensionId = parseInt(extensionData.element.getAttribute('data-extension-id'), 10);
+    const extensionId = parseInt(extensionData.element.getAttribute('data-extension-id'), 10) || 0;
     document.getElementById(`available-version-${extensionId}`).innerText = html;
 
     const compatType = document.querySelector(`#compatibilitytype${extensionData.compatibilityData.resultGroup} tbody`);
