@@ -286,7 +286,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$registry = new Registry(new \JConfig);
 		$this->config = $registry->toArray();
 		$hidden = [
-			'host', 'user', 'password',
+			'host', 'user', 'password', 'ftp_user', 'ftp_pass',
 			'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
 			'proxy_user', 'proxy_pass', 'secret'
 		];
