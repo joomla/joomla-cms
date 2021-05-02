@@ -20,7 +20,7 @@ $this->app->getDocument()->getWebAssetManager()
 
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
-<hr>
+
 <div class="control-group">
 	<label for="install_url" class="control-label">
 		<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
