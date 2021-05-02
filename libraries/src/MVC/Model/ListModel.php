@@ -167,8 +167,6 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				->clear('group')
 				->clear('having')
 				->clear('join')
-				->clear('limit')
-				->clear('offset')
 				->clear('values')
 				->clear('where');
 		}
