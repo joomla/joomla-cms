@@ -339,5 +339,7 @@ class TagsModel extends ListModel
 		$query = parent::getEmptyStateQuery();
 
 		$query->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+
+		return $query;
 	}
 }
