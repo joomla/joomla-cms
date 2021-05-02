@@ -456,7 +456,8 @@ Joomla = window.Joomla || {};
     if (extensionData.compatibilityData.resultGroup === 3) {
       PreUpdateChecker.nonCoreCriticalPlugins.foreach((cpi) => {
         if (parseInt(PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id, 10) === extensionId
-            || parseInt(PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id, 10) === extensionId) {
+            || parseInt(PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id, 10)
+               === extensionId) {
           document.getElementById(`#plg_${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
