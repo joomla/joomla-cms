@@ -956,7 +956,7 @@ class ApplicationModel extends FormModel
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
-		
+
 		// Attempt to make the file unwriteable.
 		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
