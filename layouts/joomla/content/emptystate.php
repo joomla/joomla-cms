@@ -27,6 +27,9 @@ $helpURL    = $displayData['helpURL'] ?? '';
 $title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
 $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 $icon       = $displayData['icon'] ?? 'icon-copy article';
+$append     = $displayData['formAppend'] ?? '';
+$title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
+$content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
@@ -50,6 +53,11 @@ $icon       = $displayData['icon'] ?? 'icon-copy article';
 			</div>
 		</div>
 	</div>
+
+	<?php
+		// Allow appending any modals (Eg: Bulk Import on com_redirect).
+		echo $append;
+	?>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="boxchecked" value="0">
