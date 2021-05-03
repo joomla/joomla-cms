@@ -498,7 +498,7 @@ Joomla = window.Joomla || {};
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
-            new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
+            let popover = new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
           }
         }
       });
