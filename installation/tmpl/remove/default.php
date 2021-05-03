@@ -135,37 +135,39 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php endforeach; ?>
 			<?php
 			if ($displayTable) : ?>
-				<p class="install-text"><?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 				<table class="table table-sm">
+					<caption>
+						<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
+					</caption>
 					<thead>
-					<tr>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
-						</th>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
-						</th>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
-						</th>
-					</tr>
+						<tr>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
+							</th>
+						</tr>
 					</thead>
 					<tbody>
 					<?php foreach ($this->phpsettings as $setting) : ?>
 						<?php if ($setting->state !== $setting->recommended) : ?>
 							<tr>
-								<td>
+								<th scope="row">
 									<?php echo $setting->label; ?>
+								</th>
+								<td>
+									<span class="badge bg-success disabled">
+										<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+									</span>
 								</td>
 								<td>
-							<span class="badge bg-success disabled">
-								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-							</span>
-								</td>
-								<td>
-							<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
-							</span>
+									<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+										<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
+									</span>
 								</td>
 							</tr>
 						<?php endif; ?>

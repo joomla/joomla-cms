@@ -114,6 +114,12 @@ class ApplicationModel extends FormModel
 		// Merge in the session data.
 		if (!empty($temp))
 		{
+			// $temp can sometimes be an object, and we need it to be an array
+			if (is_object($temp))
+			{
+				$temp = ArrayHelper::fromObject($temp);
+			}
+
 			$data = array_merge($temp, $data);
 		}
 
