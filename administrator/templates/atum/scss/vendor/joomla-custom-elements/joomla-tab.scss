@@ -32,10 +32,10 @@ joomla-tab {
   > ul {
     display: flex;
     flex-flow: wrap;
-    padding: 5px 0 0;
+    padding: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-bottom: 1px solid var(--atum-bg-dark-7);
+    border-bottom: 1px solid var(--atum-bg-dark-10);
 
     li + li {
       margin-left: 1px;
@@ -65,7 +65,7 @@ joomla-tab {
           right: 0;
           bottom: -1px;
           left: 0;
-          height: 2px;
+          height: 3px;
           content: "";
           background-color: var(--atum-link-color);
           opacity: .8;
@@ -73,6 +73,7 @@ joomla-tab {
       }
 
       &[active] {
+        background: var(--atum-bg-dark-3);
         font-weight: $font-weight-bold;
       }
     }
@@ -299,6 +300,6 @@ joomla-tab {
   }
 
   .main-card-columns > * > & {
-    border-left: 1px solid var(--atum-bg-dark-7);
+    border-left: 1px solid var(--atum-bg-dark-10);
   }
 }
