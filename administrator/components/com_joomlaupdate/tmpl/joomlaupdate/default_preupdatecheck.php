@@ -17,9 +17,9 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 /** @var HtmlView $this */
 
 // JText::script doesn't have a sprintf equivalent so work around this
-Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true));
-Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true));
-Factory::getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
+Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true))
+	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true))
+	->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
