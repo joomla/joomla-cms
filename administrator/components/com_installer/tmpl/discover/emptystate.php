@@ -20,6 +20,8 @@ $displayData = [
 	'icon'       => 'icon-puzzle-piece install',
 	'createURL'  => 'index.php?option=com_installer&task=discover.refresh&' . Session::getFormToken() . '=1',
 	'content'    => Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
+	'title'      => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
+	'btnadd'     => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

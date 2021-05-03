@@ -272,28 +272,18 @@ class DiscoverModel extends InstallerModel
 	}
 
 	/**
-	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
 	 *
-	 * @return boolean
+	 * @return DatabaseQuery
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getisEmptyState()
+	protected function getEmptyStateQuery()
 	{
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->clear('where')
-			->select('count(*)');
+		$query = parent::getEmptyStateQuery();
 
-		$sql->where($this->_db->quoteName('state') . ' = -1');
+		$query->where($this->_db->quoteName('state') . ' = -1');
 
-		$this->_db->setQuery($sql);
-
-		return !($this->_db->loadResult() > 0);
+		return $query;
 	}
 }
