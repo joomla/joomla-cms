@@ -241,27 +241,29 @@
 
   .toggler-burger {
     position: fixed;
-    bottom: 20px;
+    bottom: 4px;
     z-index: $zindex-mobile-toggle;
     display: block;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
+    border: 4px solid var(--atum-bg-light);
     border-radius: 40px;
 
     [dir="ltr"] & {
-      right: 10px;
+      right: 4px;
     }
 
     [dir="rtl"] & {
-      left: 10px;
+      left: 4px;
     }
 
     .navbar-toggler-icon::before {
-      font: normal normal 900 30px/1 "Font Awesome 5 Free";
+      display: inline-block;
+      font: normal normal 900 20px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
+      transform: translate(-6px,5px);
     }
 
     &.collapsed {

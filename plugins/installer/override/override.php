@@ -365,7 +365,7 @@ class PlgInstallerOverride extends CMSPlugin
 						[
 							$this->db->quoteName('modified_date') . ' = :modifiedDate',
 							$this->db->quoteName('action') . ' = :pkAction',
-							$this->db->quoteName('state') . ' = 0'
+							$this->db->quoteName('state') . ' = 0',
 						]
 					)
 					->where($this->db->quoteName('hash_id') . ' = :pkId')
@@ -392,7 +392,7 @@ class PlgInstallerOverride extends CMSPlugin
 				],
 				ParameterType::STRING
 			);
-			$bindArray = \array_merge(
+			$bindArray = array_merge(
 				$bindArray,
 				$insertQuery->bindArray(
 					[

@@ -131,7 +131,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
 		{
 			$form->loadFile('information', false);
 
@@ -343,7 +343,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					];
 
 					$cache = Cache::getInstance('callback', $options);

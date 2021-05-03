@@ -106,7 +106,7 @@ class UsersController extends ApiController
 		if (array_key_exists('registrationDateStart', $apiFilterInfo))
 		{
 			$registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
-			$registrationStartDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationStartInput);
+			$registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
 
 			if (!$registrationStartDate)
 			{
@@ -122,7 +122,7 @@ class UsersController extends ApiController
 		if (array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
 			$registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
-			$registrationEndDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationEndInput);
+			$registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
 
 			if (!$registrationEndDate)
 			{
@@ -143,7 +143,7 @@ class UsersController extends ApiController
 		if (array_key_exists('lastVisitDateStart', $apiFilterInfo))
 		{
 			$lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
-			$lastVisitStartDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitStartInput);
+			$lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
 
 			if (!$lastVisitStartDate)
 			{
@@ -158,7 +158,7 @@ class UsersController extends ApiController
 		if (array_key_exists('lastVisitDateEnd', $apiFilterInfo))
 		{
 			$lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
-			$lastVisitEndDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitEndInput);
+			$lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
 
 			if (!$lastVisitEndDate)
 			{
