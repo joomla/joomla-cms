@@ -363,7 +363,7 @@ class UpdateModel extends ListModel
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 
 			// Find and use extra_query from update_site if available
-			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
 			$updateSiteInstance->load($instance->update_site_id);
 
 			if ($updateSiteInstance->extra_query)
