@@ -143,6 +143,20 @@ th dd {
   font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
 }
 
+.dl-horizontal {
+  display: grid;
+  grid-template-columns: auto;
+  dd {
+    padding: 0;
+  }
+  [dir="rtl"] dd {
+    padding: 0;
+  }
+  @include media-breakpoint-up(xl) {
+    grid-template-columns: 200px auto;
+  }
+}
+
 figure {
   margin: 0 0 ($cassiopeia-grid-gutter*2);
   &.float-start {
