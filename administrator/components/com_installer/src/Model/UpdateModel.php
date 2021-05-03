@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -360,7 +361,15 @@ class UpdateModel extends ListModel
 			}
 
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
-			$update->set('extra_query', $instance->extra_query);
+
+			// Find and use extra_query from update_site if available
+			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance->load($instance->update_site_id);
+
+			if ($updateSiteInstance->extra_query)
+			{
+				$update->set('extra_query', $updateSiteInstance->extra_query);
+			}
 
 			$this->preparePreUpdate($update, $instance);
 
@@ -629,5 +638,21 @@ class UpdateModel extends ListModel
 				PluginHelper::importPlugin($table->folder, $cname);
 				break;
 		}
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getEmptyStateQuery(): DatabaseQuery
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('extension_id') . ' != 0');
+
+		return $query;
 	}
 }

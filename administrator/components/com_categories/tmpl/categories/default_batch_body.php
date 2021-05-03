@@ -44,6 +44,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
+	<?php if ($extension === 'com_content') : ?>
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="control-group">
@@ -56,5 +57,6 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
+	<?php endif; ?>
 </div>
 
