@@ -261,7 +261,6 @@ class LocalAdapter implements AdapterInterface
 		File::write($localPath, $data);
 	}
 
-
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
@@ -437,7 +436,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
 		}
 
 		// Check for existence of the file in destination
@@ -550,7 +549,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
 		}
 
 		if (is_dir($sourcePath))
