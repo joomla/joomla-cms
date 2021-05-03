@@ -498,7 +498,8 @@ Joomla = window.Joomla || {};
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
-            const popover = new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
+            // eslint-disable-next-line no-new
+            new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
           }
         }
       });
