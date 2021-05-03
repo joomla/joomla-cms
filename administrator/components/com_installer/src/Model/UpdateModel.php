@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -363,7 +364,7 @@ class UpdateModel extends ListModel
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 
 			// Find and use extra_query from update_site if available
-			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance = Table::getInstance('Updatesite');
 			$updateSiteInstance->load($instance->update_site_id);
 
 			if ($updateSiteInstance->extra_query)
