@@ -30,7 +30,7 @@ endif;
 
 <div class="d-none" id="comModulesSelectSearchContainer">
 	<div class="d-flex mt-2">
-		<div class="ms-auto">
+		<div class="ms-auto me-auto">
 			<label class="visually-hidden" for="comModulesSelectSearch">
 				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 			</label>
