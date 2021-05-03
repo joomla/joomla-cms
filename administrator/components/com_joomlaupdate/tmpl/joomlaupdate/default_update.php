@@ -114,77 +114,77 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 	<div id="preupdatecheckheadings">
 		<table class="table table-striped">
 			<thead>
-			<th>
-				<?php echo Text::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
-			</th>
-			<th>
-				<?php echo Text::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
-			</th>
-			<th>
-				<?php echo Text::_('COM_INSTALLER_AUTHOR_INFORMATION'); ?>
-			</th>
-			<th>
-				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_EXTENSION_AUTHOR_URL'); ?>
-			</th>
+				<th>
+					<?php echo Text::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('COM_INSTALLER_AUTHOR_INFORMATION'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_EXTENSION_AUTHOR_URL'); ?>
+				</th>
 			</thead>
 			<tbody>
-			<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
-				<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
-					<td>
-						<?php echo Text::_($nonCoreCriticalPlugin->name); ?>
-					</td>
-					<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
-						<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
-							<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+				<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
+					<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
+						<td>
+							<?php echo Text::_($nonCoreCriticalPlugin->name); ?>
+						</td>
+						<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
+							<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+								<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+									<td>
+										<?php echo $nonCoreExtension->name; ?>
+									</td>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php else : ?>
+							<td/>
+						<?php endif; ?>
+						<td>
+							<?php if (isset($nonCoreCriticalPlugin->manifest_cache->author)) : ?>
+								<?php echo Text::_($nonCoreCriticalPlugin->manifest_cache->author); ?>
+							<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
+							<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+								<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
 								<td>
 									<?php echo $nonCoreExtension->name; ?>
 								</td>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					<?php else : ?>
-						<td/>
-					<?php endif; ?>
-					<td>
-						<?php if (isset($nonCoreCriticalPlugin->manifest_cache->author)) : ?>
-							<?php echo Text::_($nonCoreCriticalPlugin->manifest_cache->author); ?>
-						<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
-						<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
-						<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
-					<td>
-						<?php echo $nonCoreExtension->name; ?>
-					</td>
-				<?php endif; ?>
-				<?php endforeach; ?>
-				<?php endif;?>
-					</td>
-					<td>
-						<?php
-						$authorURL = "";
-						if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl))
-						{
-							$authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl;
-						}
-						elseif ($nonCoreCriticalPlugin->package_id > 0)
-						{
-							foreach ($this->nonCoreExtensions as $nonCoreExtension)
+								<?php endif; ?>
+							<?php endforeach; ?>
+							<?php endif;?>
+						</td>
+						<td>
+							<?php
+							$authorURL = "";
+							if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl))
 							{
-								if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
+								$authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl;
+							}
+							elseif ($nonCoreCriticalPlugin->package_id > 0)
+							{
+								foreach ($this->nonCoreExtensions as $nonCoreExtension)
 								{
-									$authorURL = $nonCoreExtension->manifest_cache->authorUrl;
+									if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
+									{
+										$authorURL = $nonCoreExtension->manifest_cache->authorUrl;
+									}
 								}
 							}
-						}
-						?>
-						<?php if (!empty($authorURL)) : ?>
-							<a href="<?php echo $authorURL; ?>" target="_blank" >
+							?>
+							<?php if (!empty($authorURL)) : ?>
+								<a href="<?php echo $authorURL; ?>" target="_blank" >
 								<?php echo $authorURL; ?>
 								<span class="icon-out-2" aria-hidden="true"></span>
 								<span class="element-invisible"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
-							</a>
-						<?php endif;?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
+								</a>
+							<?php endif;?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
 			</tbody>
 		</table>
 	</div>
