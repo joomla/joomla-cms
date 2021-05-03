@@ -11,7 +11,7 @@ $jicon-css-prefix: icon !default;
 [class*=" #{$jicon-css-prefix}-"] {
   @extend %fa-icon;
   @extend .fas;
-  speak: none;
+  speak-as: none;
 }
 
 [class^="#{$jicon-css-prefix}-"],
@@ -432,7 +432,7 @@ $jicons: (
   universal-access : $fa-var-universal-access,
   unlock-alt : $fa-var-unlock-alt,
   unlock : $fa-var-unlock,
-  unpublish : $fa-var-times,
+  unpublish : $fa-var-ban,
   uparrow : $fa-var-chevron-up,
   upload : $fa-var-upload,
   user-circle : $fa-var-user-circle,
