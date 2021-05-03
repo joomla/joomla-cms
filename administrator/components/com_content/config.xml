@@ -760,6 +760,7 @@
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			default="0"
 			parentclass="stack span-1-inline"
+			validate="options"
 			>
 			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
