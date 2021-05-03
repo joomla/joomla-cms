@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
 										<?php if ($item->extra_query): ?>
-											<br/><pre><?php echo $item->extra_query; ?></pre>
+											<br><pre><?php echo $item->extra_query; ?></pre>
 										<?php endif; ?>
 									</span>
 									<br>
