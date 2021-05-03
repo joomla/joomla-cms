@@ -490,15 +490,15 @@ Joomla = window.Joomla || {};
 
               <span class="label label-important hasPopover"
               title="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')} "
-              data-content="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')} "
+              data-bs-content="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')} "
               >
               <span class="icon-help"></span>
               ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')}
               </span>`;
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
-            // popoverElement.style.cursor = 'pointer';
-            // popoverElement.popover({placement: 'top', trigger: 'focus click'});
+            popoverElement.style.cursor = 'pointer';
+            new bootstrap.Popover(popoverElement, {placement: 'top', html: true, trigger: 'focus click'});
           }
         }
       });
