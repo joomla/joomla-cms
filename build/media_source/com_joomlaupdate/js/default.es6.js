@@ -140,14 +140,14 @@ Joomla = window.Joomla || {};
         if (toggle.target.dataset.state === 'closed') {
           toggle.target.dataset.state = 'open';
           // eslint-disable-next-line max-len,no-undef
-          toggle.target.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION;
+          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.remove('hidden');
           });
         } else {
           toggle.target.dataset.state = 'closed';
           // eslint-disable-next-line max-len,no-undef
-          toggle.target.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION;
+          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
           });
@@ -237,7 +237,7 @@ Joomla = window.Joomla || {};
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
           // eslint-disable-next-line max-len,no-undef
-          el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION;
+          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.remove('col-md-8');
@@ -274,7 +274,7 @@ Joomla = window.Joomla || {};
         } else {
           el.dataset.state = 'closed';
           // eslint-disable-next-line max-len,no-undef
-          el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION;
+          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.add('col-md-8');
@@ -498,7 +498,7 @@ Joomla = window.Joomla || {};
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
-            let popover = new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
+            const popover = new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
           }
         }
       });
