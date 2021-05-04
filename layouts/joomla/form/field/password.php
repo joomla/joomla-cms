@@ -85,11 +85,14 @@ if ($lock)
 	$value = '';
 }
 
+$ariaDescribedBy = $rules ? $name . '-rules ' : '';
+$ariaDescribedBy .= !empty($description) ? $name . '-desc' : '';
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($ariaDescribedBy) ? 'aria-describedby="' . $ariaDescribedBy . '"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
