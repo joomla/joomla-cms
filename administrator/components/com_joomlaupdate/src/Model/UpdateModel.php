@@ -1178,16 +1178,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
-		{
-			$option = new \stdClass;
-			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
-			$option->state  = $this->isDatabaseTypeSupported();
-			$option->notice = null;
-			$options[]      = $option;
-		}
-
 		// Check for mbstring options.
 		if (extension_loaded('mbstring'))
 		{
@@ -1218,6 +1208,23 @@ ENDDATA;
 		$option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
+		$options[] = $option;
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		{
+			$option = new \stdClass;
+			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+			$option->state  = $this->isDatabaseTypeSupported();
+			$option->notice = null;
+			$options[]      = $option;
+		}
+
+		// Check if database structure is up to date
+		$option = new \stdClass;
+		$option->label  = Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
+		$option->state  = $this->getDatabaseSchemaCheck();
+		$option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
 		$options[] = $option;
 
 		return $options;
@@ -1366,6 +1373,60 @@ ENDDATA;
 		}
 
 		return $result;
+	}
+
+
+	/**
+	 * Check if database structure is up to date
+	 *
+	 * @return  boolean  True if ok, false if not.
+	 *
+	 * @since   3.10.0
+	 */
+	private function getDatabaseSchemaCheck()
+	{
+		\JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
+		$model = \JModelLegacy::getInstance('Database', 'InstallerModel');
+
+		// Check if no default text filters found
+		if (!$model->getDefaultTextFilters())
+		{
+			return false;
+		}
+
+		$coreExtensionId = 700;
+
+		$table = \JTable::getInstance('Extension');
+		$table->load($coreExtensionId);
+		$cache = new \Joomla\Registry\Registry($table->manifest_cache);
+
+		$updateVersion = $cache->get('version');
+
+		// Check if database update version does not match CMS version
+		if (version_compare($updateVersion, JVERSION) != 0)
+		{
+			return false;
+		}
+
+		// Get the schema change set
+		$changeSet = $model->getItems();
+
+		// Check if schema errors found
+		if (!empty($changeSet->check()))
+		{
+			return false;
+		}
+
+		// Check if database schema version does not match CMS version
+		if ($model->getSchemaVersion($coreExtensionId) != $changeSet->getSchema())
+		{
+			return false;
+		}
+
+		// No database problems found
+		return true;
 	}
 
 	/**
