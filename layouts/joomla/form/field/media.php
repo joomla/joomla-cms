@@ -127,7 +127,7 @@ $modalHTML = HTMLHelper::_('bootstrap.renderModal',
 				'width'       => '100%',
 				'modalWidth'  => '80',
 				'bodyHeight'  => '60',
-				'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+				'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
 						. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 );
