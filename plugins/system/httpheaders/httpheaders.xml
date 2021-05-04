@@ -279,9 +279,9 @@
 							<option value="script-src">script-src</option>
 							<option value="script-src-elem">script-src-elem</option>
 							<option value="script-src-attr">script-src-attr</option>
-							<option value="style-src">script-src</option>
-							<option value="style-src-elem">script-src-elem</option>
-							<option value="style-src-attr">script-src-attr</option>
+							<option value="style-src">style-src</option>
+							<option value="style-src-elem">style-src-elem</option>
+							<option value="style-src-attr">style-src-attr</option>
 							<option value="worker-src">worker-src</option>
 							<option value="base-uri">base-uri</option>
 							<option value="plugin-types">plugin-types</option>
