@@ -34,7 +34,6 @@
 			name="password1"
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
-			description="JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS"
 			required="true"
 			autocomplete="new-password"
 			class="validate-password"
@@ -45,7 +44,6 @@
 			rules="true"
 			force="on"
 			filter="raw"
-			hiddenDescription="true"
 		/>
 
 		<field
