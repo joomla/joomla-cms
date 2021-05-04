@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -24,14 +23,6 @@ use Joomla\Event\SubscriberInterface;
  */
 class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Application object.
 	 *
