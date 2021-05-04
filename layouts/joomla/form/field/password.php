@@ -135,7 +135,7 @@ if ($rules && !empty($description))
 	}
 }
 ?>
-<?php if ($rules) : ?>
+<?php if (!empty($description) && $rules) : ?>
 	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
 		<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
 	</div>
