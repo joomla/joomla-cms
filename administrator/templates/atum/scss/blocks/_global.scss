@@ -248,6 +248,7 @@ meter {
   joomla-tab[orientation=horizontal]:not([view=accordion]) {
     section > .row {
       --gutter-x: 4rem;
+      
       > * + * {
         border-left: 1px solid var(--atum-bg-dark-10);
       } 

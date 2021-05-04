@@ -10,9 +10,9 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--atum-text-dark);
-  background-color: var(--white);
-  border: 1px solid var(--alert-accent-color, transparent);
+  color: var(--alert-accent-color);
+  background-color: var(--alert-bg-color);
+  border: 1px solid var(--alert-accent-color);
   border-radius: .25rem;
   transition: opacity .15s linear;
 
@@ -22,8 +22,7 @@
     justify-content: center;
     align-content: center;
     padding: .8rem;
-    color: var(--alert-heading-text);
-    background: var(--alert-accent-color, transparent);
+    background: var(--alert-accent-color);
 
     .message::before,
     .success::before {
@@ -75,33 +74,25 @@
 
   &[type="success"],
   &[type="message"] {
-    --alert-accent-color: var(--success);
-    --alert-heading-text: rgba(255, 255, 255, .95);
-    --alert-close-button: var(--success);
-    background-color: var(--white-offset);
+    --alert-accent-color: #{$state-success-text};
+    --alert-bg-color: #{$state-success-bg};
   }
 
   &[type="info"],
   &[type="notice"] {
-    --alert-accent-color: var(--info);
-    --alert-heading-text: rgba(255, 255, 255, .95);
-    --alert-close-button: var(--info);
-    background-color: var(--white-offset);
+    --alert-accent-color: #{$state-info-text};
+    --alert-bg-color: #{$state-info-bg};
   }
 
   &[type="warning"] {
-    --alert-accent-color: var(--warning);
-    --alert-heading-text: #000;
-    --alert-close-button: #000;
-    background-color: var(--white-offset);
+    --alert-accent-color: #{$state-warning-text};
+    --alert-bg-color: #{$state-warning-bg};
   }
 
   &[type="error"],
   &[type="danger"] {
-    --alert-accent-color: var(--danger);
-    --alert-heading-text: rgba(255, 255, 255, .95);
-    --alert-close-button: var(--danger);
-    background-color: var(--white-offset);
+    --alert-accent-color: #{$state-danger-text};
+    --alert-bg-color: #{$state-danger-bg};
   }
 
   .joomla-alert--close,
@@ -109,12 +100,13 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: .2rem .8rem;
+    padding: .75rem .8rem;
     font-size: 2rem;
-    color: var(--alert-close-button);
+    color: var(--alert-accent-color);
     background: none;
     border: 0;
     opacity: 1;
+    line-height: 1rem;
 
     &:hover,
     &:focus {
@@ -133,12 +125,9 @@
   div {
     font-size: 1rem;
     .alert-message {
-      padding: .3rem 2rem .3rem .3rem;
+      padding: .15rem .3rem;
+      padding-inline-end: 2rem;
       margin: .5rem;
-
-      [dir=rtl] & {
-        padding: .3rem .3rem .3rem 2rem;
-      }
     }
 
     .alert-message:not(:first-of-type) {

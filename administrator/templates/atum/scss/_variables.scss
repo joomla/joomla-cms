@@ -26,7 +26,7 @@ $pink:                             #971250; //used in bootstrap
 $red:                              #c52827; //used in bootstrap
 $red-dark:                         #3b0d0c; //used for alerts error
 $yellow:                           #ffb514; //used in bootstrap
-$green:                            #2f7d32; //used in bootstrap
+$green:                            #457D54; //used in bootstrap
 $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #107d8e; //used in bootstrap
@@ -37,6 +37,8 @@ $base-color:                       $darkblue;
 $atum-text-dark:                   $gray-700;
 $success:                          $green;
 $danger:                           $red;
+$info:                             $light-blue;
+$warning:                          $yellow;
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -181,25 +183,25 @@ $card-border-width:                0;
 $card-border-color:                transparent;
 
 // Alerts
-$state-success-text:               var(--alert-success);
-$state-success-bg:                 lighten($green-dark, 80%);
-$state-success-border:             $green-dark;
+$state-success-text:               $success;
+$state-success-bg:                 lighten($success, 58%);
+$state-success-border:             hsl(var(--hue),50%,93%);
 
-$state-info-text:                  var(--white);
-$state-info-bg:                    var(--atum-bg-dark);
-$state-info-border:                var(--atum-bg-dark);
+$state-info-text:                  $info;
+$state-info-bg:                    lighten($info, 52%);;
+$state-info-border:                $info;
 
-$state-warning-text:               var(--atum-text-dark);
-$state-warning-bg:                 var(--warning);
-$state-warning-border:             var(--warning-border);
+$state-warning-text:               darken($warning, 24%);
+$state-warning-bg:                 lighten($warning, 44%);
+$state-warning-border:             darken($warning, 24%);
 
-$state-danger-text:                var(--white);
-$state-danger-bg:                  var(--danger);
-$state-danger-border:              var(--danger-border);
+$state-danger-text:                $danger;
+$state-danger-bg:                  lighten($danger, 52%);
+$state-danger-border:              $danger;
 
-$state-error-text:                 var(--error);
-$state-error-bg:                   lighten($red-dark, 70%);
-$state-error-border:               lighten($red-dark, 30%);
+$state-error-text:                 $danger;
+$state-error-bg:                   lighten($danger, 52%);
+$state-error-border:               $danger;
 
 // Badges
 $badge-padding-x:                  .2rem;
