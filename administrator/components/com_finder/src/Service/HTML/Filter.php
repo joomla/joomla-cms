@@ -67,7 +67,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return;
+				return null;
 			}
 
 			// Initialize the filter parameters.
@@ -103,13 +103,13 @@ class Filter
 		}
 		catch (\RuntimeException $e)
 		{
-			return;
+			return null;
 		}
 
 		// Check that we have at least one branch.
 		if (count($branches) === 0)
 		{
-			return;
+			return null;
 		}
 
 		$branch_keys = array_keys($branches);
@@ -151,7 +151,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return;
+				return null;
 			}
 
 			// Translate node titles if possible.
@@ -260,7 +260,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return;
+					return null;
 				}
 
 				// Initialize the filter parameters.
@@ -300,13 +300,13 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return;
+				return null;
 			}
 
 			// Check that we have at least one branch.
 			if (count($branches) === 0)
 			{
-				return;
+				return null;
 			}
 
 			// Iterate through the branches and build the branch groups.
@@ -347,7 +347,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return;
+					return null;
 				}
 
 				// Translate branch nodes if possible.
