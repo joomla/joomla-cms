@@ -187,9 +187,9 @@ $state-success-text:               $success;
 $state-success-bg:                 lighten($success, 58%);
 $state-success-border:             hsl(var(--hue),50%,93%);
 
-$state-info-text:                  $info;
-$state-info-bg:                    lighten($info, 52%);;
-$state-info-border:                $info;
+$state-info-text:                  var(--atum-bg-dark-70);
+$state-info-bg:                    var(--white);
+$state-info-border:                var(--atum-bg-dark-70);
 
 $state-warning-text:               darken($warning, 24%);
 $state-warning-bg:                 lighten($warning, 44%);

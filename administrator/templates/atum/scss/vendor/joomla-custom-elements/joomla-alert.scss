@@ -10,9 +10,9 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--alert-accent-color);
-  background-color: var(--alert-bg-color);
-  border: 1px solid var(--alert-accent-color);
+  color: var(--alert-accent-color, var(--atum-bg-dark));
+  background-color: var(--alert-bg-color, var(--white));
+  border: 1px solid var(--alert-accent-color, var(--atum-bg-dark));
   border-radius: .25rem;
   transition: opacity .15s linear;
 
@@ -22,7 +22,8 @@
     justify-content: center;
     align-content: center;
     padding: .8rem;
-    background: var(--alert-accent-color);
+    background: var(--alert-accent-color, var(--atum-bg-dark));
+    color: var(--white);
 
     .message::before,
     .success::before {
@@ -69,7 +70,8 @@
   }
 
   .alert-link {
-    color: var(--success, inherit);
+    color: var(--atum-link-color);
+    text-decoration: underline;
   }
 
   &[type="success"],
