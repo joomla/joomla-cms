@@ -105,7 +105,7 @@ $attributes = array(
 	$dataAttribute,
 );
 
-if ($rules && !empty($description))
+if ($rules)
 {
 	$requirements = [];
 
@@ -135,9 +135,9 @@ if ($rules && !empty($description))
 	}
 }
 ?>
-<?php if (!empty($description) && $rules) : ?>
+<?php if ($rules) : ?>
 	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
-		<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
+		<?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
 	</div>
 <?php endif; ?>
 
