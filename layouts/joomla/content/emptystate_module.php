@@ -18,9 +18,9 @@ $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists
 $moduleTitle = Text::_($moduleLangString);
 
 $title = $displayData['title']
-		?? ($moduleTitle != $moduleLangString
-				? Text::_($moduleTitle)
-				: Text::_($componentLangString));
+	?? ($moduleTitle != $moduleLangString
+		? Text::_($moduleTitle)
+		: Text::_($componentLangString));
 ?>
 <div class="mb-4">
 	<p class="fw-bold text-center text-muted">
