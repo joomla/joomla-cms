@@ -55,7 +55,6 @@ Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
-Text::script('INSTL_FTP_SETTINGS_CORRECT');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
