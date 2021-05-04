@@ -139,14 +139,12 @@ Joomla = window.Joomla || {};
         const settingsfieldset = el.closest('fieldset');
         if (toggle.target.dataset.state === 'closed') {
           toggle.target.dataset.state = 'open';
-          // eslint-disable-next-line max-len,no-undef
           toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.remove('hidden');
           });
         } else {
           toggle.target.dataset.state = 'closed';
-          // eslint-disable-next-line max-len,no-undef
           toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
@@ -236,7 +234,6 @@ Joomla = window.Joomla || {};
 
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
-          // eslint-disable-next-line max-len,no-undef
           el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
@@ -273,7 +270,6 @@ Joomla = window.Joomla || {};
           }
         } else {
           el.dataset.state = 'closed';
-          // eslint-disable-next-line max-len,no-undef
           el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
