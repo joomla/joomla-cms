@@ -26,13 +26,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * True, if FTP settings should be shown, or an exception.
-	 *
-	 * @var boolean|\Exception
-	 */
-	protected $ftp = null;
-
-	/**
 	 * Option (component) name
 	 *
 	 * @var string
@@ -86,7 +79,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp           = $this->get('Ftp');
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');

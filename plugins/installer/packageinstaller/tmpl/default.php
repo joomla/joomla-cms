@@ -94,7 +94,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 		<div class="controls">
 			<input class="form-control-file" id="install_package" name="install_package" type="file">
 			<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
-			<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
+			<small class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 		</div>
 	</div>
 	<div class="form-actions">
