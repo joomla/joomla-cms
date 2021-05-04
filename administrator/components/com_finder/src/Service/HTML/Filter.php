@@ -67,7 +67,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Initialize the filter parameters.
@@ -103,13 +103,13 @@ class Filter
 		}
 		catch (\RuntimeException $e)
 		{
-			return null;
+			return;
 		}
 
 		// Check that we have at least one branch.
 		if (count($branches) === 0)
 		{
-			return null;
+			return;
 		}
 
 		$branch_keys = array_keys($branches);
@@ -151,7 +151,7 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Translate node titles if possible.
@@ -260,7 +260,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return null;
+					return;
 				}
 
 				// Initialize the filter parameters.
@@ -300,13 +300,13 @@ class Filter
 			}
 			catch (\RuntimeException $e)
 			{
-				return null;
+				return;
 			}
 
 			// Check that we have at least one branch.
 			if (count($branches) === 0)
 			{
-				return null;
+				return;
 			}
 
 			// Iterate through the branches and build the branch groups.
@@ -347,7 +347,7 @@ class Filter
 				}
 				catch (\RuntimeException $e)
 				{
-					return null;
+					return;
 				}
 
 				// Translate branch nodes if possible.
@@ -477,7 +477,7 @@ class Filter
 
 			// Start date filter.
 			$attribs['class'] = 'input-medium';
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-start' . $classSuffix . '">';
 			$html .= '<label for="filter_date1" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE1_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
@@ -490,7 +490,7 @@ class Filter
 			$html .= '</li>';
 
 			// End date filter.
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-end' . $classSuffix . '">';
 			$html .= '<label for="filter_date2" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE2_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
