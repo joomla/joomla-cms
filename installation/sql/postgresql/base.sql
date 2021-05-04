@@ -94,7 +94,6 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (66, 1, 131, 132, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
 (68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
-(69, 1, 153, 154, 1, 'com_csp', 'com_csp', '{}'),
 (70, 18, 90, 91, 2, 'com_modules.module.103', 'Site', '{}'),
 (71, 18, 92, 93, 2, 'com_modules.module.104', 'System', '{}'),
 (72, 18, 94, 95, 2, 'com_modules.module.91', 'System Dashboard', '{}'),
