@@ -136,7 +136,7 @@ if ($rules)
 }
 ?>
 <?php if ($rules) : ?>
-	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
+	<div id="<?php echo $name . '-rules'; ?>" class="small text-muted">
 		<?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
 	</div>
 <?php endif; ?>
