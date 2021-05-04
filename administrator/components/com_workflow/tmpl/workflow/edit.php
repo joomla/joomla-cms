@@ -56,25 +56,25 @@ $lang     = Factory::getLanguage()->getTag();
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<fieldset class="options-form">
 			<legend><?php echo Text::_('COM_WORKFLOW_DESCRIPTION'); ?></legend>
-				<div class="row">
-					<div class="col-lg-9">
-						<div class="card card-block">
-							<div class="card-body form-vertical">
-							<?php echo $this->form->renderField('description'); ?>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="card card-block">
-							<div class="card-body">
-								<fieldset class="form-vertical">
-									<?php echo $this->form->renderField('published'); ?>
-									<?php echo $this->form->renderField('default'); ?>
-								</fieldset>
-							</div>
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="card card-block">
+						<div class="card-body form-vertical">
+						<?php echo $this->form->renderField('description'); ?>
 						</div>
 					</div>
 				</div>
+				<div class="col-lg-3">
+					<div class="card card-block">
+						<div class="card-body">
+							<fieldset class="form-vertical">
+								<?php echo $this->form->renderField('published'); ?>
+								<?php echo $this->form->renderField('default'); ?>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
 		</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
