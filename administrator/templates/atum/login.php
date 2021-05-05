@@ -82,6 +82,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+
+HTMLHelper::_('bootstrap.dropdown');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
