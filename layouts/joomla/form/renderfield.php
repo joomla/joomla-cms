@@ -48,7 +48,7 @@ if (!empty($parentclass))
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
-				<small class="form-text text-muted">
+				<small class="form-text">
 					<?php echo $description; ?>
 				</small>
 			</div>

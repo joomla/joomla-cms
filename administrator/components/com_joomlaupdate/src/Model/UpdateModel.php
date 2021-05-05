@@ -1227,12 +1227,12 @@ ENDDATA;
 	 *
 	 * @since   3.10.0
 	 */
-	private function getDatabaseSchemaCheck()
+	private function getDatabaseSchemaCheck(): bool
 	{
-		\JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
+		$mvcFactory = $this->bootComponent('com_installer')->getMVCFactory();
 
 		/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
-		$model = \JModelLegacy::getInstance('Database', 'InstallerModel');
+		$model = $mvcFactory->createModel('Database', 'Administrator');
 
 		// Check if no default text filters found
 		if (!$model->getDefaultTextFilters())
@@ -1240,11 +1240,8 @@ ENDDATA;
 			return false;
 		}
 
-		$coreExtensionId = 700;
-
-		$table = \JTable::getInstance('Extension');
-		$table->load($coreExtensionId);
-		$cache = new \Joomla\Registry\Registry($table->manifest_cache);
+		$coreExtensionInfo = \Joomla\CMS\Extension\ExtensionHelper::getExtensionRecord('joomla', 'file');
+		$cache = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
 
 		$updateVersion = $cache->get('version');
 
@@ -1254,17 +1251,21 @@ ENDDATA;
 			return false;
 		}
 
-		// Get the schema change set
-		$changeSet = $model->getItems();
+		// Ensure we only get information for core
+		$model->setState('filter.extension_id', $coreExtensionInfo->extension_id);
+
+		// We're filtering by a single extension which must always exist - so can safely access this through
+		// element 0 of the array
+		$changeInformation = $model->getItems()[0];
 
 		// Check if schema errors found
-		if (!empty($changeSet->check()))
+		if ($changeInformation['errorsCount'] !== 0)
 		{
 			return false;
 		}
 
 		// Check if database schema version does not match CMS version
-		if ($model->getSchemaVersion($coreExtensionId) != $changeSet->getSchema())
+		if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema'])
 		{
 			return false;
 		}
