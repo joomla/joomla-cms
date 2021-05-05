@@ -66,7 +66,7 @@ $compatibilityTypes = array(
 				<div class="settingstoggle" data-state="closed">
 					<?php echo JText::sprintf(
 						'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-						'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+						'<span class="icon-chevron-right small"></span>'
 					); ?>
 				</div>
 			</h3>
@@ -117,7 +117,7 @@ $compatibilityTypes = array(
 				<div class="settingstoggle" data-state="closed">
 					<?php echo JText::sprintf(
 						'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-						'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+						'<span class="icon-chevron-right small"></span>'
 					); ?>
 				</div>
 			</h3>
@@ -177,7 +177,7 @@ $compatibilityTypes = array(
 							<div class="compatibilitytoggle" data-state="closed">
 								<?php echo JText::sprintf(
 									'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-									'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+									'<span class="icon-chevron-right small"></span>'
 								); ?>
 							</div>
 						<?php endif; ?>
