@@ -477,7 +477,7 @@ class Filter
 
 			// Start date filter.
 			$attribs['class'] = 'input-medium';
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-start' . $classSuffix . '">';
 			$html .= '<label for="filter_date1" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE1_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
@@ -490,7 +490,7 @@ class Filter
 			$html .= '</li>';
 
 			// End date filter.
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-end' . $classSuffix . '">';
 			$html .= '<label for="filter_date2" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE2_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
