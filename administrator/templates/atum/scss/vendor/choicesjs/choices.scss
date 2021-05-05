@@ -26,12 +26,12 @@
 }
 
 .choices__inner {
+  min-height: 42px;
   padding: .1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
   border: $input-border;
   border-radius: $border-radius;
-  min-height: 42px;
 
   .is-focused & {
     border-color: $focuscolor;
@@ -60,7 +60,7 @@
 }
 
 .choices__list--single {
-  padding: 7px 16px 0px 4px;
+  padding: 7px 16px 0 4px;
 }
 
 .choices__list--multiple .choices__item {

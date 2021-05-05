@@ -73,8 +73,8 @@ joomla-tab {
       }
 
       &[active] {
-        background: var(--atum-bg-dark-3);
         font-weight: $font-weight-bold;
+        background: var(--atum-bg-dark-3);
       }
     }
   }

@@ -78,9 +78,9 @@
 
   .dropdown-header,
   .dropdown-item {
+    padding: .82rem .75rem;
     color: $white;
     background-color: var(--atum-bg-dark-70);
-    padding: .82rem .75rem;
 
     > span {
       margin-inline-end: .5rem;
