@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.Site
- * @subpackage      Layout
+ * @package     Joomla.Site
+ * @subpackage  Layout
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
@@ -15,17 +15,17 @@ extract($displayData, EXTR_OVERWRITE);
 /**
  * Layout variables
  * -----------------
- * @var   string $icon
- * @var   string $title
- * @var   string $value
- * @var   string $task
- * @var   array  $options
+ * @var   string  $icon
+ * @var   string  $title
+ * @var   string  $value
+ * @var   string  $task
+ * @var   array   $options
  */
 
-$disabled     = empty($options['transitions']) || !empty($options['disabled']);
-$id           = $options['id'];
-$tipTitle     = $options['tip_title'];
-$tipContent   = $options['tip_content'];
+$disabled = empty($options['transitions']) || !empty($options['disabled']);
+$id = $options['id'];
+$tipTitle = $options['tip_title'];
+$tipContent = $options['tip_content'];
 $checkboxName = $options['checkbox_name'];
 
 ?>
@@ -44,11 +44,11 @@ $checkboxName = $options['checkbox_name'];
 
 <?php if (!$disabled) : ?>
 	<div class="d-none">
-<span class="visually-hidden">
-<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
-<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
-</label>
-</span>
+		<span class="visually-hidden">
+			<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
+			<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
+			</label>
+		</span>
 		<?php
 		$default = [
 				HTMLHelper::_('select.option', '', $this->escape($options['title'])),
