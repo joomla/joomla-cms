@@ -27,8 +27,6 @@ $checkboxName = $options['checkbox_name'];
 $id           = $options['id'];
 $tipTitle     = $options['tip_title'];
 
-
-$content = 'start 23.4.2021<br/>click to unpublish ( if not disabled)'
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
         aria-labelledby="<?php echo $id; ?>"
