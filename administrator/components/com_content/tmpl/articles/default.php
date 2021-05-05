@@ -188,7 +188,6 @@ $assoc = Associations::isEnabled();
 
 							$transition_ids = ArrayHelper::getColumn($transitions, 'value');
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
-
 							?>
 							<tr class="row<?php echo $i % 2; ?>"
 								data-draggable-group="<?php echo $item->catid; ?>"
@@ -217,8 +216,7 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
+								<td class="article-stage text-center">
 									<?php
 									$options = [
 										'transitions' => $transitions,
@@ -230,7 +228,6 @@ $assoc = Associations::isEnabled();
 									echo (new TransitionButton($options))
 										->render(0, $i);
 									?>
-									</div>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
@@ -253,7 +250,8 @@ $assoc = Associations::isEnabled();
 										'id' => 'state-' . $item->id
 									];
 
-									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+									echo (new PublishedButton)
+                                        ->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 								?>
 								</td>
 								<th scope="row" class="has-context">
