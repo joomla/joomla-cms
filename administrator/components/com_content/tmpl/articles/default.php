@@ -223,7 +223,8 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'transitions' => $transitions,
 										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
+										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+										'id' => 'workflow-' . $item->id
 									];
 
 									echo (new TransitionButton($options))
@@ -236,7 +237,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange
+										'disabled' => $workflow_featured || !$canChange,
+										'id' => 'featured-' . $item->id
 									];
 
 									echo (new FeaturedButton)
@@ -247,7 +249,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange
+										'disabled' => $workflow_state || !$canChange,
+										'id' => 'state-' . $item->id
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
