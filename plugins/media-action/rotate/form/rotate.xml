@@ -10,6 +10,7 @@
 			max="100"
 			step="1"
 			default="80"
+			filter="integer"
 		/>
 
 		<field
@@ -25,6 +26,7 @@
 			max="360"
 			step="1"
 			default="0"
+			filter="integer"
 		/>
 
 		<field
