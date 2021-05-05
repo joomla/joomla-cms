@@ -33,9 +33,9 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-group d-flex">
+		<li class="quickicon-group">
 		<ul class="list-unstyled d-flex w-100">
-			<li class="quickicon flex-grow-1">
+			<li class="quickicon">
 	<?php else: ?>
 		<li class="quickicon quickicon-single">
 	<?php endif; ?>
