@@ -92,18 +92,16 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
-
-<noscript>
-	<div class="alert alert-danger" role="alert">
-		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+	<noscript>
+		<div class="alert alert-danger" role="alert">
+			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+		</div>
+	</noscript>
+	<div class="ie11 alert alert-warning" role="alert">
+		<?php echo Text::_('JGLOBAL_WARNIE'); ?>
 	</div>
-</noscript>
-<div class="ie11 alert alert-warning" role="alert">
-	<?php echo Text::_('JGLOBAL_WARNIE'); ?>
-</div>
 
-<header id="header" class="header">
-	<div class="d-flex">
+	<header id="header" class="header">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<div class="logo">
@@ -114,38 +112,36 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<jdoc:include type="modules" name="title" />
 		</div>
 		<?php echo $statusModules; ?>
-	</div>
-</header>
+	</header>
 
-<div id="wrapper" class="d-flex wrapper">
-
-	<div class="container-fluid container-main order-1">
-		<section id="content" class="content h-100">
-			<div class="login_message">
-				<jdoc:include type="message" />
-			</div>
-			<main class="d-flex justify-content-center align-items-center h-100">
-				<div class="login">
-					<div class="main-brand logo text-center">
-						<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
-					</div>
-					<jdoc:include type="component" />
+	<div id="wrapper" class="wrapper">
+		<div class="container-fluid container-main">
+			<section id="content" class="content h-100">
+				<div class="login_message">
+					<jdoc:include type="message" />
 				</div>
-			</main>
-		</section>
-	</div>
+				<main class="d-flex justify-content-center align-items-center h-100">
+					<div class="login">
+						<div class="main-brand logo text-center">
+							<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+						</div>
+						<jdoc:include type="component" />
+					</div>
+				</main>
+			</section>
+		</div>
 
-	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper order-0 px-3 pb-3">
-		<div id="main-brand" class="main-brand">
-			<h1><?php echo $app->get('sitename'); ?></h1>
-			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
-		</div>
-		<div id="sidebar">
-			<jdoc:include type="modules" name="sidebar" style="body" />
+		<?php // Sidebar ?>
+		<div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
+			<div id="main-brand" class="main-brand">
+				<h1><?php echo $app->get('sitename'); ?></h1>
+				<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
+			</div>
+			<div id="sidebar">
+				<jdoc:include type="modules" name="sidebar" style="body" />
+			</div>
 		</div>
 	</div>
-</div>
-<jdoc:include type="modules" name="debug" style="none" />
+	<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

@@ -3,6 +3,7 @@
 .view-login {
 
   .container-main {
+    order: 1;
 
     @include media-breakpoint-down(md) {
       display: flex;
@@ -21,7 +22,9 @@
   }
 
   .login {
-    width: 25rem;
+    width: 100%;
+    max-width: 25rem;
+    margin: 1rem;
     padding: 30px;
     color: var(--atum-text-dark);
     background: var(--white);
@@ -29,7 +32,7 @@
     box-shadow: 0 4px 20px -10px var(--atum-bg-dark-50);
 
     @include media-breakpoint-down(lg) {
-      margin-top: 2rem;
+      margin-bottom: 3rem;
     }
 
     img {
@@ -113,23 +116,18 @@
     box-shadow: inset 0 0 1px 1px var(--atum-contrast);
   }
 
-  h1,
-  h2 {
-    color: $white;
-  }
-
   h1 {
     margin-bottom: .25rem;
+    color: $white;
     text-align: center;
   }
 
   h2 {
+    color: var(--atum-bg-dark-10);
     font-weight: $font-weight-normal;
-    opacity: .75;
   }
 
   .btn {
-
     @include media-breakpoint-only(xs) {
       padding: 8px 10px;
       font-size: ($font-size-base * .875);
@@ -152,11 +150,7 @@
     max-width: none;
     background-color: var(--atum-sidebar-bg);
 
-    @include media-breakpoint-down(md) {
-      order: 2;
-    }
-
-    #main-brand {
+    .main-brand {
       margin-bottom: auto;
 
       a {
@@ -202,19 +196,25 @@
     }
   }
 
-  .d-flex {
-
+  .wrapper {
+    display: flex;
+    
     @include media-breakpoint-down(md) {
-      display: flex !important;
-      flex-wrap: wrap;
+      flex-direction: column;
     }
   }
 
   .header {
+    display: flex;
+
     .logo {
       &.small {
         line-height: 2.5rem;
       }
+    }
+
+    @include media-breakpoint-down(md) {
+      background: var(--atum-bg-dark-70);
     }
   }
 }
