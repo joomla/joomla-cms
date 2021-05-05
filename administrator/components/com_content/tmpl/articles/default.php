@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.Administrator
- * @subpackage      com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  *
  * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -95,8 +95,7 @@ endif;
 $assoc = Associations::isEnabled();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm"
-	  id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
@@ -106,8 +105,7 @@ $assoc = Associations::isEnabled();
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span
-								class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -140,10 +138,10 @@ $assoc = Associations::isEnabled();
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="w-10 d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="w-10 d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 							</th>
 							<?php if ($assoc) : ?>
 								<th scope="col" class="w-5 d-none d-md-table-cell">
@@ -174,17 +172,17 @@ $assoc = Associations::isEnabled();
 							</th>
 						</tr>
 						</thead>
-						<tbody <?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
-							$canEdit = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
-							$canChange = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
-							$canEditCat = $user->authorise('core.edit', 'com_content.category.' . $item->catid);
-							$canEditOwnCat = $user->authorise('core.edit.own', 'com_content.category.' . $item->catid) && $item->category_uid == $userId;
-							$canEditParCat = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
-							$canEditOwnParCat = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
+							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
+							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
+							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
@@ -214,9 +212,7 @@ $assoc = Associations::isEnabled();
 										<span class="icon-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" name="order[]" size="5"
-											   value="<?php echo $item->ordering; ?>"
-											   class="width-20 text-area-order hidden">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
@@ -224,9 +220,9 @@ $assoc = Associations::isEnabled();
 										<?php
 										$options = [
 												'transitions' => $transitions,
-												'title'       => Text::_($item->stage_title),
+												'title' => Text::_($item->stage_title),
 												'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-												'id'          => 'workflow-' . $item->id
+												'id' => 'workflow-' . $item->id
 										];
 
 										echo (new TransitionButton($options))
@@ -238,8 +234,8 @@ $assoc = Associations::isEnabled();
 									<?php
 									$options = [
 											'task_prefix' => 'articles.',
-											'disabled'    => $workflow_featured || !$canChange,
-											'id'          => 'featured-' . $item->id
+											'disabled' => $workflow_featured || !$canChange,
+											'id' => 'featured-' . $item->id
 									];
 
 									echo (new FeaturedButton)
@@ -250,8 +246,8 @@ $assoc = Associations::isEnabled();
 									<?php
 									$options = [
 											'task_prefix' => 'articles.',
-											'disabled'    => $workflow_state || !$canChange,
-											'id'          => 'state-' . $item->id
+											'disabled' => $workflow_state || !$canChange,
+											'id' => 'state-' . $item->id
 									];
 
 									echo (new PublishedButton)
@@ -264,8 +260,7 @@ $assoc = Associations::isEnabled();
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>"
-											   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 												<?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -279,9 +274,9 @@ $assoc = Associations::isEnabled();
 										</div>
 										<div class="small">
 											<?php
-											$ParentCatUrl  = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-											$EditCatTxt    = Text::_('COM_CONTENT_EDIT_CATEGORY');
+											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
 											echo Text::_('JCATEGORY') . ': ';
 											if ($item->category_level != '1') :
 												if ($item->parent_category_level != '1') :
