@@ -35,7 +35,7 @@ $checkboxName = $options['checkbox_name'];
 		<?php if (!$disabled) : ?>
 			onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 		<?php endif; ?>
->
+	>
 	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
@@ -50,21 +50,21 @@ $checkboxName = $options['checkbox_name'];
 			</label>
 		</span>
 		<?php
-		$default = [
+			$default = [
 				HTMLHelper::_('select.option', '', $this->escape($options['title'])),
 				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
-		];
+			];
 
-		$transitions = array_merge($default, $options['transitions']);
+			$transitions = array_merge($default, $options['transitions']);
 
-		$attribs = [
+			$attribs = [
 				'id'        => 'transition-select_' . (int) $row ?? '',
 				'list.attr' => [
-						'class'    => 'form-select form-select-sm w-auto',
-						'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
-		];
+					'class'    => 'form-select form-select-sm w-auto',
+					'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
+				];
 
-		echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);
+			echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);
 		?>
 	</div>
 <?php endif; ?>
