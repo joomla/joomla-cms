@@ -84,8 +84,7 @@ JS;
 	$wa = $this->document->getWebAssetManager();
 
 	$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-	$wa->useScript('com_workflow.admin-items-workflow-buttons')
-			->addInlineScript($js, [], ['type' => 'module']);
+	$wa->useScript('com_workflow.admin-items-workflow-buttons')->addInlineScript($js, [], ['type' => 'module']);
 
 	$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
 	$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
@@ -225,8 +224,7 @@ $assoc = Associations::isEnabled();
 												'id' => 'workflow-' . $item->id
 										];
 
-										echo (new TransitionButton($options))
-												->render(0, $i);
+										echo (new TransitionButton($options))->render(0, $i);
 										?>
 									</td>
 								<?php endif; ?>
@@ -238,8 +236,7 @@ $assoc = Associations::isEnabled();
 											'id' => 'featured-' . $item->id
 									];
 
-									echo (new FeaturedButton)
-											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
+									echo (new FeaturedButton)->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status text-center">
@@ -250,8 +247,7 @@ $assoc = Associations::isEnabled();
 											'id' => 'state-' . $item->id
 									];
 
-									echo (new PublishedButton)
-											->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 									?>
 								</td>
 								<th scope="row" class="has-context">
