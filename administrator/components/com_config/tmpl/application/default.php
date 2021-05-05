@@ -57,7 +57,6 @@ Text::script('MESSAGE');
 					<?php echo $this->loadTemplate('server'); ?>
 					<?php echo $this->loadTemplate('locale'); ?>
 					<?php echo $this->loadTemplate('webservices'); ?>
-					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
@@ -71,12 +70,6 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>
 					<?php echo $this->loadTemplate('filters'); ?>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-				<?php if ($this->ftp) : ?>
-					<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-ftp', Text::_('COM_CONFIG_FTP_SETTINGS')); ?>
-						<?php echo $this->loadTemplate('ftplogin'); ?>
-					<?php echo HTMLHelper::_('uitab.endTab'); ?>
-				<?php endif; ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-permissions', Text::_('COM_CONFIG_PERMISSIONS')); ?>
 					<?php echo $this->loadTemplate('permissions'); ?>
