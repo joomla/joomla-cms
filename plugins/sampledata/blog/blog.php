@@ -612,7 +612,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg',
-					'float_fulltext'            => 'float-start',
+					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
 					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
