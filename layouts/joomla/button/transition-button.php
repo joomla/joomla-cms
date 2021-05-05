@@ -45,11 +45,11 @@ $checkboxName = $options['checkbox_name'];
 </div>
 <?php if (!$disabled) : ?>
     <div class="d-none">
-		<span class="visually-hidden">
-			<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
-			<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
-			</label>
-		</span>
+<span class="visually-hidden">
+<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
+<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
+</label>
+</span>
 		<?php
 		$default = [
 			HTMLHelper::_('select.option', '', $this->escape($options['title'])),
