@@ -24,10 +24,11 @@ extract($displayData, EXTR_OVERWRITE);
 $disabled     = !empty($options['disabled']);
 $taskPrefix   = $options['task_prefix'];
 $checkboxName = $options['checkbox_name'];
-$tip          = !empty($options['tip']);
 $id           = $options['id'];
 $tipTitle     = $options['tip_title'];
 
+
+$content = 'start 23.4.2021<br/>click to unpublish ( if not disabled)'
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
         aria-labelledby="<?php echo $id; ?>"
@@ -40,5 +41,5 @@ $tipTitle     = $options['tip_title'];
     <span class="visually-hidden"><?php echo $title; ?></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
-	<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>
+	<?php echo HTMLHelper::_('tooltipText', $tipTitle?: $title, $title, 0, false); ?>
 </div>
