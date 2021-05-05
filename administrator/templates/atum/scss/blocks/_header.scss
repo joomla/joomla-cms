@@ -144,7 +144,11 @@
   }
 
   &.joomlaversion {
-    background-color: var(--atum-bg-dark-70);
+    background-color: transparent;
+
+    .header-item-text {
+      padding-inline-end: 12px;
+    }
   }
 }
 
