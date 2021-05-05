@@ -29,8 +29,8 @@
     a {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       flex-grow: 1;
+      justify-content: flex-end;
       padding: 0 1rem;
       color: var(--text-color);
       background-color: var(--bg-color);
@@ -58,8 +58,8 @@
         line-height: 1rem;
         background: hsl(var(--hue),50%,93%);
         border-radius: $border-radius;
-        margin-inline-start: .5rem;
         transition: all .25s ease;
+        margin-inline-start: .5rem;
       }
 
       .j-links-link {

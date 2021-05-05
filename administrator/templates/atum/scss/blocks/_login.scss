@@ -24,8 +24,8 @@
   .login {
     width: 100%;
     max-width: 25rem;
-    margin: 1rem;
     padding: 30px;
+    margin: 1rem;
     color: var(--atum-text-dark);
     background: var(--white);
     border-radius: 10px;
@@ -123,8 +123,8 @@
   }
 
   h2 {
-    color: var(--atum-bg-dark-10);
     font-weight: $font-weight-normal;
+    color: var(--atum-bg-dark-10);
   }
 
   .btn {
@@ -198,7 +198,7 @@
 
   .wrapper {
     display: flex;
-    
+
     @include media-breakpoint-down(md) {
       flex-direction: column;
     }
