@@ -29,22 +29,22 @@ $tipContent   = $options['tip_content'];
 $checkboxName = $options['checkbox_name'];
 
 ?>
-<button type="button"
-        class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
-        aria-labelledby="<?php echo $id; ?>"
-	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php if (!$disabled) : ?>
-        onclick="Joomla.toggleAllNextElements(this, 'd-none')"
-	<?php endif; ?>
+<button type="button" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
+		aria-labelledby="<?php echo $id; ?>"
+		<?php echo $disabled ? 'disabled' : ''; ?>
+		<?php if (!$disabled) : ?>
+			onclick="Joomla.toggleAllNextElements(this, 'd-none')"
+		<?php endif; ?>
 >
-    <span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-    <span class="visually-hidden"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
+	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
+	<span class="visually-hidden"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
 	<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $tipContent, 0, false); ?>
 </div>
+
 <?php if (!$disabled) : ?>
-    <div class="d-none">
+	<div class="d-none">
 <span class="visually-hidden">
 <label for="transition-select_<?php echo (int) $row ?? ''; ?>">
 <?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
@@ -52,20 +52,20 @@ $checkboxName = $options['checkbox_name'];
 </span>
 		<?php
 		$default = [
-			HTMLHelper::_('select.option', '', $this->escape($options['title'])),
-			HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
+				HTMLHelper::_('select.option', '', $this->escape($options['title'])),
+				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
 		];
 
 		$transitions = array_merge($default, $options['transitions']);
 
 		$attribs = [
-			'id'        => 'transition-select_' . (int) $row ?? '',
-			'list.attr' => [
-				'class'    => 'form-select form-select-sm w-auto',
-				'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
+				'id'        => 'transition-select_' . (int) $row ?? '',
+				'list.attr' => [
+						'class'    => 'form-select form-select-sm w-auto',
+						'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
 		];
 
 		echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);
 		?>
-    </div>
+	</div>
 <?php endif; ?>
