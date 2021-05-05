@@ -37,7 +37,6 @@ $checkboxName = $options['checkbox_name'];
 		<?php endif; ?>
 >
 	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-	<span class="visually-hidden"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
 	<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $tipContent, 0, false); ?>
