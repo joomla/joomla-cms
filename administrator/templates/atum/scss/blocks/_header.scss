@@ -209,6 +209,11 @@
     padding: 10px 0;
     margin: 0;
     background: var(--atum-bg-dark);
+
+    .#{$jicon-css-prefix}-angle-down,
+    .#{$fa-css-prefix}-angle-down {
+      transform: rotate(180deg);
+    }
   }
 
   .header-item-more {
@@ -229,10 +234,5 @@
   .header-more-menu {
     top: auto;
     bottom: 100%;
-  }
-
-  .#{$jicon-css-prefix}-angle-down,
-  .#{$fa-css-prefix}-angle-down {
-    transform: rotate(180deg);
   }
 }
