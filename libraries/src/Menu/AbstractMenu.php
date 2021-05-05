@@ -61,7 +61,7 @@ class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    User
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.26
 	 */
 	protected $storedUser;
 
@@ -152,7 +152,7 @@ class AbstractMenu
 	 *
 	 * @return null
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.9.26
 	 */
 	public function setUser($user)
 	{
@@ -396,7 +396,7 @@ class AbstractMenu
 	 *
 	 * @return User
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.9.26
 	 */
 	protected function getUser()
 	{
@@ -417,7 +417,7 @@ class AbstractMenu
 	 *
 	 * @return User|null
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.9.26
 	 */
 	public function __get($propName)
 	{
