@@ -37,15 +37,14 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
 				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
-					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="lang-block dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active) : ?>
 				<li>
