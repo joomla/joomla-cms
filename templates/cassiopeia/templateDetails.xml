@@ -26,6 +26,7 @@
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
+		<position>top</position>
 		<position>top-a</position>
 		<position>top-b</position>
 		<position>main-top</position>
@@ -35,6 +36,7 @@
 		<position>sidebar-right</position>
 		<position>bottom-a</position>
 		<position>bottom-b</position>
+		<position>bottom</position>
 		<position>footer</position>
 		<position>debug</position>
 	</positions>
