@@ -37,7 +37,7 @@ $lang     = Factory::getLanguage()->getTag();
 	<?php // Add the translation of the workflow item title when client is administrator ?>
 	<?php if ($clientId === 0 && $this->item->id != 0) : ?>
 		<div class="row title-alias form-vertical mb-3">
-			<div class="col-12 col-md-6">
+			<div class="col-md-6">
 				<div class="control-group">
 					<div class="control-label">
 						<label for="workflow_title_translation"><?php echo Text::sprintf('COM_WORKFLOW_TITLE_TRANSLATION', $lang); ?></label>
