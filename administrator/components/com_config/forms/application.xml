@@ -203,7 +203,6 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
-			hiddenDescription="true"
 			lock="true"
 		/>
 
