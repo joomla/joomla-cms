@@ -163,8 +163,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		</div>
 	<?php endif; ?>
 
-	<jdoc:include type="modules" name="top" style="none" class="grid-child" />
-
 	<?php if ($this->countModules('top-a', true)) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="card" />
@@ -210,9 +208,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
-
-
-	<jdoc:include type="modules" name="bottom" style="none" class="grid-child" />
 
 	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
