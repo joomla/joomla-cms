@@ -2302,6 +2302,16 @@ class Installer extends Adapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		if ((string) $xml->inheritable !== '')
+		{
+			$data['inheritable'] = (string) $xml->inheritable;
+		}
+
+		if ((string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
+
 		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);

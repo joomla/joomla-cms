@@ -290,10 +290,6 @@ class TemplatesModel extends ListModel
 			// Thumbnail & Preview
 			$template = $item->template;
 			$client = ApplicationHelper::getClientInfo($item->client_id);
-			$basePath = $client->path . '/templates/' . $template;
-			$baseUrl = ($item->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator';
-			$thumb = $basePath . '/template_thumbnail.png';
-			$preview = $basePath . '/template_preview.png';
 
 			if (!isset($items[$item->template]))
 			{
@@ -306,7 +302,8 @@ class TemplatesModel extends ListModel
 					continue;
 				}
 
-				$isChild     = $xmldata->get('parent', '');
+				$isChild  = $xmldata->get('parent', '');
+				$isModern = (bool) $xmldata->get('inheritable', '');
 
 				// If the template is a child, we merge to the parent
 				if ($isChild !== '')
@@ -331,17 +328,46 @@ class TemplatesModel extends ListModel
 				$items[$curTemplate]->childs = [];
 			}
 
-			if (file_exists($thumb) || file_exists($preview))
+			if ($isModern || $isChild !== '')
+			{
+				$baseUrl = ($item->client_id == 0) ? Uri::root(true) . 'site' : Uri::root(true) . 'administrator';
+				$basePath = JPATH_ROOT . '/media/templates/' . $baseUrl . '/' . $template . '/images';
+				$baseUrl = '/media/templates/' . $baseUrl . '/' . $template . '/images';
+			}
+			else
+			{
+				$baseUrl  = ($item->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator';
+				$basePath = $client->path . '/templates/' . $template;
+				$baseUrl  = $baseUrl . '/templates/' . $template;
+			}
+
+
+			$thumb = '/template_thumbnail.png';
+			$preview = '/template_preview.png';
+
+			if (file_exists($basePath . $thumb) || file_exists($basePath . $preview))
 			{
 
-				if (file_exists($thumb))
+				if (file_exists($basePath . $thumb))
 				{
-					$items[$curTemplate]->thumbnail = $baseUrl . '/templates/' . $template . '/template_thumbnail.png';
+					$items[$curTemplate]->thumbnail = $baseUrl . '/template_thumbnail.png';
 				}
 
-				if (file_exists($preview))
+				if (file_exists($basePath . $preview))
 				{
-					$items[$curTemplate]->preview = $item->thumbnail = $baseUrl . '/templates/' . $template . '/template_preview.png';
+					$items[$curTemplate]->preview = $item->thumbnail = $baseUrl . '/template_preview.png';
+				}
+			}
+			elseif ($isChild !== '')
+			{
+				if (file_exists(str_replace('/' . $template . '/', '/' . $isChild . '/', $basePath) . $thumb))
+				{
+					$items[$curTemplate]->thumbnail = str_replace('/' . $template . '/', '/' . $isChild . '/', $basePath) . $thumb;
+				}
+
+				if (file_exists(str_replace('/' . $template . '/', '/' . $isChild . '/', $basePath) . $preview))
+				{
+					$items[$curTemplate]->preview = str_replace('/' . $template . '/', '/' . $isChild . '/', $basePath) . $preview;
 				}
 			}
 
