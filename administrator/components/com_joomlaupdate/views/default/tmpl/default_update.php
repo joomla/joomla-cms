@@ -204,7 +204,7 @@ defined('_JEXEC') or die;
 										<?php $authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl; ?>
 									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
 										<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
-											<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) :  ?>
+											<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
 												<?php $authorURL = $nonCoreExtension->manifest_cache->authorUrl; ?>
 											<?php endif; ?>
 										<?php endforeach; ?>
