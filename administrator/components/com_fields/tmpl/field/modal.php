@@ -35,7 +35,7 @@ $this->useCoreUI = true;
 	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . Factory::getApplication()->input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-		<div>
+		<div class="main-card">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>

@@ -173,8 +173,16 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif (in_array($ext, $imageTypes))
 		{
-			$this->image = $this->get('Image');
-			$this->type  = 'image';
+			try
+			{
+				$this->image = $this->get('Image');
+				$this->type  = 'image';
+			}
+			catch (\RuntimeException $exception)
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILALE'));
+				$this->type = 'home';
+			}
 		}
 		elseif (in_array($ext, $fontTypes))
 		{

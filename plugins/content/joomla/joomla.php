@@ -465,8 +465,6 @@ class PlgContentJoomla extends CMSPlugin
 		return $count;
 	}
 
-
-
 	/**
 	 * Get count of items in assigned to a stage
 	 *

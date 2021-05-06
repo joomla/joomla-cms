@@ -12,7 +12,6 @@ namespace Joomla\Component\Config\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -61,9 +60,6 @@ class ComponentController extends FormController
 	{
 		// Check for request forgeries.
 		$this->checkToken();
-
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 
 		$data    = $this->input->get('jform', [], 'ARRAY');
 		$id      = $this->input->get('id', null, 'INT');

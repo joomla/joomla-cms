@@ -26,7 +26,7 @@ $this->app->getDocument()->getWebAssetManager()
 
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
-<hr>
+
 <div class="control-group">
 	<label for="install_directory" class="control-label">
 		<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>

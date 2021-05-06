@@ -100,6 +100,7 @@
 				name="introtext_limit"
 				type="number"
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
+				filter="integer"
 				default="100"
 			/>
 

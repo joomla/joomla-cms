@@ -901,7 +901,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the before change state event.
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_before_change_featured,
 			AbstractEvent::create(
 				$this->event_before_change_featured,
 				[
@@ -1016,7 +1016,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the change state event.
 		Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_after_change_featured,
 			AbstractEvent::create(
 				$this->event_after_change_featured,
 				[

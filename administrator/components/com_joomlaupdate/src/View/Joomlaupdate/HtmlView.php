@@ -126,9 +126,10 @@ class HtmlView extends BaseHtmlView
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Get results of pre update check evaluations
-		$this->phpOptions        = $model->getPhpOptions();
-		$this->phpSettings       = $model->getPhpSettings();
-		$this->nonCoreExtensions = $model->getNonCoreExtensions();
+		$this->phpOptions             = $model->getPhpOptions();
+		$this->phpSettings            = $model->getPhpSettings();
+		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
 
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');

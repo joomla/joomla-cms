@@ -94,7 +94,7 @@ class RegistrationModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}
@@ -168,7 +168,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 				return false;
 			}
@@ -569,7 +569,7 @@ class RegistrationModel extends FormModel
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
-				$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
 
 				$return = false;
 			}
@@ -593,7 +593,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 				return false;
 			}
@@ -654,7 +654,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 				return false;
 			}
@@ -694,7 +694,7 @@ class RegistrationModel extends FormModel
 					}
 					catch (\RuntimeException $e)
 					{
-						$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+						$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 						return false;
 					}

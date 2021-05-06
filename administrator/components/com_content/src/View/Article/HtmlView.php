@@ -159,7 +159,7 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
@@ -204,13 +204,13 @@ class HtmlView extends BaseHtmlView
 
 			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				$toolbar->versions('com_content.article', $this->item->id);
-			}
-
 			if (!$isNew)
 			{
+				if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+				{
+					$toolbar->versions('com_content.article', $this->item->id);
+				}
+
 				$url = Route::link(
 					'site',
 					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),

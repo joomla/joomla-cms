@@ -113,11 +113,11 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass
-	. $hasClass;
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	. ($pageclass ? ' ' . $pageclass : '')
+	. $hasClass
+	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
+	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
 		<?php if ($this->countModules('topbar')) : ?>
 			<div class="container-topbar">

@@ -20,7 +20,7 @@ $wa->useScript('joomla.batch-copymove');
 $context   = $this->escape($this->state->get('filter.context'));
 ?>
 
-<div class="container">
+<div class="p-3">
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">

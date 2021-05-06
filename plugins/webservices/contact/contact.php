@@ -128,7 +128,7 @@ class PlgWebservicesContact extends CMSPlugin
 		$defaults    = [
 			'component'  => 'com_contenthistory',
 			'type_alias' => 'com_contact.contact',
-			'type_id'    => 2
+			'type_id'    => 2,
 		];
 		$getDefaults = array_merge(['public' => false], $defaults);
 

@@ -385,7 +385,7 @@ class PlgContentPagebreak extends CMSPlugin
 	{
 		$links = array(
 			'next' => '',
-			'previous' => ''
+			'previous' => '',
 		);
 
 		if ($page < $n - 1)

@@ -92,11 +92,11 @@ if (!empty($editor))
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</span>
 					</td>
-					<td scope="row" class="has-context">
+					<th scope="row" class="has-context">
 						<a class="js-module-insert btn btn-sm btn-success w-100" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
-					</td>
+					</th>
 					<td class="small d-none d-md-table-cell">
 						<?php if ($item->position) : ?>
 						<a class="js-position-insert btn btn-sm btn-warning w-100" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>

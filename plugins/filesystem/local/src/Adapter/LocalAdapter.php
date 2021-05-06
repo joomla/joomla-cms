@@ -261,7 +261,6 @@ class LocalAdapter implements AdapterInterface
 		File::write($localPath, $data);
 	}
 
-
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
@@ -437,7 +436,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
 		}
 
 		// Check for existence of the file in destination
@@ -547,10 +546,16 @@ class LocalAdapter implements AdapterInterface
 		$name     = $this->getFileName($destinationPath);
 		$safeName = $this->getSafeName($name);
 
+		// If transliterating could not happen, and all characters except of the file extension are filtered out, then throw an error.
+		if ($safeName === pathinfo($sourcePath, PATHINFO_EXTENSION))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+		}
+
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
 		}
 
 		if (is_dir($sourcePath))
@@ -773,7 +778,10 @@ class LocalAdapter implements AdapterInterface
 	private function getSafeName(string $name): string
 	{
 		// Make the filename safe
-		$name = File::makeSafe($name);
+		if (!$name = File::makeSafe($name))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+		}
 
 		// Transform filename to punycode
 		$name = PunycodeHelper::toPunycode($name);

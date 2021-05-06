@@ -544,7 +544,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-
 	 * Get the configured static headers.
 	 *
 	 * @return  array  We return the array of static headers with its values.

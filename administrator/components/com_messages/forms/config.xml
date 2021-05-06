@@ -27,6 +27,7 @@
 			name="auto_purge"
 			type="number"
 			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"
+			filter="integer"
 			default="7"
 		/>
 	</fieldset>

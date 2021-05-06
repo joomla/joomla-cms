@@ -26,37 +26,29 @@ $this->useCoreUI = true;
 
 <form action="<?php echo Route::_('index.php?option=com_fields&context=' . $this->state->get('filter.context') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_FIELDS_GROUP_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
-	<div class="form-horizontal">
+	<div class="main-card form-horizontal">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-					<?php echo $this->form->renderField('label'); ?>
-					<?php echo $this->form->renderField('description'); ?>
-					</div>
-				</div>
+				<?php echo $this->form->renderField('label'); ?>
+				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-					<?php $this->set('fields',
+				<?php $this->set('fields',
+						array(
 							array(
-								array(
-									'published',
-									'state',
-									'enabled',
-								),
-								'access',
-								'language',
-								'note',
-							)
-					); ?>
-					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					<?php $this->set('fields', null); ?>
-					</div>
-				</div>
+								'published',
+								'state',
+								'enabled',
+							),
+							'access',
+							'language',
+							'note',
+						)
+				); ?>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php $this->set('fields', null); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

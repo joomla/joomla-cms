@@ -21,7 +21,7 @@ if (!$backtraceList)
 
 $class = $displayData['class'] ?? 'table table-striped table-bordered';
 ?>
-<table cellpadding="0" cellspacing="0" class="<?php echo $class ?>">
+<table class="<?php echo $class ?>">
 	<tr>
 		<td colspan="3">
 			<strong>Call stack</strong>

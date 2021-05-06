@@ -256,7 +256,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			'sitename'    => $sitename,
 			'url'         => Uri::base(),
 			'link'        => $uri->toString(),
-			'releasenews' => 'https://www.joomla.org/announcements/release-news/'
+			'releasenews' => 'https://www.joomla.org/announcements/release-news/',
 		];
 
 		// Send the emails to the Super Users

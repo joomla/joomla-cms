@@ -19,7 +19,7 @@ $published = (int) $this->state->get('filter.published');
 $user = Factory::getUser();
 ?>
 
-<div class="container">
+<div class="p-3">
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">

@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -453,6 +454,25 @@ class ModulesModel extends ListModel
 					->bind(':language', $language);
 			}
 		}
+
+		return $query;
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$clientId = (int) $this->getState('client_id');
+
+		$query->where($this->_db->quoteName('a.client_id') . ' = :client_id')
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 
 		return $query;
 	}

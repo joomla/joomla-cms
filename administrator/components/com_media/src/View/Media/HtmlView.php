@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new FileLayout instance and render the layout
-			$layout = new FileLayout('toolbar.delete');
+			$layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render([]), 'delete');
 			ToolbarHelper::divider();

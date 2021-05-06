@@ -72,12 +72,12 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 				'icon'    => 'question-circle',
 				'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
 				'map'     => $this->name . '.data',
-				'default' => ''
+				'default' => '',
 			],
 			'untranslated:badge' => [
 				'map'     => $this->name . '.count',
-				'default' => 'null'
-			]
+				'default' => 'null',
+			],
 		];
 	}
 

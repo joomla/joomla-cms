@@ -262,7 +262,7 @@ class ConsentBoxField extends CheckboxesField
 			);
 		}
 
-		if (!is_object($article))
+		if (!\is_object($article))
 		{
 			// We have not found the article object lets show a 404 to the user
 			return Route::_(
@@ -285,7 +285,7 @@ class ConsentBoxField extends CheckboxesField
 		$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
 		$currentLang        = Factory::getLanguage()->getTag();
 
-		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
+		if (isset($associatedArticles) && $currentLang !== $article->language && \array_key_exists($currentLang, $associatedArticles))
 		{
 			return Route::_(
 				RouteHelper::getArticleRoute(

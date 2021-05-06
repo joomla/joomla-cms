@@ -106,7 +106,7 @@ class PlgWebservicesContent extends CMSPlugin
 		$defaults    = [
 			'component'  => 'com_contenthistory',
 			'type_alias' => 'com_content.article',
-			'type_id'    => 1
+			'type_id'    => 1,
 		];
 		$getDefaults = array_merge(['public' => false], $defaults);
 

@@ -136,6 +136,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					default="_:default"
+					validate="moduleLayout"
 				/>
 
 				<field

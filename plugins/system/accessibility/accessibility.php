@@ -95,8 +95,8 @@ class PlgSystemAccessibility extends CMSPlugin
 						$direction => [
 							'size' => '0',
 							'units' => 'px',
-						]
-					]
+						],
+					],
 				],
 				'hotkeys' => [
 					'enabled' => true,

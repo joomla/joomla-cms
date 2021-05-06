@@ -11,8 +11,10 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -93,6 +95,11 @@ class SubfieldsField extends ListField
 				return strcmp($a->text, $b->text);
 			}
 		);
+
+		if (count($options) == 0)
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
+		}
 
 		return $options;
 	}

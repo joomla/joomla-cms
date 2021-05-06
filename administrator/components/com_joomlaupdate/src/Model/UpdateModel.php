@@ -1178,16 +1178,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
-		{
-			$option = new \stdClass;
-			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
-			$option->state  = $this->isDatabaseTypeSupported();
-			$option->notice = null;
-			$options[]      = $option;
-		}
-
 		// Check for mbstring options.
 		if (extension_loaded('mbstring'))
 		{
@@ -1218,6 +1208,23 @@ ENDDATA;
 		$option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
+		$options[] = $option;
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		{
+			$option = new \stdClass;
+			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+			$option->state  = $this->isDatabaseTypeSupported();
+			$option->notice = null;
+			$options[]      = $option;
+		}
+
+		// Check if database structure is up to date
+		$option = new \stdClass;
+		$option->label  = Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
+		$option->state  = $this->getDatabaseSchemaCheck();
+		$option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
 		$options[] = $option;
 
 		return $options;
@@ -1368,6 +1375,61 @@ ENDDATA;
 		return $result;
 	}
 
+
+	/**
+	 * Check if database structure is up to date
+	 *
+	 * @return  boolean  True if ok, false if not.
+	 *
+	 * @since   3.10.0
+	 */
+	private function getDatabaseSchemaCheck(): bool
+	{
+		$mvcFactory = $this->bootComponent('com_installer')->getMVCFactory();
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
+		$model = $mvcFactory->createModel('Database', 'Administrator');
+
+		// Check if no default text filters found
+		if (!$model->getDefaultTextFilters())
+		{
+			return false;
+		}
+
+		$coreExtensionInfo = \Joomla\CMS\Extension\ExtensionHelper::getExtensionRecord('joomla', 'file');
+		$cache = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
+
+		$updateVersion = $cache->get('version');
+
+		// Check if database update version does not match CMS version
+		if (version_compare($updateVersion, JVERSION) != 0)
+		{
+			return false;
+		}
+
+		// Ensure we only get information for core
+		$model->setState('filter.extension_id', $coreExtensionInfo->extension_id);
+
+		// We're filtering by a single extension which must always exist - so can safely access this through
+		// element 0 of the array
+		$changeInformation = $model->getItems()[0];
+
+		// Check if schema errors found
+		if ($changeInformation['errorsCount'] !== 0)
+		{
+			return false;
+		}
+
+		// Check if database schema version does not match CMS version
+		if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema'])
+		{
+			return false;
+		}
+
+		// No database problems found
+		return true;
+	}
+
 	/**
 	 * Gets an array containing all installed extensions, that are not core extensions.
 	 *
@@ -1405,6 +1467,62 @@ ENDDATA;
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
+			$extension->manifest_cache = $decode;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
+	 *
+	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
+	 *
+	 * @return  array  name,version,updateserver
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNonCorePlugins($folderFilter = array())
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn('ex.name') . ', ' .
+			$db->qn('ex.extension_id') . ', ' .
+			$db->qn('ex.manifest_cache') . ', ' .
+			$db->qn('ex.type') . ', ' .
+			$db->qn('ex.folder') . ', ' .
+			$db->qn('ex.element') . ', ' .
+			$db->qn('ex.client_id') . ', ' .
+			$db->qn('ex.package_id')
+		)->from(
+			$db->qn('#__extensions', 'ex')
+		)->where(
+			$db->qn('ex.type') . ' = ' . $db->quote('plugin')
+		)->where(
+			$db->qn('ex.enabled') . ' = 1'
+		)->whereNotIn(
+			$db->quoteName('ex.extension_id'), ExtensionHelper::getCoreExtensionIds()
+		);
+
+		if (count($folderFilter) > 0)
+		{
+			$folderFilter = array_map(array($db, 'quote'), $folderFilter);
+
+			$query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+		}
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		foreach ($rows as $plugin)
+		{
+			$decode = json_decode($plugin->manifest_cache);
+			$this->translateExtensionName($plugin);
+			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+			unset($plugin->manifest_cache);
+			$plugin->manifest_cache = $decode;
 		}
 
 		return $rows;

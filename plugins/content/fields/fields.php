@@ -129,7 +129,7 @@ class PlgContentFields extends CMSPlugin
 						array(
 							'item'    => $item,
 							'context' => $context,
-							'field'   => $fieldsById[$id]
+							'field'   => $fieldsById[$id],
 						)
 					);
 				}
@@ -155,7 +155,7 @@ class PlgContentFields extends CMSPlugin
 						array(
 							'item'    => $item,
 							'context' => $context,
-							'fields'  => $renderFields
+							'fields'  => $renderFields,
 						)
 					);
 				}

@@ -74,7 +74,7 @@ class PlgWebservicesBanners extends CMSPlugin
 		$defaults    = [
 			'component'  => 'com_contenthistory',
 			'type_alias' => 'com_banners.banner',
-			'type_id'    => 9
+			'type_id'    => 9,
 		];
 		$getDefaults = array_merge(['public' => false], $defaults);
 

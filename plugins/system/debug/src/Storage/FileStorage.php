@@ -80,7 +80,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 			{
 				$files[] = [
 					'time' => $file->getMTime(),
-					'id' => $file->getBasename('.php')
+					'id' => $file->getBasename('.php'),
 				];
 			}
 		}

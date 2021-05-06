@@ -219,7 +219,7 @@ class PlgUserJoomla extends CMSPlugin
 			'url' => Uri::root(),
 			'username' => $user['username'],
 			'password' => $user['password_clear'],
-			'email' => $user['email']
+			'email' => $user['email'],
 		];
 
 		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);

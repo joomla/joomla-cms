@@ -63,7 +63,7 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST'),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND'),
 				"ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR'),
-			)
+			),
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-privacy-check', $options);
@@ -78,8 +78,8 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
-				'group' => 'MOD_QUICKICON_USERS'
-			)
+				'group' => 'MOD_QUICKICON_USERS',
+			),
 		);
 	}
 }

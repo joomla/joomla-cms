@@ -11,7 +11,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
@@ -80,8 +79,6 @@ class InstallModel extends BaseDatabaseModel
 	{
 		$this->setState('action', 'install');
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 		$app = Factory::getApplication();
 
 		// Load installer plugins for assistance if required:

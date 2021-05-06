@@ -54,4 +54,3 @@ if ($value)
 		echo $buffer;
 	}
 }
-

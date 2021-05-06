@@ -77,7 +77,7 @@ class PlgTwofactorauthTotp extends CMSPlugin
 
 		return (object) array(
 			'method' => $this->methodName,
-			'title'  => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
+			'title'  => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE'),
 		);
 	}
 
@@ -130,7 +130,7 @@ class PlgTwofactorauthTotp extends CMSPlugin
 		// Return the form contents
 		return array(
 			'method' => $this->methodName,
-			'form'   => $html
+			'form'   => $html,
 		);
 	}
 
@@ -222,9 +222,9 @@ class PlgTwofactorauthTotp extends CMSPlugin
 		$otpConfig = (object) array(
 			'method'   => 'totp',
 			'config'   => array(
-				'code' => $data['key']
+				'code' => $data['key'],
 			),
-			'otep'     => array()
+			'otep'     => array(),
 		);
 
 		return $otpConfig;

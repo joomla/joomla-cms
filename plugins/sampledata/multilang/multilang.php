@@ -430,7 +430,6 @@ class PlgSampledataMultilang extends CMSPlugin
 		return $response;
 	}
 
-
 	/**
 	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
 	 *
@@ -556,7 +555,6 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		return true;
 	}
-
 
 	/**
 	 * Disable Default Main Menu Module.

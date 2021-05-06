@@ -92,6 +92,13 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * @var mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -112,6 +119,11 @@ class HtmlView extends BaseHtmlView
 		$this->pluginState   = $this->get('pluginState');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		if ($this->get('TotalIndexed') === 0 && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
@@ -137,10 +149,6 @@ class HtmlView extends BaseHtmlView
 			{
 				Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
 			}
-		}
-		elseif ($this->get('TotalIndexed') === 0)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		// Configure the toolbar.
@@ -170,32 +178,35 @@ class HtmlView extends BaseHtmlView
 			'window.parent.location.reload()', Text::_('COM_FINDER_HEADING_INDEXER')
 		);
 
-		if ($canDo->get('core.edit.state'))
+		if (!$this->isEmptyState)
 		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+			if ($canDo->get('core.edit.state'))
+			{
+				$dropdown = $toolbar->dropdownButton('status-group')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('icon-ellipsis-h')
+					->buttonClass('btn btn-action')
+					->listCheck(true);
 
-			$childBar = $dropdown->getChildToolbar();
+				$childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('index.publish')->listCheck(true);
-			$childBar->unpublish('index.unpublish')->listCheck(true);
-		}
+				$childBar->publish('index.publish')->listCheck(true);
+				$childBar->unpublish('index.unpublish')->listCheck(true);
+			}
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+			$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('', 'index.delete');
-			ToolbarHelper::divider();
-		}
+			if ($canDo->get('core.delete'))
+			{
+				ToolbarHelper::deleteList('', 'index.delete');
+				ToolbarHelper::divider();
+			}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
+			if ($canDo->get('core.edit.state'))
+			{
+				ToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

@@ -26,12 +26,12 @@
 }
 
 .choices__inner {
-  padding: .4rem 1rem;
+  min-height: 42px;
+  padding: .1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   .is-focused & {
     border-color: $focuscolor;
@@ -57,6 +57,10 @@
 
 .choices__list--dropdown {
   z-index: $zindex-popover;
+}
+
+.choices__list--single {
+  padding: 7px 16px 0 4px;
 }
 
 .choices__list--multiple .choices__item {
@@ -174,7 +178,7 @@
 .choices[data-type*="select-multiple"],
 .choices[data-type*="text"] {
   .choices__input {
-    padding: .2rem 0;
+    padding: .35rem 0;
   }
 }
 

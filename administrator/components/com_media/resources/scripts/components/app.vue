@@ -1,6 +1,6 @@
 <template>
   <div class="media-container">
-    <div class="media-sidebar col-md-2 d-none d-md-block">
+    <div class="media-sidebar">
       <media-disk
         v-for="(disk, index) in disks"
         :key="index"
@@ -8,11 +8,9 @@
         :disk="disk"
       />
     </div>
-    <div class="col-md-10">
-      <div class="media-main">
-        <media-toolbar />
-        <media-browser />
-      </div>
+    <div class="media-main">
+      <media-toolbar />
+      <media-browser />
     </div>
     <media-upload />
     <media-create-folder-modal />

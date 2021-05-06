@@ -28,34 +28,26 @@ $wa->useScript('keepalive')
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
+	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_BANNERS_BANNER_DETAILS')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<?php echo $this->form->renderField('type'); ?>
-						<div id="image">
-							<?php echo $this->form->renderFieldset('image'); ?>
-						</div>
-						<div id="custom">
-							<?php echo $this->form->renderField('custombannercode'); ?>
-						</div>
-						<?php
-						echo $this->form->renderField('clickurl');
-						echo $this->form->renderField('description');
-						?>
-					</div>
+				<?php echo $this->form->renderField('type'); ?>
+				<div id="image">
+					<?php echo $this->form->renderFieldset('image'); ?>
 				</div>
+				<div id="custom">
+					<?php echo $this->form->renderField('custombannercode'); ?>
+				</div>
+				<?php
+				echo $this->form->renderField('clickurl');
+				echo $this->form->renderField('description');
+				?>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

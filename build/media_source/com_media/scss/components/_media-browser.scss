@@ -1,9 +1,7 @@
 // Media browser
 .media-browser {
   position: relative;
-  width: 75%;
-  height: calc(100vh - 208px);
-  overflow-y: auto;
+  border-left: 1px solid $border-color;
   transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
@@ -41,6 +39,7 @@
   position: relative;
   font-size: 60px;
   color: #007eb7;
+  border: 1px solid hsl(var(--hue),35%,95%);
   border-radius: $grid-item-border-radius;
   &::after {
     position: absolute;
@@ -198,7 +197,7 @@
 
 .image-background {
   background-color: #fff;
-  background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%);
+  background-image: linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 25%, transparent 75%, #eee 75%, hsl(var(--hue), 20%, 97%) 100%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, hsl(var(--hue), 20%, 97%) 75%, hsl(var(--hue), 20%, 97%) 100%);
   background-position: 0 0, 10px 10px;
   background-size: 20px 20px;
 }
@@ -213,7 +212,8 @@
 
 .file-background, .folder-background {
   padding-bottom: 100%;
-  background-color: $grid-item-no-preview-bg;
+  background-color: hsl(var(--hue), 20%, 97%);
+  border: 1px solid hsl(var(--hue), 35%, 95%);
   border-radius: $grid-item-border-radius;
 }
 
@@ -226,7 +226,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #bbb;
+  color: hsl(var(--hue), 20%, 60%);
 }
 
 .media-dragoutline {
@@ -309,7 +309,7 @@
   .type {
     position: relative;
     z-index: 0;
-    width: calc(#{$table-item-height} + 4px);
+    width: 50px;
     padding: 0;
     font-size: $table-item-icon-size;
     line-height: $table-item-height;

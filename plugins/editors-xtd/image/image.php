@@ -69,7 +69,7 @@ class PlgButtonImage extends CMSPlugin
 				->useStyle('webcomponent.image-select');
 
 			$doc->addScriptOptions('xtdImageModal', [
-				$name . '_ImageModal'
+				$name . '_ImageModal',
 			]);
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
@@ -102,7 +102,7 @@ class PlgButtonImage extends CMSPlugin
 				'modalWidth'      => '80',
 				'tinyPath'        => $link,
 				'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
-				'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT')
+				'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
 			];
 
 			return $button;

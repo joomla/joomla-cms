@@ -222,8 +222,8 @@ class PlgSampledataBlog extends CMSPlugin
 						'rows'      => 3,
 						'cols'      => 80,
 						'maxlength' => 400,
-						'filter'    => ''
-					]
+						'filter'    => '',
+					],
 				],
 			];
 
@@ -259,7 +259,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'prefix'             => '',
 					'suffix'             => '',
 					'layout'             => '',
-					'display_readonly'   => '2'
+					'display_readonly'   => '2',
 				];
 
 				try
@@ -397,7 +397,7 @@ class PlgSampledataBlog extends CMSPlugin
 							'featuring' => 1,
 							'notification_send_mail' => true,
 							'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
-							'notification_groups' => ["7"]
+							'notification_groups' => ["7"],
 						)
 					),
 				),
@@ -453,7 +453,7 @@ class PlgSampledataBlog extends CMSPlugin
 							'featuring' => 0,
 							'notification_send_mail' => true,
 							'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
-							'notification_groups' => ["7"]
+							'notification_groups' => ["7"],
 						)
 					),
 				),
@@ -524,7 +524,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'associations'    => array(),
 				'description'     => '',
 				'language'        => $language,
-				'params'          => $params
+				'params'          => $params,
 			];
 
 			try
@@ -578,8 +578,8 @@ class PlgSampledataBlog extends CMSPlugin
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			array(
 				// Article 3 - About your home page
@@ -596,7 +596,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_FIELD_0'),
 			),
@@ -615,8 +615,8 @@ class PlgSampledataBlog extends CMSPlugin
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			array(
 				// Article 5 - Your Template
@@ -633,8 +633,8 @@ class PlgSampledataBlog extends CMSPlugin
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			// Category 2 = Joomla - marketing texts
 			array(
@@ -646,7 +646,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 7 - Love
@@ -657,7 +657,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 8 - Joomla
@@ -668,7 +668,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 9 - Workflows
@@ -683,7 +683,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
 			),
@@ -772,7 +772,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'content_id'      => $articleModel->getItem()->id,
 					'ordering'        => 0,
 					'featured_up'     => null,
-					'featured_down'   => null
+					'featured_down'   => null,
 				];
 
 				$this->db->insertObject('#__content_frontpage', $featuredItem);
@@ -1200,6 +1200,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
+				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -1535,7 +1536,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag'        => 'div',
 					'bootstrap_size'    => '0',
 					'header_tag'        => 'h3',
-					'header_class'      => ''
+					'header_class'      => '',
 				),
 			),
 			array(
@@ -1650,7 +1651,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag'      => 'div',
 					'bootstrap_size'  => '0',
 					'header_tag'      => 'h3',
-					'header_class'    => ''
+					'header_class'    => '',
 				),
 			),
 			array(

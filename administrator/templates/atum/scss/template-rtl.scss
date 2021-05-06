@@ -58,11 +58,8 @@ ul {
 
 // com_cpanel
 .com_cpanel {
-
   .card {
-
     .list-group {
-
       > .published {
         border-right: 5px solid var(--success);
         border-left: 0;
@@ -85,11 +82,6 @@ ul {
         border-top-right-radius: 0;
       }
     }
-  }
-
-  .module-actions {
-    right: auto;
-    left: 0;
   }
 }
 

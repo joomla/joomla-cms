@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
@@ -25,8 +26,6 @@ $option = $input->get('option', '');
 $view   = $input->get('view', '');
 $layout = $input->get('layout', 'default');
 $task   = $input->get('task', 'display');
-
-require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -45,46 +44,48 @@ $logoBrandSmall = $this->params->get('logoBrandSmall')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-	? ''
+	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-	? ''
+	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
 $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
-	? ''
+	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
+
+	// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
-	->useStyle('template.user');
+	->useStyle('template.user')
+	->addInlineStyle(':root {
+		--hue: ' . $matches[1] . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
+		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-// @TODO sync with _variables.scss
-$this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
-
-// We may have registered this trying to load the main login page - so check before registering again
-if (!$htmlHelperRegistry->hasService('atum'))
-{
-	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
-}
-
-HTMLHelper::_('atum.rootcolors', $this->params);
-
+// @see administrator/templates/atum/html/layouts/status.php
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
@@ -106,9 +107,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ms-auto">
-			<jdoc:include type="modules" name="status" style="header-element"/>
-		</div>
+		<?php echo $statusModules; ?>
 	</div>
 </header>
 
@@ -168,6 +167,5 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

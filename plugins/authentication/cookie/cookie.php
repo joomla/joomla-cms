@@ -56,7 +56,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		return array(
 			Text::_('PLG_AUTHENTICATION_COOKIE') => array(
 				Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-			)
+			),
 		);
 	}
 

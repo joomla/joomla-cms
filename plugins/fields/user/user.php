@@ -18,7 +18,6 @@ use Joomla\CMS\Form\Form;
  */
 class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
-
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *

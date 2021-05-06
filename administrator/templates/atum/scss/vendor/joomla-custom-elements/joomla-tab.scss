@@ -33,20 +33,22 @@ joomla-tab {
     display: flex;
     flex-flow: wrap;
     padding: 0;
-    margin: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-radius: 0;
-    border-image: none;
+    border-bottom: 1px solid var(--atum-bg-dark-10);
+
+    li + li {
+      margin-left: 1px;
+    }
 
     a[role=tab] {
       position: relative;
       box-sizing: border-box;
       display: block;
-      padding: .5rem 1rem;
-      color: var(--atum-link-color);
+      padding: .6rem 1rem;
+      color: var(--primary);
       text-decoration: none;
-      border: 0 solid var(--bluegray);
+      border: 0;
       border-top: 0;
       border-right: 0;
       border-bottom: 0;
@@ -54,53 +56,40 @@ joomla-tab {
 
       &[active],
       &:hover {
-        margin: -1px;
-        background-color: $white;
-        background-image: none;
-        border: 1px solid var(--bluegray);
-        border-bottom: solid 1px #fff;
+        border: 0;
         border-radius: 0;
         box-shadow: none;
+
         &::after {
           position: absolute;
-          top: -1px;
           right: 0;
+          bottom: -1px;
           left: 0;
-          height: 4px;
+          height: 3px;
           content: "";
-          background-color: var(--atum-contrast);
+          background-color: var(--atum-link-color);
           opacity: .8;
         }
       }
 
       &[active] {
         font-weight: $font-weight-bold;
+        background: var(--atum-bg-dark-3);
       }
     }
   }
 
   > section {
+    --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
     background-color: $white;
-    border: 1px solid var(--bluegray);
-    border-radius: 0;
+    border: 0;
+    border-radius: .25rem;
     box-shadow: none;
-
-    [dir=ltr] & {
-      margin-left: -1px;
-    }
-
-    [dir=rtl] & {
-      margin-right: -1px;
-    }
 
     &[active] {
       display: block;
-    }
-
-    .tab-pane {
-      margin: 0;
     }
   }
 
@@ -308,5 +297,9 @@ joomla-tab {
         }
       }
     }
+  }
+
+  .main-card-columns > * > & {
+    border-left: 1px solid var(--atum-bg-dark-10);
   }
 }

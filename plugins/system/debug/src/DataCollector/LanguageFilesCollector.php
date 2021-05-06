@@ -37,7 +37,6 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 */
 	private $count = 0;
 
-
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
@@ -100,7 +99,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 				'icon' => 'language',
 				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
 				'map' => $this->name,
-				'default' => '[]'
+				'default' => '[]',
 			],
 			'loaded:badge' => [
 				'map'     => $this->name . '.count',

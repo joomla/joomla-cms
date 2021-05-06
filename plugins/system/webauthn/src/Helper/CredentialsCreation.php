@@ -190,7 +190,7 @@ abstract class CredentialsCreation
 			$publicKeyCredentialCreationOptions = null;
 		}
 
-		if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions))
+		if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions))
 		{
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
 		}
@@ -348,7 +348,7 @@ abstract class CredentialsCreation
 			}
 		}
 
-		if (!isset($relFile) || is_null($relFile))
+		if (!isset($relFile) || \is_null($relFile))
 		{
 			return null;
 		}

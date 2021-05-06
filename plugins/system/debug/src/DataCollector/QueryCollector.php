@@ -108,7 +108,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
 				'memory_usage_str'         => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
 				'xdebug_link'              => $this->getXdebugLinkTemplate(),
-				'root_path'                => JPATH_ROOT
+				'root_path'                => JPATH_ROOT,
 			],
 			'count'      => \count($this->queryMonitor->getLogs()),
 		];
@@ -161,7 +161,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	{
 		return [
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
-			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js'
+			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
 		];
 	}
 

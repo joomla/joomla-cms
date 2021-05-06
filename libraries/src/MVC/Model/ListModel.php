@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -118,7 +119,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   1.6
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -150,26 +151,41 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	}
 
 	/**
-	 * Is this a blank state, I.e: no items of this type regardless of the searched for states.
+	 * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
 	 *
-	 * @return boolean
+	 * @return DatabaseQuery
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getisBlankSlate()
+	protected function getEmptyStateQuery()
 	{
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->select('count(*)');
+		$query = clone $this->_getListQuery();
 
-		$this->_db->setQuery($sql);
+		if ($query instanceof DatabaseQuery)
+		{
+			$query->clear('bounded')
+				->clear('group')
+				->clear('having')
+				->clear('join')
+				->clear('values')
+				->clear('where');
+		}
 
-		return !($this->_db->loadResult() > 0);
+		return $query;
+	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @throws Exception
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getIsEmptyState(): bool
+	{
+		return $this->_getListCount($this->getEmptyStateQuery()) === 0;
 	}
 
 	/**

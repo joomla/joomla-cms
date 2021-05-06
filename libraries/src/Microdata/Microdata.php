@@ -524,7 +524,7 @@ class Microdata
 			{
 				/*
 				 * Process and return the HTML in an automatic way,
-				 * with the $Property expected Types an display everything in the right way,
+				 * with the $Property expected Types and display everything in the right way,
 				 * check if the Property is 'nested' or must be rendered in a metadata tag
 				 */
 				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))

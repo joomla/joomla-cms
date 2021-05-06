@@ -130,7 +130,7 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = Text::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = $option->state ? null : Text::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : Text::_('INSTL_NOTICE_NEEDSTOBEWRITABLE');
 		$options[] = $option;
 
 		return $options;
