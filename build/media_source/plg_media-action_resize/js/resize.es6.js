@@ -48,7 +48,6 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     // Update the height input range slider
     document.getElementById('jform_resize_h').value = parseInt(height, 10);
 
-
     // Notify the app that a change has been made
     window.dispatchEvent(new Event('mediaManager.history.point'));
   };
