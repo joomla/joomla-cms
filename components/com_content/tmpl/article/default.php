@@ -40,15 +40,14 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
 	<?php endif;
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
+	if (!empty($this->item->pagination) && !$this->item->paginationposition && $this->item->paginationrelative)
 	{
 		echo $this->item->pagination;
 	}
 	?>
 
-	<?php // Todo Not that elegant would be nice to group the params ?>
-	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
+	<?php $useDefList = $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
+	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam; ?>
 
 	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
@@ -56,13 +55,13 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 			<?php echo $this->escape($this->item->title); ?>
 		</<?php echo $htag; ?>>
 		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-			<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+			<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if ($isNotPublishedYet) : ?>
-			<span class="badge bg-warning text-dark"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+			<span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 		<?php if ($isExpired) : ?>
-			<span class="badge bg-warning text-dark"><?php echo Text::_('JEXPIRED'); ?></span>
+			<span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
@@ -114,7 +113,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<?php endif; ?>
 
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative) :
+	if (!empty($this->item->pagination) && $this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
@@ -136,7 +135,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative) :
+	if (!empty($this->item->pagination) && $this->item->paginationposition && $this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>

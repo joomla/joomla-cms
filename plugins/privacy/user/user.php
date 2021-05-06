@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\SessionManager;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Table\User as JTableUser;
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
@@ -26,6 +29,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgPrivacyUser extends PrivacyPlugin
 {
+	/**
+	 * Application object
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
 	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
 	 *
@@ -126,16 +137,28 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$user->save();
 
-		// Destroy all sessions for the user account
+		// Destroy all sessions for the user account if able
+		if (!$this->app->get('session_metadata', true))
+		{
+			return;
+		}
 
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = :userid')
-			->bind(':userid', $user->id, ParameterType::INTEGER);
+		try
+		{
+			$userId = (int) $user->id;
 
-		$db->setQuery($query);
-		$sessionIds = $db->loadColumn();
+			$sessionIds = $this->db->setQuery(
+				$this->db->getQuery(true)
+					->select($this->db->quoteName('session_id'))
+					->from($this->db->quoteName('#__session'))
+					->where($this->db->quoteName('userid') . ' = :userid')
+					->bind(':userid', $userId, ParameterType::INTEGER)
+			)->loadColumn();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return;
+		}
 
 		// If there aren't any active sessions then there's nothing to do here
 		if (empty($sessionIds))
@@ -143,21 +166,22 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getApplication()->get('session_handler', 'none');
-		$store     = JSessionStorage::getInstance($storeName);
+		/** @var SessionManager $sessionManager */
+		$sessionManager = Factory::getContainer()->get('session.manager');
+		$sessionManager->destroySessions($sessionIds);
 
-		// Destroy the sessions and quote the IDs to purge the session table
-		foreach ($sessionIds as $sessionId)
+		try
 		{
-			$store->destroy($sessionId);
+			$this->db->setQuery(
+				$this->db->getQuery(true)
+					->delete($this->db->quoteName('#__session'))
+					->whereIn($this->db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
+			)->execute();
 		}
-
-		$query->clear()
-			->delete($db->quoteName('#__session'))
-			->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT);
-
-		$db->setQuery($query)
-			->execute();
+		catch (ExecutionFailureException $e)
+		{
+			// No issue, let things go
+		}
 	}
 
 	/**

@@ -243,7 +243,8 @@ class UserController extends BaseController
 	{
 		// Get the ItemID of the page to redirect after logout
 		$app    = $this->app;
-		$itemid = $app->getMenu()->getActive()->getParams()->get('logout');
+		$active = $app->getMenu()->getActive();
+		$itemid = $active ? $active->getParams()->get('logout') : 0;
 
 		// Get the language of the page when multilang is on
 		if (Multilanguage::isEnabled())

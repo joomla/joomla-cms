@@ -242,6 +242,8 @@
 			this.params.onUpdate(this);
 		}
 
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
+
 		if (this.dateClicked) {
 			this.close();
 		} else {
@@ -531,8 +533,6 @@
 
 		this.table = table;
 		table.className = 'table';
-		table.cellSpacing = 0;
-		table.cellPadding = 0;
 		table.style.marginBottom = 0;
 
 		this.dropdownElement = div;
@@ -544,7 +544,7 @@
 
 		div.className = 'js-calendar';
 		div.style.position = "absolute";
-		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
+		div.style.boxShadow = "0 0 70px 0 rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
 		div.classList.add('hidden');
@@ -784,6 +784,7 @@
 				if (self.inputField.onchange) {
 					self.inputField.onchange();
 				}
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {

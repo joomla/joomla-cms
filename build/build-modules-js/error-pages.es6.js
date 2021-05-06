@@ -150,12 +150,12 @@ module.exports.createErrorPages = async (options) => {
     );
 
     // eslint-disable-next-line no-console
-    console.error(`Created the file: ${options.settings.errorPages[name].destFile}`);
+    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  await Promise.all(processPages).catch((err) => {
+  return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
     process.exit(-1);

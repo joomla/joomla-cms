@@ -12,7 +12,7 @@ const minifyFile = async (file) => {
   const content = await minify(fileContent, { sourceMap: false, format: { comments: false } });
   await writeFile(file.replace('.js', '.min.js'), content.code, { encoding: 'utf8' });
   // eslint-disable-next-line no-console
-  console.log(`Legacy js file: ${basename(file)}: minified ✅`);
+  console.log(`Legacy js file: ${basename(file)}: ✅ minified`);
 };
 
 module.exports.minifyJs = minifyFile;

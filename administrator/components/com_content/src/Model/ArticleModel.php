@@ -498,7 +498,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = (int) $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -538,6 +538,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 			// Store ID of the category uses for edit state permission check
 			$record->catid = $assignedCatids;
+		}
+		else
+		{
+			// Get the category which the article is being added to
+			if (!empty($data['catid']))
+			{
+				$catId = (int) $data['catid'];
+			}
+			else
+			{
+				$catIds  = $form->getValue('catid');
+
+				$catId = is_array($catIds)
+					? (int) reset($catIds)
+					: (int) $catIds;
+
+				if (!$catId)
+				{
+					$catId = (int) $form->getFieldAttribute('catid', 'default', 0);
+				}
+			}
+
+			$record->catid = $catId;
 		}
 
 		// Modify the form based on Edit State access controls.
@@ -634,16 +657,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
 				unset($data['created_by']);
-			}
-
-			if (isset($data['modified_by']))
-			{
-				unset($data['modified_by']);
 			}
 		}
 
@@ -883,7 +901,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the before change state event.
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_before_change_featured,
 			AbstractEvent::create(
 				$this->event_before_change_featured,
 				[
@@ -998,7 +1016,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the change state event.
 		Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_after_change_featured,
 			AbstractEvent::create(
 				$this->event_after_change_featured,
 				[

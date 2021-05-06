@@ -6,10 +6,10 @@
   z-index: $zindex-toolbar;
   width: auto;
   min-height: 43px;
-  padding: 10px 0;
+  padding: 8px 1rem;
   color: var(--atum-text-dark); //#0c192e;
-  background: var(--toolbar-bg);
-  box-shadow: -3px -2px 22px #ddd;
+  background-image: linear-gradient(var(--toolbar-bg), var(--atum-bg-dark-3));
+  box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
 
   .row {
     margin-right: 0;
@@ -30,7 +30,6 @@
   }
 
   joomla-toolbar-button {
-
     .btn > span,
     .dropdown-item > span {
       margin-inline-end: .5rem;
@@ -47,7 +46,7 @@
     line-height: $atum-toolbar-line-height;
     color: var(--atum-text-dark);
     background: $white;
-    border-color: $gray-500;
+    border-color: hsl(var(--hue),20%,80%);
 
     > span {
       display: inline-block;
@@ -97,7 +96,6 @@
         font-weight: 900;
         content: "\f078";
         border: 0;
-
       }
     }
 
@@ -138,23 +136,40 @@
   .btn-group joomla-toolbar-button {
     margin-inline-start: 0;
   }
+
+  .contentpane & {
+    margin: -15px -15px 0;
+    background-image: none;
+    border-bottom: 1px solid var(--atum-bg-dark-7);
+  }
 }
 
 @include media-breakpoint-down(sm) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3 {
+    padding: .5rem 1rem !important;
+  }
+
+  #myTab {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  joomla-tab[view=accordion] ul li {
+    width: 100%;
+  }
+
   .toggler-toolbar {
-    top: 20px;
+    top: 0;
+    bottom: auto;
     z-index: $zindex-alerts;
-
-    [dir=ltr] & {
-      right: 10px;
-    }
-
-    [dir=rtl] & {
-      left: 10px;
-    }
+    padding: 7px 10px;
+    margin: 5px;
+    background-color: var(--atum-bg-dark);
+    border-radius: 30px;
 
     .toggler-toolbar-icon::before {
-      font: normal normal 900 30px/1 "Font Awesome 5 Free";
+      font: normal normal 900 28px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }
@@ -165,6 +180,8 @@
   }
 
   .subhead {
+    padding-right: 0;
+    padding-left: 0;
 
     joomla-toolbar-button,
     .btn-group,

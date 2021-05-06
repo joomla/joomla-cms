@@ -34,6 +34,18 @@
 		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				useglobal="true"
+				class="custom-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_category_title"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -97,6 +109,17 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field
+				name="show_no_contacts"
+				type="list"
+				label="COM_CONTACT_NO_CONTACTS_LABEL"
+				useglobal="true"
+				class="custom-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 			<field
 				name="show_subcat_desc"
@@ -292,8 +315,25 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
+
+			<field
+ 				name="contacts_display_num"
+ 				type="list"
+ 				label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+ 				useglobal="true"
+				validate="options"
+ 				>
+ 				<option value="5">J5</option>
+ 				<option value="10">J10</option>
+ 				<option value="15">J15</option>
+ 				<option value="20">J20</option>
+ 				<option value="25">J25</option>
+ 				<option value="30">J30</option>
+ 				<option value="50">J50</option>
+ 				<option value="100">J100</option>
+ 				<option value="0">JALL</option>
+ 			</field>
 
 			<field
 				name="initial_sort"

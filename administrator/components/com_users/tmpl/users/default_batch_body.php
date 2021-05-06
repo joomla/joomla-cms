@@ -31,7 +31,7 @@ $wa->useScript('joomla.batch-copymove');
 
 ?>
 
-<div class="container">
+<div class="p-3">
 	<form>
 		<div class="form-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">
@@ -43,6 +43,14 @@ $wa->useScript('joomla.batch-copymove');
 					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
 				</select>
 			</div>
+		</div>
+		<div class="form-group">
+			<fieldset>
+				<legend>
+					<?php echo Text::_('COM_USERS_BATCH_ACTIONS'); ?>
+				</legend>
+				<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+			</fieldset>
 		</div>
 		<div class="form-group">
 			<fieldset id="batch-password-reset_id">

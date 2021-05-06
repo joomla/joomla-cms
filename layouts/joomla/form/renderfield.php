@@ -36,7 +36,7 @@ $id              = $name . '-desc';
 $hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 
-if ($parentclass)
+if (!empty($parentclass))
 {
 	$class .= ' ' . $parentclass;
 }
@@ -48,7 +48,7 @@ if ($parentclass)
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
-				<small class="form-text text-muted">
+				<small class="form-text">
 					<?php echo $description; ?>
 				</small>
 			</div>

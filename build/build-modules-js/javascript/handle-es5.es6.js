@@ -11,7 +11,7 @@ module.exports.handleES5File = async (file) => {
     await FsExtra.ensureDir(dirname(file).replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`));
     await FsExtra.copy(file, file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));
     // eslint-disable-next-line no-console
-    console.log(`Legacy js file: ${basename(file)}: copied ✅`);
+    console.log(`Legacy js file: ${basename(file)}: ✅ copied`);
 
     minifyJs(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));
   }

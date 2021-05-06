@@ -12,6 +12,7 @@ namespace Joomla\CMS\Extension;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Helper\HelperFactory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
@@ -152,7 +153,7 @@ trait ExtensionManagerTrait
 					$container->set($type, new LegacyComponent('com_' . $extensionName));
 					break;
 				case ModuleInterface::class:
-					$container->set($type, new Module(new ModuleDispatcherFactory('')));
+					$container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
 					break;
 				case PluginInterface::class:
 					list($pluginName, $pluginType) = explode(':', $extensionName);

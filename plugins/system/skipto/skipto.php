@@ -77,7 +77,7 @@ class PlgSystemSkipto extends CMSPlugin
 
 						// Button labels and messages
 						'buttonLabel'            => Text::_('PLG_SYSTEM_SKIPTO_TITLE'),
-						'buttonTooltipAccesskey' => Text::_('PLG_SYSTEM_SKIPTO_ACCCESS_KEY'),
+						'buttonTooltipAccesskey' => Text::_('PLG_SYSTEM_SKIPTO_ACCESS_KEY'),
 
 						// Menu labels and messages
 						'landmarkGroupLabel'  => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK'),
@@ -98,8 +98,8 @@ class PlgSystemSkipto extends CMSPlugin
 						// Selectors for landmark and headings sections
 						'headings'  => 'h1, h2, h3',
 						'landmarks' => 'main, nav, search, aside, header, footer, form',
-					]
-				]
+					],
+				],
 			]
 		);
 

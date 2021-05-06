@@ -77,6 +77,13 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
+	 * The flag to mark if the active menu item is linked to the being displayed article
+	 *
+	 * @var boolean
+	 */
+	protected $menuItemMatchArticle = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -134,6 +141,8 @@ class HtmlView extends BaseHtmlView
 			&& $active->query['view'] == 'article'
 			&& $active->query['id'] == $item->id)
 		{
+			$this->menuItemMatchArticle = true;
+
 			// Load layout from active query (in case it is an alternative menu item)
 			if (isset($active->query['layout']))
 			{
@@ -273,20 +282,27 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->get('page_title', '');
 
-		$id = (int) @$menu->query['id'];
-
-		// If the menu item does not concern this article
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
-			|| $id != $this->item->id))
+		// If the menu item is not linked to this article
+		if (!$this->menuItemMatchArticle)
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
+			// Get ID of the category from active menu item
+			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
+				&& in_array($menu->query['view'], ['categories', 'category']))
+			{
+				$id = $menu->query['id'];
+			}
+			else
+			{
+				$id = 0;
+			}
+
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
-				|| $id !== (int) $category->id) && (int) $category->id > 1)
+			while ($category !== null && $category->id != $id && $category->id !== 'root')
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();

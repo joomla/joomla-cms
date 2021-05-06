@@ -170,6 +170,10 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			ToolbarHelper::cancel(
+				'transition.cancel'
+			);
 		}
 		else
 		{
@@ -200,9 +204,13 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::save('transition.save');
 			}
+
+			ToolbarHelper::cancel(
+				'transition.cancel',
+				'JTOOLBAR_CLOSE'
+			);
 		}
 
-		ToolbarHelper::cancel('transition.cancel');
 		ToolbarHelper::divider();
 	}
 }

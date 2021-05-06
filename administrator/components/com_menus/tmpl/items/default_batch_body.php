@@ -29,7 +29,7 @@ if ($clientId == 1)
 	$wa->useScript('joomla.batch-copymove');
 }
 ?>
-<div class="container">
+<div class="p-3">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">
@@ -56,7 +56,7 @@ if ($clientId == 1)
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
 						$opts     = array(
-							'published' => $published,
+							'published' => $this->state->get('filter.published'),
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);
