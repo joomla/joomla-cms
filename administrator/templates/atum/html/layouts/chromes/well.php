@@ -37,7 +37,7 @@ $headerTag      = htmlspecialchars($params->get('header_tag', 'h2'), ENT_QUOTES,
 $moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 // Temporarily store header class in variable
-$headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($params->get('header_class'), ENT_QUOTES, 'UTF-8') . '"' : '';
+$headerClass = $params->get('header_class') ? htmlspecialchars($params->get('header_class'), ENT_QUOTES, 'UTF-8') : 'pe-3';
 
 // Get the module icon
 $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($params->get('header_icon'), ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>' : '';
@@ -68,7 +68,7 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
 				<?php endif; ?>
 
 				<?php if ($module->showtitle) : ?>
-					<<?php echo $headerTag; ?><?php echo $headerClass; ?>>
+					<<?php echo $headerTag; ?> class="<?php echo $headerClass; ?>">
 						<?php echo $headerIcon; ?>
 						<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>
 					</<?php echo $headerTag; ?>>
