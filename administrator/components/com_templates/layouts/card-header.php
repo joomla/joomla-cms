@@ -31,7 +31,7 @@ extract($displayData);
 		<?php endif; ?>
 	</h4>
 	<div class="card-header-right">
-		<?php if (!$item->inheritable || !$item->parent) : ?>
+		<?php if (!(bool) $item->inheritable || $item->parent !== '') : ?>
 			<small class="small text-muted ms-2"><?php echo Text::_('COM_TEMPLATES_LEGACY'); ?></small>
 		<?php endif; ?>
 
