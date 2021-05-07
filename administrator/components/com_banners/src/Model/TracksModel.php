@@ -540,6 +540,9 @@ class TracksModel extends ListModel
 				}
 
 				$this->content = file_get_contents($ziproot);
+
+				// Remove tmp zip file, it's no longer needed.
+				File::delete($ziproot);
 			}
 		}
 
