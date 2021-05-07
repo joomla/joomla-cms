@@ -119,6 +119,13 @@ a {
   }
 }
 
+.com-content-article {
+  ol,
+  ul {
+    overflow: hidden;
+  }
+}
+
 .com-content-category__pagination {
   margin-bottom: $cassiopeia-grid-gutter;
 }
@@ -234,9 +241,4 @@ meter {
 // Bootstrap 4 b/c
 .sr-only {
   @extend .visually-hidden;
-}
-
-ol,
-ul {
-  overflow: hidden;
 }
