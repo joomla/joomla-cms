@@ -82,7 +82,6 @@
 					name="tabindex"
 					type="number"
 					label="PLG_RECAPTCHA_TABINDEX_LABEL"
-					description="PLG_RECAPTCHA_TABINDEX_DESC"
 					filter="integer"
 					default="0"
 					showon="version:2.0"
