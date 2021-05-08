@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Factory;
 
-/** @var JDocumentError $this */
+/** @var ErrorDocument $this */
 
 // Authenticated versus guest have different displays
 $user = Factory::getUser();

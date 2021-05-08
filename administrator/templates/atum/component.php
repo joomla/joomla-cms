@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\HTML\HTMLHelper;
 
-/** @var JDocumentHtml $this */
+/** @var HtmlDocument $this */
 
 $wa = $this->getWebAssetManager();
 
