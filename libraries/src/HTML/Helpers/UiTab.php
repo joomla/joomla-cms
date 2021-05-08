@@ -89,7 +89,7 @@ abstract class UiTab
 	{
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
+		return '<joomla-tab-content id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
 	}
 
@@ -102,6 +102,6 @@ abstract class UiTab
 	 */
 	public static function endTab()
 	{
-		return '</section>';
+		return '</joomla-tab-content>';
 	}
 }
