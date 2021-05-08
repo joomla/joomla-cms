@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
 	<div class="card mt-4">
 		<div class="card-body">
 			<div class="row">
-				<div class="col-lg-8 col-xl-6">
+				<div class="form-grid">
 				<?php echo $this->form->renderField('subject'); ?>
 				<?php echo $this->form->renderField('user_id'); ?>
 				<?php echo $this->form->renderField('catid'); ?>

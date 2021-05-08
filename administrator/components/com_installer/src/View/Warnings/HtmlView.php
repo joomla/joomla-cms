@@ -32,8 +32,13 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		$items = $this->get('Items');
-		$this->messages = &$items;
+		$this->messages = $this->get('Items');
+
+		if (!\count($this->messages))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		parent::display($tpl);
 	}
 

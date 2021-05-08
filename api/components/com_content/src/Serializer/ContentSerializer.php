@@ -79,12 +79,31 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @since 4.0
 	 */
-	public function author($model)
+	public function createdBy($model)
 	{
 		$serializer = new JoomlaSerializer('users');
 
 		$resource = (new Resource($model->created_by, $serializer))
 			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->created_by));
+
+		return new Relationship($resource);
+	}
+
+	/**
+	 * Build editor relationship
+	 *
+	 * @param   \stdClass  $model  Item model
+	 *
+	 * @return  Relationship
+	 *
+	 * @since 4.0
+	 */
+	public function modifiedBy($model)
+	{
+		$serializer = new JoomlaSerializer('users');
+
+		$resource = (new Resource($model->modified_by, $serializer))
+			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->modified_by));
 
 		return new Relationship($resource);
 	}

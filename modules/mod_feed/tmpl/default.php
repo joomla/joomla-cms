@@ -67,7 +67,7 @@ else
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
-		// Feed description
+		// Feed title
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>

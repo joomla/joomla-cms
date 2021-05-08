@@ -190,7 +190,7 @@
       return;
     }
 
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
+    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
 
     Joomla.request({
       url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
@@ -208,7 +208,7 @@
   });
 
   /**
-   * A sipmle Custom Element for adding alt text and controlling
+   * A simple Custom Element for adding alt text and controlling
    * the lazy loading on a selected image
    *
    * Will be rendered only for editor content images
@@ -264,7 +264,7 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="${this.parentId}-alt-check">
         <label class="form-check-label" for="${this.parentId}-alt-check">${this.altchecktext}</label>
-        <div><small class="form-text text-muted">${this.altcheckdesctext}</small></div>
+        <div><small class="form-text">${this.altcheckdesctext}</small></div>
       </div>
     </div>
     <div class="form-group">

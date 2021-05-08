@@ -69,7 +69,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . htmlspecialchars(Uri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '">';
 }
 elseif ($params->get('siteTitle'))
 {
@@ -84,6 +84,9 @@ else
 $wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -188,6 +191,5 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
 </body>
 </html>

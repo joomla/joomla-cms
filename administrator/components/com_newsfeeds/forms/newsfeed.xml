@@ -100,6 +100,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -107,6 +108,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -334,6 +336,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -341,6 +344,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -396,6 +400,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 

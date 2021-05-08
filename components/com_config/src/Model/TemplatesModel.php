@@ -81,7 +81,7 @@ class TemplatesModel extends FormModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   JForm   $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Plugin group to load
 	 *

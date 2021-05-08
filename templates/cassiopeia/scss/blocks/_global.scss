@@ -119,6 +119,13 @@ a {
   }
 }
 
+.com-content-article {
+  ol,
+  ul {
+    overflow: hidden;
+  }
+}
+
 .com-content-category__pagination {
   margin-bottom: $cassiopeia-grid-gutter;
 }
@@ -179,7 +186,8 @@ meter {
   width: 100%;
 }
 
-.pagenavigation {
+.pagenavigation,
+.pager {
   clear: both;
   .pagination {
     justify-content: space-between;
@@ -204,6 +212,12 @@ meter {
   }
 }
 
+.pager {
+  .pagination {
+    justify-content: center;
+  }
+}
+
 [dir="rtl"] li.next .page-link {
   border-top-left-radius: .25rem;
   border-top-right-radius: 0;
@@ -216,6 +230,12 @@ meter {
   border-top-right-radius: .25rem;
   border-bottom-right-radius: .25rem;
   border-bottom-left-radius: 0;
+}
+
+.article-index {
+  .toclink.active {
+    color: currentColor;
+  }
 }
 
 // Bootstrap 4 b/c

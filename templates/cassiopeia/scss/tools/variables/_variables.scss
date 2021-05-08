@@ -100,23 +100,6 @@ $link-hover-color:                    var(--cassiopeia-color-hover);
 // Breadcrumbs
 $breadcrumb-active-color:             $gray-700;
 
-// Grid breakpoints
-$grid-breakpoints: (
-  xs:                                 0,
-  sm:                                 36em,
-  md:                                 48em,
-  lg:                                 62em,
-  xl:                                 75em
-);
-
-// Grid containers
-$container-max-widths: (
-  sm:                                 33.75em,
-  md:                                 45em,
-  lg:                                 60em,
-  xl:                                 71.25em
-);
-
 // Grid columns
 $grid-gutter-width:                   1em !default;
 $cassiopeia-grid-gutter:              $grid-gutter-width;
@@ -137,24 +120,11 @@ $cassiopeia-toolbar-line-height:      1.8rem;
 $font-family-sans-serif:             -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-family-base:                    var(--cassiopeia-font-family-body, $font-family-sans-serif);
 
-$font-size-root:                      1em;
-$font-size-lg:                        1.25rem;
-$font-size-sm:                        .875rem;
-
-$h1-font-size:                        1.857rem;
-$h2-font-size:                        1.571rem;
-$h3-font-size:                        1.286rem;
-$h4-font-size:                        1rem;
-$h5-font-size:                        .9286rem;
-$h6-font-size:                        .8571rem;
-
 // Icons
 $jicon-css-prefix:                    icon !default;
 $fa-css-prefix:                       fa !default;
 
 // Tables
-$table-bg:                            transparent !default;
-$table-bg-accent:                     hsla(0, 0%, 0%, .3) !default;
 $table-bg-scale:                      -80% !default;
 
 // This should be the same as bootstrap's default. But we override primary colour from $primary (which is a CSS Var)
@@ -212,6 +182,7 @@ $zindex-mobile-menu:                  9000;
 // Navs
 $nav-link-padding-y:                  .5rem;
 
+// Navs
 $cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg;
 $cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3);
 $cassiopeia-tabs-active-highlight:    $primaryBS;
@@ -254,5 +225,5 @@ $state-danger-text:                   $white !default;
 $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
 
-// List group
-$list-group-bg:                       $white;
+// Mark element
+$mark-bg: #fbeea8 !default;

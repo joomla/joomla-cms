@@ -43,8 +43,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -83,8 +81,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -115,7 +111,9 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $relationship = [
 		'category',
-		'author',
+		'created_by',
+		'tags',
+		'modified_by'
 	];
 
 	/**

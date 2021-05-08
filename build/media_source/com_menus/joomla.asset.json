@@ -6,14 +6,26 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_menus.admin-item-edit",
+      "name": "com_menus.admin-item-edit.es5",
       "type": "script",
-      "uri": "com_menus/admin-item-edit.min.js",
+      "uri": "com_menus/admin-item-edit-es5.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
+      }
+    },
+    {
+      "name": "com_menus.admin-item-edit",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit.min.js",
+      "dependencies": [
+        "com_menus.admin-item-edit.es5"
+      ],
+      "attributes": {
+        "type": "module"
       }
     },
     {
@@ -22,14 +34,26 @@
       "uri": "com_menus/admin-item-edit_container.min.css"
     },
     {
-      "name": "com_menus.admin-item-edit-container",
+      "name": "com_menus.admin-item-edit-container.es5",
       "type": "script",
-      "uri": "com_menus/admin-item-edit_container.min.js",
+      "uri": "com_menus/admin-item-edit_container-es5.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
+      }
+    },
+    {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_container.min.js",
+      "dependencies": [
+        "com_menus.admin-item-edit-container.es5"
+      ],
+      "attributes": {
+        "type": "module"
       }
     },
     {
@@ -38,13 +62,37 @@
       "uri": "com_menus/admin-item-edit_modules.min.css"
     },
     {
-      "name": "com_menus.admin-item-edit-modules",
+      "name": "com_menus.admin-item-edit-modules.es5",
       "type": "script",
-      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_menus.admin-item-edit-modules",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "dependencies": [
+        "com_menus.admin-item-edit-modules.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-item-modal.es5",
+      "type": "script",
+      "uri": "com_menus/admin-item-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -53,9 +101,21 @@
       "type": "script",
       "uri": "com_menus/admin-item-modal.min.js",
       "dependencies": [
+        "com_menus.admin-item-modal.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-items-modal.es5",
+      "type": "script",
+      "uri": "com_menus/admin-items-modal-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -64,9 +124,21 @@
       "type": "script",
       "uri": "com_menus/admin-items-modal.min.js",
       "dependencies": [
+        "com_menus.admin-items-modal.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.admin-menus.es5",
+      "type": "script",
+      "uri": "com_menus/admin-menus-default-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -75,10 +147,21 @@
       "type": "script",
       "uri": "com_menus/admin-menus-default.min.js",
       "dependencies": [
-        "core",
-        "jquery"
+        "com_menus.admin-menus.es5"
       ],
       "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_menus.batch-body.es5",
+      "type": "script",
+      "uri": "com_menus/default-batch-body-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -87,10 +170,10 @@
       "type": "script",
       "uri": "com_menus/default-batch-body.min.js",
       "dependencies": [
-        "core"
+        "com_menus.batch-body.es5"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     }
   ]

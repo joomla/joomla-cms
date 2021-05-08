@@ -128,7 +128,7 @@ foreach ($fieldSets as $name => $fieldSet)
 			echo '</div>';
 		}
 
-		echo '<div class="column-count-md-2 column-count-lg-3">';
+		echo '<div class="form-grid">';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -165,7 +165,7 @@ foreach ($fieldSets as $name => $fieldSet)
 				echo '</div>';
 			}
 
-			echo '<div class="column-count-md-2 column-count-lg-3">';
+			echo '<div class="form-grid">';
 
 			$opentab = 2;
 		}

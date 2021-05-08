@@ -96,7 +96,7 @@ abstract class DaemonApplication extends CliApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
+	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
