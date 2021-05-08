@@ -96,10 +96,10 @@ class HtmlView extends BaseHtmlView
 			? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2))
 			: $aliasArray[0];
 		$filter         = InputFilter::getInstance();
-		$task           = $filter->clean($aliasArray[1]) . '.loadhistory';
+		$task           = $filter->clean($aliasArray[1], 'cmd') . '.loadhistory';
 
 		// Build the final urls.
-		$loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task . '&amp;' . $token . '=1');
+		$loadUrl        = Route::_('index.php?option=' . $filter->clean($option, 'cmd') . '&amp;task=' . $task . '&amp;' . $token . '=1');
 		$previewUrl     = Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . $token . '=1');
 		$compareUrl     = Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . $token . '=1');
 
