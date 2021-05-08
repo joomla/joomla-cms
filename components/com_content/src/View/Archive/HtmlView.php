@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 			$months,
 			'month',
 			array(
-				'list.attr' => 'class="form-control"',
+				'list.attr' => 'class="form-select"',
 				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
@@ -200,7 +200,7 @@ class HtmlView extends BaseHtmlView
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'class="form-control"', 'list.select' => $state->get('filter.year'))
+			array('list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 

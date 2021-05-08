@@ -86,7 +86,7 @@ trait AjaxHandlerCreate
 
 			$publicKeyCredentialSource = CredentialsCreation::validateAuthenticationData($data);
 
-			if (!is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource))
+			if (!\is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource))
 			{
 				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
 			}

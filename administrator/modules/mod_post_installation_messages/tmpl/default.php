@@ -20,18 +20,19 @@ if ($hideLinks)
 }
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
-	<div class="header-item-content">
-		<a class="d-flex flex-column"
-			href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
-			<div class="d-flex align-items-end mx-auto">
-				<span class="icon-bell" aria-hidden="true"></span>
+	<a class="header-item-content"
+		href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>"
+		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
+		<div class="header-item-icon">
+			<div class="w-auto">
+				<span class="fa-fw icon-bell" aria-hidden="true"></span>
 				<?php if (count($messages) > 0) : ?>
-					<span class="badge bg-danger"><?php echo count($messages); ?></span>
+					<small class="header-item-count"><?php echo count($messages); ?></small>
 				<?php endif; ?>
 			</div>
-			<div class="tiny">
-				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
-			</div>
-		</a>
-	</div>
+		</div>
+		<div class="header-item-text">
+			<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
+		</div>
+	</a>
 <?php endif; ?>
