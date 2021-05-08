@@ -6,21 +6,16 @@ Joomla = window.Joomla || {};
 
 Joomla.MediaManager = Joomla.MediaManager || {};
 
-// Get the options from Joomla.optionStorage
-const options = Joomla.getOptions('com_media', {});
-
-if (!options) {
-  throw new Error('Initialization error "edit-images.js"');
+let applyButton;
+let saveButton;
+const applyButtonParent = document.getElementById('toolbar-apply');
+if (applyButtonParent) {
+  applyButton = applyButtonParent.firstElementChild;
 }
-
-// Initiate the registry
-Joomla.MediaManager.Edit.original = {
-  filename: options.uploadPath.split('/').pop(),
-  extension: options.uploadPath.split('.').pop(),
-  contents: `data:image/${options.uploadPath.split('.').pop()};base64,${options.contents}`,
-};
-Joomla.MediaManager.Edit.history = {};
-Joomla.MediaManager.Edit.current = {};
+const saveButtonParent = document.getElementById('toolbar-save');
+if (saveButtonParent) {
+  saveButton = saveButtonParent.firstElementChild;
+}
 
 const activate = (name, data) => {
   if (!data.contents) {
@@ -122,22 +117,29 @@ Joomla.MediaManager.Edit.removeProgressBar = () => { };
 
 // Customize the buttons
 Joomla.submitbutton = (task) => {
+  if (applyButton) {
+    applyButton.setAttribute('disabled', '');
+  }
+  if (saveButton) {
+    saveButton.setAttribute('disabled', '');
+  }
+
   const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
   const pathName = window.location.pathname.replace(/&view=file.*/g, '');
-  const name = options.uploadPath.split('/').pop();
+  const name = Joomla.MediaManager.options.uploadPath.split('/').pop();
   const forUpload = {
     name,
     content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
   };
 
   // eslint-disable-next-line prefer-destructuring
-  const uploadPath = options.uploadPath;
+  const uploadPath = Joomla.MediaManager.options.uploadPath;
 
-  const url = `${options.apiBaseUrl}&task=api.files&path=${uploadPath}`;
+  const url = `${Joomla.MediaManager.options.apiBaseUrl}&task=api.files&path=${uploadPath}`;
 
   const type = 'application/json';
 
-  forUpload[options.csrfToken] = '1';
+  forUpload[Joomla.MediaManager.options.csrfToken] = '1';
 
   let fileDirectory = uploadPath.split('/');
   fileDirectory.pop();
@@ -150,10 +152,29 @@ Joomla.submitbutton = (task) => {
 
   switch (task) {
     case 'apply':
-      Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-      Joomla.MediaManager.Edit.Reset(true);
+      document.addEventListener('ajaxCompleted', () => {
+        if (applyButton) {
+          applyButton.removeAttribute('disabled');
+        }
+        if (saveButton) {
+          saveButton.removeAttribute('disabled');
+        }
+      });
+      Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+          window.location.reload();
+        }
+      });
       break;
     case 'save':
+      document.addEventListener('ajaxCompleted', () => {
+        if (applyButton) {
+          applyButton.removeAttribute('disabled');
+        }
+        if (saveButton) {
+          saveButton.removeAttribute('disabled');
+        }
+      });
       // eslint-disable-next-line func-names
       Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
         if (this.readyState === XMLHttpRequest.DONE) {
@@ -218,20 +239,24 @@ Joomla.UploadFile.exec = (name, data, uploadPath, url, type, stateChangeCallback
       if (xhr.status === 200) {
         if (resp.success === true) {
           Joomla.MediaManager.Edit.removeProgressBar();
+          document.dispatchEvent(new Event('ajaxCompleted'));
         }
 
         if (resp.status === '1') {
           Joomla.renderMessages({ success: [resp.message] }, 'true');
           Joomla.MediaManager.Edit.removeProgressBar();
+          document.dispatchEvent(new Event('ajaxCompleted'));
         }
       }
     } else {
       Joomla.MediaManager.Edit.removeProgressBar();
+      document.dispatchEvent(new Event('ajaxCompleted'));
     }
   };
 
   xhr.onerror = () => {
     Joomla.MediaManager.Edit.removeProgressBar();
+    document.dispatchEvent(new Event('ajaxCompleted'));
   };
 
   xhr.open('PUT', url, true);
@@ -241,6 +266,23 @@ Joomla.UploadFile.exec = (name, data, uploadPath, url, type, stateChangeCallback
 };
 
 customElements.whenDefined('joomla-tab').then(async () => {
+  // Get the options from Joomla.optionStorage
+  Joomla.MediaManager.options = Joomla.getOptions('com_media', {});
+
+  if (!Joomla.MediaManager.options) {
+    throw new Error('Initialization error "edit-images.js"');
+  }
+
+  // Initiate the registry
+  Joomla.MediaManager.Edit.original = {
+    filename: Joomla.MediaManager.options.uploadPath.split('/').pop(),
+    extension: Joomla.MediaManager.options.uploadPath.split('.').pop(),
+    contents: `data:image/${Joomla.MediaManager.options.uploadPath.split('.').pop()};base64,${Joomla.MediaManager.options.contents}`,
+  };
+
+  Joomla.MediaManager.Edit.history = {};
+  Joomla.MediaManager.Edit.current = {};
+
   const tabsUlElement = document.getElementById('myTab').firstElementChild;
   const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
 
