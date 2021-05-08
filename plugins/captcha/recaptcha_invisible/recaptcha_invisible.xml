@@ -19,12 +19,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-
 				<field
 					name="public_key"
 					type="text"
 					label="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_LABEL"
-					description="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
@@ -36,7 +34,6 @@
 					name="private_key"
 					type="text"
 					label="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_LABEL"
-					description="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
@@ -48,7 +45,6 @@
 					name="badge"
 					type="list"
 					label="PLG_RECAPTCHA_INVISIBLE_BADGE_LABEL"
-					description="PLG_RECAPTCHA_INVISIBLE_BADGE_DESC"
 					default="bottomright"
 					validate="options"
 					>
