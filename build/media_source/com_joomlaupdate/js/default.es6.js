@@ -154,7 +154,7 @@ Joomla = window.Joomla || {};
     });
 
     // eslint-disable-next-line no-undef
-    PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins');
+    PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins', []);
 
     // If there are no non Core Critical Plugins installed, and we are in the update view, then
     // disable the warnings upfront
