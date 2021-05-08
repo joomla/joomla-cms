@@ -139,15 +139,13 @@ Joomla = window.Joomla || {};
         const settingsfieldset = el.closest('fieldset');
         if (toggle.target.dataset.state === 'closed') {
           toggle.target.dataset.state = 'open';
-          // eslint-disable-next-line max-len,no-undef
-          toggle.target.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION;
+          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.remove('hidden');
           });
         } else {
           toggle.target.dataset.state = 'closed';
-          // eslint-disable-next-line max-len,no-undef
-          toggle.target.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION;
+          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
           });
@@ -156,7 +154,7 @@ Joomla = window.Joomla || {};
     });
 
     // eslint-disable-next-line no-undef
-    PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+    PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins');
 
     // If there are no non Core Critical Plugins installed, and we are in the update view, then
     // disable the warnings upfront
@@ -236,8 +234,7 @@ Joomla = window.Joomla || {};
 
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
-          // eslint-disable-next-line max-len,no-undef
-          el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION;
+          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.remove('col-md-8');
@@ -273,8 +270,7 @@ Joomla = window.Joomla || {};
           }
         } else {
           el.dataset.state = 'closed';
-          // eslint-disable-next-line max-len,no-undef
-          el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION;
+          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.add('col-md-8');
@@ -454,11 +450,10 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.foreach((cpi) => {
-        // TODO: Make this typesafe
-        if (PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id === extensionId
-            || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id === extensionId) {
-          document.getElementById(`#plg_${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}`).remove();
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
+        if (plugin.package_id.toString() === extensionId
+            || plugin.extension_id.toString() === extensionId) {
+          document.getElementById(`#plg_${plugin.extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
       });
@@ -474,31 +469,34 @@ Joomla = window.Joomla || {};
     // Have we finished?
     if (!document.querySelector('#compatibilitytype0 tbody td')) {
       document.getElementById('compatibilitytype0').style.display = 'none';
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((cpi) => {
-        let problemPluginRow = document.querySelectorAll(`td[data-extension-id=${PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id}]`);
-        if (!problemPluginRow.length) {
-          problemPluginRow = document.querySelectorAll(`td[data-extension-id=${PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id}]`);
+      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin) => {
+        let problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`);
+        if (!problemPluginRow) {
+          problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.package_id}"]`);
         }
-        if (problemPluginRow.length) {
+        if (problemPluginRow) {
           const tableRow = problemPluginRow.closest('tr');
-          tableRow.addClass('error');
+          tableRow.classList.add('error');
           const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.html(`${pluginTitleTableCell.html()}
+          pluginTitleTableCell.innerHTML = `${pluginTitleTableCell.innerHTML}
               <span class="label label-warning " >
               <span class="icon-warning"></span>
-              Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
+              ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
               </span>
 
               <span class="label label-important hasPopover"
               title="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')} "
-              data-content="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')} "
+              data-bs-content="${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')} "
               >
               <span class="icon-help"></span>
               ${Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')}
-              </span>`);
-          const popoverElement = pluginTitleTableCell.find('.hasPopover');
-          popoverElement.style.cursor = 'pointer';
-          popoverElement.popover({ placement: 'top', trigger: 'focus click' });
+              </span>`;
+          const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
+          if (popoverElement) {
+            popoverElement.style.cursor = 'pointer';
+            // eslint-disable-next-line no-new
+            new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
+          }
         }
       });
 

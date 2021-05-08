@@ -135,7 +135,6 @@
 					type="password"
 					label="PLG_LDAP_FIELD_PASSWORD_LABEL"
 					description="PLG_LDAP_FIELD_PASSWORD_DESC"
-					hiddenDescription="true"
 					size="20"
 				/>
 

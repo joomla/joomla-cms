@@ -37,7 +37,7 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div class="col-md-12">
-				<div id="j-main-container" class="j-main-container">
+				<div id="j-main-container" class="j-main-container main-card">
 					<?php // Render messages set by extension install scripts here ?>
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
@@ -50,7 +50,7 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 						</div>
 					<?php endif; ?>
 
-					<?php if ($tabs || $this->ftp) : ?>
+					<?php if ($tabs) : ?>
 						<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
 						<?php // Show installation tabs ?>
 						<?php foreach ($tabs as $tab) : ?>
@@ -61,11 +61,6 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 							<?php echo HTMLHelper::_('uitab.endTab'); ?>
 						<?php endforeach; ?>
 
-						<?php if ($this->ftp) : ?>
-							<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
-							<?php echo $this->loadTemplate('ftp'); ?>
-							<?php echo HTMLHelper::_('uitab.endTab'); ?>
-						<?php endif; ?>
 						<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 					<?php endif; ?>
 
