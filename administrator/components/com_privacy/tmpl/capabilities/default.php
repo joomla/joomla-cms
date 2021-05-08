@@ -36,7 +36,7 @@ use Joomla\CMS\Language\Text;
 				<?php else : ?>
 					<div>
 						<?php foreach ($capabilities as $capability) : ?>
-							<p><?php echo $capability; ?></p>
+							<?php echo $capability; ?>
 						<?php endforeach; ?>
 					</div>
 				<?php endif; ?>
