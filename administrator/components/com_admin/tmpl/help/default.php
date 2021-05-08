@@ -34,7 +34,7 @@ use Joomla\CMS\Router\Route;
 					<?php foreach ($this->toc as $k => $v) : ?>
 						<li>
 							<?php $url = Help::createUrl('JHELP_' . strtoupper($k)); ?>
-							<?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame']); ?>
+							<?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame', 'onclick' => 'window.scroll(0,0)']); ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
