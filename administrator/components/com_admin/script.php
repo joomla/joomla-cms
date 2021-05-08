@@ -5682,6 +5682,7 @@ class JoomlaInstallerScript
 			'/media/vendor/punycode/js/punycode.js',
 			'/media/vendor/punycode/js/punycode.min.js',
 			'/media/vendor/punycode/js/punycode.min.js.gz',
+			'/media/vendor/tinymce/changelog.txt',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js.gz',
