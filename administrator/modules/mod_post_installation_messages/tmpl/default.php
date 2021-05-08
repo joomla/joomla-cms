@@ -26,9 +26,7 @@ if ($hideLinks || count($messages) < 1)
 		<div class="header-item-icon">
 			<div class="w-auto">
 				<span class="fa-fw icon-bell" aria-hidden="true"></span>
-				<?php if (count($messages) > 0) : ?>
-					<small class="header-item-count"><?php echo count($messages); ?></small>
-				<?php endif; ?>
+				<small class="header-item-count"><?php echo count($messages); ?></small>
 			</div>
 		</div>
 		<div class="header-item-text">
