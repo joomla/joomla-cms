@@ -34,11 +34,11 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_('COM_PRIVACY_MSG_EXTENSION_NO_CAPABILITIES'); ?>
 					</div>
 				<?php else : ?>
-					<div>
+					<ul>
 						<?php foreach ($capabilities as $capability) : ?>
-							<?php echo $capability; ?>
+							<li><?php echo $capability; ?></li>
 						<?php endforeach; ?>
-					</div>
+					</ul>
 				<?php endif; ?>
 			</details>
 		<?php endforeach; ?>
