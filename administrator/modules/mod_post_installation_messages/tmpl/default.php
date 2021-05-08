@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-if ($hideLinks)
+if ($hideLinks || count($messages) < 1)
 {
 	return;
 }
