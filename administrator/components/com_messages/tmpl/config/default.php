@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
@@ -20,9 +21,12 @@ HTMLHelper::_('behavior.keepalive');
 	<div class="form-grid">
 		<div class="card">
 			<div class="card-body">
-				<?php echo $this->form->renderField('lock'); ?>
-				<?php echo $this->form->renderField('mail_on_new'); ?>
-				<?php echo $this->form->renderField('auto_purge'); ?>
+				<fieldset class="options-form">
+					<legend><?php echo Text::_('COM_MESSAGES_CONFIG_FORM'); ?></legend>
+					<?php echo $this->form->renderField('lock'); ?>
+					<?php echo $this->form->renderField('mail_on_new'); ?>
+					<?php echo $this->form->renderField('auto_purge'); ?>
+				</fieldset>
 			</div>
 		</div>
 	</div>

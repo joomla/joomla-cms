@@ -73,6 +73,7 @@ class PublishedButton extends ActionButton
 				if ($publishUp)
 				{
 					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
 				}
 
 				if ($publishDown)

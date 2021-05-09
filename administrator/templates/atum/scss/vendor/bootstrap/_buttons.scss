@@ -6,8 +6,8 @@
 
 .btn-primary {
   color: var(--atum-text-light);
-  background-color: var(--atum-link-color);
-  border-color: var(--atum-link-color);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
 
   &:hover,
   &:focus,
@@ -25,7 +25,8 @@
 }
 
 .btn-secondary {
-  background-color: var(--atum-bg-dark-50);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
 }
 
 .input-group-text {
