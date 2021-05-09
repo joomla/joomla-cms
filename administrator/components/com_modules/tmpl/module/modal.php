@@ -14,6 +14,19 @@ defined('_JEXEC') or die;
 <button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
 <button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.cancel');"></button>
 
+<?php
+use Joomla\CMS\Factory;
+
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->addInlineScript('
+    document.addEventListener("DOMContentLoaded", function() {
+        saveCloseButton = window.parent.document.getElementById("btnModalSaveAndClose");
+        saveCloseButton.classList.remove("hidden");
+    });
+');
+?>
+
 <div class="container-popup">
 	<?php $this->setLayout('edit'); ?>
 	<?php echo $this->loadTemplate(); ?>
