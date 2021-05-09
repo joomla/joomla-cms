@@ -207,7 +207,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 			}
 			elseif ($result === 0)
 			{
-				$this->ioStyle->note('There are no discovered extensions. Perhaps you need to run extension:discover first?');
+				$this->ioStyle->note('There are no discovered extensions for install. Perhaps you need to run extension:discover first?');
 
 				return Command::SUCCESS;
 			}
