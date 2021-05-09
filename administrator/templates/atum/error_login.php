@@ -62,11 +62,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
-		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
-		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
-		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
-		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -97,18 +97,16 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 </noscript>
 
 <header id="header" class="header">
-	<div class="d-flex">
-		<div class="header-title d-flex me-auto">
-			<div class="d-flex align-items-center">
-				<div class="logo">
-					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
-				</div>
+	<div class="header-title d-flex">
+		<div class="d-flex align-items-center">
+			<div class="logo">
+				<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+				<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 			</div>
-			<jdoc:include type="modules" name="title"/>
 		</div>
-		<?php echo $statusModules; ?>
+		<jdoc:include type="modules" name="title" />
 	</div>
+	<?php echo $statusModules; ?>
 </header>
 
 <div id="wrapper" class="d-flex wrapper">
@@ -116,7 +114,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<h2><?php echo $app->get('sitename'); ?></h2>
+			<h1><?php echo $app->get('sitename'); ?></h1>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
