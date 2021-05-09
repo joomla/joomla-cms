@@ -8,28 +8,6 @@ Joomla = window.Joomla || {};
 ((Joomla, document) => {
   'use strict';
 
-  Joomla.extractionMethodHandler = (element, prefix) => {
-    const dom = [
-      `${prefix}_hostname`,
-      `${prefix}_port`,
-      `${prefix}_username`,
-      `${prefix}_password`,
-      `${prefix}_directory`,
-    ];
-
-    if (element.value === 'direct') {
-      dom.map((el) => {
-        document.getElementById(el).style.display = 'none';
-        return el;
-      });
-    } else {
-      dom.map((el) => {
-        document.getElementById(el).style.display = '';
-        return el;
-      });
-    }
-  };
-
   Joomla.submitbuttonUpload = () => {
     const form = document.getElementById('uploadForm');
 
@@ -66,22 +44,8 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const extractionMethod = document.getElementById('extraction_method');
-    const uploadMethod = document.getElementById('upload_method');
     const uploadButton = document.getElementById('uploadButton');
     const downloadMsg = document.getElementById('downloadMessage');
-
-    if (extractionMethod) {
-      extractionMethod.addEventListener('change', () => {
-        Joomla.extractionMethodHandler(extractionMethod, 'row_ftp');
-      });
-    }
-
-    if (uploadMethod) {
-      uploadMethod.addEventListener('change', () => {
-        Joomla.extractionMethodHandler(uploadMethod, 'upload_ftp');
-      });
-    }
 
     if (uploadButton) {
       uploadButton.addEventListener('click', () => {
