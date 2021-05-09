@@ -112,17 +112,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 	</header>
 
 	<div id="wrapper" class="d-flex wrapper">
-
-		<div id="sidebar-wrapper" class="sidebar-wrapper">
-			<div id="main-brand" class="main-brand">
-				<h1><?php echo $app->get('sitename'); ?></h1>
-				<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
-			</div>
-			<div id="sidebar">
-				<jdoc:include type="modules" name="sidebar" style="body" />
-			</div>
-		</div>
-
 		<div class="container-fluid container-main">
 			<section id="content" class="content h-100">
 				<main class="d-flex justify-content-center align-items-center h-100">
@@ -161,6 +150,16 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</div>
 				</main>
 			</section>
+		</div>
+
+		<div id="sidebar-wrapper" class="sidebar-wrapper">
+			<div id="main-brand" class="main-brand">
+				<h1><?php echo $app->get('sitename'); ?></h1>
+				<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
+			</div>
+			<div id="sidebar">
+				<jdoc:include type="modules" name="sidebar" style="body" />
+			</div>
 		</div>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />

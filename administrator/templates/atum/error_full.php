@@ -109,25 +109,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 	</header>
 
 	<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
-
-		<?php if (!$hiddenMenu) : ?>
-			<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-				<div id="sidebarmenu">
-					<div class="sidebar-toggle item item-level-1">
-						<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-							<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
-							<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
-						</a>
-					</div>
-					<jdoc:include type="modules" name="menu" style="none" />
-				</div>
-			</div>
-		<?php endif; ?>
-
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-bs-toggle="collapse"
@@ -185,6 +166,24 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 				</div>
 			</section>
 		</div>
+
+		<?php if (!$hiddenMenu) : ?>
+			<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+				<div id="sidebarmenu">
+					<div class="sidebar-toggle item item-level-1">
+						<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+							<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
+							<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
+						</a>
+					</div>
+					<jdoc:include type="modules" name="menu" style="none" />
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>
