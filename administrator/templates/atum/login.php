@@ -135,7 +135,6 @@ HTMLHelper::_('bootstrap.dropdown');
 			</section>
 		</div>
 
-		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
 			<div id="main-brand" class="main-brand">
 				<h1><?php echo $app->get('sitename'); ?></h1>

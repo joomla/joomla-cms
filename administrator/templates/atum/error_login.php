@@ -113,7 +113,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 
 	<div id="wrapper" class="d-flex wrapper">
 
-		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper">
 			<div id="main-brand" class="main-brand">
 				<h1><?php echo $app->get('sitename'); ?></h1>
@@ -126,7 +125,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 
 		<div class="container-fluid container-main">
 			<section id="content" class="content h-100">
-				<?php // Begin Content ?>
 				<main class="d-flex justify-content-center align-items-center h-100">
 					<div id="element-box" class="card">
 						<div class="card-body">
@@ -162,7 +160,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 						</div>
 					</div>
 				</main>
-				<?php // End Content ?>
 			</section>
 		</div>
 	</div>

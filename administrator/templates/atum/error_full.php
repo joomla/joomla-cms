@@ -93,7 +93,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		</div>
 	</noscript>
 
-	<?php // Header ?>
 	<header id="header" class="header">
 		<div class="header-inside">
 			<div class="header-title d-flex">
@@ -109,10 +108,8 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		</div>
 	</header>
 
-	<?php // Wrapper ?>
 	<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 
-		<?php // Sidebar ?>
 		<?php if (!$hiddenMenu) : ?>
 			<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 				<span class="navbar-toggler-icon"></span>
@@ -131,10 +128,8 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			</div>
 		<?php endif; ?>
 
-		<?php // container-fluid ?>
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
-				<?php // Subheader ?>
 				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-bs-toggle="collapse"
 				   data-bs-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
@@ -148,7 +143,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 				</div>
 			<?php endif; ?>
 			<section id="content" class="content">
-				<?php // Begin Content ?>
 				<jdoc:include type="message" />
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
@@ -189,7 +183,6 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
 					<?php endif; ?>
 				</div>
-				<?php // End Content ?>
 			</section>
 		</div>
 	</div>
