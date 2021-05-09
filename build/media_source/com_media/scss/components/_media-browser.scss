@@ -3,6 +3,7 @@
   position: relative;
   border-left: 1px solid $border-color;
   transition: width .3s cubic-bezier(.4, 0, .2, 1);
+  min-height: 70vh;
 }
 
 // Grid View
