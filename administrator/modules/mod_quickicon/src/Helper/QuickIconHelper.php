@@ -187,23 +187,12 @@ class QuickIconHelper
 				$this->buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_template_styles'))
+			if ($params->get('show_template'))
 			{
 				$this->buttons[$key][] = [
 					'image'  => 'icon-paint-brush',
-					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
-					'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
-					'access' => array('core.admin', 'com_templates'),
-					'group'  => 'MOD_QUICKICON_SITE'
-				];
-			}
-
-			if ($params->get('show_template_code'))
-			{
-				$this->buttons[$key][] = [
-					'image'  => 'icon-code',
 					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
-					'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
+					'name'   => 'MOD_QUICKICON_TEMPLATE',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
 				];
