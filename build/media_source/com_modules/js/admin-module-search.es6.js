@@ -61,7 +61,6 @@ if (elSearch && elSearchContainer) {
         return;
       }
 
-      hasSearchResults = true;
       const cardHeader = card.querySelector('.new-module-title');
       const cardBody = card.querySelector('.card-body');
       const title = cardHeader ? cardHeader.textContent : '';
@@ -71,13 +70,15 @@ if (elSearch && elSearchContainer) {
       if ((title && !title.toLowerCase().includes(partialSearch.toLowerCase())
         && (description && !description.toLowerCase().includes(partialSearch.toLowerCase())))) {
         card.classList.add('d-none');
+      } else {
+        hasSearchResults = true;
       }
     });
 
-    if (hasSearchResults) {
-      alertElement.classList.remove('d-none');
-    } else {
+    if (hasSearchResults || !partialSearch) {
       alertElement.classList.add('d-none');
+    } else {
+      alertElement.classList.remove('d-none');
     }
   });
 
