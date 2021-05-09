@@ -50,21 +50,21 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
-	// Get the hue value
-	preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
-	// Enable assets
-	$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-		->useStyle('template.active.language')
-		->useStyle('template.user')
-		->addInlineStyle(':root {
-			--hue: ' . $matches[1] . ';
-			--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
-			--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
-			--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-			--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
-			--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
-		}');
+// Enable assets
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->addInlineStyle(':root {
+		--hue: ' . $matches[1] . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);

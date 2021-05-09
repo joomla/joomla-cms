@@ -53,7 +53,7 @@ $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params
 	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
-	// Get the hue value
+// Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
