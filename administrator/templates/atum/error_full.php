@@ -93,7 +93,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		</div>
 	</noscript>
 
-	<header id="header" class="header">
+	<header id="header" class="header d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<div class="logo">
