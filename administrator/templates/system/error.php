@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var ErrorDocument $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 // Load template CSS file
 $this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'administrator/templates/system/css/error.css');

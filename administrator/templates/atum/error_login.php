@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Document\ErrorDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
-/** @var ErrorDocument $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;

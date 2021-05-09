@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Document\HtmlDocument;
-
-/** @var HtmlDocument $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
