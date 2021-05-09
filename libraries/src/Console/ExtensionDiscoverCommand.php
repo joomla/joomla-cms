@@ -10,7 +10,9 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionDiscoverInstallCommand extends AbstractCommand
+class ExtensionDiscoverCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
@@ -31,7 +33,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $defaultName = 'extension:discover:install';
+	protected static $defaultName = 'extension:discover';
 
 	/**
 	 * Stores the Input Object
@@ -50,14 +52,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Database connector
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	private $db;
-
-	/**
 	 * Exit Code For Discover Failure
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -74,13 +68,10 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   DatabaseInterface  $db  Database connector
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DatabaseInterface $db)
+	public function __construct()
 	{
-		$this->db = $db;
 		parent::__construct();
 	}
 
@@ -110,63 +101,35 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->addOption('eid', null, InputOption::VALUE_REQUIRED, 'The ID of the extension to discover');
-
 		$help = "<info>%command.name%</info> is used to discover extensions
-		\nYou can provide the following option to the command:
-		\n  --eid: The ID of the extension
 		\nUsage:
-		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
+		\n  <info>php %command.full_name%</info>";
 
-		$this->setDescription('Install discovered extensions');
+		$this->setDescription('Discover extensions');
 		$this->setHelp($help);
 	}
 
 	/**
 	 * Used for discovering extensions
 	 *
-	 * @param   string  $eid  Id of the extension
-	 *
 	 * @return  boolean
 	 *
 	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function processDiscover($eid): bool
+	public function processDiscover(): bool
 	{
-		$jInstaller = new Installer;
 		$result = true;
 
-		if ($eid === -1)
-		{
-			$db    = $this->db;
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['extension_id']))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('state') . ' = -1');
-			$db->setQuery($query);
-			$eidsToDiscover = $db->loadObjectList();
+		$app = Factory::getApplication();
 
-			foreach ($eidsToDiscover as $eidToDiscover)
-			{
-				if (!$jInstaller->discover_install($eidToDiscover->extension_id))
-				{
-					$this->ioStyle->warning('There was a problem installing the extension with ID ' . $eidToDiscover->extension_id . '.');
-					$result = false;
-				}
-			}
+		$mvcFactory = $app->bootComponent('com_installer')->getMVCFactory();
 
-			if (empty($eidsToDiscover))
-			{
-				$this->ioStyle->warning('There is no extension to discover and install.');
-			}
+		$model = $mvcFactory->createModel('Discover', 'Administrator');
 
-			return $result;
-		}
-		else
-		{
-			return $jInstaller->discover_install($eid);
-		}
+		$model->discover();
+
+		return $result;
 	}
 
 	/**
@@ -184,35 +147,17 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	{
 		$this->configureIO($input, $output);
 
-		if ($eid = $this->cliInput->getOption('eid'))
+		$result = $this->processDiscover();
+
+		if (!$result)
 		{
-			$result = $this->processDiscover($eid);
+			$this->ioStyle->error('Unable to discover and install the extension with ID ');
 
-			if (!$result)
-			{
-				$this->ioStyle->error('Unable to discover and install the extension with ID ' . $eid);
-
-				return self::DISCOVER_FAILED;
-			}
-
-			$this->ioStyle->success('Extension with ID ' . $eid . ' discovered and installed successfully.');
-
-			return self::DISCOVER_SUCCESSFUL;
+			return self::DISCOVER_FAILED;
 		}
-		else
-		{
-			$result = $this->processDiscover(-1);
 
-			if (!$result)
-			{
-				$this->ioStyle->error('Unable to discover and install all extensions');
+		$this->ioStyle->success('Extensions discovered successfully.');
 
-				return self::DISCOVER_FAILED;
-			}
-
-			$this->ioStyle->success('All extensions discovered and installed successfully.');
-
-			return self::DISCOVER_SUCCESSFUL;
-		}
+		return self::DISCOVER_SUCCESSFUL;
 	}
 }

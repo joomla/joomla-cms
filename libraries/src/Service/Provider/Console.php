@@ -13,7 +13,9 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
@@ -164,10 +166,28 @@ class Console implements ServiceProviderInterface
 		);
 
 		$container->share(
+			ExtensionDiscoverCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverCommand();
+			},
+			true
+		);
+
+		$container->share(
 			ExtensionDiscoverInstallCommand::class,
 			function (Container $container)
 			{
 				return new ExtensionDiscoverInstallCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverListCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverListCommand($container->get('db'));
 			},
 			true
 		);
