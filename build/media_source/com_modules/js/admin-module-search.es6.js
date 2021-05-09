@@ -36,6 +36,7 @@
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comModulesSelectSearch');
 const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
+const alertElement = document.querySelector('.modules-alert');
 const elCards = [].slice.call(document.querySelectorAll('.comModulesSelectCard'));
 
 if (elSearch && elSearchContainer) {
@@ -43,6 +44,7 @@ if (elSearch && elSearchContainer) {
   elSearch.addEventListener('keyup', (event) => {
     /** @type {KeyboardEvent} event */
     const partialSearch = event.target.value;
+    let hasSearchResults = false;
 
     // Save the search string into session storage
     if (typeof (sessionStorage) !== 'undefined') {
@@ -59,6 +61,7 @@ if (elSearch && elSearchContainer) {
         return;
       }
 
+      hasSearchResults = true;
       const cardHeader = card.querySelector('.new-module-title');
       const cardBody = card.querySelector('.card-body');
       const title = cardHeader ? cardHeader.textContent : '';
@@ -70,6 +73,12 @@ if (elSearch && elSearchContainer) {
         card.classList.add('d-none');
       }
     });
+
+    if (hasSearchResults) {
+      alertElement.classList.remove('d-none');
+    } else {
+      alertElement.classList.add('d-none');
+    }
   });
 
   // For reasons of progressive enhancement the search box is hidden by default.
