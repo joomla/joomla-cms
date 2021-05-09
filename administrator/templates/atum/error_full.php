@@ -28,6 +28,7 @@ $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
+$params     = $app->getTemplate(true)->params;
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);

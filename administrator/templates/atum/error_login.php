@@ -26,6 +26,7 @@ $option = $input->get('option', '');
 $view   = $input->get('view', '');
 $layout = $input->get('layout', 'default');
 $task   = $input->get('task', 'display');
+$params = $app->getTemplate(true)->params;
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
