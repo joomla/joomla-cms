@@ -95,6 +95,7 @@ HTMLHelper::_('bootstrap.dropdown');
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
+
 	<noscript>
 		<div class="alert alert-danger" role="alert">
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
