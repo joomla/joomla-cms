@@ -94,18 +94,16 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 	</noscript>
 
 	<header id="header" class="header">
-		<div class="header-inside">
-			<div class="header-title d-flex">
-				<div class="d-flex align-items-center">
-					<div class="logo">
-						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
-					</div>
+		<div class="header-title d-flex">
+			<div class="d-flex align-items-center">
+				<div class="logo">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 				</div>
-				<jdoc:include type="modules" name="title" />
 			</div>
-			<?php echo $statusModules; ?>
+			<jdoc:include type="modules" name="title" />
 		</div>
+		<?php echo $statusModules; ?>
 	</header>
 
 	<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
