@@ -25,7 +25,12 @@
 
           if (request.data.number_urgent_requests) {
             // Quickicon on dashboard shows message
-            link.textContent = `${text.REQUESTFOUND} ${request.data.number_urgent_requests}`;
+            const countBadge = document.createElement("span");
+            countBadge.classList.add("badge", "text-dark", "bg-light");
+            countBadge.textContent = request.data.number_urgent_requests;
+            link.textContent = text.REQUESTFOUND + " ";
+            link.appendChild(countBadge);
+
             // Quickicon becomes red
             quickicon.classList.add('danger');
 
