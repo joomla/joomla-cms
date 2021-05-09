@@ -15,8 +15,10 @@ use Joomla\CMS\Factory;
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->addInlineScript('
     document.addEventListener("DOMContentLoaded", function() {
-        saveCloseButton = window.parent.document.getElementById("btnModalSaveAndClose");
-        saveCloseButton.classList.remove("hidden");
+        const saveCloseButton = window.parent.document.getElementById("btnModalSaveAndClose");
+        if (saveCloseButton) {
+          saveCloseButton.classList.remove("hidden");
+        }
     });
 ');
 
