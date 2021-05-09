@@ -90,7 +90,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 
 		if (empty($discovered_extensions))
 		{
-			$this->ioStyle->note("Cannot find discovered extensions.");
+			$this->ioStyle->note("Cannot find discovered extensions. Perhaps you need to run extension:discover first?");
 
 			return Command::SUCCESS;
 		}

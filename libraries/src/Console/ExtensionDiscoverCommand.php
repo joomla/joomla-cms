@@ -15,6 +15,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,20 +51,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $ioStyle;
-
-	/**
-	 * Exit Code For Discover Failure
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public const DISCOVER_FAILED = 1;
-
-	/**
-	 * Exit Code For Discover Success
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public const DISCOVER_SUCCESSFUL = 0;
 
 	/**
 	 * Instantiate the command.
@@ -112,24 +99,20 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	/**
 	 * Used for discovering extensions
 	 *
-	 * @return  boolean
+	 * @return  integer  The count of discovered extensions
 	 *
 	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function processDiscover(): bool
+	public function processDiscover(): int
 	{
-		$result = true;
-
 		$app = Factory::getApplication();
 
 		$mvcFactory = $app->bootComponent('com_installer')->getMVCFactory();
 
 		$model = $mvcFactory->createModel('Discover', 'Administrator');
 
-		$model->discover();
-
-		return $result;
+		return $model->discover();
 	}
 
 	/**
@@ -147,17 +130,21 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	{
 		$this->configureIO($input, $output);
 
-		$result = $this->processDiscover();
+		$count = $this->processDiscover();
 
-		if (!$result)
+		if ($count < 1)
 		{
-			$this->ioStyle->error('Unable to discover and install the extension with ID ');
-
-			return self::DISCOVER_FAILED;
+			$this->ioStyle->note('There is no extension to discover.');
+		}
+		elseif ($count == 1)
+		{
+			$this->ioStyle->note($count . ' extension has been discovered successfully.');
+		}
+		else
+		{
+			$this->ioStyle->note($count . ' extensions have been discovered successfully.');
 		}
 
-		$this->ioStyle->success('Extensions discovered successfully.');
-
-		return self::DISCOVER_SUCCESSFUL;
+		return Command::SUCCESS;
 	}
 }
