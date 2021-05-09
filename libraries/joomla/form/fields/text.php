@@ -173,28 +173,47 @@ class JFormFieldText extends JFormField
 		if ($this->element['useglobal'])
 		{
 			$component = JFactory::getApplication()->input->getCmd('option');
-
+			$formName  = $this->form->getName();
+			if (substr($formName, 0, 8) === 'subform.')
+			{
+				$form      = $this->form->getFormParent();
+				$prefix    = substr($formName, 8);
+				$formGroup = $this->form->getFormParentGroup();
+				if (!empty($formGroup))
+				{
+					$prefix = substr($prefix, strlen($formGroup) + 1);
+				}
+				if (!empty($prefix))
+				{
+					$prefix .= '.';
+				}
+			}
+			else
+			{
+				$form   = $this->form;
+				$prefix = '';
+			}
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
-				$link      = $this->form->getData()->get('link');
+				$link      = $form->getData()->get('link');
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($this->fieldname);
+			$value  = $params->get($prefix . $this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->fieldname);
+				$value = JFactory::getConfig()->get($prefix . $this->fieldname);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+				$value = JComponentHelper::getParams('com_menus')->get($prefix . $this->fieldname);
 			}
 
 			if (!is_null($value))

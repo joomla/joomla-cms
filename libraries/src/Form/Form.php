@@ -101,7 +101,9 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
+		$this->options['control']      = isset($options['control']) ? $options['control'] : false;
+		$this->options['parent']       = isset($options['parent']) ? $options['parent'] : false;
+		$this->options['parent-group'] = isset($options['parent-group']) ? $options['parent-group'] : false;
 	}
 
 	/**
@@ -487,6 +489,30 @@ class Form
 	public function getFormControl()
 	{
 		return (string) $this->options['control'];
+	}
+
+	/**
+	 * Method to get the form parent. Used by subform nested to load settings of his top ancestor.
+	 *
+	 * @return  string  The form top ancestor form or false.
+	 *
+	 * @since   ?.?.?
+	 */
+	public function getFormParent()
+	{
+		return $this->options['parent'];
+	}
+
+	/**
+	 * Method to get the form parent. Used by subform nested to load settings of his top ancestor.
+	 *
+	 * @return  string  The form top ancestor form or false.
+	 *
+	 * @since   ?.?.?
+	 */
+	public function getFormParentGroup()
+	{
+		return $this->options['parent-group'];
 	}
 
 	/**
