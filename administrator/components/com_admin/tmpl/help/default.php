@@ -18,18 +18,8 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
+$wa->useScript('com_admin.admin-help');
 
-$wa->addInlineScript("
-document.addEventListener('DOMContentLoaded', function(event) {
-	let helpIndex = document.getElementById('help-index');
-	let links = helpIndex.querySelectorAll('a');
-	links && links.forEach(element => {
-		element.addEventListener('click', event => {
-			window.scroll(0,0);
-		});
-	})
-});
-");
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm" class="main-card">
 	<div class="row mt-sm-3">
