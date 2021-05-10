@@ -168,7 +168,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
 	/**
 	 * Used for finding the text for the note
-	 * 
+	 *
 	 * @param   int  $count   Number of extensions to install
 	 * @param   int  $eid     ID of the extension or -1 if no special
 	 *
@@ -231,11 +231,12 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 				$this->ioStyle->error($this->getNote($result, $eid));
 
 				return Command::FAILURE;
-			} else {
+			}
+			else
+			{
+				$this->ioStyle->success($this->getNote($result, $eid));
 
-			$this->ioStyle->success($this->getNote($result, $eid));
-
-			return Command::SUCCESS;
+				return Command::SUCCESS;
 			}
 		}
 		else
