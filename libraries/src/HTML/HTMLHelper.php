@@ -677,6 +677,14 @@ abstract class HTMLHelper
 			'height' => 0,
 		];
 
+		$pos = strrpos($url, '#');
+
+		// This is the image added by external adapter, remove adapter information, the string from # character to end
+		if (strrpos($url, '#') !== false)
+		{
+			$url = substr($url, 0, $pos);
+		}
+
 		if (!strpos($url, '?'))
 		{
 			$obj->url = $url;

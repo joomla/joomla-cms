@@ -106,19 +106,23 @@
    */
   const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
-      if (resp.data[0].url) {
-        if (/local-/.test(resp.data[0].adapter)) {
+      let isLocalAdapter = false;
+      const media = resp.data[0];
+      if (media.url) {
+        if (/local-/.test(media.adapter)) {
           const { rootFull } = Joomla.getOptions('system.paths');
+          isLocalAdapter = true;
 
           // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedMediaFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+          Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+          if (media.thumb_path) {
+            Joomla.selectedMediaFile.thumb = media.thumb_path;
           } else {
             Joomla.selectedMediaFile.thumb = false;
           }
-        } else if (resp.data[0].thumb_path) {
-          Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+        } else if (media.thumb_path) {
+          Joomla.selectedMediaFile.url = media.url;
+          Joomla.selectedMediaFile.thumb = media.thumb_path;
         }
       } else {
         Joomla.selectedMediaFile.url = false;
@@ -162,8 +166,16 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
-          editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
+          let val = '';
+
+          if (isLocalAdapter) {
+            val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width)
+            val = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
+          } else {
+            val = `${Joomla.selectedMediaFile.url}#${media.path}`;
+          }
+
+          editor.value = val;
           fieldClass.updatePreview();
         }
       }

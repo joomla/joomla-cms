@@ -100,11 +100,34 @@ if ($showPreview)
 	$showPreview = 'static';
 }
 
+// Handle the case image is added by external adapter
+if ($value && strpos($value, '#') !== false)
+{
+	// Calculate path used for external adapters, it is the string after # with filename removed
+	$path = explode('#', $value)[1];
+
+	// Replace all \ characters with / in the path
+	$path = str_replace('\\', '/', $path);
+
+	// Remove the name of image file from path
+	$pos = strrpos($path, '/');
+
+	if ($pos !== false)
+	{
+		$path = substr($path, 0, $pos);
+	}
+}
+else
+{
+	// Default to local adapter and the folder which is configured for the field
+	$path = 'local-0:/' . $folder;
+}
+
 // The url for the modal
 $url    = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
 		. $asset . '&author=' . $authorId)
-	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
+	. '&fieldid={field-media-id}&path=' . $path);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
