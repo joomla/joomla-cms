@@ -141,7 +141,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-off' : 'icon-toggle-on'; ?> icon-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
