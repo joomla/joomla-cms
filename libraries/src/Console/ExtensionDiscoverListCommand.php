@@ -57,19 +57,19 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function filterExtensionsBasedOnState($state): array
+	public function filterExtensionsBasedOnState($extensions, $state): array
 	{
-		$extensions = [];
+		$filteredExtensions = [];
 
-		foreach ($this->extensions as $key => $extension)
+		foreach ($extensions as $key => $extension)
 		{
 			if ($extension['state'] === $state)
 			{
-				$extensions[] = $extension;
+				$filteredExtensions[] = $extension;
 			}
 		}
 
-		return $extensions;
+		return $filteredExtensions;
 	}
 
 	/**
@@ -85,8 +85,11 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO($input, $output);
+
 		$extensions = $this->getExtensions();
-		$discovered_extensions = $this->filterExtensionsBasedOnState(-1);
+		$state = -1;
+
+		$discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 
 		if (empty($discovered_extensions))
 		{

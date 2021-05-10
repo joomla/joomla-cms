@@ -9,9 +9,6 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
-use ReflectionClass;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverCommand.
