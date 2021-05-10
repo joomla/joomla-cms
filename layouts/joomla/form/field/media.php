@@ -100,16 +100,13 @@ if ($showPreview)
 	$showPreview = 'static';
 }
 
-// Handle the case image is added by external adapter
 if ($value && strpos($value, '#') !== false)
 {
-	// Calculate path used for external adapters, it is the string after # with filename removed
-	$path = explode('#', $value)[1];
+	$metaData = explode('#', $value)[1];
+	$metaData = new Uri(explode('#', $value)[1]);
+	$path     = $metaData->getVar('path');
 
-	// Replace all \ characters with / in the path
-	$path = str_replace('\\', '/', $path);
-
-	// Remove the name of image file from path
+	// Remove filename from stored path to get the path expected by adapter
 	$pos = strrpos($path, '/');
 
 	if ($pos !== false)
@@ -157,8 +154,6 @@ $modalHTML = HTMLHelper::_('bootstrap.renderModal',
 
 $wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
-
-
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>

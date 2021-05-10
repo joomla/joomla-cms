@@ -166,16 +166,7 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          let val = '';
-
-          if (isLocalAdapter) {
-            val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width)
-            val = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
-          } else {
-            val = `${Joomla.selectedMediaFile.url}#${media.path}`;
-          }
-
-          editor.value = val;
+          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.adapter}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}&path=${media.path}`;
           fieldClass.updatePreview();
         }
       }
