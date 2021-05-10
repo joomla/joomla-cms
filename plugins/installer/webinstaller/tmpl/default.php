@@ -25,7 +25,7 @@ Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
 			<h2 class="card-title"><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
 		</div>
 	</div>
-	<div class="alert alert-error hidden" id="web-loader-error">
+	<div class="hidden" id="web-loader-error">
 	</div>
 </div>
 

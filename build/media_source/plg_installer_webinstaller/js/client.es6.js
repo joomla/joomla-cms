@@ -160,7 +160,6 @@ if (!Joomla) {
               loaderContainer.classList.add('hidden');
               errorContainer.classList.remove('hidden');
             }
-            
             Joomla.renderMessages({ danger: [Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR')] }, '#web-loader-error');
 
             reject();
