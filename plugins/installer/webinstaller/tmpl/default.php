@@ -27,7 +27,6 @@ Text::script('JSEARCH_FILTER_CLEAR');
 	<div class="hidden" id="web-loader-error">
 		<div id="system-message-container" aria-live="polite">
 			<joomla-alert type="danger" dismiss="true" class="joomla-alert--show" role="alert">
-				<button class="joomla-alert--close" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="alert-heading">
 					<span class="error"></span><span class="visually-hidden">Error</span>
 				</div>
