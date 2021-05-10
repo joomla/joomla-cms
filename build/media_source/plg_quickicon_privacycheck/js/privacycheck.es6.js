@@ -36,14 +36,14 @@
 
             // Button in alert to 'view requests'
             const requestButton = document.createElement('button');
-            requestButton.classList.add('btn', 'btn-primary');
+            requestButton.classList.add('btn', 'btn-primary', 'btn-sm');
             requestButton.setAttribute('onclick', `document.location='${url}'`);
             requestButton.textContent = text.REQUESTFOUND_BUTTON;
 
             const div = document.createElement('div');
             div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
-            div.appendChild(countSpan);
-            div.insertAdjacentText('beforeend', ` ${text.REQUESTFOUND_MESSAGE}`);
+            //div.appendChild(countSpan);
+            div.insertAdjacentText('beforeend', ` ${text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests)} `);
             div.appendChild(requestButton);
 
             // Add elements to container for alert messages
