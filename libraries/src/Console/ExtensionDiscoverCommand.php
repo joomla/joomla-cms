@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Console\Command\AbstractCommand;
