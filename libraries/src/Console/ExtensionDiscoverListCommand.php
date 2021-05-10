@@ -51,7 +51,8 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	/**
 	 * Filters the extension state
 	 *
-	 * @param   string  $state  Extension state
+	 * @param   array   $extensions  The Extensions
+	 * @param   string  $state       The Extension state
 	 *
 	 * @return array
 	 *
