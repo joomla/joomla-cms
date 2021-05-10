@@ -160,7 +160,7 @@ function setDesktop() {
   if (!sidebarWrapper) {
     changeLogo('closed');
   } else {
-    changeLogo('open');
+    changeLogo(getCookie() || 'open');
     sidebarWrapper.classList.remove('collapse');
   }
 
