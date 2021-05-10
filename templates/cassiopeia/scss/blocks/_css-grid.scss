@@ -14,7 +14,7 @@
       ". bot-b bot-b bot-b bot-b ."
       ". footer footer footer footer ."
       ". debug debug debug debug .";
-    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 16.875rem)) [main-end] minmax(0, 1fr) [full-end];
+    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
     > [class^="container-"],
@@ -98,7 +98,7 @@
   grid-area: main-b;
 }
 
-.container-bradcrumbs {
+.container-breadcrumbs {
   grid-area: bread;
 }
 

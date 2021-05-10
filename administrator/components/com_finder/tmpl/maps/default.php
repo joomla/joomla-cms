@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+HTMLHelper::_('behavior.multiselect');
+
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
@@ -119,7 +121,7 @@ $wa->useScript('com_finder.maps');
 							<?php endif; ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="btn <?php if ((int) $item->count_published > 0) echo 'btn-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+								<a class="btn <?php echo ((int) $item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_published; ?></a>
 							<?php else : ?>
 								-

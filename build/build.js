@@ -6,18 +6,19 @@
  * npm ci
  *
  * For dedicated tasks, please run:
- * node build.js --build-pages  === will create the error pages (for incomplete repo build PHP+NPM)
- * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
- * node build.js --compile-bs   === will compile all the Bootstrap javascript components
- * node build.js --gzip         === will create gzip files for all the minified stylesheets and scripts.'
+ * node build.js --build-pages      will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.js --copy-assets      will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js       will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-css      will compile all the scss defined files and also create a minified version of the css
+ * node build.js --compile-bs       will compile all the Bootstrap javascript components
+ * node build.js --com-media        will compile the media manager Vue application
+ * node build.js --watch-com-media  will compile the media manager Vue application
+ * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
 const semver = require('semver');
-// eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
 const { createErrorPages } = require('./build-modules-js/error-pages.es6.js');
@@ -30,23 +31,14 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
+const { mediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
+const { versioning } = require('./build-modules-js/versioning.es6.js');
+const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 
 // The settings
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
-
-// Simple timer
-const timer = (name) => {
-  const start = new Date();
-  return {
-    stop: () => {
-      const end = new Date();
-      const time = end.getTime() - start.getTime();
-      console.log('Timer:', name, 'finished in', time, 'ms');
-    },
-  };
-};
 
 // Merge Joomla's specific settings to the main package.json object
 if ('settings' in settings) {
@@ -74,8 +66,12 @@ Program
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
+  .option('--com-media', 'Compile the Media Manager client side App.')
+  .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
+  .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
+
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -136,10 +132,27 @@ if (Program.gzip) {
   compressFiles();
 }
 
+// Compile the media manager
+if (Program.comMedia) {
+  // false indicates "no watch"
+  mediaManager(false);
+}
+
+// Watch & Compile the media manager
+if (Program.watchComMedia) {
+  mediaManager(true);
+}
+
+// Update the .js/.css versions
+if (Program.versioning) {
+  Promise.all([versioning()])
+    .catch((err) => handleError(err, 1));
+}
+
 // Prepare the repo for dev work
 if (Program.prepare) {
   (async () => {
-    const bench = timer('Build');
+    const bench = new Timer('Build');
     try {
       allowedVersion();
       await cleanVendors();
@@ -152,8 +165,9 @@ if (Program.prepare) {
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
+        mediaManager(true),
       ]);
-      bench.stop();
+      bench.stop('Build');
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);

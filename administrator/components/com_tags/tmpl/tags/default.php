@@ -79,7 +79,7 @@ if ($saveOrder && !empty($this->items))
 						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" class="w-1 d-none d-md-table-cell center">
+						<th scope="col" class="w-1 d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
 						<th scope="col" class="w-1 text-center">

@@ -54,15 +54,6 @@ module.exports.codeMirror = async (packageName, version) => {
     'media/vendor/codemirror/lib/addons.js',
   );
 
-  await concatFiles(
-    [
-      'media/vendor/codemirror/lib/codemirror.js',
-      'media/vendor/codemirror/lib/addons.js',
-    ],
-
-    'media/vendor/codemirror/lib/codemirror-ce.js',
-  );
-
   await concatFiles([
     'media/vendor/codemirror/addon/display/fullscreen.css',
     'media/vendor/codemirror/addon/fold/foldgutter.css',

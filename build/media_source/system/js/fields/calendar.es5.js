@@ -234,11 +234,15 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+		if (typeof this.inputField.onchange == "function") {
+			this.inputField.onchange();
+		}
 
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -529,8 +533,6 @@
 
 		this.table = table;
 		table.className = 'table';
-		table.cellSpacing = 0;
-		table.cellPadding = 0;
 		table.style.marginBottom = 0;
 
 		this.dropdownElement = div;
@@ -542,7 +544,7 @@
 
 		div.className = 'js-calendar';
 		div.style.position = "absolute";
-		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
+		div.style.boxShadow = "0 0 70px 0 rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
 		div.classList.add('hidden');
@@ -779,9 +781,10 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-
-				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
-
+				if (self.inputField.onchange) {
+					self.inputField.onchange();
+				}
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {

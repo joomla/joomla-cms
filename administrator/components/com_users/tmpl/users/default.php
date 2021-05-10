@@ -118,7 +118,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<div class="btn-group">
 										<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
 										<?php if ($item->note_count > 0) : ?>
-										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 										</button>
 										<div class="dropdown-menu">

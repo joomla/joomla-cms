@@ -24,6 +24,29 @@
       }
     },
     {
+      "name": "messages-legacy",
+      "type": "script",
+      "uri": "system/messages-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "messages",
+      "type": "script",
+      "uri": "system/messages.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "messages-legacy"
+      ]
+    },
+    {
       "name": "template.active",
       "type": "style",
       "uri": "",
@@ -86,8 +109,7 @@
         "defer": true
       },
       "dependencies": [
-        "core",
-        "punycode"
+        "core"
       ],
       "uri": "system/fields/validate.min.js"
     },
@@ -111,6 +133,29 @@
       },
       "dependencies": [
         "dragula"
+      ]
+    },
+    {
+      "name": "highlight-legacy",
+      "type": "script",
+      "uri": "system/highlight-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "highlight",
+      "type": "script",
+      "uri": "system/highlight.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "highlight-legacy"
       ]
     },
     {

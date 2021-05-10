@@ -26,17 +26,17 @@ const srcPath = `${RootPath}/build/warning_page`;
 module.exports.createErrorPages = async (options) => {
   const iniFilesProcess = [];
   const processPages = [];
-  this.incompleteObj = {};
-  this.unsupportedObj = {};
-  this.fatalObj = {};
-  this.noxmlObj = {};
+  global.incompleteObj = {};
+  global.unsupportedObj = {};
+  global.fatalObj = {};
+  global.noxmlObj = {};
 
   const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'utf8' });
   let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
   let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
 
   const cssMin = await Postcss([Autoprefixer, CssNano]).process(cssContent, { from: undefined });
-  ///
+
   cssContent = cssMin.css;
   jsContent = await minify(jsContent);
 
@@ -46,13 +46,13 @@ module.exports.createErrorPages = async (options) => {
     // Build the variables into json for the unsupported page
     if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-      this.unsupportedObj = {
-        ...this.unsupportedObj,
+      global.unsupportedObj = {
+        ...global.unsupportedObj,
         [name]: {
-          language: languageStrings.MIN_PHP_ERROR_LANGUAGE,
-          header: languageStrings.MIN_PHP_ERROR_HEADER,
-          text1: languageStrings.MIN_PHP_ERROR_TEXT,
-          'help-url-text': languageStrings.MIN_PHP_ERROR_URL_TEXT,
+          language: languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE,
+          header: languageStrings.BUILD_MIN_PHP_ERROR_HEADER,
+          text1: languageStrings.BUILD_MIN_PHP_ERROR_TEXT,
+          'help-url-text': languageStrings.BUILD_MIN_PHP_ERROR_URL_TEXT,
         },
       };
     }
@@ -60,8 +60,8 @@ module.exports.createErrorPages = async (options) => {
     // Build the variables into json for the build incomplete page
     if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-      this.incompleteObj = {
-        ...this.incompleteObj,
+      global.incompleteObj = {
+        ...global.incompleteObj,
         [name]: {
           language: languageStrings.BUILD_INCOMPLETE_LANGUAGE,
           header: languageStrings.BUILD_INCOMPLETE_HEADER,
@@ -74,8 +74,8 @@ module.exports.createErrorPages = async (options) => {
     // Build the variables into json for the fatal error page
     if (languageStrings.BUILD_FATAL_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-      this.fatalObj = {
-        ...this.fatalObj,
+      global.fatalObj = {
+        ...global.fatalObj,
         [name]: {
           language: languageStrings.BUILD_FATAL_LANGUAGE,
           header: languageStrings.BUILD_FATAL_HEADER,
@@ -88,8 +88,8 @@ module.exports.createErrorPages = async (options) => {
     // Build the variables into json for the missing XML error page
     if (languageStrings.BUILD_NOXML_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-      this.noxmlObj = {
-        ...this.noxmlObj,
+      global.noxmlObj = {
+        ...global.noxmlObj,
         [name]: {
           language: languageStrings.BUILD_NOXML_LANGUAGE,
           header: languageStrings.BUILD_NOXML_HEADER,
@@ -112,7 +112,8 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const jsonContent = `window.errorLocale=${JSON.stringify(this[`${name}Obj`])};`;
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
@@ -150,12 +151,12 @@ module.exports.createErrorPages = async (options) => {
     );
 
     // eslint-disable-next-line no-console
-    console.error(`Created the file: ${options.settings.errorPages[name].destFile}`);
+    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  await Promise.all(processPages).catch((err) => {
+  return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
     process.exit(-1);

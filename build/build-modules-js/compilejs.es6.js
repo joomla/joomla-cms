@@ -2,8 +2,7 @@ const { stat } = require('fs-extra');
 const { sep } = require('path');
 const recursive = require('recursive-readdir');
 const { handleES5File } = require('./javascript/handle-es5.es6.js');
-const { handleESMFile } = require('./javascript/compile-es6.es6.js');
-const { handleWCFile } = require('./javascript/compile-w-c.es6.js');
+const { handleESMFile } = require('./javascript/compile-to-es2017.es6.js');
 
 const RootPath = process.cwd();
 
@@ -20,6 +19,7 @@ const RootPath = process.cwd();
  *
  * @param { object } options The options from settings.json
  * @param { string } path    The folder that needs to be compiled, optional
+ * @param { string } mode    esm for ES2017, es5 for ES5, both for both
  */
 module.exports.scripts = async (options, path) => {
   const files = [];
@@ -54,9 +54,7 @@ module.exports.scripts = async (options, path) => {
 
   const computedFiles = await Promise.all(folderPromises);
   const computedFilesFlat = [].concat(...computedFiles);
-
   const jsFilesPromises = [];
-  const wcFilesPromises = [];
   const esmFilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
@@ -67,12 +65,10 @@ module.exports.scripts = async (options, path) => {
 
     if (file.match(/\.es5\.js$/)) {
       jsFilesPromises.push(handleES5File(file));
-    } else if (file.match(/\.w-c\.es6\.js$/)) {
-      wcFilesPromises.push(handleWCFile(file));
-    } else if (file.match(/\.es6\.js$/)) {
+    } else if (file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/)) {
       esmFilesPromises.push(handleESMFile(file));
     }
   });
 
-  await Promise.all([...jsFilesPromises, ...wcFilesPromises, ...esmFilesPromises]);
+  Promise.all([...jsFilesPromises, ...esmFilesPromises]);
 };

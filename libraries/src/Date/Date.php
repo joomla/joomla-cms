@@ -336,7 +336,7 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false)
+		if ($local == false && $this->tz !== null)
 		{
 			parent::setTimezone($this->tz);
 		}
@@ -466,7 +466,7 @@ class Date extends \DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(\DateTime::RFC2822, $local, false);
+		return $this->format(\DateTimeInterface::RFC2822, $local, false);
 	}
 
 	/**

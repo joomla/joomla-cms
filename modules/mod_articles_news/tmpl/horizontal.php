@@ -23,7 +23,7 @@ if (empty($list))
 ?>
 <ul class="mod-articlesnews-horizontal newsflash-horiz mod-list">
 	<?php foreach ($list as $item) : ?>
-		<li>
+		<li itemscope itemtype="https://schema.org/Article">
 			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
 		</li>
 	<?php endforeach; ?>

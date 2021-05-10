@@ -40,7 +40,7 @@ $moduleHtml = preg_replace(
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|address|article|form) [^>]*>)/',
 	// Create and add the edit link and tooltip
 	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="tip-' . (int) $mod->id . '">
-	<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
+	<span class="icon-edit" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('JGLOBAL_EDIT') . '</span></a>
 	<div role="tooltip" id="tip-' . (int) $mod->id . '">' . Text::_('JLIB_HTML_EDIT_MODULE') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>'. sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')) . '</div>',
 	$moduleHtml,
 	1,

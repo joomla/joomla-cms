@@ -84,10 +84,12 @@ td .form-control {
   box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
 
   &[id^=editarticle-] {
+    right: auto;
     margin-inline-start: -10em;
   }
 
   &[id^=editcontact-] {
+    right: auto;
     margin-inline-start: -10em;
   }
 

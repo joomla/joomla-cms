@@ -23,6 +23,7 @@ $category  = $displayData->get('category');
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
+$htag	   = $params->get('show_page_heading') ? 'h2' : 'h1';
 
 $app = Factory::getApplication();
 
@@ -59,9 +60,9 @@ $tagsData = $category->tags->itemTags;
 		<?php endif; ?>
 
 		<?php if ($params->get('show_category_title', 1)) : ?>
-			<h2>
+			<<?php echo $htag; ?>>
 				<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
-			</h2>
+			</<?php echo $htag; ?>>
 		<?php endif; ?>
 		<?php echo $afterDisplayTitle; ?>
 
