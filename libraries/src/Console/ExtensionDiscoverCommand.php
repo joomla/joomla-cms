@@ -110,7 +110,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 */
 	public function processDiscover(): int
 	{
-		$app = Factory::getApplication();
+		$app = $this->getApplication();
 
 		$mvcFactory = $app->bootComponent('com_installer')->getMVCFactory();
 
