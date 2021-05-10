@@ -16,6 +16,20 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+
+$wa->addInlineScript("
+document.addEventListener('DOMContentLoaded', function(event) {
+	let helpIndex = document.getElementById('help-index');
+	let links = helpIndex.querySelectorAll('a');
+	links && links.forEach(element => {
+		element.addEventListener('click', event => {
+			window.scroll(0,0);
+		});
+	})
+});
+");
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm" class="main-card">
 	<div class="row mt-sm-3">
@@ -34,7 +48,7 @@ use Joomla\CMS\Router\Route;
 					<?php foreach ($this->toc as $k => $v) : ?>
 						<li>
 							<?php $url = Help::createUrl('JHELP_' . strtoupper($k)); ?>
-							<?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame', 'onclick' => 'window.scroll(0,0)']); ?>
+							<?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame']); ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
