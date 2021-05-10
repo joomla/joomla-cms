@@ -7,7 +7,13 @@ if (!Joomla) {
   throw new Error('Joomla API is not initialized');
 }
 
-const storageEnabled = typeof Storage !== 'undefined';
+// eslint-disable-next-line no-return-assign
+const setCoockie = (value) => { document.cookie = `atumSidebarState=${value}; max-age=${5 * 60}` };
+const getCookie = () => document.cookie.length && document.cookie
+  .split('; ')
+  .find((row) => row.startsWith('atumSidebarState='))
+  .split('=')[1];
+
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
@@ -47,13 +53,14 @@ function changeLogo(change) {
     return;
   }
 
-  const state = change
-    || (storageEnabled && localStorage.getItem('atum-sidebar'));
+  const state = change || getCookie();
 
   if (state === 'closed') {
     logo.classList.add('small');
+    setCoockie('closed');
   } else {
     logo.classList.remove('small');
+    setCoockie('closed');
   }
 }
 
@@ -157,7 +164,7 @@ function setDesktop() {
   if (!sidebarWrapper) {
     changeLogo('closed');
   } else {
-    changeLogo();
+    changeLogo('open');
     sidebarWrapper.classList.remove('collapse');
   }
 
@@ -208,12 +215,12 @@ subheadScrolling();
 if (mobile.matches) {
   setMobile();
 } else {
-  setDesktop();
-
   if (!navigator.cookieEnabled) {
     Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
   }
-  window.addEventListener('joomla:menu-toggle', () => {
+  window.addEventListener('joomla:menu-toggle', (event) => {
     headerItemsInDropdown();
+    setCoockie(event.detail);
+    changeLogo(event.detail);
   });
 }
