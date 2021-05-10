@@ -3,18 +3,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || {};
-
-((document, Joomla) => {
+((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function(event) {
-    let helpIndex = document.getElementById('help-index');
-    let links = helpIndex.querySelectorAll('a');
+  document.addEventListener('DOMContentLoaded', () => {
+    const helpIndex = document.getElementById('help-index');
+    const links = helpIndex.querySelectorAll('a');
     links && links.forEach(element => {
-      element.addEventListener('click', event => {
+      element.addEventListener('click', () => {
         window.scroll(0,0);
       });
     })
   });
-})(document, Joomla);
+})(document);
