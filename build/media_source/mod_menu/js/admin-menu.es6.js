@@ -65,9 +65,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     }
   });
 
-  /**
-   * Sidebar Nav
-   */
+  // Sidebar Nav
   const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
   const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
