@@ -69,35 +69,6 @@
   );
 
   /**
-   * Method to safely append parameters to a URL string
-   *
-   * @param url   {string}  The URL
-   * @param key   {string}  The key of the parameter
-   * @param value {string}  The value of the parameter
-   *
-   * @returns {string}
-   */
-  const appendParam = (url, key, value) => {
-    const newKey = encodeURIComponent(key);
-    const newValue = encodeURIComponent(value);
-    const r = new RegExp(`(&|\\?)${key}=[^&]*`);
-    let s = url;
-    const param = `${newKey}=${newValue}`;
-
-    s = s.replace(r, `$1${param}`);
-
-    if (!RegExp.$1 && s.includes('?')) {
-      return `${s}&${param}`;
-    }
-
-    if (!RegExp.$1 && !s.includes('?')) {
-      return `${s}?${param}`;
-    }
-
-    return s;
-  };
-
-  /**
    * Method to append the image in an editor or a field
    *
    * @param resp
