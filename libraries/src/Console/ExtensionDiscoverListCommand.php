@@ -26,6 +26,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 * The default command name
 	 *
 	 * @var    string
+	 * 
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'extension:discover:list';
@@ -79,7 +80,6 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int

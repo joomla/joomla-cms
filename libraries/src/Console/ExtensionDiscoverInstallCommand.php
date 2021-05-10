@@ -54,7 +54,8 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * Database connector
 	 *
 	 * @var    DatabaseInterface
-	 * @since  4.0.0
+	 * 
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db;
 
@@ -173,7 +174,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int

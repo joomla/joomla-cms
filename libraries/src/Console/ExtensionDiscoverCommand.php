@@ -32,6 +32,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
+	 * 
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'extension:discover';
@@ -40,6 +41,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * Stores the Input Object
 	 *
 	 * @var    InputInterface
+	 * 
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cliInput;
@@ -48,6 +50,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * SymfonyStyle Object
 	 *
 	 * @var    SymfonyStyle
+	 * 
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $ioStyle;
@@ -102,6 +105,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @return  integer  The count of discovered extensions
 	 *
 	 * @throws  \Exception
+	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function processDiscover(): int
@@ -123,7 +127,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
