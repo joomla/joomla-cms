@@ -41,7 +41,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<div class="quickicon-info">
+			<div class="quickicon-info mx-auto" >
 				<?php if (isset($displayData['image'])): ?>
 					<div class="quickicon-icon">
 						<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
@@ -56,13 +56,13 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			</div>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
-				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
+				<div class="quickicon-name d-flex align-items-end mx-auto" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
 					<?php echo Text::_($displayData['name']); ?>
 				</div>
 			<?php endif; ?>
 			<?php // Information or action from plugins
 			if (isset($displayData['text'])): ?>
-				<div class="quickicon-name d-flex align-items-center">
+				<div class="quickicon-name d-flex align-items-center mx-auto">
 					<?php echo $text; ?>
 				</div>
 			<?php endif; ?>
