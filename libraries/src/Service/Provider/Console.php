@@ -169,7 +169,7 @@ class Console implements ServiceProviderInterface
 			ExtensionDiscoverCommand::class,
 			function (Container $container)
 			{
-				return new ExtensionDiscoverCommand();
+				return new ExtensionDiscoverCommand;
 			},
 			true
 		);

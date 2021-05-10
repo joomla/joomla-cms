@@ -26,7 +26,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'extension:discover:list';

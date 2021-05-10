@@ -54,7 +54,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * Database connector
 	 *
 	 * @var    DatabaseInterface
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db;

@@ -31,7 +31,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'extension:discover';
@@ -40,7 +40,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * Stores the Input Object
 	 *
 	 * @var    InputInterface
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cliInput;
@@ -49,7 +49,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * SymfonyStyle Object
 	 *
 	 * @var    SymfonyStyle
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $ioStyle;
@@ -104,7 +104,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @return  integer  The count of discovered extensions
 	 *
 	 * @throws  \Exception
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function processDiscover(): int
@@ -116,6 +116,31 @@ class ExtensionDiscoverCommand extends AbstractCommand
 		$model = $mvcFactory->createModel('Discover', 'Administrator');
 
 		return $model->discover();
+	}
+
+	/**
+	 * Used for finding the text for the note
+	 *
+	 * @return  string  The text for the note
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNote(int $count): string
+	{
+		if ($count < 1)
+		{
+			return 'There is no extension to discover.';
+		}
+		elseif ($count === 1)
+		{
+			return $count . ' extension has been discovered successfully.';
+		}
+		else
+		{
+			return $count . ' extensions have been discovered successfully.';
+		}
 	}
 
 	/**
@@ -134,18 +159,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 		$count = $this->processDiscover();
 
-		if ($count < 1)
-		{
-			$this->ioStyle->note('There is no extension to discover.');
-		}
-		elseif ($count == 1)
-		{
-			$this->ioStyle->note($count . ' extension has been discovered successfully.');
-		}
-		else
-		{
-			$this->ioStyle->note($count . ' extensions have been discovered successfully.');
-		}
+		$this->ioStyle->note($this->getNote($count));
 
 		return Command::SUCCESS;
 	}

@@ -8,13 +8,8 @@
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
-use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
-use Joomla\CMS\Language\Language;
-use Joomla\DI\Container;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
-use Joomla\Tests\Unit\UnitTestCase;
+use ReflectionClass;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,22 +34,40 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the processDiscover method
-	 * Case: There is no extension to discover
+	 * Ensure that the return value is an integer. 
 	 *
 	 * @return  void
 	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testProcessDiscoverNoExtension()
+	public function testProcessDiscoverReturnIsInt()
 	{
-		$ExtensionDiscoverCommand = $this->createExtensionDiscoverCommand();
-		$app = $this->createApplication();
-
-		$this->assertSame('cli', $app->getName());
-		$this->assertSame(true, $app->isClient('cli'));
+		$command = $this->createMock(ExtensionDiscoverCommand::class);
 		
-		$this->assertSame(true, true);
+		$countOfDiscoveredExtensions = $command->processDiscover();
+		
+		$this->assertIsInt($countOfDiscoveredExtensions);
+	}
 
+	/**
+	 * Tests the doExecute method
+	 * Ensure that the note is correct. 
+	 *
+	 * @return  void
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGetNote()
+	{
+		$command = $this->createExtensionDiscoverCommand();
+		
+		$note0 = $command->getNote(0);
+		$note1 = $command->getNote(1);
+		$note2 = $command->getNote(2);
+		
+		$this->assertSame($note0, 'There is no extension to discover.');
+		$this->assertSame($note1, '1 extension has been discovered successfully.');
+		$this->assertSame($note2, '2 extensions have been discovered successfully.');
 	}
 
 	/**
@@ -67,26 +80,5 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	protected function createExtensionDiscoverCommand(): ExtensionDiscoverCommand
 	{
 		return new ExtensionDiscoverCommand;
-	}
-
-	/**
-	 * Helper function to create a ConsoleApplication with mocked dependencies
-	 *
-	 * @return ConsoleApplication
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function createApplication(): ConsoleApplication
-	{
-		$config = $this->createMock(Registry::class);
-		$dispatcher = $this->createMock(DispatcherInterface::class);
-		$container = $this->createMock(Container::class);
-		$language = $this->createMock(Language::class);
-		$input = $this->createMock(InputInterface::class);
-		$output = $this->createMock(OutputInterface::class);
-
-		$object = new ConsoleApplication($config, $dispatcher, $container, $language, $input, $output);
-
-		return $object;
 	}
 }
