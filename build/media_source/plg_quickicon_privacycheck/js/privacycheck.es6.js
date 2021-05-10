@@ -29,7 +29,7 @@
             // Quickicon becomes red
             quickicon.classList.add('danger');
 
-            // Span in alert message
+            // Span in alert
             const countSpan = document.createElement('span');
             countSpan.classList.add('label', 'label-important');
             countSpan.textContent = `${text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests)} `;
