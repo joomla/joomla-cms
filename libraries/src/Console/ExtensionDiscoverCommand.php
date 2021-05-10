@@ -121,6 +121,8 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	/**
 	 * Used for finding the text for the note
 	 *
+	 * @param   int  $count   The count of installed Extensions
+	 * 
 	 * @return  string  The text for the note
 	 *
 	 * @since   __DEPLOY_VERSION__
