@@ -780,7 +780,7 @@
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
 
-				this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 
 			});
 
