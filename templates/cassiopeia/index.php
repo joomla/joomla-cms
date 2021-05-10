@@ -125,9 +125,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->countModules('brand')) : ?>
+		<?php if ($this->countModules('below-top')) : ?>
 			<div class="grid-child container-brand">
-				<jdoc:include type="modules" name="brand" style="none" />
+				<jdoc:include type="modules" name="below-top" style="none" />
 			</div>
 		<?php endif; ?>
 

@@ -25,7 +25,7 @@
 	</files>
 	<positions>
 		<position>topbar</position>
-		<position>brand</position>
+		<position>below-top</position>
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
@@ -51,8 +51,8 @@
 				<field
 					name="brand"
 					type="radio"
-					default="1"
 					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
 					layout="joomla.form.field.radio.switcher"
 					filter="integer"
 					>
