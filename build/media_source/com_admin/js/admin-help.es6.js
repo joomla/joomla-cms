@@ -5,5 +5,5 @@
 const helpIndex = document.getElementById('help-index');
 if (helpIndex) {
   [].slice.call(helpIndex.querySelectorAll('a'))
-    .map((element) => element.addEventListener('click', () => { window.scroll(0,0); }));
+    .map((element) => element.addEventListener('click', () => { window.scroll(0, 0); }));
 }
