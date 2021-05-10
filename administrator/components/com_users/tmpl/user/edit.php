@@ -34,7 +34,8 @@ $this->useCoreUI = true;
 
 	<h2><?php echo $this->form->getValue('name', null, Text::_('COM_USERS_USER_NEW_USER_TITLE')); ?></h2>
 
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 			<fieldset class="options-form">
@@ -45,7 +46,7 @@ $this->useCoreUI = true;
 			</fieldset>
 
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-	
+
 		<?php if ($this->grouplist) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 				<fieldset id="fieldset-groups" class="options-form">
@@ -62,7 +63,7 @@ $this->useCoreUI = true;
 		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-	<?php if (!empty($this->tfaform) && $this->item->id) : ?>
+		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 			<fieldset class="options-form">
 				<legend><?php echo Text::_('COM_USERS_USER_TWO_FACTOR_AUTH'); ?></legend>
@@ -109,9 +110,10 @@ $this->useCoreUI = true;
 			</fieldset>
 			
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+	</div>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">

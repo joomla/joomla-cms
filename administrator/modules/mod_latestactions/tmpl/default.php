@@ -17,8 +17,8 @@ use Joomla\CMS\Language\Text;
 	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" class="w-80"><?php echo Text::_('MOD_LATESTACTIONS_ACTION'); ?></th>
-			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
+			<th scope="col" class="w-70"><?php echo Text::_('MOD_LATESTACTIONS_ACTION'); ?></th>
+			<th scope="col" class="w-30"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

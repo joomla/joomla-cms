@@ -1,1 +1,1 @@
-DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_csp' AND `menutype` = 'main';
+-- This has been removed as com_csp has been removed from the final build

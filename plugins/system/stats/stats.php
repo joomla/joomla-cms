@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -170,9 +171,7 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		$this->sendStats();
-
-		echo json_encode(['sent' => 1]);
+		echo json_encode(['sent' => (int) $this->sendStats()]);
 	}
 
 	/**
@@ -277,9 +276,7 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		$this->sendStats();
-
-		echo json_encode(['sent' => 1]);
+		echo json_encode(['sent' => (int) $this->sendStats()]);
 	}
 
 	/**
@@ -560,36 +557,56 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @since   3.5
 	 *
-	 * @throws  RuntimeException  If there is an error sending the data.
+	 * @throws  RuntimeException  If there is an error sending the data and debug mode enabled.
 	 */
 	private function sendStats()
 	{
+		$error = false;
+
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
 			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+
+			if (!$response)
+			{
+				$error = 'Could not send site statistics to remote server: No response';
+			}
+			elseif ($response->code !== 200)
+			{
+				$data = json_decode($response->body);
+
+				$error = 'Could not send site statistics to remote server: ' . $data->message;
+			}
 		}
 		catch (UnexpectedValueException $e)
 		{
 			// There was an error sending stats. Should we do anything?
-			throw new RuntimeException('Could not send site statistics to remote server: ' . $e->getMessage(), 500);
+			$error = 'Could not send site statistics to remote server: ' . $e->getMessage();
 		}
 		catch (RuntimeException $e)
 		{
 			// There was an error connecting to the server or in the post request
-			throw new RuntimeException('Could not connect to statistics server: ' . $e->getMessage(), 500);
+			$error = 'Could not connect to statistics server: ' . $e->getMessage();
 		}
 		catch (Exception $e)
 		{
 			// An unexpected error in processing; don't let this failure kill the site
-			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
+			$error = 'Unexpected error connecting to statistics server: ' . $e->getMessage();
 		}
 
-		if ($response->code !== 200)
+		if ($error !== false)
 		{
-			$data = json_decode($response->body);
+			// Log any errors if logging enabled.
+			Log::add($error, Log::WARNING, 'jerror');
 
-			throw new RuntimeException('Could not send site statistics to remote server: ' . $data->message, $response->code);
+			// If Stats debug mode enabled, or Global Debug mode enabled, show error to the user.
+			if ($this->isDebugEnabled() || $this->app->get('debug'))
+			{
+				throw new RuntimeException($error, 500);
+			}
+
+			return false;
 		}
 
 		return true;

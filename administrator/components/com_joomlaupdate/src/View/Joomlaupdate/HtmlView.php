@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
 use Joomla\Database\ParameterType;
 
 /**
@@ -28,15 +27,6 @@ use Joomla\Database\ParameterType;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * Holds an array with the configured FTP options.
-	 *
-	 * @var    array
-	 *
-	 * @since  4.0.0
-	 */
-	protected $ftp = null;
-
-	/**
 	 * An array with the Joomla! update information.
 	 *
 	 * @var    array
@@ -44,24 +34,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.0
 	 */
 	protected $updateInfo = null;
-
-	/**
-	 * The form field for the extraction select
-	 *
-	 * @var    string
-	 *
-	 * @since  3.6.0
-	 */
-	protected $methodSelect = null;
-
-	/**
-	 * The form field for the upload select
-	 *
-	 * @var   string
-	 *
-	 * @since  3.6.0
-	 */
-	protected $methodSelectUpload = null;
 
 	/**
 	 * PHP options.
@@ -115,20 +87,15 @@ class HtmlView extends BaseHtmlView
 		// Load useful classes.
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel();
-		$this->loadHelper('select');
 
 		// Assign view variables.
-		$this->ftp     = $model->getFTPOptions();
-		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
-
 		$this->updateInfo         = $model->getUpdateInformation();
-		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
-		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Get results of pre update check evaluations
-		$this->phpOptions        = $model->getPhpOptions();
-		$this->phpSettings       = $model->getPhpSettings();
-		$this->nonCoreExtensions = $model->getNonCoreExtensions();
+		$this->phpOptions             = $model->getPhpOptions();
+		$this->phpSettings            = $model->getPhpSettings();
+		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
 
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
@@ -149,7 +116,6 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}
 
-		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		$params                 = ComponentHelper::getParams('com_joomlaupdate');
 
 		switch ($params->get('updatesource', 'default'))
