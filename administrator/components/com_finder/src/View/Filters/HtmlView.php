@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * @var mixed
+	 * @var boolean
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
