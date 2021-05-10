@@ -12,7 +12,6 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -183,9 +182,6 @@ class TemplateController extends BaseController
 				return false;
 			}
 
-			// Set FTP credentials, if given
-			ClientHelper::setCredentialsFromRequest('ftp');
-
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
 			{
@@ -240,6 +236,8 @@ class TemplateController extends BaseController
 
 			return true;
 		}
+
+		$this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
 		return false;
 	}
@@ -577,7 +575,7 @@ class TemplateController extends BaseController
 
 		if ($return = $model->uploadFile($upload, $location))
 		{
-			$this->setMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
+			$this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
 			$redirect = base64_encode($return);
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect;
 			$this->setRedirect(Route::_($url, false));

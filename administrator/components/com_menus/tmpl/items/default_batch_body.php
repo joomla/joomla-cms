@@ -29,7 +29,7 @@ if ($clientId == 1)
 	$wa->useScript('joomla.batch-copymove');
 }
 ?>
-<div class="container">
+<div class="p-3">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">

@@ -34,7 +34,7 @@
 			name="image_formats"
 			type="text"
 			label="COM_TEMPLATES_CONFIG_IMAGE_LABEL"
-			default="gif,bmp,jpg,jpeg"
+			default="gif,bmp,jpg,jpeg,png,webp"
 			extension="com_templates"
 		/>
 

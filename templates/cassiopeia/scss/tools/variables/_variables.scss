@@ -224,3 +224,6 @@ $state-warning-border:                scale-color($warning, $lightness: -5%) !de
 $state-danger-text:                   $white !default;
 $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
+
+// Mark element
+$mark-bg: #fbeea8 !default;

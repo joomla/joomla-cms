@@ -539,6 +539,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Store ID of the category uses for edit state permission check
 			$record->catid = $assignedCatids;
 		}
+		else
+		{
+			// Get the category which the article is being added to
+			if (!empty($data['catid']))
+			{
+				$catId = (int) $data['catid'];
+			}
+			else
+			{
+				$catIds  = $form->getValue('catid');
+
+				$catId = is_array($catIds)
+					? (int) reset($catIds)
+					: (int) $catIds;
+
+				if (!$catId)
+				{
+					$catId = (int) $form->getFieldAttribute('catid', 'default', 0);
+				}
+			}
+
+			$record->catid = $catId;
+		}
 
 		// Modify the form based on Edit State access controls.
 		if (!$this->canEditState($record))
@@ -878,7 +901,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the before change state event.
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_before_change_featured,
 			AbstractEvent::create(
 				$this->event_before_change_featured,
 				[
@@ -993,7 +1016,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the change state event.
 		Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_after_change_featured,
 			AbstractEvent::create(
 				$this->event_after_change_featured,
 				[

@@ -64,6 +64,19 @@
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
+
+		<field
+			name="only_use_in_subform"
+			type="list"
+			label="COM_FIELDS_FIELDS_FILTER_ONLY_USE_IN_SUBFORM_LABEL"
+			onchange="this.form.submit();"
+			default=""
+			validate="options"
+			>
+			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 	</fields>
 
 	<fields name="list">

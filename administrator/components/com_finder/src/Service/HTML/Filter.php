@@ -477,27 +477,27 @@ class Filter
 
 			// Start date filter.
 			$attribs['class'] = 'input-medium';
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-start' . $classSuffix . '">';
 			$html .= '<label for="filter_date1" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE1_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-end' . $classSuffix . '">';
 			$html .= '<label for="filter_date2" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE2_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
