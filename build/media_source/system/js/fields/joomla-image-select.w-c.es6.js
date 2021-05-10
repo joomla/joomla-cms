@@ -106,13 +106,10 @@
    */
   const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
-      let isLocalAdapter = false;
       const media = resp.data[0];
       if (media.url) {
         if (/local-/.test(media.adapter)) {
           const { rootFull } = Joomla.getOptions('system.paths');
-          isLocalAdapter = true;
-
           // eslint-disable-next-line prefer-destructuring
           Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
           if (media.thumb_path) {
@@ -166,7 +163,7 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.adapter}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}&path=${media.path}`;
+          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.adapter}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}&path=${encodeURI(media.path)}`;
           fieldClass.updatePreview();
         }
       }
