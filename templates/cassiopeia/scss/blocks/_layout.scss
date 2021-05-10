@@ -12,7 +12,8 @@
   position: relative;
 }
 
-.container-topbar {
+.container-topbar,
+.container-brand {
   color: $white;
   a {
     color: currentColor;
