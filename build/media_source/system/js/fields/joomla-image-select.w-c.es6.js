@@ -134,7 +134,7 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.adapter}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}&path=${encodeURI(media.path)}`;
+          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
           fieldClass.updatePreview();
         }
       }

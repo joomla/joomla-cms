@@ -100,30 +100,34 @@ if ($showPreview)
 	$showPreview = 'static';
 }
 
+// Calculate path which will be displayed when user clicks on Select button to select an image
 if ($value && strpos($value, '#') !== false)
 {
-	$metaData = new Uri(explode('#', $value)[1]);
-	$path     = $metaData->getVar('path');
+	$mediaUri = new Uri(explode('#', $value)[1]);
+	$adapter  = $mediaUri->getHost();
+	$path     = $mediaUri->getPath();
 
-	// Remove filename from stored path to get the path expected by adapter
+	// Remove filename from stored path to get the path to the folder which file is stored
 	$pos = strrpos($path, '/');
 
 	if ($pos !== false)
 	{
 		$path = substr($path, 0, $pos);
 	}
+
+	$mediaPath = $adapter . ':' . $path;
 }
 else
 {
 	// Default to local adapter and the folder which is configured for the field
-	$path = 'local-0:/' . $folder;
+	$mediaPath = 'local-0:/' . $folder;
 }
 
 // The url for the modal
 $url    = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
 		. $asset . '&author=' . $authorId)
-	. '&fieldid={field-media-id}&path=' . $path);
+	. '&fieldid={field-media-id}&path=' . $mediaPath);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
