@@ -57,7 +57,7 @@ class Redirect
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon' . ($value == 1 ? ' active' : '')
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
-				. '<div role="tooltip" id="cb' . $state[0] . $i . '">' . Text::_($state[3]) . '</div>';
+				. '<div role="tooltip" id="cb' . $state[0] . $i . '-desc' . '">' . Text::_($state[3]) . '</div>';
 		}
 
 		return $html;
