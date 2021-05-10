@@ -128,7 +128,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
 		if ($eid === -1)
 		{
-			$db    = $this->db;
+			$db = $this->db;
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['extension_id']))
 				->from($db->quoteName('#__extensions'))
@@ -167,6 +167,48 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	}
 
 	/**
+	 * Used for finding the text for the note
+	 * 
+	 * @param   int  $count   Number of extensions to install
+	 * @param   int  $eid     ID of the extension or -1 if no special
+	 *
+	 * @return  string  The text for the note
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNote(int $count, int $eid): string
+	{
+		if ($count < 0 && $eid >= 0)
+		{
+			return 'Unable to install the extension with ID ' . $eid;
+		}
+		elseif ($count < 0 && $eid < 0)
+		{
+			return 'Unable to install discovered extensions.';
+		}
+		elseif ($count === 0)
+		{
+			return 'There are no discovered extensions for install. Perhaps you need to run extension:discover first?';
+		}
+		elseif ($count === 1 && $eid > 0)
+		{
+			return 'Extension with ID ' . $eid . ' installed successfully.';
+		}
+		elseif ($count === 1 && $eid < 0)
+		{
+			return $count . ' discovered extension has been installed.';
+		}
+		elseif ($count > 1 && $eid < 0)
+		{
+			return $count . ' discovered extensions have been installed.';
+		}
+		else
+		{
+			return 'The return value is not possible and has to be checked.';
+		}
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -186,41 +228,36 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
 			if ($result === -1)
 			{
-				$this->ioStyle->error('Unable to install the extension with ID ' . $eid);
+				$this->ioStyle->error($this->getNote($result, $eid));
 
 				return Command::FAILURE;
-			}
+			} else {
 
-			$this->ioStyle->success('Extension with ID ' . $eid . ' installed successfully.');
+			$this->ioStyle->success($this->getNote($result, $eid));
 
 			return Command::SUCCESS;
+			}
 		}
 		else
 		{
 			$result = $this->processDiscover(-1);
 
-			if ($result === -1)
+			if ($result < 0)
 			{
-				$this->ioStyle->error('Unable to install discovered extensions.');
+				$this->ioStyle->error($this->getNote($result, -1));
 
 				return Command::FAILURE;
 			}
 			elseif ($result === 0)
 			{
-				$this->ioStyle->note('There are no discovered extensions for install. Perhaps you need to run extension:discover first?');
+				$this->ioStyle->note($this->getNote($result, -1));
 
 				return Command::SUCCESS;
 			}
 
-			elseif ($result === 1)
-			{
-				$this->ioStyle->note($result . ' discovered extension has been installed.');
-
-				return Command::SUCCESS;
-			}
 			else
 			{
-				$this->ioStyle->note($result . ' discovered extensions have been installed.');
+				$this->ioStyle->note($this->getNote($result, -1));
 
 				return Command::SUCCESS;
 			}

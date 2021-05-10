@@ -123,8 +123,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  string  The text for the note
 	 *
-	 * @throws  \Exception
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getNote(int $count): string

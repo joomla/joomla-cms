@@ -47,8 +47,10 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the doExecute method
+	 * Tests the getNote method
 	 * Ensure that the note is correct. 
+	 * 
+	 * @param   int  $count   Number of extensions to discover
 	 *
 	 * @return  void
 	 * 
