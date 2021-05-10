@@ -53,7 +53,7 @@ use Joomla\CMS\Router\Route;
 							<li class="list-group-item d-flex align-items-center">
 								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
 									<?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
-									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
+									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>><u>
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php
 										$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
@@ -67,7 +67,7 @@ use Joomla\CMS\Router\Route;
 										<span class="menu-badge">
 											<span class="icon-spin icon-spinner mt-1 system-counter float-end" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 										</span>
-									<?php endif; ?>
+									<?php endif; ?></u>
 								</a>
 								<?php if ($params->get('menu-quicktask')) : ?>
 									<?php $permission = $params->get('menu-quicktask-permission'); ?>
