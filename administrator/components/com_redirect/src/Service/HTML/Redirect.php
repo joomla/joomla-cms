@@ -55,8 +55,7 @@ class Redirect
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-				. ($value == 1 ? ' active' : '')
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'.($value == 1 ? ' active' : '')
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
 				. '<div role="tooltip" id="cb' . $i. '">' . Text::_($state[3]) . '</div>';
 		}
