@@ -33,10 +33,6 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     });
   });
 
-  const menuClose = () => {
-    sidebar.querySelector('.mm-collapse').classList.remove('mm-collapsed');
-  };
-
   // Toggle menu
   menuToggle.addEventListener('click', (event) => {
     event.preventDefault();
@@ -114,7 +110,6 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       });
 
       wrapper.classList.remove('closed');
-      localStorage.setItem('atum-sidebar', 'open');
       if (menuToggleIcon.classList.contains('icon-toggle-off')) {
         menuToggleIcon.classList.toggle('icon-toggle-off');
         menuToggleIcon.classList.toggle('icon-toggle-on');

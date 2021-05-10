@@ -7,8 +7,6 @@ if (!Joomla) {
   throw new Error('Joomla API is not initialized');
 }
 
-// eslint-disable-next-line no-return-assign
-const setCoockie = (value) => { document.cookie = `atumSidebarState=${value}; max-age=${5 * 60}` };
 const getCookie = () => document.cookie.length && document.cookie
   .split('; ')
   .find((row) => row.startsWith('atumSidebarState='))
@@ -57,10 +55,8 @@ function changeLogo(change) {
 
   if (state === 'closed') {
     logo.classList.add('small');
-    setCoockie('closed');
   } else {
     logo.classList.remove('small');
-    setCoockie('closed');
   }
 }
 
@@ -220,7 +216,7 @@ if (mobile.matches) {
   }
   window.addEventListener('joomla:menu-toggle', (event) => {
     headerItemsInDropdown();
-    setCoockie(event.detail);
+    document.cookie = `atumSidebarState=${event.detail}; max-age=${5 * 60}`;
     changeLogo(event.detail);
   });
 }
