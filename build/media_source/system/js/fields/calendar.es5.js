@@ -234,9 +234,7 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
+		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
@@ -781,9 +779,9 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				if (self.inputField.onchange) {
-					self.inputField.onchange();
-				}
+
+				this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+
 			});
 
 		if (this.params.showsTodayBtn) {
