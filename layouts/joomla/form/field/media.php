@@ -102,7 +102,6 @@ if ($showPreview)
 
 if ($value && strpos($value, '#') !== false)
 {
-	$metaData = explode('#', $value)[1];
 	$metaData = new Uri(explode('#', $value)[1]);
 	$path     = $metaData->getVar('path');
 
