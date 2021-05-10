@@ -45,6 +45,7 @@
 			<field
 				name="file"
 				type="filelist"
+				hide_default="true"
 				label="COM_MAILS_FIELD_FILE_LABEL"
 			/>
 			<field

@@ -18,6 +18,7 @@
 		<filename>template_thumbnail.png</filename>
 		<folder>css</folder>
 		<folder>html</folder>
+		<folder>html/tinymce</folder>
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>scss</folder>

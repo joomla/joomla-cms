@@ -20,9 +20,6 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-// Just for the tests :(
-HTMLHelper::_('jquery.framework');
-
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');

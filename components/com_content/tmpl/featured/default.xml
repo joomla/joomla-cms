@@ -34,6 +34,7 @@
 				name="num_leading_articles"
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+				filter="integer"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -51,6 +52,7 @@
 				name="num_intro_articles"
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+				filter="integer"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -67,8 +69,9 @@
 
 			<field
 				name="num_columns"
-				type="text"
+				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
+				filter="integer"
 				parentclass="stack span-1-inline"
 				useglobal="true"
 			/>
@@ -79,6 +82,7 @@
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 				parentclass="stack span-1-inline"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
@@ -88,6 +92,7 @@
 				name="num_links"
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
+				filter="integer"
 				parentclass="stack span-1"
 				useglobal="true"
 			/>

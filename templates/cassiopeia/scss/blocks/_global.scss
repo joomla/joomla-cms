@@ -119,6 +119,13 @@ a {
   }
 }
 
+.com-content-article {
+  ol,
+  ul {
+    overflow: hidden;
+  }
+}
+
 .com-content-category__pagination {
   margin-bottom: $cassiopeia-grid-gutter;
 }
