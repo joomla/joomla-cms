@@ -151,6 +151,10 @@ th dd {
   font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
 }
 
+.com-contact__thumbnail {
+  text-align: left;
+}
+
 @include media-breakpoint-up(lg) {
 
   dl.dl-horizontal {
@@ -176,6 +180,7 @@ th dd {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, auto);
     grid-gap: 1rem;
+    margin-bottom: $cassiopeia-grid-gutter;
 
     h3 {
         grid-column: 1 / 5;
@@ -184,6 +189,8 @@ th dd {
     .com-contact__thumbnail {
         grid-column: 3 / 5;
         grid-row: 2 / 5;
+        text-align: right;
+        margin-bottom: $cassiopeia-grid-gutter;
     }
 
     .com-contact__position {

@@ -92,7 +92,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
 
-		<div class="com-contact__container mb-4">
+		<div class="com-contact__container">
 			<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
