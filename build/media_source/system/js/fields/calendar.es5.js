@@ -234,8 +234,6 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
