@@ -224,7 +224,7 @@ class SiteRouter extends Router
 		else
 		{
 			// Get menu items.
-			$items    = $this->menu->getItems('parent_id', 1);
+			$items    = $this->menu->getItems(['parent_id', 'access'], [1, null]);
 			$lang_tag = $this->app->getLanguage()->getTag();
 			$found   = null;
 
