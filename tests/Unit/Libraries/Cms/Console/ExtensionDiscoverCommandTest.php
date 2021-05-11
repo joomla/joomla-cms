@@ -64,7 +64,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 		$note1 = $command->getNote(1);
 		$note2 = $command->getNote(2);
 		
-		$this->assertSame($note0, 'There is no extension to discover.');
+		$this->assertSame($note0, 'No extensions were discovered.');
 		$this->assertSame($note1, '1 extension has been discovered successfully.');
 		$this->assertSame($note2, '2 extensions have been discovered successfully.');
 	}

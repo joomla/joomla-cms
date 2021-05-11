@@ -73,7 +73,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 		
 		$this->assertSame($note0, 'Unable to install the extension with ID 1');
 		$this->assertSame($note1, 'Unable to install discovered extensions.');
-		$this->assertSame($note2, 'There are no discovered extensions for install. Perhaps you need to run extension:discover first?');
+		$this->assertSame($note2, 'There are no pending discovered extensions for install. Perhaps you need to run extension:discover first?');
 		$this->assertSame($note3, 'Extension with ID 1 installed successfully.');
 		$this->assertSame($note4, '1 discovered extension has been installed.');
 		$this->assertSame($note5, '2 discovered extensions have been installed.');
