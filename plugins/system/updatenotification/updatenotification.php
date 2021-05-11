@@ -31,7 +31,7 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 /**
  * Joomla! Update Notification plugin
  *
- * Sends out an email to all Super Users or a predefined list of email addresses of Super User when a new
+ * Sends out an email to all Super Users or a predefined list of email addresses of Super Users when a new
  * Joomla! version is available.
  *
  * This plugin is a direct adaptation of the corresponding plugin in Akeeba Ltd's Admin Tools. The author has
