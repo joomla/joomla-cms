@@ -36,9 +36,9 @@ extract($displayData);
 			?>
 			<p><?php echo Text::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
 			<p class="actions">
-				<button type="button" class="btn btn-primary js-pstats-btn-allow-always"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></button>
-				<button type="button" class="btn btn-primary js-pstats-btn-allow-once"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></button>
-				<button type="button" class="btn btn-primary js-pstats-btn-allow-never"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-always m-1"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-once m-1"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-never m-1" style="margin:0px"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></button>
 			</p>
 		</div>
 	</div>
