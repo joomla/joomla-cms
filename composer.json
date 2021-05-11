@@ -23,6 +23,10 @@
       {
         "type": "github",
         "url": "https://github.com/joomla-backports/lessphp.git"
+      },
+      {
+        "type": "github",
+        "url": "https://github.com/joomla-backports/PHPMailer.git"
       }
     ],
     "require": {
@@ -45,7 +49,7 @@
         "leafo/lessphp": "dev-joomla3-php8",
         "paragonie/random_compat": "~1.4",
         "paragonie/sodium_compat": "1.9.1",
-        "phpmailer/phpmailer": "^5.2.20",
+        "phpmailer/phpmailer": "dev-joomla-backports",
         "symfony/polyfill-php55": "~1.9",
         "symfony/polyfill-php56": "~1.9",
         "symfony/polyfill-php71": "~1.9",

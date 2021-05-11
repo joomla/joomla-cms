@@ -687,6 +687,12 @@ class PHPMailer
      */
     private function mailPassthru($to, $subject, $body, $header, $params)
     {
+        // Joomla Backported concept from https://github.com/PHPMailer/PHPMailer/pull/2188
+        if (PHP_VERSION_ID >= 80000 || stripos(PHP_OS, 'WIN') === 0)
+        {
+            $header = str_replace("\n", self::CRLF, $header);
+        }
+        
         //Check overloading of mail function to avoid double-encoding
         if (ini_get('mbstring.func_overload') & 1) {
             $subject = $this->secureHeader($subject);
