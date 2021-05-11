@@ -188,7 +188,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 		}
 		elseif ($count === 0)
 		{
-			return 'There are no discovered extensions for install. Perhaps you need to run extension:discover first?';
+			return 'There are no pending discovered extensions for install. Perhaps you need to run extension:discover first?';
 		}
 		elseif ($count === 1 && $eid > 0)
 		{
