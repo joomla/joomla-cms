@@ -66,7 +66,7 @@ final class SessionManager
 
 		foreach ($sessionIds as $sessionId)
 		{
-			if (!$this->destroySession($sessionId))
+			if (!$this->destroySession((string) $sessionId))
 			{
 				$result = false;
 			}
