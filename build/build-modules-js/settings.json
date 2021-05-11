@@ -248,6 +248,10 @@
       },
       "choices.js": {
         "name": "choicesjs",
+        "js": {
+          "public/assets/scripts/choices.js": "js/choices.js",
+          "public/assets/scripts/choices.min.js": "js/choices.min.js"
+        },
         "css": {
           "public/assets/styles/choices.css": "css/choices.css",
           "public/assets/styles/choices.min.css": "css/choices.min.css"
@@ -264,9 +268,18 @@
           },
           {
             "name": "choicesjs",
+            "type": "script",
+            "uri": "choices.min.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "choicesjs",
             "type": "preset",
             "dependencies": [
-              "choicesjs#style"
+              "choicesjs#style",
+              "choicesjs#script"
             ]
           }
         ],
