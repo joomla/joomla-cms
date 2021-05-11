@@ -87,6 +87,29 @@ class ModulesModel extends ListModel
 		{
 			$this->context .= '.' . $layout;
 		}
+		
+		// Make context client aware
+		$this->context .= '.' . $app->input->get->getInt('client_id', 0);
+
+		// Load the filter state.
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
+		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
+		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+
+		// If in modal layout on the frontend, state and language are always forced.
+		if ($app->isClient('site') && $layout === 'modal')
+		{
+			$this->setState('filter.language', 'current');
+			$this->setState('filter.state', 1);
+		}
+		// If in backend (modal or not) we get the same fields from the user request.
+		else
+		{
+			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
+			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
+		}
 
 		// Special case for the client id.
 		if ($app->isClient('site') || $layout === 'modal')
@@ -105,26 +128,6 @@ class ModulesModel extends ListModel
 		if ($clientId == 1)
 		{
 			$this->filterFormName = 'filter_modulesadmin';
-		}
-
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position.' . $clientId, 'filter_position', '', 'string'));
-		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module.' . $clientId, 'filter_module', '', 'string'));
-		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem.' . $clientId, 'filter_menuitem', '', 'cmd'));
-		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
-
-		// If in modal layout on the frontend, state and language are always forced.
-		if ($app->isClient('site') && $layout === 'modal')
-		{
-			$this->setState('filter.language', 'current');
-			$this->setState('filter.state', 1);
-		}
-		// If in backend (modal or not) we get the same fields from the user request.
-		else
-		{
-			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language.' . $clientId, 'filter_language', '', 'string'));
-			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
 		}
 
 		// Load the parameters.
