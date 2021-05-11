@@ -131,7 +131,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	{
 		if ($count < 1)
 		{
-			return 'There is no extension to discover.';
+			return 'No extensions were discovered.';
 		}
 		elseif ($count === 1)
 		{
