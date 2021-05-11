@@ -49,6 +49,10 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
+		<div class="modules-alert alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
 		<h2 class="pb-3 ms-3">
 			<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 		</h2>

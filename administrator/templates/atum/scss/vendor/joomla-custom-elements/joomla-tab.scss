@@ -135,7 +135,7 @@ joomla-tab {
       &[active],
       &:hover {
         color: var(--atum-text-light);
-        background-color: var(--atum-link-color);
+        background-color: var(--atum-bg-dark-60);
         background-image: none;
         border-right: 0;
         box-shadow: none;
@@ -167,7 +167,7 @@ joomla-tab {
     > ul {
       flex-direction: column;
       white-space: normal;
-      background-color: var(--atum-link-color);
+      background-color: var(--atum-bg-dark-60);
       border-radius: 0;
       box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
     }

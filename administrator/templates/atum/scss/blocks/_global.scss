@@ -22,6 +22,16 @@ body {
 
   &.monochrome {
     filter: grayscale(1);
+    &::after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: var(--atum-bg-dark-5);
+    }
   }
 
   &.a11y_contrast {
@@ -159,7 +169,6 @@ body:not(.contentpane) .main-card {
 
 // external links with icons
 a[target="_blank"]::before {
-  display: inline-block;
   padding-inline-end: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
