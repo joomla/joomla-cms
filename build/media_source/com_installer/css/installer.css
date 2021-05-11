@@ -82,3 +82,7 @@
 #dragarea[data-state=installing] .upload-actions {
 	display: none;
 }
+
+.installed-message {
+	min-height: 30px;
+}
