@@ -87,7 +87,7 @@ class ModulesModel extends ListModel
 		{
 			$this->context .= '.' . $layout;
 		}
-		
+
 		// Make context client aware
 		$this->context .= '.' . $app->input->get->getInt('client_id', 0);
 
@@ -120,7 +120,7 @@ class ModulesModel extends ListModel
 		else
 		{
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+			$clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
 		}
 
