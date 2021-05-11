@@ -686,7 +686,7 @@ abstract class FormField
 		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
+		$this->hidden = ($this->hidden || strtolower((string) $this->element['type']) === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
