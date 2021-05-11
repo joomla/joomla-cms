@@ -90,6 +90,12 @@ textarea {
   }
 }
 
+a {
+  &::before {
+    text-decoration: none;
+  }
+}
+
 // Break up text in cells to prevent overflow
 .break-word {
   word-break: break-all;
