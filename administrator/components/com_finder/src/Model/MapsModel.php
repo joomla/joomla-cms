@@ -97,6 +97,18 @@ class MapsModel extends ListModel
 		// Include the content plugins for the on delete events.
 		PluginHelper::importPlugin('content');
 
+		// Iterate the items to check if all of them exists.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$table->load($pk))
+			{
+				// Item is not in the table.
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -141,12 +153,6 @@ class MapsModel extends ListModel
 						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
 			}
 		}
 
