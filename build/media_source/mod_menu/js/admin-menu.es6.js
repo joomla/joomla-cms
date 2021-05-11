@@ -66,6 +66,7 @@
     // Sidebar
     const menuToggle = document.getElementById('menu-collapse');
     const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1'));
+    const logo = document.getElementsByClassName('logo')[0];
 
     // Apply 2nd level collapse
     firsts.forEach((first) => {
@@ -88,6 +89,7 @@
       wrapper.classList.toggle('closed');
       menuToggleIcon.classList.toggle('icon-toggle-on');
       menuToggleIcon.classList.toggle('icon-toggle-off');
+      logo.classList.toggle('small');
 
       const listItems = [].slice.call(document.querySelectorAll('.main-nav > li'));
       listItems.forEach((item) => {
