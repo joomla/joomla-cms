@@ -135,16 +135,14 @@ small,
   font-size: $font-size-sm;
 }
 
-[dir="rtl"] dd {
-  margin-right: 0;
-  margin-left: auto;
+dd {
   padding: 0;
   word-wrap: break-word;
 }
 
-dd {
-  padding: 0;
-  word-wrap: break-word;
+[dir="rtl"] dd {
+  margin-right: 0;
+  margin-left: auto;
 }
 
 th dd {
@@ -156,7 +154,6 @@ th dd {
 }
 
 @include media-breakpoint-up(lg) {
-
   dl.dl-horizontal {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -175,7 +172,6 @@ th dd {
   }
 
   .com-contact__container {
-
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, auto);
