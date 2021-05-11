@@ -158,6 +158,10 @@
       color: hsl(var(--hue),30%,40%);
       margin-inline-end: .5rem;
     }
+
+    &:hover .cpanel-add-module-icon {
+      color: inherit;
+    }
   }
 }
 
