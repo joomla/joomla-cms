@@ -97,7 +97,7 @@ class MapsModel extends ListModel
 		// Include the content plugins for the on delete events.
 		PluginHelper::importPlugin('content');
 
-		// Iterate the items to check if all of them exists.
+		// Iterate the items to check if all of them exist.
 		foreach ($pks as $i => $pk)
 		{
 			if (!$table->load($pk))
