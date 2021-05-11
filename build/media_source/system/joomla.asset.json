@@ -249,8 +249,7 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill",
-        "choicesjs"
+        "wcpolyfill"
       ]
     },
     {
@@ -261,7 +260,6 @@
         "type": "module"
       },
       "dependencies": [
-        "choicesjs",
         "webcomponent.field-fancy-select-legacy"
       ]
     },

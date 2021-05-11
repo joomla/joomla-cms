@@ -27,6 +27,8 @@
  * data-max-results="30" The maximum amount of search results to be displayed.
  * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
  */
+import 'choices.js/public/assets/scripts/choices.min';
+
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
   get allowCustom() { return this.hasAttribute('allow-custom'); }
@@ -79,15 +81,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
    */
   connectedCallback() {
     // Make sure Choices are loaded
-    if (window.Choices || document.readyState === 'complete') {
-      this.doConnect();
-    } else {
-      const callback = () => {
-        this.doConnect();
-        window.removeEventListener('load', callback);
-      };
-      window.addEventListener('load', callback);
-    }
+    this.doConnect();
   }
 
   doConnect() {
