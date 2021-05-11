@@ -80,11 +80,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
    * Lifecycle
    */
   connectedCallback() {
-    // Make sure Choices are loaded
-    this.doConnect();
-  }
-
-  doConnect() {
     // Get a <select> element
     this.select = this.querySelector('select');
 
