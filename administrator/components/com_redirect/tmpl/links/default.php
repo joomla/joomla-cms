@@ -104,9 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->old_url); ?>
 						</td>
 						<td class="text-center">
-							<div class="btn-group">
-								<?php echo HTMLHelper::_('redirect.published', $item->published, $i); ?>
-							</div>
+							<?php echo HTMLHelper::_('redirect.published', $item->published, $i); ?>
 						</td>
 						<th scope="row" class="break-word">
 							<?php if ($canEdit) : ?>
