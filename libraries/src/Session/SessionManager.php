@@ -66,6 +66,11 @@ final class SessionManager
 
 		foreach ($sessionIds as $sessionId)
 		{
+			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			{
+				$sessionId = stream_get_contents($sessionId);
+			}
+
 			if (!$this->destroySession($sessionId))
 			{
 				$result = false;
