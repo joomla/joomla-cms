@@ -426,7 +426,7 @@ class PlgUserJoomla extends CMSPlugin
 
 			/** @var SessionManager $sessionManager */
 			$sessionManager = Factory::getContainer()->get('session.manager');
-			
+
 			// Handle resource
 			foreach ($sessionIds as &$sessionId)
 			{
