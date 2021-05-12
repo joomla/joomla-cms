@@ -16,7 +16,6 @@ $params             = $this->item->params;
 
 $displayGroups      = $params->get('show_user_custom_fields');
 $userFieldGroups    = array();
-$showUserFieldGroups = array();
 ?>
 
 <?php if (!$displayGroups || !$this->contactUser) : ?>
@@ -24,38 +23,32 @@ $showUserFieldGroups = array();
 <?php endif; ?>
 
 <?php foreach ($this->contactUser->jcfields as $field) : ?>
-	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups))) : ?>
+	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups)) || !$field->value) : ?>
 		<?php continue; ?>
 	<?php endif; ?>
 	<?php if (!array_key_exists($field->group_title, $userFieldGroups)) : ?>
 		<?php $userFieldGroups[$field->group_title] = array(); ?>
-		<?php $showUserFieldGroups[$field->group_title] = false; ?>
 	<?php endif; ?>
 	<?php $userFieldGroups[$field->group_title][] = $field; ?>
-	<?php if ($field->value): ?>
-		<?php $showUserFieldGroups[$field->group_title] = true; ?>
-	<?php endif; ?>
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
 	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
-	<?php if ($showUserFieldGroups[$groupTitle]) : ?>
-		<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+	<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 
-		<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
-			<dl class="dl-horizontal">
-			<?php foreach ($fields as $field) : ?>
-				<?php if (!$field->value) : ?>
-					<?php continue; ?>
-				<?php endif; ?>
+	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
+		<dl class="dl-horizontal">
+		<?php foreach ($fields as $field) : ?>
+			<?php if (!$field->value) : ?>
+				<?php continue; ?>
+			<?php endif; ?>
 
-				<?php if ($field->params->get('showlabel')) : ?>
-					<?php echo '<dt>' . Text::_($field->label) . '</dt>'; ?>
-				<?php endif; ?>
+			<?php if ($field->params->get('showlabel')) : ?>
+				<?php echo '<dt>' . Text::_($field->label) . '</dt>'; ?>
+			<?php endif; ?>
 
-				<?php echo '<dd>' . $field->value . '</dd>'; ?>
-			<?php endforeach; ?>
-			</dl>
-		</div>
-	<?php endif; ?>
+			<?php echo '<dd>' . $field->value . '</dd>'; ?>
+		<?php endforeach; ?>
+		</dl>
+	</div>
 <?php endforeach; ?>
