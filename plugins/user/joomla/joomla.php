@@ -107,7 +107,7 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$userid = (int) $user['id'];
+		$userId = (int) $user['id'];
 
 		// Only execute this if the session metadata is tracked
 		if ($this->app->get('session_metadata', true))
@@ -115,19 +115,19 @@ class PlgUserJoomla extends CMSPlugin
 			// Fetch all session IDs for the user account so they can be destroyed
 			try
 			{
-				$sessionIds = $this->getSessionIds($userid);
+				$sessionIds = $this->getSessionIds($userId);
+
+				/** @var SessionManager $sessionManager */
+				$sessionManager = Factory::getContainer()->get('session.manager');
+
+				if (!$sessionManager->destroySessions($sessionIds))
+				{
+					return;
+				}
 			}
 			catch (ExecutionFailureException $e)
 			{
 				// Continue.
-			}
-
-			/** @var SessionManager $sessionManager */
-			$sessionManager = Factory::getContainer()->get('session.manager');
-
-			if (!$sessionManager->destroySessions($sessionIds))
-			{
-				return;
 			}
 		}
 
@@ -136,8 +136,8 @@ class PlgUserJoomla extends CMSPlugin
 			$this->db->setQuery(
 				$this->db->getQuery(true)
 					->delete($this->db->quoteName('#__messages'))
-					->where($this->db->quoteName('user_id_from') . ' = :userid')
-					->bind(':userid', $userid, ParameterType::INTEGER)
+					->where($this->db->quoteName('user_id_from') . ' = :userId')
+					->bind(':userId', $userId, ParameterType::INTEGER)
 			)->execute();
 		}
 		catch (ExecutionFailureException $e)
