@@ -396,7 +396,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			try
 			{
-				$clientId = $sharedSessions ? null : (int)$options['clientid'];
+				$clientId = $sharedSessions ? null : (int) $options['clientid'];
 				$sessionIds = $this->getSessionIds($userid, $clientId);
 			}
 			catch (ExecutionFailureException $e)
@@ -490,20 +490,24 @@ class PlgUserJoomla extends CMSPlugin
 	 */
 	private function getSessionIds(int $userId, $clientId = null): array
 	{
-		$query = $this->db->getQuery(true)->select($this->db->quoteName('session_id'))->from(
-				$this->db->quoteName('#__session')
-			)->where($this->db->quoteName('userid') . ' = :userid')->bind(':userid', $userId, ParameterType::INTEGER)
-		;
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('session_id'))
+			->from($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = :userid')
+			->bind(':userid', $userId, ParameterType::INTEGER);
 
-		if ($clientId !== null) {
+		if ($clientId !== null)
+		{
 			$query->where($this->db->quoteName('client_id') . ' = :clientId')
-				  ->bind(':clientId', $clientId, ParameterType::INTEGER);
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		$sessionIds = $this->db->setQuery($query)->loadColumn();
 
-		foreach ($sessionIds as &$sessionId) {
-			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
+		foreach ($sessionIds as &$sessionId)
+		{
+			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			{
 				$sessionId = stream_get_contents($sessionId);
 			}
 		}
