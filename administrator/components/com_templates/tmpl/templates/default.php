@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?> "target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
 												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
-											<div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $item->name); ?></div>
+											<div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->name); ?></div>
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
