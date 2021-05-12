@@ -23,7 +23,7 @@ $userFieldGroups    = array();
 <?php endif; ?>
 
 <?php foreach ($this->contactUser->jcfields as $field) : ?>
-	<?php if ($field->value && (in_array('-1', $displayGroups) || ($field->group_id && in_array($field->group_id, $displayGroups)))) : ?>
+	<?php if ($field->value && (in_array('-1', $displayGroups) || in_array($field->group_id, $displayGroups))) : ?>
 		<?php $userFieldGroups[$field->group_title][] = $field; ?>
 	<?php endif; ?>
 <?php endforeach; ?>
