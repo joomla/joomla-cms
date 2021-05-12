@@ -49,12 +49,12 @@ $wa->useScript('keepalive')
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
-			<fieldset id="fieldset-metadata" class="options-form">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
-				<div>
-				<?php echo $this->form->renderFieldset('metadata'); ?>
-				</div>
-			</fieldset>
+		<fieldset id="fieldset-metadata" class="options-form">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+			<div>
+			<?php echo $this->form->renderFieldset('metadata'); ?>
+			</div>
+		</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
