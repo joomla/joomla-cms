@@ -56,15 +56,16 @@ function changeLogo(change) {
 
   if (state === 'closed') {
     logo.classList.add('small');
-    if (menuToggleIcon) {
-      menuToggleIcon.classList.add('icon-toggle-on');
-      menuToggleIcon.classList.remove('icon-toggle-off');
-    }
   } else {
     logo.classList.remove('small');
-    if (menuToggleIcon) {
-      menuToggleIcon.classList.add('icon-toggle-off');
+  }
+  if (menuToggleIcon) {
+    if (wrapper.classList.contains('closed')) {
+      menuToggleIcon.classList.add('icon-toggle-on');
+      menuToggleIcon.classList.remove('icon-toggle-off');
+    } else {
       menuToggleIcon.classList.remove('icon-toggle-on');
+      menuToggleIcon.classList.add('icon-toggle-off');
     }
   }
 }
@@ -133,8 +134,6 @@ function headerItemsInDropdown() {
  * @since   4.0.0
  */
 function setMobile() {
-  changeLogo('closed');
-
   if (small.matches) {
     toggleArrowIcon();
 
@@ -158,6 +157,7 @@ function setMobile() {
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
   }
+  changeLogo('closed');
 }
 
 /**
