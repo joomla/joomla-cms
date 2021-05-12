@@ -492,7 +492,7 @@ class PlgUserJoomla extends CMSPlugin
 	{
 		$query = $this->db->getQuery(true)->select($this->db->quoteName('session_id'))->from(
 				$this->db->quoteName('#__session')
-			)->where($this->db->quoteName('userid') . ' = :userid')->bind(':userid', $userid, ParameterType::INTEGER)
+			)->where($this->db->quoteName('userid') . ' = :userid')->bind(':userid', $userId, ParameterType::INTEGER)
 		;
 
 		if ($clientId !== null) {
