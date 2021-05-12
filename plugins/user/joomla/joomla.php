@@ -131,7 +131,7 @@ class PlgUserJoomla extends CMSPlugin
 			/** @var SessionManager $sessionManager */
 			$sessionManager = Factory::getContainer()->get('session.manager');
 
-			// Handle when sessionIds is an array of resources and not strings (pgsql)
+			// Handle when sessionIds is an array of resources (pgsql) and not strings.
 			foreach ($sessionIds as &$sessionId)
 			{
 				if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
@@ -436,7 +436,7 @@ class PlgUserJoomla extends CMSPlugin
 			/** @var SessionManager $sessionManager */
 			$sessionManager = Factory::getContainer()->get('session.manager');
 
-			// Handle when sessionIds is an array of resources and not strings (pgsql)
+			// Handle when sessionIds is an array of resources (pgsql) and not strings.
 			foreach ($sessionIds as &$sessionId)
 			{
 				if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
