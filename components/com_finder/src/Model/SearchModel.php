@@ -134,20 +134,25 @@ class SearchModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+		$wrappingQuery = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
+			'l.link_id'
+		);
+		$wrappingQuery->select(
 			$this->getState(
 				'list.select',
-				'l.link_id, l.object'
+				'w.link_id, w.ordering, j.object'
 			)
 		);
+		$wrappingQuery->innerJoin('#__finder_links AS j ON w.link_id = j.link_id');
 
 		$query->from('#__finder_links AS l');
 
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
-		$query->whereIn($db->quoteName('l.access'), $groups)
+		$query->where($db->quoteName('l.access') . ' IN (' . implode(',', $groups) . ')')
 			->where('l.state = 1')
 			->where('l.published = 1');
 
@@ -159,7 +164,6 @@ class SearchModel extends ListModel
 			->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
 
 		$query->group('l.link_id');
-		$query->group('l.object');
 
 		/*
 		 * Add the taxonomy filters to the query. We have to join the taxonomy
@@ -263,7 +267,9 @@ class SearchModel extends ListModel
 		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			// Return the results.
-			return $query;
+			$wrappingQuery->from('(' . $query->processLimit((string) $query, $this->getStart(), $this->getState('list.limit')) . ') AS w');
+
+			return $wrappingQuery;
 		}
 
 		/*
@@ -283,7 +289,9 @@ class SearchModel extends ListModel
 				->clear('group')
 				->where('false');
 
-			return $query;
+			$wrappingQuery->from('(' . $query->processLimit((string) $query, $this->getStart(), $this->getState('list.limit')) . ') AS w');
+
+			return $wrappingQuery;
 		}
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
@@ -319,7 +327,9 @@ class SearchModel extends ListModel
 			}
 		}
 
-		return $query;
+		$wrappingQuery->from('(' . $query->processLimit((string) $query, $this->getState('list.limit'), $this->getStart()) . ') AS w');
+
+		return $wrappingQuery;
 	}
 
 	/**
