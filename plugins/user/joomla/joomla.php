@@ -426,6 +426,15 @@ class PlgUserJoomla extends CMSPlugin
 
 			/** @var SessionManager $sessionManager */
 			$sessionManager = Factory::getContainer()->get('session.manager');
+			
+			// Handle resource
+			foreach ($sessionIds as &$sessionId)
+			{
+				if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+				{
+					$sessionId = stream_get_contents($sessionId);
+				}
+			}
 
 			if (!$sessionManager->destroySessions($sessionIds))
 			{
