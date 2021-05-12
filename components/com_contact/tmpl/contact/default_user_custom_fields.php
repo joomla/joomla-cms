@@ -32,7 +32,9 @@ $showUserFieldGroups = array();
 		<?php $showUserFieldGroups[$field->group_title] = false; ?>
 	<?php endif; ?>
 	<?php $userFieldGroups[$field->group_title][] = $field; ?>
-	<?php $showUserFieldGroups[$field->group_title] = $showUserFieldGroups[$field->group_title] || $field->value; ?>
+	<?php if ($field->value): ?>
+		<?php $showUserFieldGroups[$field->group_title] = true; ?>
+	<?php endif; ?>
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
