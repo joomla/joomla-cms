@@ -322,7 +322,7 @@ class CssMenu
 			 * the Language Filter plugin
 			 */
 
-			if (!Associations::isEnabled() && $item->element === 'com_associations')
+			if ($item->element === 'com_associations' && !Associations::isEnabled())
 			{
 				$parent->removeChild($item);
 				continue;
