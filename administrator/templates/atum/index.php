@@ -23,12 +23,13 @@ $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu = $app->input->get('hidemainmenu');
+$option       = $input->get('option', '');
+$view         = $input->get('view', '');
+$layout       = $input->get('layout', 'default');
+$task         = $input->get('task', 'display');
+$cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
+$hiddenMenu   = $app->input->get('hidemainmenu');
+$sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
@@ -109,12 +110,12 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
-					<div class="logo">
+					<div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
 					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
+					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>"
 						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
 						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
@@ -128,7 +129,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 </header>
 
 <?php // Wrapper ?>
-<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
+<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?> <?php echo $sidebarState; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
@@ -140,7 +141,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
