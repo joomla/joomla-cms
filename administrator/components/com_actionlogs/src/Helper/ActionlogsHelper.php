@@ -182,10 +182,62 @@ class ActionlogsHelper
 	 */
 	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
+		$language_key = $log->message_language_key;
+
+		if (strpos($language_key, ',') !== false)
+		{
+			$language_key = substr($language_key, 0, strpos($language_key, ','));
+		}
+
+		$message     = Text::_($language_key);
+		$messageData = json_decode($log->message, true);
+
+		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
+	}
+
+	/**
+	 * Get human readable extra log info message for a User Action Log
+	 *
+	 * @param   stdClass  $log            A User Action log message record
+	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	public static function getHumanReadableLogMessageExtra($log, $generateLinks = true)
+	{
+		$language_key = $log->message_language_key;
+
+		if (strpos($language_key, ',') === false)
+		{
+			return '';
+		}
+
+		$language_key = substr($language_key, strpos($language_key, ',') + 1);
+
+		$message     = Text::_($language_key);
+		$messageData = json_decode($log->message, true);
+
+		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
+	}
+
+	/**
+	 * Get human readable log text for a User Action Log
+	 *
+	 * @param   string   $message        The source text containing possible variables
+	 * @param   array    $messageData    An array of extra log data
+	 * @param   boolean  $generateLinks  Flag to disable link generation when creating a message
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	private static function getHumanReadableLogMessageText($message, $messageData, $generateLinks = true)
+	{
 		static $links = array();
 
-		$message     = Text::_($log->message_language_key);
-		$messageData = json_decode($log->message, true);
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
@@ -205,8 +257,6 @@ class ActionlogsHelper
 		{
 			$messageData['type'] = Text::_($messageData['type']);
 		}
-
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($messageData as $key => $value)
 		{
