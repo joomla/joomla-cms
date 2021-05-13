@@ -43,8 +43,8 @@ $wa->useScript('keepalive')
 			<table class="table" id="logsList">
 				<caption class="visually-hidden">
 					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
-							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+					<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+					<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
@@ -74,15 +74,27 @@ $wa->useScript('keepalive')
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($this->items as $i => $item) :
+					<?php foreach ($this->items as $i => $item) : ?>
+						<?php
 						$extension = strtok($item->extension, '.');
-						ActionlogsHelper::loadTranslationFiles($extension); ?>
+						ActionlogsHelper::loadTranslationFiles($extension);
+
+						$message       = ActionlogsHelper::getHumanReadableLogMessage($item);
+						$message_extra = ActionlogsHelper::getHumanReadableLogMessageExtra($item);
+						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<th scope="row" class="d-md-table-cell">
-								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
+								<div>
+									<?php echo $message; ?>
+								</div>
+								<?php if ($message_extra) : ?>
+									<div>
+										<small><?php echo $message_extra; ?></small>
+									</div>
+								<?php endif; ?>
 							</th>
 							<td class="d-none d-md-table-cell">
 								<?php echo $this->escape(Text::_($extension)); ?>
