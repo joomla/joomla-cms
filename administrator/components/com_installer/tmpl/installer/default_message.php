@@ -15,12 +15,12 @@ $message2 = $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?>
-	<div class="installed-message">
+	<div class="my-3">
 		<strong><?php echo $message1; ?></strong>
 	</div>
 <?php endif; ?>
 <?php if ($message2) : ?>
-	<div class="installed-message">
+	<div class="my-3">
 		<?php echo $message2; ?>
 	</div>
 <?php endif; ?>
