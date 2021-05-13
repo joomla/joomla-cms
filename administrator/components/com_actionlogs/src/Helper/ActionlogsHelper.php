@@ -237,8 +237,6 @@ class ActionlogsHelper
 	{
 		static $links = array();
 
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
 		{
@@ -257,6 +255,8 @@ class ActionlogsHelper
 		{
 			$messageData['type'] = Text::_($messageData['type']);
 		}
+
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($messageData as $key => $value)
 		{
