@@ -87,8 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<a href="<?php echo Route::link($client, 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="jgrid" aria-labelledby="preview-<?php echo (int) $item->id; ?>"></a>
 										<div role="tooltip" id="preview-<?php echo (int) $item->id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->title); ?></div>
 									<?php else : ?>
-										<a href="#" aria-labelledby="nopreview-<?php echo (int) $item->id; ?>">
-										<span class="icon-eye-slash" aria-hidden="true"></span>
+										<span class="icon-eye-slash" aria-labelledby="nopreview-<?php echo (int) $item->id; ?>" aria-hidden="true"></span>
 										<div role="tooltip" id="nopreview-<?php echo (int) $item->id; ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></div>
 									<?php endif; ?>
 								</td>
