@@ -88,8 +88,9 @@
 				<field
 					name="noteFontScheme"
 					type="note"
-					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
-					heading="p"
+					label="TPL_CASSIOPEIA_FONT_NOTE_LABEL"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
+					heading="h4 class='alert-heading'"
 					class="alert alert-warning"
 				/>
 
