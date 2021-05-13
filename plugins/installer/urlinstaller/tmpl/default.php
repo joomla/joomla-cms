@@ -29,7 +29,6 @@ $this->app->getDocument()->getWebAssetManager()
 		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
 	</div>
 </div>
-<hr>
 <div class="control-group">
 	<div class="controls">
 		<button type="button" class="btn btn-primary" id="installbutton_url" onclick="Joomla.submitbuttonurl()">
