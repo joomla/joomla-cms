@@ -62,4 +62,5 @@ $this->useCoreUI = true;
 	<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 <?php endif; ?>
+	<input type="hidden" name="path" value="<?php $this->path; ?>" />
 </form>

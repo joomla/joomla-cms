@@ -13,7 +13,7 @@
         "core"
       ],
       "attributes": {
-        "nomodules": true,
+        "nomodule": true,
         "defer": true
       }
     },
