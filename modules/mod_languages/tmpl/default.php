@@ -39,9 +39,8 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
 				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
-					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
