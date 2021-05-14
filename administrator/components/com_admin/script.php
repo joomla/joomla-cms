@@ -2295,8 +2295,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
 			// Joomla 3.10.0
-			'/libraries/joomla/base/adapter.php',
-			'/libraries/joomla/base/adapterinstance.php',
+			'/libraries/joomla/base',
 		);
 
 		jimport('joomla.filesystem.file');
