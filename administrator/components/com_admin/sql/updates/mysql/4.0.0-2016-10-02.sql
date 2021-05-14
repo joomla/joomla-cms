@@ -9,7 +9,7 @@ INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `
 
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
 ('atum', 1, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 1 AND `template` IN ('isis', 'hathor')) as c) = 0 THEN '0' ELSE '1' END), 'atum - Default', '{}'),
-('cassiopeia', 0, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 0 AND `template` IN ('protostar', 'beez3')) as c) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', '{}');
+('cassiopeia', 0, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 0 AND `template` IN ('protostar', 'beez3')) as c) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', '{"brand":"1","logoFile":"","siteTitle":"","siteDescription":"","useFontScheme":"0","colorName":"colors_standard","fluidContainer":"0","stickyHeader":0,"backTop":0}');
 
 --
 -- Move mod_version to the right position for the atum template
