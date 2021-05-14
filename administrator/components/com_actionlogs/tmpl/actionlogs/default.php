@@ -7,417 +7,131 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Actionlogs\Administrator\Helper;
+defined('_JEXEC') or die;
 
-\defined('_JEXEC') or die;
-
-use Generator;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\String\StringHelper;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
-/**
- * Actionlogs component helper.
- *
- * @since  3.9.0
- */
-class ActionlogsHelper
-{
-	/**
-	 * Array of characters starting a formula
-	 *
-	 * @var    array
-	 * @since  3.9.7
-	 */
-	private static $characters = array('=', '+', '-', '@');
+HTMLHelper::_('behavior.multiselect');
 
-	/**
-	 * Method to convert logs objects array to an iterable type for use with a CSV export
-	 *
-	 * @param   array|\Traversable  $data  The logs data objects to be exported
-	 *
-	 * @return  Generator
-	 *
-	 * @since   3.9.0
-	 * @throws  \InvalidArgumentException
-	 */
-	public static function getCsvData($data): Generator
-	{
-		if (!is_iterable($data))
-		{
-			throw new \InvalidArgumentException(
-				sprintf(
-					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
-					__METHOD__,
-					gettype($data) === 'object' ? get_class($data) : gettype($data)
-				)
-			);
-		}
+/** @var HtmlView $this */
 
-		$disabledText = Text::_('COM_ACTIONLOGS_DISABLED');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
 
-		// Header row
-		yield ['Id', 'Action', 'Extension', 'Date', 'Name', 'IP Address'];
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('com_actionlogs.admin-actionlogs');
 
-		foreach ($data as $log)
-		{
-			$extension = strtok($log->extension, '.');
+?>
 
-			static::loadTranslationFiles($extension);
+<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
+	<div id="j-main-container" class="j-main-container">
+		<?php // Search tools bar ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
+			<table class="table" id="logsList">
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
+					<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+					<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+				</caption>
+				<thead>
+					<tr>
+						<td class="w-1 text-center">
+							<?php echo HTMLHelper::_('grid.checkall'); ?>
+						</td>
+						<th scope="col" class="d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" class="w-15 d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" class="w-15 d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" class="w-10 d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
+						</th>
+						<?php if ($this->showIpColumn) : ?>
+							<th scope="col" class="w-10 d-none d-md-table-cell">
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
+						<th scope="col" class="w-1 d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->items as $i => $item) : ?>
+						<?php
+						$extension = strtok($item->extension, '.');
+						ActionlogsHelper::loadTranslationFiles($extension);
 
-			yield array(
-				'id'         => $log->id,
-				'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
-				'extension'  => self::escapeCsvFormula(Text::_($extension)),
-				'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-				'name'       => self::escapeCsvFormula($log->name),
-				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
-			);
-		}
-	}
+						$message      = ActionlogsHelper::getHumanReadableLogMessage($item);
+						$messageExtra = ActionlogsHelper::getHumanReadableLogMessageExtra($item);
+						?>
+						<tr class="row<?php echo $i % 2; ?>">
+							<td class="text-center">
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+							</td>
+							<th scope="row" class="d-md-table-cell">
+								<div>
+									<?php echo $message; ?>
+								</div>
+								<?php if ($messageExtra) : ?>
+									<div>
+										<small><?php echo $messageExtra; ?></small>
+									</div>
+								<?php endif; ?>
+							</th>
+							<td class="d-none d-md-table-cell">
+								<?php echo $this->escape(Text::_($extension)); ?>
+							</td>
+							<td class="d-none d-md-table-cell">
+								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+								<div class="small">
+									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
+								</div>
+							</td>
+							<td class="d-md-table-cell">
+								<?php echo $this->escape($item->name); ?>
+							</td>
+							<?php if ($this->showIpColumn) : ?>
+								<td class="d-none d-md-table-cell">
+									<?php echo Text::_($this->escape($item->ip_address)); ?>
+								</td>
+							<?php endif;?>
+							<td class="d-none d-md-table-cell">
+								<?php echo (int) $item->id; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
 
-	/**
-	 * Load the translation files for an extension
-	 *
-	 * @param   string  $extension  Extension name
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public static function loadTranslationFiles($extension)
-	{
-		static $cache = array();
-		$extension = strtolower($extension);
+			<?php // Load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
 
-		if (isset($cache[$extension]))
-		{
-			return;
-		}
-
-		$lang   = Factory::getLanguage();
-		$source = '';
-
-		switch (substr($extension, 0, 3))
-		{
-			case 'com':
-			default:
-				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-				break;
-
-			case 'lib':
-				$source = JPATH_LIBRARIES . '/' . substr($extension, 4);
-				break;
-
-			case 'mod':
-				$source = JPATH_SITE . '/modules/' . $extension;
-				break;
-
-			case 'plg':
-				$parts = explode('_', $extension, 3);
-
-				if (count($parts) > 2)
-				{
-					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
-				}
-				break;
-
-			case 'pkg':
-				$source = JPATH_SITE;
-				break;
-
-			case 'tpl':
-				$source = JPATH_BASE . '/templates/' . substr($extension, 4);
-				break;
-
-		}
-
-		$lang->load($extension, JPATH_ADMINISTRATOR)
-			|| $lang->load($extension, $source);
-
-		if (!$lang->hasKey(strtoupper($extension)))
-		{
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-				|| $lang->load($extension . '.sys', $source);
-		}
-
-		$cache[$extension] = true;
-	}
-
-	/**
-	 * Get parameters to be
-	 *
-	 * @param   string  $context  The context of the content
-	 *
-	 * @return  mixed  An object contains content type parameters, or null if not found
-	 *
-	 * @since   3.9.0
-	 */
-	public static function getLogContentTypeParams($context)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*')
-			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = :context')
-			->bind(':context', $context);
-
-		$db->setQuery($query);
-
-		return $db->loadObject();
-	}
-
-	/**
-	 * Get human readable log message for a User Action Log
-	 *
-	 * @param   stdClass  $log            A User Action log message record
-	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
-	 *
-	 * @return  string
-	 *
-	 * @since   3.9.0
-	 */
-	public static function getHumanReadableLogMessage($log, $generateLinks = true)
-	{
-		$languageKey = $log->message_language_key;
-
-		if (strpos($languageKey, ',') !== false)
-		{
-			$languageKey = substr($languageKey, 0, strpos($languageKey, ','));
-		}
-
-		$message     = Text::_($languageKey);
-		$messageData = json_decode($log->message, true);
-
-		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
-	}
-
-	/**
-	 * Get human readable extra log info message for a User Action Log
-	 *
-	 * @param   stdClass  $log            A User Action log message record
-	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getHumanReadableLogMessageExtra($log, $generateLinks = true)
-	{
-		$languageKey = $log->message_language_key;
-
-		if (strpos($languageKey, ',') === false)
-		{
-			return '';
-		}
-
-		$languageKey = substr($languageKey, strpos($languageKey, ',') + 1);
-
-		$message     = Text::_($languageKey);
-		$messageData = json_decode($log->message, true);
-
-		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
-	}
-
-	/**
-	 * Get human readable log text for a User Action Log
-	 *
-	 * @param   string   $message        The source text containing possible variables
-	 * @param   array    $messageData    An array of extra log data
-	 * @param   boolean  $generateLinks  Flag to disable link generation when creating a message
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private static function getHumanReadableLogMessageText($message, $messageData, $generateLinks = true)
-	{
-		static $links = array();
-
-		// Special handling for translation extension name
-		if (isset($messageData['extension_name']))
-		{
-			static::loadTranslationFiles($messageData['extension_name']);
-			$messageData['extension_name'] = Text::_($messageData['extension_name']);
-		}
-
-		// Translating application
-		if (isset($messageData['app']))
-		{
-			$messageData['app'] = Text::_($messageData['app']);
-		}
-
-		// Translating type
-		if (isset($messageData['type']))
-		{
-			$messageData['type'] = Text::_($messageData['type']);
-		}
-
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-
-		foreach ($messageData as $key => $value)
-		{
-			// Escape any markup in the values to prevent XSS attacks
-			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-
-			// Convert relative url to absolute url so that it is clickable in action logs notification email
-			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
-			{
-				if (!isset($links[$value]))
-				{
-					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
-				}
-
-				$value = $links[$value];
-			}
-
-			$message = str_replace('{' . $key . '}', $value, $message);
-		}
-
-		return $message;
-	}
-
-	/**
-	 * Get link to an item of given content type
-	 *
-	 * @param   string   $component
-	 * @param   string   $contentType
-	 * @param   integer  $id
-	 * @param   string   $urlVar
-	 *
-	 * @return  string  Link to the content item
-	 *
-	 * @since   3.9.0
-	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
-	{
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (file_exists($file))
-		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName  = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
-			{
-				return $cName::getContentTypeLink($contentType, $id);
-			}
-		}
-
-		if (empty($urlVar))
-		{
-			$urlVar = 'id';
-		}
-
-		// Return default link to avoid having to implement getContentTypeLink in most of our components
-		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&' . $urlVar . '=' . $id;
-	}
-
-	/**
-	 * Load both enabled and disabled actionlog plugins language file.
-	 *
-	 * It is used to make sure actions log is displayed properly instead of only language items displayed when a plugin is disabled.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public static function loadActionLogPluginsLanguage()
-	{
-		$lang = Factory::getLanguage();
-		$db   = Factory::getDbo();
-
-		// Get all (both enabled and disabled) actionlog plugins
-		$query = $db->getQuery(true)
-			->select(
-				$db->quoteName(
-					array(
-						'folder',
-						'element',
-						'params',
-						'extension_id'
-					),
-					array(
-						'type',
-						'name',
-						'params',
-						'id'
-					)
-				)
-			)
-			->from('#__extensions')
-			->where('type = ' . $db->quote('plugin'))
-			->where('folder = ' . $db->quote('actionlog'))
-			->where('state IN (0,1)')
-			->order('ordering');
-		$db->setQuery($query);
-
-		try
-		{
-			$rows = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			$rows = array();
-		}
-
-		if (empty($rows))
-		{
-			return;
-		}
-
-		foreach ($rows as $row)
-		{
-			$name      = $row->name;
-			$type      = $row->type;
-			$extension = 'Plg_' . $type . '_' . $name;
-			$extension = strtolower($extension);
-
-			// If language already loaded, don't load it again.
-			if ($lang->getPaths($extension))
-			{
-				continue;
-			}
-
-			$lang->load($extension, JPATH_ADMINISTRATOR)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
-		}
-
-		// Load plg_system_actionlogs too
-		$lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
-
-		// Load com_privacy too.
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR);
-	}
-
-	/**
-	 * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
-	 *
-	 * @param   mixed  $value  csv field value
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.9.7
-	 */
-	protected static function escapeCsvFormula($value)
-	{
-		if ($value == '')
-		{
-			return $value;
-		}
-
-		if (in_array($value[0], self::$characters, true))
-		{
-			$value = ' ' . $value;
-		}
-
-		return $value;
-	}
-}
+		<?php endif;?>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<?php echo HTMLHelper::_('form.token'); ?>
+	</div>
+</form>
+<form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="cids" value="" />
+	<?php echo HTMLHelper::_('form.token'); ?>
+</form>
