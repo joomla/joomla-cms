@@ -256,6 +256,17 @@ class QuickIconHelper
 				];
 			}
 
+			if ($params->get('show_sysinfo'))
+			{
+				$this->buttons[$key][] = [
+					'image'  => 'icon-info-circle',
+					'link'   => Route::_('index.php?option=com_admin&view=sysinfo'),
+					'name'   => 'MOD_QUICKICON_SYSINFO',
+					'access' => array('core.admin', 'com_admin'),
+					'group'  => 'MOD_QUICKICON_SYSTEM',
+				];
+			}
+
 			PluginHelper::importPlugin('quickicon');
 
 			$arrays = (array) $application->triggerEvent(
