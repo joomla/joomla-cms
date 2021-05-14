@@ -97,6 +97,35 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout('emptystate');
 		}
 
+		/**
+		 * The code below make sure the remembered position will be available from filter dropdown even if there are no
+		 * modules available for this position. This will make the UI less confusing for users in case there is only one
+		 * module in the selected position and user:
+		 * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
+		 * 2. Or move that module to new position using Batch action
+		 */
+		if (count($this->items) === 0 && $this->state->get('filter.position'))
+		{
+			$selectedPosition = $this->state->get('filter.position');
+			$positionField    = $this->filterForm->getField('position', 'filter');
+
+			$positionExists = false;
+
+			foreach ($positionField->getOptions() as $option)
+			{
+				if ($option->value === $selectedPosition)
+				{
+					$positionExists = true;
+					break;
+				}
+			}
+
+			if ($positionExists === false)
+			{
+				$positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
+			}
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
