@@ -236,8 +236,6 @@ class QuickIconHelper
 					'image'    => 'icon-cloud',
 					'link'     => Route::_('index.php?option=com_cache'),
 					'name'     => 'MOD_QUICKICON_CACHE',
-					'linkadd'  => Route::_('index.php?option=com_cache&task=deleteAll&' . Session::getFormToken() . '=1'),
-					'linkicon' => 'icon-times',
 					'access'   => array('core.admin', 'com_cache'),
 					'group'    => 'MOD_QUICKICON_SYTEM'
 				];
