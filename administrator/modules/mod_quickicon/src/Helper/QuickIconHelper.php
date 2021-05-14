@@ -172,11 +172,12 @@ class QuickIconHelper
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
-					'image'  => 'icon-plug',
-					'link'   => Route::_('index.php?option=com_plugins'),
-					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
-					'access' => array('core.manage', 'com_plugins'),
-					'group'  => 'MOD_QUICKICON_SITE'
+					'image'   => 'icon-plug',
+					'link'    => Route::_('index.php?option=com_plugins'),
+					'linkadd' => Route::_('index.php?option=com_installer'),
+					'name'    => 'MOD_QUICKICON_PLUGIN_MANAGER',
+					'access'  => array('core.manage', 'com_plugins'),
+					'group'   => 'MOD_QUICKICON_SITE'
 				];
 
 				if ($params->get('show_plugins') == 2)
