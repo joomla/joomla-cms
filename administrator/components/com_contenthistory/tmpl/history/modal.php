@@ -30,7 +30,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">
-	<div id="subhead" class="subhead mb-3">
+	<div id="subhead" class="subhead noshadow mb-3">
 	<nav aria-label="toolbar">
 		<div class="btn-toolbar d-flex" id="toolbar">
 			<?php echo $this->toolbar->render(); ?>

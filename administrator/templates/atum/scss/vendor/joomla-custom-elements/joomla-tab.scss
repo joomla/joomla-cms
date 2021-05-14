@@ -300,6 +300,7 @@ joomla-tab {
   }
 
   .main-card-columns > * > & {
+    height: 100%;
     border-left: 1px solid var(--atum-bg-dark-10);
   }
 }

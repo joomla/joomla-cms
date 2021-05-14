@@ -12,7 +12,8 @@
   position: relative;
 }
 
-.container-topbar {
+.container-topbar,
+.container-below-top {
   color: $white;
   a {
     color: currentColor;
