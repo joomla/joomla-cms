@@ -5263,6 +5263,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/tmpl/application/default_ftp.php',
 			'/administrator/components/com_config/tmpl/application/default_ftplogin.php',
 			'/administrator/components/com_fields/src/Field/SubfieldstypeField.php',
+			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/components/com_installer/tmpl/installer/default_ftp.php',
 			'/administrator/components/com_joomlaupdate/src/Helper/Select.php',
 			'/administrator/language/en-GB/com_csp.ini',
