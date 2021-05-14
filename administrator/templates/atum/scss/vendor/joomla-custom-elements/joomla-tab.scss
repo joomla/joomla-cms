@@ -139,6 +139,8 @@ joomla-tab {
         background-image: none;
         border-right: 0;
         box-shadow: none;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid #dee2e6;
 
         &::after {
           top: 0;
