@@ -175,12 +175,16 @@ class QuickIconHelper
 				$tmp = [
 					'image'    => 'icon-plug',
 					'link'     => Route::_('index.php?option=com_plugins'),
-					'linkadd'  => Route::_('index.php?option=com_installer'),
 					'linkicon' => 'icon-upload',
 					'name'     => 'MOD_QUICKICON_PLUGIN_MANAGER',
 					'access'   => array('core.manage', 'com_plugins'),
 					'group'    => 'MOD_QUICKICON_SITE'
 				];
+
+				if ($application->getIdentity()->authorise('core.manage', 'com_installer'))
+				{
+					$tmp['linkadd'] = Route::_('index.php?option=com_installer');
+				}
 
 				if ($params->get('show_plugins') == 2)
 				{
