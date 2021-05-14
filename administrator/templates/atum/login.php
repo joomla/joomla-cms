@@ -95,6 +95,7 @@ HTMLHelper::_('bootstrap.dropdown');
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
+
 	<noscript>
 		<div class="alert alert-danger" role="alert">
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
@@ -104,7 +105,7 @@ HTMLHelper::_('bootstrap.dropdown');
 		<?php echo Text::_('JGLOBAL_WARNIE'); ?>
 	</div>
 
-	<header id="header" class="header">
+	<header id="header" class="header d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<div class="logo">
@@ -134,7 +135,6 @@ HTMLHelper::_('bootstrap.dropdown');
 			</section>
 		</div>
 
-		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
 			<div id="main-brand" class="main-brand">
 				<h1><?php echo $app->get('sitename'); ?></h1>

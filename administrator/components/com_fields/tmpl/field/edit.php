@@ -73,18 +73,12 @@ $wa->useScript('keepalive')
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-		<div class="row">
-			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-form">
-					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-					<div>
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-					</div>
-				</fieldset>
+		<fieldset id="fieldset-publishingdata" class="options-form">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
-			<div class="col-md-6">
-			</div>
-		</div>
+		</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
