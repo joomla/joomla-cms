@@ -320,14 +320,6 @@ foreach ($iterator as $file)
 			// Load the file.
 			$fileContents = file_get_contents($filePath);
 
-			// Check if need to change the copyright date.
-			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
-			{
-				$changeCopyrightDate = true;
-				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
-				$changedFilesCopyrightDate++;
-			}
-
 			// Check if need to change the since version.
 			if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents))
 			{

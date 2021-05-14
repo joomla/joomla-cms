@@ -185,32 +185,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Convert the metadata field to an array.
 			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new JDate($result->created_time);
-				$date->setTimezone($tz);
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new JDate($result->modified_time);
-				$date->setTimezone($tz);
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
-
+			
 			if (!empty($result->id))
 			{
 				$result->tags = new JHelperTags;
@@ -368,6 +343,15 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_user_id']))
+			{
+				unset($data['created_user_id']);
+			}
+		}
+
 		if (!JFactory::getUser()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))

@@ -117,6 +117,14 @@ class Installer extends \JAdapter
 	protected $packageUninstall = false;
 
 	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  3.9.26
+	 */
+	public $extraQuery = '';
+
+	/**
 	 * Installer instance container.
 	 *
 	 * @var    Installer
@@ -2137,7 +2145,7 @@ class Installer extends \JAdapter
 							$container .= '/';
 						}
 
-						// Aappend the folder part
+						// Append the folder part
 						$container .= $part;
 
 						if (!in_array($container, $containers))

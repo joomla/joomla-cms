@@ -125,7 +125,7 @@ abstract class AdminModel extends FormModel
 	protected $user = null;
 
 	/**
-	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   3.8.2

@@ -310,6 +310,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
+	 * PLEASE NOTE: do NOT use user supplied input in messages as potential HTML markup is NOT sanitized!
 	 *
 	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
@@ -960,7 +961,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
-				if (!options.headers || !options.headers['Content-Type']) {
+				if (typeof(options.data) === 'string' && (!options.headers || !options.headers['Content-Type'])) {
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				}
 			}

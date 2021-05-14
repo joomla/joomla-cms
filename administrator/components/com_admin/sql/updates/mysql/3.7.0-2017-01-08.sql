@@ -8,11 +8,11 @@ ALTER TABLE `#__ucm_content` MODIFY `core_metadata` varchar(2048) NOT NULL DEFAU
 ALTER TABLE `#__ucm_content` MODIFY `core_language` char(7) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__ucm_content` MODIFY `core_publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
-ALTER TABLE `#__ucm_content` MODIFY `core_content_item_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'ID from the individual type table';
-ALTER TABLE `#__ucm_content` MODIFY `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.';
+ALTER TABLE `#__ucm_content` MODIFY `core_content_item_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'ID from the individual type table';
+ALTER TABLE `#__ucm_content` MODIFY `asset_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.';
 ALTER TABLE `#__ucm_content` MODIFY `core_images` text;
 ALTER TABLE `#__ucm_content` MODIFY `core_urls` text;
 ALTER TABLE `#__ucm_content` MODIFY `core_metakey` text;
 ALTER TABLE `#__ucm_content` MODIFY `core_metadesc` text;
 ALTER TABLE `#__ucm_content` MODIFY `core_xreference` varchar(50) NOT NULL DEFAULT '' COMMENT 'A reference to enable linkages to external data sets.';
-ALTER TABLE `#__ucm_content` MODIFY `core_type_id` int(10) unsigned NOT NULL DEFAULT 0;
+ALTER TABLE `#__ucm_content` MODIFY `core_type_id` int unsigned NOT NULL DEFAULT 0;

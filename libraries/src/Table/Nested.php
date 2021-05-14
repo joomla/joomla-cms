@@ -52,7 +52,7 @@ class Nested extends Table
 	public $rgt;
 
 	/**
-	 * Object property holding the alias of this node used to constuct the full text path, forward-slash delimited.
+	 * Object property holding the alias of this node used to construct the full text path, forward-slash delimited.
 	 *
 	 * @var    string
 	 * @since  1.7.0

@@ -592,7 +592,7 @@ class FileStorage extends CacheStorage
 			return $this->_root;
 		}
 
-		// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 		$path = preg_replace('#[/\\\\]+#', $ds, $path);
 
 		return $path;

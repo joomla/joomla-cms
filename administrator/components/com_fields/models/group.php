@@ -270,6 +270,15 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+		}
+
 		if (!JFactory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))

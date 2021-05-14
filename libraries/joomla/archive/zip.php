@@ -253,6 +253,11 @@ class JArchiveZip implements JArchiveExtractable
 				$buffer = $this->_getFileData($i);
 				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
 
+				if (strpos(JPath::clean(JPath::resolve($destination . '/' . $this->_metadata[$i]['name'])), JPath::clean(JPath::resolve($destination))) !== 0)
+				{
+					return $this->raiseWarning(100, 'Unable to write outside of destination path');
+				}
+
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
@@ -310,6 +315,11 @@ class JArchiveZip implements JArchiveExtractable
 			if ($buffer === false)
 			{
 				return $this->raiseWarning(100, 'Unable to read entry');
+			}
+
+			if (strpos(JPath::clean(JPath::resolve($destination . '/' . $file)), JPath::clean(JPath::resolve($destination))) !== 0)
+			{
+				return $this->raiseWarning(100, 'Unable to write outside of destination path');
 			}
 
 			if (JFile::write($destination . '/' . $file, $buffer) === false)

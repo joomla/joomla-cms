@@ -46,6 +46,9 @@ class ConfigControllerApplicationSave extends JControllerBase
 			$this->app->redirect('index.php');
 		}
 
+		// Clear the data from the session.
+		$this->app->setUserState('com_config.config.global.data', null);
+
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
@@ -54,6 +57,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		// Complete data array if needed
 		$oldData = $model->getData();
+
 		$data = array_replace($oldData, $data);
 
 		// Get request type
@@ -115,9 +119,6 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		// Set the success message.
 		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
-
-		// Clear the data from the session.
-		$this->app->setUserState('com_config.config.global.data', null);
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])
