@@ -13,7 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
 
 /**
