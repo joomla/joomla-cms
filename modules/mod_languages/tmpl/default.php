@@ -34,25 +34,25 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	</select>
 	</form>
 <?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
-	<?php HTMLHelper::_('bootstrap.dropdown'); ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
+				<a aria-label="<?php echo Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native); ?>" href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="lang-block dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active) : ?>
 				<li>
-				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+				<a aria-label="<?php echo Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native); ?>" href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -60,9 +60,9 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			<?php elseif ($params->get('show_active', 1)) : ?>
 			<?php $base = Uri::getInstance(); ?>
 				<li class="lang-active">
-				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+				<a aria-label="<?php echo Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native); ?>" href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif',  Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -72,14 +72,14 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>
-				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+				<a aria-label="<?php echo Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native); ?>" href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($params->get('image', 1)) : ?>
 						<?php if ($language->image) : ?>
-							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native), array('title' => $language->title_native), true); ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', array('title' => $language->title_native), true); ?>
 						<?php else : ?>
 							<span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 						<?php endif; ?>
@@ -91,11 +91,11 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php elseif ($params->get('show_active', 1)) : ?>
 			<?php $base = Uri::getInstance(); ?>
 			<li class="lang-active">
-			<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+			<a aria-label="<?php echo Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native); ?>" href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
-					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), array('title' => $language->title_native), true); ?>
+					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', array('title' => $language->title_native), true); ?>
 				<?php else : ?>
 					<span class="badge bg-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
