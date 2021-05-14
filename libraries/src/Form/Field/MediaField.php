@@ -274,7 +274,7 @@ class MediaField extends FormField
 			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
 			array_pop($this->folder);
 
-			// We have to assume that this is default local adapter for bacckward compatible purpose
+			// We have to assume that this is default local adapter for backward compatible purpose
 			$this->folder = 'local-0:/' . implode('/', $this->folder);
 		}
 		elseif (is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
