@@ -1,14 +1,14 @@
 .options-form {
   width: 100%;
-  padding: 1vw 2vw;
+  padding: 1vw 0;
   margin-bottom: 1rem;
   color: var(--atum-text-dark);
-  border: 1px solid var(--atum-bg-dark-20);
+  border-top: 1px solid var(--atum-bg-dark-20);
 
   > legend {
     float: none;
     width: auto;
-    padding: 0 1rem;
+    padding-inline-end: 1rem;
     font-weight: $font-weight-bold;
     color: var(--atum-text-dark);
     background-color: $white;
