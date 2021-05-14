@@ -128,7 +128,8 @@ class FinderModelSearch extends JModelList
 			// Build the result object.
 			if (is_resource($row->object))
 			{
-				$result = unserialize(pg_unescape_bytea(stream_get_contents($row->object)));
+				$object = pg_unescape_bytea(stream_get_contents($row->object));
+				$result = unserialize(str_replace("''", "'", $object));
 			}
 			else
 			{
