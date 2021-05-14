@@ -11,6 +11,7 @@
   background-color: hsl(var(--hue), 60%, 97%);
   border: 1px solid hsl(var(--hue), 50%, 93%);
   border-radius: $border-radius;
+  text-decoration: none;
 
   * {
     transition: all .25s ease;
