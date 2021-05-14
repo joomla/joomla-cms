@@ -71,7 +71,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<div>
 										<?php if ($this->preview) : ?>
 											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
-											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?> "target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
+											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>" target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
 												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
 											<div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->name); ?></div>
