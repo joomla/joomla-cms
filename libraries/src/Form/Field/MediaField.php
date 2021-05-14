@@ -13,6 +13,8 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Provides a modal media selector including upload mechanism
@@ -250,15 +252,40 @@ class MediaField extends FormField
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
-		if ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
+		// Value in new format such as images/banner.jpg#joomlaImage://local-0/images/banner.jpg?width=700&height=180
+		if ($this->value && strpos($this->value, '#') !== false)
+		{
+			$uri     = new Uri(explode('#', $this->value)[1]);
+			$adapter = $uri->getHost();
+			$path    = $uri->getPath();
+
+			// Remove filename from stored path to get the path to the folder which file is stored
+			$pos = strrpos($path, '/');
+
+			if ($pos !== false)
+			{
+				$path = substr($path, 0, $pos);
+			}
+
+			$this->folder = $adapter . ':' . $path;
+		}
+		elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
 		{
 			$this->folder = explode('/', $this->value);
 			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
 			array_pop($this->folder);
-			$this->folder = implode('/', $this->folder);
+
+			// We have to assume that this is default local adapter for bacckward compatible purpose
+			$this->folder = 'local-0:/' . implode('/', $this->folder);
 		}
 		elseif (is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
 		{
+			// We have to assume that this is default local adapter for backward compatible purpose
+			$this->folder = 'local-0:/' . $this->directory;
+		}
+		elseif (strpos(':', $this->directory))
+		{
+			// Directory contains adapter information, for example via programming or directly defined in xml
 			$this->folder = $this->directory;
 		}
 		else

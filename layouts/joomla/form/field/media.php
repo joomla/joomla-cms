@@ -100,34 +100,11 @@ if ($showPreview)
 	$showPreview = 'static';
 }
 
-// Calculate path which will be displayed when user clicks on Select button to select an image
-if ($value && strpos($value, '#') !== false)
-{
-	$mediaUri = new Uri(explode('#', $value)[1]);
-	$adapter  = $mediaUri->getHost();
-	$path     = $mediaUri->getPath();
-
-	// Remove filename from stored path to get the path to the folder which file is stored
-	$pos = strrpos($path, '/');
-
-	if ($pos !== false)
-	{
-		$path = substr($path, 0, $pos);
-	}
-
-	$mediaPath = $adapter . ':' . $path;
-}
-else
-{
-	// Default to local adapter and the folder which is configured for the field
-	$mediaPath = 'local-0:/' . $folder;
-}
-
 // The url for the modal
 $url    = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
 		. $asset . '&author=' . $authorId)
-	. '&fieldid={field-media-id}&path=' . $mediaPath);
+	. '&fieldid={field-media-id}&path=' . $folder);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
@@ -157,6 +134,8 @@ $modalHTML = HTMLHelper::_('bootstrap.renderModal',
 
 $wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
+
+
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
