@@ -125,16 +125,25 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
-		<div class="grid-child">
-			<div class="navbar-brand">
-				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
+		<?php if ($this->countModules('below-top')) : ?>
+			<div class="grid-child container-below-top">
+				<jdoc:include type="modules" name="below-top" style="none" />
 			</div>
-		</div>
+		<?php endif; ?>
+
+		<?php if ($this->params->get('brand')) : ?>
+			<div class="grid-child">
+				<div class="navbar-brand">
+					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>

@@ -214,26 +214,26 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
-									<?php
-									$options = [
-										'transitions' => $transitions,
-										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
-									];
+								<td class="article-stage text-center">
+								<?php
+								$options = [
+									'transitions' => $transitions,
+									'title' => Text::_($item->stage_title),
+									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+									'id' => 'workflow-' . $item->id
+								];
 
-									echo (new TransitionButton($options))
-										->render(0, $i);
-									?>
-									</div>
+								echo (new TransitionButton($options))
+									->render(0, $i);
+								?>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange
+										'disabled' => $workflow_featured || !$canChange,
+										'id' => 'featured-' . $item->id
 									];
 
 									echo (new FeaturedButton)
@@ -244,7 +244,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange
+										'disabled' => $workflow_state || !$canChange,
+										'id' => 'state-' . $item->id
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
@@ -256,8 +257,9 @@ $assoc = Associations::isEnabled();
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" aria-labelledby="edit-<?php echo (int) $item->id; ?>">
 												<?php echo $this->escape($item->title); ?></a>
+											<div role="tooltip" id="edit-<?php echo (int) $item->id; ?>"><?php echo Text::_('JACTION_EDIT') . ' ' . $this->escape($item->title); ?></div>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
@@ -282,20 +284,16 @@ $assoc = Associations::isEnabled();
 												if (Factory::getLanguage()->isRtl())
 												{
 													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
-														echo '</a>';
+														echo '<a href="' . $CurrentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
+														echo $this->escape($item->category_title). '</a>';
+														echo '<div role="tooltip" id="edit-cat-' . (int) $item->id.'">' . $EditCatTxt . '</div>';
 													endif;
 													if ($item->category_level != '1') :
 														echo ' &#171; ';
 														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
+															echo '<a href="' . $ParentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
+															echo $this->escape($item->parent_category_title) . '</a>';
+															echo '<div role="tooltip" id="edit-cat-' . (int) $item->id.'">' . $EditCatTxt . '</div>';
 														endif;
 													endif;
 												}
@@ -303,20 +301,16 @@ $assoc = Associations::isEnabled();
 												{
 													if ($item->category_level != '1') :
 														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
+															echo '<a href="' . $ParentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
+															echo $this->escape($item->parent_category_title) . '</a>';
+															echo '<div role="tooltip" id="edit-cat-' . (int) $item->id.'">' . $EditCatTxt . '</div>';
 														endif;
 														echo ' &#187; ';
 													endif;
 													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
-														echo '</a>';
+														echo '<a href="' . $CurrentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
+														echo $this->escape($item->category_title) . '</a>';
+														echo '<div role="tooltip" id="edit-cat-' . (int) $item->id . '">' . $EditCatTxt . '</div>';
 													endif;
 												}
 												?>

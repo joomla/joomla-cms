@@ -24,6 +24,7 @@
 	</files>
 	<positions>
 		<position>topbar</position>
+		<position>below-top</position>
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
@@ -47,10 +48,23 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
+					name="brand"
+					type="radio"
+					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="logoFile"
 					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
+					showon="brand:1"
 				/>
 
 				<field
@@ -59,6 +73,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -67,6 +82,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TAGLINE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -74,6 +90,7 @@
 					type="groupedlist"
 					label="TPL_CASSIOPEIA_FONT_LABEL"
 					default="0"
+					parentclass="span-3"
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
@@ -91,6 +108,7 @@
 					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
 					heading="p"
 					class="alert alert-warning"
+					parentclass="span-3-inline"
 				/>
 
 				<field
@@ -98,6 +116,7 @@
 					type="list"
 					default="colors_standard"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					parentclass="span-3"
 					>
 					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
 					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>

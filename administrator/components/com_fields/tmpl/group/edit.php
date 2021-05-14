@@ -53,18 +53,12 @@ $this->useCoreUI = true;
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-		<div class="row form-horizontal-desktop">
-			<div class="col-md-6">
-				<fieldset id="fieldset-rules" class="options-form">
-					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-					<div>
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-					</div>
-				</fieldset>
-			</div>
-			<div class="col-md-6">
-			</div>
-		</div>
+			<fieldset id="fieldset-rules" class="options-form">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</div>
+			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>

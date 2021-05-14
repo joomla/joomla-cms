@@ -3,6 +3,7 @@
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
+  overflow: hidden;
   background-color: var(--atum-sidebar-bg);
   box-shadow: 0 0 20px -10px var(--atum-bg-dark-50);
 
@@ -46,10 +47,6 @@
       }
     }
 
-    &-level-1 > a {
-      font-weight: bold;
-    }
-
     &-level-2 > a {
       padding-inline-start: 3rem;
     }
@@ -72,7 +69,7 @@
   }
 
   .sidebar-toggle {
-    background: var(--atum-link-color);
+    background: var(--atum-bg-dark-60);
 
     a {
       color: $white;
@@ -197,6 +194,7 @@
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
+    overflow: visible;
   }
 
   .sidebar-item-title,

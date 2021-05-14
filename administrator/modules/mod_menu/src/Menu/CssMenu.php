@@ -13,6 +13,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
@@ -311,6 +312,17 @@ class CssMenu
 
 			// Exclude item if is not enabled
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
+			/*
+			 * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
+			 * the Language Filter plugin
+			 */
+
+			if ($item->element === 'com_associations' && !Associations::isEnabled())
 			{
 				$parent->removeChild($item);
 				continue;
