@@ -182,14 +182,14 @@ class ActionlogsHelper
 	 */
 	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
-		$language_key = $log->message_language_key;
+		$languageKey = $log->message_language_key;
 
-		if (strpos($language_key, ',') !== false)
+		if (strpos($languageKey, ',') !== false)
 		{
-			$language_key = substr($language_key, 0, strpos($language_key, ','));
+			$languageKey = substr($languageKey, 0, strpos($languageKey, ','));
 		}
 
-		$message     = Text::_($language_key);
+		$message     = Text::_($languageKey);
 		$messageData = json_decode($log->message, true);
 
 		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
@@ -207,16 +207,16 @@ class ActionlogsHelper
 	 */
 	public static function getHumanReadableLogMessageExtra($log, $generateLinks = true)
 	{
-		$language_key = $log->message_language_key;
+		$languageKey = $log->message_language_key;
 
-		if (strpos($language_key, ',') === false)
+		if (strpos($languageKey, ',') === false)
 		{
 			return '';
 		}
 
-		$language_key = substr($language_key, strpos($language_key, ',') + 1);
+		$languageKey = substr($languageKey, strpos($languageKey, ',') + 1);
 
-		$message     = Text::_($language_key);
+		$message     = Text::_($languageKey);
 		$messageData = json_decode($log->message, true);
 
 		return self::getHumanReadableLogMessageText($message, $messageData, $generateLinks);
