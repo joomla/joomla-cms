@@ -203,7 +203,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getHumanReadableLogMessageExtra($log, $generateLinks = true)
 	{
@@ -231,7 +231,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function getHumanReadableLogMessageText($message, $messageData, $generateLinks = true)
 	{
