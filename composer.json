@@ -22,7 +22,8 @@
     "repositories": [
       {
         "type": "github",
-        "url": "https://github.com/joomla-backports/lessphp.git"
+        "url": "https://github.com/joomla-backports/lessphp.git",
+        "no-api": true
       }
     ],
     "require": {
