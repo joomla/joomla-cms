@@ -233,11 +233,11 @@ class QuickIconHelper
 			if ($params->get('show_cache'))
 			{
 				$tmp = [
-					'image'    => 'icon-cloud',
-					'link'     => Route::_('index.php?option=com_cache'),
-					'name'     => 'MOD_QUICKICON_CACHE',
-					'access'   => array('core.admin', 'com_cache'),
-					'group'    => 'MOD_QUICKICON_SYTEM'
+					'image'  => 'icon-cloud',
+					'link'   => Route::_('index.php?option=com_cache'),
+					'name'   => 'MOD_QUICKICON_CACHE',
+					'access' => array('core.admin', 'com_cache'),
+					'group'  => 'MOD_QUICKICON_SYTEM'
 				];
 
 				if ($params->get('show_cache') == 2)
