@@ -44,6 +44,7 @@ div.mod-languages .btn-group {
 
 div.mod-languages .btn-group .btn {
 	flex: none;
+  color: black;
 }
 
 div.mod-languages .dropdown-menu {
@@ -53,6 +54,7 @@ div.mod-languages .dropdown-menu {
 div.mod-languages .dropdown-menu::after {
 	 top: -1.4rem;
 }
+
 
 html[dir=rtl] div.mod-languages .dropdown-menu::after {
 	 left: auto;
