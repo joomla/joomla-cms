@@ -190,7 +190,7 @@ class MessagesModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Returns a count of all messages from the #__postinstall_messages table
+	 * Returns a count of all enabled messages from the #__postinstall_messages table
 	 *
 	 * @return  integer
 	 *
@@ -198,11 +198,6 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItemsCount()
 	{
-		$published = (int) $this->getState('published', 1);
-
-		// Build a cache ID 'all.1' for the resulting data object.
-		$cacheId = 'all.' . $published;
-
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select(
@@ -216,8 +211,7 @@ class MessagesModel extends BaseDatabaseModel
 			->from($db->quoteName('#__postinstall_messages'));
 
 		// Force filter only enabled messages
-		$query->where($db->quoteName('enabled') . ' = :published')
-			->bind(':published', $published, ParameterType::INTEGER);
+		$query->where($db->quoteName('enabled') . ' = 1');
 		$db->setQuery($query);
 
 		try
@@ -226,7 +220,8 @@ class MessagesModel extends BaseDatabaseModel
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
-			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+			// Get the resulting data object for cache ID 'all.1' from com_postinstall group.
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5('all.1'), false);
 		}
 		catch (\RuntimeException $e)
 		{
