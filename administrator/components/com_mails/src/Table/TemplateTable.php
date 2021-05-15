@@ -25,7 +25,7 @@ class TemplateTable extends Table
 	 * An array of key names to be json encoded in the bind function
 	 *
 	 * @var    array
-	 * @since  3.3
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_jsonEncode = ['attachments', 'params'];
 

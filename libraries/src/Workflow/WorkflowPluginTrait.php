@@ -82,7 +82,7 @@ trait WorkflowPluginTrait
 	 *
 	 * @param   string $context Context to check
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -92,20 +92,20 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context is listed in the allowed of forbidden lists and return the result.
 	 *
 	 * @param   string $context Context to check
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
-	protected function checkWhiteAndBlacklist($context)
+	protected function checkAllowedAndForbiddenlist($context)
 	{
-		$whitelist = \array_filter((array) $this->params->get('whitelist', []));
-		$blacklist = \array_filter((array) $this->params->get('blacklist', []));
+		$allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+		$forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
-		if (!empty($whitelist))
+		if (!empty($allowedlist))
 		{
-			foreach ($whitelist as $allowed)
+			foreach ($allowedlist as $allowed)
 			{
 				if ($context === $allowed)
 				{
@@ -116,7 +116,7 @@ trait WorkflowPluginTrait
 			return false;
 		}
 
-		foreach ($blacklist as $forbidden)
+		foreach ($forbiddenlist as $forbidden)
 		{
 			if ($context === $forbidden)
 			{
@@ -128,12 +128,12 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context supports a specific functionality.
 	 *
 	 * @param   string  $context       Context to check
 	 * @param   string  $functionality The functionality
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	protected function checkExtensionSupport($context, $functionality)
 	{

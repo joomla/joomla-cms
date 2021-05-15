@@ -83,7 +83,7 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				HTMLHelper::_('bootstrap.popover');
+				HTMLHelper::_('bootstrap.popover', '.hasPopover');
 				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
 				$label .= ' data-bs-content="' . htmlspecialchars(
 					$this->translateDescription ? Text::_($this->description) : $this->description,

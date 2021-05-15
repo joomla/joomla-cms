@@ -270,4 +270,20 @@ class DiscoverModel extends InstallerModel
 
 		return true;
 	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('state') . ' = -1');
+
+		return $query;
+	}
 }

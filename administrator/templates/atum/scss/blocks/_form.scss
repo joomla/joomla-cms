@@ -5,7 +5,6 @@
   background-color: $white;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   &:focus {
     border-color: $focuscolor;
@@ -18,7 +17,6 @@
   border: 0;
   box-shadow: none;
 }
-
 
 .control-group {
   display: flex;
@@ -55,12 +53,6 @@
     flex-direction: column;
   }
 
-}
-
-.control-group {
-  .switcher__legend {
-    font-size: $label-font-size;
-  }
 }
 
 .spacer {
@@ -132,7 +124,7 @@ legend {
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem;
+  border-radius: .2rem !important;
 }
 
 // reveal associated tooltip on focus
@@ -149,12 +141,6 @@ legend {
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
-}
-
-.switcher__legend {
-  margin-bottom: 0;
-  font-size: $label-font-size;
-  color: var(--atum-special-color);
 }
 
 .input-group-append {

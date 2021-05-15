@@ -43,13 +43,21 @@ if ($saveOrder && !empty($this->items))
 }
 
 $context = $this->escape($this->state->get('filter.context'));
+
+$searchToolsOptions = [];
+
+// Only show field contexts filter if there are more than one option
+if (count($this->filterForm->getField('context')->options) > 1)
+{
+	$searchToolsOptions['selectorFieldName'] = 'context';
+}
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_fields&view=groups&context=' . $context); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => $searchToolsOptions)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>

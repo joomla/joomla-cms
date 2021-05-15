@@ -41,7 +41,7 @@ abstract class Grid
 	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
 	{
 		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('bootstrap.popover', '.hasPopover');
+		HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');

@@ -72,7 +72,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 			'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
 			'class' => 'success',
 			'id'    => 'plg_quickicon_downloadkey',
-			'group' => 'MOD_QUICKICON_MAINTENANCE'
+			'group' => 'MOD_QUICKICON_MAINTENANCE',
 		];
 
 		if ($info['missing'] !== 0)
@@ -86,7 +86,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 		}
 
 		return [
-			$iconDefinition
+			$iconDefinition,
 		];
 	}
 

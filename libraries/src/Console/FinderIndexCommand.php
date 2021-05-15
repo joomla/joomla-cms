@@ -40,15 +40,17 @@ class FinderIndexCommand extends AbstractCommand
 
 	/**
 	 * Stores the Input Object
-	 * @var InputInterface
-	 * @since 4.0.0
+	 *
+	 * @var    InputInterface
+	 * @since  4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var   SymfonyStyle
-	 * @since 4.0.0
+	 *
+	 * @var    SymfonyStyle
+	 * @since  4.0.0
 	 */
 	private $ioStyle;
 

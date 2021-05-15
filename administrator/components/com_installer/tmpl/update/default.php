@@ -31,9 +31,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-					<?php if ($this->ftp) : ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
-					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
@@ -102,7 +99,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover'); ?>
+										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']); ?>
 										<span class="badge bg-warning text-dark">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"

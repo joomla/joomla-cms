@@ -286,7 +286,7 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$included = call_user_func_array('array_merge', $this->includedTerms);
+		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
 		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 

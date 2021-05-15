@@ -30,16 +30,18 @@
     .menu-links-block {
       padding: 15px;
       background-color: var(--card-bg);
+      border: 1px solid $border-color;
       border-radius: 3px;
-      box-shadow: $atum-box-shadow;
     }
 
     label {
       display: block;
+      padding: 3px 0;
+      font-size: inherit;
 
       input {
         position: relative;
-        top: 2px;
+        margin-inline-end: 5px;
       }
     }
   }

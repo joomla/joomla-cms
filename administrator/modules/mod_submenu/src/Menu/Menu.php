@@ -51,6 +51,12 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
 			$itemParams = $item->getParams();
 
 			// Exclude item with menu item option set to exclude from menu modules

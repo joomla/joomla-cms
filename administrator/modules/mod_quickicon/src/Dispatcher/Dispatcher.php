@@ -32,7 +32,8 @@ class Dispatcher extends AbstractModuleDispatcher
 	{
 		$data = parent::getLayoutData();
 
-		$data['buttons'] = QuickIconHelper::getButtons($data['params'], $this->getApplication());
+		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
 		return $data;
 	}

@@ -183,8 +183,8 @@ class CallbackController extends CacheController
 	/**
 	 * Generate a callback cache ID
 	 *
-	 * @param   callback  $callback  Callback to cache
-	 * @param   array     $args      Arguments to the callback method to cache
+	 * @param   mixed  $callback  Callback to cache
+	 * @param   array  $args      Arguments to the callback method to cache
 	 *
 	 * @return  string  MD5 Hash
 	 *

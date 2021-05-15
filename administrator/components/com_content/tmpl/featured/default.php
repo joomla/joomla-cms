@@ -118,11 +118,11 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-								</th>
+									<th scope="col" class="w-1 text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+									</th>
 								<?php endif; ?>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
 								<th scope="col" style="min-width:85px" class="w-1 text-center">
@@ -220,7 +220,8 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'transitions' => $transitions,
 										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
+										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+										'id' => 'workflow-' . $item->id
 									];
 
 									echo (new TransitionButton($options))
@@ -229,11 +230,12 @@ $assoc = Associations::isEnabled();
 									</div>
 								</td>
 								<?php endif; ?>
-								<td class="text-center">
+								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange
+										'disabled' => $workflow_featured || !$canChange,
+										'id' => 'featured-' . $item->id
 									];
 
 									echo (new FeaturedButton)
@@ -244,7 +246,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange
+										'disabled' => $workflow_state || !$canChange,
+										'id' => 'state-' . $item->id
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);

@@ -455,7 +455,7 @@ class TagsHelper extends CMSHelper
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
-	 * @return  DatabaseQuery  Query to retrieve a list of tags
+	 * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */

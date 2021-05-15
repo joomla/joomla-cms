@@ -84,13 +84,11 @@ class TemplateModel extends AdminModel
 		if ($params->get('mail_style', 'plaintext') == 'plaintext')
 		{
 			$form->removeField('htmlbody');
-			$form->removeField('htmlbody_switcher');
 		}
 
 		if ($params->get('mail_style', 'plaintext') == 'html')
 		{
 			$form->removeField('body');
-			$form->removeField('body_switcher');
 		}
 
 		if (!$params->get('alternative_mailconfig', '0'))

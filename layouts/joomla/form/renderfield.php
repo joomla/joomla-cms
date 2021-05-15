@@ -35,6 +35,12 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
 $hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+
+if (!empty($parentclass))
+{
+	$class .= ' ' . $parentclass;
+}
+
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
@@ -42,7 +48,7 @@ $hideDescription = empty($options['hiddenDescription']) ? false : $options['hidd
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
-				<small class="form-text text-muted">
+				<small class="form-text">
 					<?php echo $description; ?>
 				</small>
 			</div>

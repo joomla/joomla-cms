@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover');
+HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');

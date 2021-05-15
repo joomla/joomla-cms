@@ -35,7 +35,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -126,10 +126,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 				->alias(\Joomla\Session\Session::class, 'session.cli')
 				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 		}
-
-		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-		$extensionLoader = new \JNamespacePsr4Map;
-		$extensionLoader->load();
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
@@ -243,6 +239,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 

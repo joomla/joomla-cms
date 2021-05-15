@@ -12,30 +12,30 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu = $app->input->get('hidemainmenu');
+$option       = $input->get('option', '');
+$view         = $input->get('view', '');
+$layout       = $input->get('layout', 'default');
+$task         = $input->get('task', 'display');
+$cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
+$hiddenMenu   = $app->input->get('hidemainmenu');
+$sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
 $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
-
-require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -51,39 +51,47 @@ $logoBrandSmall = $this->params->get('logoBrandSmall')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-	? ''
+	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-	? ''
+	? 'alt=""'
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
-	->useStyle('template.user');
+	->useStyle('template.user')
+	->addInlineStyle(':root {
+		--hue: ' . $matches[1] . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-// @TODO sync with _variables.scss
-$this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
-HTMLHelper::_('atum.rootcolors', $this->params);
-
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
+// @see administrator/templates/atum/html/layouts/status.php
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
@@ -97,17 +105,17 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 <?php // Header ?>
 <header id="header" class="header">
-	<div class="d-flex">
+	<div class="header-inside">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
-					<div class="logo">
+					<div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
 					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
+					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>"
 						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
 						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
@@ -116,14 +124,12 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 			</div>
 			<jdoc:include type="modules" name="title" />
 		</div>
-		<div class="header-items d-flex">
-			<jdoc:include type="modules" name="status" style="header-item" />
-		</div>
+		<?php echo $statusModules; ?>
 	</div>
 </header>
 
 <?php // Wrapper ?>
-<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
+<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?> <?php echo $sidebarState; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
@@ -135,7 +141,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
@@ -156,7 +162,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="no" />
+						<jdoc:include type="modules" name="toolbar" style="none" />
 					</div>
 				</div>
 			</div>
@@ -180,6 +186,5 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

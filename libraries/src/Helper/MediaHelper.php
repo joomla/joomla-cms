@@ -132,7 +132,7 @@ class MediaHelper
 			// Get the mime type configuration
 			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
-			// Mime should be available and in the whitelist
+			// Mime should be available and in the allowed list
 			return !empty($mime) && \in_array($mime, $allowedMime);
 		}
 

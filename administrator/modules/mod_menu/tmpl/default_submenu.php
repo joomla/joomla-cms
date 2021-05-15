@@ -73,7 +73,7 @@ if ($current->hasChildren())
 
 	if ($current->level > 2)
 	{
-		$dataToggle  = '  data-bs-toggle="dropdown"';
+		$dataToggle  = ' data-bs-toggle="dropdown"';
 	}
 }
 else
@@ -114,7 +114,7 @@ if ($iconImage)
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
-		$iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+		$iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
 	}
 	else
 	{

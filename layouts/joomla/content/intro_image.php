@@ -47,7 +47,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 	<?php else : ?>
 		<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 				 <?php echo $alt; ?>
-				 itemprop="thumbnailUrl"
+				 itemprop="thumbnail"
 				 <?php echo $extraAttr; ?>
 		/>
 	<?php endif; ?>
