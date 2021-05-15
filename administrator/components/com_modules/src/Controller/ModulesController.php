@@ -97,4 +97,20 @@ class ModulesController extends AdminController
 
 		echo new JsonResponse($result);
 	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+
+		return $append;
+	}
 }
