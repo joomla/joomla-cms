@@ -65,11 +65,9 @@ if ($clientId == 1)
 					</select>
 				</div>
 
-				<div id="batch-copy-move" class="control-group radio">
-					<fieldset id="batch-copy-move-id">
-						<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-						<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
-					</fieldset>
+				<div id="batch-copy-move">
+					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
