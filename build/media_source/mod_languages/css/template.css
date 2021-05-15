@@ -55,7 +55,6 @@ div.mod-languages .dropdown-menu::after {
 	 top: -1.4rem;
 }
 
-
 html[dir=rtl] div.mod-languages .dropdown-menu::after {
 	 left: auto;
 	 right: .9em;
