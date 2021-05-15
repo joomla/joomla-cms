@@ -105,8 +105,7 @@
 				<field
 					name="noteFontScheme"
 					type="note"
-					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
-					heading="p"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
 					class="alert alert-warning"
 					parentclass="span-3-inline"
 				/>
