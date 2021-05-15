@@ -26,7 +26,6 @@ use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -135,10 +134,10 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
 									<th scope="col" class="w-5 d-none d-md-table-cell">
@@ -169,7 +168,7 @@ $assoc = Associations::isEnabled();
 								</th>
 							</tr>
 						</thead>
-						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody <?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
 							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
@@ -263,30 +262,30 @@ $assoc = Associations::isEnabled();
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-											<div class="small break-word">
-												<?php if (empty($item->note)) : ?>
-													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-												<?php else : ?>
-													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-												<?php endif; ?>
-											</div>
-											<div class="small">
-												<?php
-												$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
-												$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-												$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
-												echo Text::_('JCATEGORY') . ': ';
-												if ($item->category_level != '1') :
-													if ($item->parent_category_level != '1') :
-														echo ' &#187; ';
-													endif;
+										<div class="small break-word">
+											<?php if (empty($item->note)) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php else : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php endif; ?>
+										</div>
+										<div class="small">
+											<?php
+											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
+											echo Text::_('JCATEGORY') . ': ';
+											if ($item->category_level != '1') :
+												if ($item->parent_category_level != '1') :
+													echo ' &#187; ';
 												endif;
-												if (Factory::getLanguage()->isRtl())
-												{
-													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
-														echo $this->escape($item->category_title). '</a>';
-														echo '<div role="tooltip" id="edit-cat-' . (int) $item->id.'">' . $EditCatTxt . '</div>';
+											endif;
+											if (Factory::getLanguage()->isRtl())
+											{
+												if ($canEditCat || $canEditOwnCat) :
+													echo '<a href="' . $CurrentCatUrl . '" aria-labelledby="edit-cat-' . (int) $item->id . '">';
+													echo $this->escape($item->category_title). '</a>';
+													echo '<div role="tooltip" id="edit-cat-' . (int) $item->id.'">' . $EditCatTxt . '</div>';
 													endif;
 													if ($item->category_level != '1') :
 														echo ' &#171; ';

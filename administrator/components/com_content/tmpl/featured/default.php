@@ -40,6 +40,10 @@ elseif (strpos($listOrder, 'publish_down') !== false)
 {
 	$orderingColumn = 'publish_down';
 }
+elseif (strpos($listOrder, 'modified') !== false)
+{
+	$orderingColumn = 'modified';
+}
 else
 {
 	$orderingColumn = 'created';
@@ -52,20 +56,20 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled');
+$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
 
 if ($workflow_enabled) :
 
-// @todo mode the script to a file
+// @todo move the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
 	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
 	  elements.forEach(function (element) {
-		element.addEventListener('click', function(event) {
+	    element.addEventListener('click', function(event) {
 			event.stopPropagation();
 		});
 	  });
@@ -118,17 +122,17 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
-									<th scope="col" class="w-1 text-center">
-										<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-									</th>
+								<th scope="col" class="w-1 text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+								</th>
 								<?php endif; ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
-								<th scope="col" style="min-width:85px" class="w-1 text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -187,7 +191,8 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
+							<tr class="row<?php echo $i % 2; ?>"
+								data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
@@ -214,20 +219,18 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
-									<?php
-									$options = [
-										'transitions' => $transitions,
-										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-										'id' => 'workflow-' . $item->id
-									];
+								<td class="article-stage text-center">
+								<?php
+								$options = [
+									'transitions' => $transitions,
+									'title' => Text::_($item->stage_title),
+									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+									'id' => 'workflow-' . $item->id
+								];
 
-									echo (new TransitionButton($options))
-										->render(0, $i);
-									?>
-									</div>
+								echo (new TransitionButton($options))
+									->render(0, $i);
+								?>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
@@ -361,17 +364,17 @@ $assoc = Associations::isEnabled();
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
 									<span class="badge bg-info">
-									<?php echo (int) $item->hits; ?>
+										<?php echo (int) $item->hits; ?>
 									</span>
 								</td>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge bg-success" >
+										<span class="badge bg-success">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge bg-warning text-dark" >
+										<span class="badge bg-warning text-dark">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
@@ -380,7 +383,7 @@ $assoc = Associations::isEnabled();
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>
-						<?php endforeach; ?>
+							<?php endforeach; ?>
 						</tbody>
 					</table>
 
