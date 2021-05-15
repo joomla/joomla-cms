@@ -38,10 +38,6 @@ div.mod-languages a:focus {
 	text-decoration: underline;
 }
 
-div.mod-languages a:focus {
-	text-decoration: underline;
-}
-
 div.mod-languages .btn-group {
 	display: flex !important;
 }
