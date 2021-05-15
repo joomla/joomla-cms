@@ -24,3 +24,32 @@ div.mod-languages img {
 div.mod-languages a {
 	text-decoration: none;
 }
+
+div.mod-languages a:focus {
+	text-decoration: underline;
+}
+
+div.mod-languages a:focus {
+	text-decoration: underline;
+}
+
+div.mod-languages .btn-group {
+	display: flex !important;
+}
+
+div.mod-languages .btn-group .btn {
+	flex: none;
+}
+
+div.mod-languages .dropdown-menu {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16), 0 2px 4px rgba(0, 0, 0, 0.23);
+}
+
+div.mod-languages .dropdown-menu::after {
+	 top: -1.4rem;
+}
+
+html[dir=rtl] div.mod-languages .dropdown-menu::after {
+	 left: auto;
+	 right: .9em;
+}
