@@ -44,7 +44,7 @@ div.mod-languages .btn-group {
 
 div.mod-languages .btn-group .btn {
 	flex: none;
-  color: black;
+  color: #000;
 }
 
 div.mod-languages .dropdown-menu {
