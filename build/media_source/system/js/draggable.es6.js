@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       /**
-       * Get the order array. We have to exclude the extra DOM element that draggula is creating for the dragging effect,
-       * that's the reason l = rows.length - 1 instead of l = rows.length as usual
+       * Get the order array. We have to exclude the extra DOM element that draggula is creating
+       * for the dragging effect, that's the reason l = rows.length - 1 instead of l = rows.length as usual
        */
       for (i = 0, l = rows.length - 1; l > i; i += 1) {
         rows[i].value = i + 1;
