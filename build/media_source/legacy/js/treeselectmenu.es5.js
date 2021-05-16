@@ -102,11 +102,11 @@ jQuery(function($)
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', 'checked');
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', 'checked');
 	});
 	$('a.uncheckall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', false);
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', false);
 	});
 
 	// Take care of children toggle all
