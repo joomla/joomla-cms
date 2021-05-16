@@ -1718,31 +1718,6 @@ class PlgSampledataBlog extends CMSPlugin
 					'style'          => 0,
 				),
 			),
-			array(
-				// Backend - Release News
-				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
-				'ordering'  => 1,
-				'position'  => 'postinstall',
-				'module'    => 'mod_feed',
-				'client_id' => 1,
-				'params'    => array(
-					'rssurl'         => 'https://www.joomla.org/announcements/release-news.feed',
-					'rssrtl'         => 0,
-					'rsstitle'       => 1,
-					'rssdesc'        => 1,
-					'rssimage'       => 1,
-					'rssitems'       => 3,
-					'rssitemdesc'    => 1,
-					'word_count'     => 0,
-					'layout'         => '_:default',
-					'cache'          => 1,
-					'cache_time'     => 900,
-					'module_tag'     => 'div',
-					'bootstrap_size' => 0,
-					'header_tag'     => 'h3',
-					'style'          => 0,
-				),
-			),
 		);
 
 		// Assignment means always "only on the homepage".
