@@ -37,7 +37,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to filter by language
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $language_filter = false;
 
@@ -45,7 +45,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $detect_browser = false;
 

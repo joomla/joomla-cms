@@ -42,7 +42,7 @@ class ColorField extends FormField
 	 * Default color when there is no value.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $default;
 
@@ -50,7 +50,7 @@ class ColorField extends FormField
 	 * The type of value the slider should display: 'hue', 'saturation' or 'light'.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $display = 'hue';
 
@@ -90,7 +90,7 @@ class ColorField extends FormField
 	 * Shows preview of the selected color
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $preview = false;
 
@@ -98,7 +98,7 @@ class ColorField extends FormField
 	 * Color format to use when value gets saved
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $saveFormat = 'hex';
 
@@ -372,7 +372,7 @@ class ColorField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function getSliderModeLayoutData()
 	{

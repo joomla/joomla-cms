@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Content api helper.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class ContentHelper
 {

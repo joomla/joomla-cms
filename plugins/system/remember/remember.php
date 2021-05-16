@@ -34,7 +34,7 @@ class PlgSystemRemember extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $db;
 
