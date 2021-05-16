@@ -46,9 +46,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</caption>
 							<thead>
 							<tr>
-								<th class="w-1 text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
+								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
