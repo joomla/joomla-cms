@@ -130,6 +130,7 @@ if ($icon == '' && $itemImage == '' && $current->level == 1 && $current->target 
 {
 	$itemImage = '<span class="m-3"></span>';
 }
+
 if ($link != '' && $current->target != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
