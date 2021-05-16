@@ -36,7 +36,7 @@
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comModulesSelectSearch');
 const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
-const elSearchHeader = document.getElementById('comModulesSelectHeader');
+const elSearchHeader = document.getElementById('comModulesSelectTypeHeader');
 const elSearchResults = document.getElementById('comModulesSelectResultsContainer');
 const alertElement = document.querySelector('.modules-alert');
 const elCards = [].slice.call(document.querySelectorAll('.comModulesSelectCard'));
