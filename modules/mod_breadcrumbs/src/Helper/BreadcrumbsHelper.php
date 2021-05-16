@@ -73,38 +73,4 @@ class BreadcrumbsHelper
 
 		return $crumbs;
 	}
-
-	/**
-	 * Set the breadcrumbs separator for the breadcrumbs display.
-	 *
-	 * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
-	 *
-	 * @return  string	Separator string
-	 *
-	 * @since   1.5
-	 */
-	public static function setSeparator($custom = null)
-	{
-		$lang = Factory::getApplication()->getLanguage();
-
-		// If a custom separator has not been provided we try to load a template
-		// specific one first, and if that is not present we load the default separator
-		if ($custom === null)
-		{
-			if ($lang->isRtl())
-			{
-				$_separator = HTMLHelper::_('image', 'system/arrow_rtl.png', null, null, true);
-			}
-			else
-			{
-				$_separator = HTMLHelper::_('image', 'system/arrow.png', null, null, true);
-			}
-		}
-		else
-		{
-			$_separator = htmlspecialchars($custom, ENT_COMPAT, 'UTF-8');
-		}
-
-		return $_separator;
-	}
 }
