@@ -168,6 +168,16 @@ final class SiteApplication extends CMSApplication
 				// Add Asset registry files
 				$wr = $document->getWebAssetManager()->getRegistry();
 
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				if ($template->parent)
+				{
+					$wr->addTemplateRegistryFile($template->parent, $this->getClientId());
+				}
+
 				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				$task = $this->input->getCmd('task', null);
@@ -180,16 +190,6 @@ final class SiteApplication extends CMSApplication
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 
 					return;
-				}
-
-				if ($component)
-				{
-					$wr->addExtensionRegistryFile($component);
-				}
-
-				if ($template->parent)
-				{
-					$wr->addTemplateRegistryFile($template->parent, $this->getClientId());
 				}
 
 				break;
