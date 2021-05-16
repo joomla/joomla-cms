@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Page\Acceptance\Administrator;
@@ -63,7 +63,7 @@ class ContentListPage extends AdminListPage
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-featured']"];
+	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-star']"];
 
 	/**
 	 * Locator for article's name field.
@@ -80,4 +80,14 @@ class ContentListPage extends AdminListPage
 	 * @since  4.0.0
 	 */
 	public static $seeUnpublished = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-unpublish']"];
+
+	public static $articleTitleField = [ 'id' => "jform_title" ];
+
+	public static $articleAliasField = [ 'id' => "jform_alias" ];
+
+	public static $articleSearchField = [ 'id' => "filter_search" ];
+
+	public static $searchButton = [ 'xpath' => "//button[@aria-label='Search']" ];
+
+	public static $systemMessageAlertClose = ['class' => "joomla-alert--close"];
 }

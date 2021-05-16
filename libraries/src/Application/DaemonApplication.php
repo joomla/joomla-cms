@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -97,7 +96,7 @@ abstract class DaemonApplication extends CliApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
+	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -365,10 +364,7 @@ abstract class DaemonApplication extends CliApplication
 	public function execute()
 	{
 		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		$this->triggerEvent('onBeforeExecute');
 
 		// Enable basic garbage collection.
 		gc_enable();

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,10 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -72,20 +73,29 @@ class ApiController extends BaseController
 	protected $itemsPerPage = 20;
 
 	/**
+	 * The model state to inject
+	 *
+	 * @var  CMSObject
+	 */
+	protected $modelState;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
+		$this->modelState = new CMSObject;
+
 		parent::__construct($config, $factory, $app, $input);
 
 		// Guess the option as com_NameOfController
@@ -107,7 +117,7 @@ class ApiController extends BaseController
 
 			if (!preg_match('/(.*)Controller(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->context = str_replace('\\', '', strtolower($r[2]));
@@ -151,21 +161,12 @@ class ApiController extends BaseController
 
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
-		// Create the model, ignoring request data so we can safely set the state in the request, without it being
-		// reinitialised on the first getState call
-		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
+		// Create the model, ignoring request data so we can safely set the state in the request from the controller
+		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
-
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
 		}
 
 		try
@@ -199,19 +200,20 @@ class ApiController extends BaseController
 	{
 		// Assemble pagination information (using recommended JsonApi pagination notation for offset strategy)
 		$paginationInfo = $this->input->get('page', [], 'array');
-		$internalPaginationMapping = [];
+		$limit          = null;
+		$offset         = null;
 
 		if (\array_key_exists('offset', $paginationInfo))
 		{
-			$this->input->set('limitstart', $paginationInfo['offset']);
+			$offset = $paginationInfo['offset'];
+			$this->modelState->set($this->context . '.limitstart', $offset);
 		}
 
 		if (\array_key_exists('limit', $paginationInfo))
 		{
-			$internalPaginationMapping['limit'] = $paginationInfo['limit'];
+			$limit = $paginationInfo['limit'];
+			$this->modelState->set($this->context . '.list.limit', $limit);
 		}
-
-		$this->input->set('list', $internalPaginationMapping);
 
 		$viewType   = $this->app->getDocument()->getType();
 		$viewName   = $this->input->get('view', $this->default_view);
@@ -235,34 +237,35 @@ class ApiController extends BaseController
 		$modelName = $this->input->get('model', $this->contentType);
 
 		/** @var ListModel $model */
-		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
+		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
-		}
-
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
+
+		if ($offset)
+		{
+			$model->setState('list.start', $offset);
+		}
 
 		/**
 		 * Sanity check we don't have too much data being requested as regularly in html we automatically set it back to
 		 * the last page of data. If there isn't a limit start then set
 		 */
-		if (!$this->input->getInt('limit', null))
+		if ($limit)
+		{
+			$model->setState('list.limit', $limit);
+		}
+		else
 		{
 			$model->setState('list.limit', $this->itemsPerPage);
 		}
 
-		if ($this->input->getInt('limitstart', 0) > $model->getTotal())
+		if (!is_null($offset) && $offset > $model->getTotal())
 		{
 			throw new Exception\ResourceNotFound;
 		}
@@ -303,14 +306,6 @@ class ApiController extends BaseController
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
-
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
 		}
 
 		// Remove the item.
@@ -436,6 +431,8 @@ class ApiController extends BaseController
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
+		$data = $this->preprocessSaveData($data);
+
 		// TODO: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
@@ -542,5 +539,19 @@ class ApiController extends BaseController
 		$user = $this->app->getIdentity();
 
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+	}
+
+	/**
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	protected function preprocessSaveData(array $data): array
+	{
+		return $data;
 	}
 }

@@ -6,6 +6,7 @@
 			type="contentlanguage"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JALL</option>

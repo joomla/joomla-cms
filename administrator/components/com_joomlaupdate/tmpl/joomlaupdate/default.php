@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,21 +12,34 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
+/** @var HtmlView $this */
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
+/** @var WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_joomlaupdate.default')
+	->useScript('bootstrap.popover');
+
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('JYES');
 Text::script('JNO');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
+$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
 ?>
 
-<div id="joomlaupdate-wrapper" class="mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
+<div id="joomlaupdate-wrapper" class="main-card mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
@@ -45,13 +58,16 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
-				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				&& !$this->updateInfo['hasUpdate'])) : ?>
+				<?php // If we have no download URL and this is also not a new update at all ?>
+				<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
-				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+				<?php // If we have no download URL or our PHP version or our DB type is not supported then we can't reinstall or update ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
-				<?php // If we have no update we can reinstall the core ?>
+				<?php // If we have no update but we have a downloadurl then we can reinstall the core ?>
 				<?php echo $this->loadTemplate('reinstall'); ?>
 			<?php else : ?>
 				<?php // Ok let's show the update template ?>
@@ -74,7 +90,7 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div id="download-message" style="display:none">
+	<div id="download-message" class="hidden">
 		<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>

@@ -17,6 +17,7 @@
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			size="50"
 			required="true"
+			validate="UserId"
 		/>
 
 		<field
@@ -53,6 +54,7 @@
 			label="JSTATUS"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>

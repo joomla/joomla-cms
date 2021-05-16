@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -40,6 +40,8 @@ extract($displayData);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 /**
@@ -55,7 +57,8 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>>
+	<?php echo $autofocus ? 'autofocus' : ''; ?>
+	<?php echo $dataAttribute; ?>>
 
 	<?php if (!empty($options)) : ?>
 		<?php foreach ($options as $i => $option) : ?>

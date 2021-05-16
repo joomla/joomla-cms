@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,9 @@ namespace Joomla\CMS\Router;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -70,12 +70,6 @@ class Route
 	{
 		try
 		{
-			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
-			{
-				$tls = self::TLS_DISABLE;
-			}
-
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
@@ -86,6 +80,12 @@ class Route
 				);
 
 				$tls = (int) $tls;
+			}
+
+			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
+			if ($tls === -1)
+			{
+				$tls = self::TLS_DISABLE;
 			}
 
 			$app    = Factory::getApplication();

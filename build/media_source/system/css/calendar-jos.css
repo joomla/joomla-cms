@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ div.calendar {
 
 .calendar thead .active { /* Active (pressed) buttons in header */
 	background: #c77;
-	padding: 2px 0px 0px 2px;
+	padding: 2px 0 0 2px;
 }
 
 .calendar thead .daynames { /* Row <TR> containing the day names */
@@ -148,7 +148,7 @@ div.calendar {
 
 .calendar tfoot .active { /* Active (pressed) style for buttons in footer */
 	background: #999999;
-	padding: 2px 0px 0px 2px;
+	padding: 2px 0 0 2px;
 }
 
 /* Combo boxes (menus that display months/years for direct selection) */
@@ -156,8 +156,8 @@ div.calendar {
 .combo {
 	position: absolute;
 	display: none;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 4em;
 	cursor: default;
 	border: 1px solid #655;

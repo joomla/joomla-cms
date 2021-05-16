@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_BANNERS_TRACKS_FILTER_SEARCH_LABEL"
 			description="COM_BANNERS_TRACKS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,7 +13,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			extension="com_banners"
 			onchange="this.form.submit();"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -23,7 +24,7 @@
 		<field
 			name="client_id"
 			type="bannerclient"
-			label="COM_BANNERS_SELECT_CLIENT"
+			label="COM_BANNERS_HEADING_CLIENT"
 			extension="com_content"
 			onchange="this.form.submit();"
 			>
@@ -33,8 +34,9 @@
 		<field
 			name="type"
 			type="list"
-			label="COM_BANNERS_SELECT_TYPE"
+			label="COM_BANNERS_HEADING_TYPE"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
 			<option value="1">COM_BANNERS_TYPE1</option>
@@ -44,7 +46,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -57,23 +59,21 @@
 		<field
 			name="begin"
 			type="calendar"
-			label="COM_BANNERS_BEGIN_HINT"
+			label="COM_BANNERS_BEGIN_LABEL"
 			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
 
 		<field
 			name="end"
 			type="calendar"
-			label="COM_BANNERS_END_HINT"
+			label="COM_BANNERS_END_LABEL"
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
     </fields>
 	<fields name="list">
@@ -83,10 +83,11 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="b.name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="b.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>
-			<option value="b.name DESC">COM_BANNERS_HEADING_NAME_DESC</option>
+			<option value="b.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="b.name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="cl.name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>
 			<option value="cl.name DESC">COM_BANNERS_HEADING_CLIENT_DESC</option>
 			<option value="a.track_type ASC">COM_BANNERS_HEADING_TYPE_ASC</option>

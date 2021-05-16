@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,7 +100,7 @@ class PreloadManager implements PreloadManagerInterface
 	}
 
 	/**
-	 * Initiates a early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
+	 * Initiates an early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
 	 *
 	 * @param   string  $uri         A public path
 	 * @param   array   $attributes  The attributes of this link (e.g. "array('as' => true)", "array('pr' => 0.5)")

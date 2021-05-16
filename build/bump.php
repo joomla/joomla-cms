@@ -17,7 +17,7 @@
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,11 +43,12 @@ $coreXmlFiles     = array(
 			);
 
 $languageXmlFiles = array(
-			'/language/en-GB/en-GB.xml',
+			'/language/en-GB/langmetadata.xml',
 			'/language/en-GB/install.xml',
-			'/administrator/language/en-GB/en-GB.xml',
+			'/administrator/language/en-GB/langmetadata.xml',
 			'/administrator/language/en-GB/install.xml',
 			'/installation/language/en-GB/en-GB.xml',
+			'/api/language/en-GB/langmetadata.xml'
 			);
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
@@ -271,8 +272,6 @@ foreach ($readMeFiles as $readMeFile)
 	}
 }
 
-// Updates the copyright date in core files.
-$changedFilesCopyrightDate = 0;
 $changedFilesSinceVersion  = 0;
 $year                      = date('Y');
 $directory                 = new \RecursiveDirectoryIterator($rootPath);
@@ -312,18 +311,9 @@ foreach ($iterator as $file)
 		if ($continue)
 		{
 			$changeSinceVersion  = false;
-			$changeCopyrightDate = false;
 
 			// Load the file.
 			$fileContents = file_get_contents($filePath);
-
-			// Check if need to change the copyright date.
-			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
-			{
-				$changeCopyrightDate = true;
-				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
-				$changedFilesCopyrightDate++;
-			}
 
 			// Check if need to change the since version.
 			if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents))
@@ -334,7 +324,7 @@ foreach ($iterator as $file)
 			}
 
 			// Save the file.
-			if ($changeCopyrightDate || $changeSinceVersion)
+			if ($changeSinceVersion)
 			{
 				file_put_contents($filePath, $fileContents);
 			}
@@ -342,16 +332,9 @@ foreach ($iterator as $file)
 	}
 }
 
-if ($changedFilesCopyrightDate > 0 || $changedFilesSinceVersion > 0)
+if ($changedFilesSinceVersion > 0)
 {
-	if ($changedFilesCopyrightDate > 0)
-	{
-		echo '- Copyright Date changed in ' . $changedFilesCopyrightDate . ' files.' . PHP_EOL;
-	}
-	if ($changedFilesSinceVersion > 0)
-	{
-		echo '- Since Version changed in ' . $changedFilesSinceVersion . ' files.' . PHP_EOL;
-	}
+	echo '- Since Version changed in ' . $changedFilesSinceVersion . ' files.' . PHP_EOL;
 	echo PHP_EOL;
 }
 

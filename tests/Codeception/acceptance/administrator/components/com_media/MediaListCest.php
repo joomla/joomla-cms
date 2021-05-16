@@ -3,12 +3,12 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
+use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
@@ -202,7 +202,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using double click.
+	 * Test that it's possible to navigate to a subfolder using double click.
 	 *
 	 * @param   Media  $I
 	 *
@@ -212,7 +212,7 @@ class MediaListCest
 	 */
 	public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using double click.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using double click.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('banners'));
@@ -222,7 +222,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using tree.
+	 * Test that it's possible to navigate to a subfolder using tree.
 	 *
 	 * @param   Media  $I
 	 *
@@ -232,7 +232,7 @@ class MediaListCest
 	 */
 	public function navigateUsingTree(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using tree.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using tree.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInTree('banners');
@@ -242,7 +242,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using breadcrumb.
+	 * Test that it's possible to navigate to a subfolder using breadcrumb.
 	 *
 	 * @param   Media  $I
 	 *
@@ -252,7 +252,7 @@ class MediaListCest
 	 */
 	public function navigateUsingBreadcrumb(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using breadcrumb.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInBreadcrumb('images');
@@ -277,22 +277,28 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
-		$I->seeSystemMessage('Item deleted.');
+
+		// Ensure the modal has closed
+		$I->wait(1);
+		$I->seeAndCloseSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
 
 	/**
-	 * Test the upload of a single file using toolbar button.
+	 * Test the upload of an existing file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
-	 *          Its throws an Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup
+	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
@@ -308,13 +314,13 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeContents([$testFileName]);
 		$I->waitForMediaLoaded();
 		$I->seeInPopup($testFileName . ' already exists. Do you want to replace it?');
 		$I->acceptPopup();
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 	}
 
@@ -336,6 +342,9 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -343,6 +352,9 @@ class MediaListCest
 			return $el->isEnabled();
 		});
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Folder created.');
 		$I->waitForElement(MediaListPage::item($testFolderName));
 		$I->seeElement(MediaListPage::item($testFolderName));
@@ -389,13 +401,21 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete a single file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->waitForElement($testFileItem);
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
+
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 		$I->dontSeeElement($testFileName);
@@ -422,8 +442,14 @@ class MediaListCest
 		$I->click($testFolderItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFolderItem);
 		$I->dontSeeElement($testFolderItem);
@@ -448,7 +474,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete multiple files.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForElement($testFileItem1);
 
@@ -456,7 +482,7 @@ class MediaListCest
 		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
 		$I->waitForMediaLoaded();
 		$I->uploadFile('com_media/' . $testFileName2);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForMediaLoaded();
 		$I->waitForElement($testFileItem2);
@@ -490,18 +516,19 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->waitForElement($testFileItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
-		$I->wait(0.5);
+		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, 'test-image-1-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFileItem);
 		$I->seeElement(MediaListPage::item('test-image-1-renamed.png'));
@@ -559,18 +586,19 @@ class MediaListCest
 		$I->createDirectory('images/' . $this->testDirectory . '/' . $testFolderName);
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForElement($testFolderItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFolderName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
-		$I->wait(0.5);
+		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFolderItem);
 		$I->seeElement(MediaListPage::item($testFolderName . '-renamed'));
@@ -666,7 +694,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingCloseButton(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using the close button.');
+		$I->wantToTest('that it is possible to close the preview modal using the close button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -688,7 +716,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingEscapeKey(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using escape key.');
+		$I->wantToTest('that it is possible to close the preview modal using escape key.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -806,8 +834,6 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$itemsContainerMedium);
 		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerSmall);
-		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
-		$I->seeElement(MediaListPage::$itemsContainerExtraSmall);
 		$I->seeElement(MediaListPage::$decreaseThumbnailSizeButtonDisabled);
 	}
 
@@ -822,7 +848,7 @@ class MediaListCest
 	 */
 	public function toggleListViewUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to toggle the list view (grid/table) using the toolbar button.');
+		$I->wantToTest('that it is possible to toggle the list view (grid/table) using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->seeElement(MediaListPage::$mediaBrowserGrid);
@@ -846,7 +872,7 @@ class MediaListCest
 	 */
 	public function selectAllItemsUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to select all items using toolbar button.');
+		$I->wantToTest('that it is possible to select all items using toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->click(MediaListPage::$selectAllButton);

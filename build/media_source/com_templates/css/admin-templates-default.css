@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,30 @@
 
 .tree-holder {
 	overflow-x: auto;
+}
+.modal-body .tree-holder {
+	max-height: 60vh;
+}
+
+@media (max-width: 768px) {
+	.modal-title {
+		font-size: 1rem;
+	}
+	.modal-body .tree-holder {
+		max-height: 12vh;
+		margin-bottom: 20px;
+	}
+	.modal-body .card-body {
+		padding: .75rem;
+	}
+	.modal-body .col-md-4,
+	.modal-body .col-md-8 {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.card-body .mt-2 {
+		font-size: 12px;
+	}
 }
 
 .treeselect a {
@@ -77,10 +101,25 @@
 	margin-left: 3.5em;
 }
 
-#toggle-buttons {
-	margin-right: 5em;
-}
-
 .switcher-label-0, .switcher-label-1 {
 	white-space: nowrap;
+}
+
+/* RTL overrides for templates editing*/
+[dir=rtl] .diff-pane {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane textarea,
+#override-pane textarea {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane joomla-editor-codemirror,
+#override-pane joomla-editor-codemirror {
+	text-align: left;
+}
+
+[dir=rtl] #toggle-buttons {
+	text-align: right !important;
 }

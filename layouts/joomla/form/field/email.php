@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -43,33 +43,31 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
- * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
-
-$attributes = array(
+$attributes = [
+	'type="email"',
+	'inputmode="email"',
+	'name="' . $name . '"',
+	'class="form-control validate-email' . (!empty($class) ? ' ' . $class : '') . '"',
+	'id="' . $id . '"',
+	'value="' . htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8') . '"',
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$multiple ? 'multiple' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
-);
-?>
-<input
-	type="email"
-	inputmode="email"
-	name="<?php echo $name; ?>"
-	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+	$dataAttribute,
+];
+
+echo '<input ' . implode(' ', array_values(array_filter($attributes))) . '>';

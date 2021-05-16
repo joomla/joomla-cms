@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -61,9 +62,20 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public function onInit()
 	{
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		$wa = $this->app->getDocument()->getWebAssetManager();
+
+		if (!$wa->assetExists('script', 'tinymce'))
+		{
+			$wa->registerScript('tinymce', $this->_basePath . '/tinymce.min.js', [], ['defer' => true]);
+		}
+
+		if (!$wa->assetExists('script', 'plg_editors_tinymce'))
+		{
+			$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
+		}
+
+		$wa->useScript('tinymce')
+			->useScript('plg_editors_tinymce');
 	}
 
 	/**
@@ -86,8 +98,6 @@ class PlgEditorTinymce extends CMSPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		$app = Factory::getApplication();
-
 		if (empty($id))
 		{
 			$id = $name;
@@ -131,7 +141,12 @@ class PlgEditorTinymce extends CMSPlugin
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
+
+		if (!$this->app->client->mobile)
+		{
+			$editor .= LayoutHelper::render('joomla.tinymce.togglebutton');
+		}
+
 		$editor .= '</div>';
 
 		// Prepare the instance specific options, actually the ext-buttons
@@ -213,17 +228,11 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
-
 		// Set the selected skin
-		$skin = 'oxide';
-		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
-		}
+		// Check that selected skin exists.
+		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -264,7 +273,7 @@ class PlgEditorTinymce extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1')
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
 				]
 			);
 
@@ -276,7 +285,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return '';
 		}
@@ -342,16 +351,16 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$ignore_filter = $filter === false;
 
-			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
-			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-			$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
-			$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
+			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : array();
+			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : array();
+			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : array();
+			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : array();
 
-			$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
+			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
-			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
+			// Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
 			$default_filter = InputFilter::getInstance();
-			$valid_elements = implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
+			$valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
 			$extended_elements = '';
 		}
@@ -394,8 +403,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'importcss',
+			'quickbars',
 		);
 
 		// Allowed elements
@@ -461,37 +470,46 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if (!empty($allButtons['template']))
 		{
-			foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
+			// Do we have a custom content_template_path
+			$template_path = $levelParams->get('content_template_path');
+			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
+
+			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
 			{
-				$filename = basename($filename, '.html');
+				$fileinfo      = pathinfo($filepath);
+				$filename      = $fileinfo['filename'];
+				$full_filename = $fileinfo['basename'];
 
-				if ($filename !== 'index')
+				if ($filename === 'index')
 				{
-					$lang        = Factory::getLanguage();
-					$title       = $filename;
-					$description = ' ';
-
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
-					{
-						$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
-					}
-
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
-					{
-						$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
-					}
-
-					$templates[] = array(
-						'title' => $title,
-						'description' => $description,
-						'url' => Uri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
-					);
+					continue;
 				}
+
+				$lang        = Factory::getLanguage();
+				$title       = $filename;
+				$title_upper = strtoupper($filename);
+				$description = ' ';
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				{
+					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
+				}
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				{
+					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
+				}
+
+				$templates[] = array(
+					'title' => $title,
+					'description' => $description,
+					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
+				);
 			}
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -499,38 +517,33 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// Drag and drop Images
+		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
 
-			$allowImgPaste = true;
-			$isSubDir      = '';
-			$session       = $this->app->getSession();
-			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
-				. $session->getName() . '=' . $session->getId()
-				. '&' . Session::getFormToken() . '=1'
-				. '&asset=image&format=json';
-
-			if ($app->isClient('site'))
+			if ($this->app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
 
-			// Is Joomla installed in subdirectory
-			if (Uri::root(true) !== '/')
-			{
-				$isSubDir = Uri::root(true);
-			}
-
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
+			Text::script('JERROR');
+			Text::script('PLG_TINY_DND_ADDITIONALDATA');
+			Text::script('PLG_TINY_DND_ALTTEXT');
+			Text::script('PLG_TINY_DND_LAZYLOADED');
+			Text::script('PLG_TINY_DND_EMPTY_ALT');
 
-			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
-			$scriptOptions['uploadUri']       = $uploadUrl;
+			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
+			$scriptOptions['csrfToken']          = Session::getFormToken();
+			$scriptOptions['uploadUri']          = $uploadUrl;
+
+			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
+			$scriptOptions['comMediaAdapter']    = 'local-0:';
 		}
 
 		// Convert pt to px in dropdown
@@ -552,6 +565,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
+		// Merge the two toolbars for backwards compatibility
+		$toolbar = array_merge($toolbar1, $toolbar2);
+
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
@@ -567,10 +583,14 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
-				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
+				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
+
+				// Quickbars
+				'quickbars_image_toolbar'     => false,
+				'quickbars_insert_toolbar'    => false,
+				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
 				'inline_styles'    => true,
@@ -590,14 +610,22 @@ class PlgEditorTinymce extends CMSPlugin
 				'content_css'        => $content_css,
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
+				'image_caption'      => true,
 				'importcss_append'   => true,
-				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
-				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+				'toolbar_sticky'     => true,
+				'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),
+
+				// Image plugin options
+				'a11y_advanced_options' => true,
+				'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
+				'image_title'           => true,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -639,37 +667,11 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
-		/**
-		 * Shrink the buttons if not on a mobile or if mobile view is off.
-		 * If mobile view is on force into simple mode and enlarge the buttons
-		 */
-		if (!$this->app->client->mobile)
-		{
-			$scriptOptions['toolbar_items_size'] = 'small';
-		}
-		elseif ($levelParams->get('mobile', 0))
-		{
-			$scriptOptions['menubar'] = false;
-			unset($scriptOptions['toolbar2']);
-		}
-
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
-	}
-
-	/**
-	 * Get the toggle editor button
-	 *
-	 * @param   string  $name  Editor name
-	 *
-	 * @return  string
-	 */
-	private function _toogleButton($name)
-	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
 	}
 
 	/**
@@ -704,7 +706,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
-				$button->id = $name . '_' . $button->text . 'Modal';
+				$button->id = $name . '_' . $button->name . '_modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
@@ -712,9 +714,9 @@ class PlgEditorTinymce extends CMSPlugin
 				{
 					// Set some vars
 					$btnName = $button->get('text');
-					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
+					$modalId = $name . '_' . $button->name;
 					$onclick = $button->get('onclick') ?: null;
-					$icon    = $button->get('name');
+					$icon    = $button->get('icon');
 
 					if ($button->get('link') !== '#')
 					{
@@ -761,17 +763,17 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$filters = $config->get('filters');
 
-		$blackListTags        = array();
-		$blackListAttributes  = array();
+		$forbiddenListTags        = array();
+		$forbiddenListAttributes  = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags        = array();
-		$whiteListAttributes  = array();
+		$allowedListTags        = array();
+		$allowedListAttributes  = array();
 
-		$whiteList  = false;
-		$blackList  = false;
+		$allowedList  = false;
+		$forbiddenList  = false;
 		$customList = false;
 		$unfiltered = false;
 
@@ -800,7 +802,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Forbidden or allowed lists.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -827,15 +829,17 @@ class PlgEditorTinymce extends CMSPlugin
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the list of forbidden or allowed tags and attributes.
 				// Each list is cumulative.
-				if ($filterType === 'BL')
+				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				if (in_array($filterType, ['BL', 'FL']))
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$forbiddenList           = true;
+					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
+					$forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
 				}
-				elseif ($filterType === 'CBL')
+				// "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['CBL', 'CFL']))
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -845,22 +849,23 @@ class PlgEditorTinymce extends CMSPlugin
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType === 'WL')
+				// "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['WL', 'AL']))
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowedList           = true;
+					$allowedListTags       = array_merge($allowedListTags, $tempTags);
+					$allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
+		// Remove duplicates before processing (because the forbidden list uses both sets of arrays).
+		$forbiddenListTags        = array_unique($forbiddenListTags);
+		$forbiddenListAttributes  = array_unique($forbiddenListAttributes);
 		$customListTags       = array_unique($customListTags);
 		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		$allowedListTags        = array_unique($allowedListTags);
+		$allowedListAttributes  = array_unique($allowedListAttributes);
 
 		// Unfiltered assumes first priority.
 		if ($unfiltered)
@@ -870,48 +875,48 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		else
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom forbidden list precedes Default forbidden list.
 			if ($customList)
 			{
 				$filter = InputFilter::getInstance([], [], 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default forbidden tags and attributes
 				if ($customListTags)
 				{
-					$filter->tagBlacklist = $customListTags;
+					$filter->blockedTags = $customListTags;
 				}
 
 				if ($customListAttributes)
 				{
-					$filter->attrBlacklist = $customListAttributes;
+					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// Forbidden list takes second precedence.
+			elseif ($forbiddenList)
 			{
-				// Remove the white-listed tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the forbidden list.
+				$forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
+				$forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
-				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove allowed tags from filter's default forbidden list
+				if ($allowedListTags)
 				{
-					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove allowed attributes from filter's default forbidden list
+				if ($allowedListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// Allowed list take third precedence.
+			elseif ($allowedList)
 			{
 				// Turn off XSS auto clean
-				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -925,6 +930,8 @@ class PlgEditorTinymce extends CMSPlugin
 
 	/**
 	 * Return list of known TinyMCE buttons
+	 * @see https://www.tiny.cloud/docs/demo/full-featured/
+	 * @see https://www.tiny.cloud/apps/#core-plugins
 	 *
 	 * @return array
 	 *
@@ -932,8 +939,6 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public static function getKnownButtons()
 	{
-		// See https://www.tinymce.com/docs/demo/full-featured/
-		// And https://www.tinymce.com/docs/plugins/
 		$buttons = [
 
 			// General buttons
@@ -955,9 +960,13 @@ class PlgEditorTinymce extends CMSPlugin
 			'aligncenter'   => array('label' => 'Align center'),
 			'alignright'    => array('label' => 'Align right'),
 			'alignjustify'  => array('label' => 'Justify'),
+			'lineheight'    => array('label' => 'Line height'),
 
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
+
+			'forecolor'     => array('label' => 'Text colour'),
+			'backcolor'     => array('label' => 'Background text colour'),
 
 			'bullist'       => array('label' => 'Bullet list'),
 			'numlist'       => array('label' => 'Numbered list'),
@@ -989,6 +998,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
 			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
 			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
 			'print'          => array('label' => 'Print', 'plugin' => 'print'),
 			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),
@@ -996,6 +1006,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+			'help'           => array('label' => 'Help', 'plugin' => 'help'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		];
 
@@ -1019,13 +1030,13 @@ class PlgEditorTinymce extends CMSPlugin
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext', 'jxtdbuttons'
+				'pastetext', 'jxtdbuttons',
 			],
 			'toolbar2' => [],
 		];
 
 		$preset['medium'] = array(
-			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
@@ -1036,16 +1047,17 @@ class PlgEditorTinymce extends CMSPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons',
 			),
 			'toolbar2' => array(),
 		);
 
 		$preset['advanced'] = array(
-			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'lineheight', '|',
 				'styleselect', '|',
 				'formatselect', 'fontselect', 'fontsizeselect', '|',
 				'searchreplace', '|',
@@ -1061,7 +1073,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
 			),
 			'toolbar2' => array(),
 		);
@@ -1092,7 +1104,7 @@ class PlgEditorTinymce extends CMSPlugin
 	}
 
 	/**
-	 * Array helper funtion to remove specific arrays by key-value
+	 * Array helper function to remove specific arrays by key-value
 	 *
 	 * @param   array   $array  the parent array
 	 * @param   string  $key    the key
@@ -1109,6 +1121,7 @@ class PlgEditorTinymce extends CMSPlugin
 				unset($array[$subKey]);
 			}
 		}
+
 		return $array;
 	}
 }

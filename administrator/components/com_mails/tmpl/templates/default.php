@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -32,53 +31,63 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="templateList">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="min-width:100px">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-20">
+									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
-								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-15 d-none d-md-table-cell">
+									<?php echo Text::_('COM_MAILS_HEADING_EXTENSION'); ?>
 								</th>
-								<th scope="col" style="width:15%"  class="d-none d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_LANGUAGES'); ?>
+								<?php if (count($this->languages) > 1) : ?>
+								<th scope="col" class="w-10 text-center">
+									<?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<?php endif; ?>
+								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-20 d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							list($component, $sub_id) = explode('.', $item->template_id, 2);
+							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+									<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
+										<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+									</a>
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td>
-									<?php foreach ($this->languages as $language) : ?>
-										<?php $exists = in_array($language->lang_code, $item->languages); ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>"
-											<?php echo !$exists ? ' style=""' : ''; ?>>
-											<?php if ($language->image) : ?>
-												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-											<?php else : ?>
-												<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
-											<?php endif; ?>
-										</a>
-									<?php endforeach; ?>
-								</td>
-								<td>
+								<?php if (count($this->languages) > 1) : ?>
+									<td class="text-center">
+										<?php foreach ($this->languages as $language) : ?>
+											<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+												<?php if ($language->image) : ?>
+													<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+												<?php else : ?>
+													<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+												<?php endif; ?>
+											</a>
+										<?php endforeach; ?>
+									</td>
+								<?php endif; ?>
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell text-break">
 									<?php echo $item->template_id; ?>
 								</td>
 							</tr>

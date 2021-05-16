@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_USERS_SEARCH_USERS"
 			description="COM_USERS_SEARCH_IN_NAME"
 			hint="JSEARCH_FILTER"
@@ -11,7 +12,7 @@
 		<field
 			name="state"
 			type="userstate"
-			label="COM_USERS_FILTER_STATE"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
@@ -19,7 +20,7 @@
 		<field
 			name="active"
 			type="useractive"
-			label="COM_USERS_FILTER_ACTIVE"
+			label="COM_USERS_HEADING_ACTIVATED"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_ACTIVE</option>
@@ -27,7 +28,7 @@
 		<field
 			name="group_id"
 			type="usergrouplist"
-			label="COM_USERS_FILTER_USERGROUP"
+			label="COM_USERS_HEADING_GROUPS"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
@@ -35,7 +36,7 @@
 		<field
 			name="lastvisitrange"
 			type="lastvisitdaterange"
-			label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			label="COM_USERS_HEADING_LAST_VISIT_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
@@ -43,7 +44,7 @@
 		<field
 			name="range"
 			type="registrationdaterange"
-			label="COM_USERS_OPTION_FILTER_DATE"
+			label="COM_USERS_HEADING_REGISTRATION_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
@@ -56,10 +57,11 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.name ASC">COM_USERS_HEADING_NAME_ASC</option>
-			<option value="a.name DESC">COM_USERS_HEADING_NAME_DESC</option>
+			<option value="a.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="a.name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="a.username ASC">COM_USERS_HEADING_USERNAME_ASC</option>
 			<option value="a.username DESC">COM_USERS_HEADING_USERNAME_DESC</option>
 			<option value="a.block ASC">COM_USERS_HEADING_ENABLED_ASC</option>

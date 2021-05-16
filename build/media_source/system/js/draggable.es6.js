@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let i;
       let l;
       const result = [];
-      const rows = wrapper.querySelectorAll('[name="order[]"]');
-      const inputRows = wrapper.querySelectorAll('[name="cid[]"]');
+      const rows = [].slice.call(wrapper.querySelectorAll('[name="order[]"]'));
+      const inputRows = [].slice.call(wrapper.querySelectorAll('[name="cid[]"]'));
 
       if (dir === 'desc') {
         // Reverse the array
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Get the order array
       for (i = 0, l = rows.length; l > i; i += 1) {
         rows[i].value = i + 1;
-        result.push(`order[]=${encodeURIComponent(i)}`);
+        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
 
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       accepts(el, target, source, sibling) {
         if (isNested) {
           if (sibling !== null) {
-            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') === el.getAttribute('data-dragable-group');
+            return sibling.getAttribute('data-draggable-group') && sibling.getAttribute('data-draggable-group') === el.getAttribute('data-draggable-group');
           }
 
           return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
@@ -94,13 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
       },
+
+      mirrorContainer: container,
     })
       .on('drag', () => {
 
       })
       .on('cloned', () => {
-        const el = document.querySelector('.gu-mirror');
-        el.classList.add('table');
+
       })
       .on('drop', () => {
         if (url) {

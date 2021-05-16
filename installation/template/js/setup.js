@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,8 +83,17 @@ Joomla.checkDbCredentials = function() {
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      response = JSON.parse(response);
       var loaderElement = document.querySelector('joomla-core-loader');
+      try {
+        response = JSON.parse(response);
+      } catch (e) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        console.error('Error in DB Check Endpoint');
+        console.error(response);
+        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+
+        return false;
+      }
 
       if (response.messages) {
         Joomla.renderMessages(response.messages);
@@ -98,7 +107,7 @@ Joomla.checkDbCredentials = function() {
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // TODO: Convert to promises
-        Joomla.install(['config'], form);
+        Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
     onError:   function(xhr){
@@ -150,7 +159,7 @@ Joomla.checkDbCredentials = function() {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_site_name'])) {
         if (document.getElementById('languageForm')) {
-          document.getElementById('languageForm').style.display = 'none';
+          document.getElementById('languageForm').classList.add('hidden');
         }
         if (document.getElementById('installStep2')) {
           document.getElementById('installStep2').classList.add('active');
@@ -172,7 +181,7 @@ Joomla.checkDbCredentials = function() {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
           document.getElementById('installStep2').classList.remove('active');
-          document.getElementById('setupButton').style.display = 'block';
+          document.getElementById('setupButton').classList.remove('hidden');
 
           Joomla.makeRandomDbPrefix();
 

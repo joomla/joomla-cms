@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Init on dom content loaded event
@@ -19,9 +19,14 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
+		document.getElementById('installCongrat').classList.add('active');
 		document.getElementById('installFinal').classList.add('active');
 		document.getElementById('installRecommended').classList.add('active');
 		document.getElementById('installLanguages').classList.remove('active');
+
+		if (document.getElementById('installFinal')) {
+			document.getElementById('installFinal').focus();
+		}
 	})
 }
 
@@ -29,7 +34,7 @@ if (document.getElementById('removeInstallationFolder')) {
 	document.getElementById('removeInstallationFolder')
 		.addEventListener('click', function (e) {
 			e.preventDefault();
-			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER'));
+			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER').replace('%s', 'installation'));
 			if (confirm) {
 				Joomla.request({
 					method: "POST",
@@ -65,4 +70,43 @@ if (document.getElementById('installLanguagesButton')) {
 			}
 		}
 	})
+}
+
+if (document.getElementById('defaultLanguagesButton')) {
+  document.getElementById('defaultLanguagesButton')
+    .addEventListener('click', (e) => {
+      let frontendlang = 'en-GB';
+      if (document.querySelector('input[name="frontendlang"]:checked')) {
+        frontendlang = document.querySelector('input[name="frontendlang"]:checked').value;
+      }
+
+      let administratorlang = 'en-GB';
+      if (document.querySelector('input[name="administratorlang"]:checked')) {
+        administratorlang = document.querySelector('input[name="administratorlang"]:checked').value;
+      }
+
+      e.preventDefault();
+
+      Joomla.request({
+        method: 'POST',
+        url: `${Joomla.installationBaseUrl}?view=setup&frontendlang=${frontendlang}&administratorlang=${administratorlang}&task=language.setdefault&format=json`,
+        perform: true,
+        token: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onSuccess(response) {
+          const successresponse = JSON.parse(response);
+          if (successresponse.messages) {
+            Joomla.renderMessages(successresponse.messages, '#system-message-container');
+          }
+          Joomla.loadOptions({'csrf.token': successresponse.token});
+        },
+        onError(xhr) {
+          Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+        },
+      });
+
+      if (document.getElementById('header')) {
+        document.getElementById('header').scrollIntoView();
+      }
+    });
 }

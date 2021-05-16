@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@ use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -35,7 +35,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -46,12 +46,36 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	protected $output;
 
 	/**
+	 * The input.
+	 *
+	 * @var    \Joomla\Input\Input
+	 * @since  4.0.0
+	 */
+	protected $input = null;
+
+	/**
 	 * CLI Input object
 	 *
 	 * @var    CliInput
 	 * @since  4.0.0
 	 */
 	protected $cliInput;
+
+	/**
+	 * The application language object.
+	 *
+	 * @var    Language
+	 * @since  4.0.0
+	 */
+	protected $language;
+
+	/**
+	 * The application message queue.
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	protected $messages = [];
 
 	/**
 	 * The application instance.
@@ -92,22 +116,89 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
+		$this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
 
+		if (!$container->has('session'))
+		{
+			$container->alias('session', 'session.cli')
+				->alias('JSession', 'session.cli')
+				->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+		}
+
+		$this->input    = new \Joomla\CMS\Input\Cli;
+		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
 
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
-
-		parent::__construct($input ?: new Cli, $config);
+		parent::__construct($config);
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
+	}
+
+	/**
+	 * Magic method to access properties of the application.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed   A value if the property name is valid, null otherwise.
+	 *
+	 * @since       4.0.0
+	 * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'input':
+				@trigger_error(
+					'Accessing the input property of the application is deprecated, use the getInput() method instead.',
+					E_USER_DEPRECATED
+				);
+
+				return $this->getInput();
+
+			default:
+				$trace = debug_backtrace();
+				trigger_error(
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
+					E_USER_NOTICE
+				);
+		}
+	}
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   4.0.0
+	 */
+	public function getInput(): Input
+	{
+		return $this->input;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**
@@ -148,11 +239,10 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		$this->triggerEvent('onBeforeExecute');
 
 		// Perform application routines.
 		$this->doExecute();
@@ -274,7 +364,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier == 'cli';
+		return $identifier === 'cli';
 	}
 
 	/**

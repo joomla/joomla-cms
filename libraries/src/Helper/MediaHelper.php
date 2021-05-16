@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,7 +132,7 @@ class MediaHelper
 			// Get the mime type configuration
 			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
-			// Mime should be available and in the whitelist
+			// Mime should be available and in the allowed list
 			return !empty($mime) && \in_array($mime, $allowedMime);
 		}
 

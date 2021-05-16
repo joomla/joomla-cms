@@ -39,6 +39,7 @@
 			type="list"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_LABEL"
 			default="value"
+			validate="options"
 			>
 			<option value="constant">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_CONSTANT</option>
 			<option value="value">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_TEXT</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.Users
  * @subpackage  Webservices.Users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,9 +38,13 @@ class PlgWebservicesUsers extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/users', 'users', ['component' => 'com_users']);
+		$router->createCRUDRoutes(
+			'v1/users',
+			'users',
+			['component' => 'com_users']
+		);
 
-		$this->createFiledsRoutes($router);
+		$this->createFieldsRoutes($router);
 	}
 
 	/**
@@ -52,7 +56,7 @@ class PlgWebservicesUsers extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	private function createFiledsRoutes(&$router)
+	private function createFieldsRoutes(&$router)
 	{
 		$router->createCRUDRoutes(
 			'v1/fields/users',

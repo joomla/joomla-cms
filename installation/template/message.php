@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,9 +25,9 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	/**
 	 * Renders the error stack and returns the results as a string
 	 *
-	 * @param   string  $name     Not used.
-	 * @param   array   $params   Associative array of values
-	 * @param   string  $content  Not used.
+	 * @param   string       $name     Not used.
+	 * @param   array        $params   Associative array of values
+	 * @param   string|null  $content  Not used.
 	 *
 	 * @return  string  The output of the script
 	 *

@@ -3,35 +3,39 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+extract($displayData, EXTR_OVERWRITE);
 
 /**
- * @var  int     $id
- * @var  string  $name
- * @var  string  $doTask
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  bool    $listCheck
- * @var  string  $htmlAttributes
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $name
+ * @var   string  $doTask
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   bool    $listCheck
+ * @var   string  $htmlAttributes
  */
-extract($displayData, EXTR_OVERWRITE);
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
 
 $tagName = $tagName ?? 'button';
 
-$modalAttrs['data-toggle'] = 'modal';
-$modalAttrs['data-target'] = '#' . $selector;
+$modalAttrs['data-bs-toggle'] = 'modal';
+$modalAttrs['data-bs-target'] = '#' . $selector;
 
 $idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck) ? ' list-selection' : '';

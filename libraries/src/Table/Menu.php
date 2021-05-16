@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -25,6 +26,14 @@ use Joomla\Registry\Registry;
  */
 class Menu extends Nested
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -144,6 +153,17 @@ class Menu extends Nested
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		return true;
 	}
 
@@ -157,7 +177,7 @@ class Menu extends Nested
 	 * @see     Table::store()
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -171,7 +191,7 @@ class Menu extends Nested
 		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
 			// Verify that a first level menu item alias is not 'component'.
-			if ($this->alias == 'component')
+			if ($this->alias === 'component')
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
@@ -210,13 +230,16 @@ class Menu extends Nested
 				// When editing an item with All language check if there are more menu items with the same alias in any language.
 				elseif ($this->language === '*' && $this->id != 0)
 				{
+					$id    = (int) $this->id;
 					$query = $db->getQuery(true)
 						->select('id')
 						->from($db->quoteName('#__menu'))
 						->where($db->quoteName('parent_id') . ' = 1')
 						->where($db->quoteName('client_id') . ' = 0')
-						->where($db->quoteName('id') . ' != ' . (int) $this->id)
-						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+						->where($db->quoteName('id') . ' != :id')
+						->where($db->quoteName('alias') . ' = :alias')
+						->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':alias', $this->alias);
 
 					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
@@ -276,8 +299,8 @@ class Menu extends Nested
 				}
 
 				$table->home = 0;
-				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
+				$table->checked_out = null;
+				$table->checked_out_time = null;
 				$table->store();
 			}
 		}

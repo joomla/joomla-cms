@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,21 +48,6 @@ class PlgUserTerms extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
-
-	/**
 	 * Adds additional fields to the user registration form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -83,7 +68,8 @@ class PlgUserTerms extends CMSPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		Form::addFormPath(__DIR__ . '/terms');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');
@@ -123,8 +109,8 @@ class PlgUserTerms extends CMSPlugin
 		}
 
 		// Check that the terms is checked if required ie only in registration from frontend.
-		$option = $this->app->input->getCmd('option');
-		$task   = $this->app->input->get->getCmd('task');
+		$option = $this->app->input->get('option');
+		$task   = $this->app->input->post->get('task');
 		$form   = $this->app->input->post->get('jform', array(), 'array');
 
 		if ($option == 'com_users' && in_array($task, array('registration.register')) && empty($form['terms']['terms']))
@@ -143,15 +129,15 @@ class PlgUserTerms extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		if (!$isNew || !$result)
 		{
-			return true;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');

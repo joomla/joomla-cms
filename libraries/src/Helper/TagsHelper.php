@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -77,7 +78,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Prevent saving duplicate tags
-		$tags = array_unique($tags);
+		$tags = array_values(array_unique($tags));
 
 		if (!$tags)
 		{
@@ -87,25 +88,27 @@ class TagsHelper extends CMSHelper
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(
-			array(
-				$db->quoteName('type_alias'),
+			[
 				$db->quoteName('core_content_id'),
 				$db->quoteName('content_item_id'),
 				$db->quoteName('tag_id'),
-				$db->quoteName('tag_date'),
 				$db->quoteName('type_id'),
-			)
+				$db->quoteName('type_alias'),
+				$db->quoteName('tag_date'),
+			]
 		);
 
 		foreach ($tags as $tag)
 		{
 			$query->values(
-				$db->quote($this->typeAlias)
-				. ', ' . (int) $ucmId
-				. ', ' . (int) $item
-				. ', ' . $db->quote($tag)
-				. ', ' . $query->currentTimestamp()
-				. ', ' . (int) $typeId
+				implode(
+					',',
+					array_merge(
+						$query->bindArray([(int) $ucmId, (int) $item, (int) $tag, (int) $typeId]),
+						$query->bindArray([$this->typeAlias], ParameterType::STRING),
+						[$query->currentTimestamp()]
+					)
+				)
 			);
 		}
 
@@ -146,14 +149,19 @@ class TagsHelper extends CMSHelper
 			if ($aliases)
 			{
 				// Remove duplicates
-				$aliases = array_unique($aliases);
+				$aliases = array_values(array_unique($aliases));
 
 				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
-					->select('alias, title')
-					->from('#__tags')
-					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+					->select(
+						[
+							$db->quoteName('alias'),
+							$db->quoteName('title'),
+						]
+					)
+					->from($db->quoteName('#__tags'))
+					->whereIn($db->quoteName('alias'), $aliases, ParameterType::STRING);
 				$db->setQuery($query);
 
 				try
@@ -217,8 +225,7 @@ class TagsHelper extends CMSHelper
 		else
 		{
 			// We will use the tags table to store them
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable  = Table::getInstance('Tag', 'TagsTable');
+			$tagTable  = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 			$newTags   = array();
 			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
@@ -335,23 +342,28 @@ class TagsHelper extends CMSHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
+		// Cast as integer until method is typehinted.
+		$id = (int) $id;
+
 		// Initialize some variables.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
-			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->where(
-				array(
-					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
-					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
+				[
+					$db->quoteName('m.type_alias') . ' = :contentType',
+					$db->quoteName('m.content_item_id') . ' = :id',
 					$db->quoteName('t.published') . ' = 1',
-				)
-			);
+				]
+			)
+			->bind(':contentType', $contentType)
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
-		$query->where('t.access IN (' . $groups . ')');
+		$query->whereIn($db->quoteName('t.access'), $groups);
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -363,7 +375,7 @@ class TagsHelper extends CMSHelper
 				$language = $this->getCurrentLanguage();
 			}
 
-			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
 		}
 
 		if ($getTagData)
@@ -371,7 +383,7 @@ class TagsHelper extends CMSHelper
 			$query->select($db->quoteName('t') . '.*');
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
@@ -415,13 +427,11 @@ class TagsHelper extends CMSHelper
 		// Load the tags.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('t.id'))
-			->from($db->quoteName('#__tags') . ' AS t ')
-			->join(
-				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
-				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
-				. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
-				. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . implode(',', $ids) . ')'
-			);
+			->from($db->quoteName('#__tags', 't'))
+			->join('INNER', $db->quoteName('#__contentitem_tag_map', 'm'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
+			->where($db->quoteName('m.type_alias') . ' = :prefix')
+			->whereIn($db->quoteName('m.content_item_id'), $ids)
+			->bind(':prefix', $prefix);
 
 		$db->setQuery($query);
 
@@ -445,7 +455,7 @@ class TagsHelper extends CMSHelper
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
-	 * @return  DatabaseQuery  Query to retrieve a list of tags
+	 * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
@@ -457,8 +467,8 @@ class TagsHelper extends CMSHelper
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$user = Factory::getUser();
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(Factory::getDate()->toSql());
+		$nullDate = $db->getNullDate();
+		$nowDate = Factory::getDate()->toSql();
 
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
@@ -479,7 +489,7 @@ class TagsHelper extends CMSHelper
 				$this->getTagTreeArray($tag, $tagTreeArray);
 			}
 
-			$tagIds = array_unique(array_merge($tagIds, $tagTreeArray));
+			$tagIds = array_values(array_unique(array_merge($tagIds, $tagTreeArray)));
 		}
 
 		// Sanitize filter states
@@ -487,94 +497,132 @@ class TagsHelper extends CMSHelper
 		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
-		$query
-			->select(
-				'm.type_alias'
-				. ', ' . 'm.content_item_id'
-				. ', ' . 'm.core_content_id'
-				. ', ' . 'count(m.tag_id) AS match_count'
-				. ', ' . 'MAX(m.tag_date) as tag_date'
-				. ', ' . 'MAX(c.core_title) AS core_title'
-				. ', ' . 'MAX(c.core_params) AS core_params'
-			)
-			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
-			->select(
-				'MAX(c.core_metadata) AS core_metadata'
-				. ', ' . 'MAX(c.core_created_user_id) AS core_created_user_id'
-				. ', ' . 'MAX(c.core_created_by_alias) AS core_created_by_alias'
-			)
-			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
-			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
-			->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid')
-			->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down')
-			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
-
-			->from('#__contentitem_tag_map AS m')
+		$query->select(
+			[
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.core_content_id'),
+				'COUNT(' . $db->quoteName('m.tag_id') . ') AS ' . $db->quoteName('match_count'),
+				'MAX(' . $db->quoteName('m.tag_date') . ') AS ' . $db->quoteName('tag_date'),
+				'MAX(' . $db->quoteName('c.core_title') . ') AS ' . $db->quoteName('core_title'),
+				'MAX(' . $db->quoteName('c.core_params') . ') AS ' . $db->quoteName('core_params'),
+				'MAX(' . $db->quoteName('c.core_alias') . ') AS ' . $db->quoteName('core_alias'),
+				'MAX(' . $db->quoteName('c.core_body') . ') AS ' . $db->quoteName('core_body'),
+				'MAX(' . $db->quoteName('c.core_state') . ') AS ' . $db->quoteName('core_state'),
+				'MAX(' . $db->quoteName('c.core_access') . ') AS ' . $db->quoteName('core_access'),
+				'MAX(' . $db->quoteName('c.core_metadata') . ') AS ' . $db->quoteName('core_metadata'),
+				'MAX(' . $db->quoteName('c.core_created_user_id') . ') AS ' . $db->quoteName('core_created_user_id'),
+				'MAX(' . $db->quoteName('c.core_created_by_alias') . ') AS' . $db->quoteName('core_created_by_alias'),
+				'MAX(' . $db->quoteName('c.core_created_time') . ') AS ' . $db->quoteName('core_created_time'),
+				'MAX(' . $db->quoteName('c.core_images') . ') AS ' . $db->quoteName('core_images'),
+				'CASE WHEN ' . $db->quoteName('c.core_modified_time') . ' = :nullDate THEN ' . $db->quoteName('c.core_created_time')
+				. ' ELSE ' . $db->quoteName('c.core_modified_time') . ' END AS ' . $db->quoteName('core_modified_time'),
+				'MAX(' . $db->quoteName('c.core_language') . ') AS ' . $db->quoteName('core_language'),
+				'MAX(' . $db->quoteName('c.core_catid') . ') AS ' . $db->quoteName('core_catid'),
+				'MAX(' . $db->quoteName('c.core_publish_up') . ') AS ' . $db->quoteName('core_publish_up'),
+				'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
+				'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
+				'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+				'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
+				. ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
+				$db->quoteName('ua.email', 'author_email'),
+			]
+		)
+			->bind(':nullDate', $nullDate)
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->join(
 				'INNER',
-				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
-					. implode(',', $stateFilters) . ')'
-					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
-					. ' OR c.core_publish_up <= ' . $nowDate . ') '
-					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
+				$db->quoteName('#__ucm_content', 'c'),
+				$db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias')
+				. ' AND ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
 			)
-			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
+			->join('INNER', $db->quoteName('#__content_types', 'ct'), $db->quoteName('ct.type_alias') . ' = ' . $db->quoteName('m.type_alias'));
 
-			// Join over categories for get only tags from published categories
-			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
+		// Join over categories to get only tags from published categories
+		$query->join('LEFT', $db->quoteName('#__categories', 'tc'), $db->quoteName('tc.id') . ' = ' . $db->quoteName('c.core_catid'));
 
-			// Join over the users for the author and email
-			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
-			->select('ua.email AS author_email')
-
-			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
-
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
-			->where('(c.core_catid = 0 OR tc.published = 1)');
-
-		// Optionally filter on language
-		if (empty($language))
-		{
-			$language = $languageFilter;
-		}
-
-		if ($language !== 'all')
-		{
-			if ($language === 'current_language')
-			{
-				$language = $this->getCurrentLanguage();
-			}
-
-			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
-		}
+		// Join over the users for the author and email
+		$query->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('c.core_created_user_id'))
+			->whereIn($db->quoteName('c.core_state'), $stateFilters)
+			->whereIn($db->quoteName('m.tag_id'), $tagIds)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.core_catid') . ' = 0',
+					$db->quoteName('tc.published') . ' = 1',
+				],
+				'OR'
+			);
 
 		// Get the type data, limited to types in the request if there are any specified.
-		$typesarray = self::getTypes('assocList', $typesr, false);
+		$typesarray  = self::getTypes('assocList', $typesr, false);
+		$typeAliases = \array_column($typesarray, 'type_alias');
+		$query->whereIn($db->quoteName('m.type_alias'), $typeAliases, ParameterType::STRING);
 
-		$typeAliases = array();
+		$groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
+		$groups[] = 0;
+		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
-		foreach ($typesarray as $type)
+		if (!\in_array(0, $stateFilters, true))
 		{
-			$typeAliases[] = $db->quote($type['type_alias']);
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.core_publish_up') . ' = :nullDate1',
+					$db->quoteName('c.core_publish_up') . ' IS NULL',
+					$db->quoteName('c.core_publish_up') . ' <= :nowDate1',
+				],
+				'OR'
+			)
+				->extendWhere(
+					'AND',
+					[
+						$db->quoteName('c.core_publish_down') . ' = :nullDate2',
+						$db->quoteName('c.core_publish_down') . ' IS NULL',
+						$db->quoteName('c.core_publish_down') . ' >= :nowDate2',
+					],
+					'OR'
+				)
+				->bind([':nullDate1', ':nullDate2'], $nullDate)
+				->bind([':nowDate1', ':nowDate2'], $nowDate);
 		}
 
-		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
+		// Optionally filter on language
+		if ($languageFilter !== 'all')
+		{
+			if ($languageFilter === 'current_language')
+			{
+				$languageFilter = $this->getCurrentLanguage();
+			}
 
-		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
-		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, author, author_email');
+			$query->whereIn($db->quoteName('c.core_language'), [$languageFilter, '*'], ParameterType::STRING);
+		}
+
+		$query->group(
+			[
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.core_content_id'),
+				$db->quoteName('core_modified_time'),
+				$db->quoteName('core_created_time'),
+				$db->quoteName('core_created_by_alias'),
+				$db->quoteName('author'),
+				$db->quoteName('author_email'),
+			]
+		);
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
 		{
 			// The number of results should equal the number of tags requested.
-			$query->having("COUNT('m.tag_id') = " . (int) $ntagsr);
+			$query->having('COUNT(' . $db->quoteName('m.tag_id') . ') = :ntagsr')
+				->bind(':ntagsr', $ntagsr, ParameterType::INTEGER);
 		}
 
 		// Set up the order by using the option chosen
 		if ($orderByOption === 'match_count')
 		{
-			$orderBy = 'COUNT(m.tag_id)';
+			$orderBy = 'COUNT(' . $db->quoteName('m.tag_id') . ')';
 		}
 		else
 		{
@@ -607,8 +655,8 @@ class TagsHelper extends CMSHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $tagIds) . ')');
-			$query->order($db->quoteName('title'));
+				->whereIn($db->quoteName('id'), $tagIds)
+				->order($db->quoteName('title'));
 
 			$db->setQuery($query);
 			$tagNames = $db->loadColumn();
@@ -630,8 +678,7 @@ class TagsHelper extends CMSHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-		$table = Table::getInstance('Tag', 'TagsTable');
+		$table = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
 		if ($table->isLeaf($id))
 		{
@@ -659,7 +706,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   string   $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
 	 *                                 Options are: rowList, assocList, and objectList
-	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
+	 * @param   array    $selectTypes  Optional array of type ids or aliases to limit the results to. Often from a request.
 	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
 	 *
 	 * @return  array   Array of of types
@@ -679,15 +726,13 @@ class TagsHelper extends CMSHelper
 
 			if ($useAlias)
 			{
-				$selectTypes = array_map(array($db, 'quote'), $selectTypes);
-
-				$query->where($db->quoteName('type_alias') . ' IN (' . implode(',', $selectTypes) . ')');
+				$query->whereIn($db->quoteName('type_alias'), $selectTypes, ParameterType::STRING);
 			}
 			else
 			{
 				$selectTypes = ArrayHelper::toInteger($selectTypes);
 
-				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
+				$query->whereIn($db->quoteName('type_id'), $selectTypes);
 			}
 		}
 
@@ -719,7 +764,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   TableInterface  $table    Table being processed
 	 * @param   array           $newTags  Array of new tags
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -825,68 +870,92 @@ class TagsHelper extends CMSHelper
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value')
-			->select('a.path AS text')
-			->select('a.path')
-			->from('#__tags AS a')
-			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
-
-		// Filter language
-		if (!empty($filters['flanguage']))
-		{
-			$query->where('a.language IN (' . $db->quote($filters['flanguage']) . ',' . $db->quote('*') . ') ');
-		}
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.path', 'text'),
+					$db->quoteName('a.path'),
+				]
+			)
+			->from($db->quoteName('#__tags', 'a'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__tags', 'b'),
+				$db->quoteName('a.lft') . ' > ' . $db->quoteName('b.lft') . ' AND ' . $db->quoteName('a.rgt') . ' < ' . $db->quoteName('b.rgt')
+			);
 
 		// Do not return root
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
+		// Filter language
+		if (!empty($filters['flanguage']))
+		{
+			$query->whereIn($db->quoteName('a.language'), [$filters['flanguage'], '*'], ParameterType::STRING);
+		}
+
 		// Search in title or path
 		if (!empty($filters['like']))
 		{
-			$query->where(
-				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
-					. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
-			);
+			$search = '%' . $filters['like'] . '%';
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.title') . ' LIKE :search1',
+					$db->quoteName('a.path') . ' LIKE :search2',
+				],
+				'OR'
+			)
+				->bind([':search1', ':search2'], $search);
 		}
 
 		// Filter title
 		if (!empty($filters['title']))
 		{
-			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
+			$query->where($db->quoteName('a.title') . ' = :title')
+				->bind(':title', $filters['title']);
 		}
 
 		// Filter on the published state
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
-			$query->where('a.published = ' . (int) $filters['published']);
+			$published = (int) $filters['published'];
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 
 		// Filter on the access level
 		if (isset($filters['access']) && \is_array($filters['access']) && \count($filters['access']))
 		{
 			$groups = ArrayHelper::toInteger($filters['access']);
-			$query->where('a.access IN (' . implode(",", $groups) . ')');
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by parent_id
 		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable = Table::getInstance('Tag', 'TagsTable');
+			$tagTable = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
 			if ($children = $tagTable->getTree($filters['parent_id']))
 			{
-				foreach ($children as $child)
-				{
-					$childrenIds[] = $child->id;
-				}
+				$childrenIds = \array_column($children, 'id');
 
-				$query->where('a.id IN (' . implode(',', $childrenIds) . ')');
+				$query->whereIn($db->quoteName('a.id'), $childrenIds);
 			}
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-			->order('a.lft ASC');
+		$query->group(
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.title'),
+				$db->quoteName('a.level'),
+				$db->quoteName('a.lft'),
+				$db->quoteName('a.rgt'),
+				$db->quoteName('a.parent_id'),
+				$db->quoteName('a.published'),
+				$db->quoteName('a.path'),
+			]
+		)
+			->order($db->quoteName('a.lft') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -907,19 +976,23 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
-	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
+	 * @param   integer  $tagId  The tag_id (primary key) for the deleted tag.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagDeleteInstances($tag_id)
+	public function tagDeleteInstances($tagId)
 	{
+		// Cast as integer until method is typehinted.
+		$tag_id = (int) $tagId;
+
 		// Delete the old tag maps.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
-			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
+			->where($db->quoteName('tag_id') . ' = :id')
+			->bind(':id', $tagId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -930,7 +1003,7 @@ class TagsHelper extends CMSHelper
 	 * @param   integer         $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   TableInterface  $table    Table object being tagged
 	 * @param   array           $tags     Array of tags to be applied.
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -986,18 +1059,24 @@ class TagsHelper extends CMSHelper
 	public function unTagItem($contentId, TableInterface $table, $tags = array())
 	{
 		$key = $table->getKeyName();
-		$id = $table->$key;
+		$id = (int) $table->$key;
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->delete('#__contentitem_tag_map')
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))
-			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
+			->delete($db->quoteName('#__contentitem_tag_map'))
+			->where(
+				[
+					$db->quoteName('type_alias') . ' = :type',
+					$db->quoteName('content_item_id') . ' = :id',
+				]
+			)
+			->bind(':type', $this->typeAlias)
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		if (\is_array($tags) && \count($tags) > 0)
 		{
 			$tags = ArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
+			$query->whereIn($db->quoteName('tag_id'), $tags);
 		}
 
 		$db->setQuery($query);

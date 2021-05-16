@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,11 @@ class PlgWebservicesLanguages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/languages/content', 'languages', ['component' => 'com_languages']);
+		$router->createCRUDRoutes(
+			'v1/languages/content',
+			'languages',
+			['component' => 'com_languages']
+		);
 
 		$this->createLanguageOverridesRoutes($router);
 		$this->createLanguageInstallerRoutes($router);
@@ -81,7 +85,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
 				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
-				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 			];
 
@@ -95,7 +99,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
 				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
-				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 			];
 
@@ -119,7 +123,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),
-			new Route(['POST'], 'v1/languages', 'languages.install', [], $defaults)
+			new Route(['POST'], 'v1/languages', 'languages.install', [], $defaults),
 		];
 
 		$router->addRoutes($routes);

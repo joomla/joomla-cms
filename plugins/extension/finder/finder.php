@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
@@ -93,7 +94,7 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Get an object of information if the handled extension is a language
 	 *
-	 * @param   integer  $eid  Extensuon id
+	 * @param   integer  $eid  Extension id
 	 *
 	 * @return  object
 	 *
@@ -167,7 +168,7 @@ class PlgExtensionFinder extends CMSPlugin
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
+		$lang = Helper::getPrimaryLanguage($extension->element);
 
 		$query->insert($db->quoteName('#__finder_terms_common'))
 			->columns($db->quoteName(['term', 'language', 'custom']));
@@ -205,7 +206,7 @@ class PlgExtensionFinder extends CMSPlugin
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
+		$lang = Helper::getPrimaryLanguage($extension->element);
 
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__finder_terms_common'))

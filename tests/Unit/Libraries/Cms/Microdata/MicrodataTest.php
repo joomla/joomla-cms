@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
@@ -884,7 +884,7 @@ class MicrodataTest extends UnitTestCase
 			]
 		);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($microdata);
 		$method          = $reflectionClass->getMethod('getExpectedDisplayType');
 		$method->setAccessible(true);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,8 @@ class ContentType extends Table
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
 			->from($db->quoteName($this->_tbl))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
+			->where($db->quoteName('type_alias') . ' = :type_alias')
+			->bind(':type_alias', $typeAlias);
 		$db->setQuery($query);
 
 		return $db->loadResult();

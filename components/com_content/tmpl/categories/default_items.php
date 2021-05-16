@@ -3,18 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-$lang  = Factory::getLanguage();
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
@@ -23,17 +21,25 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 			<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<div class="com-content-categories__item">
 				<h3 class="page-header item-title">
-					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
-						<span class="badge badge-info">
+						<span class="badge bg-info">
 							<?php echo Text::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<button
+							type="button"
+							id="category-btn-<?php echo $item->id; ?>"
+							data-bs-target="#category-<?php echo $item->id; ?>"
+							data-bs-toggle="collapse"
+							class="btn btn-secondary btn-sm float-end"
+							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+						>
+							<span class="icon-plus" aria-hidden="true"></span>
+						</button>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>

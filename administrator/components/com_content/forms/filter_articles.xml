@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CONTENT_FILTER_SEARCH_LABEL"
 			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,8 +13,10 @@
 		<field
 			name="featured"
 			type="list"
+			label="JFEATURED"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">COM_CONTENT_SELECT_FEATURED</option>
 			<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
@@ -23,26 +26,28 @@
 		<field
 			name="stage"
 			type="workflowstage"
+			label="JOPTION_SELECT_STAGE"
 			onchange="this.form.submit();"
 			activeonly="true"
-			extension="com_content"
+			extension="com_content.article"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
 
 		<field
-			name="condition"
-			type="workflowcondition"
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			extension="com_content"
 			>
-			<option value="">JOPTION_SELECT_CONDITION</option>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -54,7 +59,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
@@ -64,6 +69,7 @@
 		<field
 			name="author_id"
 			type="author"
+			label="JOPTION_SELECT_AUTHOR"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
@@ -75,7 +81,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -86,7 +92,7 @@
 			name="tag"
 			type="tag"
 			multiple="true"
-			label="JOPTION_SELECT_TAG"
+			label="JTAG"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"
@@ -96,6 +102,7 @@
 		<field
 			name="level"
 			type="integer"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -113,6 +120,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

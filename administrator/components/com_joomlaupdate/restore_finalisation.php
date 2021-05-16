@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * Important Notes:
@@ -14,12 +14,12 @@
 namespace
 {
 	// Require the restoration environment or fail cold. Prevents direct web access.
-	defined('_AKEEBA_RESTORATION') or die();
+	\defined('_AKEEBA_RESTORATION') or die();
 
 	// Fake a miniature Joomla environment
-	if (!defined('_JEXEC'))
+	if (!\defined('_JEXEC'))
 	{
-		define('_JEXEC', 1);
+		\define('_JEXEC', 1);
 	}
 
 	if (!function_exists('jimport'))
@@ -54,9 +54,9 @@ namespace
 		 */
 		function finalizeRestore($siteRoot, $restorePath)
 		{
-			if (!defined('JPATH_ROOT'))
+			if (!\defined('JPATH_ROOT'))
 			{
-				define('JPATH_ROOT', $siteRoot);
+				\define('JPATH_ROOT', $siteRoot);
 			}
 
 			$filePath = JPATH_ROOT . '/administrator/components/com_admin/script.php';
@@ -78,7 +78,7 @@ namespace
 			// Clear OPcache
 			if (function_exists('opcache_reset'))
 			{
-				opcache_reset();
+				\opcache_reset();
 			}
 		}
 	}
@@ -90,7 +90,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('File'))
 	{
 		/**
-		 * JFile mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */
@@ -131,7 +131,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('Folder'))
 	{
 		/**
-		 * Folder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */
@@ -174,7 +174,7 @@ namespace Joomla\CMS\Language
 	if (!class_exists('Text'))
 	{
 		/**
-		 * Text mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */

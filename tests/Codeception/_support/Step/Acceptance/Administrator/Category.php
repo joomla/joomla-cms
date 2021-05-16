@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -34,7 +34,7 @@ class Category extends Admin
 	public function createContentCategory($title)
 	{
 		$this->amOnPage(ContentCategoryListPage::$url);
-		$this->waitForText("Articles: Categories", TIMEOUT, "//h1");
+		$this->waitForText("Articles: Categories", $this->getConfig('timeout'), "//h1");
 		$this->clickToolbarButton("New");
 		$this->waitForElement(ContentCategoryListPage::$title);
 		$this->fillField(ContentCategoryListPage::$title, $title);

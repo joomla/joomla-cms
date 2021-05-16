@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_installer.changelog');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -28,53 +31,55 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-					<?php if ($this->ftp) : ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
-					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
-						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" class="w-10">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JDATE'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="w-1 d-none d-md-table-cell">
+									<?php echo Text::_('COM_INSTALLER_HEADING_LOCKED'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-1 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -83,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id, false, 'cid', 'cb', $item->name); ?>
 								</td>
 								<td class="text-center">
 									<?php if (!$item->element) : ?>
@@ -98,16 +103,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->description; ?>
 									</div>
 								</th>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>
 								</td>
 								<td>
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php if ($item->version !== '') : ?>
+									<?php if (!empty($item->version)) : ?>
 										<?php if (!empty($item->changelogurl)) : ?>
-											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-bs-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
@@ -135,6 +140,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->folder_translated; ?>
+								</td>
+								<td class="d-none d-md-table-cell">
+									<?php echo $item->locked ? Text::_('JYES') : Text::_('JNO'); ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->package_id ?: '&#160;'; ?>

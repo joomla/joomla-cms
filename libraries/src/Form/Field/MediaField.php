@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ class MediaField extends FormField
 	protected $height;
 
 	/**
-	 * The authorField.
+	 * The preview.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -78,7 +78,7 @@ class MediaField extends FormField
 	protected $preview;
 
 	/**
-	 * The preview.
+	 * The directory.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -108,6 +108,14 @@ class MediaField extends FormField
 	 * @since  3.5
 	 */
 	protected $layout = 'joomla.form.field.media';
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -242,14 +250,14 @@ class MediaField extends FormField
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
-		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+		if ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
 		{
 			$this->folder = explode('/', $this->value);
 			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
 			array_pop($this->folder);
 			$this->folder = implode('/', $this->folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
+		elseif (is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
 		{
 			$this->folder = $this->directory;
 		}

@@ -22,12 +22,14 @@
 			label="JGLOBAL_TITLE"
 			size="40"
 			required="true"
+			maxlength="255"
 		/>
 
 		<field
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"
 		/>
@@ -36,7 +38,6 @@
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			class="span12"
 			size="40"
 			maxlength="255"
 		/>
@@ -67,11 +68,19 @@
 		/>
 
 		<field
-			name="transition"
-			type="transition"
-			label="COM_CONTENT_TRANSITION"
-			extension="com_content"
-		/>
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			size="1"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
 
 		<field
 			name="tags"
@@ -94,6 +103,7 @@
 			name="created_by"
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -122,6 +132,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -150,6 +161,26 @@
 			name="publish_down"
 			type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="featured_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="featured_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -188,13 +219,16 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -204,6 +238,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			default="0"
 		/>
 
 		<field
@@ -218,7 +253,7 @@
 			name="featured"
 			type="radio"
 			label="JFEATURED"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -246,7 +281,7 @@
 					name="article_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					useglobal="true"
 					extension="com_content"
 					view="article"
@@ -257,6 +292,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_TITLE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -267,8 +303,9 @@
 					type="list"
 					label="JGLOBAL_LINKED_TITLES_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JNO</option>
+					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
@@ -276,8 +313,9 @@
 					name="show_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -287,8 +325,9 @@
 					name="show_intro"
 					type="list"
 					label="JGLOBAL_SHOW_INTRO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -299,6 +338,7 @@
 					type="list"
 					label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -310,9 +350,10 @@
 					type="list"
 					label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -322,9 +363,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -332,9 +374,10 @@
 					type="list"
 					label="JGLOBAL_LINK_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -342,9 +385,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -352,11 +396,15 @@
 					type="list"
 					label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
+			</fieldset>
+
+			<fieldset name="frontendassociations" label="JGLOBAL_FIELDSET_ASSOCIATIONS">
 				<field
 					name="show_associations"
 					type="assoc"
@@ -366,6 +414,18 @@
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
+
+				<field
+					name="flags"
+					type="list"
+					label="JGLOBAL_SHOW_FLAG_LABEL"
+					useglobal="true"
+					showon="show_associations:1"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="author" label="JGLOBAL_SHOW_AUTHOR_LABEL">
@@ -374,9 +434,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_AUTHOR_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -384,9 +445,10 @@
 					type="list"
 					label="JGLOBAL_LINK_AUTHOR_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 
@@ -396,9 +458,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -406,9 +469,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -416,9 +480,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -428,19 +493,21 @@
 					type="list"
 					label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_vote"
-					type="list"
+					type="votelist"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -448,9 +515,10 @@
 					type="list"
 					label="JGLOBAL_SHOW_HITS_LABEL"
 					useglobal="true"
+					validate="options"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -459,6 +527,7 @@
 					label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 					description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -469,9 +538,12 @@
 					type="list"
 					label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 					useglobal="true"
+					filter="integer"
+					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+					<option value="-1">JHIDE</option>
 				</field>
 
 				<field
@@ -499,6 +571,7 @@
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -510,6 +583,7 @@
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -521,6 +595,7 @@
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				useglobal="true"
 				default=""
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -532,6 +607,7 @@
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				useglobal="true"
 				default=""
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -663,20 +739,23 @@
 			/>
 
 			<field
-				name="float_intro"
-				type="list"
-				label="COM_CONTENT_FLOAT_LABEL"
-				useglobal="true"
-				>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
-			</field>
-
-			<field
 				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_intro"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 
@@ -697,20 +776,23 @@
 			/>
 
 			<field
-				name="float_fulltext"
-				type="list"
-				label="COM_CONTENT_FLOAT_LABEL"
-				useglobal="true"
-				>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
-			</field>
-
-			<field
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_fulltext"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 
@@ -748,6 +830,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -780,6 +863,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -812,6 +896,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -829,12 +914,13 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 
 			<field
@@ -869,4 +955,3 @@
 	</fields>
 
 </form>
-

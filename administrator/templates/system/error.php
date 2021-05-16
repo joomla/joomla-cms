@@ -3,20 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var JDocumentError $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'administrator/templates/system/css/error.css');
 
 // Set page title
 $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));

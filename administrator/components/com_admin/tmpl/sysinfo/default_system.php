@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,12 +17,12 @@ use Joomla\CMS\Language\Text;
 ?>
 <div class="sysinfo">
 	<table class="table">
-		<caption class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_ADMIN_SYSTEM_INFORMATION'); ?>
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:25%">
+				<th scope="col" class="w-30">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th scope="col">
@@ -69,6 +69,22 @@ use Joomla\CMS\Language\Text;
 				</th>
 				<td>
 					<?php echo $this->info['dbconnectioncollation']; ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION'); ?>
+				</th>
+				<td>
+					<?php echo $this->info['dbconnectionencryption'] ?: Text::_('JNONE'); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION_SUPPORTED'); ?>
+				</th>
+				<td>
+					<?php echo $this->info['dbconnencryptsupported'] ? Text::_('JYES') : Text::_('JNO'); ?>
 				</td>
 			</tr>
 			<tr>

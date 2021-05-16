@@ -1,11 +1,17 @@
 // Buttons
 
-.btn-primary {
-  background-color: var(--atum-bg-dark);
-  color: var(--atum-text-light);
-  border-color: var(--atum-bg-dark-80);
+.btn {
+  transition: none;
+}
 
-  @include hover-focus-active {
+.btn-primary {
+  color: var(--atum-text-light);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
+
+  &:hover,
+  &:focus,
+  &:active {
     background-color: var(--atum-bg-dark-70);
     border-color: var(--atum-bg-dark-90);
   }
@@ -17,8 +23,10 @@
     border-color: var(--atum-bg-dark);
   }
 }
+
 .btn-secondary {
-	background-color: var(--atum-bg-dark-50);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
 }
 
 .input-group-text {

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,20 +16,22 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Event\LazyServiceEventListener;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\SessionFactory;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\DependencyResolutionException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\LazyServiceEventListener;
 use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
+use Joomla\Session\HandlerInterface;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
@@ -80,8 +82,15 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -98,8 +107,18 @@ class Session implements ServiceProviderInterface
 				$config = $container->get('config');
 				$app    = Factory::getApplication();
 
-				// Generate a session name.
-				$name = ApplicationHelper::getHash($config->get('session_name', InstallationApplication::class));
+				/**
+				 * Session handler for the session is always filesystem so it doesn't flip to the database after
+				 * configuration.php has been written to
+				 */
+				$config->set('session_handler', 'filesystem');
+
+				/**
+				 * Generate a session name - unlike all the other apps we don't have either a secret or a session name
+				 * (that's not the app name) until we complete installation which then leads to us dropping things like
+				 * language preferences after installation as the app refreshes.
+				 */
+				$name = md5(serialize(JPATH_ROOT . InstallationApplication::class));
 
 				// Calculate the session lifetime.
 				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
@@ -110,8 +129,15 @@ class Session implements ServiceProviderInterface
 					'expire' => $lifetime,
 				];
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -145,8 +171,15 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -181,7 +214,19 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
-				return $this->buildSession(new RuntimeStorage, $app, $container->get(DispatcherInterface::class), $options);
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
+				return $this->buildSession(
+					new JoomlaStorage($app->input, $handler),
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
 			},
 			true
 		);
@@ -195,6 +240,23 @@ class Session implements ServiceProviderInterface
 					$factory->setContainer($container);
 
 					return $factory;
+				},
+				true
+			);
+
+		$container->alias(SessionManager::class, 'session.manager')
+			->share(
+				'session.manager',
+				function (Container $container)
+				{
+					if (!$container->has('session.handler'))
+					{
+						throw new DependencyResolutionException(
+							'The "session.handler" service has not been created, make sure you have created the "session" service first.'
+						);
+					}
+
+					return new SessionManager($container->get('session.handler'));
 				},
 				true
 			);
@@ -234,8 +296,7 @@ class Session implements ServiceProviderInterface
 				true
 			);
 
-		$listener = new LazyServiceEventListener('session.event_listener.metadata_manager', 'onAfterSessionStart');
-		$listener->setContainer($container);
+		$listener = new LazyServiceEventListener($container, 'session.event_listener.metadata_manager', 'onAfterSessionStart');
 
 		/** @var DispatcherInterface $dispatcher */
 		$dispatcher = $container->get(DispatcherInterface::class);
@@ -254,7 +315,10 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @since   4.0
 	 */
-	private function buildSession(StorageInterface $storage, CMSApplicationInterface $app, DispatcherInterface $dispatcher,
+	private function buildSession(
+		StorageInterface $storage,
+		CMSApplicationInterface $app,
+		DispatcherInterface $dispatcher,
 		array $options
 	): SessionInterface
 	{
@@ -270,5 +334,32 @@ class Session implements ServiceProviderInterface
 		$session->addValidator(new ForwardedValidator($input, $session));
 
 		return $session;
+	}
+
+	/**
+	 * Registers the session handler as a service
+	 *
+	 * @param   Container                 $container       The container to register the service to.
+	 * @param   \SessionHandlerInterface  $sessionHandler  The session handler.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
+	{
+		// Alias the session handler to the core SessionHandlerInterface for improved autowiring and discoverability
+		$container->alias(\SessionHandlerInterface::class, 'session.handler')
+			->share(
+				'session.handler',
+				$sessionHandler,
+				true
+			);
+
+		// If the session handler implements the extended interface, register an alias for that as well
+		if ($sessionHandler instanceof HandlerInterface)
+		{
+			$container->alias(HandlerInterface::class, 'session.handler');
+		}
 	}
 }

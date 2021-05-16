@@ -3,46 +3,51 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
+extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- *
- * @var  string   $asset The asset text
- * @var  string   $authorField The label text
- * @var  integer  $authorId The author id
- * @var  string   $class The class text
- * @var  boolean  $disabled True if field is disabled
- * @var  string   $folder The folder text
- * @var  string   $id The label text
- * @var  string   $link The link text
- * @var  string   $name The name text
- * @var  string   $preview The preview image relative path
- * @var  integer  $previewHeight The image preview height
- * @var  integer  $previewWidth The image preview width
- * @var  string   $onchange  The onchange text
- * @var  boolean  $readonly True if field is readonly
- * @var  integer  $size The size text
- * @var  string   $value The value text
- * @var  string   $src The path and filename of the image
+ * -----------------
+ * @var  string   $asset           The asset text
+ * @var  string   $authorField     The label text
+ * @var  integer  $authorId        The author id
+ * @var  string   $class           The class text
+ * @var  boolean  $disabled        True if field is disabled
+ * @var  string   $folder          The folder text
+ * @var  string   $id              The label text
+ * @var  string   $link            The link text
+ * @var  string   $name            The name text
+ * @var  string   $preview         The preview image relative path
+ * @var  integer  $previewHeight   The image preview height
+ * @var  integer  $previewWidth    The image preview width
+ * @var  string   $onchange        The onchange text
+ * @var  boolean  $readonly        True if field is readonly
+ * @var  integer  $size            The size text
+ * @var  string   $value           The value text
+ * @var  string   $src             The path and filename of the image
+ * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-extract($displayData);
 
 $attr = '';
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= $dataAttribute;
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
@@ -88,8 +93,8 @@ if ($showPreview)
 
 	$img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-	$previewImg = '<div id="' . $id . '_preview_img"' . '>' . $img . '</div>';
-	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
+	$previewImg = '<div id="' . $id . '_preview_img">' . $img . '</div>';
+	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
 		. Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
 	$showPreview = 'static';
@@ -97,10 +102,40 @@ if ($showPreview)
 
 // The url for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
-		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
+		. $asset . '&author=' . $authorId)
+	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
+
+// Correctly route the url to ensure it's correctly using sef modes and subfolders
+$url = Route::_($url);
+$wam = Factory::getDocument()->getWebAssetManager();
+
+$wam->useScript('webcomponent.image-select');
+
+Text::script('JFIELD_MEDIA_LAZY_LABEL');
+Text::script('JFIELD_MEDIA_ALT_LABEL');
+Text::script('JLIB_APPLICATION_ERROR_SERVER');
+Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+
+$modalHTML = HTMLHelper::_('bootstrap.renderModal',
+		'imageModal_'. $id,
+		array(
+				'url'         => $url,
+				'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
+				'closeButton' => true,
+				'height'      => '100%',
+				'width'       => '100%',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '60',
+				'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
+						. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+		)
+);
+
+$wam->useStyle('webcomponent.field-media')
+	->useScript('webcomponent.field-media');
+
+
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
@@ -119,26 +154,7 @@ $url    = ($readonly ? ''
 		preview-width="<?php echo $previewWidth; ?>"
 		preview-height="<?php echo $previewHeight; ?>"
 >
-	<?php
-	// Render the modal
-	echo HTMLHelper::_('bootstrap.renderModal',
-		'imageModal_'. $id,
-		array(
-			'url'         => $url,
-			'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
-			'closeButton' => true,
-			'height' => '100%',
-			'width'  => '100%',
-			'modalWidth'  => '80',
-			'bodyHeight'  => '60',
-			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
-				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-		)
-	);
-
-	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-media.min.js', ['version' => 'auto', 'relative' => true]);
-	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
-	?>
+	<?php echo $modalHTML; ?>
 	<?php if ($showPreview) : ?>
 		<div class="field-media-preview">
 			<?php echo ' ' . $previewImgEmpty; ?>
@@ -148,10 +164,8 @@ $url    = ($readonly ? ''
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<div class="input-group-append">
-				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
-			</div>
+			<button type="button" class="btn btn-success button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+			<button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 		<?php endif; ?>
 	</div>
 </joomla-field-media>

@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -56,7 +56,7 @@ class Banner extends Admin
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, TIMEOUT, BannerListPage::$systemMessageContainer);
+		$I->waitForText($message, $I->getConfig('timeout'), BannerListPage::$systemMessageContainer);
 		$I->see($message, BannerListPage::$systemMessageContainer);
 	}
 
@@ -81,7 +81,7 @@ class Banner extends Admin
 		$I->click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
 		$I->click($bannerTitle);
-		$I->waitForElement(BannerListPage::$titleField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$titleField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$titleField, $updatedTitle);
 		$I->fillField(BannerListPage::$aliasField, $updatedTitle);
 		$I->clickToolbarButton('Save & Close');
@@ -104,7 +104,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -128,7 +128,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -152,7 +152,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -176,7 +176,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -200,8 +200,16 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
-		$I->selectOptionInChosenByIdUsingJs('filter_published', "Trashed");
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
+
+		// Make sure that the element js-stools-container-filters is visible. 
+		// Filter is a toggle button and I never know what happened before.
+		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+			el.classList.add('js-stools-container-filters-visible');
+		  });");
+		$I->selectOption('//*[@id="filter_published"]', "-2");
+		$I->wait(2);
+
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();

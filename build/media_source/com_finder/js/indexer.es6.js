@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // eslint-disable no-alert
@@ -54,11 +54,12 @@
           progressBar.style.width = `${progress}%`;
           progressBar.setAttribute('aria-valuenow', progress);
         }
+
         // Auto close the window
-        // if (message === msg) {
-        //   removeElement('progress');
-        //   Joomla.Modal.getCurrent().close();
-        // }
+        if (message === Joomla.Text._('COM_FINDER_INDEXER_MESSAGE_COMPLETE')) {
+          removeElement('progress');
+          window.parent.Joomla.Modal.getCurrent().close();
+        }
       }
     };
 
@@ -138,9 +139,6 @@
 
       removeElement('progress');
 
-      if (data) {
-        data = data.responseText !== null ? data.evaluate(data.responseText, true) : data;
-      }
       const header = data ? data.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
       const message = data ? data.message : `${Joomla.JText._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
 

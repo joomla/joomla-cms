@@ -11,9 +11,10 @@
       column-count: 3;
       column-gap: 15px;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         column-count: auto;
       }
+
       > li {
         display: inline-block;
         width: 100%;
@@ -23,23 +24,24 @@
         backface-visibility: hidden;
         page-break-inside: avoid;
         break-inside: avoid;
-        column-break-inside: avoid;
       }
     }
 
     .menu-links-block {
       padding: 15px;
       background-color: var(--card-bg);
-      box-shadow:$atum-box-shadow;
+      border: 1px solid $border-color;
       border-radius: 3px;
     }
 
     label {
       display: block;
+      padding: 3px 0;
+      font-size: inherit;
 
       input {
         position: relative;
-        top: 2px;
+        margin-inline-end: 5px;
       }
     }
   }

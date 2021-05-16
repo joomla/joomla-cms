@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,13 @@
     switch (value) {
       case '0':
         // Image
-        imgWrapper.style.display = 'block';
-        custom.style.display = 'none';
+        imgWrapper.classList.remove('hidden');
+        custom.classList.add('hidden');
         break;
       case '1':
         // Custom
-        imgWrapper.style.display = 'none';
-        custom.style.display = 'block';
+        imgWrapper.classList.add('hidden');
+        custom.classList.remove('hidden');
         break;
       default:
         // Do nothing
@@ -34,8 +34,8 @@
       updateBannerFields(jformType.value);
 
       // Hide/show parameters when the type has been selected
-      jformType.addEventListener('change', (event) => {
-        updateBannerFields(event.target.value);
+      jformType.addEventListener('change', ({ target }) => {
+        updateBannerFields(target.value);
       });
     }
   });

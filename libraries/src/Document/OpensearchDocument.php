@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class OpensearchDocument extends Document
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir . '/favicon.ico'))
+			if (is_file($dir . '/favicon.ico'))
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
@@ -168,7 +168,7 @@ class OpensearchDocument extends Document
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
-			if ($url->rel != 'results')
+			if ($url->rel !== 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
@@ -178,7 +178,7 @@ class OpensearchDocument extends Document
 		}
 
 		$xml->appendChild($elOs);
-		parent::render();
+		parent::render($cache, $params);
 
 		return $xml->saveXml();
 	}

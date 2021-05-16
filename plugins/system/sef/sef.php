@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocols (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
 		$attributes = array('href=', 'src=', 'poster=');
 

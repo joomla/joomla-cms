@@ -3,17 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentError $this */
+/** @var Joomla\CMS\Document\ErrorDocument  $this */
 
 if (!isset($this->error))
 {
@@ -22,11 +21,11 @@ if (!isset($this->error))
 }
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'templates/system/css/error.css');
 
 if ($this->direction === 'rtl')
 {
-	HTMLHelper::_('stylesheet', 'error_rtl.css', ['version' => 'auto', 'relative' => true]);
+	$this->getWebAssetManager()->registerAndUseStyle('template.system.error_rtl', 'templates/system/css/error_rtl.css');
 }
 
 // Set page title

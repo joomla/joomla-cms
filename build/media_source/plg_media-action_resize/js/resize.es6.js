@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -58,42 +58,16 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', (event) => {
+      resizeWidthInputBox.addEventListener('change', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10),
-          parseInt(event.target.value, 10) / (image.width / image.height),
+          parseInt(target.value, 10),
+          parseInt(target.value, 10) / (image.width / image.height),
         );
       });
-      resizeHeightInputBox.addEventListener('change', (event) => {
+      resizeHeightInputBox.addEventListener('change', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10) * (image.width / image.height),
-          parseInt(event.target.value, 10),
-        );
-      });
-
-      // Set the values for the range fields
-      const resizeWidth = document.getElementById('jform_resize_w');
-      const resizeHeight = document.getElementById('jform_resize_h');
-
-      resizeWidth.min = 0;
-      resizeWidth.max = image.width;
-      resizeWidth.value = image.width;
-
-      resizeHeight.min = 0;
-      resizeHeight.max = image.height;
-      resizeHeight.value = image.height;
-
-      // The listeners
-      resizeWidth.addEventListener('input', (event) => {
-        resize(
-          parseInt(event.target.value, 10),
-          parseInt(event.target.value, 10) / (image.width / image.height),
-        );
-      });
-      resizeHeight.addEventListener('input', (event) => {
-        resize(
-          parseInt(event.target.value, 10) * (image.width / image.height),
-          parseInt(event.target.value, 10),
+          parseInt(target.value, 10) * (image.width / image.height),
+          parseInt(target.value, 10),
         );
       });
     };

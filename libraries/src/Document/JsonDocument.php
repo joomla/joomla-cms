@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,17 +68,18 @@ class JsonDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = CmsFactory::getApplication();
 
-		$app->allowCache(false);
+		$app->allowCache($cache);
 
-		if ($this->_mime == 'application/json')
+		if ($this->_mime === 'application/json')
 		{
 			// Browser other than Internet Explorer < 10
 			$app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
 		}
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $this->getBuffer();
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,16 @@ if ($item->anchor_rel)
 	$attributes['rel'] = $item->anchor_rel;
 }
 
+if ($item->id == $active_id)
+{
+	$attributes['aria-current'] = 'location';
+
+	if ($item->current)
+	{
+		$attributes['aria-current'] = 'page';
+	}
+}
+
 $linktype = $item->title;
 
 if ($item->menu_image)
@@ -43,7 +53,7 @@ if ($item->menu_image)
 		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
 	}
 
-	if ($item->params->get('menu_text', 1))
+	if ($itemParams->get('menu_text', 1))
 	{
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
 	}

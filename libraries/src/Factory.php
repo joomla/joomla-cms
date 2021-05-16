@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,8 +167,12 @@ abstract class Factory
 			E_USER_DEPRECATED
 		);
 
-		// If there is an application object, fetch the configuration from there
-		if (self::$application)
+		/**
+		 * If there is an application object, fetch the configuration from there.
+		 * Check it's not null because LanguagesModel can make it null and if it's null
+		 * we would want to re-init it from configuration.php.
+		 */
+		if (self::$application && self::$application->getConfig() !== null)
 		{
 			return self::$application->getConfig();
 		}
@@ -382,7 +386,7 @@ abstract class Factory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -438,11 +442,11 @@ abstract class Factory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Mail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	public static function getMailer()
@@ -548,7 +552,7 @@ abstract class Factory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -628,7 +632,7 @@ abstract class Factory
 
 		$session = Session::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -667,6 +671,24 @@ abstract class Factory
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
+		if ((int) $conf->get('dbencryption') !== 0)
+		{
+			$options['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
+			];
+
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($conf->get('dbssl' . $value, ''));
+
+				if ($confVal !== '')
+				{
+					$options['ssl'][$value] = $confVal;
+				}
+			}
+		}
+
 		try
 		{
 			$db = DatabaseDriver::getInstance($options);
@@ -687,9 +709,9 @@ abstract class Factory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     \JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	protected static function createMailer()
@@ -819,38 +841,38 @@ abstract class Factory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 *
-	 * @param   boolean  $use_prefix   Prefix the connections for writing
-	 * @param   boolean  $use_network  Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param   string   $ua           UA User agent to use
-	 * @param   boolean  $uamask       User agent masking (prefix Mozilla)
+	 * @param   boolean  $usePrefix        Prefix the connections for writing
+	 * @param   boolean  $useNetwork       Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param   string   $userAgentSuffix  String to append to user agent
+	 * @param   boolean  $maskUserAgent    User agent masking (prefix Mozilla)
 	 *
-	 * @return  \JStream
+	 * @return  Stream
 	 *
-	 * @see     \JStream
+	 * @see     Stream
 	 * @since   1.7.0
 	 */
-	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
+	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
 	{
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new Version;
 
 		// Set the UA for HTTP and overwrite for FTP
-		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
+		$context['http']['user_agent'] = $version->getUserAgent($userAgentSuffix, $maskUserAgent);
 		$context['ftp']['overwrite'] = true;
 
-		if ($use_prefix)
+		if ($usePrefix)
 		{
 			$FTPOptions = ClientHelper::getCredentials('ftp');
 			$SCPOptions = ClientHelper::getCredentials('scp');
 
-			if ($FTPOptions['enabled'] == 1 && $use_network)
+			if ($FTPOptions['enabled'] == 1 && $useNetwork)
 			{
 				$prefix = 'ftp://' . $FTPOptions['user'] . ':' . $FTPOptions['pass'] . '@' . $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			elseif ($SCPOptions['enabled'] == 1 && $use_network)
+			elseif ($SCPOptions['enabled'] == 1 && $useNetwork)
 			{
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';

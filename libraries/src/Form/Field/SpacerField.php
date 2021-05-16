@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class SpacerField extends FormField
 		$html[] = '<span class="before"></span>';
 		$html[] = '<span' . $class . '>';
 
-		if ((string) $this->element['hr'] == 'true')
+		if ((string) $this->element['hr'] === 'true')
 		{
 			$html[] = '<hr' . $class . '>';
 		}
@@ -83,9 +83,9 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				HTMLHelper::_('bootstrap.popover');
+				HTMLHelper::_('bootstrap.popover', '.hasPopover');
 				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-				$label .= ' data-content="' . htmlspecialchars(
+				$label .= ' data-bs-content="' . htmlspecialchars(
 					$this->translateDescription ? Text::_($this->description) : $this->description,
 					ENT_COMPAT,
 					'UTF-8'
@@ -93,7 +93,7 @@ class SpacerField extends FormField
 
 				if (Factory::getLanguage()->isRtl())
 				{
-					$label .= ' data-placement="left"';
+					$label .= ' data-bs-placement="left"';
 				}
 			}
 
