@@ -215,17 +215,17 @@ $assoc = Associations::isEnabled();
 								</td>
 								<?php if ($workflow_enabled) : ?>
 								<td class="article-stage text-center">
-									<?php
-									$options = [
-										'transitions' => $transitions,
-										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-										'id' => 'workflow-' . $item->id
-									];
+								<?php
+								$options = [
+									'transitions' => $transitions,
+									'title' => Text::_($item->stage_title),
+									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+									'id' => 'workflow-' . $item->id
+								];
 
-									echo (new TransitionButton($options))
-										->render(0, $i);
-									?>
+								echo (new TransitionButton($options))
+									->render(0, $i);
+								?>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
