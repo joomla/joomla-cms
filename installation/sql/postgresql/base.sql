@@ -113,7 +113,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}');
 
-SELECT setval('#__assets_id_seq', 84, false);
+SELECT setval('#__assets_id_seq', 89, false);
 
 --
 -- Table structure for table `#__extensions`
