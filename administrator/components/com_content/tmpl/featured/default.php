@@ -214,8 +214,7 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
+								<td class="article-stage text-center">
 									<?php
 									$options = [
 										'transitions' => $transitions,
@@ -227,7 +226,6 @@ $assoc = Associations::isEnabled();
 									echo (new TransitionButton($options))
 										->render(0, $i);
 									?>
-									</div>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
