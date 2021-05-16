@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,29 +18,31 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 $app = Factory::getApplication();
-$doc = Factory::getDocument();
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_mails/admin-email-template-edit.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_mails.admin-email-template-edit');
 
 $this->useCoreUI = true;
 
 $input = $app->input;
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
+$sub_id = str_replace('.', '_', $sub_id);
 
-$doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
+$this->document->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div>
+<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MAILS_FORM_EDIT'); ?>" class="form-validate">
+	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MAILS_MAIL_CONTENT')); ?>
 		<div class="row">
 			<div class="col-md-12">
-				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
 					<span class="small">(<?php echo $this->escape($this->master->template_id); ?>)</span>
 				</h1>
 				<p><?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>
@@ -52,7 +54,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('subject'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('subject_switcher')->input; ?>
+				<input type="button" id="btnResetSubject" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_SUBJECT'); ?>" />
 			</div>
 		</div>
 
@@ -62,7 +64,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('body'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('body_switcher')->input; ?>
+				<input type="button" id="btnResetBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_BODY'); ?>" />
 				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'body'); ?>
@@ -77,7 +79,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('htmlbody'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('htmlbody_switcher')->input; ?>
+				<input type="button" id="btnResetHtmlBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_HTML_BODY'); ?>" />
 				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>
@@ -94,17 +96,17 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 		</div>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if (count($this->form->getFieldset('basic'))) : ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->renderField('template_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+	<input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

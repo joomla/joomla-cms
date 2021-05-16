@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,11 @@ namespace Joomla\CMS\Image\Filter;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
-
-Log::add('JImageFilterGrayscale is deprecated, use Joomla\Image\Filter\Grayscale instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to transform an image to grayscale.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale instead
+ * @since  2.5.0
  */
 class Grayscale extends ImageFilter
 {
@@ -31,10 +27,9 @@ class Grayscale extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale::execute() instead
+	 * @since   2.5.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the grayscale filter.
 		imagefilter($this->handle, IMG_FILTER_GRAYSCALE);

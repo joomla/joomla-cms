@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,6 +140,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_scripts = array();
 
@@ -148,6 +150,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_script = array();
 
@@ -163,6 +167,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_styleSheets = array();
 
@@ -171,6 +177,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_style = array();
 
@@ -328,7 +336,6 @@ class Document
 		else
 		{
 			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
-			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
 
 			$this->setWebAssetManager($webAssetManager);
 		}
@@ -449,11 +456,11 @@ class Document
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$result = $this->getGenerator();
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -490,11 +497,11 @@ class Document
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$this->setGenerator($content);
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$this->setDescription($content);
 		}
@@ -516,6 +523,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
@@ -540,6 +549,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -616,6 +627,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
@@ -648,6 +661,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
@@ -1018,8 +1033,8 @@ class Document
 	 * This usually will be text/html because most browsers cannot yet
 	 * accept the proper mime settings for XHTML: application/xhtml+xml
 	 * and to a lesser extent application/xml and text/xml. See the W3C note
-	 * ({@link http://www.w3.org/TR/xhtml-media-types/
-	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
+	 * ({@link https://www.w3.org/TR/xhtml-media-types/
+	 * https://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
 	 * @param   string   $type  The document type to be sent
 	 * @param   boolean  $sync  Should the type be synced with HTML?
@@ -1028,7 +1043,7 @@ class Document
 	 *
 	 * @since   1.7.0
 	 *
-	 * @link    http://www.w3.org/TR/xhtml-media-types
+	 * @link    https://www.w3.org/TR/xhtml-media-types/
 	 */
 	public function setMimeEncoding($type = 'text/html', $sync = true)
 	{
@@ -1159,7 +1174,7 @@ class Document
 	 * @param   boolean  $cache   If true, cache the output
 	 * @param   array    $params  Associative array of attributes
 	 *
-	 * @return  void  The rendered data
+	 * @return  string  The rendered data
 	 *
 	 * @since   1.7.0
 	 */
@@ -1185,6 +1200,8 @@ class Document
 		{
 			$this->preloadAssets();
 		}
+
+		return '';
 	}
 
 	/**

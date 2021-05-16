@@ -7,7 +7,7 @@
 				type="radio"
 				label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
 				description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				size="20"
 				default="0"
 				filter="integer"

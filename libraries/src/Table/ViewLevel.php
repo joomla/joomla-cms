@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Viewlevels table class.
@@ -84,13 +85,17 @@ class ViewLevel extends Table
 			return false;
 		}
 
+		$id = (int) $this->id;
+
 		// Check for a duplicate title.
 		$db = $this->_db;
 		$query = $db->getQuery(true)
-			->select('COUNT(title)')
+			->select('COUNT(' . $db->quoteName('title') . ')')
 			->from($db->quoteName('#__viewlevels'))
-			->where($db->quoteName('title') . ' = ' . $db->quote($this->title))
-			->where($db->quoteName('id') . ' != ' . (int) $this->id);
+			->where($db->quoteName('title') . ' = :title')
+			->where($db->quoteName('id') . ' != :id')
+			->bind(':title', $this->title)
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		if ($db->loadResult() > 0)

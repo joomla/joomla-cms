@@ -3,16 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 
 /**
  * System plugin to highlight terms.
@@ -36,7 +37,7 @@ class PlgSystemHighlight extends CMSPlugin
 	 * The highlighting is done with JavaScript so we just
 	 * need to check a few parameters and the JHtml behavior will do the rest.
 	 *
-	 * @return  boolean  True on success
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -45,7 +46,7 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check that we are in the site application.
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Set the variables.
@@ -55,13 +56,13 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check if the highlighter is enabled.
 		if (!ComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		{
-			return true;
+			return;
 		}
 
 		// Check if the highlighter should be activated in this environment.
 		if ($input->get('tmpl', '', 'cmd') === 'component' || $this->app->getDocument()->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
 		// Get the terms to highlight from the request.
@@ -71,7 +72,7 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check the terms.
 		if (empty($terms))
 		{
-			return true;
+			return;
 		}
 
 		// Clean the terms array.
@@ -85,22 +86,32 @@ class PlgSystemHighlight extends CMSPlugin
 		}
 
 		// Activate the highlighter.
-		HTMLHelper::_('behavior.highlighter', $cleanTerms);
+		if (!empty($cleanTerms))
+		{
+			$doc = Factory::getDocument();
+
+			$doc->getWebAssetManager()->useScript('highlight');
+			$doc->addScriptOptions(
+				'highlight',
+				[[
+					'class'      => 'js-highlight',
+					'highLight'  => $cleanTerms,
+				]]
+			);
+		}
 
 		// Adjust the component buffer.
 		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
+		$buf = '<div class="js-highlight">' . $buf . '</div>';
 		$doc->setBuffer($buf, 'component');
-
-		return true;
 	}
 
 	/**
 	 * Method to catch the onFinderResult event.
 	 *
-	 * @param   FinderIndexerResult  $item   The search result
-	 * @param   array                $query  The search query of this result
+	 * @param   Result  $item   The search result
+	 * @param   array   $query  The search query of this result
 	 *
 	 * @return  void
 	 *

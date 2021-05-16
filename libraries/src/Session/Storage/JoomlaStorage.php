@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -109,9 +109,9 @@ class JoomlaStorage extends NativeStorage
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = Factory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path   = $config->get('cookie_path', '/');
+			$app           = Factory::getApplication();
+			$cookie_domain = $app->get('cookie_domain', '');
+			$cookie_path   = $app->get('cookie_path', '/');
 			$cookie = session_get_cookie_params();
 			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
 		}
@@ -242,16 +242,16 @@ class JoomlaStorage extends NativeStorage
 			$cookie['secure'] = true;
 		}
 
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
-		if ($config->get('cookie_domain', '') != '')
+		if ($app->get('cookie_domain', '') != '')
 		{
-			$cookie['domain'] = $config->get('cookie_domain');
+			$cookie['domain'] = $app->get('cookie_domain');
 		}
 
-		if ($config->get('cookie_path', '') != '')
+		if ($app->get('cookie_path', '') != '')
 		{
-			$cookie['path'] = $config->get('cookie_path');
+			$cookie['path'] = $app->get('cookie_path');
 		}
 
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);

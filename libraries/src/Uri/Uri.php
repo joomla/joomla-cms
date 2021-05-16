@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,10 +61,10 @@ class Uri extends \Joomla\Uri\Uri
 		if (empty(static::$instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
-			if ($uri == 'SERVER')
+			if ($uri === 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off'))
 				{
 					$https = 's://';
 				}

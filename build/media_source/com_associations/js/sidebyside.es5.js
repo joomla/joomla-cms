@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // @TODO remove jQuery dependency
@@ -66,10 +66,15 @@ jQuery(document).ready(function($) {
       target.find('#jform_associations_' + referenceLang).val('');
 
       // Reset switcher after removing association
-      var currentSwitcher = $('#jform_itemlanguage').val();
+      var currentLangSelect = $('#jform_itemlanguage');
+      var currentSwitcher = currentLangSelect.val();
       var currentLang = targetLang.replace(/_/,'-');
       $('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
-      $('#jform_itemlanguage').val('');
+      currentLangSelect.val('');
+      currentLangSelect[0].dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');
@@ -177,7 +182,9 @@ jQuery(document).ready(function($) {
 
     // Iframe load finished, hide Joomla loading layer.
     var spinner = document.querySelector('joomla-core-loader');
-    spinner.parentNode.removeChild(spinner);
+    if (spinner) {
+      spinner.parentNode.removeChild(spinner);
+    }
   });
 
   // Attach behaviour to target frame load event.
@@ -288,7 +295,9 @@ jQuery(document).ready(function($) {
 
       // Iframe load finished, hide Joomla loading layer.
       var spinner = document.querySelector('joomla-core-loader');
-      spinner.parentNode.removeChild(spinner);
+      if (spinner) {
+        spinner.parentNode.removeChild(spinner);
+      }
     }
   });
 });

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -227,7 +227,7 @@ class FeedParserTest extends UnitTestCase
 
 		$parser = new FeedParserStub($xmlReader);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($parser);
 		$method = $reflectionClass->getMethod('moveToNextElement');
 		$method->setAccessible(true);
@@ -272,7 +272,7 @@ class FeedParserTest extends UnitTestCase
 
 		$parser = new FeedParserStub($xmlReader);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($parser);
 		$method = $reflectionClass->getMethod('moveToNextElement');
 		$method->setAccessible(true);
@@ -305,7 +305,7 @@ class FeedParserTest extends UnitTestCase
 
 		$parser = new FeedParserStub($xmlReader);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($parser);
 		$method = $reflectionClass->getMethod('moveToClosingElement');
 		$method->setAccessible(true);
@@ -334,7 +334,7 @@ class FeedParserTest extends UnitTestCase
 
 		$parser = new FeedParserStub($xmlReader);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($parser);
 		$method = $reflectionClass->getMethod('moveToClosingElement');
 		$method->setAccessible(true);
@@ -363,7 +363,7 @@ class FeedParserTest extends UnitTestCase
 
 		$parser = new FeedParserStub($xmlReader);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($parser);
 		$method = $reflectionClass->getMethod('moveToClosingElement');
 		$method->setAccessible(true);
@@ -388,7 +388,7 @@ class FeedParserTest extends UnitTestCase
 	 */
 	protected function getXmlReader($xml, $moveTo): XMLReader
 	{
-		// Its hard to mock the xml reader stream, so we use the real object here (but set xml directly)
+		// It's hard to mock the xml reader stream, so we use the real object here (but set xml directly)
 		$xmlReader = new XMLReader;
 
 		// Set the XML for the internal reader and move the stream to the element.

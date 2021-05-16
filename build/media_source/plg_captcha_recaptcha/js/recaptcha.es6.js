@@ -1,35 +1,35 @@
 /**
  * @package     Joomla.JavaScript
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-window.JoomlaInitReCaptcha2 = () => {
+((window, document) => {
   'use strict';
 
-  const itemNodes = document.getElementsByClassName('g-recaptcha');
-  const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
-  const items = [].slice.call(itemNodes);
+  window.JoomlainitReCaptcha2 = () => {
+    const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
+    const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
-  items.forEach((item) => {
-    let options = {};
+    elements.forEach((element) => {
+      let options = {};
 
-    if (item.dataset) {
-      options = item.dataset;
-    } else {
-      [].slice.call(optionKeys).forEach((optionData) => {
-        const optionKeyFq = `data-${optionData}`;
-        if (item.hasAttribute(optionKeyFq)) {
-          options[optionData] = item.getAttribute(optionKeyFq);
-        }
-      });
-    }
+      if (element.dataset) {
+        options = element.dataset;
+      } else {
+        optionKeys.forEach((key) => {
+          const optionKeyFq = `data-${key}`;
+          if (element.hasAttribute(optionKeyFq)) {
+            options[key] = element.getAttribute(optionKeyFq);
+          }
+        });
+      }
 
-    // Set the widget id of the recaptcha item
-    item.setAttribute(
-      'data-recaptcha-widget-id',
-      /* global grecaptcha */
-      grecaptcha.render(item, options),
-    );
-  });
-};
+      // Set the widget id of the recaptcha item
+      element.setAttribute(
+        'data-recaptcha-widget-id',
+        window.grecaptcha.render(element, options),
+      );
+    });
+  };
+})(window, document);

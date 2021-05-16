@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -14,7 +14,7 @@
       var name = elements[i].name;
       var value = elements[i].value;
       if(name) {
-        if ((elements[i].type === 'checkbox' && elements[i].checked === true) || (elements[i].type !== 'checkbox')) {
+        if (((elements[i].type === 'checkbox' || elements[i].type === 'radio') && elements[i].checked === true) || (elements[i].type !== 'checkbox' && elements[i].type !== 'radio')) {
           obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + encodeURIComponent(value));
         }
       }
@@ -57,7 +57,7 @@
 
     Joomla.request({
       type     : "POST",
-      url      : Jooomla.baseUrl,
+      url      : Joomla.baseUrl,
       data     : data,
       dataType : 'json',
       onSuccess: function (response, xhr) {
@@ -142,21 +142,8 @@
       document.formvalidator.attachToForm(form);
     });
 
-    // Check for FTP credentials
     Joomla.installation = Joomla.installation || {};
 
-    // @todo FTP persistent data ?
-    // Initialize the FTP installation data
-    // if (sessionStorage && sessionStorage.getItem('installation-data')) {
-    // 	var data = sessionStorage.getItem('installData').split(',');
-    // 	Joomla.installation.data = {
-    // 		ftpUsername: data[0],
-    // 		ftpPassword: data[1],
-    // 		ftpHost: data[2],
-    // 		ftpPort: data[3],
-    // 		ftpRoot: data[4]
-    // 	};
-    // }
     return 'Loaded...'
   };
 
@@ -185,9 +172,20 @@
       data: data,
       perform: true,
       onSuccess: function(response, xhr){
-        response = JSON.parse(response);
-        Joomla.replaceTokens(response.token);
         var spinnerElement = document.querySelector('joomla-core-loader');
+
+        try {
+          response = JSON.parse(response);
+        } catch (e) {
+          spinnerElement.parentNode.removeChild(spinnerElement);
+          console.error('Error in ' + task + ' Endpoint');
+          console.error(response);
+          Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+
+          return false;
+        }
+
+        Joomla.replaceTokens(response.token);
 
         if (response.error === true)
         {
@@ -232,7 +230,7 @@
       Joomla.installationBaseUrl = container.getAttribute('data-base-url');
       Joomla.installationBaseUrl += "installation/index.php"
     } else {
-      throw new Error('Javascript required to be enabled!')
+      throw new Error('"container-installation" container is missed')
     }
 
     if (page && page.getAttribute('data-page-name')) {
@@ -244,7 +242,7 @@
 
     if (container) {
       container.classList.remove('no-js');
-      container.style.display = "block";
+      container.classList.remove('hidden');
     }
   });
 })();

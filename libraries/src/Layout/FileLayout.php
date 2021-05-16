@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class FileLayout extends BaseLayout
 		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
-		// Init Enviroment
+		// Init Environment
 		$this->setComponent($this->options->get('component', 'auto'));
 		$this->setClient($this->options->get('client', 'auto'));
 	}
@@ -223,7 +223,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one path to include in layout search. Proxy of addIncludePaths()
 	 *
-	 * @param   string  $path  The path to search for layouts
+	 * @param   string|string[]  $path  The path to search for layouts
 	 *
 	 * @return  self
 	 *
@@ -239,7 +239,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   string|string[]  $paths  The path or array of paths to search for layouts
 	 *
 	 * @return  self
 	 *
@@ -535,6 +535,9 @@ class FileLayout extends BaseLayout
 	 */
 	public function getDefaultIncludePaths()
 	{
+		// Get the template
+		$template = Factory::getApplication()->getTemplate(true);
+
 		// Reset includePaths
 		$paths = array();
 
@@ -550,7 +553,13 @@ class FileLayout extends BaseLayout
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
+
+			if (!empty($template->parent))
+			{
+				// (2.a) Component template overrides path for an inherited template using the parent
+				$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
+			}
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -564,7 +573,13 @@ class FileLayout extends BaseLayout
 		}
 
 		// (4) Standard Joomla! layouts overridden
-		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
+		$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
+
+		if (!empty($template->parent))
+		{
+			// (4.a) Component template overrides path for an inherited template using the parent
+			$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
+		}
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';

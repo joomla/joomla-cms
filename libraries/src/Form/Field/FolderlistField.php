@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,13 +159,13 @@ class FolderlistField extends ListField
 			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
-			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
+			$this->recursive = ($recursive === 'true' || $recursive === 'recursive' || $recursive === '1');
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];
@@ -189,7 +189,14 @@ class FolderlistField extends ListField
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			if (is_dir(JPATH_ROOT . '/' . $path))
+			{
+				$path = JPATH_ROOT . '/' . $path;
+			}
+			else
+			{
+				return [];
+			}
 		}
 
 		$path = Path::clean($path);
@@ -213,6 +220,9 @@ class FolderlistField extends ListField
 		{
 			foreach ($folders as $folder)
 			{
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
+
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
@@ -221,9 +231,6 @@ class FolderlistField extends ListField
 						continue;
 					}
 				}
-
-				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
 				$options[] = HTMLHelper::_('select.option', $folder, $folder);
 			}

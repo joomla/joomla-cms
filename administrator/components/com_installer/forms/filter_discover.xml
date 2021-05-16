@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_INSTALLER_DISCOVER_FILTER_SEARCH_LABEL"
 			description="COM_INSTALLER_DISCOVER_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,7 +13,7 @@
 		<field
 			name="client_id"
 			type="location"
-			label="COM_INSTALLER_VALUE_CLIENT_SELECT"
+			label="COM_INSTALLER_TYPE_CLIENT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
@@ -21,7 +22,7 @@
 		<field
 			name="type"
 			type="type"
-			label="COM_INSTALLER_VALUE_TYPE_SELECT"
+			label="COM_INSTALLER_HEADING_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
@@ -30,7 +31,7 @@
 		<field
 			name="folder"
 			type="folder"
-			label="COM_INSTALLER_VALUE_FOLDER_SELECT"
+			label="COM_INSTALLER_HEADING_FOLDER"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
@@ -44,10 +45,11 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>
-			<option value="name DESC">COM_INSTALLER_HEADING_NAME_DESC</option>
+			<option value="name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="client_translated ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
 			<option value="client_translated DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
 			<option value="type_translated ASC">COM_INSTALLER_HEADING_TYPE_ASC</option>

@@ -3,56 +3,38 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$lang     = Factory::getLanguage();
-$renderer = $this->document->loadRenderer('module');
-$options  = array('style' => 'raw');
-$mod      = ModuleHelper::getModule('mod_feed');
-$param    = array(
-	'rssurl'      => 'https://www.joomla.org/announcements/release-news.feed?type=rss',
-	'rsstitle'    => 0,
-	'rssdesc'     => 0,
-	'rssimage'    => 1,
-	'rssitems'    => 5,
-	'rssitemdesc' => 1,
-	'rssrtl'      => $lang->isRtl() ? 1 : 0,
-	'word_count'  => 200,
-	'cache'       => 0,
-	);
-$params = array('params' => json_encode($param));
-
+$adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'visually-hidden';
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline mb-3" id="adminForm">
+<form action="index.php" method="post" name="adminForm" class="<?php echo $adminFormClass; ?>" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
 	<input type="hidden" name="task" value="">
-	<label for="eid" class="mr-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
+	<label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
+	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
-<?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>
-<div class="row">
-	<div class="col-md-8">
-<?php endif; ?>
 <?php if (empty($this->items)) : ?>
-	<div class="jumbotron">
-		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
-		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-		<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
-			<span class="icon icon-eye-open" aria-hidden="true"></span>
-			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
-		</a>
+	<div class="py-5 text-center">
+		<span class="fa-8x icon-bell mb-4" aria-hidden="true"></span>
+		<h1 class="display-5 fw-bold"><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h1>
+		<div>
+			<p class="lead mb-4">
+				<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?>
+			</p>
+			<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-primary btn-lg px-4"><?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?></a>
+		</div>
 	</div>
 <?php else : ?>
 	<?php foreach ($this->items as $item) : ?>
@@ -65,12 +47,12 @@ $params = array('params' => json_encode($param));
 			<div>
 				<?php echo Text::_($item->description_key); ?>
 				<?php if ($item->type !== 'message') : ?>
-				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
+				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary my-1">
 					<?php echo Text::_($item->action_key); ?>
 				</a>
 				<?php endif; ?>
-				<?php if (Factory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
-				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
+				<?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
+				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm my-1">
 					<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 				</a>
 				<?php endif; ?>
@@ -78,12 +60,4 @@ $params = array('params' => json_encode($param));
 		</div>
 	</div>
 	<?php endforeach; ?>
-<?php endif; ?>
-<?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>
-	</div>
-	<div class="col-md-4">
-		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
-		<?php echo $renderer->render($mod, $params, $options); ?>
-	</div>
-</div>
 <?php endif; ?>

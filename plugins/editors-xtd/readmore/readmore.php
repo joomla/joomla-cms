@@ -3,18 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.readmore
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\Event;
 
 /**
  * Editor Readmore button
@@ -32,6 +29,14 @@ class PlgButtonReadmore extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * Readmore button
 	 *
 	 * @param   string  $name  The name of the button to add
@@ -42,21 +47,14 @@ class PlgButtonReadmore extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		// Button is not active in specific content components
-		$event = new Event(
-			'getContent',
-			['name' => $name]
-		);
-
-		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
-		$getContent = $getContentResult['result'][0];
-		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
+		$doc = $this->app->getDocument();
+		$doc->getWebAssetManager()
+			->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
 
 		// Pass some data to javascript
-		Factory::getDocument()->addScriptOptions(
+		$doc->addScriptOptions(
 			'xtd-readmore',
 			array(
-				'editor' => $getContent,
 				'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
 			)
 		);
@@ -65,7 +63,8 @@ class PlgButtonReadmore extends CMSPlugin
 		$button->modal   = false;
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name    = 'arrow-down';
+		$button->name    = $this->_type . '_' . $this->_name;
+		$button->icon    = 'arrow-down';
 		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
 		$button->link    = '#';
 

@@ -7,30 +7,22 @@
   "assets": [
     {
       "name": "jquery-noconflict",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/legacy/js/jquery-noconflict.min.js"
-      ]
+      "uri": "legacy/jquery-noconflict.min.js"
     },
     {
-      "name": "jquery.ui.core",
+      "name": "joomla.treeselectmenu",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.core.js"
-      ]
-    },
-    {
-      "name": "jquery.ui.sortable",
-      "dependencies": [
-        "jquery.ui.core"
-      ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
-      ]
+      "uri": "legacy/treeselectmenu.min.js",
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
@@ -13,12 +13,12 @@
     const folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url'));
     // Hide all the folders when the page loads
     innerLists.forEach((innerList) => {
-      innerList.style.display = 'none';
+      innerList.classList.add('hidden');
     });
 
     // Show all the lists in the path of an open file
     openLists.forEach((openList) => {
-      openList.style.display = 'block';
+      openList.classList.remove('hidden');
     });
 
     // Stop the default action of anchor tag on a click event and release the inner list
@@ -26,12 +26,12 @@
       folder.addEventListener('click', (event) => {
         event.preventDefault();
 
-        const list = folder.parentNode.querySelector('ul');
+        const list = event.currentTarget.parentNode.querySelector('ul');
 
-        if (list.style.display !== 'none') {
-          list.style.display = 'none';
+        if (!list.classList.contains('hidden')) {
+          list.classList.add('hidden');
         } else {
-          list.style.display = 'block';
+          list.classList.remove('hidden');
         }
       });
     });
@@ -45,12 +45,12 @@
           fileModalFold.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        event.currentTarget.classList.add('selected');
 
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = event.currentTarget.getAttribute('data-id');
         });
       });
     });
@@ -64,11 +64,11 @@
           folderModalFldr.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        event.currentTarget.classList.add('selected');
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = event.currentTarget.getAttribute('data-id');
         });
       });
     });
@@ -112,9 +112,17 @@
 
       // eslint-disable-next-line no-new
       new window.Cropper(image, {
-        viewMode: 0,
+        viewMode: 1,
         scalable: true,
-        zoomable: true,
+        zoomable: false,
+        movable: false,
+        dragMode: 'crop',
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        autoCrop: true,
+        autoCropArea: 1,
+        background: true,
+        center: true,
         minCanvasWidth: width,
         minCanvasHeight: height,
       });

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -109,14 +114,14 @@ class PlgFinderNewsfeeds extends Adapter
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   Table   $table    A JTable object containing the record to be deleted.
+	 * @param   Table   $table    A Table object containing the record to be deleted.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_newsfeeds.newsfeed')
 		{
@@ -128,29 +133,29 @@ class PlgFinderNewsfeeds extends Adapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove the item from the index.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**
 	 * Smart Search after save content method.
 	 * Reindexes the link information for a newsfeed that has been saved.
 	 * It also makes adjustments if the access level of a newsfeed item or
-	 * the category to which it belongs has beend changed.
+	 * the category to which it belongs has changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   Table    $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the content has just been created.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle newsfeeds here.
 		if ($context === 'com_newsfeeds.newsfeed')
@@ -175,8 +180,6 @@ class PlgFinderNewsfeeds extends Adapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -184,7 +187,7 @@ class PlgFinderNewsfeeds extends Adapter
 	 * This event is fired before the data is actually saved.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   Table    $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the content is just about to be created.
 	 *
 	 * @return  boolean  True on success.
@@ -246,9 +249,9 @@ class PlgFinderNewsfeeds extends Adapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a Result object.
 	 *
-	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  void
 	 *
@@ -274,7 +277,7 @@ class PlgFinderNewsfeeds extends Adapter
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
+		$item->route = RouteHelper::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
 
 		/*
 		 * Add the metadata processing instructions based on the newsfeeds
@@ -297,9 +300,9 @@ class PlgFinderNewsfeeds extends Adapter
 		$item->addTaxonomy('Type', 'News Feed');
 
 		// Add the category taxonomy data.
-		$categories = Categories::getInstance('com_newsfeeds');
+		$categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -320,16 +323,13 @@ class PlgFinderNewsfeeds extends Adapter
 	 */
 	protected function setup()
 	{
-		// Load dependent classes.
-		JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
-
 		return true;
 	}
 
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
 	 * @return  DatabaseQuery  A database object.
 	 *
@@ -337,7 +337,7 @@ class PlgFinderNewsfeeds extends Adapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)

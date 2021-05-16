@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,9 +31,10 @@ class EmailRule extends FormRule
 	 *
 	 * @var    string
 	 * @since  1.7.0
-	 * @link   http://www.w3.org/TR/html-markup/input.email.html
+	 * @link   https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
 	 */
-	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+	protected $regex = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
+			. "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -46,14 +47,15 @@ class EmailRule extends FormRule
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
+	 * @return  mixed  Boolean true if field value is valid.
 	 *
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -61,7 +63,7 @@ class EmailRule extends FormRule
 		}
 
 		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
-		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
+		$tld = ((string) $element['tld'] === 'tld' || (string) $element['tld'] === 'required');
 
 		if ($tld)
 		{
@@ -70,7 +72,7 @@ class EmailRule extends FormRule
 		}
 
 		// Determine if the multiple attribute is present
-		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
+		$multiple = ((string) $element['multiple'] === 'true' || (string) $element['multiple'] === 'multiple');
 
 		if (!$multiple)
 		{
@@ -80,7 +82,7 @@ class EmailRule extends FormRule
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
-				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+				throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 			}
 		}
 		else
@@ -95,7 +97,7 @@ class EmailRule extends FormRule
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
-					return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+					throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 				}
 			}
 		}
@@ -105,7 +107,7 @@ class EmailRule extends FormRule
 		 * This allows different components and contexts to use different lists.
 		 * If value is incomplete, com_users.domains is used as fallback.
 		 */
-		$validDomains = (isset($element['validDomains']) && $element['validDomains'] != 'false');
+		$validDomains = (string) $element['validDomains'] !== '' && (string) $element['validDomains'] !== 'false';
 
 		if ($validDomains && !$multiple)
 		{
@@ -164,13 +166,13 @@ class EmailRule extends FormRule
 				// If domain is not allowed, fail validation. Otherwise continue.
 				if (!$allowed)
 				{
-					return new \UnexpectedValueException(Text::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
+					throw new \UnexpectedValueException(Text::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
 				}
 			}
 		}
 
 		// Check if we should test for uniqueness. This only can be used if multiple is not true
-		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
+		$unique = ((string) $element['unique'] === 'true' || (string) $element['unique'] === 'unique');
 
 		if ($unique && !$multiple)
 		{
@@ -199,7 +201,7 @@ class EmailRule extends FormRule
 
 			if ($duplicate)
 			{
-				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+				throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 			}
 		}
 

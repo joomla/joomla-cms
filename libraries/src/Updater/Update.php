@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -211,7 +211,7 @@ class Update extends CMSObject
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater
@@ -221,7 +221,7 @@ class Update extends CMSObject
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
@@ -354,6 +354,18 @@ class Update extends CMSObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
@@ -388,11 +400,6 @@ class Update extends CMSObject
 						{
 							$this->latest = $this->currentUpdate;
 						}
-					}
-					else
-					{
-						$this->latest = new \stdClass;
-						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
 					}
 				}
 				break;
@@ -435,14 +442,14 @@ class Update extends CMSObject
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 
-		if ($tag == 'tag')
+		if ($tag === 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 
 			return;
 		}
 
-		if ($tag == 'downloadsource')
+		if ($tag === 'downloadsource')
 		{
 			// Grab the last source so we can append the URL
 			$source = end($this->downloadSources);
@@ -460,14 +467,14 @@ class Update extends CMSObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url               The URL.
+	 * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$version    = new Version;
 		$httpOption = new Registry;
@@ -491,7 +498,7 @@ class Update extends CMSObject
 			return false;
 		}
 
-		$this->minimum_stability = $minimum_stability;
+		$this->minimum_stability = $minimumStability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);

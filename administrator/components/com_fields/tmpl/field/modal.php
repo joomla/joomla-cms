@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -14,33 +14,17 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-
-$app = Factory::getApplication();
-$input = $app->input;
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_fields.admin-field-edit-modal');
 
 $this->useCoreUI = true;
-
-$this->document->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'field.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
-		{
-			if (window.opener && (task == 'field.save' || task == 'field.cancel'))
-			{
-				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
-			}
-
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	};
-");
 ?>
 <div class="container-popup">
 
-	<div class="float-right">
+	<div class="float-end">
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.apply');"><?php echo Text::_('JTOOLBAR_APPLY') ?></button>
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.save');"><?php echo Text::_('JTOOLBAR_SAVE') ?></button>
 		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo Text::_('JCANCEL') ?></button>
@@ -48,10 +32,10 @@ $this->document->addScriptDeclaration("
 
 	<hr>
 
-	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . Factory::getApplication()->input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-		<div>
+		<div class="main-card">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>

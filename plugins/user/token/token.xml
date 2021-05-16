@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="user" method="upgrade">
+	<name>plg_user_token</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2019</creationDate>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_USER_TOKEN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\User\Token</namespace>
+	<files>
+		<filename plugin="token">token.php</filename>
+		<folder>forms</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">plg_user_token.ini</language>
+		<language tag="en-GB">plg_user_token.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
+				<field
+					name="allowedUserGroups"
+					type="UserGroupList"
+					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
+					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
+					layout="joomla.form.field.list-fancy-select"
+					multiple="true"
+					checksuperusergroup="0"
+					default="8"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

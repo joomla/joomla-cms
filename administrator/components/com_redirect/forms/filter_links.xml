@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_REDIRECT_FILTER_SEARCH_LABEL"
 			description="COM_REDIRECT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -11,7 +12,7 @@
 		<field
 			name="state"
 			type="redirect_status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -19,7 +20,7 @@
 		<field
 			name="http_status"
 			type="Redirect"
-			label="COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER"
+			label="COM_REDIRECT_HEADING_STATUS_CODE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER</option>
@@ -32,6 +33,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.old_url ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>

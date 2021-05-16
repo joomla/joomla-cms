@@ -3,16 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', 'mod_menu/menu.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['type' => 'module']);
+$wa->registerAndUseScript('mod_menu', 'mod_menu/menu-es5.min.js', [], ['nomodule' => true, 'defer' => true]);
 
 $id = '';
 
@@ -23,17 +25,18 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?> mod-list">
+<ul<?php echo $id; ?> class="mod-menu mod-list nav <?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
-	$class = 'nav-item';
+	$itemParams = $item->getParams();
+	$class      = 'nav-item item-' . $item->id;
 
 	if ($item->id == $default_id)
 	{
 		$class .= ' default';
 	}
 
-	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $active_id || ($item->type === 'alias' && $itemParams->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -44,7 +47,7 @@ if ($tagId = $params->get('tag_id', ''))
 	}
 	elseif ($item->type === 'alias')
 	{
-		$aliasToId = $item->params->get('aliasoptions');
+		$aliasToId = $itemParams->get('aliasoptions');
 
 		if (count($path) > 0 && $aliasToId == $path[count($path) - 1])
 		{

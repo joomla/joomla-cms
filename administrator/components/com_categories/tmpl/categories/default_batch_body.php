@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -12,12 +12,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 
 ?>
 
-<div class="container-fluid">
+<div class="p-3">
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
@@ -34,7 +34,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => $extension]); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => $extension, 'addRoot' => true]); ?>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -44,15 +44,19 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<?php if ($extension === 'com_content') : ?>
+	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="control-group">
 				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
 					<?php echo Text::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
 				</label>
-				<?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+				<fieldset id="flip-ordering-id">
+					<?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+				</fieldset>
 			</div>
 		</div>
 	</div>
+	<?php endif; ?>
 </div>
 

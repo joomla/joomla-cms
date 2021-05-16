@@ -12,6 +12,7 @@
 				type="ComponentsCategory"
 				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
 				required="true"
+				addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 				>
 				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
 			</field>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method self toggleSplit(bool $value)
  * @method self toggleButtonClass(string $value)
  * @method bool getToggleSplit()
- * @method bool getToggleButtonClass()
+ * @method string getToggleButtonClass()
  *
  * @since  4.0.0
  */
@@ -74,8 +74,8 @@ class DropdownButton extends AbstractGroupButton
 					->buttonClass($button->getButtonClass() . ' dropdown-toggle')
 					->attributes(
 						[
-							'data-toggle' => 'dropdown',
-							'data-target' => '#' . $this->fetchId(),
+							'data-bs-toggle' => 'dropdown',
+							'data-bs-target' => '#' . $this->fetchId(),
 							'aria-haspopup' => 'true',
 							'aria-expanded' => 'false',
 						]
@@ -104,7 +104,7 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   3.0
+	 * @since   4.0.0
 	 */
 	protected function fetchId()
 	{

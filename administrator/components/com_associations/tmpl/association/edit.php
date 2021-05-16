@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,12 @@ use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
 /** @var HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('jquery.framework');
-
-HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->usePreset('com_associations.sidebyside')
+	->useScript('webcomponent.core-loader');
 
 $options = [
 	'layout'   => $this->app->input->get('layout', '', 'string'),
@@ -35,7 +34,7 @@ $options = [
 		data-hide-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
-<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->typeName; ?>">
+<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->typeName; ?>">
 	<div class="sidebyside">
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
@@ -56,9 +55,18 @@ $options = [
 		<div class="outer-panel" id="right-panel">
 			<div class="inner-panel">
 				<div class="language-selector">
-					<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-					<?php echo $this->form->getInput('modalassociation'); ?>
-					<?php echo $this->form->getInput('itemlanguage'); ?>
+					<div class="clearfix">
+						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					</div>
+					<div class="langtarget">
+						<div class="visually-hidden">
+							<?php echo $this->form->getLabel('itemlanguage'); ?>
+						</div>
+						<?php echo $this->form->getInput('itemlanguage'); ?>
+					</div>
+					<div class="modaltarget">
+						<?php echo $this->form->getInput('modalassociation'); ?>
+					</div>
 				</div>
 				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
@@ -72,7 +80,6 @@ $options = [
 				</iframe>
 			</div>
 		</div>
-
 	</div>
 
 	<input type="hidden" name="task" value="">

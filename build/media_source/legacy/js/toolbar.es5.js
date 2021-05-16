@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,10 +42,10 @@ Joomla = window.Joomla || {};
 		    toolbarHelp = document.getElementById('toolbar-help');
 
 		if (toolbarHelp && !toolbarOptions) {
-			toolbarHelp.classList.add('ml-auto');
+			toolbarHelp.classList.add('ms-auto');
 		}
 		if (toolbarOptions && !toolbarHelp) {
-			toolbarOptions.classList.add('ml-auto');
+			toolbarOptions.classList.add('ms-auto');
 		}
 
 	});

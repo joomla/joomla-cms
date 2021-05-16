@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_webauthn</name>
+	<version>4.0.0</version>
+	<creationDate>2019-07-02</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_SYSTEM_WEBAUTHN_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Webauthn</namespace>
+	<files>
+		<filename plugin="webauthn">webauthn.php</filename>
+		<folder>forms</folder>
+		<folder>src</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_system_webauthn.ini</language>
+		<language tag="en-GB">en-GB/plg_system_webauthn.sys.ini</language>
+	</languages>
+</extension>

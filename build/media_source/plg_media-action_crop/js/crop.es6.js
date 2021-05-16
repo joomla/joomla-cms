@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,20 +47,20 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       },
     });
 
-    document.getElementById('jform_crop_x').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ x: parseInt(event.target.value, 10) });
+    document.getElementById('jform_crop_x').addEventListener('change', ({ target }) => {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ x: parseInt(target.value, 10) });
     });
-    document.getElementById('jform_crop_y').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ y: parseInt(event.target.value, 10) });
+    document.getElementById('jform_crop_y').addEventListener('change', ({ target }) => {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ y: parseInt(target.value, 10) });
     });
-    document.getElementById('jform_crop_width').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ width: parseInt(event.target.value, 10) });
+    document.getElementById('jform_crop_width').addEventListener('change', ({ target }) => {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ width: parseInt(target.value, 10) });
     });
-    document.getElementById('jform_crop_height').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ height: parseInt(event.target.value, 10) });
+    document.getElementById('jform_crop_height').addEventListener('change', ({ target }) => {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ height: parseInt(target.value, 10) });
     });
-    document.getElementById('jform_aspectRatio').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(event.target.value);
+    document.getElementById('jform_aspectRatio').addEventListener('change', ({ target }) => {
+      Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(target.value);
     });
 
     // Wait for the image to load its data

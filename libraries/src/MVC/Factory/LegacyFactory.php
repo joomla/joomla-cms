@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ use Joomla\Input\Input;
  * Uses the static getInstance function on the classes itself. Behavior of the old none
  * namespaced extension set up.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class LegacyFactory implements MVCFactoryInterface
 {
@@ -56,7 +56,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  ModelInterface  The model object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = [])
@@ -78,7 +78,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = [])
@@ -120,7 +120,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = 'Table', array $config = [])

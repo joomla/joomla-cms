@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -228,16 +228,24 @@ class ApiModel extends BaseDatabaseModel
 			throw new FileExistsException;
 		}
 
-		$object = $this->triggerEvent(
-			$adapter,
-			$name,
-			$path,
-			0,
-			function ($object)
-			{
-				$object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
-			}
-		);
+		$app               = Factory::getApplication();
+		$object            = new CMSObject;
+		$object->adapter   = $adapter;
+		$object->name      = $name;
+		$object->path      = $path;
+
+		PluginHelper::importPlugin('content');
+
+		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.folder', $object, true, $object]);
+
+		if (in_array(false, $result, true))
+		{
+			throw new \Exception($object->getError());
+		}
+
+		$object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
+
+		$app->triggerEvent('onContentAfterSave', ['com_media.folder', $object, true, $object]);
 
 		return $object->name;
 	}
@@ -281,16 +289,29 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$object = $this->triggerEvent(
-			$adapter,
-			$name,
-			$path,
-			$data,
-			function ($object)
-			{
-				$object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
-			}
-		);
+		$app               = Factory::getApplication();
+		$object            = new CMSObject;
+		$object->adapter   = $adapter;
+		$object->name      = $name;
+		$object->path      = $path;
+		$object->data      = $data;
+		$object->extension = strtolower(File::getExt($name));
+
+		PluginHelper::importPlugin('content');
+
+		// Also include the filesystem plugins, perhaps they support batch processing too
+ 		PluginHelper::importPlugin('media-action');
+
+		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
+
+		if (in_array(false, $result, true))
+		{
+			throw new \Exception($object->getError());
+		}
+
+		$object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
+
+		$app->triggerEvent('onContentAfterSave', ['com_media.file', $object, true, $object]);
 
 		return $object->name;
 	}
@@ -318,16 +339,29 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->triggerEvent(
-			$adapter,
-			$name,
-			$path,
-			$data,
-			function ($object)
-			{
-				$this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
-			}
-		);
+		$app               = Factory::getApplication();
+		$object            = new CMSObject;
+		$object->adapter   = $adapter;
+		$object->name      = $name;
+		$object->path      = $path;
+		$object->data      = $data;
+		$object->extension = strtolower(File::getExt($name));
+
+		PluginHelper::importPlugin('content');
+
+		// Also include the filesystem plugins, perhaps they support batch processing too
+ 		PluginHelper::importPlugin('media-action');
+
+		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, false, $object]);
+
+		if (in_array(false, $result, true))
+		{
+			throw new \Exception($object->getError());
+		}
+
+		$this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
+
+		$app->triggerEvent('onContentAfterSave', ['com_media.file', $object, false, $object]);
 	}
 
 	/**
@@ -353,7 +387,24 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->getAdapter($adapter)->delete($path);
+		$type              = $file->type === 'file' ? 'file' : 'folder';
+		$app               = Factory::getApplication();
+		$object            = new CMSObject;
+		$object->adapter   = $adapter;
+		$object->path      = $path;
+
+		PluginHelper::importPlugin('content');
+
+		$result = $app->triggerEvent('onContentBeforeDelete', ['com_media.' . $type, $object]);
+
+		if (in_array(false, $result, true))
+		{
+			throw new \Exception($object->getError());
+		}
+
+		$this->getAdapter($object->adapter)->delete($object->path);
+
+		$app->triggerEvent('onContentAfterDelete', ['com_media.' . $type, $object]);
 	}
 
 	/**
@@ -395,7 +446,7 @@ class ApiModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Returns an url for serve media files from adapter.
+	 * Returns a url for serve media files from adapter.
 	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $adapter  The adapter
@@ -493,53 +544,5 @@ class ApiModel extends BaseDatabaseModel
 
 		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);
-	}
-
-	/**
-	 * Triggers the onContentBeforeSave and onContentAfterSave event when calling the
-	 * given callable.
-	 *
-	 * If the onContentBeforeSave contains false, the operation will be aborted and an exception thrown.
-	 *
-	 * The object will be returned which got sent as part of the event.
-	 *
-	 * @param   string    $adapter   The adapter
-	 * @param   string    $name      The name
-	 * @param   string    $path      The path
-	 * @param   binary    $data      The binary data
-	 * @param   callable  $callback  The callback
-	 *
-	 * @return  CMSObject
-	 *
-	 * @throws  \Exception
-	 * @since   4.0.0
-	 */
-	private function triggerEvent(string $adapter, string $name, string $path, $data, callable $callback)
-	{
-		$app = Factory::getApplication();
-
-		$object            = new CMSObject;
-		$object->adapter   = $adapter;
-		$object->name      = $name;
-		$object->path      = $path;
-		$object->data      = $data;
-		$object->extension = strtolower(File::getExt($name));
-		$object->type      = $object->extension ? 'file' : 'dir';
-
-		// Also include the filesystem plugins, perhaps they support batch processing too
-		PluginHelper::importPlugin('media-action');
-
-		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.' . $object->type, $object, true]);
-
-		if (in_array(false, $result, true))
-		{
-			throw new \Exception($object->getError());
-		}
-
-		$callback($object);
-
-		$app->triggerEvent('onContentAfterSave', ['com_media.' . $object->type, $object, true]);
-
-		return $object;
 	}
 }

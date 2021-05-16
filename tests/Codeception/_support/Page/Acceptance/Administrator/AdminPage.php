@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Page\Acceptance\Administrator;
@@ -27,6 +27,14 @@ class AdminPage extends AcceptanceTester
 	 * @since  3.7.3
 	 */
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
+
+	/**
+	 * The form element with id "adminForm"
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $adminForm = ['id' => 'adminForm'];
 
 	/**
 	 * The element id which contains page title in administrator header.
@@ -136,6 +144,7 @@ class AdminPage extends AcceptanceTester
 		$I = $this;
 
 		$I->waitForPageTitle($title);
+		$I->waitForElementVisible(self::$systemMessageContainer, TIMEOUT);
 		$I->see($message, self::$systemMessageContainer);
 	}
 
@@ -153,7 +162,7 @@ class AdminPage extends AcceptanceTester
 	public function waitForPageTitle($title)
 	{
 		$I = $this;
-		$I->waitForText($title, TIMEOUT, self::$pageTitle);
+		$I->waitForText($title, $I->getConfig('timeout'), self::$pageTitle);
 	}
 
 	/**
@@ -224,7 +233,7 @@ class AdminPage extends AcceptanceTester
 			['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]
 		);
 
-		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
+		$I->waitForElement(['id' => 'mod-login-username'], $I->getConfig('timeout'));
 		$I->waitForText(
 			'Log in',
 			TIMEOUT,

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,11 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -23,8 +27,18 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table
+class Content extends Table implements VersionableTableInterface, TaggableTableInterface
 {
+	use TaggableTableTrait;
+
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -35,6 +49,7 @@ class Content extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_content.article';
+
 		parent::__construct('#__content', 'id', $db);
 
 		// Set the alias since the column is called state
@@ -86,11 +101,14 @@ class Content extends Table
 		// This is an article under a category.
 		if ($this->catid)
 		{
+			$catId = (int) $this->catid;
+
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+				->where($this->_db->quoteName('id') . ' = :catid')
+				->bind(':catid', $catId, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -205,6 +223,14 @@ class Content extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
+		}
+
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
@@ -244,31 +270,25 @@ class Content extends Table
 			$this->hits = 0;
 		}
 
-		// Set publish_up to null date if not set
+		// Set publish_up to null if not set
 		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->_db->getNullDate();
+			$this->publish_up = null;
 		}
 
-		// Set publish_down to null date if not set
+		// Set publish_down to null if not set
 		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->publish_down = null;
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down < $this->publish_up && $this->publish_down > $this->_db->getNullDate())
+		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
 			$this->publish_down = $temp;
-		}
-
-		// Set modified to null date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->_db->getNullDate();
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -278,27 +298,36 @@ class Content extends Table
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
+			$badCharacters = ["\n", "\r", "\"", '<', '>'];
 
 			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
 			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
+			$keys = explode(',', $afterClean);
 
-			$clean_keys = array();
+			$cleanKeys = [];
 
 			foreach ($keys as $key)
 			{
 				if (trim($key))
 				{
 					// Ignore blank keywords
-					$clean_keys[] = trim($key);
+					$cleanKeys[] = trim($key);
 				}
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $clean_keys);
+			$this->metakey = implode(', ', $cleanKeys);
+		}
+		else
+		{
+			$this->metakey = '';
+		}
+
+		if ($this->metadesc === null)
+		{
+			$this->metadesc = '';
 		}
 
 		return true;
@@ -313,29 +342,41 @@ class Content extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
 
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_by = $user->get('id');
-			$this->modified    = $date->toSql();
+			$this->modified    = $date;
 		}
 		else
 		{
-			// New article. An article created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
+			// Field created_by can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			// Set modified to created date if not set
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			// Set modified_by to created_by user if not set
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 
@@ -350,5 +391,17 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for UCM features
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->typeAlias;
 	}
 }

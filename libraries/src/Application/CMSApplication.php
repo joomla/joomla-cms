@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,17 +10,20 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -41,9 +44,9 @@ use Joomla\String\StringHelper;
  *
  * @since  3.2
  */
-abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSWebApplicationInterface
 {
-	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper, SessionAwareWebApplicationTrait;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -201,15 +204,58 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!\in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
 			$this->messageQueue[] = $message;
+		}
+	}
+
+	/**
+	 * Ensure several core system input variables are not arrays.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9
+	 */
+	private function sanityCheckSystemVariables()
+	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function ($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
 		}
 	}
 
@@ -224,24 +270,15 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		try
 		{
+			$this->sanityCheckSystemVariables();
+			$this->setupLogging();
 			$this->createExtensionNamespaceMap();
-
-			PluginHelper::importPlugin('system');
-
-			// Trigger the onBeforeExecute event
-			$this->getDispatcher()->dispatch(
-				'onBeforeExecute',
-				new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-			);
-
-			// Mark beforeExecute in the profiler.
-			JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
 			// Perform application routines.
 			$this->doExecute();
 
 			// If we have an application document object, render it.
-			if ($this->document instanceof \JDocument)
+			if ($this->document instanceof \Joomla\CMS\Document\Document)
 			{
 				// Render the application output.
 				$this->render();
@@ -271,7 +308,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Trigger the onError event.
 			$this->triggerEvent('onError', $event);
 
-			ExceptionHandler::render($event->getError());
+			ExceptionHandler::handleException($event->getError());
 		}
 
 		// Send the application response.
@@ -292,6 +329,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $tasks   Permitted tasks
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
@@ -310,9 +349,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			if ($this->get($name . '_reset_password_override', 0))
 			{
 				$option = $this->get($name . '_reset_password_option', '');
-				$view = $this->get($name . '_reset_password_view', '');
+				$view   = $this->get($name . '_reset_password_view', '');
 				$layout = $this->get($name . '_reset_password_layout', '');
-				$tasks = $this->get($name . '_reset_password_tasks', '');
+				$tasks  = $this->get($name . '_reset_password_tasks', '');
 			}
 
 			$task = $this->input->getCmd('task', '');
@@ -347,7 +386,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				// Redirect to the profile edit page
 				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+
+				$url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+				// In the administrator we need a different URL
+				if (strtolower($name) === 'administrator')
+				{
+					$user = Factory::getApplication()->getIdentity();
+					$url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
+				}
+
+				$this->redirect($url);
 			}
 		}
 	}
@@ -365,6 +414,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -537,13 +599,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
+		$app = Factory::getApplication();
+
 		if (!isset($name))
 		{
-			$app = Factory::getApplication();
 			$name = $app->getName();
 		}
 
-		$options['mode'] = Factory::getConfig()->get('sef');
+		$options['mode'] = $app->get('sef');
 
 		return Router::getInstance($name, $options);
 	}
@@ -559,17 +622,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new \stdClass;
-
-		$template->template = 'system';
-		$template->params   = new Registry;
-
 		if ($params)
 		{
+			$template = new \stdClass;
+
+			$template->template    = 'system';
+			$template->params      = new Registry;
+			$template->inheritable = 0;
+			$template->parent      = '';
+
 			return $template;
 		}
 
-		return $template->template;
+		return 'system';
 	}
 
 	/**
@@ -937,10 +1002,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template']  = $this->get('theme');
-		$this->docOptions['file']      = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']    = $this->get('themeParams');
-		$this->docOptions['csp_nonce'] = $this->get('csp_nonce');
+		$this->docOptions['template']         = $this->get('theme');
+		$this->docOptions['file']             = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']           = $this->get('themeParams');
+		$this->docOptions['csp_nonce']        = $this->get('csp_nonce');
+		$this->docOptions['templateInherits'] = $this->get('themeInherits');
 
 		if ($this->get('themes.base'))
 		{
@@ -1003,10 +1069,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		if ($active !== null
 			&& $active->type === 'alias'
-			&& $active->params->get('alias_redirect')
+			&& $active->getParams()->get('alias_redirect')
 			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
-			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+			$item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 
 			if ($item !== null)
 			{
@@ -1043,6 +1109,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->input->def($key, $value);
 		}
 
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
+		}
+
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
@@ -1054,7 +1125,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $key    The path of the state.
 	 * @param   mixed   $value  The value of the variable.
 	 *
-	 * @return  mixed  The previous state, if one existed.
+	 * @return  mixed|void  The previous state, if one existed.
 	 *
 	 * @since   3.2
 	 */
@@ -1115,7 +1186,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		/** @var Session $session */
 		$session = $this->getSession();
 
-		return $session->getFormToken();
+		return $session->getFormToken($forceNew);
 	}
 
 	/**
@@ -1150,5 +1221,207 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function isCli()
 	{
 		return false;
+	}
+
+	/**
+	 * Checks if 2fa needs to be enforced
+	 * if so returns true, else returns false
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws \Exception
+	 */
+	protected function isTwoFactorAuthenticationRequired(): bool
+	{
+		$userId = $this->getIdentity()->id;
+
+		if (!$userId)
+		{
+			return false;
+		}
+
+		// Check session if user has set up 2fa
+		if ($this->getSession()->has('has2fa'))
+		{
+			return false;
+		}
+
+		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
+
+		if ($enforce2faOptions == 0 || !$enforce2faOptions)
+		{
+			return false;
+		}
+
+		if (!PluginHelper::isEnabled('twofactorauth'))
+		{
+			return false;
+		}
+
+		$pluginsSiteEnable          = false;
+		$pluginsAdministratorEnable = false;
+		$pluginOptions              = PluginHelper::getPlugin('twofactorauth');
+
+		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
+		array_walk($pluginOptions,
+			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
+			{
+				$option  = new Registry($pluginOption->params);
+				$section = $option->get('section', 3);
+
+				switch ($section)
+				{
+					case 1:
+						$pluginsSiteEnable = true;
+						break;
+					case 2:
+						$pluginsAdministratorEnable = true;
+						break;
+					case 3:
+					default:
+						$pluginsAdministratorEnable = true;
+						$pluginsSiteEnable          = true;
+				}
+			}
+		);
+
+		if ($pluginsSiteEnable && $this->isClient('site'))
+		{
+			if (\in_array($enforce2faOptions, [1, 3]))
+			{
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
+			}
+		}
+
+		if ($pluginsAdministratorEnable && $this->isClient('administrator'))
+		{
+			if (\in_array($enforce2faOptions, [2, 3]))
+			{
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Redirects user to his Two Factor Authentication setup page
+	 *
+	 * @return void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function redirectIfTwoFactorAuthenticationRequired(): void
+	{
+		$option = $this->input->get('option');
+		$task   = $this->input->get('task');
+		$view   = $this->input->get('view', null, 'STRING');
+		$layout = $this->input->get('layout', null, 'STRING');
+
+		if ($this->isClient('site'))
+		{
+			// If user is already on edit profile screen or press update/apply button, do nothing to avoid infinite redirect
+			if (($option === 'com_users' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout'], true))
+				|| $option === 'com_users' && $view === 'profile' && $layout === 'edit')
+			{
+				return;
+			}
+
+			// Redirect to com_users profile edit
+			$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
+			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
+		}
+
+		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
+			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
+		{
+			return;
+		}
+
+		// Redirect to com_admin profile edit
+		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
+		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
+	}
+
+	/**
+	 * Checks if otpKey and otep for the user are not empty
+	 * if any one is empty returns false, else returns true
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws \Exception
+	 */
+	private function hasUserConfiguredTwoFactorAuthentication(): bool
+	{
+		$user = $this->getIdentity();
+
+		if (empty($user->otpKey) || empty($user->otep))
+		{
+			return false;
+		}
+
+		// Set session to user has configured 2fa
+		$this->getSession()->set('has2fa', 1);
+
+		return true;
+	}
+
+	/**
+	 * Setup logging functionality.
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 */
+	private function setupLogging(): void
+	{
+		// Add InMemory logger that will collect all log entries to allow to display them later by extensions
+		if ($this->get('debug'))
+		{
+			Log::addLogger(['logger' => 'inmemory']);
+		}
+
+		// Log the deprecated API.
+		if ($this->get('log_deprecated'))
+		{
+			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
+		}
+
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->get('log_everything'))
+		{
+			Log::addLogger(['text_file' => 'everything.php'], Log::ALL, ['deprecated', 'deprecation-notes', 'databasequery'], true);
+		}
+
+		if ($this->get('log_categories'))
+		{
+			$priority = 0;
+
+			foreach ($this->get('log_priorities', ['all']) as $p)
+			{
+				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
+
+				if (defined($const))
+				{
+					$priority |= constant($const);
+				}
+			}
+
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = preg_split('/[^\w.-]+/', $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
+			$mode       = (bool) $this->get('log_category_mode', false);
+
+			if (!$categories)
+			{
+				return;
+			}
+
+			Log::addLogger(['text_file' => 'custom-logging.php'], $priority, $categories, $mode);
+		}
 	}
 }

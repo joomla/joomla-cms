@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,8 @@ use Joomla\Utilities\ArrayHelper;
  * It uses XML definitions to construct form fields and a variety of field and rule classes to
  * render and validate the form.
  *
- * @link   http://www.w3.org/TR/html4/interact/forms.html
- * @link   http://www.w3.org/TR/html5/forms.html
+ * @link   https://www.w3.org/TR/html4/interact/forms.html
+ * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
 class Form
@@ -79,7 +79,7 @@ class Form
 	protected static $forms = array();
 
 	/**
-	 * Alows extensions to implement repeating elements
+	 * Allows extensions to implement repeating elements
 	 *
 	 * @var    boolean
 	 * @since  3.2
@@ -364,7 +364,7 @@ class Form
 		// Process each found fieldset.
 		foreach ($sets as $set)
 		{
-			if ((string) $set['hidden'] == 'true')
+			if ((string) $set['hidden'] === 'true')
 			{
 				continue;
 			}
@@ -618,16 +618,16 @@ class Form
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
 	 * method will move on to the next field to load.
 	 *
-	 * @param   string  $data     The name of an XML string or object.
-	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                            already exists with the same group/name.
-	 * @param   string  $xpath    An optional xpath to search for the fields.
+	 * @param   string   $data     The name of an XML string or object.
+	 * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
+	 *                             already exists with the same group/name.
+	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function load($data, $replace = true, $xpath = false)
+	public function load($data, $replace = true, $xpath = null)
 	{
 		// If the data to load isn't already an XML element or string return false.
 		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
@@ -652,7 +652,7 @@ class Form
 		if (empty($this->xml))
 		{
 			// If no XPath query is set to search for fields, and we have a <form />, set it and return.
-			if (!$xpath && ($data->getName() == 'form'))
+			if (!$xpath && ($data->getName() === 'form'))
 			{
 				$this->xml = $data;
 
@@ -676,7 +676,7 @@ class Form
 		{
 			$elements = $data->xpath($xpath);
 		}
-		elseif ($data->getName() == 'form')
+		elseif ($data->getName() === 'form')
 		{
 			$elements = $data->children();
 		}
@@ -736,16 +736,16 @@ class Form
 	 * fields in the new XML file unless the $reset parameter has been set
 	 * to false.
 	 *
-	 * @param   string  $file   The filesystem path of an XML file.
-	 * @param   string  $reset  Flag to toggle whether form fields should be replaced if a field
-	 *                          already exists with the same group/name.
-	 * @param   string  $xpath  An optional xpath to search for the fields.
+	 * @param   string   $file   The filesystem path of an XML file.
+	 * @param   boolean  $reset  Flag to toggle whether form fields should be replaced if a field
+	 *                           already exists with the same group/name.
+	 * @param   string   $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFile($file, $reset = true, $xpath = false)
+	public function loadFile($file, $reset = true, $xpath = null)
 	{
 		// Check to see if the path is an absolute path.
 		if (!is_file($file))
@@ -1198,14 +1198,14 @@ class Form
 			// Define field name for messages
 			if ($field['label'])
 			{
-				$fieldLabel = \JText::_($field['label']);
+				$fieldLabel = Text::_($field['label']);
 			}
 			else
 			{
-				$fieldLabel = \JText::_($name);
+				$fieldLabel = Text::_($name);
 			}
 
-			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
+			$disabled = ((string) $field['disabled'] === 'true' || (string) $field['disabled'] === 'disabled');
 
 			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
 
@@ -1621,7 +1621,7 @@ class Form
 		{
 			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1'))
 			{
 				$lang = Factory::getLanguage();
 
@@ -1851,7 +1851,7 @@ class Form
 			$forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
-			if (substr($data, 0, 1) == '<')
+			if (substr($data, 0, 1) === '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{

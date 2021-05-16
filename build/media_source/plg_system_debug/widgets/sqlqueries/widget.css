@@ -49,9 +49,10 @@ div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-eye:before,
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-eye-dash:before,
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-stmt-id:before,
 div.phpdebugbar-widgets-sqlqueries a.phpdebugbar-widgets-editor-link:before {
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free";
     margin-right: 4px;
     font-size: 12px;
+    font-weight: 900;
 }
 
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-database:before {
@@ -100,15 +101,16 @@ div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-eye-dash {
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params {
     display: none;
     width: 70%;
-    margin: 10px;
+    margin: 10px 0;
     border: 1px solid #ddd;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     border-collapse: collapse;
 }
 
-div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td {
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-explain td {
     border: 1px solid #ddd;
-    text-align: center;
+    padding: 3px;
 }
 
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params .phpdebugbar-widgets-name {
@@ -116,10 +118,11 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params .phpdebugbar
     font-weight: bold;
 }
 
-div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack {
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-explain{
     display: none;
     width: 100%;
-    margin: 10px;
+    margin: 10px 0;
     border: 1px solid #ddd;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     border-collapse: collapse;
@@ -133,8 +136,11 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack tbody tr:
     background-color: #eee;
 }
 
-div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack th {
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack th,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-explain th,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params th{
     font-weight: bold;
+    padding: 3px;
 }
 
 div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item {

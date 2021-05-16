@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +86,15 @@ class PostgresqlChangeItem extends ChangeItem
 
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
-			if ($alterCommand === 'ADD COLUMN')
+			if ($alterCommand === 'RENAME TO')
+			{
+				$table = $this->fixQuote($wordArray[5]);
+				$result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
+				$this->queryType = 'RENAME_TABLE';
+				$this->checkQueryExpected = 1;
+				$this->msgElements = array($table);
+			}
+			elseif ($alterCommand === 'ADD COLUMN')
 			{
 				$result = 'SELECT column_name'
 					. ' FROM information_schema.columns'
@@ -135,6 +143,11 @@ class PostgresqlChangeItem extends ChangeItem
 					else
 					{
 						$datatype = $type;
+					}
+
+					if ($datatype === 'varchar')
+					{
+						$datatype = 'character varying';
 					}
 
 					$result = 'SELECT column_name, data_type '

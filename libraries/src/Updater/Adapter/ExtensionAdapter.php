@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
@@ -71,17 +70,17 @@ class ExtensionAdapter extends UpdateAdapter
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -143,6 +142,18 @@ class ExtensionAdapter extends UpdateAdapter
 						$dbType       = strtoupper($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
+
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
 
 						// Do we have an entry for the database?
 						if (\array_key_exists($dbType, $supportedDbs))
@@ -257,12 +268,12 @@ class ExtensionAdapter extends UpdateAdapter
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -299,7 +310,7 @@ class ExtensionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 
@@ -319,22 +330,8 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				if (is_numeric($this->latest->client))
-				{
-					$byName = false;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					Log::add(
-						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						Log::WARNING, 'deprecated'
-					);
-				}
-				else
-				{
-					$byName = true;
-				}
-
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 

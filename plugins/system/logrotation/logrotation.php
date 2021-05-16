@@ -3,15 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
-use Joomla\Filesystem\File;
-use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Filesystem\Path;
 
 /**
@@ -21,7 +23,7 @@ use Joomla\Filesystem\Path;
  *
  * @since  3.9.0
  */
-class PlgSystemLogrotation extends JPlugin
+class PlgSystemLogrotation extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -106,7 +108,7 @@ class PlgSystemLogrotation extends JPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -250,8 +252,6 @@ class PlgSystemLogrotation extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -261,10 +261,10 @@ class PlgSystemLogrotation extends JPlugin
 					$options = array(
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					);
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)

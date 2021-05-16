@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.override
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,10 +130,15 @@ class PlgInstallerOverride extends CMSPlugin
 
 		$after  = $session->get('override.afterEventFiles');
 		$before = $session->get('override.beforeEventFiles');
+		$result = array();
+
+		if (!is_array($after) || !is_array($before))
+		{
+			return $result;
+		}
+
 		$size1  = count($after);
 		$size2  = count($before);
-
-		$result = array();
 
 		if ($size1 === $size2)
 		{
@@ -175,7 +180,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Last process of this plugin.
 	 *
-	 * @param   array  $result  Result aray.
+	 * @param   array  $result  Result array.
 	 *
 	 * @return  void
 	 *
@@ -187,7 +192,7 @@ class PlgInstallerOverride extends CMSPlugin
 
 		if ($num != 0)
 		{
-			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_N_OVERRIDE_FILE_UPDATED', $num), 'notice');
+			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
 			$this->saveOverrides($result);
 		}
 
@@ -330,24 +335,22 @@ class PlgInstallerOverride extends CMSPlugin
 			'modified_date',
 			'extension_id',
 			'state',
-			'client_id'
+			'client_id',
 		];
 
-		// Create a insert query.
+		// Create an insert query.
 		$insertQuery = $this->db->getQuery(true)
 			->insert($this->db->quoteName('#__template_overrides'))
 			->columns($this->db->quoteName($columns));
 
 		foreach ($pks as $pk)
 		{
-			$insertQuery->clear('values');
-
 			$date = new Date('now');
 			$createdDate = $date->toSql();
 
 			if (empty($pk->coreFile))
 			{
-				$modifiedDate = $this->db->getNullDate();
+				$modifiedDate = null;
 			}
 			else
 			{
@@ -362,7 +365,7 @@ class PlgInstallerOverride extends CMSPlugin
 						[
 							$this->db->quoteName('modified_date') . ' = :modifiedDate',
 							$this->db->quoteName('action') . ' = :pkAction',
-							$this->db->quoteName('state') . ' = 0'
+							$this->db->quoteName('state') . ' = 0',
 						]
 					)
 					->where($this->db->quoteName('hash_id') . ' = :pkId')
@@ -389,22 +392,22 @@ class PlgInstallerOverride extends CMSPlugin
 				],
 				ParameterType::STRING
 			);
-			$bindArray = \array_merge(
+			$bindArray = array_merge(
 				$bindArray,
 				$insertQuery->bindArray(
 					[
 						$pk->id,
 						$pk->extension_id,
 						0,
-						(int) $pk->client
+						(int) $pk->client,
 					]
 				)
 			);
 
 			$insertQuery->values(implode(',', $bindArray));
-
-			$this->db->setQuery($insertQuery);
-			$this->db->execute();
 		}
+
+		$this->db->setQuery($insertQuery);
+		$this->db->execute();
 	}
 }

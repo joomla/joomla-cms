@@ -3,14 +3,14 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
 
 use Codeception\Util\FileSystem as Util;
 use Exception;
-use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\Interactions\WebDriverActions;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -48,7 +48,7 @@ class Media extends Admin
 			// Add a small timeout to wait for rendering (otherwise it will fail when executed in headless browser)
 			$I->wait(0.5);
 		}
-		catch (NoSuchElementException $e)
+		catch (TimeoutException $e)
 		{
 			/*
 			 * Continue if we cant find the loader within 3 seconds.

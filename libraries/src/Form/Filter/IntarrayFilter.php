@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,11 @@ class IntarrayFilter implements FormFilterInterface
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
+		if (strtoupper((string) $element['filter']) === 'INT_ARRAY')
+		{
+			@trigger_error('`INT_ARRAY` form filter is deprecated and will be removed in 5.0. Use `Intarray` instead', E_USER_DEPRECATED);
+		}
+
 		if (\is_object($value))
 		{
 			$value = get_object_vars($value);

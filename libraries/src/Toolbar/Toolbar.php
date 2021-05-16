@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class Toolbar
 	 * @var    string
 	 * @since  1.5
 	 */
-	protected $_name = [];
+	protected $_name = '';
 
 	/**
 	 * Toolbar array
@@ -70,7 +70,7 @@ class Toolbar
 	/**
 	 * Stores the singleton instances of various toolbar.
 	 *
-	 * @var    Toolbar
+	 * @var    Toolbar[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
@@ -298,14 +298,17 @@ class Toolbar
 			$html[] = $layout->render(['id' => $this->_name]);
 		}
 
+		$len = count($this->_bar);
+
 		// Render each button in the toolbar.
-		foreach ($this->_bar as $button)
+		foreach ($this->_bar as $i => $button)
 		{
 			if ($button instanceof ToolbarButton)
 			{
 				// Child dropdown only support new syntax
 				$button->setOption('is_child', $isChild);
-
+				$button->setOption('is_first_child', $i === 0);
+				$button->setOption('is_last_child', $i === $len - 1);
 				$html[] = $button->render();
 			}
 			// B/C
@@ -483,7 +486,8 @@ class Toolbar
 			$button = $this->factory->createButton($this, $type);
 
 			$button->name($args[0] ?? '')
-				->text($args[1] ?? '');
+				->text($args[1] ?? '')
+				->task($args[2] ?? '');
 
 			return $this->appendButton($button);
 		}

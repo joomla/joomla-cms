@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,11 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
-
-HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_content.form-edit');
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
@@ -56,7 +56,7 @@ if (!$editoroptions)
 					<?php echo $this->form->renderField('alias'); ?>
 				<?php endif; ?>
 
-				<?php echo $this->form->getInput('articletext'); ?>
+				<?php echo $this->form->renderField('articletext'); ?>
 
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
@@ -67,10 +67,12 @@ if (!$editoroptions)
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
+				<?php echo $this->form->renderField('image_intro_alt_empty', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
 				<?php echo $this->form->renderField('float_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
+				<?php echo $this->form->renderField('image_fulltext_alt_empty', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
 				<?php echo $this->form->renderField('float_fulltext', 'images'); ?>
 				<?php echo $this->form->renderField('urla', 'urls'); ?>
@@ -100,6 +102,9 @@ if (!$editoroptions)
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
+
+				<?php echo $this->form->renderField('transition'); ?>
+				<?php echo $this->form->renderField('state'); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php echo $this->form->renderField('note'); ?>
@@ -109,12 +114,11 @@ if (!$editoroptions)
 				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 					<?php echo $this->form->renderField('created_by_alias'); ?>
 				<?php endif; ?>
-				<?php if ((int) $this->item->id > 0) : ?>
-					<?php echo $this->form->renderField('transition'); ?>
-				<?php endif; ?>
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('featured'); ?>
 					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+						<?php echo $this->form->renderField('featured_up'); ?>
+						<?php echo $this->form->renderField('featured_down'); ?>
 						<?php echo $this->form->renderField('publish_up'); ?>
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
@@ -154,11 +158,11 @@ if (!$editoroptions)
 		</fieldset>
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
-				<span class="fa fa-check" aria-hidden="true"></span>
+				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fa fa-times-cancel" aria-hidden="true"></span>
+				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>

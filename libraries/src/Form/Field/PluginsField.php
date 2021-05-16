@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,16 +123,30 @@ class PluginsField extends ListField
 			// Get list of plugins
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('element AS value, name AS text')
-				->from('#__extensions')
-				->where('folder = ' . $db->quote($folder))
-				->where('enabled = 1')
-				->order('ordering, name');
+				->select(
+					[
+						$db->quoteName('element', 'value'),
+						$db->quoteName('name', 'text'),
+					]
+				)
+				->from($db->quoteName('#__extensions'))
+				->where(
+					[
+						$db->quoteName('folder') . ' = :folder',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				)
+				->bind(':folder', $folder)
+				->order(
+					[
+						$db->quoteName('ordering'),
+						$db->quoteName('name'),
+					]
+				);
 
 			if ((string) $this->element['useaccess'] === 'true')
 			{
-				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+				$query->whereIn($db->quoteName('access'), Factory::getUser()->getAuthorisedViewLevels());
 			}
 
 			$options   = $db->setQuery($query)->loadObjectList();
@@ -148,7 +162,7 @@ class PluginsField extends ListField
 			{
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR) || $lang->load($extension . '.sys', $source);
 				$options[$i]->text = Text::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.

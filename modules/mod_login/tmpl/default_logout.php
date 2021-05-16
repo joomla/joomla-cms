@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ HTMLHelper::_('behavior.keepalive');
 	</div>
 <?php endif; ?>
 <?php if ($params->get('profilelink', 0)) : ?>
-	<ul class="mod-login-logout__options unstyled">
+	<ul class="mod-login-logout__options list-unstyled">
 		<li>
 			<a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
 			<?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>

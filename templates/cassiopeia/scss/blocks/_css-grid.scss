@@ -3,37 +3,24 @@
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas:
-      ". head head head head ."
+    grid-template-areas: ". head head head head ."
       ". banner banner banner banner ."
-      ". comp comp comp comp ."
-      ". side-l side-l side-l side-l ."
-      ". side-r side-r side-r side-r ."
       ". top-a top-a top-a top-a ."
       ". top-b top-b top-b top-b ."
+      ". comp comp comp comp ."
+      ". side-r side-r side-r side-r ."
+      ". side-l side-l side-l side-l ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
       ". footer footer footer footer ."
       ". debug debug debug debug .";
-    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
+    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
-    > [class^='container-'],
-    > [class*=' container-'] {
-      width: auto;
+    > [class^="container-"],
+    > [class*=" container-"] {
+      width: 100%;
       max-width: none;
-      margin: 0 0 $cassiopeia-grid-gutter;
-    }
-
-    .container-component,
-    .container-sidebar-left,
-    .container-sidebar-right {
-      display: flex;
-      flex-direction: column;
-
-      > div + div {
-        margin-top: cassiopeia-grid-gutter;
-      }
     }
 
     &:not(.has-sidebar-left) .container-component {
@@ -48,9 +35,8 @@
       grid-column: full-start / full-end;
     }
 
-    @include media-breakpoint-up(xs) {
-      grid-template-areas:
-        ". head head head head ."
+    @include media-breakpoint-up(md) {
+      grid-template-areas: ". head head head head ."
         ". banner banner banner banner ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."
@@ -61,85 +47,73 @@
         ". debug debug debug debug .";
     }
 
-    .container-header {
-      margin-top: 0;
-      margin-bottom: 20px;
-
-      + div:not(.container-banner) {
-        margin-top: $cassiopeia-grid-gutter;
-      }
-    }
-
     &.wrapper-fluid {
-      .grid-child, .container-header header {
-        grid-column: full-start / full-end;
+      grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 25%)) [main-end] minmax(0, 1fr) [full-end];
+      grid-gap: 0 ($cassiopeia-grid-gutter*2);
+      .grid-child {
         max-width: none;
-        margin-left: 0;
-        margin-right: 0;
-        padding-right: 0;
-        padding-left: 0;
       }
-
-      > .grid-child {
-        padding-right: ($cassiopeia-grid-gutter * 2);
-        padding-left: ($cassiopeia-grid-gutter * 2);     
+      header > .grid-child,
+      footer > .grid-child {
+        padding-right: $cassiopeia-grid-gutter*2;
+        padding-left: $cassiopeia-grid-gutter*2;
       }
-
-      .container-main {
-        padding-right: ($cassiopeia-grid-gutter * 1.5);
-        padding-left: ($cassiopeia-grid-gutter * 1.5);
-      }
-    }
-  }
-
-  .container-banner {
-    z-index: 5;
-    margin: -2rem 0 0;
-    padding: 0 ($cassiopeia-grid-gutter / 2);
-
-    p {
-      margin-bottom: 0;
-    }
-
-    @include media-breakpoint-up(xl) {
-      margin-top: -3rem;
     }
   }
 }
 
-.container-header         { grid-area: head; }
-.container-banner         { grid-area: banner; }
-.container-top-a          { grid-area: top-a; }
-.container-top-b          { grid-area: top-b; }
-.container-main           { grid-area: main; }
-.container-component      { grid-area: comp; }
-.container-sidebar-left   { grid-area: side-l; }
-.container-sidebar-right  { grid-area: side-r; }
-.container-main-top       { grid-area: main-t; }
-.container-main-bottom    { grid-area: main-b; }
-.container-bradcrumbs     { grid-area: bread; }
-.container-bottom-a       { grid-area: bot-a; }
-.container-bottom-b       { grid-area: bot-b; }
-.container-footer         { grid-area: footer; }
-.system-debug             { grid-area: debug; }
+.container-header {
+  grid-area: head;
+}
 
-.container-top-a,
-.container-top-b,
-.container-bottom-a,
+.container-banner {
+  grid-area: banner;
+}
+
+.container-top-a {
+  grid-area: top-a;
+}
+
+.container-top-b {
+  grid-area: top-b;
+}
+
+.container-component {
+  grid-area: comp;
+}
+
+.container-sidebar-left {
+  grid-area: side-l;
+}
+
+.container-sidebar-right {
+  grid-area: side-r;
+}
+
+.container-main-top {
+  grid-area: main-t;
+}
+
+.container-main-bottom {
+  grid-area: main-b;
+}
+
+.container-breadcrumbs {
+  grid-area: bread;
+}
+
+.container-bottom-a {
+  grid-area: bot-a;
+}
+
 .container-bottom-b {
-  display: grid;
-  grid-gap: $cassiopeia-grid-gutter;
-  grid-template-columns: 1fr;
+  grid-area: bot-b;
+}
 
-  > div {
-    margin: 0;
-  }
+.container-footer {
+  grid-area: footer;
+}
 
-  @include media-breakpoint-up(sm) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @include media-breakpoint-up(md) {
-    grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
-  }
+.system-debug {
+  grid-area: debug;
 }

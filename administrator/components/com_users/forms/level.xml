@@ -28,7 +28,7 @@
 		<field
 			name="rules"
 			type="hidden"
-			filter="int_array"
+			filter="intarray"
 		/>
 	</fieldset>
 </form>

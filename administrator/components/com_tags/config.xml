@@ -9,7 +9,7 @@
 			name="tag_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tag"
@@ -19,7 +19,7 @@
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -39,7 +39,7 @@
 			name="show_tag_title"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -50,7 +50,7 @@
 			name="tag_list_show_tag_image"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -61,7 +61,7 @@
 			name="tag_list_show_tag_description"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -79,6 +79,7 @@
 			type="list"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			default="title"
+			validate="options"
 			>
 			<option value="c.core_title">JGLOBAL_TITLE</option>
 			<option value="match_count">COM_TAGS_MATCH_COUNT</option>
@@ -91,7 +92,7 @@
 			name="tag_list_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
-			class="switcher switcher-primary"
+			layout="joomla.form.field.radio.switcher"
 			default="ASC"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
@@ -102,8 +103,8 @@
 			name="show_headings"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
-			class="switcher"
-			default="1"			
+			layout="joomla.form.field.radio.switcher"
+			default="1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -114,6 +115,7 @@
 			type="list"
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="created">JGLOBAL_CREATED</option>
@@ -125,7 +127,7 @@
 			name="tag_list_show_item_image"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -136,7 +138,7 @@
 			name="tag_list_show_item_description"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -171,7 +173,7 @@
 			name="return_any_or_all"
 			type="radio"
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
-			class="switcher switcher-primary"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">COM_TAGS_ALL</option>
@@ -182,7 +184,7 @@
 			name="include_children"
 			type="radio"
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">COM_TAGS_EXCLUDE</option>
@@ -218,7 +220,7 @@
 			name="tags_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tags"
@@ -229,6 +231,7 @@
 			type="list"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			default="title"
+			validate="options"
 			>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="hits">JGLOBAL_HITS</option>
@@ -241,7 +244,7 @@
 			name="all_tags_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
-			class="switcher switcher-primary"
+			layout="joomla.form.field.radio.switcher"
 			default="ASC"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
@@ -252,7 +255,7 @@
 			name="all_tags_show_tag_image"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -263,7 +266,7 @@
 			name="all_tags_show_tag_description"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -282,7 +285,7 @@
 			name="all_tags_show_tag_hits"
 			type="radio"
 			label="JGLOBAL_HITS"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -300,7 +303,7 @@
 			name="filter_field"
 			type="radio"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -312,7 +315,7 @@
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -323,6 +326,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
+			validate="options"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -333,7 +337,7 @@
 			name="show_pagination_results"
 			type="radio"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_pagination:1,2"
 			>
@@ -352,7 +356,7 @@
 			name="tag_field_ajax_mode"
 			type="radio"
 			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">COM_TAGS_TAG_FIELD_MODE_NESTED</option>
@@ -374,7 +378,7 @@
 				name="show_feed_link"
 				type="radio"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				>
 				<option value="0">JHIDE</option>

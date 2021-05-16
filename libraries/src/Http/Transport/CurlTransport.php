@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using cURL.
@@ -169,7 +169,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 			$options[$key] = $value;
 		}
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');

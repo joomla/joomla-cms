@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,7 +77,7 @@ class SitePathway extends Pathway
 
 						case 'alias':
 							// If this is an alias use the item id stored in the parameters to make the link.
-							$url = 'index.php?Itemid=' . $link->params->get('aliasoptions');
+							$url = 'index.php?Itemid=' . $link->getParams()->get('aliasoptions');
 							break;
 
 						default:

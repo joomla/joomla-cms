@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,6 +80,14 @@ class CalendarField extends FormField
 	 * @since  3.7.0
 	 */
 	protected $layout = 'joomla.form.field.calendar';
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -201,14 +209,14 @@ class CalendarField extends FormField
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
 
-		if ($translateFormat && $translateFormat != 'false')
+		if ($translateFormat && $translateFormat !== 'false')
 		{
 			$showTime = (string) $this->element['showtime'];
 
 			$lang  = Factory::getLanguage();
 			$debug = $lang->setDebug(false);
 
-			if ($showTime && $showTime != 'false')
+			if ($showTime && $showTime !== 'false')
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
 			}
@@ -338,6 +346,8 @@ class CalendarField extends FormField
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
+		$app = Factory::getApplication();
+
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
@@ -356,7 +366,7 @@ class CalendarField extends FormField
 				if ((int) $value > 0)
 				{
 					// Get the server timezone setting.
-					$offset = Factory::getConfig()->get('offset');
+					$offset = $app->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
 					$return = Factory::getDate($value, $offset)->toSql();
@@ -372,7 +382,7 @@ class CalendarField extends FormField
 				if ((int) $value > 0)
 				{
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = Factory::getUser()->getParam('timezone', Factory::getConfig()->get('offset'));
+					$offset = Factory::getUser()->getParam('timezone', $app->get('offset'));
 
 					// Return an SQL formatted datetime string in UTC.
 					$return = Factory::getDate($value, $offset)->toSql();

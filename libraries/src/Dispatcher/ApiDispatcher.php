@@ -2,15 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Dispatcher;
 
 \defined('_JEXEC') or die;
-
-use Joomla\CMS\Application\CMSApplication;
 
 /**
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API
@@ -21,41 +19,6 @@ use Joomla\CMS\Application\CMSApplication;
 final class ApiDispatcher extends ComponentDispatcher
 {
 	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
-
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace;
-
-	/**
-	 * The CmsApplication instance
-	 *
-	 * @var    CMSApplication
-	 *
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The JApplication instance
-	 *
-	 * @var    \JInput
-	 *
-	 * @since  4.0.0
-	 */
-	protected $input;
-
-	/**
 	 * Load the component's administrator language
 	 *
 	 * @since   4.0.0
@@ -65,12 +28,13 @@ final class ApiDispatcher extends ComponentDispatcher
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE) ||
+		$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR);
 	}
 
 	/**
-	 * Dispatch a controller task. Redirecting the user if appropriate.
+	 * Dispatch a controller task. API Overrides to ensure there is no redirects.
 	 *
 	 * @return  void
 	 *

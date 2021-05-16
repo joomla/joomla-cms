@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,7 +166,12 @@ class TemplateAdapter extends InstallerAdapter
 			if (!$this->parent->copyManifest(-1))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 		}
 	}
@@ -181,7 +186,8 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$db = $this->parent->getDbo();
+		$db    = $this->parent->getDbo();
+		$query = $db->getQuery(true);
 
 		$element     = $this->extension->element;
 		$clientId    = $this->extension->client_id;
@@ -189,13 +195,19 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Set menu that assigned to the template back to default template
 		$subQuery = $db->getQuery(true)
-			->select('s.id')
+			->select($db->quoteName('s.id'))
 			->from($db->quoteName('#__template_styles', 's'))
-			->where($db->quoteName('s.template') . ' = ' . $db->quote(strtolower($this->extension->element)))
-			->where($db->quoteName('s.client_id') . ' = ' . (int) $this->extension->client_id);
+			->where(
+				[
+					$db->quoteName('s.template') . ' = :element',
+					$db->quoteName('s.client_id') . ' = :clientId',
+				]
+			);
 
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__menu'))
+		$query->bind(':element', $element)
+			->bind(':clientId', $clientId, ParameterType::INTEGER);
+
+		$query->update($db->quoteName('#__menu'))
 			->set($db->quoteName('template_style_id') . ' = 0')
 			->where($db->quoteName('template_style_id') . ' IN (' . (string) $subQuery . ')');
 
@@ -205,8 +217,12 @@ class TemplateAdapter extends InstallerAdapter
 		// Remove the template's styles
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__template_styles'))
-			->where($db->quoteName('template') . ' = :template')
-			->where($db->quoteName('client_id') . ' = :client_id')
+			->where(
+				[
+					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
+				]
+			)
 			->bind(':template', $element)
 			->bind(':client_id', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
@@ -214,8 +230,8 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
 			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
@@ -302,29 +318,44 @@ class TemplateAdapter extends InstallerAdapter
 		if (\in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
+			$query = $db->getQuery(true);
 			$lang  = Factory::getLanguage();
 			$debug = $lang->setDebug(false);
 
-			$columns = array(
+			$columns = [
 				$db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
-			);
+				$db->quoteName('inheritable'),
+				$db->quoteName('parent'),
+			];
 
-			$values = array(
-				$db->quote($this->extension->element),
-				$this->extension->client_id,
-				$db->quote(0),
-				$db->quote(Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name))),
-				$db->quote($this->extension->params),
+			$values = $query->bindArray(
+				[
+					$this->extension->element,
+					$this->extension->client_id,
+					'0',
+					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
+					$this->extension->params,
+					(int) $this->manifest->inheritable,
+					$this->manifest->parent ?: '',
+				],
+				[
+					ParameterType::STRING,
+					ParameterType::INTEGER,
+					ParameterType::STRING,
+					ParameterType::STRING,
+					ParameterType::STRING,
+					ParameterType::INTEGER,
+					ParameterType::STRING,
+				]
 			);
 
 			$lang->setDebug($debug);
 
 			// Insert record in #__template_styles
-			$query = $db->getQuery(true);
 			$query->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
@@ -446,10 +477,16 @@ class TemplateAdapter extends InstallerAdapter
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from('#__template_styles')
-			->where('home = 1')
-			->where('template = :template')
-			->bind(':template', $name);
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
+					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
+				]
+			)
+			->bind(':template', $name)
+			->bind(':client_id', $clientId);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)

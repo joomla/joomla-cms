@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -33,8 +35,8 @@ class RemoveOldFilesCommand extends AbstractCommand
 	/**
 	 * Internal function to execute the command.
 	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
+	 * @param   InputInterface  $input   The input to inject into the command.
+	 * @param   OutputInterface $output  The output to inject into the command.
 	 *
 	 * @return  integer  The command exit code
 	 *
@@ -44,16 +46,86 @@ class RemoveOldFilesCommand extends AbstractCommand
 	{
 		$symfonyStyle = new SymfonyStyle($input, $output);
 
-		$symfonyStyle->title('Removing Old Files');
+		$dryRun = $input->getOption('dry-run');
+
+		$symfonyStyle->title('Removing Unneeded Files & Folders' . ($dryRun ? ' - Dry Run' : ''));
 
 		// We need the update script
 		\JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
-		(new \JoomlaInstallerScript)->deleteUnexistingFiles();
+		$status = (new \JoomlaInstallerScript)->deleteUnexistingFiles($dryRun, true);
 
-		$symfonyStyle->success('Files removed');
+		if ($output->isVeryVerbose()||$output->isDebug())
+		{
+			foreach ($status['files_checked'] as $file)
+			{
+				$exists = in_array($file, array_values($status['files_exist']));
 
-		return 0;
+				if ($exists)
+				{
+					$symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
+				}
+				else
+				{
+					$symfonyStyle->writeln('<info>File Checked & Doesn\'t Exist</info> - ' . $file, OutputInterface::VERBOSITY_DEBUG);
+				}
+			}
+
+			foreach ($status['folders_checked'] as $folder)
+			{
+				$exists = in_array($folder, array_values($status['folders_exist']));
+
+				if ($exists)
+				{
+					$symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);
+				}
+				else
+				{
+					$symfonyStyle->writeln('<info>Folder Checked & Doesn\'t Exist</info> - ' . $folder, OutputInterface::VERBOSITY_DEBUG);
+				}
+			}
+		}
+
+		if ($dryRun === false)
+		{
+			foreach ($status['files_deleted'] as $file)
+			{
+				$symfonyStyle->writeln('<comment>File Deleted = ' . $file . '</comment>', OutputInterface::VERBOSITY_VERBOSE);
+			}
+
+			foreach ($status['files_errors'] as $error)
+			{
+				$symfonyStyle->error($error);
+			}
+
+			foreach ($status['folders_deleted'] as $folder)
+			{
+				$symfonyStyle->writeln('<comment>Folder Deleted = ' . $folder . '</comment>', OutputInterface::VERBOSITY_VERBOSE);
+			}
+
+			foreach ($status['folders_errors'] as $error)
+			{
+				$symfonyStyle->error($error);
+			}
+		}
+
+		$symfonyStyle->success(
+			sprintf(
+				$dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
+				\count($status['files_checked']),
+				($dryRun ? \count($status['files_exist']) : \count($status['files_deleted']))
+			)
+		);
+
+		$symfonyStyle->success(
+			sprintf(
+				$dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
+				\count($status['folders_checked']),
+				($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted']))
+			)
+		);
+
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -65,13 +137,11 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Remove old system files');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
+		$help = "<info>%command.name%</info> removes old files which should have been deleted during a Joomla update
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Remove old system files');
+		$this->addOption('dry-run', null, InputOption::VALUE_NONE, 'Executes a dry run without deleting anything');
+		$this->setHelp($help);
 	}
 }

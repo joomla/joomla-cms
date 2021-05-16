@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -69,7 +69,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
+	$output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
 }
 
 if (empty($output))
@@ -77,6 +77,6 @@ if (empty($output))
 	return;
 }
 ?>
-<dl class="fields-container">
+<ul class="fields-container">
 	<?php echo implode("\n", $output); ?>
-</dl>
+</ul>
