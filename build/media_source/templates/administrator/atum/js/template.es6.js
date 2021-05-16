@@ -223,5 +223,9 @@ if (!navigator.cookieEnabled) {
 window.addEventListener('joomla:menu-toggle', (event) => {
   headerItemsInDropdown();
   document.cookie = `atumSidebarState=${event.detail};`;
-  changeLogo(event.detail);
+  if (mobile.matches) {
+    changeLogo('closed');
+  } else {
+    changeLogo(event.detail);
+  }
 });
