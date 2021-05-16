@@ -501,18 +501,6 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
-	 * Method to get the client object
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function &getClient()
-	{
-		return $this->_client;
-	}
-
-	/**
 	 * Method to get the record form.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -1137,6 +1125,10 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_modules', $this->getClient());
+		// Clean the front-end cache
+		parent::cleanCache('com_modules', 0);
+
+		// Clean the administrator cache
+		parent::cleanCache('com_modules', 1);
 	}
 }
