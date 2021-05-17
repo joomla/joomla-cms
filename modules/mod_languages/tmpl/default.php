@@ -29,7 +29,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<button href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle" aria-expanded="false">
+				<button type ="button" data-bs-toggle="dropdown" class="btn dropdown-toggle" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1)) : ?>
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name', ) ? '' : $language->title_native, null, true); ?>
