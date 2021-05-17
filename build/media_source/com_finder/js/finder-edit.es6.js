@@ -26,6 +26,15 @@ Joomla = window.Joomla || {};
       }
     });
 
+    Array.from(document.querySelectorAll('.js-filter'))
+      .forEach((button) => {
+        button.addEventListener('click', (event) => {
+          const btn = event.currentTarget;
+          Array.from(document.querySelectorAll(`.${btn.dataset.id}`))
+            .map((el) => el.click());
+        });
+      });
+
     // Expand/collapse
     const expandAccordion = document.getElementById('expandAccordion');
     if (expandAccordion) {
