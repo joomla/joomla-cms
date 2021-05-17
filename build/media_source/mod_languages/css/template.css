@@ -27,8 +27,12 @@ div.mod-languages img {
 }
 
 div.mod-languages a {
-  padding: .5rem 0;
+  padding: .5rem;
   text-decoration: none;
+}
+
+div.mod-languages a:focus {
+  outline: 1px solid #ddd;
 }
 
 div.mod-languages .btn-group {
