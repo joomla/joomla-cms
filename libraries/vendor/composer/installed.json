@@ -1211,12 +1211,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-backports/PHPMailer.git",
-            "reference": "58195812afb81dd7341560444b5807b0c55bfc7d"
+            "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/58195812afb81dd7341560444b5807b0c55bfc7d",
-            "reference": "58195812afb81dd7341560444b5807b0c55bfc7d",
+            "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/54bdc96e899a83a9956d756d51a458fcca587ca2",
+            "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2",
             "shasum": ""
         },
         "require": {
@@ -1246,7 +1246,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2021-03-30T21:15:38+00:00",
+        "time": "2021-05-17T16:00:43+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -1280,10 +1280,7 @@
                 "name": "Brent R. Matzelle"
             }
         ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-        "support": {
-            "source": "https://github.com/joomla-backports/PHPMailer/tree/joomla-backports"
-        }
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
         "name": "psr/container",

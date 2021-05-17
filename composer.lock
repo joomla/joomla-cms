@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a192c3b507565418a15db19f41bbe2a",
+    "content-hash": "bbed972753d37f5dfa3e43d4a7e6d356",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -1173,12 +1173,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/PHPMailer.git",
-                "reference": "58195812afb81dd7341560444b5807b0c55bfc7d"
+                "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/58195812afb81dd7341560444b5807b0c55bfc7d",
-                "reference": "58195812afb81dd7341560444b5807b0c55bfc7d",
+                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/54bdc96e899a83a9956d756d51a458fcca587ca2",
+                "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2",
                 "shasum": ""
             },
             "require": {
@@ -1241,10 +1241,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "support": {
-                "source": "https://github.com/joomla-backports/PHPMailer/tree/joomla-backports"
-            },
-            "time": "2021-03-30T21:15:38+00:00"
+            "time": "2021-05-17T16:00:43+00:00"
         },
         {
             "name": "psr/container",
