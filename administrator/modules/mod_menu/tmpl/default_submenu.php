@@ -144,7 +144,7 @@ elseif ($link != '' && $current->type !== 'separator')
 }
 elseif ($current->title != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . ">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"#\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
