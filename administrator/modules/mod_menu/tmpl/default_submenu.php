@@ -124,7 +124,7 @@ if ($iconImage)
 
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
-// If the item image is not set, set the default image.
+// If the item image is not set, the item title would not have margin. Here we add it.
 if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '')
 {
 	$iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
