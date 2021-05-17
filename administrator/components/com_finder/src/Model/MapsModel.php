@@ -228,7 +228,7 @@ class MapsModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'd.branch_title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'branch_title, a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -300,7 +300,7 @@ class MapsModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'branch_title', $direction = 'ASC')
+	protected function populateState($ordering = 'branch_title, a.lft', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));

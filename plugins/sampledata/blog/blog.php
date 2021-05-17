@@ -1713,7 +1713,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'cache_time'     => 900,
 					'cachemode'      => 'static',
 					'module_tag'     => 'div',
-					'bootstrap_size' => 6,
+					'bootstrap_size' => 0,
 					'header_tag'     => 'h3',
 					'style'          => 0,
 				),
