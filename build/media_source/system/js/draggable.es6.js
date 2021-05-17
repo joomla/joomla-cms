@@ -62,6 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Get the order array
       for (i = 0, l = rows.length; l > i; i += 1) {
+        // Skip a mirror element
+        // eslint-disable-next-line no-continue
+        if (rows[i].closest('.gu-mirror')) continue;
+
         rows[i].value = i + 1;
         result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
