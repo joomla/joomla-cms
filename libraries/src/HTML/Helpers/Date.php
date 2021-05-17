@@ -11,8 +11,10 @@ namespace Joomla\CMS\HTML\Helpers;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date as DateHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
 
 /**
  * Extended Utility class for handling date display.
@@ -89,5 +91,63 @@ abstract class Date
 
 		// Over a month, return the absolute time
 		return HTMLHelper::_('date', $date, $format);
+	}
+
+	/**
+	 * Converts a given date into relative or absolute format, depending on user preference, and displays it along with the full date.
+	 *
+	 * @param   string       $date              The date to convert
+	 * @param   string|null  $format            An optional format for the HTMLHelper::date output. Used if the date display should be absolute,
+	 *                                          either because of user settings or because it is too far in the past for relative display.
+	 * @param   string       $showAbsoluteDate  One of:
+	 *                                            - 'tooltip': Display the full date in a tooltip.
+	 *                                            - 'below': Display the full date below the relative date.
+	 *                                            - 'hide': Don't display the full date.
+	 *
+	 * @param   string|null  $time              An optional time to compare to, defaults to now.
+	 * @param   bool         $forceRelative     Whether to force relative date display, regardless of user preference.
+	 * @param   string|null  $unit              The optional unit of measurement to return if the value of the diff is greater than one.
+	 *                                          Only applies to relative display.
+	 *
+	 * @return  string  The relative or absolute date, plus the full date if applicable.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function relativeFormatted(
+		$date, $format = null, $showAbsoluteDate = 'tooltip', $time = null, $forceRelative = false, $unit = null)
+	{
+		$user = Factory::getApplication()->getIdentity();
+
+		if ($user === null)
+		{
+			$useRelative = true;
+		}
+		else
+		{
+			$useRelative = $forceRelative || $user->getParam('use_relative_dates', true);
+		}
+
+		// Format for the full / absolute date display.
+		$formatAbsolute = Text::_('DATE_FORMAT_LC6');
+
+		if (!$useRelative && $format === $formatAbsolute)
+		{
+			return HTMLHelper::_('date', $date, $format);
+		}
+
+		$dateMain = $useRelative ? HTMLHelper::_('date.relative', $date, $unit, $time, $format) : HTMLHelper::_('date', $date, $format);
+		$dateAbsolute = HTMLHelper::_('date', $date, $formatAbsolute);
+
+		if ($showAbsoluteDate === 'tooltip')
+		{
+			return '<span>' . $dateMain . '</span><time role="tooltip">' . $dateAbsolute . '</time>';
+		}
+
+		if ($showAbsoluteDate === 'below')
+		{
+			return $dateMain . '<time class="small d-block">' . $dateAbsolute . '</time>';
+		}
+
+		return $dateMain;
 	}
 }
