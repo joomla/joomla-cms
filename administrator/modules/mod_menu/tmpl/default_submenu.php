@@ -124,10 +124,20 @@ if ($iconImage)
 
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
-// If the item image is not set, the item title would not have margin. Here we add it.
-if ($icon == '' && $itemImage == '' && $current->level == 1 && $current->target == '')
+// If the item image is not set, set the default image.
+if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '')
 {
-	$itemImage = '<span class="m-3"></span>';
+	$lang = JFactory::getLanguage();
+	$isRtl = $lang->isRtl();
+
+	if ($isRtl)
+	{
+		$iconClass = '<span class="icon-angle-double-left icon-fw" aria-hidden="true"></span>';
+	}
+	else
+	{
+		$iconClass = '<span class="icon-angle-double-right icon-fw" aria-hidden="true"></span>';
+	}
 }
 
 if ($link != '' && $current->target != '')
