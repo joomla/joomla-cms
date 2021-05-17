@@ -518,32 +518,34 @@ abstract class FinderIndexer
 
 		if (($tokens instanceof FinderIndexerToken) === false)
 		{
-			// Break into chunks of no more than 1000 items
-			$chunks = count($tokens) > 1000
-				? array_chunk($tokens, 1000)
-				: array($tokens);
+			// Cloning a new query template is twice as fast as calling the clear function
+			$query = clone $this->addTokensToDbQueryTemplate;
 
-			foreach ($chunks as $chunkTokens)
+			// Iterate through the tokens to create SQL value sets.
+			foreach ($tokens as $token)
 			{
-				// Cloning a new query template is twice as fast as calling the clear function
-				$query = clone $this->addTokensToDbQueryTemplate;
+				$query->values(
+					$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. $db->escape((float) $token->weight) . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
+				);
+				$values++;
 
-				// Iterate through the tokens to create SQL value sets.
-				foreach ($chunkTokens as $token)
+				if ($values > 0 && ($values % 128) == 0)
 				{
-					$query->values(
-						$db->quote($token->term) . ', '
-						. $db->quote($token->stem) . ', '
-						. (int) $token->common . ', '
-						. (int) $token->phrase . ', '
-						. $db->escape((float) $token->weight) . ', '
-						. (int) $context . ', '
-						. $db->quote($token->language)
-					);
-					++$values;
-				}
+					$db->setQuery($query)->execute();
+					$query->clear('values');
 
-				$db->setQuery($query)->execute();
+					// Check if we're approaching the memory limit of the token table.
+					if ($values > static::$state->options->get('memory_table_limit', 10000))
+					{
+						$this->toggleTables(false);
+					}
+				}
 			}
 		}
 		else
