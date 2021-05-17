@@ -127,17 +127,7 @@ $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::r
 // If the item image is not set, set the default image.
 if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '')
 {
-	$lang = JFactory::getLanguage();
-	$isRtl = $lang->isRtl();
-
-	if ($isRtl)
-	{
-		$iconClass = '<span class="icon-angle-double-left icon-fw" aria-hidden="true"></span>';
-	}
-	else
-	{
-		$iconClass = '<span class="icon-angle-double-right icon-fw" aria-hidden="true"></span>';
-	}
+	$iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
 }
 
 if ($link != '' && $current->target != '')
