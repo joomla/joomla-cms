@@ -124,8 +124,7 @@ if ($iconImage)
 
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
-// if the item image is not set, than the item title would not have margin
-// here we add it
+// If the item image is not set, the item title would not have margin. Here we add it.
 if ($icon == '' && $itemImage == '' && $current->level == 1 && $current->target == '')
 {
 	$itemImage = '<span class="m-3"></span>';
