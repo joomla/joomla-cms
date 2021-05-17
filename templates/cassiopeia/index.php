@@ -131,7 +131,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('brand')) : ?>
+		<?php if ($this->params->get('brand', 1)) : ?>
 			<div class="grid-child">
 				<div class="navbar-brand">
 					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
