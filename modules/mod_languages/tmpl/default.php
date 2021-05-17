@@ -17,8 +17,8 @@ use Joomla\CMS\Uri\Uri;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 ?>
-<div class="mod-languages" aria-describedby="language_picker_des">
-	<p class="visually-hidden" id="language_picker_des"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
+<div class="mod-languages">
+	<p class="visually-hidden"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
 
 <?php if ($headerText) : ?>
 	<div class="mod-languages__pretext pretext"><p><?php echo $headerText; ?></p></div>
@@ -29,14 +29,14 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<a role="button" href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle" aria-expanded="false">
+				<button href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1)) : ?>
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name', ) ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
-				</a>
+				</button>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<ul role="listbox" class="lang-block dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
