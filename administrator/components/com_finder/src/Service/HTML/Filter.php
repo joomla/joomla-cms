@@ -322,8 +322,8 @@ class Filter
 				$query->clear()
 					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-					->where('t.lft >= ' . (int) $bv->lft)
-					->where('t.rgt <= ' . (int) $bv->rgt)
+					->where('t.lft > ' . (int) $bv->lft)
+					->where('t.rgt < ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
 					->order('t.lft, t.title');
