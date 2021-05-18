@@ -17,6 +17,10 @@ div.mod-languages ul.lang-block li {
   padding: .5rem 0;
 }
 
+div.mod-languages ul li.lang-active {
+  background-color: #f0f0f0;
+}
+
 html[dir=rtl] div.mod-languages ul.lang-block li {
   text-align: right;
 }
