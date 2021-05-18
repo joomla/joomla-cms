@@ -18,7 +18,7 @@ $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 ?>
 <div class="mod-languages">
-	<p class="visually-hidden"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
+	<p class="visually-hidden" id="language_picker_des"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
 
 <?php if ($headerText) : ?>
 	<div class="mod-languages__pretext pretext"><p><?php echo $headerText; ?></p></div>
@@ -29,7 +29,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<button type ="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-expanded="false">
+				<button id="language_btn" type ="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-labelledby="language_picker_des language_btn" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1)) : ?>
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
