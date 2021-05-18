@@ -453,7 +453,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
 		$registry->set('robots', '');
