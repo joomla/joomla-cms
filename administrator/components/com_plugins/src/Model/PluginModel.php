@@ -375,7 +375,6 @@ class PluginModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_plugins', 0);
-		parent::cleanCache('com_plugins', 1);
+		parent::cleanCache('com_plugins');
 	}
 }

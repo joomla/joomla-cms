@@ -51,7 +51,7 @@ class FilterModel extends AdminModel
 	 */
 	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group, $clientId);
+		parent::cleanCache($group);
 	}
 
 	/**
