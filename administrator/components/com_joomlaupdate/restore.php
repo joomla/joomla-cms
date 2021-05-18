@@ -1751,7 +1751,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 		$this->currentPartOffset = ftell($this->fp);
 
-		debugMsg("Reading file signature; part {$this->currentPartNumber}, offset {$this->currentPartOffset}");
+		debugMsg("Reading file signature; part $this->currentPartNumber, offset $this->currentPartOffset");
 		// Get and decode Entity Description Block
 		$signature = fread($this->fp, 3);
 
