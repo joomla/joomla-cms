@@ -293,6 +293,7 @@
 .media-browser-table {
   .name {
     width: calc(30% - 40px);
+    word-break: break-all;
   }
   .size {
     width: 15%;
