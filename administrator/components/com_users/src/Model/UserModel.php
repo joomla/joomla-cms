@@ -1034,7 +1034,7 @@ class UserModel extends AdminModel
 		if (strpos($config, '{') === false)
 		{
 			$openssl         = new Aes($key, 256);
-			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
+			$mcrypt          = new Aes($key, 256, 'cbc', 'mcrypt');
 
 			$decryptedConfig = $mcrypt->decryptString($config);
 
