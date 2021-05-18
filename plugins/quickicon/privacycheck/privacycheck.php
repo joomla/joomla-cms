@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -48,7 +49,9 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'update_quickicon')
+			|| !$this->app->getIdentity()->authorise('core.admin', 'com_privacy')
+			|| !ComponentHelper::isEnabled('com_privacy'))
 		{
 			return array();
 		}
