@@ -217,7 +217,7 @@ class CMSApplication extends WebApplication
 
 			foreach ($headers as $header)
 			{
-				if ($header['name'] === 'Permissions-Policy')
+				if (strtolower($header['name']) === 'permissions-policy')
 				{
 					// Append interest-cohort if the Permissions-Policy is not set
 					if (strpos($header['value'], 'interest-cohort') === false)
