@@ -388,7 +388,7 @@ class ModuleModel extends AdminModel
 				}
 
 				// Clear module cache
-				parent::cleanCache($table->module, $table->client_id);
+				parent::cleanCache($table->module);
 			}
 			else
 			{
@@ -1127,7 +1127,7 @@ class ModuleModel extends AdminModel
 		$this->cleanCache();
 
 		// Clean module cache
-		parent::cleanCache($table->module, $table->client_id);
+		parent::cleanCache($table->module);
 
 		return true;
 	}
@@ -1161,6 +1161,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_modules', $this->getClient());
+		parent::cleanCache('com_modules');
 	}
 }
