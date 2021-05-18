@@ -32,7 +32,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<button type ="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1)) : ?>
 						<?php if ($language->image) : ?>
-							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name', ) ? '' : $language->title_native, null, true); ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
@@ -47,7 +47,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 					<a role="option" href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 						<?php if ($params->get('dropdownimage', 1)) : ?>
 							<?php if ($language->image) : ?>
-								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name', ) ? '' : $language->title_native, null, true); ?>
+								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
@@ -59,7 +59,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 					<a aria-selected="true" role="option" href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 						<?php if ($params->get('dropdownimage', 1)) : ?>
 							<?php if ($language->image) : ?>
-								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name', ) ? '' : $language->title_native, null, true); ?>
+								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
