@@ -35,10 +35,6 @@ div.mod-languages a {
   text-decoration: none;
 }
 
-div.mod-languages a:focus {
-  outline: 1px solid #ddd;
-}
-
 div.mod-languages .btn-group {
   display: flex !important;
   margin: 0;
