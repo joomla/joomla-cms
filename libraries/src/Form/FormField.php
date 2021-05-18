@@ -35,6 +35,14 @@ abstract class FormField
 	protected $description;
 
 	/**
+	 * A variable text for the description element to be used in a sprintf.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $varDescription;
+
+	/**
 	 * The hint text for the form field used to display hint inside the field.
 	 *
 	 * @var    string
@@ -166,6 +174,14 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $label;
+
+	/**
+	 * A variable text for the label element to be used in a sprintf.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $varLabel;
 
 	/**
 	 * The multiple state for the form field.  If true then multiple values are allowed for the
@@ -433,6 +449,8 @@ abstract class FormField
 		switch ($name)
 		{
 			case 'description':
+			case 'varDescription':
+			case 'varLabel':
 			case 'hint':
 			case 'formControl':
 			case 'hidden':
@@ -512,6 +530,8 @@ abstract class FormField
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
+			case 'varDescription':
+			case 'varLabel':
 			case 'hint':
 			case 'value':
 			case 'labelclass':
@@ -652,7 +672,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'varLabel', 'varDescription');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1315,11 +1335,35 @@ abstract class FormField
 	{
 		// Label preprocess
 		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+
+		if ($this->translateLabel)
+		{
+			// Do we have a text variable to use when displaying the label?
+			if ($this->varLabel !== '')
+			{
+				$label = Text::sprintf($label, Text::_($this->varLabel));
+			}
+			else
+			{
+				$label = Text::_($label);
+			}
+		}
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
-		$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
+
+		if (!empty($description) && $this->translateDescription)
+		{
+			// Do we have a text variable to use when displaying the description?
+			if ($this->varDescription !== '')
+			{
+				$description = Text::sprintf($description, Text::_($this->varDescription));
+			}
+			else
+			{
+				$description = Text::_($description);
+			}
+		}
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
