@@ -107,7 +107,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		?OutputInterface $output = null
 	)
 	{
-		// Close the application if we are not executed from the command line.
+		// Close the application if it is not executed from the command line.
 		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
