@@ -215,7 +215,7 @@ class CMSApplication extends WebApplication
 
 			$notPresent = true;
 
-			foreach($headers as $header)
+			foreach ($headers as $header)
 			{
 				if ($header['name'] === 'Permissions-Policy')
 				{
