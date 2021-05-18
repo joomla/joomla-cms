@@ -116,7 +116,7 @@ defined('_JEXEC') or die;
 		<tfoot>
 		<tr id="preupdateCheckWarning">
 			<td colspan="2">
-				<div class="alert ">
+				<div class="alert">
 					<h4 class="alert-heading">
 						<?php echo JText::_('WARNING'); ?>
 					</h4>
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 		</tr>
 		<tr id="preupdateCheckCompleteProblems" class="hidden">
 			<td colspan="2">
-				<div class="alert ">
+				<div class="alert">
 					<h4 class="alert-heading">
 						<?php echo JText::_('WARNING'); ?>
 					</h4>
@@ -196,31 +196,26 @@ defined('_JEXEC') or die;
 										</td>
 										<?php endif; ?>
 									<?php endforeach; ?>
-									<?php endif;?>
+									<?php endif; ?>
 								</td>
 								<td>
-									<?php
-									$authorURL = "";
-									if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl))
-									{
-										$authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl;
-									}
-									elseif ($nonCoreCriticalPlugin->package_id > 0)
-									{
-										foreach ($this->nonCoreExtensions as $nonCoreExtension)
-										{
-											if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
-											{
-												$authorURL = $nonCoreExtension->manifest_cache->authorUrl;
-											}
-										}
-									}
-									?>
+									<?php $authorURL = ''; ?>
+									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl)) : ?>
+										<?php $authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl; ?>
+									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
+										<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+											<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+												<?php $authorURL = $nonCoreExtension->manifest_cache->authorUrl; ?>
+											<?php endif; ?>
+										<?php endforeach; ?>
+									<?php endif; ?>
 									<?php if (!empty($authorURL)) : ?>
-										<a href="<?php echo $authorURL; ?>" target="_blank" >
+										<a href="<?php echo $authorURL; ?>" target="_blank">
 											<?php echo $authorURL; ?>
 											<span class="icon-out-2" aria-hidden="true"></span>
-											<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
+											<span class="element-invisible">
+												<?php echo JText::_('JBROWSERTARGET_NEW'); ?>
+											</span>
 										</a>
 									<?php endif;?>
 								</td>
@@ -240,10 +235,10 @@ defined('_JEXEC') or die;
 		</tr>
 
 		<tr>
-			<td >
+			<td>
 				&nbsp;
 			</td>
-			<td >
+			<td>
 				<button class="btn btn-primary disabled submitupdate" type="submit" disabled>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 				</button>
