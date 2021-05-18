@@ -27,7 +27,7 @@ Header always set X-Content-Type-Options "nosniff"
 ##
 # Joomla considers the feature of Federated Learning of Cohorts (FLoC) to be against the
 # interest of users and site owners. Joomla blocks this feature by default through its
-# code. To block it for all requrests, uncomment the below directive and then disable the
+# code. To block it for all requests, uncomment the below directive and then disable the
 # this feature in the global configuration of Joomla. Read more about this in the Post-Installation
 # message in the backend.
 ##
