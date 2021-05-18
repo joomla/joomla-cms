@@ -12,6 +12,10 @@ div.mod-languages ul.lang-inline li {
   display: inline-block;
 }
 
+div.mod-languages .dropdown-menu {
+  padding: .5rem 0;
+}
+
 div.mod-languages ul.lang-block li {
   display: block;
   padding: .5rem 0;
