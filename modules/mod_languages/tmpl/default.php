@@ -30,10 +30,8 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
 				<button id="language_btn" type ="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-labelledby="language_picker_des language_btn" aria-expanded="false">
-					<?php if ($params->get('dropdownimage', 1)) : ?>
-						<?php if ($language->image) : ?>
-							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
-						<?php endif; ?>
+					<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</button>
@@ -45,10 +43,8 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			<?php if (!$language->active) : ?>
 				<li>
 					<a role="option" href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
-						<?php if ($params->get('dropdownimage', 1)) : ?>
-							<?php if ($language->image) : ?>
-								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
-							<?php endif; ?>
+						<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
 						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 					</a>
@@ -57,10 +53,8 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			<?php $base = Uri::getInstance(); ?>
 				<li class="lang-active">
 					<a aria-selected="true" role="option" href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
-						<?php if ($params->get('dropdownimage', 1)) : ?>
-							<?php if ($language->image) : ?>
-								<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
-							<?php endif; ?>
+						<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
 						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 					</a>
