@@ -65,7 +65,7 @@ class ContenthistoryHelper
 	/**
 	 * Method to decode JSON-encoded fields in a standard object. Used to unpack JSON strings in the content history data column.
 	 *
-	 * @param   string  $jsonString  JSON String to covert to an object.
+	 * @param   string  $jsonString  JSON String to convert to an object.
 	 *
 	 * @return  \stdClass  Object with any JSON-encoded fields unpacked.
 	 *
