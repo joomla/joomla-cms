@@ -10,6 +10,7 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -356,7 +357,7 @@ EOF;
 		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
+		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'));
 
 		// Trigger the onStartIndex event.
 		$app->triggerEvent('onStartIndex');
@@ -368,13 +369,13 @@ EOF;
 		$state = Indexer::getState();
 
 		// Setting up plugins.
-		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
+		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'));
 
 		// Trigger the onBeforeIndex event.
 		$app->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
+		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)));
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -423,7 +424,7 @@ EOF;
 
 					if ($pause > 0 && !$skip)
 					{
-						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause));
 						sleep($pause);
 						$this->ioStyle->text(Text::_('FINDER_CLI_BATCH_CONTINUING'));
 					}
@@ -435,8 +436,7 @@ EOF;
 								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
 								$processingTime,
 								$this->minimumBatchProcessingTime
-							),
-							true
+							)
 						);
 					}
 
@@ -447,7 +447,7 @@ EOF;
 		catch (Exception $e)
 		{
 			// Display the error
-			$this->ioStyle->error($e->getMessage(), true);
+			$this->ioStyle->error($e->getMessage());
 
 			// Reset the indexer state.
 			Indexer::resetState();
