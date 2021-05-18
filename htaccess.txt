@@ -25,12 +25,10 @@
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
 ##
-# The Joomla! Project considers the feature of Federated Learning of Cohorts (FLoC)
-# to be a security issue and to be against the interest of users and site owners.
-# Joomla blocks this feature by default through its code. To block it for all requests,
-# uncomment the below directive and then disable the this feature in the global
-# configuration of Joomla. Read more about this in the Post-Installation message
-# in the backend.
+# Disable Federated Learning of Cohorts (FLoC)
+# If you uncomment the below directive you have to allow this technology in the 
+# Global Configuration of Joomla. Read more about this in the Post-Installation 
+# message in the backend.
 ##
 # Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
