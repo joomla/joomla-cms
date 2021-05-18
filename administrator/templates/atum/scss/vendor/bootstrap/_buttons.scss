@@ -33,3 +33,9 @@
   background-color: var(--atum-bg-dark);
   border-color: var(--atum-bg-dark);
 }
+
+@include media-breakpoint-down(md) {
+  .btn {
+    margin-bottom: .25rem;
+  }
+}
