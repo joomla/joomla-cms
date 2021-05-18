@@ -52,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
-									<th class="w-10 d-none d-md-table-cell text-center">
+									<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
 								<?php endif; ?>

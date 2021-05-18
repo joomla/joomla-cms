@@ -18,7 +18,6 @@
   box-shadow: none;
 }
 
-
 .control-group {
   display: flex;
   flex-wrap: wrap;
@@ -125,7 +124,7 @@ legend {
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem;
+  border-radius: .2rem !important;
 }
 
 // reveal associated tooltip on focus
