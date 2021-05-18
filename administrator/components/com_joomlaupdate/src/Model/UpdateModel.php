@@ -144,7 +144,7 @@ class UpdateModel extends BaseDatabaseModel
 		else
 		{
 			$update_params = ComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
+			$cache_timeout = $update_params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
