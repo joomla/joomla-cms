@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let url;
   let direction;
   let isNested;
+  let dragElementIndex;
+  let dropElementIndex;
   let container = document.querySelector('.js-draggable');
   const orderRows = container.querySelectorAll('[name="order[]"]');
 
@@ -47,28 +49,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // IOS 10 BUG
     document.addEventListener('touchstart', () => {}, false);
 
-    const getOrderData = (wrapper, dir) => {
+    const getOrderData = (rows, inputRows, dragIndex, dropIndex) => {
       let i;
-      let l;
       const result = [];
-      const rows = [].slice.call(wrapper.querySelectorAll('[name="order[]"]'));
-      const inputRows = [].slice.call(wrapper.querySelectorAll('[name="cid[]"]'));
 
-      if (dir === 'desc') {
-        // Reverse the array
-        rows.reverse();
-        inputRows.reverse();
-      }
+      // Element is moved down
+      if (dragIndex < dropIndex) {
+        rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
 
-      // Get the order array
-      for (i = 0, l = rows.length; l > i; i += 1) {
-        // Skip a mirror element
-        // eslint-disable-next-line no-continue
-        if (rows[i].closest('.gu-mirror')) continue;
+        // Move down
+        for (i = dragIndex; i < dropIndex; i += 1) {
+          if (direction === 'asc') {
+            rows[i].setAttribute('value', parseInt(rows[i].value, 10) - 1);
+          } else {
+            rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
+          }
 
-        rows[i].value = i + 1;
-        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
-        result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
+          result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
+          result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
+        }
+
+        result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
+        result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
+      } else {
+        // Element is moved up
+
+        rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
+        rows[dropIndex].value = rows[dropIndex + 1].value;
+
+        result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
+        result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
+
+        for (i = dropIndex + 1; i <= dragIndex; i += 1) {
+          if (direction === 'asc') {
+            rows[i].value = parseInt(rows[i].value, 10) + 1;
+          } else {
+            rows[i].value = parseInt(rows[i].value, 10) - 1;
+          }
+
+          result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
+          result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
+        }
       }
 
       return result;
@@ -101,13 +122,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
       mirrorContainer: container,
     })
-      .on('drag', () => {
-
+      .on('drag', (el) => {
+        dragElementIndex = parseInt(el.querySelector('[name="order[]"]').getAttribute('data-order'), 10) - 1;
       })
       .on('cloned', () => {
 
       })
-      .on('drop', () => {
+      .on('drop', (el) => {
+        let orderSelector;
+        let inputSelector;
+
+        const groupId = el.getAttribute('data-draggable-group');
+        if (groupId) {
+          orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
+          inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
+        } else {
+          orderSelector = '[name="order[]"]';
+          inputSelector = '[name="cid[]"]';
+        }
+
+        const rows = [].slice.call(container.querySelectorAll(orderSelector));
+        const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
+
+        for (let i = 0, l = rows.length - 1; l > i; i += 1) {
+          if (rows[i].getAttribute('data-order') === el.querySelector('[name="order[]"]').getAttribute('data-order')) {
+            dropElementIndex = i;
+            break;
+          }
+        }
+
         if (url) {
         // Detach task field if exists
           const task = document.querySelector('[name="task"]');
@@ -121,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const ajaxOptions = {
             url,
             method: 'POST',
-            data: getOrderData(container, direction).join('&'),
+            data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
             perform: true,
           };
 
