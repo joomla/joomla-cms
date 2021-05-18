@@ -270,7 +270,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-color-unfeatured icon-star')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-circle')
 	{
 		if (is_array($prefix))
 		{

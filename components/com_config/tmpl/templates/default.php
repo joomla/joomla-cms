@@ -26,17 +26,6 @@ $wa->useScript('keepalive')
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
-	<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
-		<span class="icon-check text-white" aria-hidden="true"></span>
-		<?php echo Text::_('JSAVE') ?>
-	</button>
-	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-		<span class="icon-times text-white" aria-hidden="true"></span>
-		<?php echo Text::_('JCANCEL') ?>
-	</button>
-
-	<hr>
-
 	<div id="page-site" class="tab-pane active">
 		<div class="row">
 			<div class="col-md-12">
@@ -47,5 +36,17 @@ $wa->useScript('keepalive')
 
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
+
+	<hr>
+	<div class="mb-2">
+	<button type="button" class="btn btn-primary " data-submit-task="templates.apply">
+		<span class="icon-check text-white" aria-hidden="true"></span>
+		<?php echo Text::_('JSAVE') ?>
+	</button>
+	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
+		<span class="icon-times text-white" aria-hidden="true"></span>
+		<?php echo Text::_('JCANCEL') ?>
+	</button>
+</div>
 
 </form>

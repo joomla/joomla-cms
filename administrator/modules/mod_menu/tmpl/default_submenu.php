@@ -114,7 +114,7 @@ if ($iconImage)
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
-		$iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+		$iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
 	}
 	else
 	{
@@ -123,6 +123,12 @@ if ($iconImage)
 }
 
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
+
+// If the item image is not set, the item title would not have margin. Here we add it.
+if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '')
+{
+	$iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
+}
 
 if ($link != '' && $current->target != '')
 {
@@ -138,7 +144,7 @@ elseif ($link != '' && $current->type !== 'separator')
 }
 elseif ($current->title != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . ">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"#\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }

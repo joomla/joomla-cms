@@ -14,7 +14,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
 ?>
-<fieldset>
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</legend>

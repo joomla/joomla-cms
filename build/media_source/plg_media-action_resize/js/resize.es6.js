@@ -70,32 +70,6 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
           parseInt(target.value, 10),
         );
       });
-
-      // Set the values for the range fields
-      const resizeWidth = document.getElementById('jform_resize_w');
-      const resizeHeight = document.getElementById('jform_resize_h');
-
-      resizeWidth.min = 0;
-      resizeWidth.max = image.width;
-      resizeWidth.value = image.width;
-
-      resizeHeight.min = 0;
-      resizeHeight.max = image.height;
-      resizeHeight.value = image.height;
-
-      // The listeners
-      resizeWidth.addEventListener('input', ({ target }) => {
-        resize(
-          parseInt(target.value, 10),
-          parseInt(target.value, 10) / (image.width / image.height),
-        );
-      });
-      resizeHeight.addEventListener('input', ({ target }) => {
-        resize(
-          parseInt(target.value, 10) * (image.width / image.height),
-          parseInt(target.value, 10),
-        );
-      });
     };
     setTimeout(funct, 1000);
   };

@@ -26,7 +26,7 @@ $this->app->getDocument()->getWebAssetManager()
 
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
-<hr>
+
 <div class="control-group">
 	<label for="install_directory" class="control-label">
 		<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
@@ -36,7 +36,6 @@ $this->app->getDocument()->getWebAssetManager()
 			value="<?php echo $this->app->input->get('install_directory', $this->app->get('tmp_path')); ?>">
 	</div>
 </div>
-<hr>
 <div class="control-group">
 	<div class="controls">
 		<button type="button" class="btn btn-primary" id="installbutton_directory" onclick="Joomla.submitbuttonfolder()">

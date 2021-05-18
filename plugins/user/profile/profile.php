@@ -451,13 +451,13 @@ class PlgUserProfile extends CMSPlugin
 								$userId,
 								'profile.' . $k,
 								json_encode($v),
-								$order++
+								$order++,
 							],
 							[
 								ParameterType::INTEGER,
 								ParameterType::STRING,
 								ParameterType::STRING,
-								ParameterType::INTEGER
+								ParameterType::INTEGER,
 							]
 						)
 					)
