@@ -292,26 +292,26 @@
 
 .media-browser-table {
   .name {
-    width: calc(30% - 40px);
+    width: 40%;
     word-break: break-all;
   }
   .size {
-    width: 15%;
+    width: 10%;
     text-align: right;
   }
   .dimension {
     width: 15%;
   }
   .created {
-    width: 20%;
+    width: 15%;
   }
   .modified {
-    width: 20%;
+    width: 15%;
   }
   .type {
     position: relative;
     z-index: 0;
-    width: 50px;
+    width: 5%;
     padding: .6rem 0;
     font-size: $table-item-icon-size;
     line-height: $table-item-height;
