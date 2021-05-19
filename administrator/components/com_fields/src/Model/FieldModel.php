@@ -889,7 +889,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
