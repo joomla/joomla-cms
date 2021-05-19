@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -61,7 +62,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var     MenusModelItem
+	 * @var     ItemModel
 	 *
 	 * @since   4.0.0
 	 */
@@ -75,7 +76,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected $path = null;
 
 	/**
-	 * @var    Admin Id, author of all generated content.
+	 * @var    integer  Admin Id, author of all generated content.
 	 *
 	 * @since   4.0.0
 	 */
@@ -84,7 +85,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get an overview of the proposed sampledata.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  stdClass|void
 	 *
 	 * @since   4.0.0
 	 */
