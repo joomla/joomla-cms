@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->input->getCmd("workflow_id");
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);
