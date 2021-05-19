@@ -169,7 +169,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="xhtml" />
+			<jdoc:include type="modules" name="top" style="html5" />
 			<div class="row">
 				<div class="col-md-12">
 					<main>
@@ -178,7 +178,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</main>
 				</div>
 				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="xhtml" />
+					<jdoc:include type="modules" name="bottom" style="html5" />
 				<?php endif; ?>
 			</div>
 			<?php // End Content ?>
