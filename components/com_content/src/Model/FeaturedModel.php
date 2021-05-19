@@ -47,9 +47,9 @@ class FeaturedModel extends ArticlesModel
 	{
 		parent::populateState($ordering, $direction);
 
-		$input = Factory::getApplication()->input;
-		$user  = Factory::getUser();
-		$app   = Factory::getApplication('site');
+		$app   = Factory::getApplication();
+		$input = $app->input;
+		$user  = $app->getIdentity();
 
 		// List state information
 		$limitstart = $input->getUint('limitstart', 0);
