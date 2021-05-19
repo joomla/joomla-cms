@@ -367,7 +367,7 @@ class PluginModel extends AdminModel
 	 * Custom clean cache method, plugins are cached in 2 places for different clients.
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
