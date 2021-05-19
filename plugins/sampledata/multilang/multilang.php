@@ -59,15 +59,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Holds the menuitem model
-	 *
-	 * @var     \Joomla\Component\Menus\Administrator\Model\ItemModel
-	 *
-	 * @since   4.0.0
-	 */
-	private $menuItemModel;
-
-	/**
 	 * @var     string language path
 	 *
 	 * @since   4.0.0
