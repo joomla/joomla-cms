@@ -183,7 +183,7 @@ class Base32
 	{
 		$str = strtoupper($str);
 
-		return $this->bin2str($this->tobin($str));
+		return $this->bin2str($this->toBin($str));
 	}
 
 	/**
