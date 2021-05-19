@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Installer\Administrator\Service\HTML\Updatesites;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
