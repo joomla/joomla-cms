@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -65,7 +64,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    ItemModel
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
