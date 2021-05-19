@@ -307,8 +307,8 @@
   .type {
     position: relative;
     z-index: 0;
-    min-width: 49px;
     width: 49px;
+    min-width: 49px;
     padding: .6rem 0;
     font-size: $table-item-icon-size;
     line-height: $table-item-height;
