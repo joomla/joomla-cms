@@ -525,6 +525,7 @@ abstract class FormField
 			case 'showon':
 			case 'parentclass':
 			case 'default':
+			case 'autocomplete':
 				$this->$name = (string) $value;
 				break;
 
@@ -553,10 +554,6 @@ abstract class FormField
 			case 'hidden':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
