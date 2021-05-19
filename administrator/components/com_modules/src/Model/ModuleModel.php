@@ -1153,7 +1153,7 @@ class ModuleModel extends AdminModel
 	 * Custom clean cache method for different clients
 	 *
 	 * @param   string   $group     The name of the plugin group to import (defaults to null).
-	 * @param   integer  $clientId  The client ID. [optional]
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
