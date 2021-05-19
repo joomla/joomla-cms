@@ -528,8 +528,6 @@ abstract class AKAbstractPart extends AKAbstractObject
 				$this->_prepare();
 				break;
 			case "prepared":
-				$this->_run();
-				break;
 			case "running":
 				$this->_run();
 				break;
