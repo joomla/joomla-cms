@@ -1134,6 +1134,7 @@ ENDDATA;
 		$setting->state = function_exists('transliterator_transliterate');
 		$setting->recommended = true;
 		$settings[] = $setting;
+
 		return $settings;
 	}
 
