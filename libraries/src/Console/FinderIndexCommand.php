@@ -211,7 +211,7 @@ EOF;
 			$this->index();
 		}
 
-		$this->ioStyle->newline(1);
+		$this->ioStyle->newLine(1);
 
 		// Total reporting.
 		$this->ioStyle->writeln(
@@ -221,7 +221,7 @@ EOF;
 			]
 		);
 
-		$this->ioStyle->newline(1);
+		$this->ioStyle->newLine(1);
 
 		return Command::SUCCESS;
 	}

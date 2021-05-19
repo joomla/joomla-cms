@@ -255,7 +255,7 @@ class ColorField extends FormField
 		$color = !$color && $color !== '0' ? '' : $color;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
-		$position = ' data-position="' . (($lang->isRTL() && $this->position === 'default') ? 'left' : $this->position) . '"';
+		$position = ' data-position="' . (($lang->isRtl() && $this->position === 'default') ? 'left' : $this->position) . '"';
 
 		if ($color === '' || \in_array($color, array('none', 'transparent')))
 		{
