@@ -209,7 +209,7 @@ abstract class MediaHelper
 	 *
 	 * @return  string  The link for the action log
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.27
 	 */
 	public static function getContentTypeLink($contentType, $id, CMSObject $mediaObject)
 	{
