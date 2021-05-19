@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected $state;
 
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * The name of current extension
 	 *
 	 * @var     string
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected $extension;
 

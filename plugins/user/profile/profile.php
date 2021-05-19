@@ -31,7 +31,7 @@ class PlgUserProfile extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -55,7 +55,7 @@ class PlgUserProfile extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    DatabaseInterface
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $db;
 

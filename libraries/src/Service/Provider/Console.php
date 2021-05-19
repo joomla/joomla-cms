@@ -33,7 +33,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's console services
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Console implements ServiceProviderInterface
 {
@@ -44,7 +44,7 @@ class Console implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

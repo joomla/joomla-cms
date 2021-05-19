@@ -46,7 +46,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Application service provider
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Application implements ServiceProviderInterface
 {
@@ -57,7 +57,7 @@ class Application implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

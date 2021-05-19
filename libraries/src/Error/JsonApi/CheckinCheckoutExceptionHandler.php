@@ -16,7 +16,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for invalid checkin/checkout exceptions
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class CheckinCheckoutExceptionHandler implements ExceptionHandlerInterface
 {
