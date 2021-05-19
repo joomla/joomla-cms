@@ -1390,7 +1390,7 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			$mailSent = $mailer->Send();
+			$mailSent = $mailer->send();
 		}
 		catch (MailDisabledException | phpMailerException $e)
 		{

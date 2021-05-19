@@ -503,7 +503,7 @@ class TracksModel extends ListModel
 
 				$files = array(
 					'track' => array(
-						'name' => $this->getBasename() . '.csv',
+						'name' => $this->getBaseName() . '.csv',
 						'data' => $this->content,
 						'time' => time()
 					)

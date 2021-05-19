@@ -964,7 +964,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 					// Should I use FTP?
 					case 'post_proc':
-						$this->postProcEngine = AKFactory::getpostProc($value);
+						$this->postProcEngine = AKFactory::getPostProc($value);
 						break;
 
 					// Path to add in the beginning

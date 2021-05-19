@@ -430,7 +430,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->phpInfoArray;
 		}
 
-		$phpInfo = $this->getPhpInfo();
+		$phpInfo = $this->getPHPInfo();
 
 		$this->phpInfoArray = $this->parsePhpInfo($phpInfo);
 

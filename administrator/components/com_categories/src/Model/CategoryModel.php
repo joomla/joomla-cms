@@ -888,7 +888,7 @@ class CategoryModel extends AdminModel
 
 			$db->setQuery($query);
 
-			$max = (int) $db->loadresult();
+			$max = (int) $db->loadResult();
 			$max++;
 
 			$query->clear();

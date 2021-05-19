@@ -496,7 +496,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->get('file', '', 'cmd');
 		$name     = (string) $this->input->get('name', '', 'cmd');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -557,7 +557,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$upload   = $this->input->files->get('files');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -605,7 +605,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$name     = $this->input->get('name');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -657,7 +657,7 @@ class TemplateController extends BaseController
 		$model    = $this->getModel();
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -864,7 +864,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$newName  = $this->input->get('new_name');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
