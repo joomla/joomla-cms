@@ -1682,7 +1682,6 @@ class PlgSampledataBlog extends CMSPlugin
 				// Similiar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
-				'position' => '',
 				'module'   => 'mod_tags_similar',
 				'position' => 'bottom-b',
 				'params'   => array(
