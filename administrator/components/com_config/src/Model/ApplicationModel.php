@@ -867,8 +867,7 @@ class ApplicationModel extends FormModel
 		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
 		// Clear cache of com_config component.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
 

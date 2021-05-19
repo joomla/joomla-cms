@@ -1161,6 +1161,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_modules', $this->getClient());
+		parent::cleanCache('com_modules');
 	}
 }
