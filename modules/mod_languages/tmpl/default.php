@@ -29,7 +29,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<button id="language_btn" type ="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-haspopup="listbox" aria-labelledby="language_picker_des language_btn" aria-expanded="false">
+				<button id="language_btn" type="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-haspopup="listbox" aria-labelledby="language_picker_des language_btn" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
 						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 					<?php endif; ?>
@@ -42,7 +42,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php foreach ($list as $language) : ?>
 			<?php
 				$lbl = '';
-				if (($params->get('full_name') === 0))
+				if ($params->get('full_name') === 0)
 				{
 					$lbl = 'aria-label = "' . $language->title_native . '"';
 				}
