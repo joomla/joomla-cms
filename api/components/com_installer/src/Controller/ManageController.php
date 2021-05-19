@@ -48,7 +48,7 @@ class ManageController extends ApiController
 	 */
 	public function displayList()
 	{
-		$requestBool = $this->input->get('core', $this->input->get->get('core', null));
+		$requestBool = $this->input->get('core', $this->input->get->get('core', null, 'boolean'));
 
 		if (!is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
 		{
