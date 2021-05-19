@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\ParameterType;
 
 /**
@@ -58,7 +59,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
+	 * @var    ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -883,7 +884,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
+		$this->menuItemModel = new ItemModel;
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
