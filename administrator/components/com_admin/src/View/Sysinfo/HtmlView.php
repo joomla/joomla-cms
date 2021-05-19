@@ -89,10 +89,10 @@ class HtmlView extends BaseHtmlView
 		/** @var SysinfoModel $model */
 		$model             = $this->getModel();
 		$this->phpSettings = $model->getPhpSettings();
-		$this->config      = $model->getconfig();
-		$this->info        = $model->getinfo();
-		$this->phpInfo     = $model->getPhpInfo();
-		$this->directory   = $model->getdirectory();
+		$this->config      = $model->getConfig();
+		$this->info        = $model->getInfo();
+		$this->phpInfo     = $model->getPHPInfo();
+		$this->directory   = $model->getDirectory();
 
 		$this->addToolbar();
 
