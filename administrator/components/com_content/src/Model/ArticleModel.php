@@ -808,7 +808,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			{
 				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
+					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
