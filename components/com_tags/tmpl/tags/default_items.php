@@ -21,29 +21,18 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
 // Get the user object.
-$user = Factory::getUser();
+$app = Factory::getApplication();
+$user = $app->getIdentity();
 
 // Check if user is allowed to add/edit based on tags permissions.
 $canEdit      = $user->authorise('core.edit', 'com_tags');
 $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
-$columns = $this->params->get('tag_columns', 1);
+// Column sizing
+$columns = $this->params->get('tag_columns', 0);
+$columnsize = $columns === 0 ? "display: flex;" : "grid-template-columns: repeat(" . $columns . "," . floor(100 / $columns) . "%);";
 
-// Avoid division by 0 and negative columns.
-if ($columns < 1)
-{
-	$columns = 1;
-}
-
-$bsspans = floor(12 / $columns);
-
-if ($bsspans < 1)
-{
-	$bsspans = 1;
-}
-
-$bscolumns = min($columns, floor(12 / $bsspans));
 $n         = count($this->items);
 ?>
 
@@ -81,29 +70,29 @@ $n         = count($this->items);
 		<?php endif; ?>
 	</form>
 
+	<!-- Clear floated content -->
+	<div class="clearfix"></div>
+
 	<?php if ($this->items == false || $n === 0) : ?>
 		<div class="alert alert-info">
 			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
 		</div>
 	<?php else : ?>
+		<ul class="com-tags__category category" style="<?php echo $columnsize ?>">
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-				<ul class="com-tags__category category list-group">
-			<?php endif; ?>
+				<li class="tag-list btn border-gray">
+					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
+						<div class="tag-item mb-0">
+							<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
+								<?php echo $this->escape($item->title); ?>
+							</a>
+						</div>
+					<?php endif; ?>
 
-			<li class="list-group-item list-group-item-action">
-				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<h3 class="mb-0">
-						<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
-							<?php echo $this->escape($item->title); ?>
-						</a>
-					</h3>
-				<?php endif; ?>
-
-				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-					<?php $images = json_decode($item->images); ?>
-					<span class="tag-body">
+					<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
+						<?php $images = json_decode($item->images); ?>
+						<span class="tag-body">
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
 							<div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
@@ -115,30 +104,26 @@ $n         = count($this->items);
 									alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>">
 							</div>
 						<?php endif; ?>
-					</span>
-				<?php endif; ?>
+						</span>
+					<?php endif; ?>
 
-				<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
-					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
-							<span class="tag-body">
-								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
-							</span>
-						<?php endif; ?>
-						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-							<span class="list-hits badge bg-info">
-								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-							</span>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-			</li>
-
-			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
-				</ul>
-			<?php endif; ?>
-
+					<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
+						<div class="caption">
+							<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
+								<span class="tag-body">
+									<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+								</span>
+							<?php endif; ?>
+							<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
+								<span class="list-hits badge badge-info">
+									<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+								</span>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+				</li>
 		<?php endforeach; ?>
+		</ul>
 	<?php endif; ?>
 
 	<?php // Add pagination links ?>
