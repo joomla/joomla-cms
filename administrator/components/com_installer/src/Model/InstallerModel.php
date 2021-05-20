@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Installer\Administrator\Service\HTML\Updatesites;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
@@ -92,7 +91,7 @@ class InstallerModel extends ListModel
 				$searchFields = array('name');
 
 				// If in update sites view search also in the update site name field.
-				if ($this instanceof Updatesites)
+				if ($this instanceof UpdatesitesModel)
 				{
 					$searchFields[] = 'update_site_name';
 				}
