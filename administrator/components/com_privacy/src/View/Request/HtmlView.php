@@ -21,7 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
@@ -84,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
 		{
-			/** @var ActionlogsModel $logsModel */
+			/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
 			$logsModel = $this->getModel('actionlogs');
 
 			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
