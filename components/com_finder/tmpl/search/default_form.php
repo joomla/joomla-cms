@@ -42,7 +42,7 @@ if ($this->params->get('show_autosuggest', 1))
 				</button>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
 					<?php HTMLHelper::_('bootstrap.collapse'); ?>
-					<a href="#advancedSearch" data-bs-toggle="collapse" class="btn btn-secondary">
+					<button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="true">
 						<span class="icon-search-plus" aria-hidden="true"></span>
 						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
