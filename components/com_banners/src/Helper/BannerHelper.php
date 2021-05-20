@@ -38,18 +38,4 @@ abstract class BannerHelper
 
 		return false;
 	}
-
-	/**
-	 * Checks if a URL is a Flash file
-	 *
-	 * @param   string  $url  The URL path to the potential flash file
-	 *
-	 * @return  boolean  True if an image of type bmp, gif, jp(e)g or png, false otherwise
-	 *
-	 * @since   1.6
-	 */
-	public static function isFlash($url)
-	{
-		return preg_match('#\.swf$#i', $url);
-	}
 }
