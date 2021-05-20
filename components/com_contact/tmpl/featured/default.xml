@@ -12,7 +12,11 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
+		<fieldset
+			name="advanced"
+			label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			>
 
 			<field
 				name="filter_field"
@@ -174,7 +178,10 @@
 
 		</fieldset>
 
-		<fieldset name="contact" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
+		<fieldset
+			name="contact"
+			label="COM_CONTACT_FIELDSET_CONTACT_LABEL"
+			>
 
 			<field
 				name="show_tags"
@@ -483,7 +490,10 @@
 			/>
 		</fieldset>
 
-		<fieldset name="Contact_Form" label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL">
+		<fieldset
+			name="Contact_Form"
+			label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL"
+			>
 
 			<field
 				name="show_email_form"
