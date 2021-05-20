@@ -147,19 +147,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>
-					<?php if ($this->params->get('menuToggler')) : ?>
-						<nav class="navbar navbar-expand-md">
-							<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
-							<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-								<span class="icon-menu" aria-hidden="true"></span>
-							</button>
-							<div class="collapse navbar-collapse" id="navbar">
-								<jdoc:include type="modules" name="menu" style="none" />
-							</div>
-						</nav>
-					<?php else : ?>
-						<jdoc:include type="modules" name="menu" style="none" />
-					<?php endif; ?>
+					<jdoc:include type="modules" name="menu" style="none" />
 				<?php endif; ?>
 				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
