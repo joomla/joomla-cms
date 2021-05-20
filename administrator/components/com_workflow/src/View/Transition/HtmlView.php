@@ -10,9 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -53,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * That is object of Application
 	 *
-	 * @var     CMSApplication
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -61,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The application input object.
 	 *
-	 * @var    Input
+	 * @var    \Joomla\CMS\Input\Input
 	 * @since  4.0.0
 	 */
 	protected $input;
