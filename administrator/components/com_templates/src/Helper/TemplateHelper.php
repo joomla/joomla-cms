@@ -83,7 +83,7 @@ abstract class TemplateHelper
 			}
 		}
 
-		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
+		if (strtolower($file['name']) !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
 		{
 			$app = Factory::getApplication();
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
