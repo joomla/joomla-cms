@@ -43,27 +43,28 @@ $jicons-brand: (
 
 // Create special actions mapping array
 $jicons-special: (
-  border: border,
-  flip-both: flip-both,
-  flip-horizontal: flip-horizontal,
-  flip-vertical: flip-vertical,
+  8x : 8x,
+  border : border,
+  flip-both : flip-both,
+  flip-horizontal : flip-horizontal,
+  flip-vertical : flip-vertical,
   fw : fw,
-  lg: lg,
-  li: li,
-  inverse: inverse,
-  pull-right: pull-right,
-  pull-left: pull-left,
+  lg : lg,
+  li : li,
+  inverse : inverse,
+  pull-right : pull-right,
+  pull-left : pull-left,
   pulse : pulse,
-  rotate-90: rotate-90,
-  rotate-180: rotate-180,
-  rotate-270: rotate-270,
-  sm: sm,
+  rotate-90 : rotate-90,
+  rotate-180 : rotate-180,
+  rotate-270 : rotate-270,
+  sm : sm,
   spin : spin,
   stack : stack,
-  stack-1x: stack-1x,
-  stack-2x: stack-2x,
-  ul: ul,
-  xs: xs
+  stack-1x : stack-1x,
+  stack-2x : stack-2x,
+  ul : ul,
+  xs : xs
 ) !default;
 
 // Parse special actions mapping array
