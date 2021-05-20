@@ -45,7 +45,7 @@ class XmlView extends AbstractView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \GenericDataException(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$requestId = $model->getState($model->getName() . '.request_id');
