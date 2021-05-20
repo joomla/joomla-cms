@@ -31,7 +31,7 @@ trait TagApiSerializerTrait
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function tags($model)
 	{

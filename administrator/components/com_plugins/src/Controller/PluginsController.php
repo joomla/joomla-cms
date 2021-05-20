@@ -43,7 +43,7 @@ class PluginsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{

@@ -340,7 +340,7 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($v)
 				{
-					$this->document->setMetadata($k, $v);
+					$this->document->setMetaData($k, $v);
 				}
 			}
 		}

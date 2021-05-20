@@ -28,7 +28,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * JSON error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JsonapiRenderer extends JsonRenderer
 {
@@ -36,7 +36,7 @@ class JsonapiRenderer extends JsonRenderer
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'jsonapi';
 
@@ -47,7 +47,7 @@ class JsonapiRenderer extends JsonRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{

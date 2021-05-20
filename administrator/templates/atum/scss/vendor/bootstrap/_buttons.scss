@@ -2,6 +2,10 @@
 
 .btn {
   transition: none;
+
+  @include media-breakpoint-down(sm) {
+    margin-bottom: .25rem;
+  }
 }
 
 .btn-primary {

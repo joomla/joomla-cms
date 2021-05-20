@@ -47,12 +47,12 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 			<div>
 				<?php echo Text::_($item->description_key); ?>
 				<?php if ($item->type !== 'message') : ?>
-				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary my-1">
+				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
 					<?php echo Text::_($item->action_key); ?>
 				</a>
 				<?php endif; ?>
 				<?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
-				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm my-1">
+				<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
 					<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 				</a>
 				<?php endif; ?>

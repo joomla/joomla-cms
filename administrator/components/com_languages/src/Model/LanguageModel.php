@@ -275,7 +275,7 @@ class LanguageModel extends AdminModel
 	 * Custom clean cache method.
 	 *
 	 * @param   string   $group     Optional cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
