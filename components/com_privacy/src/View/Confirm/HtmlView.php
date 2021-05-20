@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Site\View\Confirm;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -68,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
