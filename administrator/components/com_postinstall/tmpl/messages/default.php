@@ -26,7 +26,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 </form>
 
 <?php if (empty($this->items)) : ?>
-	<div class="py-5 text-center">
+	<div class="px-4 py-5 my-5 text-center">
 		<span class="fa-8x icon-bell mb-4" aria-hidden="true"></span>
 		<h1 class="display-5 fw-bold"><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h1>
 		<div>
