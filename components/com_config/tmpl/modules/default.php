@@ -60,7 +60,6 @@ if (Multilanguage::isEnabled())
 
 			<div class="row mb-4">
 				<div class="col-md-12">
-
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('title'); ?>
@@ -85,8 +84,6 @@ if (Multilanguage::isEnabled())
 							<?php echo $this->form->getInput('position'); ?>
 						</div>
 					</div>
-
-					<hr>
 
 					<?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 					<div class="control-group">
@@ -152,8 +149,6 @@ if (Multilanguage::isEnabled())
 							<?php echo $this->form->getInput('note'); ?>
 						</div>
 					</div>
-
-					<hr>
 
 					<div id="options">
 						<?php echo $this->loadTemplate('options'); ?>
