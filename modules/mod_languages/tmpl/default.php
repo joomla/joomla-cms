@@ -18,7 +18,7 @@ $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 ?>
 <div class="mod-languages">
-	<p class="visually-hidden" id="language_picker_des"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
+	<p class="visually-hidden" id="language_picker_des_<?php echo $module->id; ?>"><?php echo Text::_('MOD_LANGUAGES_DESC'); ?></p>
 
 <?php if ($headerText) : ?>
 	<div class="mod-languages__pretext pretext"><p><?php echo $headerText; ?></p></div>
@@ -29,7 +29,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<button id="language_btn" type="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-haspopup="listbox" aria-labelledby="language_picker_des language_btn" aria-expanded="false">
+				<button id="language_btn_<?php echo $module->id; ?>" type="button" data-bs-toggle="dropdown" class="btn btn-secondary dropdown-toggle" aria-haspopup="listbox" aria-labelledby="language_picker_des_<?php echo $module->id; ?> language_btn_<?php echo $module->id; ?>" aria-expanded="false">
 					<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
 						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 					<?php endif; ?>
@@ -37,7 +37,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				</button>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul role="listbox" aria-labelledby="language_picker_des" class="lang-block dropdown-menu">
+		<ul role="listbox" aria-labelledby="language_picker_des" class="lang-block dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 
 		<?php foreach ($list as $language) : ?>
 			<?php
@@ -71,7 +71,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul role="listbox" aria-labelledby="language_picker_des" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
+	<ul role="listbox" aria-labelledby="language_picker_des" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 
 	<?php foreach ($list as $language) : ?>
 		<?php
