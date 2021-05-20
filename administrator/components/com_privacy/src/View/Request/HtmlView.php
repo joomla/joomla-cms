@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
 		{
-			/** @var \ActionlogsModelActionlogs $logsModel */
+			/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
 			$logsModel = $this->getModel('actionlogs');
 
 			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication('administrator')->set('hidemainmenu', true);
+		Factory::getApplication()->set('hidemainmenu', true);
 
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
