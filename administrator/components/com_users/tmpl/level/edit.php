@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.keepalive');
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_LEVEL_DETAILS')); ?>
-			<fieldset class="options-form mt-4">
+			<fieldset class="options-form">
 				<legend><?php echo Text::_('COM_USERS_LEVEL_DETAILS'); ?></legend>
 				<div class="control-group">
 					<div class="control-label">

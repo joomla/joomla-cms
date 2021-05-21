@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -123,7 +123,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<?php endif; ?>
 			<section id="content" class="content">
 				<jdoc:include type="message" />
-				<jdoc:include type="modules" name="top" style="xhtml" />
+				<jdoc:include type="modules" name="top" style="html5" />
 				<div class="row">
 					<div class="col-md-12">
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
@@ -159,7 +159,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</div>
 
 					<?php if ($this->countModules('bottom')) : ?>
-						<jdoc:include type="modules" name="bottom" style="xhtml" />
+						<jdoc:include type="modules" name="bottom" style="html5" />
 					<?php endif; ?>
 				</div>
 			</section>

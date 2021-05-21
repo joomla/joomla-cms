@@ -68,12 +68,12 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 							if (!$long_description)
 							{
-								$truncated = HtmlHelper::_('string.truncate', $short_description, 550, true, false);
+								$truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
 								if (strlen($truncated) > 500)
 								{
 									$long_description  = $short_description;
-									$short_description = HtmlHelper::_('string.truncate', $truncated, 250);
+									$short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 
 									if ($short_description == $long_description)
 									{
@@ -138,4 +138,3 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
-

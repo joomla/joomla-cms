@@ -528,8 +528,6 @@ abstract class AKAbstractPart extends AKAbstractObject
 				$this->_prepare();
 				break;
 			case "prepared":
-				$this->_run();
-				break;
 			case "running":
 				$this->_run();
 				break;
@@ -964,7 +962,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 					// Should I use FTP?
 					case 'post_proc':
-						$this->postProcEngine = AKFactory::getpostProc($value);
+						$this->postProcEngine = AKFactory::getPostProc($value);
 						break;
 
 					// Path to add in the beginning
@@ -1751,7 +1749,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 		$this->currentPartOffset = ftell($this->fp);
 
-		debugMsg("Reading file signature; part {$this->currentPartNumber}, offset {$this->currentPartOffset}");
+		debugMsg("Reading file signature; part $this->currentPartNumber, offset $this->currentPartOffset");
 		// Get and decode Entity Description Block
 		$signature = fread($this->fp, 3);
 

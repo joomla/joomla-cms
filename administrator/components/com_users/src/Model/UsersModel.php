@@ -574,7 +574,7 @@ class UsersModel extends ListModel
 		{
 			$result = $db->setQuery($query)->loadColumn();
 		}
-		catch (\RunTimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$result = array();
 		}

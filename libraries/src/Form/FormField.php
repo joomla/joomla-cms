@@ -196,7 +196,7 @@ abstract class FormField
 	 * The validation text of invalid value of the form field.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $validationtext;
 
@@ -525,6 +525,7 @@ abstract class FormField
 			case 'showon':
 			case 'parentclass':
 			case 'default':
+			case 'autocomplete':
 				$this->$name = (string) $value;
 				break;
 
@@ -553,10 +554,6 @@ abstract class FormField
 			case 'hidden':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
