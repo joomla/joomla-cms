@@ -160,7 +160,7 @@ class MenuHelper
 
 					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
-						$item->flink = Route::_($item->flink, true, $itemParams->get('secure'));
+						$item->flink = Route::_($item->flink, true, $itemParams->get('secure', 0));
 					}
 					else
 					{
