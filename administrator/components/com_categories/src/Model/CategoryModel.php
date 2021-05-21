@@ -888,7 +888,7 @@ class CategoryModel extends AdminModel
 
 			$db->setQuery($query);
 
-			$max = (int) $db->loadresult();
+			$max = (int) $db->loadResult();
 			$max++;
 
 			$query->clear();
@@ -1299,7 +1299,7 @@ class CategoryModel extends AdminModel
 	 * Custom clean the cache of com_content and content modules
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

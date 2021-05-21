@@ -198,8 +198,8 @@ abstract class JGrid
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
-			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
+			$publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();

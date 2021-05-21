@@ -43,6 +43,6 @@ class ClicksField extends FormField
 		return '<div class="input-group"><input class="form-control" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
 			. '<button type="button" class="btn btn-secondary" ' . $onclick . '>'
-			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('COM_BANNERS_RESET_CLICKS') . '</button></div>';
+			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('JRESET') . '</button></div>';
 	}
 }

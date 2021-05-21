@@ -57,7 +57,7 @@ $wa->useScript('com_finder.maps');
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'branch_title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'branch_title, a.lft', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
 								<th scope="col" class="w-1 text-center">

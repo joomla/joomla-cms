@@ -69,7 +69,7 @@ trait VersionableControllerTrait
 					. $this->getRedirectToListAppend(), false
 				)
 			);
-			$table->checkin();
+			$table->checkIn();
 
 			return false;
 		}

@@ -25,7 +25,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -33,7 +33,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
