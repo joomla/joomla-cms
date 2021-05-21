@@ -47,19 +47,6 @@ class CMSObject
 	}
 
 	/**
-	 * Magic method to convert the object to a string gracefully.
-	 *
-	 * @return  string  The classname.
-	 *
-	 * @since   1.7.0
-	 * @deprecated 3.1.4  Classes should provide their own __toString() implementation.
-	 */
-	public function __toString()
-	{
-		return \get_class($this);
-	}
-
-	/**
 	 * Sets a default value if not already assigned
 	 *
 	 * @param   string  $property  The name of the property.
