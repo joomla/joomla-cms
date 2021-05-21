@@ -66,12 +66,11 @@ class Route
 	 *
 	 * @since   1.7.0
 	 */
-	public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
+	public static function _(string $url, bool $xhtml = true, int $tls = self::TLS_IGNORE, bool $absolute = false): string
 	{
 		$client = Factory::getApplication()->getName();
 
 		return static::link($client, $url, $xhtml, $tls, $absolute);
-
 	}
 
 	/**
