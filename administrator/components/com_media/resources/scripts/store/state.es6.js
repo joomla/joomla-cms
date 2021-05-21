@@ -6,12 +6,20 @@ if (options.providers === undefined || options.providers.length === 0) {
   throw new TypeError('Media providers are not defined.');
 }
 
+// Get the drives
+const getDrives = (obj) => {
+  const drives = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(obj)) {
+    drives.push({ root: `${key}-${value}:/`, displayName: value });
+  }
+
+  return drives;
+};
 // Load disks from options
 const loadedDisks = options.providers.map((disk) => ({
   displayName: disk.displayName,
-  drives: disk.adapterNames.map(
-    (account, index) => ({ root: `${disk.name}-${index}:/`, displayName: account }),
-  ),
+  drives: getDrives(disk.adapterNames),
 }));
 
 if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {

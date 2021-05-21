@@ -374,7 +374,7 @@ class ApiController extends BaseController
 	 */
 	private function getAdapter()
 	{
-		$parts = explode(':', $this->input->getString('path', 'images'));
+		$parts = explode(':', $this->input->getString('path', ''));
 
 		if (count($parts) < 1)
 		{
@@ -393,7 +393,7 @@ class ApiController extends BaseController
 	 */
 	private function getPath()
 	{
-		$parts = explode(':', $this->input->getString('path', 'images'));
+		$parts = explode(':', $this->input->getString('path', ''));
 
 		if (count($parts) < 2)
 		{
