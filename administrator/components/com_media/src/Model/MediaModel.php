@@ -51,7 +51,7 @@ class MediaModel extends BaseDatabaseModel
 
 			foreach ($provider->getAdapters() as $adapter)
 			{
-				$result->adapterNames[$result->name] = $adapter->getAdapterName();
+				$result->adapterNames[] = $adapter->getAdapterName();
 			}
 
 			$results[] = $result;

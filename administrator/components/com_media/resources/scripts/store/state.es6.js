@@ -7,19 +7,20 @@ if (options.providers === undefined || options.providers.length === 0) {
 }
 
 // Get the drives
-const getDrives = (obj) => {
+const getDrives = (obj, name) => {
   const drives = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of Object.entries(obj)) {
-    drives.push({ root: `${key}-${value}:/`, displayName: value });
+    drives.push({ root: `${name}-${value}:/`, displayName: value });
   }
 
   return drives;
 };
+
 // Load disks from options
 const loadedDisks = options.providers.map((disk) => ({
   displayName: disk.displayName,
-  drives: getDrives(disk.adapterNames),
+  drives: getDrives(disk.adapterNames, disk.name),
 }));
 
 if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {
