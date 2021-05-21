@@ -140,7 +140,7 @@ class NomenuRules implements RulesInterface
 			$item = $this->router->menu->getItem($query['Itemid']);
 
 			if (!isset($query['option'])
-				|| ($item && isset($query['option']) && $item->query['option'] === $query['option']))
+				|| ($item && isset($item->query['option']) && $item->query['option'] === $query['option']))
 			{
 				$menu_found = true;
 			}
