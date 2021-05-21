@@ -76,6 +76,113 @@ class HtmlView extends BaseHtmlView
 		$this->form = $form;
 		$this->data = $serviceData;
 
-		return parent::display($tpl);
+		$this->_prepareDocument();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 */
+	protected function _prepareDocument()
+	{
+		$app     = Factory::getApplication();
+		$pathway = $app->getPathway();
+
+		/**
+		 * Because the application sets a default page title,
+		 * we need to get it from the menu item itself
+		 */
+		$menu = $app->getMenu()->getActive();
+
+
+		$title = $this->params->get('page_title', '');
+
+		// If the menu item is not linked to this article
+		if (!$this->menuItemMatchArticle)
+		{
+			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
+			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
+
+			// Get ID of the category from active menu item
+			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
+				&& in_array($menu->query['view'], ['categories', 'category']))
+			{
+				$id = $menu->query['id'];
+			}
+			else
+			{
+				$id = 0;
+			}
+
+			$path     = array(array('title' => $this->item->title, 'link' => ''));
+			$category = Categories::getInstance('Content')->get($this->item->catid);
+
+			while ($category !== null && $category->id != $id && $category->id !== 'root')
+			{
+				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+				$category = $category->getParent();
+			}
+
+			$path = array_reverse($path);
+
+			foreach ($path as $item)
+			{
+				$pathway->addItem($item['title'], $item['link']);
+			}
+		}
+
+		if (empty($title))
+		{
+			$title = $this->item->title;
+		}
+
+		$this->setDocumentTitle($title);
+
+		if ($this->item->metadesc)
+		{
+			$this->document->setDescription($this->item->metadesc);
+		}
+		elseif ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetaData('robots', $this->params->get('robots'));
+		}
+
+		if ($app->get('MetaAuthor') == '1')
+		{
+			$author = $this->item->created_by_alias ?: $this->item->author;
+			$this->document->setMetaData('author', $author);
+		}
+
+		$mdata = $this->item->metadata->toArray();
+
+		foreach ($mdata as $k => $v)
+		{
+			if ($v)
+			{
+				$this->document->setMetaData($k, $v);
+			}
+		}
+
+		// If there is a pagebreak heading or title, add it to the page title
+		if (!empty($this->item->page_title))
+		{
+			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
+			$this->setDocumentTitle(
+				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
+			);
+		}
+
+		if ($this->print)
+		{
+			$this->document->setMetaData('robots', 'noindex, nofollow');
+		}
 	}
 }
