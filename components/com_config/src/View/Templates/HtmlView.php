@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\View\Templates;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
@@ -46,6 +47,22 @@ class HtmlView extends BaseHtmlView
 	 * @since 3.2
 	 */
 	protected $userIsSuperAdmin;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
 
 	/**
 	 * Method to render the view.
@@ -96,6 +113,53 @@ class HtmlView extends BaseHtmlView
 
 		$this->data = $serviceData;
 
-		return parent::display($tpl);
+		$this->_prepareDocument();
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _prepareDocument()
+	{
+		$app    = Factory::getApplication();
+		$params = $app->getParams();
+
+		// Because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		$title = $params->get('page_title', '');
+
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		$this->document->setTitle($title);
+
+		if ($params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($params->get('menu-meta_description'));
+		}
+
+		if ($params->get('robots'))
+		{
+			$this->document->setMetaData('robots', $params->get('robots'));
+		}
+
+		// Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->params        = &$params;
 	}
 }

@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\View\Config;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
 
@@ -47,6 +48,22 @@ class HtmlView extends BaseHtmlView
 	protected $userIsSuperAdmin;
 
 	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -77,7 +94,6 @@ class HtmlView extends BaseHtmlView
 		$this->data = $serviceData;
 
 		$this->_prepareDocument();
-
 		parent::display($tpl);
 	}
 
@@ -85,104 +101,45 @@ class HtmlView extends BaseHtmlView
 	 * Prepares the document.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = Factory::getApplication();
-		$pathway = $app->getPathway();
+		$app    = Factory::getApplication();
+		$params = $app->getParams();
 
-		/**
-		 * Because the application sets a default page title,
-		 * we need to get it from the menu item itself
-		 */
-		$menu = $app->getMenu()->getActive();
-
-
-		$title = $this->params->get('page_title', '');
-
-		// If the menu item is not linked to this article
-		if (!$this->menuItemMatchArticle)
-		{
-			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
-
-			// Get ID of the category from active menu item
-			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
-				&& in_array($menu->query['view'], ['categories', 'category']))
-			{
-				$id = $menu->query['id'];
-			}
-			else
-			{
-				$id = 0;
-			}
-
-			$path     = array(array('title' => $this->item->title, 'link' => ''));
-			$category = Categories::getInstance('Content')->get($this->item->catid);
-
-			while ($category !== null && $category->id != $id && $category->id !== 'root')
-			{
-				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
-				$category = $category->getParent();
-			}
-
-			$path = array_reverse($path);
-
-			foreach ($path as $item)
-			{
-				$pathway->addItem($item['title'], $item['link']);
-			}
-		}
+		// Because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		$title = $params->get('page_title', '');
 
 		if (empty($title))
 		{
-			$title = $this->item->title;
+			$title = $app->get('sitename');
 		}
-
-		$this->setDocumentTitle($title);
-
-		if ($this->item->metadesc)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$this->document->setDescription($this->item->metadesc);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($this->params->get('menu-meta_description'))
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
-		if ($this->params->get('robots'))
+		$this->document->setTitle($title);
+
+		if ($params->get('menu-meta_description'))
 		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
+			$this->document->setDescription($params->get('menu-meta_description'));
 		}
 
-		if ($app->get('MetaAuthor') == '1')
+		if ($params->get('robots'))
 		{
-			$author = $this->item->created_by_alias ?: $this->item->author;
-			$this->document->setMetaData('author', $author);
+			$this->document->setMetaData('robots', $params->get('robots'));
 		}
 
-		$mdata = $this->item->metadata->toArray();
-
-		foreach ($mdata as $k => $v)
-		{
-			if ($v)
-			{
-				$this->document->setMetaData($k, $v);
-			}
-		}
-
-		// If there is a pagebreak heading or title, add it to the page title
-		if (!empty($this->item->page_title))
-		{
-			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
-			$this->setDocumentTitle(
-				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
-			);
-		}
-
-		if ($this->print)
-		{
-			$this->document->setMetaData('robots', 'noindex, nofollow');
-		}
+		// Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->params        = &$params;
 	}
 }
