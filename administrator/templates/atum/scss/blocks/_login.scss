@@ -1,6 +1,7 @@
 // Login page
 
-.view-login {
+.view-login,
+.task-logout {
 
   .container-main {
     @include media-breakpoint-down(md) {
