@@ -10,13 +10,13 @@ if (options.providers === undefined || options.providers.length === 0) {
  * Get the drives
  *
  * @param  {Array}  adapterNames
- * @param  {String} adapterName
+ * @param  {String} provider
  *
  * @return {Array}
  */
-const getDrives = (adapterNames, adapterName) => {
+const getDrives = (adapterNames, provider) => {
   const drives = [];
-  adapterNames.map((name) => drives.push({ root: `${adapterName}-${name}:/`, displayName: name }));
+  adapterNames.map((name) => drives.push({ root: `${provider}-${name}:/`, displayName: name }));
 
   return drives;
 };
