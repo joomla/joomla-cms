@@ -68,36 +68,10 @@ class Route
 	 */
 	public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
 	{
-		try
-		{
-			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
-			if (!is_int($tls))
-			{
-				Log::add(
-					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
-					Log::WARNING,
-					'deprecated'
-				);
+		$client = Factory::getApplication()->getName();
 
-				$tls = (int) $tls;
-			}
+		return static::link($client, $url, $xhtml, $tls, $absolute);
 
-			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls === -1)
-			{
-				$tls = self::TLS_DISABLE;
-			}
-
-			$app    = Factory::getApplication();
-			$client = $app->getName();
-
-			return static::link($client, $url, $xhtml, $tls, $absolute);
-		}
-		catch (\RuntimeException $e)
-		{
-			// @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
-			return null;
-		}
 	}
 
 	/**
