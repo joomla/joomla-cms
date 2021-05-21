@@ -70,7 +70,7 @@
     border-top-right-radius: 0;
   }
 
-  &:not(.first):not(.last) {
+  &:not(.first):not(.last):not(:only-of-type) {
     border-radius: 0;
   }
 }
