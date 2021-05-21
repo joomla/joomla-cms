@@ -114,6 +114,7 @@ class HtmlView extends BaseHtmlView
 		$this->data = $serviceData;
 
 		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
 
