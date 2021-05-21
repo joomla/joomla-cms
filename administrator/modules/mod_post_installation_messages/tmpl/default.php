@@ -25,7 +25,7 @@ if ($hideLinks || $messagesCount < 1)
 		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
 		<div class="header-item-icon">
 			<div class="w-auto">
-				<span class="fa-fw icon-bell" aria-hidden="true"></span>
+				<span class="icon-bell icon-fw" aria-hidden="true"></span>
 				<small class="header-item-count"><?php echo $messagesCount; ?></small>
 			</div>
 		</div>
