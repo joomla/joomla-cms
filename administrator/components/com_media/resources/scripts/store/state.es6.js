@@ -6,13 +6,17 @@ if (options.providers === undefined || options.providers.length === 0) {
   throw new TypeError('Media providers are not defined.');
 }
 
-// Get the drives
-const getDrives = (obj, name) => {
+/**
+ * Get the drives
+ *
+ * @param  {Array}  adapterNames
+ * @param  {String} adapterName
+ *
+ * @return {Array}
+ */
+const getDrives = (adapterNames, adapterName) => {
   const drives = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(obj)) {
-    drives.push({ root: `${name}-${value}:/`, displayName: value });
-  }
+  adapterNames.map((name) => drives.push({ root: `${adapterName}-${name}:/`, displayName: name }));
 
   return drives;
 };
