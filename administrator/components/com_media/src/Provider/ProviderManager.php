@@ -89,7 +89,7 @@ class ProviderManager
 	 */
 	public function getAdapter($name)
 	{
-		list($provider, $account) = explode('-', $name);
+		list($provider, $account) = explode('-', $name, 2);
 
 		if ($account == null)
 		{
