@@ -42,7 +42,7 @@ class PlgWebservicesInstaller extends CMSPlugin
 		$defaults    = ['component' => 'com_installer', 'public' => false];
 
 		$routes = [
-			new Route(['GET'], 'v1/installer/manage', 'manage.displayList', [], $defaults),
+			new Route(['GET'], 'v1/extensions', 'manage.displayList', [], $defaults),
 		];
 
 		$router->addRoutes($routes);

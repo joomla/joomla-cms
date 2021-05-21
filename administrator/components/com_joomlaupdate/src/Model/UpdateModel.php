@@ -12,14 +12,10 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
@@ -245,32 +241,11 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Fetch the full update details from the update details URL.
 		$update = new Update;
-		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
+		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
 		$this->updateInformation['object'] = $update;
 
 		return $this->updateInformation;
-	}
-
-	/**
-	 * Returns an array with the configured FTP options.
-	 *
-	 * @return  array
-	 *
-	 * @since   2.5.4
-	 */
-	public function getFTPOptions()
-	{
-		$config = Factory::getApplication()->getConfig();
-
-		return array(
-			'host'      => $config->get('ftp_host'),
-			'port'      => $config->get('ftp_port'),
-			'username'  => $config->get('ftp_user'),
-			'password'  => $config->get('ftp_pass'),
-			'directory' => $config->get('ftp_root'),
-			'enabled'   => $config->get('ftp_enable'),
-		);
 	}
 
 	/**
@@ -494,13 +469,9 @@ class UpdateModel extends BaseDatabaseModel
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
-		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Trigger event before joomla update.
 		$app->triggerEvent('onJoomlaBeforeUpdate');
-
-		// Do we have to use FTP?
-		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
@@ -529,7 +500,7 @@ class UpdateModel extends BaseDatabaseModel
 	'kickstart.tuning.max_exec_time' => '5',
 	'kickstart.tuning.run_time_bias' => '75',
 	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => '$method',
+	'kickstart.procengine' => 'direct',
 	'kickstart.setup.sourcefile' => '$file',
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
@@ -538,133 +509,6 @@ class UpdateModel extends BaseDatabaseModel
 	'kickstart.setup.renamefiles' => array(),
 	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
-
-		if ($method != 'direct')
-		{
-			/*
-			 * Fetch the FTP parameters from the request. Note: The password should be
-			 * allowed as raw mode, otherwise something like !@<sdf34>43H% would be
-			 * sanitised to !@43H% which is just plain wrong.
-			 */
-			$ftp_host = $app->input->get('ftp_host', '');
-			$ftp_port = $app->input->get('ftp_port', '21');
-			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
-			$ftp_root = $app->input->get('ftp_root', '');
-
-			// Is the tempdir really writable?
-			$writable = @is_writable($tempdir);
-
-			if ($writable)
-			{
-				// Let's be REALLY sure.
-				$fp = @fopen($tempdir . '/test.txt', 'w');
-
-				if ($fp === false)
-				{
-					$writable = false;
-				}
-				else
-				{
-					fclose($fp);
-					unlink($tempdir . '/test.txt');
-				}
-			}
-
-			// If the tempdir is not writable, create a new writable subdirectory.
-			if (!$writable)
-			{
-				$FTPOptions = ClientHelper::getCredentials('ftp');
-				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
-
-				if (!@mkdir($tempdir . '/admintools'))
-				{
-					$ftp->mkdir($dest);
-				}
-
-				if (!@chmod($tempdir . '/admintools', 511))
-				{
-					$ftp->chmod($dest, 511);
-				}
-
-				$tempdir .= '/admintools';
-			}
-
-			// \Just in case the temp-directory was off-root, try using the default tmp directory.
-			$writable = @is_writable($tempdir);
-
-			if (!$writable)
-			{
-				$tempdir = JPATH_ROOT . '/tmp';
-
-				// Does the JPATH_ROOT/tmp directory exist?
-				if (!is_dir($tempdir))
-				{
-					Folder::create($tempdir, 511);
-					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
-					File::write($tempdir . '/.htaccess', $htaccessContents);
-				}
-
-				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
-				if (!is_writable($tempdir))
-				{
-					$FTPOptions = ClientHelper::getCredentials('ftp');
-					$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-					$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
-
-					if (!@mkdir($tempdir . '/admintools'))
-					{
-						$ftp->mkdir($dest);
-					}
-
-					if (!@chmod($tempdir . '/admintools', 511))
-					{
-						$ftp->chmod($dest, 511);
-					}
-
-					$tempdir .= '/admintools';
-				}
-			}
-
-			// If we still have no writable directory, we'll try /tmp and the system's temp-directory.
-			$writable = @is_writable($tempdir);
-
-			if (!$writable)
-			{
-				if (@is_dir('/tmp') && @is_writable('/tmp'))
-				{
-					$tempdir = '/tmp';
-				}
-				else
-				{
-					// Try to find the system temp path.
-					$tmpfile = @tempnam('dummy', '');
-					$systemp = @dirname($tmpfile);
-					@unlink($tmpfile);
-
-					if (!empty($systemp))
-					{
-						if (@is_dir($systemp) && @is_writable($systemp))
-						{
-							$tempdir = $systemp;
-						}
-					}
-				}
-			}
-
-			$data .= <<<ENDDATA
-	,
-	'kickstart.ftp.ssl' => '0',
-	'kickstart.ftp.passive' => '1',
-	'kickstart.ftp.host' => '$ftp_host',
-	'kickstart.ftp.port' => '$ftp_port',
-	'kickstart.ftp.user' => '$ftp_user',
-	'kickstart.ftp.pass' => '$ftp_pass',
-	'kickstart.ftp.dir' => '$ftp_root',
-	'kickstart.ftp.tempdir' => '$tempdir'
-ENDDATA;
-		}
 
 		$data .= ');';
 
@@ -1710,7 +1554,7 @@ ENDDATA;
 	{
 		$update = new \Joomla\CMS\Updater\Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
+		$update->loadFromXml($updateFileUrl);
 
 		$downloadUrl = $update->get('downloadurl');
 

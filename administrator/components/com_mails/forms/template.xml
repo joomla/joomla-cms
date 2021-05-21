@@ -201,6 +201,7 @@
 				filter="raw"
 				autocomplete="off"
 				size="30"
+				lock="true"
 			/>
 
 			<field

@@ -48,6 +48,7 @@
 					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"
 					multiple="true"
 					formsource="plugins/system/redirect/form/excludes.xml"
+					layout="joomla.form.field.subform.repeatable-table"
 				/>
 			</fieldset>
 		</fields>

@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
-/** @var PrivacyViewRequests $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
 

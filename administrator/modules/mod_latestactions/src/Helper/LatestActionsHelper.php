@@ -32,7 +32,7 @@ abstract class LatestActionsHelper
 	 *
 	 * @since   3.9.1
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function getList(&$params)
 	{

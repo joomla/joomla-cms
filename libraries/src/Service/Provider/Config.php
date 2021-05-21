@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Service provider for the application's config dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Config implements ServiceProviderInterface
 {
@@ -28,7 +28,7 @@ class Config implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

@@ -14,7 +14,7 @@
       const ids = document.querySelectorAll('input[id*="cb"]:checked');
       if (ids.length === 1) {
         // Add version item id to URL
-        const url = `${document.getElementById('toolbar-load').getAttribute('data-url')}&version_id=${ids[0].value}`;
+        const url = `${document.getElementById('toolbar-load').childNodes[1].getAttribute('data-url')}&version_id=${ids[0].value}`;
         if (window.parent && url) {
           window.parent.location = url;
         }
@@ -30,7 +30,7 @@
       const ids = document.querySelectorAll('input[id*="cb"]:checked');
       if (ids.length === 1) {
         // Add version item id to URL
-        const url = `${document.getElementById('toolbar-preview').getAttribute('data-url')}&version_id=${ids[0].value}`;
+        const url = `${document.getElementById('toolbar-preview').childNodes[1].getAttribute('data-url')}&version_id=${ids[0].value}`;
         if (window.parent && url) {
           window.open(url, '', windowSizeArray.toString());
         }
@@ -49,7 +49,7 @@
         alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
       } else if (ids.length === 2) {
         // Add version item ids to URL
-        const url = `${document.getElementById('toolbar-compare').getAttribute('data-url')}&id1=${ids[0].value}&id2=${ids[1].value}`;
+        const url = `${document.getElementById('toolbar-compare').childNodes[1].getAttribute('data-url')}&id1=${ids[0].value}&id2=${ids[1].value}`;
         if (window.parent && url) {
           window.open(url, '', windowSizeArray.toString());
         }
