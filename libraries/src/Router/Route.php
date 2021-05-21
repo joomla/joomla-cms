@@ -66,7 +66,7 @@ class Route
 	 *
 	 * @since   1.7.0
 	 */
-	public static function _(string $url, bool $xhtml = true, int $tls = self::TLS_IGNORE, bool $absolute = false): string
+	public static function _(string $url, bool $xhtml = true, ?int $tls = self::TLS_IGNORE, bool $absolute = false): string
 	{
 		$client = Factory::getApplication()->getName();
 
