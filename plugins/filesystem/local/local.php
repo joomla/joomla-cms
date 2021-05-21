@@ -94,9 +94,12 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 			{
 				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
 				$directoryPath = rtrim($directoryPath) . '/';
-				$adapters[$directoryEntity->directory] = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
+
+				$adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
 					$directoryPath, $directoryEntity->directory
 				);
+
+				$adapters[$adapter->getAdapterName()] = $adapter;
 			}
 		}
 
