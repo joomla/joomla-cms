@@ -78,6 +78,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
 
