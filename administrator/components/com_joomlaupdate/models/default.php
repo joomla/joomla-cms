@@ -1465,6 +1465,7 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
+			$decode->description = '';
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)
 				? $decode->version
