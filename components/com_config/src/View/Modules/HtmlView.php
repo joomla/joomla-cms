@@ -91,18 +91,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app    = Factory::getApplication();
-
 		// There is no menu item for this so we have to use the title from the component
-		if ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'));
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'), $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle(Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'));
 	}
 }

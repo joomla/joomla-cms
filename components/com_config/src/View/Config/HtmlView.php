@@ -12,7 +12,6 @@ namespace Joomla\Component\Config\Site\View\Config;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
 
@@ -94,6 +93,7 @@ class HtmlView extends BaseHtmlView
 		$this->data = $serviceData;
 
 		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
 
@@ -106,27 +106,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app    = Factory::getApplication();
-		$params = $app->getParams();
+		$params = Factory::getApplication()->getParams();
 
 		// Because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		$title = $params->get('page_title', '');
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($params->get('page_title', ''));
 
 		if ($params->get('menu-meta_description'))
 		{
