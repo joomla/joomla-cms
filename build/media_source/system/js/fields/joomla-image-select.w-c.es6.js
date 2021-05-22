@@ -12,7 +12,7 @@
    *   extension: "png"
    *   fileType: "image/png"
    *   height: 44
-   *   path: "local-0:/powered_by.png"
+   *   path: "local-images:/powered_by.png"
    *   thumb: undefined
    *   width: 294
    * }
