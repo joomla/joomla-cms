@@ -430,7 +430,9 @@ class MediaHelper
 	 *
 	 * @param   string  $directory
 	 *
-	 * @return bool
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function isValidLocalDirectory($directory)
 	{
