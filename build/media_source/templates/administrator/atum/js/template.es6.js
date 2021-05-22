@@ -17,7 +17,7 @@ const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 const menu = document.querySelector('.sidebar-menu');
 const sidebarNav = document.querySelector('.sidebar-nav');
-const subhead = document.querySelector('.subhead');
+const subhead = document.querySelector('#subhead-container');
 const wrapper = document.querySelector('.wrapper');
 const sidebarWrapper = document.querySelector('.sidebar-wrapper');
 const logo = document.querySelector('.logo');
@@ -224,7 +224,10 @@ reactToResize();
 subheadScrolling();
 if (mobile.matches) {
   changeLogo('closed');
-  if (subhead) subhead.classList.remove('show');
+  if (subhead) {
+    subhead.classList.remove('show');
+    subhead.classList.add('collapse');
+  }
 }
 if (!navigator.cookieEnabled) {
   Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
