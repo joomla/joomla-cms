@@ -63,13 +63,13 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				$(this).html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 				settingsfieldset.find('.settingsInfo').removeClass('hidden');
 			}
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				$(this).html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 				settingsfieldset.find('.settingsInfo').addClass('hidden');
 			}
 		});
@@ -129,7 +129,7 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				$(this).html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
 				compatibilitytypes.find('.extype').removeClass('span4').addClass('span1');
 				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span3');
@@ -148,7 +148,7 @@ function extractionMethodHandler(target, prefix)
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				$(this).html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
 				compatibilitytypes.find('.extype').addClass('span4').removeClass('span1');
 				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span3');
