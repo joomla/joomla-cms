@@ -261,6 +261,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'zlib'                => extension_loaded('zlib'),
 			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'            => extension_loaded('mbstring'),
+			'gd'                  => extension_loaded('gd'),
 			'iconv'               => function_exists('iconv'),
 			'intl'                => function_exists('transliterator_transliterate'),
 			'max_input_vars'      => ini_get('max_input_vars'),
