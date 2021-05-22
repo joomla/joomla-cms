@@ -75,7 +75,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * The event to trigger before changing featured status one or more items.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $event_before_change_featured = null;
 
@@ -83,7 +83,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * The event to trigger after changing featured status one or more items.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $event_after_change_featured = null;
 
@@ -808,7 +808,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			{
 				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
+					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
@@ -1112,7 +1112,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * Custom clean the cache of com_content and content modules
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

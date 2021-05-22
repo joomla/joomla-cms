@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -90,14 +90,13 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
 
-<noscript>
-	<div class="alert alert-danger" role="alert">
-		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-	</div>
-</noscript>
+	<noscript>
+		<div class="alert alert-danger" role="alert">
+			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+		</div>
+	</noscript>
 
-<header id="header" class="header">
-	<div class="header-inside">
+	<header id="header" class="header d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<div class="logo">
@@ -108,64 +107,59 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<jdoc:include type="modules" name="title" />
 		</div>
 		<?php echo $statusModules; ?>
-	</div>
-</header>
+	</header>
 
-<div id="wrapper" class="d-flex wrapper">
-
-	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper">
-		<div id="main-brand" class="main-brand">
-			<h1><?php echo $app->get('sitename'); ?></h1>
-			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
-		</div>
-		<div id="sidebar">
-			<jdoc:include type="modules" name="sidebar" style="body" />
-		</div>
-	</div>
-
-	<div class="container-fluid container-main">
-		<section id="content" class="content h-100">
-			<?php // Begin Content ?>
-			<main class="d-flex justify-content-center align-items-center h-100">
-				<div id="element-box" class="card">
-					<div class="card-body">
-						<div class="main-brand d-flex align-items-center justify-content-center">
-							<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
-						</div>
-						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
-						<jdoc:include type="message" />
-						<blockquote class="blockquote">
-							<span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
-							<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
-						</blockquote>
-						<?php if ($this->debug) : ?>
-							<div>
-								<?php echo $this->renderBacktrace(); ?>
-								<?php // Check if there are more Exceptions and render their data as well ?>
-								<?php if ($this->error->getPrevious()) : ?>
-									<?php $loop = true; ?>
-									<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-									<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
-									<?php $this->setError($this->_error->getPrevious()); ?>
-									<?php while ($loop === true) : ?>
-										<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
-										<?php echo $this->renderBacktrace(); ?>
-										<?php $loop = $this->setError($this->_error->getPrevious()); ?>
-									<?php endwhile; ?>
-									<?php // Reset the main error object to the base error ?>
-									<?php $this->setError($this->error); ?>
-								<?php endif; ?>
+	<div id="wrapper" class="d-flex wrapper">
+		<div class="container-fluid container-main">
+			<section id="content" class="content h-100">
+				<main class="d-flex justify-content-center align-items-center h-100">
+					<div id="element-box" class="card">
+						<div class="card-body">
+							<div class="main-brand d-flex align-items-center justify-content-center">
+								<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
 							</div>
-						<?php endif; ?>
+							<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+							<jdoc:include type="message" />
+							<blockquote class="blockquote">
+								<span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
+								<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+							</blockquote>
+							<?php if ($this->debug) : ?>
+								<div>
+									<?php echo $this->renderBacktrace(); ?>
+									<?php // Check if there are more Exceptions and render their data as well ?>
+									<?php if ($this->error->getPrevious()) : ?>
+										<?php $loop = true; ?>
+										<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+										<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+										<?php $this->setError($this->_error->getPrevious()); ?>
+										<?php while ($loop === true) : ?>
+											<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+											<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+											<?php echo $this->renderBacktrace(); ?>
+											<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+										<?php endwhile; ?>
+										<?php // Reset the main error object to the base error ?>
+										<?php $this->setError($this->error); ?>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
+						</div>
 					</div>
-				</div>
-			</main>
-			<?php // End Content ?>
-		</section>
+				</main>
+			</section>
+		</div>
+
+		<div id="sidebar-wrapper" class="sidebar-wrapper">
+			<div id="main-brand" class="main-brand">
+				<h1><?php echo $app->get('sitename'); ?></h1>
+				<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
+			</div>
+			<div id="sidebar">
+				<jdoc:include type="modules" name="sidebar" style="body" />
+			</div>
+		</div>
 	</div>
-</div>
-<jdoc:include type="modules" name="debug" style="none" />
+	<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

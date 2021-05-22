@@ -543,7 +543,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local-0:';
+			$scriptOptions['comMediaAdapter']    = 'local-images:';
 		}
 
 		// Convert pt to px in dropdown

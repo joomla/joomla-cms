@@ -16,6 +16,10 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_admin.admin-help');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm" class="main-card">
 	<div class="row mt-sm-3">

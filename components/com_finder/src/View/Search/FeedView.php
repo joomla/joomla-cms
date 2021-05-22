@@ -14,7 +14,6 @@ namespace Joomla\Component\Finder\Site\View\Search;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
@@ -53,22 +52,7 @@ class FeedView extends BaseHtmlView
 		$explained = HTMLHelper::_('query.explained', $query);
 
 		// Set the document title.
-		$title = $params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($params->get('page_title', ''));
 
 		// Configure the document description.
 		if (!empty($explained))

@@ -42,7 +42,7 @@ use Joomla\Session\Validator\ForwardedValidator;
 /**
  * Service provider for the application's session dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Session implements ServiceProviderInterface
 {
@@ -53,7 +53,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -313,7 +313,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  SessionInterface
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	private function buildSession(
 		StorageInterface $storage,

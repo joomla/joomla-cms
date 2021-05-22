@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);

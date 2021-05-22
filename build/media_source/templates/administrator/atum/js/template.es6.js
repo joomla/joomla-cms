@@ -52,6 +52,11 @@ function changeLogo(change) {
     return;
   }
 
+  if (small.matches) {
+    logo.classList.add('small');
+    return;
+  }
+
   const state = change || getCookie();
 
   if (state === 'closed') {
@@ -217,12 +222,17 @@ function subheadScrolling() {
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
+if (mobile.matches) {
+  changeLogo('closed');
+  if (subhead) subhead.classList.remove('show');
+}
 if (!navigator.cookieEnabled) {
   Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
 }
 window.addEventListener('joomla:menu-toggle', (event) => {
   headerItemsInDropdown();
   document.cookie = `atumSidebarState=${event.detail};`;
+
   if (mobile.matches) {
     changeLogo('closed');
   } else {

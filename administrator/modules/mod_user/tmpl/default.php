@@ -26,7 +26,7 @@ if ($hideLinks)
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
 <div class="header-item-content dropdown header-profile">
-	<button class="dropdown-toggle d-flex align-items-center ps-0" data-bs-toggle="dropdown" type="button"
+	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
 		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
 		<div class="header-item-icon">
 			<span class="icon-user-circle" aria-hidden="true"></span>
