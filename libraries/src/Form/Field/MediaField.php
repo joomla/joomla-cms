@@ -13,6 +13,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -251,7 +252,7 @@ class MediaField extends FormField
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
-		// Value in new format such as images/banner.jpg#joomlaImage://local-0/images/banner.jpg?width=700&height=180
+		// Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
 		if ($this->value && strpos($this->value, '#') !== false)
 		{
 			$uri     = new Uri(explode('#', $this->value)[1]);
@@ -266,25 +267,54 @@ class MediaField extends FormField
 				$path = substr($path, 0, $pos);
 			}
 
+			if ($path === '')
+			{
+				$path = '/';
+			}
+
 			$this->folder = $adapter . ':' . $path;
 		}
 		elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
 		{
-			$this->folder = explode('/', $this->value);
-			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
-			array_pop($this->folder);
+			/**
+			 * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg . We need to validate and make sure
+			 * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
+			 * displayed in manage when users click on Select button to select a new image
+			 */
+			$paths = explode('/', $this->value);
 
-			// We have to assume that this is default local adapter for backward compatible purpose
-			$this->folder = 'local-0:/' . implode('/', $this->folder);
+			// Remove filename from $paths array
+			array_pop($paths);
+
+			if (MediaHelper::isValidLocalDirectory($paths[0]))
+			{
+				$adapterName  = array_shift($paths);
+				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
+			}
 		}
-		elseif (is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
+		elseif ($this->directory && is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
 		{
-			// We have to assume that this is default local adapter for backward compatible purpose
-			$this->folder = 'local-0:/' . $this->directory;
+			/**
+			 * This is the case where a folder is configured in directory attribute of the form field. The directory needs
+			 * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
+			 * Same with a already stored local image above, we need to validate and make sure top level folder is one of the directory
+			 * configured in filesystem local plugin
+			 */
+			$path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
+			$paths = explode('/', $path);
+
+			if (MediaHelper::isValidLocalDirectory($paths[0]))
+			{
+				$adapterName  = array_shift($paths);
+				$this->folder = 'local-' . $adapterName . '/' . implode('/', $paths);
+			}
 		}
 		elseif (strpos(':', $this->directory))
 		{
-			// Directory contains adapter information, for example via programming or directly defined in xml
+			/**
+			 * Directory contains adapter information and path, for example via programming or directly defined in xml
+			 * via directory attribute
+			 */
 			$this->folder = $this->directory;
 		}
 		else
