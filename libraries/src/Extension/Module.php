@@ -13,7 +13,6 @@ namespace Joomla\CMS\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
-use Joomla\CMS\Helper\HelperFactory;
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 

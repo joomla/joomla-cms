@@ -889,7 +889,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -1123,7 +1123,7 @@ class FieldModel extends AdminModel
 	 * Clean the cache
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

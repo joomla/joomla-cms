@@ -120,7 +120,6 @@ class JConfig
 
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-	public $MetaTitle = true;
 	public $MetaAuthor = true;
 	public $MetaVersion = false;
 	public $MetaRights = '';

@@ -246,7 +246,7 @@ class MailTemplate
 
 		if ($mailStyle === 'html' || $mailStyle === 'both')
 		{
-			$this->mailer->IsHTML(true);
+			$this->mailer->isHtml(true);
 
 			// If HTML body is empty try to convert the Plain template to html
 			if (!$htmlBody)
@@ -267,7 +267,7 @@ class MailTemplate
 			switch ($recipient->type)
 			{
 				case 'cc':
-					$this->mailer->addcc($recipient->mail, $recipient->name);
+					$this->mailer->addCc($recipient->mail, $recipient->name);
 					break;
 				case 'bcc':
 					$this->mailer->addBcc($recipient->mail, $recipient->name);
@@ -301,7 +301,7 @@ class MailTemplate
 			}
 			else
 			{
-				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
+				$this->mailer->addStringAttachment($attachment->file, $attachment->name);
 			}
 		}
 
@@ -365,7 +365,7 @@ class MailTemplate
 	 */
 	public static function getTemplate($key, $language)
 	{
-		$db = Factory::getDBO();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__mail_templates'))
@@ -465,4 +465,3 @@ class MailTemplate
 		return $db->execute();
 	}
 }
-

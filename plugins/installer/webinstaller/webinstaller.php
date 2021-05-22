@@ -162,7 +162,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 			if ((new UrlRule)->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom))
 			{
 				$update = new Update;
-				$update->loadFromXML($installfrom);
+				$update->loadFromXml($installfrom);
 				$package_url = trim($update->get('downloadurl', false)->_data);
 
 				if ($package_url)

@@ -308,11 +308,6 @@ class HtmlView extends BaseHtmlView
 			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
-		if ($app->get('MetaTitle') == '1')
-		{
-			$this->document->setMetaData('title', $this->item->name);
-		}
-
 		if ($app->get('MetaAuthor') == '1')
 		{
 			$this->document->setMetaData('author', $this->item->author);

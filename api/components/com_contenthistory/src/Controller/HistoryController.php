@@ -96,7 +96,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getItemIdFromInput()
 	{
@@ -109,7 +109,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeIdFromInput()
 	{
@@ -122,7 +122,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeAliasFromInput()
 	{

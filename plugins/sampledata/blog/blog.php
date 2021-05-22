@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\ParameterType;
 
 /**
@@ -58,7 +59,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -302,7 +303,7 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($workflowTable->getError()));
 
 				return $response;
 			}
@@ -883,7 +884,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
+		$this->menuItemModel = new ItemModel;
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1681,7 +1682,6 @@ class PlgSampledataBlog extends CMSPlugin
 				// Similiar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
-				'position' => '',
 				'module'   => 'mod_tags_similar',
 				'position' => 'bottom-b',
 				'params'   => array(
