@@ -76,7 +76,7 @@ function behindproxy_postinstall_action()
 
 	if (!File::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 		return;
 	}
