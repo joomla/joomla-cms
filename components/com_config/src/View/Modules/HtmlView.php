@@ -13,6 +13,7 @@ namespace Joomla\Component\Config\Site\View\Modules;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a module.
@@ -76,6 +77,21 @@ class HtmlView extends BaseHtmlView
 			$this->form->bind($moduleData);
 		}
 
-		return parent::display($tpl);
+		$this->_prepareDocument();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _prepareDocument()
+	{
+		// There is no menu item for this so we have to use the title from the component
+		$this->setDocumentTitle(Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'));
 	}
 }
