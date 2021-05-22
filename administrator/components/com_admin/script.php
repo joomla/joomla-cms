@@ -7231,8 +7231,9 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		/* @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
-		$model = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory()->createModel('Cache', 'Administrator', ['ignore_request' => true]);
+		/** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+		$model = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory()
+			->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
 		// Clean frontend cache
 		$model->clean();

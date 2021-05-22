@@ -37,7 +37,8 @@ abstract class LatestActionsHelper
 	public static function getList(&$params)
 	{
 		/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
-		$model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
+		$model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
+			->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);

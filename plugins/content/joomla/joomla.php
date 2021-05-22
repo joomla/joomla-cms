@@ -350,7 +350,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		/* @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
+		/** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
 		$model = $this->app->bootComponent('com_workflow')->getMVCFactory()
 			->createModel('Stages', 'Administrator', ['ignore_request' => true]);
 

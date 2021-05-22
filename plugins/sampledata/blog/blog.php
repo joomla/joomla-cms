@@ -883,7 +883,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()->createModel('Item', 'Administrator', ['ignore_request' => true]);
+		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
+			->createModel('Item', 'Administrator', ['ignore_request' => true]);
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1409,8 +1410,9 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		/* @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
-		$model = $this->app->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
