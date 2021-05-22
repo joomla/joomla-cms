@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
@@ -118,6 +119,12 @@ abstract class JsonApiView extends JsonView
 		$currentUrl = Uri::getInstance();
 		$currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
 		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+
+		// Set any filters passed in the query as model state.
+		foreach ($currentUrl->getVar('filter', []) as $name => $value)
+		{
+			$model->setState('filter.' . $name, $value);
+		}
 
 		if ($items === null)
 		{
