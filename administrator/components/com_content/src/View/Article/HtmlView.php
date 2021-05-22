@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @throws \Exception
 	 * @since   1.6
@@ -79,7 +79,9 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
 		$this->form  = $this->get('Form');
@@ -109,7 +111,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
