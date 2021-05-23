@@ -1031,16 +1031,19 @@ class UserModel extends AdminModel
 		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
 
+		// Cleanup old encryption methods, and convert to using openssl as the adapter to use.
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new Aes($key, 256);
+			// We use the openssl adapter by default now.
+			$openssl = new Aes($key, 256);
 
-			// Deal with legacy mcrypt encrypted data, and convert it to openssl encrypted data.
-			$mcrypt          = new Aes($key, 256, 'cbc', 'mcrypt');
+			// Deal with legacy mcrypt encrypted data.
+			$mcrypt = new Aes($key, 256, 'cbc', 'mcrypt');
 
+			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
 			$decryptedConfig = $mcrypt->decryptString($config);
 
-			// If we were able to decrypt correctly, { will be in the config, so lets get rid of mcrypt and update to openssl adapter use.
+			// If we were able to decrypt correctly, { will be in the config (JSON String), so lets update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
 				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
