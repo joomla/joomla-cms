@@ -1040,7 +1040,7 @@ class UserModel extends AdminModel
 
 			$decryptedConfig = $mcrypt->decryptString($config);
 
-			// If we were able to decrypt correctly, { will be in the config, so lets get rid of mcrypt and update to openssl encryption.
+			// If we were able to decrypt correctly, { will be in the config, so lets get rid of mcrypt and update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
 				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
@@ -1049,7 +1049,7 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data.
 				$decryptedConfig = $openssl->decryptString($config);
 			}
 
