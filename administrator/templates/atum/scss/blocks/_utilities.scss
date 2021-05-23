@@ -37,6 +37,8 @@
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 1rem;
 
+  overflow-x: auto;
+
   @include media-breakpoint-up(sm) {
     --span-2: span 2;
     --span-3: span 2;
