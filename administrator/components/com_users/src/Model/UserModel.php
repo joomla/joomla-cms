@@ -1043,7 +1043,7 @@ class UserModel extends AdminModel
 			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
 			$decryptedConfig = $mcrypt->decryptString($config);
 
-			// If we were able to decrypt correctly, { will be in the config (JSON String), so lets update to openssl adapter use.
+			// If we were able to decrypt using the mcrypt adapter, { will be in the config (JSON String), so lets update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
 				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
