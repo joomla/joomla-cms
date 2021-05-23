@@ -84,6 +84,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
+	 * @throws  GenericDataException
+	 *
 	 * @return  void
 	 */
 	public function display($tpl = null)
