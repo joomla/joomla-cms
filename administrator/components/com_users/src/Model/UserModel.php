@@ -1034,13 +1034,16 @@ class UserModel extends AdminModel
 		if (strpos($config, '{') === false)
 		{
 			$openssl         = new Aes($key, 256);
-			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
+
+			// Deal with legacy mcrypt encrypted data, and convert it to openssl encrypted data.
+			$mcrypt          = new Aes($key, 256, 'cbc', 'mcrypt');
 
 			$decryptedConfig = $mcrypt->decryptString($config);
 
+			// If we were able to decrypt correctly, { will be in the config, so lets get rid of mcrypt and update to openssl encryption.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
-				// Data encrypted with mcrypt
+				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
 				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
 				$encryptedOtep = $openssl->encryptString($decryptedOtep);
 			}
