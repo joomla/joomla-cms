@@ -32,7 +32,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the filterExtensionsBasedOnState method
-	 * Ensure that the return value is an array and the filter works correcly. 
+	 * Ensure that the return value is an array and the filter works correctly. 
 	 *
 	 * @return  void
 	 * 
