@@ -16,7 +16,7 @@ const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 const menu = document.querySelector('.sidebar-menu');
-const sidebarNav = document.querySelector('.sidebar-nav');
+const sidebarNav = [].slice.call(document.querySelectorAll('.sidebar-nav'));
 const subhead = document.querySelector('#subhead-container');
 const wrapper = document.querySelector('.wrapper');
 const sidebarWrapper = document.querySelector('.sidebar-wrapper');
@@ -154,11 +154,11 @@ function setMobile() {
   }
 
   if (small.matches) {
-    if (sidebarNav) sidebarNav.classList.add('collapse');
+    sidebarNav.map((el) => el.classList.add('collapse'));
     if (subhead) subhead.classList.add('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
   } else {
-    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    sidebarNav.map((el) => el.classList.remove('collapse'));
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
   }
@@ -178,7 +178,7 @@ function setDesktop() {
     sidebarWrapper.classList.remove('collapse');
   }
 
-  if (sidebarNav) sidebarNav.classList.remove('collapse');
+  sidebarNav.map((el) => el.classList.remove('collapse'));
   if (subhead) subhead.classList.remove('collapse');
 
   toggleArrowIcon('top');
