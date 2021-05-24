@@ -86,6 +86,17 @@ class FinderModelMaps extends JModelList
 		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
 
+		// Iterate the items to check if all of them exist.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$table->load($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -130,12 +141,6 @@ class FinderModelMaps extends JModelList
 						$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
 			}
 		}
 
