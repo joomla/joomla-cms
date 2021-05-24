@@ -18,7 +18,7 @@ $componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
 $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
 
 // Did we have a definitive title provided to the view?
-if ($displayData['title'])
+if (isset($displayData['title']))
 {
 	$title = $displayData['title'];
 }
