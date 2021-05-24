@@ -49,10 +49,17 @@ body {
       border: #f00 dotted 1px;
     }
 
-    a.header-item-content {
-      padding: 0 !important; /* no unit */
+    .header-item-content {
+      padding: 3px;
+      text-decoration: underline;
+      border: #f00 dotted 1px;
     }
 
+    .joomlaversion {
+      padding: 0;
+      text-decoration: none;
+      border: none;
+    }
   }
 }
 
