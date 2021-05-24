@@ -5,7 +5,6 @@
   background-color: $white;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   &:focus {
     border-color: $focuscolor;
@@ -18,7 +17,6 @@
   border: 0;
   box-shadow: none;
 }
-
 
 .control-group {
   display: flex;
@@ -120,13 +118,12 @@ legend {
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
-  max-width: 100%;
   padding: .5em;
   margin: .25em;
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem;
+  border-radius: .2rem !important;
 }
 
 // reveal associated tooltip on focus

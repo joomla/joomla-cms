@@ -63,12 +63,12 @@ class FeaturedButton extends ActionButton
 
 			if (!is_null($featuredUp))
 			{
-				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimeZone($tz);
+				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
 			}
 
 			if (!is_null($featuredDown))
 			{
-				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimeZone($tz);
+				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
 			}
 
 			// Add tips and special titles

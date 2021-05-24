@@ -74,7 +74,7 @@ export default {
 
       // Show preview
       if (this.item.extension
-        && !extensionWithPreview.includes(this.item.extension.toLowerCase())) {
+        && extensionWithPreview.includes(this.item.extension.toLowerCase())) {
         this.$store.commit(types.SHOW_PREVIEW_MODAL);
         this.$store.dispatch('getFullContents', this.item);
       }

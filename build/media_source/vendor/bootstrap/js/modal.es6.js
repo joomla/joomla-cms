@@ -118,7 +118,7 @@ Joomla.initialiseModal = (modal, options) => {
  *                             { iframeSelector: '', buttonSelector: '' }
  * @returns {boolean}
  *
- * @since   4.0
+ * @since   4.0.0
  */
 Joomla.iframeButtonClick = (options) => {
   if (!options.iframeSelector || !options.buttonSelector) {

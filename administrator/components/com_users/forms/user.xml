@@ -21,8 +21,6 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			description="JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS"
-			hiddenDescription="true"
 			rules="true"
 			autocomplete="new-password"
 			class="validate-password-strength"

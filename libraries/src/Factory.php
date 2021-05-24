@@ -68,7 +68,7 @@ abstract class Factory
 	 * Global container object
 	 *
 	 * @var    Container
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	public static $container = null;
 
@@ -213,7 +213,7 @@ abstract class Factory
 	 *
 	 * @return  Container
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public static function getContainer(): Container
 	{
@@ -569,7 +569,7 @@ abstract class Factory
 	 *
 	 * @return  Container
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected static function createContainer(): Container
 	{

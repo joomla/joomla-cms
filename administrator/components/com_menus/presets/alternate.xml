@@ -511,14 +511,6 @@
 				link="index.php?option=com_languages&amp;view=overrides"
 			/>
 		</menuitem>
-
-		<menuitem
-			title="MOD_MENU_MANAGE_CSP"
-			type="component"
-			element="com_csp"
-			link="index.php?option=com_csp"
-			permission="core.manage;com_csp"
-		/>
 	</menuitem>
 
 	<menuitem

@@ -34,7 +34,7 @@ class ContactSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function languageAssociations($model)
 	{
@@ -61,7 +61,7 @@ class ContactSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function category($model)
 	{
@@ -80,7 +80,7 @@ class ContactSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function createdBy($model)
 	{
@@ -99,7 +99,7 @@ class ContactSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function modifiedBy($model)
 	{
@@ -118,7 +118,7 @@ class ContactSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function userId($model)
 	{

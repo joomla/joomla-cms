@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -18,8 +17,6 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
@@ -5248,14 +5245,52 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/src/Controller/ProfileController.php',
 			'/administrator/components/com_admin/src/Model/ProfileModel.php',
 			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
+			'/administrator/components/com_csp/access.xml',
+			'/administrator/components/com_csp/config.xml',
+			'/administrator/components/com_csp/csp.xml',
+			'/administrator/components/com_csp/forms/filter_reports.xml',
+			'/administrator/components/com_csp/services/provider.php',
+			'/administrator/components/com_csp/src/Controller/DisplayController.php',
+			'/administrator/components/com_csp/src/Controller/ReportsController.php',
+			'/administrator/components/com_csp/src/Helper/ReporterHelper.php',
+			'/administrator/components/com_csp/src/Model/ReportModel.php',
+			'/administrator/components/com_csp/src/Model/ReportsModel.php',
+			'/administrator/components/com_csp/src/Table/ReportTable.php',
+			'/administrator/components/com_csp/src/View/Reports/HtmlView.php',
+			'/administrator/components/com_csp/tmpl/reports/default.php',
+			'/administrator/components/com_csp/tmpl/reports/default.xml',
 			'/administrator/components/com_admin/tmpl/profile/edit.php',
+			'/administrator/components/com_config/tmpl/application/default_ftp.php',
+			'/administrator/components/com_config/tmpl/application/default_ftplogin.php',
 			'/administrator/components/com_fields/src/Field/SubfieldstypeField.php',
+			'/administrator/components/com_installer/tmpl/installer/default_ftp.php',
+			'/administrator/components/com_joomlaupdate/src/Helper/Select.php',
+			'/administrator/language/en-GB/com_csp.ini',
+			'/administrator/language/en-GB/com_csp.sys.ini',
 			'/administrator/language/en-GB/plg_fields_subfields.ini',
 			'/administrator/language/en-GB/plg_fields_subfields.sys.ini',
+			'/administrator/templates/atum/Service/HTML/Atum.php',
+			'/components/com_csp/src/Controller/ReportController.php',
 			'/components/com_menus/src/Controller/DisplayController.php',
 			'/libraries/vendor/beberlei/assert/phpstan-code.neon',
 			'/libraries/vendor/beberlei/assert/phpstan-tests.neon',
 			'/libraries/vendor/nyholm/psr7/src/LowercaseTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/LICENSE.md',
+			'/libraries/vendor/ozdemirburak/iris/src/BaseColor.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Factory.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hex.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsl.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsla.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsv.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Rgb.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Rgba.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions/AmbiguousColorString.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions/InvalidColorException.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Helpers/DefinedColor.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/AlphaTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/HsTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/HslTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/RgbTrait.php',
 			'/libraries/vendor/willdurand/negotiation/src/Negotiation/Match.php',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.js',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.min.js',
@@ -5600,6 +5635,9 @@ class JoomlaInstallerScript
 			'/media/templates/atum/js/template.es6.js',
 			'/media/templates/atum/js/template.es6.min.js',
 			'/media/templates/atum/js/template.es6.min.js.gz',
+			'/media/templates/atum/js/template.js',
+			'/media/templates/atum/js/template.min.js',
+			'/media/templates/atum/js/template.min.js.gz',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.js',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.min.js',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.min.js.gz',
@@ -5644,6 +5682,7 @@ class JoomlaInstallerScript
 			'/media/vendor/punycode/js/punycode.js',
 			'/media/vendor/punycode/js/punycode.min.js',
 			'/media/vendor/punycode/js/punycode.min.js.gz',
+			'/media/vendor/tinymce/changelog.txt',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js.gz',
@@ -6872,7 +6911,34 @@ class JoomlaInstallerScript
 			'/plugins/fields/subfields/params',
 			'/plugins/fields/subfields',
 			'/media/vendor/punycode/js',
+			'/media/templates/atum/js',
+			'/media/templates/atum',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits',
+			'/libraries/vendor/ozdemirburak/iris/src/Helpers',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions',
+			'/libraries/vendor/ozdemirburak/iris/src/Color',
+			'/libraries/vendor/ozdemirburak/iris/src',
+			'/libraries/vendor/ozdemirburak/iris',
+			'/libraries/vendor/ozdemirburak',
 			'/components/com_menus/src/Controller',
+			'/components/com_csp/src/Controller',
+			'/components/com_csp/src',
+			'/components/com_csp',
+			'/administrator/templates/atum/Service/HTML',
+			'/administrator/templates/atum/Service',
+			'/administrator/components/com_joomlaupdate/src/Helper',
+			'/administrator/components/com_csp/tmpl/reports',
+			'/administrator/components/com_csp/tmpl',
+			'/administrator/components/com_csp/src/View/Reports',
+			'/administrator/components/com_csp/src/View',
+			'/administrator/components/com_csp/src/Table',
+			'/administrator/components/com_csp/src/Model',
+			'/administrator/components/com_csp/src/Helper',
+			'/administrator/components/com_csp/src/Controller',
+			'/administrator/components/com_csp/src',
+			'/administrator/components/com_csp/services',
+			'/administrator/components/com_csp/forms',
+			'/administrator/components/com_csp',
 			'/administrator/components/com_admin/tmpl/profile',
 			'/administrator/components/com_admin/src/View/Profile',
 			'/administrator/components/com_admin/forms',
@@ -6949,7 +7015,7 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 4.0
 		$newComponents = array(
-			'com_csp',
+			// Components to be added here
 		);
 
 		foreach ($newComponents as $component)
@@ -7278,8 +7344,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		$this->convertBlogLayouts();
 
 		return true;
 	}
@@ -7640,154 +7704,6 @@ class JoomlaInstallerScript
 
 			// Execute the query.
 			$db->execute();
-		}
-	}
-
-	/**
-	 * Converts layout parameters for blog / featured views into the according CSS classes.
-	 *
-	 * @return void
-	 *
-	 * @since 4.0.0
-	 */
-	private function convertBlogLayouts()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('m.id'),
-					$db->quoteName('m.link'),
-					$db->quoteName('m.params'),
-				]
-			)
-			->from($db->quoteName('#__menu', 'm'))
-			->leftJoin($db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('m.component_id'))
-			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
-
-		$menuItems = $db->setQuery($query)->loadAssocList('id');
-		$contentParams = ComponentHelper::getParams('com_content');
-
-		foreach ($menuItems as $id => $menuItem)
-		{
-			$view = Uri::getInstance($menuItem['link'])->getVar('view');
-
-			if (!in_array($view, ['category', 'categories', 'featured']))
-			{
-				continue;
-			}
-
-			$params = json_decode($menuItem['params'], true);
-
-			// Don't update parameters if num_columns is unset.
-			if (!isset($params['num_columns']))
-			{
-				continue;
-			}
-
-			$useLocalCols = $params['num_columns'] !== '';
-
-			if ($useLocalCols)
-			{
-				$nColumns = (int) $params['num_columns'];
-			}
-			else
-			{
-				$nColumns = (int) $contentParams->get('num_columns', '1');
-			}
-
-			unset($params['num_columns']);
-
-			$order = 0;
-			$useLocalOrder = false;
-
-			if (isset($params['multi_column_order']))
-			{
-				if ($params['multi_column_order'] !== '')
-				{
-					$useLocalOrder = true;
-					$order = (int) $params['multi_column_order'];
-				}
-				else
-				{
-					$order = (int) $contentParams->get('multi_column_order', '0');
-				}
-
-				unset($params['multi_column_order']);
-			}
-
-			// Only add CSS class if columns > 1 and a local value was set for columns or order.
-			if ($nColumns > 1 && ($useLocalOrder || $useLocalCols))
-			{
-				// Convert to the according CSS class depending on order = "down" or "across".
-				$layout = ($order === 0) ? 'masonry-' : 'columns-';
-
-				if (!isset($params['blog_class']))
-				{
-					$params['blog_class'] = '';
-				}
-
-				if (strpos($params['blog_class'], $layout) === false)
-				{
-					$params['blog_class'] .= ' ' . $layout . $nColumns;
-				}
-			}
-
-			$newParams = json_encode($params);
-
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__menu'))
-				->set($db->quoteName('params') . ' = :params')
-				->where($db->quoteName('id') . ' = :id')
-				->bind(':params', $newParams, ParameterType::STRING)
-				->bind(':id', $id, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-
-		// Update global parameters for com_content.
-		$nColumns = $contentParams->get('num_columns');
-
-		if ($nColumns !== null)
-		{
-			$nColumns = (int) $nColumns;
-			$order  = (int) $contentParams->get('multi_column_order', '0');
-			$params = $contentParams->toArray();
-
-			if (!isset($params['blog_class']))
-			{
-				$params['blog_class'] = '';
-			}
-
-			// Convert to the according CSS class depending on order = "down" or "across".
-			$layout = ($order === 0) ? 'masonry-' : 'columns-';
-
-			if (strpos($params['blog_class'], $layout) === false && $nColumns > 1)
-			{
-				$params['blog_class'] .= ' ' . $layout . $nColumns;
-			}
-
-			unset($params['num_columns']);
-
-			$app = Factory::getApplication();
-			/** @var ComponentModel $configModel */
-			$configModel = $app->bootComponent('com_config')
-				->getMVCFactory()
-				->createModel('Component', 'Administrator', ['ignore_request' => true]);
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName('extension_id'))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
-
-			$componentId = $db->setQuery($query)->loadResult();
-
-			$data = array(
-				'id'     => $componentId,
-				'option' => 'com_content',
-				'params' => $params,
-			);
-			$configModel->save($data);
 		}
 	}
 

@@ -12,7 +12,8 @@
   position: relative;
 }
 
-.container-topbar {
+.container-topbar,
+.container-below-top {
   color: $white;
   a {
     color: currentColor;
@@ -111,4 +112,22 @@
 
 .system-debug {
   display: block;
+}
+
+.options-form {
+  width: 100%;
+  padding: 1vw 2vw;
+  margin-bottom: 1rem;
+  color: #495057;
+  background-color: $white;
+  border: 1px solid #b2bfcd;
+
+  > legend {
+    float: none;
+    width: auto;
+    padding: 0 .5rem;
+    font-weight: 700;
+    color: #495057;
+    background-color: $white;
+  }
 }
