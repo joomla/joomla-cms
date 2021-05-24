@@ -149,14 +149,19 @@ function setMobile() {
   }
 
   if (small.matches) {
-    if (sidebarNav) sidebarNav.classList.add('collapse');
     if (subhead) subhead.classList.add('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
   } else {
-    if (sidebarNav) sidebarNav.classList.remove('collapse');
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
   }
+
+  if (mobile.matches) {
+    if (sidebarNav) sidebarNav.classList.add('collapse');
+  } else {
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+  }
+
   changeLogo('closed');
 }
 
@@ -180,20 +185,27 @@ function setDesktop() {
 }
 
 /**
+ * Do resize depending on current screen
+ * 
+ * @since 4.0.0
+ */
+function resizeAction() {
+  if (mobile.matches) {
+    setMobile();
+  } else {
+    setDesktop();
+  }
+
+  headerItemsInDropdown();
+}
+
+/**
  * React on resizing window
  *
  * @since   4.0.0
  */
 function reactToResize() {
-  window.addEventListener('resize', () => {
-    if (mobile.matches) {
-      setMobile();
-    } else {
-      setDesktop();
-    }
-
-    headerItemsInDropdown();
-  });
+  window.addEventListener('resize', resizeAction);
 }
 
 /**
@@ -217,6 +229,7 @@ function subheadScrolling() {
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
+resizeAction();
 if (!navigator.cookieEnabled) {
   Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
 }
