@@ -134,14 +134,15 @@ class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array   $file                File information
+	 * @param   string  $component           The option name for the component storing the parameters
+	 * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
 	{
 		$app    = \JFactory::getApplication();
 		$params = ComponentHelper::getParams($component);
@@ -177,8 +178,14 @@ class MediaHelper
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
 			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
 		);
+
+		// Remove allowed executables from array
+		if (count($allowedExecutables))
+		{
+			$executable = array_diff($executable, $allowedExecutables);
+		}
 
 		$check = array_intersect($filetypes, $executable);
 
