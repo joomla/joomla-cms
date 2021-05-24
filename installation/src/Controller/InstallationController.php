@@ -256,24 +256,10 @@ class InstallationController extends JSONController
 
 		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
 		$model = $this->getModel('Cleanup');
-		$success = $model->deleteInstallationFolder();
-
-		// If an error was encountered return an error.
-		if (!$success)
-		{
-			$this->app->enqueueMessage(Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
-		}
+		$model->deleteInstallationFolder();
 
 		$this->app->getSession()->destroy();
 
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/**
-		 * TODO: We can't send a response this way because our installation classes no longer
-		 *       exist. We probably need to hardcode a json response here
-		 *
-		 * $this->sendJsonResponse($r);
-		 */
+		echo json_encode(['error' => false]);
 	}
 }
