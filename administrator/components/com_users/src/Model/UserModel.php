@@ -1051,7 +1051,10 @@ class UserModel extends AdminModel
 			// We use the openssl adapter by default now.
 			$openssl = new Aes($key, 256);
 
-			// Deal with legacy mcrypt encrypted data.
+			/**
+			 * Deal with legacy mcrypt encrypted data
+			 * NOTE THIS NEXT LINE IS WRONG and contains wrong number of params, thus returns the openssl adapter and not the mcrypt adapter.
+			 */
 			$mcrypt = new Aes($key, 256, 'cbc', null, 'mcrypt');
 
 			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
