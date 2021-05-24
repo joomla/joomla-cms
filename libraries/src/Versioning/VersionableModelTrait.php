@@ -10,6 +10,7 @@ namespace Joomla\CMS\Versioning;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
