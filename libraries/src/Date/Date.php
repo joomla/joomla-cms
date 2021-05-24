@@ -429,7 +429,7 @@ class Date extends \DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(\DateTime::RFC3339, $local, false);
+		return $this->format(\DateTimeInterface::RFC3339, $local, false);
 	}
 
 	/**
