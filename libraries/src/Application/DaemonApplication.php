@@ -265,9 +265,6 @@ abstract class DaemonApplication extends CliApplication
 	 */
 	public function loadConfiguration($data)
 	{
-		// Execute the parent load method.
-		parent::loadConfiguration($data);
-
 		/*
 		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
 		 * or just have some sort of information available to share about things.
