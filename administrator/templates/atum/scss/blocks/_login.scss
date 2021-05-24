@@ -153,6 +153,7 @@
 
     @include media-breakpoint-down(md) {
       order: 2;
+      margin-bottom: 3rem;
     }
 
     .main-brand {
