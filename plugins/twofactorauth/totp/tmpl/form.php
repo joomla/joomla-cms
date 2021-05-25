@@ -111,20 +111,20 @@ Factory::getDocument()->addScriptDeclaration($js);
 </div>
 
 <?php if ($new_totp): ?>
-	<h3 class="mt-4">
-		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
-	</h3>
-	<hr>
+<h3 class="mt-4">
+	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
+</h3>
+<hr>
 
-	<p>
-		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_TEXT') ?>
-	</p>
-	<div class="control-group">
-		<label class="control-label" for="totpsecuritycode">
-			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_SECURITYCODE') ?>
-		</label>
-		<div class="controls">
-			<input type="text" class="form-control" name="jform[twofactor][totp][securitycode]" id="totpsecuritycode" autocomplete="0">
-		</div>
+<p>
+	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_TEXT') ?>
+</p>
+<div class="control-group">
+	<label class="control-label" for="totpsecuritycode">
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_SECURITYCODE') ?>
+	</label>
+	<div class="controls">
+		<input type="text" class="form-control" name="jform[twofactor][totp][securitycode]" id="totpsecuritycode" autocomplete="0">
 	</div>
+</div>
 <?php endif; ?>

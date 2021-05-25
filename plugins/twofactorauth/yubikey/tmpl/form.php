@@ -19,32 +19,30 @@ use Joomla\CMS\Language\Text;
 </div>
 
 <?php if ($new_totp): ?>
-<fieldset>
-	<legend>
+<h3 class="mt-4">
 		<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_HEAD') ?>
-	</legend>
+</h3>
+<hr>
 
-	<p>
-		<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_TEXT') ?>
-	</p>
+<p>
+	<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_TEXT') ?>
+</p>
 
-	<div class="control-group">
-		<label class="control-label" for="yubikeysecuritycode">
-			<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_SECURITYCODE') ?>
-		</label>
-		<div class="controls">
-			<input type="text" class="form-control" name="jform[twofactor][yubikey][securitycode]" id="yubikeysecuritycode" autocomplete="0">
-		</div>
+<div class="control-group">
+	<label class="control-label" for="yubikeysecuritycode">
+		<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_SECURITYCODE') ?>
+	</label>
+	<div class="controls">
+		<input type="text" class="form-control" name="jform[twofactor][yubikey][securitycode]" id="yubikeysecuritycode" autocomplete="0">
 	</div>
-</fieldset>
+</div>
 <?php else: ?>
-<fieldset>
-	<legend>
-		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_HEAD') ?>
-	</legend>
+<h3 class="mt-4">
+	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_HEAD') ?>
+</h3>
+<hr>
 
-	<p>
-		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_TEXT') ?>
-	</p>
-</fieldset>
+<p>
+	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_TEXT') ?>
+</p>
 <?php endif; ?>
