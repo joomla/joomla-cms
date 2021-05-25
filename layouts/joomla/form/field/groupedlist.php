@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $options         Options available for this field.
+ * @var   array    $groups          Groups of options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -47,31 +47,38 @@ extract($displayData);
 $html = array();
 $attr = '';
 
-// Initialize the field attributes.
+// Initialize some field attributes.
 $attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
-$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
 $attr .= $dataAttribute;
 
-// To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
+// To avoid user's confusion, readonly="true" should imply disabled="true".
 if ($readonly || $disabled)
 {
 	$attr .= ' disabled="disabled"';
 }
 
-// Create a read-only list (no name) with hidden input(s) to store the value(s).
+// Initialize JavaScript field attributes.
+$attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+
+// Create a read-only list (no name) with a hidden input to store the value.
 if ($readonly)
 {
-	$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
+	$html[] = HTMLHelper::_(
+		'select.groupedlist', $groups, null,
+		array(
+			'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
+			'option.text.toHtml' => false,
+		)
+	);
 
 	// E.g. form field type tag sends $this->value as array
-	if ($multiple && is_array($value))
+	if ($multiple && \is_array($value))
 	{
-		if (!count($value))
+		if (!\count($value))
 		{
 			$value[] = '';
 		}
@@ -86,18 +93,17 @@ if ($readonly)
 		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
 	}
 }
+
+// Create a regular list.
 else
-// Create a regular list passing the arguments in an array.
 {
-	$listoptions = array();
-	$listoptions['option.key'] = 'value';
-	$listoptions['option.text'] = 'text';
-	$listoptions['list.select'] = $value;
-	$listoptions['id'] = $id;
-	$listoptions['list.translate'] = false;
-	$listoptions['option.attr'] = 'optionattr';
-	$listoptions['list.attr'] = trim($attr);
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
+	$html[] = HTMLHelper::_(
+		'select.groupedlist', $groups, $name,
+		array(
+			'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
+			'option.text.toHtml' => false,
+		)
+	);
 }
 
 echo implode($html);
