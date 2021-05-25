@@ -88,7 +88,7 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 
-			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			if (!JHelperMedia::isValidPath($fullPath, COM_MEDIA_BASE))
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
 

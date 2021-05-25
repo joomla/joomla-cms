@@ -114,6 +114,26 @@
 			default="text/html"
 			showon="restrict_uploads:1"
 		/>
+
+		<field
+			name="directory_whitelist"
+			type="subform"
+			label="COM_MEDIA_FIELD_DIRECTORY_WHITELIST_LABEL"
+			description="COM_MEDIA_FIELD_DIRECTORY_WHITELIST_DESC"
+			multiple="true"
+			layout="joomla.form.field.subform.repeatable-table"
+		>
+			<form>
+				<fieldset>
+					<field
+						name="directory_path"
+						type="text"
+						label="COM_MEDIA_FIELD_DIRECTORY_PATH_LABEL"
+						description="COM_MEDIA_FIELD_DIRECTORY_PATH_DESC"
+					/>
+				</fieldset>
+			</form>
+		</field>
 	</fieldset>
 
 	<fieldset
