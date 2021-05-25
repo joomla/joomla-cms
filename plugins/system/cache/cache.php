@@ -104,10 +104,7 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		// For now disable API caching as it uses a different route event. In the future with careful testing it can
-		// be re-enabled
-		if ($this->app->isClient('administrator') || $this->app->isClient('api')
-			|| $this->app->get('offline', '0') || $this->app->getMessageQueue())
+		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
 		}
