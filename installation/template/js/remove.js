@@ -44,9 +44,11 @@ if (document.getElementById('removeInstallationFolder')) {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 					onSuccess: function (response) {
             const successresponse = JSON.parse(response);
-            if (successresponse.messages) {
-              Joomla.renderMessages(successresponse.messages, '#system-message-container');
-              Joomla.loadOptions({'csrf.token': successresponse.token});
+            if (successresponse.error === true) {
+              if (successresponse.messages) {
+                Joomla.renderMessages(successresponse.messages, '#system-message-container');
+                Joomla.loadOptions({'csrf.token': successresponse.token});
+              }
             } else {
               const customInstallation = document.getElementById('customInstallation');
               customInstallation.parentNode.removeChild(customInstallation);
