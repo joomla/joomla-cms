@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-<fieldset addfieldpath="/administrator/components/com_contacts/models/fields" />
+<fieldset/>
 	<fields name="filter">
 
 		<field
