@@ -105,7 +105,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The flag to mark if the active menu item is linked to the contact being displayed
 	 *
-	 * @var boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $menuItemMatchContact = false;
 
