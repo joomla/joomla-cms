@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
-	 * The flag to mark if the active menu item is linked to the being displayed contact
+	 * The flag to mark if the active menu item is linked to the contact being displayed
 	 *
 	 * @var boolean
 	 */
