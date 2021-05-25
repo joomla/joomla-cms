@@ -119,7 +119,7 @@
 			<field
 				name="show_category_heading_title_text"
 				type="list"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
