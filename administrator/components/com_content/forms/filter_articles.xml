@@ -149,8 +149,8 @@
 			<option value="a.publish_up DESC">COM_CONTENT_PUBLISH_UP_DESC</option>
 			<option value="a.publish_down ASC">COM_CONTENT_PUBLISH_DOWN_ASC</option>
 			<option value="a.publish_down DESC">COM_CONTENT_PUBLISH_DOWN_DESC</option>
-			<option value="a.hits ASC">JGLOBAL_HITS_ASC</option>
-			<option value="a.hits DESC">JGLOBAL_HITS_DESC</option>
+			<option value="a.hits ASC" requires="hits">JGLOBAL_HITS_ASC</option>
+			<option value="a.hits DESC" requires="hits">JGLOBAL_HITS_DESC</option>
 			<option value="rating_count ASC" requires="vote">JGLOBAL_VOTES_ASC</option>
 			<option value="rating_count DESC" requires="vote">JGLOBAL_VOTES_DESC</option>
 			<option value="rating ASC" requires="vote">JGLOBAL_RATINGS_ASC</option>
