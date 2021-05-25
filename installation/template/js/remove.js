@@ -42,11 +42,17 @@ if (document.getElementById('removeInstallationFolder')) {
 					perform: true,
 					token: true,
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-					onSuccess: function () {
-						const customInstallation = document.getElementById('customInstallation');
-						customInstallation.parentNode.removeChild(customInstallation);
-						const removeInstallationTab = document.getElementById('removeInstallationTab');
-						removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+					onSuccess: function (response) {
+            const successresponse = JSON.parse(response);
+            if (successresponse.messages) {
+              Joomla.renderMessages(successresponse.messages, '#system-message-container');
+              Joomla.loadOptions({'csrf.token': successresponse.token});
+            } else {
+              const customInstallation = document.getElementById('customInstallation');
+              customInstallation.parentNode.removeChild(customInstallation);
+              const removeInstallationTab = document.getElementById('removeInstallationTab');
+              removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+            }
 					},
 					onError: function (xhr) {
             Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
