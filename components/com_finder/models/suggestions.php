@@ -88,6 +88,8 @@ class FinderModelSuggestions extends JModelList
 
 		// Select required fields
 		$termQuery->select('DISTINCT(t.term)')
+			->select('t.links')
+			->select('t.weight')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
 			->where('t.term_id IN (' . $termIdString . ')')
 			->order('t.links DESC')
