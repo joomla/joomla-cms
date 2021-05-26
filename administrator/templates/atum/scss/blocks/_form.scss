@@ -118,7 +118,6 @@ legend {
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
-  max-width: 100%;
   padding: .5em;
   margin: .25em;
   color: $white;

@@ -75,7 +75,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,gif,jpg,png"
+			default="bmp,gif,jpg,jpeg,png"
 			showon="restrict_uploads:1"
 		/>
 

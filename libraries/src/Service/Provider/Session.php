@@ -222,7 +222,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $handler),
+					new RuntimeStorage,
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options

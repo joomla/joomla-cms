@@ -324,7 +324,7 @@ class Filter
 					->where('t.rgt < ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
-					->order('t.lft, t.title');
+					->order('t.title');
 
 				// Self-join to get the parent title.
 				$query->select('e.title AS parent_title')

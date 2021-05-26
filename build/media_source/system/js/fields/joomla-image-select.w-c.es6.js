@@ -69,56 +69,49 @@
   );
 
   /**
-   * Method to safely append parameters to a URL string
+   * Method to return the image size
    *
-   * @param url   {string}  The URL
-   * @param key   {string}  The key of the parameter
-   * @param value {string}  The value of the parameter
+   * @param url {string}
    *
-   * @returns {string}
+   * @returns {bool}
    */
-  const appendParam = (url, key, value) => {
-    const newKey = encodeURIComponent(key);
-    const newValue = encodeURIComponent(value);
-    const r = new RegExp(`(&|\\?)${key}=[^&]*`);
-    let s = url;
-    const param = `${newKey}=${newValue}`;
-
-    s = s.replace(r, `$1${param}`);
-
-    if (!RegExp.$1 && s.includes('?')) {
-      return `${s}&${param}`;
-    }
-
-    if (!RegExp.$1 && !s.includes('?')) {
-      return `${s}?${param}`;
-    }
-
-    return s;
-  };
+  const getImageSize = (url) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      Joomla.selectedMediaFile.width = img.width;
+      Joomla.selectedMediaFile.height = img.height;
+      resolve(true);
+    };
+    img.onerror = () => {
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject(false);
+    };
+  });
 
   /**
    * Method to append the image in an editor or a field
    *
-   * @param resp
-   * @param editor
-   * @param fieldClass
+   * @param {{}} resp
+   * @param {string|HTMLElement} editor
+   * @param {string} fieldClass
    */
-  const execTransform = (resp, editor, fieldClass) => {
+  const execTransform = async (resp, editor, fieldClass) => {
     if (resp.success === true) {
-      if (resp.data[0].url) {
-        if (/local-/.test(resp.data[0].adapter)) {
+      const media = resp.data[0];
+      if (media.url) {
+        if (/local-/.test(media.adapter)) {
           const { rootFull } = Joomla.getOptions('system.paths');
-
           // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedMediaFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+          Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+          if (media.thumb_path) {
+            Joomla.selectedMediaFile.thumb = media.thumb_path;
           } else {
             Joomla.selectedMediaFile.thumb = false;
           }
-        } else if (resp.data[0].thumb_path) {
-          Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+        } else if (media.thumb_path) {
+          Joomla.selectedMediaFile.url = media.url;
+          Joomla.selectedMediaFile.thumb = media.thumb_path;
         }
       } else {
         Joomla.selectedMediaFile.url = false;
@@ -147,6 +140,14 @@
             figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
             if (attribs.getAttribute('is-lazy') === 'true') {
               isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+              if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+                try {
+                  await getImageSize(Joomla.selectedMediaFile.url);
+                  isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+                } catch (err) {
+                  isLazy = '';
+                }
+              }
             }
           }
 
@@ -162,8 +163,16 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
-          editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
+          if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+            try {
+              await getImageSize(Joomla.selectedMediaFile.url);
+              // eslint-disable-next-line no-empty
+            } catch (err) {
+              Joomla.selectedMediaFile.height = 0;
+              Joomla.selectedMediaFile.width = 0;
+            }
+          }
+          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
           fieldClass.updatePreview();
         }
       }
@@ -190,16 +199,16 @@
       return;
     }
 
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
+    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media`;
 
     Joomla.request({
       url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/json' },
-      onSuccess: (response) => {
+      onSuccess: async (response) => {
         const resp = JSON.parse(response);
-        resolve(execTransform(resp, editor, fieldClass));
+        resolve(await execTransform(resp, editor, fieldClass));
       },
       onError: (err) => {
         reject(err);
