@@ -1280,20 +1280,20 @@ abstract class HTMLHelper
 
 			if ($debugMode)
 			{
-				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+				return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 			}
 
-			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
+			return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
 		if ($debugMode)
 		{
-			return self::checkFileOrder($minifiedPath, $path);
+			return self::checkFileOrder($path, $minifiedPath);
 		}
 
-		return self::checkFileOrder($path, $minifiedPath);
+		return self::checkFileOrder($minifiedPath, $path);
 	}
 
 	/**
@@ -1325,14 +1325,14 @@ abstract class HTMLHelper
 	 */
 	private static function checkFileOrder($first, $second)
 	{
-		if (is_file($second))
-		{
-			return static::convertToRelativePath($second);
-		}
-
 		if (is_file($first))
 		{
 			return static::convertToRelativePath($first);
+		}
+
+		if (is_file($second))
+		{
+			return static::convertToRelativePath($second);
 		}
 
 		return '';
