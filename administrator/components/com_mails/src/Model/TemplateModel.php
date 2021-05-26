@@ -13,6 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -113,7 +114,16 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
-		if (!$params->get('attachment_folder') || !is_dir(JPATH_ROOT . '/' . $params->get('attachment_folder')))
+		try
+		{
+			$attachmentPath = Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder'));
+		}
+		catch (\Exception $e)
+		{
+			$attachmentPath = '';
+		}
+
+		if (!$attachmentPath || !is_dir($attachmentPath))
 		{
 			$form->removeField('attachments');
 		}
@@ -122,7 +132,7 @@ class TemplateModel extends AdminModel
 			$field = $form->getField('attachments');
 			$subform = new \SimpleXMLElement($field->formsource);
 			$files = $subform->xpath('field[@name="file"]');
-			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
+			$files[0]->addAttribute('directory', $attachmentPath);
 			$form->load('<form><field name="attachments" type="subform" '
 				. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
 				. 'layout="joomla.form.field.subform.repeatable-table">'
