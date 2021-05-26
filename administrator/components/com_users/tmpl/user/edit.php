@@ -65,24 +65,27 @@ $this->useCoreUI = true;
 
 		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
-			<div class="control-group">
-				<div class="control-label">
-					<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
-						<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
-					</label>
-				</div>
-				<div class="controls">
-					<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
-				</div>
-			</div>
-			<div id="com_users_twofactor_forms_container">
-				<?php foreach ($this->tfaform as $form) : ?>
-					<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
-					<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
-						<?php echo $form['form'] ?>
+			<fieldset class="options-form">
+				<legend><?php echo Text::_('COM_USERS_USER_TWO_FACTOR_AUTH'); ?></legend>
+				<div class="control-group">
+					<div class="control-label">
+						<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
+							<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
+						</label>
 					</div>
-				<?php endforeach; ?>
-			</div>
+					<div class="controls">
+						<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+					</div>
+				</div>
+				<div id="com_users_twofactor_forms_container">
+					<?php foreach ($this->tfaform as $form) : ?>
+						<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
+						<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
+							<?php echo $form['form'] ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</fieldset>
 
 			<h3 class="mt-4">
 				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
