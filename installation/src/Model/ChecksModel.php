@@ -220,7 +220,7 @@ class ChecksModel extends BaseInstallationModel
 
 		// Check for intl support
 		$setting = new \stdClass;
-		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'instl');
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
 		$setting->state = function_exists('transliterator_transliterate');
 		$setting->recommended = true;
 		$settings[] = $setting;

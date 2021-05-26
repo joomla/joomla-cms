@@ -73,6 +73,43 @@ function clean_checkout(string $dir)
 
 	echo "Cleaning vendors.\n";
 
+	system('find libraries/vendor -name CODE_OF_CONDUCT.md | xargs rm -rf -');
+	system('find libraries/vendor -name CONDUCT.md | xargs rm -rf -');
+	system('find libraries/vendor -name docker-compose.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpunit.xml | xargs rm -rf -');
+	system('find libraries/vendor -name README.md | xargs rm -rf -');
+	system('find libraries/vendor -name readme.md | xargs rm -rf -');
+	system('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
+	system('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
+	system('find libraries/vendor -name .travis.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .gitignore | xargs rm -rf -');
+	system('find libraries/vendor -name .gitmodules | xargs rm -rf -');
+	system('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
+	system('find libraries/vendor -name CONTRIBUTING.md | xargs rm -rf -');
+	system('find libraries/vendor -name CHANGES.md | xargs rm -rf -');
+	system('find libraries/vendor -name CHANGELOG.md | xargs rm -rf -');
+	system('find libraries/vendor -name SECURITY.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm-baseline.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm-baseline.xml | xargs rm -rf -');
+	system('find libraries/vendor -name .yamllint | xargs rm -rf -');
+	system('find libraries/vendor -name .remarkrc | xargs rm -rf -');
+	system('find libraries/vendor -name .editorconfig | xargs rm -rf -');
+	system('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
+	system('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
+	system('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
+	system('find libraries/vendor -name build.xml | xargs rm -rf -');
+	system('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
+	system('find libraries/vendor -name phpbench.json | xargs rm -rf -');
+	system('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .doctrine-project.json | xargs rm -rf -');
+	system('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
+	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
+	system('rm -rf libraries/vendor/bin');
+
 	// defuse/php-encryption
 	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
 
@@ -105,7 +142,6 @@ function clean_checkout(string $dir)
 	// phpmailer/phpmailer
 	system('rm -rf libraries/vendor/phpmailer/phpmailer/language');
 	system('rm -rf libraries/vendor/phpmailer/phpmailer/get_oauth_token.php');
-	system('rm -rf libraries/vendor/phpmailer/phpmailer/SECURITY.md');
 
 	// psr/log
 	system('rm -rf libraries/vendor/psr/log/Psr/Log/Test');
@@ -123,7 +159,6 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
 
 	// zendframework/zend-diactoros
-	system('rm -rf libraries/vendor/zendframework/zend-diactoros/CONDUCT.md');
 	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
 
 	echo "Cleanup complete.\n";

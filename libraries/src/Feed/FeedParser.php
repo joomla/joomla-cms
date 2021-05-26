@@ -127,7 +127,7 @@ abstract class FeedParser
 	 * @param   string                    $prefix     The XML namespace prefix for which to register the namespace object.
 	 * @param   NamespaceParserInterface  $namespace  The namespace object to register.
 	 *
-	 * @return  JFeed
+	 * @return  FeedParser
 	 *
 	 * @since   3.1.4
 	 */
