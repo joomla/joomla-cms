@@ -43,3 +43,6 @@
 [submodule "administrator/components/com_pemasoftfeedreader"]
 	path = administrator/components/com_pemasoftfeedreader
 	url = https://github.com/PM84/com_pemasoft_feed_reader_admin.git
+[submodule "plugins/authentication/pmstelegram"]
+	path = plugins/authentication/pmstelegram
+	url = https://github.com/PM84/plg_auth_telegram.git
