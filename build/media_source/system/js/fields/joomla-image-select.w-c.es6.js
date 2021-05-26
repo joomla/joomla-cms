@@ -69,13 +69,34 @@
   );
 
   /**
+   * Method to return the image size
+   *
+   * @param url {string}
+   *
+   * @returns {bool}
+   */
+  const getImageSize = (url) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      Joomla.selectedMediaFile.width = img.width;
+      Joomla.selectedMediaFile.height = img.height;
+      resolve(true);
+    };
+    img.onerror = () => {
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject(false);
+    };
+  });
+
+  /**
    * Method to append the image in an editor or a field
    *
-   * @param resp
-   * @param editor
-   * @param fieldClass
+   * @param {{}} resp
+   * @param {string|HTMLElement} editor
+   * @param {string} fieldClass
    */
-  const execTransform = (resp, editor, fieldClass) => {
+  const execTransform = async (resp, editor, fieldClass) => {
     if (resp.success === true) {
       const media = resp.data[0];
       if (media.url) {
@@ -119,6 +140,14 @@
             figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
             if (attribs.getAttribute('is-lazy') === 'true') {
               isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+              if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+                try {
+                  await getImageSize(Joomla.selectedMediaFile.url);
+                  isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+                } catch (err) {
+                  isLazy = '';
+                }
+              }
             }
           }
 
@@ -134,6 +163,15 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
+          if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+            try {
+              await getImageSize(Joomla.selectedMediaFile.url);
+              // eslint-disable-next-line no-empty
+            } catch (err) {
+              Joomla.selectedMediaFile.height = 0;
+              Joomla.selectedMediaFile.width = 0;
+            }
+          }
           editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
           fieldClass.updatePreview();
         }
@@ -161,16 +199,16 @@
       return;
     }
 
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
+    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media`;
 
     Joomla.request({
       url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/json' },
-      onSuccess: (response) => {
+      onSuccess: async (response) => {
         const resp = JSON.parse(response);
-        resolve(execTransform(resp, editor, fieldClass));
+        resolve(await execTransform(resp, editor, fieldClass));
       },
       onError: (err) => {
         reject(err);
