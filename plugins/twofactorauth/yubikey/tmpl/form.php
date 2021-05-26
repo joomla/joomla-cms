@@ -17,12 +17,12 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>
 	</div>
 </div>
+<hr>
 
 <?php if ($new_totp): ?>
-<h3 class="mt-4">
-		<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_HEAD') ?>
+<h3>
+	<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_HEAD') ?>
 </h3>
-<hr>
 
 <p>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_TEXT') ?>
@@ -37,10 +37,9 @@ use Joomla\CMS\Language\Text;
 	</div>
 </div>
 <?php else: ?>
-<h3 class="mt-4">
+<h3>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_HEAD') ?>
 </h3>
-<hr>
 
 <p>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_RESET_TEXT') ?>
