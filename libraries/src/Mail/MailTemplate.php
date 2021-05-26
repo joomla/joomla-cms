@@ -12,6 +12,7 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -178,6 +179,7 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
@@ -283,7 +285,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
+		$path = Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder') . '/');
 
 		foreach ((array) json_decode($mail->attachments)  as $attachment)
 		{
