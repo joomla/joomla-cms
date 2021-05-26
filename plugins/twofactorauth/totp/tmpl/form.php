@@ -42,11 +42,11 @@ Factory::getDocument()->addScriptDeclaration($js);
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>
 	</div>
 </div>
+<hr>
 
-<h3 class="mt-4">
+<h3>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_HEAD') ?>
 </h3>
-<hr>
 
 <p>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_TEXT') ?>
@@ -67,11 +67,11 @@ Factory::getDocument()->addScriptDeclaration($js);
 	<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 </div>
+<hr>
 
-<h3 class="mt-4">
+<h3>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_HEAD') ?>
 </h3>
-<hr>
 
 <div class="col-md-6">
 	<p>
@@ -111,10 +111,10 @@ Factory::getDocument()->addScriptDeclaration($js);
 </div>
 
 <?php if ($new_totp): ?>
-<h3 class="mt-4">
+<hr>
+<h3>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
 </h3>
-<hr>
 
 <p>
 	<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_TEXT') ?>
