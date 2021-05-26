@@ -32,7 +32,7 @@ endif;
 	<div class="d-flex mt-2">
 		<div class="ms-auto me-auto">
 			<label class="visually-hidden" for="comModulesSelectSearch">
-				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+				<?php echo Text::_('COM_MODULES_TYPE_FILTER_SEARCH_LABEL'); ?>
 			</label>
 			<div class="input-group mb-3 me-sm-2">
 				<input type="text" value=""
