@@ -99,12 +99,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
 		$this->app = Factory::getApplication();
 		$this->input = $this->app->input;
 
@@ -112,6 +106,12 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
 
 		$extension = $this->state->get('filter.extension');
 
