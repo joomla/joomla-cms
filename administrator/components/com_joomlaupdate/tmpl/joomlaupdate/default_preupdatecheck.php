@@ -71,7 +71,7 @@ $compatibilityTypes = array(
 			endforeach;
 			?>
 			<legend>
-				<h3 class="alert alert-<?php echo $labelClass; ?>">```
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
 					<?php
 					echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
 					?>
