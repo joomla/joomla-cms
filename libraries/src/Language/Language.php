@@ -324,7 +324,7 @@ class Language
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = Factory::getApplication()->get('debug_lang_const', true) == false ? $key : $string;
+				$value = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
 				$string = '**' . $value . '**';
 
 				$caller = $this->getCallerInfo();
