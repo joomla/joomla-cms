@@ -70,8 +70,8 @@ $compatibilityTypes = array(
 				}
 			endforeach;
 			?>
-			<legend class="alert alert-<?php echo $labelClass;?>">
-				<h3>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">```
 					<?php
 					echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
 					?>
@@ -128,8 +128,8 @@ $compatibilityTypes = array(
 			endforeach;
 			?>
 
-			<legend class="alert alert-<?php echo $labelClass;?>">
-				<h3>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
 					<?php
 					echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
 					?>
