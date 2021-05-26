@@ -86,11 +86,11 @@ $this->useCoreUI = true;
 					<?php endforeach; ?>
 				</div>
 			</fieldset>
+			<hr>
 
-			<h3 class="mt-4">
+			<h3>
 				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 			</h3>
-			<hr>
 
 			<div class="alert alert-info">
 				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
