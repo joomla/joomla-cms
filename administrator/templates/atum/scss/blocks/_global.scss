@@ -43,15 +43,9 @@ body {
   }
 
   &.a11y_highlight {
-    a {
+    a, .header-item-content {
       padding: 3px;
       text-decoration: underline !important;
-      border: #f00 dotted 1px;
-    }
-
-    .header-item-content {
-      padding: 3px;
-      text-decoration: underline;
       border: #f00 dotted 1px;
     }
 
