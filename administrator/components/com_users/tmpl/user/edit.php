@@ -85,29 +85,29 @@ $this->useCoreUI = true;
 						</div>
 					<?php endforeach; ?>
 				</div>
-
-				<fieldset>
-					<legend>
-						<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
-					</legend>
-					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-						<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
-					</div>
-					<?php if (empty($this->otpConfig->otep)) : ?>
-						<div class="alert alert-warning">
-							<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-							<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
-						</div>
-					<?php else : ?>
-						<?php foreach ($this->otpConfig->otep as $otep) : ?>
-							<span class="col-lg-3">
-								<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
-							</span>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</fieldset>
 			</fieldset>
+			<hr>
+
+			<h3>
+				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
+			</h3>
+
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
+			</div>
+			<?php if (empty($this->otpConfig->otep)) : ?>
+				<div class="alert alert-warning">
+					<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
+				</div>
+			<?php else : ?>
+				<?php foreach ($this->otpConfig->otep as $otep) : ?>
+					<span class="col-lg-3">
+						<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
+					</span>
+				<?php endforeach; ?>
+			<?php endif; ?>
 			
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
