@@ -670,24 +670,17 @@ class HtmlDocument extends Document
 			ob_end_clean();
 		}
 
-		// Try to find a favicon by checking the root then the template folder
-		$icon = 'favicon.ico';
+		// Try to find a favicon by checking the root and then the template folder
+		$icon = '/favicon.ico';
 
-		if (file_exists($icon))
+		foreach (array(JPATH_BASE, $directory) as $dir)
 		{
-			$this->addFavicon($icon);
-		}
-		else
-		{
-			foreach (array($directory, JPATH_BASE) as $dir)
+			if (file_exists($dir . $icon))
 			{
-    			if (file_exists($dir . '/' . $icon))
-				{
-					$path = str_replace(JPATH_BASE, '', $dir);
-					$path = str_replace('\\', '/', $path);
-					$this->addFavicon(Uri::base(true) . $path . '/' . $icon);
-						break;
-				}
+				$path = str_replace(JPATH_BASE, '', $dir);
+				$path = str_replace('\\', '/', $path);
+				$this->addFavicon(Uri::base(true) . $path . $icon);
+				break;
 			}
 		}
 
