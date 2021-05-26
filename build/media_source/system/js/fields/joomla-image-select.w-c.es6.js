@@ -69,35 +69,6 @@
   );
 
   /**
-   * Method to safely append parameters to a URL string
-   *
-   * @param url   {string}  The URL
-   * @param key   {string}  The key of the parameter
-   * @param value {string}  The value of the parameter
-   *
-   * @returns {string}
-   */
-  const appendParam = (url, key, value) => {
-    const newKey = encodeURIComponent(key);
-    const newValue = encodeURIComponent(value);
-    const r = new RegExp(`(&|\\?)${key}=[^&]*`);
-    let s = url;
-    const param = `${newKey}=${newValue}`;
-
-    s = s.replace(r, `$1${param}`);
-
-    if (!RegExp.$1 && s.includes('?')) {
-      return `${s}&${param}`;
-    }
-
-    if (!RegExp.$1 && !s.includes('?')) {
-      return `${s}?${param}`;
-    }
-
-    return s;
-  };
-
-  /**
    * Method to append the image in an editor or a field
    *
    * @param resp
@@ -106,19 +77,20 @@
    */
   const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
-      if (resp.data[0].url) {
-        if (/local-/.test(resp.data[0].adapter)) {
+      const media = resp.data[0];
+      if (media.url) {
+        if (/local-/.test(media.adapter)) {
           const { rootFull } = Joomla.getOptions('system.paths');
-
           // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedMediaFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+          Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+          if (media.thumb_path) {
+            Joomla.selectedMediaFile.thumb = media.thumb_path;
           } else {
             Joomla.selectedMediaFile.thumb = false;
           }
-        } else if (resp.data[0].thumb_path) {
-          Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+        } else if (media.thumb_path) {
+          Joomla.selectedMediaFile.url = media.url;
+          Joomla.selectedMediaFile.thumb = media.thumb_path;
         }
       } else {
         Joomla.selectedMediaFile.url = false;
@@ -162,8 +134,7 @@
 
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
-          const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
-          editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
+          editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
           fieldClass.updatePreview();
         }
       }
