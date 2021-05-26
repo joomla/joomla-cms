@@ -187,8 +187,8 @@ $compatibilityTypes = array(
 				<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
 				<?php $compatibilityTypeGroup    = $compatibilityData['group']; ?>
 				<fieldset id="compatibilitytype<?php echo $compatibilityTypeGroup;?>" class="col-md-12 compatibilitytypes">
-					<legend class="alert <?php echo $compatibilityDisplayClass;?>">
-						<h3>
+					<legend>
+						<h3 class="alert <?php echo $compatibilityDisplayClass;?>">
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 								<div class="compatibilitytoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
 							<?php endif; ?>
