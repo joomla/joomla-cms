@@ -285,7 +285,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$attachments = array()
+		$attachments = array();
 
 		if ($config->get('attachment_folder'))
 		{
