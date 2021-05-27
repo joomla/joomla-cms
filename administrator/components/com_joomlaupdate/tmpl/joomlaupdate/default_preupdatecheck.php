@@ -98,13 +98,15 @@ $compatibilityTypes = array(
 						<tr>
 							<th scope="row">
 								<?php echo $option->label; ?>
+								<?php if ($option->notice) : ?>
+								<div class="small">
+									<?php echo $option->notice; ?>
+								</div>
+								<?php endif; ?>
 							</th>
 							<td>
 								<span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-									<?php if ($option->notice) : ?>
-										<span class="icon-info-circle icon-white" title="<?php echo $option->notice; ?>"></span>
-									<?php endif; ?>
 								</span>
 							</td>
 						</tr>
