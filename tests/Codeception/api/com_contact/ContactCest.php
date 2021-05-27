@@ -76,7 +76,7 @@ class ContactCest
 			'name' => 'Francine Blogs'
 		];
 
-		$I->sendPOST('/contact', $testarticle);
+		$I->sendPOST('/contacts', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
