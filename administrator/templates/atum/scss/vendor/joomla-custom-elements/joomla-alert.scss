@@ -87,6 +87,7 @@
   }
 
   &[type="warning"] {
+    color: #996900 !important;
     --alert-accent-color: #{$state-warning-text};
     --alert-bg-color: #{$state-warning-bg};
   }
