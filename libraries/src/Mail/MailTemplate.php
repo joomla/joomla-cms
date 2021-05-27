@@ -507,7 +507,7 @@ class MailTemplate
 		}
 
 		// Make sure to attach the file with the same extension as the attached file has (case-insensitive)
-		if (strtolower(pathinfo($name, PATHINFO_EXTENSION)) !== $extensionFile)
+		if (strtolower(pathinfo($name, PATHINFO_EXTENSION)) !== strtolower($extensionFile))
 		{
 			return $name . '.' . $extensionFile;
 		}
