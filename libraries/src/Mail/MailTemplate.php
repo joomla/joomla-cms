@@ -289,7 +289,7 @@ class MailTemplate
 
 		if ($config->get('attachment_folder'))
 		{
-			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), '/');
+			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
 			if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
 			{
