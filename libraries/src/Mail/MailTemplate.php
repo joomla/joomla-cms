@@ -285,13 +285,24 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$path = Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder') . '/');
+		$folderPath = rtrim(Path::check($config->get('attachment_folder')), '/');
 
-		foreach ((array) json_decode($mail->attachments)  as $attachment)
+		if ($folderPath && $folderPath !== JPATH_ROOT && is_dir($folderPath))
 		{
-			if (is_file($path . $attachment->file))
+			$attachments = (array) json_decode($mail->attachments);
+		}
+		else
+		{
+			$attachments = array();
+		}
+
+		foreach ($attachments as $attachment)
+		{
+			$filePath = Path::check($folderPath . '/' . $attachment->file);
+
+			if (is_file($filePath))
 			{
-				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
+				$this->mailer->addAttachment($filePath, $attachment->name ?? $attachment->file);
 			}
 		}
 
