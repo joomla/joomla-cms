@@ -285,7 +285,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$folderPath = rtrim(Path::check($config->get('attachment_folder')), '/');
+		$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), '/');
 
 		if ($folderPath && $folderPath !== JPATH_ROOT && is_dir($folderPath))
 		{
