@@ -303,7 +303,7 @@ class MailTemplate
 
 			if (is_file($filePath))
 			{
-				$this->mailer->addAttachment($filePath, $attachment->name ?? $attachment->file);
+				$this->mailer->addAttachment($filePath, $this->setAttachmentName($filePath, $attachment->name ?? $attachment->file));
 			}
 		}
 
@@ -311,7 +311,7 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $attachment->name);
+				$this->mailer->addAttachment($attachment->file, $this->setAttachmentName($attachment->file, $attachment->name));
 			}
 			else
 			{
@@ -477,5 +477,41 @@ class MailTemplate
 		$db->setQuery($query);
 
 		return $db->execute();
+	}
+
+	/**
+	 * Check and if necessary fix the file name of an attachment
+	 *
+	 * @param   string  $file  Path to the file to be attached
+	 * @param   string  $name  The file name to be used for the attachment
+	 *
+	 * @return  string  The corrected file name for the attachment
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setAttachmentName($file, $name)
+	{
+		// If no name is given use the basename of the file to be attached
+		if (!trim($name))
+		{
+			return basename($file);
+		}
+
+		// Get file extension of the file to be attached
+		$extensionFile = pathinfo($file, PATHINFO_EXTENSION);
+
+		// If the file has no extension there is nothing to do with the name
+		if (!$extensionFile)
+		{
+			return $name;
+		}
+
+		// Make sure to attach the file with the same extension as the attached file has (case-insensitive)
+		if (strtolower(pathinfo($name, PATHINFO_EXTENSION)) !== $extensionFile)
+		{
+			return $name . '.' . $extensionFile;
+		}
+
+		return $name;
 	}
 }
