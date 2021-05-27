@@ -191,9 +191,9 @@ $state-info-text:                  var(--atum-bg-dark-70);
 $state-info-bg:                    var(--white);
 $state-info-border:                var(--atum-bg-dark-70);
 
-$state-warning-text:               darken($warning, 24%);
+$state-warning-text:               $warning;
 $state-warning-bg:                 lighten($warning, 44%);
-$state-warning-border:             darken($warning, 24%);
+$state-warning-border:             $warning;
 
 $state-danger-text:                $danger;
 $state-danger-bg:                  lighten($danger, 52%);
