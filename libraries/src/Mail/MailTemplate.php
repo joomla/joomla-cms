@@ -287,7 +287,7 @@ class MailTemplate
 
 		$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), '/');
 
-		if ($folderPath && $folderPath !== JPATH_ROOT && is_dir($folderPath))
+		if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
 		{
 			$attachments = (array) json_decode($mail->attachments);
 		}

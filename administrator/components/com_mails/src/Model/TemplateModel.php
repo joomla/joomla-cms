@@ -130,7 +130,7 @@ class TemplateModel extends AdminModel
 			$attachmentPath = '';
 		}
 
-		if (!$attachmentPath || $attachmentPath === JPATH_ROOT || !is_dir($attachmentPath))
+		if (!$attachmentPath || $attachmentPath === Path::clean(JPATH_ROOT) || !is_dir($attachmentPath))
 		{
 			$form->removeField('attachments');
 
