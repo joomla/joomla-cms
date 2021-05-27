@@ -114,32 +114,39 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
+		if (!$params->get('attachment_folder'))
+		{
+			$form->removeField('attachments');
+
+			return $form;
+		}
+
 		try
 		{
-			$attachmentPath = Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder'));
+			$attachmentPath = rtrim(Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder')), '/');
 		}
 		catch (\Exception $e)
 		{
 			$attachmentPath = '';
 		}
 
-		if (!$attachmentPath || !is_dir($attachmentPath))
+		if (!$attachmentPath || $attachmentPath === JPATH_ROOT || !is_dir($attachmentPath))
 		{
 			$form->removeField('attachments');
+
+			return $form;
 		}
-		else
-		{
-			$field = $form->getField('attachments');
-			$subform = new \SimpleXMLElement($field->formsource);
-			$files = $subform->xpath('field[@name="file"]');
-			$files[0]->addAttribute('directory', $attachmentPath);
-			$form->load('<form><field name="attachments" type="subform" '
-				. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
-				. 'layout="joomla.form.field.subform.repeatable-table">'
-				. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
-				. '</field></form>'
-			);
-		}
+
+		$field = $form->getField('attachments');
+		$subform = new \SimpleXMLElement($field->formsource);
+		$files = $subform->xpath('field[@name="file"]');
+		$files[0]->addAttribute('directory', $attachmentPath);
+		$form->load('<form><field name="attachments" type="subform" '
+			. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
+			. 'layout="joomla.form.field.subform.repeatable-table">'
+			. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
+			. '</field></form>'
+		);
 
 		return $form;
 	}
