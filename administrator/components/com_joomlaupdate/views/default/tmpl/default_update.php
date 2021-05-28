@@ -65,7 +65,7 @@ defined('_JEXEC') or die;
 			</tr>
 		<?php endif; ?>
 		<?php // Hide FTP settings when updating to Joomla 4 given that the supporting code has been dropped there ?>
-		<?php if (version_compare($this->updateInfo['latest'], '4.0.0', '>=')) : ?>
+		<?php if (version_compare($this->updateInfo['latest'], '4', '<')) : ?>
 			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
