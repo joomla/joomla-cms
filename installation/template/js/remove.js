@@ -48,6 +48,9 @@ if (document.getElementById('removeInstallationFolder')) {
               if (successresponse.messages) {
                 Joomla.renderMessages(successresponse.messages, '#system-message-container');
                 Joomla.loadOptions({'csrf.token': successresponse.token});
+              } else {
+                // Stuff went wrong. No error messages. Just panic bail!
+                Joomla.renderMessages('Unknown error deleting the installation folder.', '#system-message-container');
               }
             } else {
               const customInstallation = document.getElementById('customInstallation');
