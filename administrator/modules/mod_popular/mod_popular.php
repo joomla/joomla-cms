@@ -23,7 +23,8 @@ if ($params->get('automatic_title', 0))
 	$module->title = PopularHelper::getTitle($params);
 }
 
-if (!ComponentHelper::getParams('com_content')->get('record_hits')) {
+if (!ComponentHelper::getParams('com_content')->get('record_hits'))
+{
 	echo LayoutHelper::render('joomla.content.emptystate_module', [
 		'title'      => 'JGLOBAL_RECORD_HITS_DISABLED',
 		'icon'       => 'icon-minus-circle',
