@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.8" group="fields" method="upgrade">
+	<name>plg_pemasoft_custom_fields</name>
+	<author>Peter Mayer</author>
+	<creationDate>09/2016</creationDate>
+	<copyright>Copyright (C) 2021 Peter Mayer. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@pemasoft.de</authorEmail>
+	<authorUrl>www.pemasoft.de</authorUrl>
+	<version>1.0.0-alpha</version>
+	<description>Pluginbeschreibung</description>
+	<files>
+		<filename plugin="pemasoft_custom_fields">pemasoft_custom_fields.php</filename>
+		<folder>fields</folder>
+		<!-- <folder>language</folder>
+		<folder>params</folder>
+		<folder>tmpl</folder> -->
+	</files>
+	<!-- <media destination="plg_fields_owlimg" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+	</media> -->
+	<!-- <languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_fields_owlimg.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_fields_owlimg.sys.ini</language>
+	</languages> -->
+	<!-- <config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="margin"
+					type="text"
+					label="PLG_FIELDS_OWLIMG_MARGIN"
+					filter="integer"
+					default=""
+				/>
+
+			</fieldset>
+		</fields>
+	</config> -->
+	<updateservers>
+		<server type="extension" name="plg_pemasoft_custom_fields Update Site">https://pemasoft/joomla/upgrade/manifest.xml</server>
+	</updateservers>
+</extension>
