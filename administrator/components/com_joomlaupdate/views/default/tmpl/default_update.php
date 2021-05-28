@@ -64,54 +64,57 @@ defined('_JEXEC') or die;
 				</td>
 			</tr>
 		<?php endif; ?>
-		<tr>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-			</td>
-			<td>
-				<?php echo $this->methodSelect; ?>
-			</td>
-		</tr>
-		<tr id="row_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-			</td>
-			<td>
-				<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
-			</td>
-		</tr>
+		<?php // Hide FTP settings when updating ton Joomla 4 given that the supporting code has been dropped there ?>
+		<?php if (version_compare($this->updateInfo['latest'], '4.0.0', '>=')) : ?>
+			<tr>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
+				</td>
+				<td>
+					<?php echo $this->methodSelect; ?>
+				</td>
+			</tr>
+			<tr id="row_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
+				</td>
+			</tr>
+			<tr id="row_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
+				</td>
+			</tr>
+			<tr id="row_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
+				</td>
+			</tr>
+			<tr id="row_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
+				</td>
+				<td>
+					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
+				</td>
+			</tr>
+			<tr id="row_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
+				</td>
+			</tr>
+		<?php endif; ?>
 		</tbody>
 		<tfoot>
 		<tr id="preupdateCheckWarning">
