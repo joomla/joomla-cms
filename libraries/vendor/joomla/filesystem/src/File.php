@@ -123,7 +123,7 @@ class File
 
 			if (!Path::canChmod($file))
 			{
-				throw new FilesystemException(__METHOD__ . ': Failed deleting inaccessible file ' . $filename);
+				throw new FilesystemException(__METHOD__ . ': Failed deleting inaccessible file ' . ( defined('JDEBUG') && JDEBUG ? $file : $filename) );
 			}
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
@@ -134,7 +134,7 @@ class File
 			// as long as the owner is either the webserver or the ftp
 			if (!@ unlink($file))
 			{
-				throw new FilesystemException(__METHOD__ . ': Failed deleting ' . $filename);
+				throw new FilesystemException(__METHOD__ . ': Failed deleting ' . ( defined('JDEBUG') && JDEBUG ? $file : $filename) );
 			}
 		}
 
