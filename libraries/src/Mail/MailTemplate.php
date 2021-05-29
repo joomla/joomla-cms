@@ -12,6 +12,7 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -297,7 +298,7 @@ class MailTemplate
 
 					if (is_file($filePath))
 					{
-						$this->mailer->addAttachment($filePath, $this->setAttachmentName($filePath, $attachment->name ?? $attachment->file));
+						$this->mailer->addAttachment($filePath, $this->getAttachmentName($filePath, $attachment->name));
 					}
 				}
 			}
@@ -307,7 +308,7 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $this->setAttachmentName($attachment->file, $attachment->name));
+				$this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
 			}
 			else
 			{
@@ -485,29 +486,17 @@ class MailTemplate
 	 *
 	 * @since   4.0.0
 	 */
-	protected function setAttachmentName($file, $name)
+	protected function getAttachmentName($file, $name)
 	{
-		// If no name is given use the basename of the file to be attached
+		// If no name is given, do not process it further
 		if (!trim($name))
 		{
-			return basename($file);
+			return '';
 		}
 
-		// Get file extension of the file to be attached
-		$extensionFile = pathinfo($file, PATHINFO_EXTENSION);
+		$ext = File::getExt($file);
 
-		// If the file has no extension there is nothing to do with the name
-		if (!$extensionFile)
-		{
-			return $name;
-		}
-
-		// Make sure to attach the file with the same extension as the attached file has (case-insensitive)
-		if (strtolower(pathinfo($name, PATHINFO_EXTENSION)) !== strtolower($extensionFile))
-		{
-			return $name . '.' . $extensionFile;
-		}
-
-		return $name;
+		// Strip off extension from $name and append extension of $file, if any
+		return File::stripExt($name) . ($ext ? '.' . $ext : '');;
 	}
 }
