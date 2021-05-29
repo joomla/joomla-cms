@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\Rule\FilePathRule;
 use Joomla\Registry\Registry;
@@ -52,8 +54,20 @@ class FolderPathExistsRule extends FilePathRule
 		}
 
 		// In case of a folder list field we might have a directory, otherwise it's Joomla root
-		$parentPath = $element['directory'] ?? JPATH_ROOT;
+		if (isset($element['directory']) && trim((string) $element['directory']))
+		{
+			$parentPath = Path::clean((string) $element['directory']);
 
-		return is_dir($parentPath . '/' . $value);
+			if (strpos($parentPath, Path::clean(JPATH_ROOT)) !== 0)
+			{
+				$parentPath = JPATH_ROOT . '/' . $parentPath;
+			}
+		}
+		else
+		{
+			$parentPath = JPATH_ROOT;
+		}
+
+		return Folder::exists($parentPath . '/' . $value);
 	}
 }
