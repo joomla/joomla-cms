@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$textPrefix = $displayData['textPrefix'];
+$textPrefix = $displayData['textPrefix'] ?? '';
 $icon = $displayData['icon'] ?? 'icon-copy article';
 $componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
 $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
@@ -20,7 +20,7 @@ $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists
 // Did we have a definitive title provided to the view?
 if (isset($displayData['title']))
 {
-	$title = $displayData['title'];
+	$title = Text::_($displayData['title']);
 }
 // Can we find a *_EMPTYSTATE_MODULE_TITLE translation?
 elseif (Factory::getApplication()->getLanguage()->hasKey($moduleLangString))
