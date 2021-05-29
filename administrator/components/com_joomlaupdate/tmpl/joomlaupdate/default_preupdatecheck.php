@@ -28,7 +28,7 @@ $compatibilityTypes = array(
 		'group' => 0,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
-		'class' => 'label-important',
+		'class' => 'alert-danger',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
 		'group' => 4,
 	),
@@ -65,15 +65,15 @@ $compatibilityTypes = array(
 			foreach ($this->phpOptions as $option) :
 				if (!$option->state)
 				{
-					$labelClass = 'important';
+					$labelClass = 'danger';
 					break;
 				}
 			endforeach;
 			?>
-			<legend class="label label-<?php echo $labelClass;?>">
-				<h3>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
 					<?php
-					echo $labelClass === 'important' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
+					echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
 					?>
 					<div class="settingstoggle ms-1" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
 				</h3>
@@ -130,8 +130,8 @@ $compatibilityTypes = array(
 			endforeach;
 			?>
 
-			<legend class="label label-<?php echo $labelClass;?>">
-				<h3>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
 					<?php
 					echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
 					?>
@@ -189,8 +189,8 @@ $compatibilityTypes = array(
 				<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
 				<?php $compatibilityTypeGroup    = $compatibilityData['group']; ?>
 				<fieldset id="compatibilitytype<?php echo $compatibilityTypeGroup;?>" class="col-md-12 compatibilitytypes">
-					<legend class="alert <?php echo $compatibilityDisplayClass;?>">
-						<h3>
+					<legend>
+						<h3 class="alert <?php echo $compatibilityDisplayClass; ?>">
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 								<div class="compatibilitytoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
 							<?php endif; ?>
