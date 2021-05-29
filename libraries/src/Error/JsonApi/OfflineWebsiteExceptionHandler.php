@@ -11,7 +11,7 @@ namespace Joomla\CMS\Error\JsonApi;
 \defined('JPATH_PLATFORM') or die;
 
 use Exception;
-use Joomla\CMS\Router\Exception\OfflineWebsiteException;
+use Joomla\CMS\Application\Exception\OfflineWebsiteException;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
