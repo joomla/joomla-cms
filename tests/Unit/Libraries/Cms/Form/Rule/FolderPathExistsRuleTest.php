@@ -37,7 +37,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
 			size="50"
 			default="images"
-			validate="filePathExists"
+			validate="folderPathExists"
 			exclude="administrator|media"
 		/>'
 		);
