@@ -43,6 +43,14 @@ class FolderPathExistsRule extends FilePathRule
 			return false;
 		}
 
+		// If the field is empty and not required, the field is valid.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		if (!$required && empty($value))
+		{
+			return true;
+		}
+
 		// In case of a folder list field we might have a directory, otherwise it's Joomla root
 		$parentPath = $element['directory'] ?? JPATH_ROOT;
 
