@@ -434,22 +434,21 @@ class ApiController extends BaseController
 		if ($recordKey && $table->load($recordKey))
 		{
 			$fields = $table->getFields();
-		
+
 			foreach ($fields as $field)
 			{
 				if (array_key_exists($field->Field, $data))
 				{
 					continue;
 				}
-			
+
 				$fieldValue = $table->{$field->Field};
-		 
-			
+
 				if (is_string($fieldValue) && is_array(json_decode($fieldValue)))
 				{
 					$fieldValue = json_decode($fieldValue);
 				}
-			
+
 				$data[$field->Field] = $fieldValue;
 			}
 		}
