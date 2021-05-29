@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
 class FolderPathExistsRule extends FilePathRule
 {
 	/**
-	 * Method to test if the file path is valid and points to an existing folder (directory) in or below the Joomla root
+	 * Method to test if the folder path is valid and points to an existing folder (directory) in or below the Joomla root
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
