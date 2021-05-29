@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -74,6 +75,12 @@ class FilePathRule extends FormRule
 		catch (\Exception $e)
 		{
 			// When there is an exception in the check path this is not valid
+			return false;
+		}
+
+		// Check to make sure $value is an existing directory
+		if (!Folder::exists($value))
+		{
 			return false;
 		}
 
