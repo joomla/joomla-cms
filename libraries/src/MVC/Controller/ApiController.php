@@ -431,6 +431,29 @@ class ApiController extends BaseController
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
+		if ($recordKey && $table->load($recordKey))
+		{
+			$fields = $table->getFields();
+		
+			foreach ($fields as $field)
+			{
+				if (array_key_exists($field->Field, $data))
+				{
+					continue;
+				}
+			
+				$fieldValue = $table->{$field->Field};
+		 
+			
+				if (is_string($fieldValue) && is_array(json_decode($fieldValue)))
+				{
+					$fieldValue = json_decode($fieldValue);
+				}
+			
+				$data[$field->Field] = $fieldValue;
+			}
+		}
+
 		$data = $this->preprocessSaveData($data);
 
 		// TODO: Not the cleanest thing ever but it works...
