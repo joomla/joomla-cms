@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Rule\FilePathRule;
 use Joomla\Registry\Registry;
 
 /**
- * Form Rule class for the Joomla Platform.
+ * Form Rule class for the Joomla CMS.
  *
  * @since  __DEPLOY_VERSION__
  */
