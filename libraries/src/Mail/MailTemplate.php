@@ -477,7 +477,8 @@ class MailTemplate
 	}
 
 	/**
-	 * Check and if necessary fix the file name of an attachment so that the attached file has the same extension as the source file, and not a different file extension
+	 * Check and if necessary fix the file name of an attachment so that the attached file
+	 * has the same extension as the source file, and not a different file extension
 	 *
 	 * @param   string  $file  Path to the file to be attached
 	 * @param   string  $name  The file name to be used for the attachment
