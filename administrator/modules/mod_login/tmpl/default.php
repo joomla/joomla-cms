@@ -54,7 +54,7 @@ Text::script('JHIDEPASSWORD');
 					type="password"
 					class="form-control input-full"
 					required="required"
-					autocomplete="current-password"	
+					autocomplete="current-password"
 				>
 				<button type="button" class="btn btn-secondary input-password-toggle">
 					<span class="icon-eye icon-fw" aria-hidden="true"></span>
