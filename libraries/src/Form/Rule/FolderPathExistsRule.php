@@ -51,7 +51,14 @@ class FolderPathExistsRule extends FilePathRule
 			return true;
 		}
 
-		$pathCleaned = rtrim($value, \DIRECTORY_SEPARATOR);
+
+		// Spaces only would result in Joomla root which is not allowed
+		if (!trim($value))
+		{
+			return false;
+		}
+
+		$pathCleaned = rtrim(Path::clean(JPATH_ROOT . '/' . $value), \DIRECTORY_SEPARATOR);
 		$rootCleaned = rtrim(Path::clean(JPATH_ROOT), \DIRECTORY_SEPARATOR);
 
 		// JPATH_ROOT is not allowed
