@@ -37,6 +37,42 @@ class FieldsController extends ApiController
 	protected $default_view = 'fields';
 
 	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'access' => [
+			'name' => 'filter.access',
+			'type' => 'INT'
+		],
+		'assigned_cat_ids' => [
+			'name' => 'filter.assigned_cat_ids',
+			'type' => 'INT'
+		],
+		'group_id' => [
+			'name' => 'filter.group_id',
+			'type' => 'INT'
+		],
+		'only_use_in_subform' => [
+			'name' => 'filter.only_use_in_subform',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
+
+	/**
 	 * Basic display of an item view
 	 *
 	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request

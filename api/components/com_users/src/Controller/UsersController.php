@@ -42,6 +42,39 @@ class UsersController extends ApiController
 	protected $default_view = 'users';
 
 	/**
+	 * Query filter parameters => model state mappings.
+	 * Date ranges need special handling, which we will do in the displayList() override.
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'active' => [
+			'name' => 'filter.active',
+			'type' => 'INT'
+		],
+		'excluded' => [
+			'name' => 'filter.excluded',
+			'type' => 'INT'
+		],
+		'group' => [
+			'name' => 'filter.group',
+			'type' => 'INT'
+		],
+		'groups' => [
+			'name' => 'filter.groups',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+	];
+
+	/**
 	 * Method to save a record.
 	 *
 	 * @param   integer  $recordKey  The primary key of the item (if exists)
@@ -71,7 +104,7 @@ class UsersController extends ApiController
 	}
 
 	/**
-	 * User list view with filtering of data
+	 * User list view with filtering of date range data
 	 *
 	 * @return  static  A BaseController object to support chaining.
 	 *
@@ -82,26 +115,6 @@ class UsersController extends ApiController
 	{
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
-
-		if (array_key_exists('state', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));
-		}
-
-		if (array_key_exists('active', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.active', $filter->clean($apiFilterInfo['active'], 'INT'));
-		}
-
-		if (array_key_exists('groupid', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.group_id', $filter->clean($apiFilterInfo['groupid'], 'INT'));
-		}
-
-		if (array_key_exists('search', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
-		}
 
 		if (array_key_exists('registrationDateStart', $apiFilterInfo))
 		{
