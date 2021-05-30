@@ -44,6 +44,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
 
 		return [
 			[true, $xml, ''],
+			[false, $xml, JPATH_ROOT],			
 			[true, $xml, 'images'],
 			[true, $xml, 'images/headers'],
 			[false, $xml, 'images/notexisting'],
