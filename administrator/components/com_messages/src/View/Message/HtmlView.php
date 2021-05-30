@@ -99,8 +99,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = User::getInstance($this->item->user_id_from);
 
-			if ($sender->id !== $app->getIdentity()->get('id')
-				&& ($sender->authorise('core.admin')
+			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
 				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			)
 			{
