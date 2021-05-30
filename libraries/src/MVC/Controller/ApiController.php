@@ -431,20 +431,19 @@ class ApiController extends BaseController
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
-		
 		if ($this->input->getMethod() === 'PATCH')
 		{
 			if ($recordKey && $table->load($recordKey))
 			{
 				$fields = $table->getFields();
-			
+
 				foreach ($fields as $field)
 				{
 					if (array_key_exists($field->Field, $data))
 					{
 						continue;
 					}
-				
+
 					$data[$field->Field] = $table->{$field->Field};
 				}
 			}
