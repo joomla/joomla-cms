@@ -45,7 +45,7 @@
 			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
 			size="40"
 			validate="filePath"
-			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>
 
 	</fieldset>
