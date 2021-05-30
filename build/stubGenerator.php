@@ -84,7 +84,6 @@ class StubGenerator extends CliApplication
  */
 
 PHP;
-
 			}
 
 			$file .= "$modifier$type $oldName extends $newName {}\n\n";

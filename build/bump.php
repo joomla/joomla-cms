@@ -180,16 +180,16 @@ if (!empty($opts['c']))
 
 // Prints version information.
 echo PHP_EOL;
-echo 'Version data:'. PHP_EOL;
+echo 'Version data:' . PHP_EOL;
 echo '- Main:' . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . PHP_EOL;
 echo '- Release:' . PHP_TAB . PHP_TAB . $version['release'] . PHP_EOL;
-echo '- Full:'  . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel'] . PHP_EOL;
+echo '- Full:' . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel'] . PHP_EOL;
 echo '- Build:' . PHP_TAB . PHP_TAB . $version['build'] . PHP_EOL;
 echo '- Dev Level:' . PHP_TAB . PHP_TAB . $version['dev_devel'] . PHP_EOL;
 echo '- Dev Status:' . PHP_TAB . PHP_TAB . $version['dev_status'] . PHP_EOL;
 echo '- Release date:' . PHP_TAB . PHP_TAB . $version['reldate'] . PHP_EOL;
 echo '- Release time:' . PHP_TAB . PHP_TAB . $version['reltime'] . PHP_EOL;
-echo '- Release timezone:'  . PHP_TAB . $version['reltz'] . PHP_EOL;
+echo '- Release timezone:' . PHP_TAB . $version['reltz'] . PHP_EOL;
 echo '- Creation date:' . PHP_TAB . $version['credate'] . PHP_EOL;
 
 if (!empty($version['codename']))
@@ -282,8 +282,8 @@ foreach ($readMeFiles as $readMeFile)
 $changedFilesCopyrightDate = 0;
 $changedFilesSinceVersion  = 0;
 $year                      = date('Y');
-$directory                 = new \RecursiveDirectoryIterator($rootPath);
-$iterator                  = new \RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
+$directory                 = new RecursiveDirectoryIterator($rootPath);
+$iterator                  = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
 
 foreach ($iterator as $file)
 {
