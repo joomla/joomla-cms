@@ -87,7 +87,7 @@
   }
 
   &[type="warning"] {
-    & .joomla-alert--close {
+    .joomla-alert--close {
       color: #{$state-warning-custom-text};
     }
 
