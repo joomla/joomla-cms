@@ -45,10 +45,8 @@ class FolderPathExistsRule extends FilePathRule
 			return false;
 		}
 
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-
-		if (!$required && empty($value))
+		// If the field is empty and not required so the previous test hasn't failed, the field is valid.
+		if ($value === '' || $value === null)
 		{
 			return true;
 		}
