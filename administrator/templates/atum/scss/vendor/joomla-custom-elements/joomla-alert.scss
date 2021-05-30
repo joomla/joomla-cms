@@ -87,6 +87,10 @@
   }
 
   &[type="warning"] {
+    & .joomla-alert--close {
+      color: #{$state-warning-custom-text};
+    }
+
     color: #{$state-warning-custom-text};
     --alert-accent-color: #{$state-warning-text};
     --alert-bg-color: #{$state-warning-bg};
