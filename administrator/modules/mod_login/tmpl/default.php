@@ -24,7 +24,7 @@ Text::script('JHIDEPASSWORD');
 ?>
 <form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
-	
+	<legend> <?php echo Text::_('COM_LOGIN'); ?></legend>
 		<div class="form-group">
 			<label for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
@@ -37,8 +37,9 @@ Text::script('JHIDEPASSWORD');
 					type="text"
 					class="form-control"
 					required="required"
-					autofocus
+					autofocus=""
 					autocomplete="username"
+					aria-required = "true"
 				>
 			</div>
 		</div>
@@ -55,6 +56,7 @@ Text::script('JHIDEPASSWORD');
 					class="form-control input-full"
 					required="required"
 					autocomplete="current-password"
+					aria-required = "true"
 				>
 				<button type="button" class="btn btn-secondary input-password-toggle">
 					<span class="icon-eye icon-fw" aria-hidden="true"></span>
