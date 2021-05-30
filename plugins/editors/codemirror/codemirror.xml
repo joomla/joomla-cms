@@ -207,6 +207,7 @@
 					hide_none="true"
 					hide_default="false"
 					directory="media/vendor/codemirror/theme"
+					validate="options"
 				/>
 
 				<field
