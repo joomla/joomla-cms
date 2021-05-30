@@ -55,6 +55,7 @@ $attributes = array(
 	isset($max) ? 'max="' . $max . '"' : '',
 	!empty($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
+	isset($pattern) ? 'pattern="' . $pattern . '"' : '',
 	$required ? 'required' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
