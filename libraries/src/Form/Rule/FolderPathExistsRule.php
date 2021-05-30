@@ -51,7 +51,6 @@ class FolderPathExistsRule extends FilePathRule
 			return true;
 		}
 
-
 		// Spaces only would result in Joomla root which is not allowed
 		if (!trim($value))
 		{
