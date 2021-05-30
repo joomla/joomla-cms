@@ -30,7 +30,7 @@
 			size="50"
 			default="images"
 			validate="folderPathExists"
-			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
 		/>
 
 		<field
@@ -41,7 +41,7 @@
 			size="50"
 			default="images"
 			validate="folderPathExists"
-			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>
 
 		<field
