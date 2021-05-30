@@ -39,7 +39,8 @@
 							default="images"
 							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
 							folderFilter=""
-							exclude=""
+							exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+							recursive="true"
 							stripext=""
 							hide_none="true"
 						/>
