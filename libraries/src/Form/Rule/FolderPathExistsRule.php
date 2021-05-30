@@ -54,7 +54,7 @@ class FolderPathExistsRule extends FilePathRule
 		$pathCleaned = rtrim($value, \DIRECTORY_SEPARATOR);
 		$rootCleaned = rtrim(Path::clean(JPATH_ROOT), \DIRECTORY_SEPARATOR);
 
-		// Joomla root is not allowed
+		// JPATH_ROOT is not allowed
 		if ($pathCleaned === $rootCleaned)
 		{
 			return false;

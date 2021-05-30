@@ -76,8 +76,8 @@ class FolderPathExistsRuleTest extends UnitTestCase
 	 * Tests the FolderPathExistsRule::test method.
 	 *
 	 * @param   string             $expected  The expected test result
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
+	 * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value     The form field value to validate.
 	 *
 	 * @return  void
 	 *
