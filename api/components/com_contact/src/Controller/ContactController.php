@@ -55,6 +55,46 @@ class ContactController extends ApiController
 	protected $default_view = 'contacts';
 
 	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'access' => [
+			'name' => 'filter.access',
+			'type' => 'INT'
+		],
+		'category_id' => [
+			'name' => 'filter.category_id',
+			'type' => 'INT'
+		],
+		'level' => [
+			'name' => 'filter.level',
+			'type' => 'INT'
+		],
+		'featured' => [
+			'name' => 'filter.featured',
+			'type' => 'INT'
+		],
+		'tag' => [
+			'name' => 'filter.tag',
+			'type' => 'STRING'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
+
+	/**
 	 * Method to save a record.
 	 *
 	 * @param   integer  $recordKey  The primary key of the item (if exists)

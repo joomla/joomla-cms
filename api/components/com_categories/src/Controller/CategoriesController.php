@@ -37,6 +37,38 @@ class CategoriesController extends ApiController
 	protected $default_view = 'categories';
 
 	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'access' => [
+			'name' => 'filter.access',
+			'type' => 'INT'
+		],
+		'level' => [
+			'name' => 'filter.level',
+			'type' => 'INT'
+		],
+		'tag' => [
+			'name' => 'filter.tag',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
+
+	/**
 	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
 	 * @param   array  $data  An array of input data.
@@ -72,6 +104,7 @@ class CategoriesController extends ApiController
 
 		return parent::displayItem($id);
 	}
+
 	/**
 	 * Basic display of a list view
 	 *
