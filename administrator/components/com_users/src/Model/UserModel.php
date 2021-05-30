@@ -1041,7 +1041,7 @@ class UserModel extends AdminModel
 			 * The aim is/was to migrate away from mcrypt encrypted data by decrypting the data and then re-encrypting
 			 * it with the openssl adapter, but there has been a bug for a long time in the constructing of the
 			 * mcrypt Aes class, where the number of parameters passed were wrong, meaning it was actually returning
-			 * an openssl adapter not a mycrypt one.
+			 * an openssl adapter not an mcrypt one.
 			 *
 			 * Rather than fix this just before 4.0.0 release, we will deprecate this block and remove it in 5.0.0
 			 *
