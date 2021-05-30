@@ -39,7 +39,7 @@ Text::script('JHIDEPASSWORD');
 					required="required"
 					autofocus=""
 					autocomplete="username"
-					aria-required = "true"
+				
 				>
 			</div>
 		</div>
@@ -56,7 +56,7 @@ Text::script('JHIDEPASSWORD');
 					class="form-control input-full"
 					required="required"
 					autocomplete="current-password"
-					aria-required = "true"
+					
 				>
 				<button type="button" class="btn btn-secondary input-password-toggle">
 					<span class="icon-eye icon-fw" aria-hidden="true"></span>
