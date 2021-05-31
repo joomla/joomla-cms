@@ -13,6 +13,7 @@
     }
 
     a {
+      display: block;
       font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
       text-decoration: none;
@@ -31,6 +32,7 @@
 
     &.item:hover, &.active {
       background-color: var(--atum-bg-dark-60);
+
       a {
         color: var(--atum-text-light);
       }
