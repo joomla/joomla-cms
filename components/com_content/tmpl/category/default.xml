@@ -119,7 +119,7 @@
 			<field
 				name="show_category_heading_title_text"
 				type="list"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -163,13 +163,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field
-				name="page_subheading"
-				type="text"
-				label="JGLOBAL_SUBHEADING_LABEL"
-				size="20"
-			/>
 
 		</fieldset>
 
@@ -404,7 +397,8 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"
@@ -582,7 +576,7 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"

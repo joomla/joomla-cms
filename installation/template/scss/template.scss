@@ -48,6 +48,10 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
+  .logo {
+    max-width: 270px;
+  }
+
   img.logo-small,
   svg.logo-small {
     width: 2rem;

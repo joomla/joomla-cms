@@ -20,9 +20,11 @@ if (!$app->getIdentity()->authorise('core.login.admin') || !$app->getIdentity()-
 // Try to get the items from the messages model
 try
 {
-	$messagesModel = new \Joomla\Component\Messages\Administrator\Model\MessagesModel(['ignore_request' => true]);
+	/** @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel */
+	$messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
+		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
 	$messagesModel->setState('filter.state', 0);
-	$messages      = $messagesModel->getItems();
+	$messages = $messagesModel->getItems();
 }
 catch (RuntimeException $e)
 {

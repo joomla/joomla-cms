@@ -112,7 +112,8 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const jsonContent = `window.errorLocale=${JSON.stringify(global[`${name}Obj`])};`;
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 

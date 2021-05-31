@@ -258,6 +258,7 @@
 			name="readmore_limit"
 			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+			filter="integer"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -280,17 +281,6 @@
 		/>
 
 		<field
-			name="show_hits"
-			type="radio"
-			label="JGLOBAL_SHOW_HITS_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
@@ -299,6 +289,18 @@
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="radio"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="record_hits:1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -530,17 +532,6 @@
 		/>
 
 		<field
-			name="show_category_heading_title_text"
-			type="radio"
-			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -604,6 +595,17 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -716,47 +718,62 @@
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
-		<field
-			name="blog_class_leading"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS_LEADING"
-			size="3"
-			validate="CssIdentifier"
-		/>
-
-		<field
-			name="blog_class"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS"
-			size="3"
-			validate="CssIdentifier"
-		/>
 
 		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+			filter="integer"
 			default="1"
+		/>
+
+		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			validate="CssIdentifier"
 		/>
 
 		<field
 			name="num_intro_articles"
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+			filter="integer"
 			default="4"
+		/>
+
+		<field
+			name="num_columns"
+			type="number"
+			label="JGLOBAL_NUM_COLUMNS_LABEL"
+			filter="integer"
+			default="1"
+		/>
+
+		<field
+			name="multi_column_order"
+			type="list"
+			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+		</field>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			validate="CssIdentifier"
 		/>
 
 		<field
 			name="num_links"
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
+			filter="integer"
 			default="4"
-		/>
-
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
 		/>
 
 		<field
@@ -774,12 +791,6 @@
 			<option value="4">J4</option>
 			<option value="5">J5</option>
 		</field>
-
-		<field
-			name="spacer2"
-			type="spacer"
-			hr="true"
-		/>
 
 		<field
 			name="link_intro_image"

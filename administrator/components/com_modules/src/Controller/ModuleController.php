@@ -284,7 +284,7 @@ class ModuleController extends FormController
 			&& !Factory::getUser()->authorise('core.edit.state', 'com_modules')
 			&& ($moduleId && !Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
 			echo new JsonResponse;
 			$app->close();
 		}

@@ -73,7 +73,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messages = [];
 

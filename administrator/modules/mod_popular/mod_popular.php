@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Module\Popular\Administrator\Helper\PopularHelper;
 
 $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
@@ -21,5 +23,26 @@ if ($params->get('automatic_title', 0))
 	$module->title = PopularHelper::getTitle($params);
 }
 
-// Render the module
-require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
+if (!ComponentHelper::getParams('com_content')->get('record_hits'))
+{
+	echo LayoutHelper::render('joomla.content.emptystate_module', [
+		'title'      => 'JGLOBAL_RECORD_HITS_DISABLED',
+		'icon'       => 'icon-minus-circle',
+		]
+	);
+}
+elseif (count($list))
+{
+	require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
+}
+else
+{
+	$app->getLanguage()->load('com_content');
+
+	echo LayoutHelper::render('joomla.content.emptystate_module', [
+			'textPrefix' => 'COM_CONTENT',
+			'textSuffix' => '_POPULAR',
+			'icon'       => 'icon-copy',
+		]
+	);
+}

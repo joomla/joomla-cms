@@ -36,10 +36,12 @@
 
     label {
       display: block;
+      padding: 3px 0;
+      font-size: inherit;
 
       input {
         position: relative;
-        top: 2px;
+        margin-inline-end: 5px;
       }
     }
   }

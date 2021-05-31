@@ -112,7 +112,14 @@ if (!Joomla) {
               const searchBox = document.getElementById('com-apps-searchbox');
               searchBox.value = '';
               this.initiateSearch();
+              document.getElementById('search-reset').setAttribute('disabled', 'disabled');
             });
+
+            if (document.getElementById('com-apps-searchbox').value === '') {
+              document.getElementById('search-reset').setAttribute('disabled', 'disabled');
+            }
+
+            document.getElementById('search-reset').innerHTML = Joomla.JText._('JSEARCH_FILTER_CLEAR');
 
             // eslint-disable-next-line no-shadow
             const orderingSelect = document.getElementById('com-apps-ordering');
@@ -153,6 +160,7 @@ if (!Joomla) {
               loaderContainer.classList.add('hidden');
               errorContainer.classList.remove('hidden');
             }
+            Joomla.renderMessages({ danger: [Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR')] }, '#web-loader-error');
 
             reject();
           },
@@ -237,6 +245,7 @@ if (!Joomla) {
     }
 
     initiateSearch() {
+      document.getElementById('search-reset').removeAttribute('disabled');
       webInstallerOptions.view = 'dashboard';
       this.installfromwebajaxsubmit();
     }

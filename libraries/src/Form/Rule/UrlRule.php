@@ -39,7 +39,7 @@ class UrlRule extends FormRule
 	 *
 	 * @since   1.7.0
 	 * @link    https://www.w3.org/Addressing/URL/url-spec.txt
-	 * @see	    JString
+	 * @see	    \Joomla\String\StringHelper
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

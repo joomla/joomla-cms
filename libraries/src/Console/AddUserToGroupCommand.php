@@ -116,7 +116,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
 			if (UserHelper::addUserToGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Add '" . $user->username . "' to group '" . $result . "'!");
+				$this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
 			}
 			else
 			{

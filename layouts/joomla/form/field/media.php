@@ -101,10 +101,10 @@ if ($showPreview)
 }
 
 // The url for the modal
-$url    = ($readonly ? ''
+$url = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
 		. $asset . '&author=' . $authorId)
-	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
+	. '&fieldid={field-media-id}&path=' . $folder);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
@@ -127,7 +127,7 @@ $modalHTML = HTMLHelper::_('bootstrap.renderModal',
 				'width'       => '100%',
 				'modalWidth'  => '80',
 				'bodyHeight'  => '60',
-				'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+				'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
 						. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 );
@@ -164,8 +164,8 @@ $wam->useStyle('webcomponent.field-media')
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-			<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
+			<button type="button" class="btn btn-success button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+			<button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 		<?php endif; ?>
 	</div>
 </joomla-field-media>

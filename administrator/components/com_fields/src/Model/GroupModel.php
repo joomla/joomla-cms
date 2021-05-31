@@ -268,7 +268,7 @@ class GroupModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -280,6 +280,15 @@ class GroupModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+		}
+
 		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))
@@ -367,7 +376,7 @@ class GroupModel extends AdminModel
 	 * Clean the cache
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

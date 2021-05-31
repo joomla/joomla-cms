@@ -36,7 +36,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MAILS_FORM_EDIT'); ?>" class="form-validate">
-	<div>
+	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MAILS_MAIL_CONTENT')); ?>
@@ -54,8 +54,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 				<?php echo $this->form->renderField('subject'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('subject_switcher')->label; ?>
-				<?php echo $this->form->getField('subject_switcher')->input; ?>
+				<input type="button" id="btnResetSubject" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_SUBJECT'); ?>" />
 			</div>
 		</div>
 
@@ -65,8 +64,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 				<?php echo $this->form->renderField('body'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('body_switcher')->label; ?>
-				<?php echo $this->form->getField('body_switcher')->input; ?>
+				<input type="button" id="btnResetBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_BODY'); ?>" />
 				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'body'); ?>
@@ -81,8 +79,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 				<?php echo $this->form->renderField('htmlbody'); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo $this->form->getField('htmlbody_switcher')->label; ?>
-				<?php echo $this->form->getField('htmlbody_switcher')->input; ?>
+				<input type="button" id="btnResetHtmlBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_HTML_BODY'); ?>" />
 				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>

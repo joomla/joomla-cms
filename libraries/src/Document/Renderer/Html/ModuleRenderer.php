@@ -91,7 +91,7 @@ class ModuleRenderer extends DocumentRenderer
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 
-			return ModuleHelper::ModuleCache($module, $params, $cacheparams);
+			return ModuleHelper::moduleCache($module, $params, $cacheparams);
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);

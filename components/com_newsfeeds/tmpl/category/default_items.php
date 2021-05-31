@@ -30,9 +30,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->params->get('filter_field') !== 'hide' && $this->params->get('filter_field') == '1') : ?>
 						<div class="btn-group">
 							<label class="filter-search-lbl visually-hidden" for="filter-search">
-								<span class="badge bg-warning text-dark">
-									<?php echo Text::_('JUNPUBLISHED'); ?>
-								</span>
 								<?php echo Text::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
 							</label>
 							<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
@@ -68,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</div>
 					</span>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<span class="badge bg-warning text-dark">
+						<span class="badge bg-warning text-light">
 							<?php echo Text::_('JUNPUBLISHED'); ?>
 						</span>
 					<?php endif; ?>

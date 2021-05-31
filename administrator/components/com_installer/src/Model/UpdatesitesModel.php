@@ -322,6 +322,13 @@ class UpdatesitesModel extends InstallerModel
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
+		// First backup any custom extra_query for the sites
+		$query = $db->getQuery(true)
+			->select('TRIM(' . $db->quoteName('location') . ') AS ' . $db->quoteName('location') . ', ' . $db->quoteName('extra_query'))
+			->from($db->quoteName('#__update_sites'));
+		$db->setQuery($query);
+		$backupExtraQuerys = $db->loadAssocList('location');
+
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
@@ -406,6 +413,16 @@ class UpdatesitesModel extends InstallerModel
 							$tmpInstaller->manifest = $manifest;
 							$tmpInstaller->setPath('manifest', $file);
 
+							// Remove last extra_query as we are in a foreach
+							$tmpInstaller->extraQuery = '';
+
+							if ($tmpInstaller->manifest->updateservers
+								&& $tmpInstaller->manifest->updateservers->server
+								&& isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]))
+							{
+								$tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
+							}
+
 							// Load the extension plugin (if not loaded yet).
 							PluginHelper::importPlugin('extension', 'joomla');
 
@@ -427,6 +444,9 @@ class UpdatesitesModel extends InstallerModel
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
+
+		// Flush the system cache to ensure extra_query is correctly loaded next time.
+		$this->cleanCache('_system');
 	}
 
 	/**
