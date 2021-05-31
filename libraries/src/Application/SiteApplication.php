@@ -328,25 +328,15 @@ final class SiteApplication extends CMSApplication
 			// Retrieve com_menu global settings
 			$temp = clone ComponentHelper::getParams('com_menus');
 
+			// Merge com_menu global settings
+			$params[$hash]->merge($temp);
+
 			// Lets cascade the parameters if we have menu item parameters
 			if (\is_object($menu))
 			{
-				// Get show_page_heading from com_menu global settings
-				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
-
 				$params[$hash]->merge($menu->getParams());
-				$title = $menu->title;
-			}
-			else
-			{
-				// Merge com_menu global settings
-				$params[$hash]->merge($temp);
-
-				// If supplied, use page title
-				$title = $temp->get('page_title', $title);
 			}
 
-			$params[$hash]->def('page_title', $title);
 			$params[$hash]->def('page_description', $description);
 			$params[$hash]->def('page_rights', $rights);
 			$params[$hash]->def('robots', $robots);
