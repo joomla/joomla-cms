@@ -13,28 +13,20 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $textPrefix = $displayData['textPrefix'] ?? '';
+$title = $displayData['title'] ?? '';
 $icon = $displayData['icon'] ?? 'icon-copy article';
 $componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
 $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
 
-// Did we have a definitive title provided to the view?
-if (isset($displayData['title']))
+// Did we have a definitive title provided to the view?, if not lets find one
+if (!$title)
 {
-	$title = Text::_($displayData['title']);
-}
-// Can we find a *_EMPTYSTATE_MODULE_TITLE translation?
-elseif (Factory::getApplication()->getLanguage()->hasKey($moduleLangString))
-{
-	$title = Text::_($moduleLangString);
-}
-// Else use the components *_EMPTYSTATE_TITLE string.
-else
-{
-	$title = Text::_($componentLangString);
+	// Can we find a *_EMPTYSTATE_MODULE_TITLE translation, Else use the components *_EMPTYSTATE_TITLE string
+	$title = Factory::getApplication()->getLanguage()->hasKey($moduleLangString) ? $moduleLangString : $componentLangString;
 }
 ?>
 <div class="mb-4">
 	<p class="fw-bold text-center text-muted">
-		<span class="<?php echo $icon; ?>" aria-hidden="true"></span> <?php echo $title; ?>
+		<span class="<?php echo $icon; ?>" aria-hidden="true"></span> <?php echo Text::_($title); ?>
 	</p>
 </div>
