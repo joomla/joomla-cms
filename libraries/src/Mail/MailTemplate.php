@@ -495,13 +495,14 @@ class MailTemplate
 			return '';
 		}
 
+		// Replace any placeholders.
+		$name = $this->replaceTags($name, $this->data);
+
+		// Get the file extension.
 		$ext = File::getExt($file);
 
 		// Strip off extension from $name and append extension of $file, if any
 		$name = File::stripExt($name) . ($ext ? '.' . $ext : '');
-
-		// Replace any placeholders.
-		$name = $this->replaceTags($name, $this->data);
 
 		return $name;
 	}
