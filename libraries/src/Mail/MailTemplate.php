@@ -254,7 +254,7 @@ class MailTemplate
 			// If HTML body is empty try to convert the Plain template to html
 			if (!$htmlBody)
 			{
-				$htmlBody = nl2br($plainBody);
+				$htmlBody = nl2br($plainBody, false);
 			}
 
 			$this->mailer->setBody($htmlBody);
