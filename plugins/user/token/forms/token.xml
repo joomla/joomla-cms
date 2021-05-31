@@ -10,7 +10,7 @@
 				name="saveme"
 				type="note"
 				label="PLG_USER_TOKEN_SAVEME_DESC"
-				heading="p"
+				heading=""
 				class="alert alert-warning"
 			/>
 
@@ -18,7 +18,7 @@
 				name="notokenforotherpeople"
 				type="note"
 				label="PLG_USER_TOKEN_NOTOKENFOROTHERPEOPLE_DESC"
-				heading="p"
+				heading=""
 				class="alert alert-warning"
 			/>
 
@@ -26,7 +26,7 @@
 				name="savemeforotherpeople"
 				type="note"
 				label="PLG_USER_TOKEN_SAVEMEFOROTHERPEOPLE_DESC"
-				heading="p"
+				heading=""
 				class="alert alert-warning"
 			/>
 
