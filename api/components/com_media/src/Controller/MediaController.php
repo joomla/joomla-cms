@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
 use Joomla\Component\Media\Api\Helper\MediaHelper;
@@ -117,8 +118,13 @@ class MediaController extends ApiController
 		{
 			throw new ResourceNotFound();
 		}
-			// A file or folder was meant to be created, but it already exists and overwriting is not the intention.
+		// A file or folder was meant to be created, but it already exists and overwriting is not the intention.
 		catch (FileExistsException $e)
+		{
+			throw new NotAcceptable();
+		}
+		// This exception is thrown when a filename
+		catch (FileNotFoundException $e)
 		{
 			throw new NotAcceptable();
 		}
@@ -142,17 +148,23 @@ class MediaController extends ApiController
 		// Set list specific request parameters in model state.
 		$this->setModelState(self::$listQueryModelStateMap);
 
+		// Display files in specific path.
+		if ($this->input->exists('path'))
+		{
+			$this->modelState->set('path', $this->input->get('path', '', 'PATH'));
+		}
+
+		// Return files (not folders) as url's.
+		if ($this->input->exists('url'))
+		{
+			$this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
+		}
+
 		// Map JSON:API compliant filter[search] to com_media model state.
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		// Tell model to display files in specific path.
-		if (array_key_exists('path', $apiFilterInfo))
-		{
-			$this->modelState->set('path', $filter->clean($apiFilterInfo['path'], 'PATH'));
-		}
-
-		// Tell model to search for files matching (part of) a name or glob pattern.
+		// Search for files matching (part of) a name or glob pattern.
 		if ($doSearch = array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
@@ -170,20 +182,23 @@ class MediaController extends ApiController
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
-	 * @throws  \InvalidPathException
+	 * @throws  InvalidPathException
 	 * @throws  \Exception
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayItem($path = null)
+	public function displayItem($path = '')
 	{
 		// Set list specific request parameters in model state.
 		$this->setModelState(self::$itemQueryModelStateMap);
 
-		// Tell model which file to dsplay.
-		if ($path)
+		// Display files in specific path.
+		$this->modelState->set('path', $path ?: $this->input->get('path', '', 'PATH'));
+
+		// Return files (not folders) as url's.
+		if ($this->input->exists('url'))
 		{
-			$this->modelState->set('path', $path);
+			$this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
 		}
 
 		return parent::displayItem();
@@ -224,8 +239,8 @@ class MediaController extends ApiController
 	 */
 	public function add()
 	{
+		$this->modelState->set('path', $this->input->json->get('path', '', 'PATH'));
 		// Check if an existing file may be overwritten. Defaults to false.
-		$this->input->set('path', $this->input->json->get('path'));
 		$this->modelState->set('override', $this->input->json->get('override', false));
 
 		parent::add();
@@ -267,8 +282,14 @@ class MediaController extends ApiController
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
 		}
 
+		$path = $this->input->json->get('path', '', 'STRING');
+		$path = $this->input->json->get('path', '', 'PATH');
+		$this->modelState->set('path', $this->input->json->get('path', '', 'PATH'));
+		// For renaming/moving files, we need the path to the existing file or folder.
+		$this->modelState->set('old_path', $this->input->get('path', '', 'PATH'));
 		// Check if an existing file may be overwritten. Defaults to true.
-		$this->modelState->set('override', $this->input->json->get('override', true));
+		$this->modelState->set('override', $this->input->json->get('override', false));
+
 		$recordId = $this->save();
 
 		$this->displayItem($recordId);
@@ -309,7 +330,7 @@ class MediaController extends ApiController
 		$json = $this->input->json;
 
 		// Split destination path into adapter name and file path.
-		list('adapter' => $adapter, 'path' => $path) = MediaHelper::adapterNameAndPath($this->input->get('path', '', 'PATH'));
+		['adapter' => $adapter, 'path' => $path] = MediaHelper::adapterNameAndPath($this->input->get('path', '', 'PATH'));
 
 		// Decode content, if any
 		if ($content = base64_decode($json->get('content', '', 'raw')))
@@ -319,9 +340,6 @@ class MediaController extends ApiController
 
 		// If there is no content, com_media's assumes the path refers to a folder.
 		$this->modelState->set('content', $content);
-		// com_media expects separate directory and file name.
-		$this->modelState->set('name', basename($path));
-		$this->modelState->set('path', dirname($path));
 
 		return $model->save();
 	}

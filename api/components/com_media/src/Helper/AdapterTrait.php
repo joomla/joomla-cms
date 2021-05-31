@@ -57,5 +57,4 @@ trait AdapterTrait
 
 		return $this->providerManager->getAdapter($name);
 	}
-
 }

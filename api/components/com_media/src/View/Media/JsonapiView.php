@@ -70,7 +70,9 @@ class JsonapiView extends BaseApiView
 		'modified_date_formatted',
 		'thumb_path',
 		'adapter',
-		'content'
+		'content',
+		'url',
+		'tempUrl'
 	];
 
 	/**
@@ -95,10 +97,10 @@ class JsonapiView extends BaseApiView
 		// Media resources have no id.
 		$item->id = '0';
 
-		// Transform resource location into url.
-		list('adapter' => $adapterName, 'path' => $path) = MediaHelper::adapterNameAndPath($item->path);
-		$adapter = $this->getAdapter($adapterName);
-		$item->path = $adapter->getUrl($path);
+//		// Transform resource location into url.
+//		list('adapter' => $adapterName, 'path' => $path) = MediaHelper::adapterNameAndPath($item->path);
+//		$adapter = $this->getAdapter($adapterName);
+//		$item->path = $adapter->getUrl($path);
 
 		return $item;
 	}
