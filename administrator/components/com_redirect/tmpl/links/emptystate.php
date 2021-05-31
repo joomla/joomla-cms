@@ -58,7 +58,7 @@ if ($user->authorise('core.create', 'com_redirect')
 			'closeButton' => false,
 			'backdrop'    => 'static',
 			'keyboard'    => false,
-			'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal"'
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
 				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'

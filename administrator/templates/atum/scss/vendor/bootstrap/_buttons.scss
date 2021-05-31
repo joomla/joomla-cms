@@ -4,6 +4,15 @@
   transition: none;
 }
 
+@include media-breakpoint-down(sm) {
+  .btn {
+    margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
+  }
+}
+
 .btn-primary {
   color: var(--atum-text-light);
   background-color: var(--atum-bg-dark-60);

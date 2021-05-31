@@ -8,15 +8,8 @@
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Date;
 
-use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Language\Language;
-use Joomla\DI\Container;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class DateTest extends UnitTestCase
 {

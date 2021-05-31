@@ -138,7 +138,7 @@ class UserListCest
 	 *
 	 * @return  void  The user's form will be filled with given detail
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 *
 	 * @throws Exception
 	 */

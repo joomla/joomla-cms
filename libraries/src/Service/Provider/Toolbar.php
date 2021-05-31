@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's toolbar dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Toolbar implements ServiceProviderInterface
 {
@@ -29,7 +29,7 @@ class Toolbar implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

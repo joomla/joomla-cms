@@ -77,7 +77,7 @@ class BannerModel extends AdminModel
 		// Set the variables
 		$user = Factory::getUser();
 
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -257,7 +257,7 @@ class BannerModel extends AdminModel
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 

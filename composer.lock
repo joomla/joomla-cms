@@ -1622,20 +1622,21 @@
         },
         {
             "name": "joomla/session",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "97995f4079dabfe7be6d8a8384ec448049e93630"
+                "reference": "56bc213d3263e492138ca6a091506a2338774f97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/97995f4079dabfe7be6d8a8384ec448049e93630",
-                "reference": "97995f4079dabfe7be6d8a8384ec448049e93630",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/56bc213d3263e492138ca6a091506a2338774f97",
+                "reference": "56bc213d3263e492138ca6a091506a2338774f97",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "conflict": {
                 "joomla/database": "<2.0",
@@ -1643,7 +1644,7 @@
                 "joomla/input": "<2.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/console": "^2.0",
                 "joomla/database": "^2.0",
                 "joomla/event": "^2.0",
@@ -1684,7 +1685,21 @@
                 "joomla",
                 "session"
             ],
-            "time": "2020-06-05T11:01:17+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/session/issues",
+                "source": "https://github.com/joomla-framework/session/tree/2.0.0-beta2"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-05-18T22:10:43+00:00"
         },
         {
             "name": "joomla/string",
@@ -2306,16 +2321,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.4.0",
+            "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "050d430203105c27c30efd1dce7aa421ad882d01"
+                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/050d430203105c27c30efd1dce7aa421ad882d01",
-                "reference": "050d430203105c27c30efd1dce7aa421ad882d01",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9256f12d8fb0cd0500f93b19e18c356906cbed3d",
+                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d",
                 "shasum": ""
             },
             "require": {
@@ -2368,13 +2383,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "funding": [
-                {
-                    "url": "https://github.com/Synchro",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-03-31T20:06:42+00:00"
+            "time": "2021-04-29T12:25:04+00:00"
         },
         {
             "name": "psr/container",

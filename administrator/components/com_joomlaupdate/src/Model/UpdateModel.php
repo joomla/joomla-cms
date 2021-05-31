@@ -144,7 +144,7 @@ class UpdateModel extends BaseDatabaseModel
 		else
 		{
 			$update_params = ComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
+			$cache_timeout = (int) $update_params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
@@ -241,7 +241,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Fetch the full update details from the update details URL.
 		$update = new Update;
-		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
+		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
 		$this->updateInformation['object'] = $update;
 
@@ -1121,6 +1121,27 @@ ENDDATA;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
+		// Check for GD support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+		$setting->state = extension_loaded('gd');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for iconv support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+		$setting->state = function_exists('iconv');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for intl support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+		$setting->state = function_exists('transliterator_transliterate');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
 		return $settings;
 	}
 
@@ -1554,7 +1575,7 @@ ENDDATA;
 	{
 		$update = new \Joomla\CMS\Updater\Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
+		$update->loadFromXml($updateFileUrl);
 
 		$downloadUrl = $update->get('downloadurl');
 

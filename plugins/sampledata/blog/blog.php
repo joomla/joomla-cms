@@ -58,7 +58,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -302,7 +302,7 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($workflowTable->getError()));
 
 				return $response;
 			}
@@ -883,7 +883,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
+		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
+			->createModel('Item', 'Administrator', ['ignore_request' => true]);
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1409,7 +1410,9 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
+		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
@@ -1433,7 +1436,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
-					'layout'          => 'cassiopeia:dropdown-metismenu',
+					'layout'          => 'cassiopeia:collapse-metismenu',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
@@ -1681,7 +1684,6 @@ class PlgSampledataBlog extends CMSPlugin
 				// Similiar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
-				'position' => '',
 				'module'   => 'mod_tags_similar',
 				'position' => 'bottom-b',
 				'params'   => array(
@@ -1712,31 +1714,6 @@ class PlgSampledataBlog extends CMSPlugin
 					'cache'          => 1,
 					'cache_time'     => 900,
 					'cachemode'      => 'static',
-					'module_tag'     => 'div',
-					'bootstrap_size' => 6,
-					'header_tag'     => 'h3',
-					'style'          => 0,
-				),
-			),
-			array(
-				// Backend - Release News
-				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
-				'ordering'  => 1,
-				'position'  => 'postinstall',
-				'module'    => 'mod_feed',
-				'client_id' => 1,
-				'params'    => array(
-					'rssurl'         => 'https://www.joomla.org/announcements/release-news.feed',
-					'rssrtl'         => 0,
-					'rsstitle'       => 1,
-					'rssdesc'        => 1,
-					'rssimage'       => 1,
-					'rssitems'       => 3,
-					'rssitemdesc'    => 1,
-					'word_count'     => 0,
-					'layout'         => '_:default',
-					'cache'          => 1,
-					'cache_time'     => 900,
 					'module_tag'     => 'div',
 					'bootstrap_size' => 0,
 					'header_tag'     => 'h3',

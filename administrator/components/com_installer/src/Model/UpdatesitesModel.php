@@ -446,7 +446,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Flush the system cache to ensure extra_query is correctly loaded next time.
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 	}
 
 	/**

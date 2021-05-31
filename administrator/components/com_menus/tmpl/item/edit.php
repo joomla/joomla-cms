@@ -134,9 +134,6 @@ if ($clientId === 1)
 						$this->form->setFieldAttribute('publish_down', 'showon', '');
 					}
 
-					echo $this->form->renderField('browserNav');
-					echo $this->form->renderField('template_style_id');
-
 					if (!$isModal && $this->item->type == 'container')
 					{
 						echo $this->loadTemplate('container');

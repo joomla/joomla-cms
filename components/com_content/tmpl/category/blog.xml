@@ -44,18 +44,6 @@
 				/>
 
 				<field
-					name="show_category_heading_title_text"
-					type="list"
-	 				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-					useglobal="true"
-					class="form-select-color-state"
-					validate="options"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
 					name="show_category_title"
 					type="list"
 					label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -124,6 +112,18 @@
 					name="show_no_articles"
 					type="list"
 					label="COM_CONTENT_NO_ARTICLES_LABEL"
+					useglobal="true"
+					class="form-select-color-state"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category_heading_title_text"
+					type="list"
+	 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 					useglobal="true"
 					class="form-select-color-state"
 					validate="options"
