@@ -29,7 +29,7 @@
       }
     }
 
-    &:hover, &.active {
+    &.item:hover, &.active {
       background-color: var(--atum-bg-dark-60);
       a {
         color: var(--atum-text-light);
