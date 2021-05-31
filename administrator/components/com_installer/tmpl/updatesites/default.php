@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge bg-warning text-dark">
+										<span class="badge bg-danger text-white">
 											<span class="hasPopover"
 													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
