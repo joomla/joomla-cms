@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$textPrefix = $displayData['textPrefix'] ?? '';
-$title = $displayData['title'] ?? '';
 $icon = $displayData['icon'] ?? 'icon-copy article';
-$componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
-$moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
+$textPrefix = $displayData['textPrefix'] ?? '';
+$textSuffix = $displayData['textSuffix'] ?? '';
+$title = $displayData['title'] ?? '';
+$componentLangString = $textPrefix . '_EMPTYSTATE_TITLE' . $textSuffix;
+$moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . $textSuffix;
 
 // Did we have a definitive title provided to the view?, if not lets find one!
 if (!$title)
