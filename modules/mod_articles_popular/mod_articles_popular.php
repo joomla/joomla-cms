@@ -14,8 +14,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Module\ArticlesPopular\Site\Helper\ArticlesPopularHelper;
 
-$list = ArticlesPopularHelper::getList($params);
-
 // Exit early if hits are disabled.
 if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
 {
@@ -23,5 +21,7 @@ if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
 
 	return;
 }
+
+$list = ArticlesPopularHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_articles_popular', $params->get('layout', 'default'));
