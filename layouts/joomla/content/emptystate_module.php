@@ -19,7 +19,7 @@ $title = $displayData['title'] ?? '';
 $componentLangString = $textPrefix . '_EMPTYSTATE_TITLE' . $textSuffix;
 $moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . $textSuffix;
 
-// Did we have a definitive title provided to the view?, if not lets find one!
+// Did we have a definitive title provided to the view? If not, let's find one!
 if (!$title)
 {
 	// Can we find a *_EMPTYSTATE_MODULE_TITLE translation, Else use the components *_EMPTYSTATE_TITLE string
