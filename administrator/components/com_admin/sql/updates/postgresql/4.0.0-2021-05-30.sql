@@ -24,3 +24,8 @@ UPDATE "#__modules"
    AND "module" = 'mod_menu'
    AND "position" = 'menu'
    AND "params" LIKE '{%"layout":"cassiopeia:dropdown-metismenu"%}';
+
+-- From 4.0.0-2021-05-30.sql
+UPDATE "#__update_sites"
+   SET "location" = 'https://update.joomla.org/language/translationlist_4.xml'
+ WHERE "location" = 'https://update.joomla.org/language/translationlist_3.xml';
