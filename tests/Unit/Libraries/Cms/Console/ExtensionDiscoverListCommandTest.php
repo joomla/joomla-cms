@@ -76,7 +76,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Helper function to create a ExtensionDiscoverCommand
 	 *
-	 * @return  ExtensionDiscoverCommand
+	 * @return  ExtensionDiscoverListCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
