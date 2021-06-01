@@ -64,7 +64,6 @@ class JsonapiRenderer extends JsonRenderer
 			$errors->registerHandler(new SaveExceptionHandler);
 			$errors->registerHandler(new CheckinCheckoutExceptionHandler);
 			$errors->registerHandler(new SendEmailExceptionHandler);
-			$errors->registerHandler(new InstallLanguageExceptionHandler);
 			$errors->registerHandler(new FallbackExceptionHandler(JDEBUG));
 
 			$response = $errors->handle($error);
