@@ -28,7 +28,7 @@ function usage($command)
 {
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
-	echo PHP_TAB . '[options]:'.PHP_EOL;
+	echo PHP_TAB . '[options]:' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--remote <remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
@@ -228,18 +228,21 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 0, 1) === 'R') {
-			$fileName   = substr($file, strrpos($file, "\t") + 1);
-		} else {
-			$fileName   = substr($file, 2);
+		if (substr($file, 0, 1) === 'R')
+		{
+			$fileName = substr($file, strrpos($file, "\t") + 1);
 		}
-		$folderPath = explode('/', $fileName);
-		$baseFolderName = $folderPath[0];
+		else
+		{
+			$fileName = substr($file, 2);
+		}
 
-		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
-		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$folderPath             = explode('/', $fileName);
+		$baseFolderName         = $folderPath[0];
+		$doNotPackageFile       = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
+		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
 
 		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
@@ -393,7 +396,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
+	foreach (array('sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{
@@ -439,25 +442,34 @@ $githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVe
 foreach ($checksums as $packageName => $packageHashes)
 {
 	$type = '';
+
 	if (strpos($packageName, 'Full_Package') !== false)
 	{
 		$type = 'FULL';
-	} elseif (strpos($packageName, 'Patch_Package') !== false) {
-		if (strpos($packageName, '.x_to') !== false) {
+	}
+	elseif (strpos($packageName, 'Patch_Package') !== false)
+	{
+		if (strpos($packageName, '.x_to') !== false)
+		{
 			$type = 'MINOR';
-		} else {
+		}
+		else
+		{
 			$type = 'POINT';
 		}
-	} elseif (strpos($packageName, 'Update_Package') !== false) {
+	}
+	elseif (strpos($packageName, 'Update_Package') !== false)
+	{
 		$type = 'UPGRADE';
 	}
 
 	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
 }
 
-foreach($releaseText as $type => $text)
+foreach ($releaseText as $type => $text)
 {
-	if (empty($githubContent[$type])) {
+	if (empty($githubContent[$type]))
+	{
 		continue;
 	}
 
