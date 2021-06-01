@@ -201,7 +201,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<p>
 					<a href="#"
 							class="btn btn-primary"
-							onclick="return Install.goToPage('remove');">
+							onclick="return Joomla.goToPage('remove');">
 						<span class="icon-arrow-left icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
