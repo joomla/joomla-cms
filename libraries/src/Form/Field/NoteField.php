@@ -74,13 +74,7 @@ class NoteField extends FormField
 			$html[] = '<button type="button" class="btn-close" data-dismiss="' . $close . '">&times;</button>';
 		}
 
-		$html[] = !empty($title)
-			? ($heading ? '<' . $heading . '>' : '')
-			. '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INFO') . '</span> '
-			. Text::_($title)
-			. ($heading ? '</' . $heading . '>' : '')
-			: '';
-
+		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
 		$html[] = !empty($description) ? Text::_($description) : '';
 
 		return '</div><div ' . $class . '>' . implode('', $html);
