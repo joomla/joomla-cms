@@ -352,7 +352,7 @@ final class SiteApplication extends CMSApplication
 			$params[$hash]->def('page_rights', $rights);
 			$params[$hash]->def('robots', $robots);
 		}
-		//echo '<pre>' . print_r($params[$hash], true); exit;
+
 		return $params[$hash];
 	}
 
