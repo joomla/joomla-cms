@@ -88,7 +88,7 @@ if (!$remote)
 	$remote = 'tags/' . $tagVersion;
 	chdir($here);
 
-	// We in release mode so we need the extra text files
+	// We are in release mode so we need the extra text files
 	$includeExtraTextfiles = true;
 }
 
