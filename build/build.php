@@ -398,26 +398,27 @@ if (!$excludeZip)
 
 chdir('..');
 
-foreach (array_keys($checksums) as $packageName)
-{
-	echo "Generating checksums for $packageName\n";
-
-	foreach (array('sha256', 'sha384', 'sha512') as $hash)
-	{
-		if (file_exists('packages/' . $packageName))
-		{
-			$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
-		}
-		else
-		{
-			echo "Package $packageName not found in build directories\n";
-		}
-	}
-}
-
 // Thats only needed when we release a version
 if ($includeExtraTextfiles)
 {
+
+	foreach (array_keys($checksums) as $packageName)
+	{
+		echo "Generating checksums for $packageName\n";
+
+		foreach (array('sha256', 'sha384', 'sha512') as $hash)
+		{
+			if (file_exists('packages/' . $packageName))
+			{
+				$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			}
+			else
+			{
+				echo "Package $packageName not found in build directories\n";
+			}
+		}
+	}
+
 	echo "Generating checksums.txt file\n";
 
 	$checksumsContent = '';
