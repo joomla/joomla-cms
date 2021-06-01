@@ -88,11 +88,11 @@
 
   &[type="warning"] {
     .joomla-alert--close {
-      color: #{$state-warning-custom-text};
+      color: #{$state-warning-text};
     }
 
-    color: #{$state-warning-custom-text};
-    --alert-accent-color: #{$state-warning-text};
+    color: #{$state-warning-text};
+    --alert-accent-color: #{$warning};
     --alert-bg-color: #{$state-warning-bg};
   }
 
