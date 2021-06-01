@@ -13,7 +13,7 @@ namespace Joomla\CMS\Helper;
 /**
  * Factory to load helper classes.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface HelperFactoryInterface
 {
@@ -25,7 +25,7 @@ interface HelperFactoryInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getHelper(string $name, array $config = []);
 }

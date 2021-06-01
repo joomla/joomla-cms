@@ -344,7 +344,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
 	{

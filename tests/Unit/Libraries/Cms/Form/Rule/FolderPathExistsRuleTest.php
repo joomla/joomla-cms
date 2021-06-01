@@ -17,7 +17,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 class FolderPathExistsRuleTest extends UnitTestCase
 {
@@ -26,7 +26,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dataTest(): array
 	{
@@ -82,7 +82,7 @@ class FolderPathExistsRuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @dataProvider dataTest
 	 */
 	public function testRule($expected, $element, $value)

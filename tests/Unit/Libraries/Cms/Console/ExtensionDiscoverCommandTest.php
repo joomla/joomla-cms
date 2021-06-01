@@ -13,7 +13,7 @@ use Joomla\CMS\Console\ExtensionDiscoverCommand;
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverCommand.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +22,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsConstructable()
 	{
@@ -35,7 +35,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testProcessDiscoverReturnIsInt()
 	{
@@ -54,7 +54,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetNote()
 	{
@@ -74,7 +74,7 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  ExtensionDiscoverCommand
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function createExtensionDiscoverCommand(): ExtensionDiscoverCommand
 	{

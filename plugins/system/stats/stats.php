@@ -646,7 +646,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Disable this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
 	 * therefore regaining a tiny bit of performance
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return  boolean
 	 */

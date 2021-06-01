@@ -29,7 +29,7 @@ class JNamespacePsr4Map
 
 	/**
 	 * @var array|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cachedMap = null;
 
