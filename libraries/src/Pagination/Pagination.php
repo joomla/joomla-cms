@@ -518,7 +518,10 @@ class Pagination
 
 			if (\function_exists('pagination_list_footer'))
 			{
-				Log::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', Log::WARNING, 'deprecated');
+				@trigger_error(
+					'pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.',
+					E_USER_DEPRECATED
+				);
 
 				$list = array(
 					'prefix'       => $this->prefix,
