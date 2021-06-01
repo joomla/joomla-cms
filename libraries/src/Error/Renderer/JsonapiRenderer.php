@@ -10,6 +10,7 @@ namespace Joomla\CMS\Error\Renderer;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
@@ -81,7 +82,12 @@ class JsonapiRenderer extends JsonRenderer
 		}
 
 		$this->getDocument()->setErrors($response->getErrors());
-		Factory::getApplication()->setHeader('status', $response->getStatus());
+		$app = Factory::getApplication();
+
+		if ($app instanceof WebApplicationInterface)
+		{
+			$app->setHeader('status', $response->getStatus());
+		}
 
 		if (ob_get_contents())
 		{
