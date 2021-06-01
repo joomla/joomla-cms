@@ -212,8 +212,7 @@ class Path
 				sprintf(
 					'%s() - $path is not a string',
 					__METHOD__
-				),
-				20
+				)
 			);
 		}
 
