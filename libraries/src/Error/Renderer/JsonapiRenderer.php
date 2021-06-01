@@ -12,7 +12,6 @@ namespace Joomla\CMS\Error\Renderer;
 
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
-use Joomla\CMS\Error\JsonApi\InstallLanguageExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidRouteExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAcceptableExceptionHandler;
