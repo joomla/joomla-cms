@@ -60,7 +60,6 @@
 				name="page_title"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-				useglobal="true"
 			/>
 
 			<field
