@@ -1411,7 +1411,9 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
+		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
@@ -1952,7 +1954,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 
 			// Get ID from menuitem we just added
-			$itemIds[] = $this->menuItemModel->getstate('item.id');
+			$itemIds[] = $this->menuItemModel->getState('item.id');
 		}
 
 		return $itemIds;
