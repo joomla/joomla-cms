@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
@@ -79,16 +80,8 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	public function getAdapters()
 	{
 		$adapters = [];
-		$directories = $this->params->get('directories', '[{"directory": "images"}]');
 
-		// Do a check if default settings are not saved by user
-		// If not initialize them manually
-		if (is_string($directories))
-		{
-			$directories = json_decode($directories);
-		}
-
-		foreach ($directories as $directoryEntity)
+		foreach ($this->getDirectories() as $directoryEntity)
 		{
 			if ($directoryEntity->directory)
 			{
@@ -104,5 +97,37 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 		}
 
 		return $adapters;
+	}
+
+	/**
+	 * Return plugin directory paramater settings or sensible default
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	private function getDirectories()
+	{
+		// Get plugin directories parameter and makes sure it's an array.
+		$directories = (array) $this->params->get('directories');
+
+		// Filter out empty entries.
+		$directories = array_filter($directories, function ($directoryEntity)
+		{
+			return !empty($directoryEntity->directory);
+		});
+
+		// If directories have been configured, return them.
+		if (count($directories))
+		{
+			return $directories;
+		}
+
+		// Return Media Manager's file path setting.
+		$comMediaParams = ComponentHelper::getParams('com_media');
+		$defaultDirectory = new \stdClass();
+		$defaultDirectory->directory = $comMediaParams->get('file_path', 'images');;
+
+		return [$defaultDirectory];
 	}
 }
