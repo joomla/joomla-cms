@@ -32,7 +32,7 @@ class AdminPage extends AcceptanceTester
 	 * The form element with id "adminForm"
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $adminForm = ['id' => 'adminForm'];
 

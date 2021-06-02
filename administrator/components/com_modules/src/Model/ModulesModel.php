@@ -466,7 +466,7 @@ class ModulesModel extends ListModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

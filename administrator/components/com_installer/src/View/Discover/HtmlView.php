@@ -27,7 +27,7 @@ class HtmlView extends InstallerViewDefault
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 

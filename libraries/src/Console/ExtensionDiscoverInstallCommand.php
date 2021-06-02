@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for discovering extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ExtensionDiscoverInstallCommand extends AbstractCommand
 {
@@ -30,7 +30,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:discover:install';
 
@@ -38,7 +38,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * Stores the Input Object
 	 *
 	 * @var    InputInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $cliInput;
 
@@ -46,7 +46,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * SymfonyStyle Object
 	 *
 	 * @var    SymfonyStyle
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $ioStyle;
 
@@ -55,7 +55,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @var    DatabaseInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $db;
 
@@ -64,7 +64,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
@@ -80,7 +80,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -94,7 +94,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{
@@ -119,7 +119,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * @return  integer  The count of installed extensions
 	 *
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function processDiscover($eid): int
 	{
@@ -174,7 +174,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @return  string  The text for the note
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNote(int $count, int $eid): string
 	{
@@ -216,7 +216,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
