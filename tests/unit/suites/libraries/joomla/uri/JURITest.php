@@ -30,6 +30,48 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	protected $backupServer;
 
 	/**
+	 * Set up JUri environment depending upon arguments.
+	 * Allows to replace the environment for some tests.
+	 *
+	 * @param string $httpHost
+	 * @param bool   $https
+	 * @param string $scriptName
+	 * @param string $query
+	 * @param string $fragment
+	 *
+	 * @return void
+	 *
+	 * @since   11.1
+	 */
+	private function setUpLocal($httpHost, $https, $scriptName, $query = null, $fragment = null)
+	{
+		JUri::reset();
+
+		$_SERVER['HTTP_HOST'] = $httpHost;
+		if ($https)
+		{
+			$_SERVER['HTTPS'] = 'on';
+		}
+		else
+		{
+			unset($_SERVER['HTTPS']);
+		}
+		$_SERVER['SCRIPT_NAME'] = $scriptName;
+		$_SERVER['PHP_SELF'] = $scriptName;
+		$_SERVER['REQUEST_URI'] = $scriptName;
+		if (!empty($query))
+		{
+			$_SERVER['REQUEST_URI'] .= '?' . $query;
+		}
+		if (!empty($fragment))
+		{
+			$_SERVER['REQUEST_URI'] .= '#' . $fragment;
+		}
+
+		$this->object = new JUri;
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -41,14 +83,7 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 		$this->backupServer = $_SERVER;
-		JUri::reset();
-
-		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
-		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
-		$_SERVER['PHP_SELF'] = '/joomla/index.php';
-		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
-
-		$this->object = new JUri;
+		self::setUpLocal('www.example.com:80', false, '/joomla/index.php', 'var=value 10');
 	}
 
 	/**
@@ -216,6 +251,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 			JUri::isInternal('www.myotherexample.com'),
 			'www.myotherexample.com should NOT be resolved as internal'
 		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com'),
+			'www.myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com'),
+			'www.myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com'),
+			'www.myotherexample.com should NOT be resolved as internal'
+		);
 	}
 
 	/**
@@ -227,6 +280,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testisInternalWithNoSchemeAndNoHostnameAndNotInternal()
 	{
+		$this->assertFalse(
+			JUri::isInternal('myotherexample.com'),
+			'myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('myotherexample.com'),
+			'myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('myotherexample.com'),
+			'myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
 		$this->assertFalse(
 			JUri::isInternal('myotherexample.com'),
 			'myotherexample.com should NOT be resolved as internal'
@@ -244,7 +315,25 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertFalse(
 			JUri::isInternal('http://www.myotherexample.com'),
-			'http://www.myotherexample.com should NOT be resolved as  internal'
+			'http://www.myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com'),
+			'http://www.myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com'),
+			'http://www.myotherexample.com should NOT be resolved as internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com'),
+			'http://www.myotherexample.com should NOT be resolved as internal'
 		);
 	}
 
@@ -257,6 +346,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testisInternalWhenInternalWithNoDomainOrScheme()
 	{
+		$this->assertTrue(
+			JUri::isInternal('index.php?option=com_something'),
+			'index.php?option=com_something should be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('index.php?option=com_something'),
+			'index.php?option=com_something should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('index.php?option=com_something'),
+			'index.php?option=com_something should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
 		$this->assertTrue(
 			JUri::isInternal('index.php?option=com_something'),
 			'index.php?option=com_something should be internal'
@@ -276,6 +383,34 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
 			JUri::base() . 'index.php?option=com_something should be internal'
 		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenInternalWithDomainAndSchemeAndNoPort()
+	{
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
 	}
 
 	/**
@@ -287,15 +422,35 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testisInternalWhenInternalWithDomainAndSchemeAndPortNoSubFolder()
 	{
-		JUri::reset();
+		self::setUpLocal('www.example.com:80', false, '/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
 
-		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-		$_SERVER['PHP_SELF'] = '/index.php';
-		$_SERVER['REQUEST_URI'] = '/index.php?var=value 10';
+		self::setUpLocal('www.example.com:443', true, '/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
+	}
 
-		$this->object = new JUri;
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenInternalWithDomainAndSchemeAndNoPortNoSubFolder()
+	{
+		self::setUpLocal('www.example.com', false, '/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
 
+		self::setUpLocal('www.example.com', true, '/index.php', 'var=value 10');
 		$this->assertTrue(
 			JUri::isInternal(JUri::base() . 'index.php?option=com_something'),
 			JUri::base() . 'index.php?option=com_something should be internal'
@@ -315,6 +470,34 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 			JUri::isInternal('http://www.myotherexample.com/index.php?option=com_something'),
 			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
 		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com/index.php?option=com_something'),
+			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenNOTInternalWithDomainAndSchemeAndNoPortAndIndex()
+	{
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com/index.php?option=com_something'),
+			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.myotherexample.com/index.php?option=com_something'),
+			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
+		);
 	}
 
 	/**
@@ -326,6 +509,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testisInternalWhenNOTInternalWithDomainAndNoSchemeAndPortAndIndex()
 	{
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com/index.php?option=com_something'),
+			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com/index.php?option=com_something'),
+			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.myotherexample.com/index.php?option=com_something'),
+			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
 		$this->assertFalse(
 			JUri::isInternal('www.myotherexample.com/index.php?option=com_something'),
 			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
@@ -345,6 +546,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 			JUri::isInternal('/customDevScript.php'),
 			'/customDevScript.php should NOT be internal'
 		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php'),
+			'/customDevScript.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php'),
+			'/customDevScript.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php'),
+			'/customDevScript.php should NOT be internal'
+		);
 	}
 
 	/**
@@ -356,6 +575,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testAppendingOfBaseToTheEndOfTheUrl()
 	{
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php?www.example.com'),
+			'/customDevScript.php?www.example.com should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php?www.example.com'),
+			'/customDevScript.php?www.example.com should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('/customDevScript.php?www.example.com'),
+			'/customDevScript.php?www.example.com should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
 		$this->assertFalse(
 			JUri::isInternal('/customDevScript.php?www.example.com'),
 			'/customDevScript.php?www.example.com should NOT be internal'
@@ -375,6 +612,24 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 			JUri::isInternal('www.otherexample.com/www.example.com'),
 			'www.otherexample.com/www.example.com should NOT be internal'
 		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.otherexample.com/www.example.com'),
+			'www.otherexample.com/www.example.com should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.otherexample.com/www.example.com'),
+			'www.otherexample.com/www.example.com should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('www.otherexample.com/www.example.com'),
+			'www.otherexample.com/www.example.com should NOT be internal'
+		);
 	}
 
 	/**
@@ -389,6 +644,210 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(
 			JUri::isInternal('www.example.com:80'),
 			'www.example.com:80 should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('www.example.com:443'),
+			'www.example.com:443 should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeHostMatchNoPort()
+	{
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com/joomla/index.php'),
+			'http://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com/joomla/index.php'),
+			'http://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com/joomla/index.php'),
+			'https://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com/joomla/index.php'),
+			'https://www.example.com/joomla/index.php should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeDifferHostMatchNoPort()
+	{
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com/joomla/index.php'),
+			'https://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com/joomla/index.php'),
+			'https://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com/joomla/index.php'),
+			'http://www.example.com/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com/joomla/index.php'),
+			'http://www.example.com/joomla/index.php should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeHostMatchStandardPort()
+	{
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com:80/joomla/index.php'),
+			'http://www.example.com:80/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com:80/joomla/index.php'),
+			'http://www.example.com:80/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com:443/joomla/index.php'),
+			'https://www.example.com:443/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com:443/joomla/index.php'),
+			'https://www.example.com:443/joomla/index.php should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeDifferHostMatchStandardPort()
+	{
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com:443/joomla/index.php'),
+			'https://www.example.com:443/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('https://www.example.com:443/joomla/index.php'),
+			'https://www.example.com:443/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com:80/joomla/index.php'),
+			'http://www.example.com:80/joomla/index.php should be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertTrue(
+			JUri::isInternal('http://www.example.com:80/joomla/index.php'),
+			'http://www.example.com:80/joomla/index.php should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeHostMatchNonStandardPort()
+	{
+		$this->assertFalse(
+			JUri::isInternal('http://www.example.com:8080/joomla/index.php'),
+			'http://www.example.com:8080/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.example.com:8080/joomla/index.php'),
+			'http://www.example.com:8080/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('https://www.example.com:8443/joomla/index.php'),
+			'https://www.example.com:8443/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('https://www.example.com:8443/joomla/index.php'),
+			'https://www.example.com:8443/joomla/index.php should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeDifferHostMatchNonStandardPort()
+	{
+		$this->assertFalse(
+			JUri::isInternal('https://www.example.com:8443/joomla/index.php'),
+			'https://www.example.com:8443/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', false, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('https://www.example.com:8443/joomla/index.php'),
+			'https://www.example.com:8443/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com:443', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.example.com:8080/joomla/index.php'),
+			'http://www.example.com:8080/joomla/index.php should NOT be internal'
+		);
+
+		self::setUpLocal('www.example.com', true, '/joomla/index.php', 'var=value 10');
+		$this->assertFalse(
+			JUri::isInternal('http://www.example.com:8080/joomla/index.php'),
+			'http://www.example.com:8080/joomla/index.php should NOT be internal'
 		);
 	}
 
