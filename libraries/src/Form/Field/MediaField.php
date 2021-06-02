@@ -306,7 +306,7 @@ class MediaField extends FormField
 			if (MediaHelper::isValidLocalDirectory($paths[0]))
 			{
 				$adapterName  = array_shift($paths);
-				$this->folder = 'local-' . $adapterName . '/' . implode('/', $paths);
+				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
 		}
 		elseif ($this->directory && strpos(':', $this->directory))
