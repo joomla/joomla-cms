@@ -46,7 +46,9 @@ class JsonapiView extends BaseApiView
 		'modified_date_formatted',
 		'thumb_path',
 		'adapter',
-		'content'
+		'content',
+		'url',
+		'tempUrl'
 	];
 
 	/**

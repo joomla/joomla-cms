@@ -57,7 +57,7 @@ class MediumModel extends BaseModel {
 			'path'    => $path,
 		] = MediaHelper::adapterNameAndPath($this->getState('path', ''));
 
-		return $this->mediaApiModel->getFile($adapterName, $path, $options = []);
+		return $this->mediaApiModel->getFile($adapterName, $path, $options);
 	}
 
 	/**
