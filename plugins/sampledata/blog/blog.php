@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\ParameterType;
 
 /**
@@ -58,7 +59,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
+	 * @var    ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -302,7 +303,7 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($workflowTable->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
 
 				return $response;
 			}
@@ -883,8 +884,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
-			->createModel('Item', 'Administrator', ['ignore_request' => true]);
+		$this->menuItemModel = new ItemModel;
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1410,9 +1410,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
-		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
-			->createModel('Module', 'Administrator', ['ignore_request' => true]);
+		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
@@ -1436,7 +1434,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
-					'layout'          => 'cassiopeia:collapse-metismenu',
+					'layout'          => 'cassiopeia:dropdown-metismenu',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
@@ -1684,6 +1682,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Similiar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
+				'position' => '',
 				'module'   => 'mod_tags_similar',
 				'position' => 'bottom-b',
 				'params'   => array(
@@ -1952,7 +1951,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 
 			// Get ID from menuitem we just added
-			$itemIds[] = $this->menuItemModel->getState('item.id');
+			$itemIds[] = $this->menuItemModel->getstate('item.id');
 		}
 
 		return $itemIds;
