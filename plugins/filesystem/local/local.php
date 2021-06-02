@@ -105,7 +105,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getDirectories()
 	{
