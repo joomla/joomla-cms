@@ -9,6 +9,8 @@
 
 namespace Joomla\Component\Media\Api\Helper;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -42,10 +44,22 @@ class MediaHelper
 		}
 
 		// If we have less than 2 parts, we return a default aadapter name.
-		$result['adapter'] = 'local-images';
+		$result['adapter'] = self::defaultAdapterName();
 		// If we have 1 part, we return it as the path. Otherwise we return a default path.
 		$result['path'] = count($parts) ? $parts[0] : '/';
 
 		return $result;
+	}
+
+	private static function defaultAdapterName()
+	{
+		static $comMediaParams;
+
+		if (!$comMediaParams)
+		{
+			$comMediaParams = ComponentHelper::getParams('com_media');
+		}
+
+		return 'local-' . $comMediaParams->get('file_path', 'images');
 	}
 }
