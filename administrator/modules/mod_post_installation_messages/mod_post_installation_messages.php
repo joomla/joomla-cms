@@ -15,7 +15,9 @@ use Joomla\CMS\Helper\ModuleHelper;
 // Try to get the items from the post-installation model
 try
 {
-	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
+	/** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
+	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
+		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
 	$messagesCount = $messagesModel->getItemsCount();
 }
 catch (RuntimeException $e)

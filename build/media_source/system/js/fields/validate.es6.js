@@ -223,7 +223,7 @@ class JFormValidator {
       }
 
       this.handleResponse(true, element);
-      return false;
+      return true;
     }
 
     if (handler === '') {

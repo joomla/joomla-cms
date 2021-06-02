@@ -144,7 +144,7 @@ class UpdateModel extends BaseDatabaseModel
 		else
 		{
 			$update_params = ComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
+			$cache_timeout = (int) $update_params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
@@ -1121,6 +1121,27 @@ ENDDATA;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
+		// Check for GD support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+		$setting->state = extension_loaded('gd');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for iconv support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+		$setting->state = function_exists('iconv');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for intl support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+		$setting->state = function_exists('transliterator_transliterate');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
 		return $settings;
 	}
 
@@ -1324,7 +1345,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNonCorePlugins($folderFilter = array())
 	{

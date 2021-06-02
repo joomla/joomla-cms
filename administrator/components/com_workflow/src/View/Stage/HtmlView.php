@@ -75,16 +75,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Get the Data
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		// Get the Data
-		$this->state      = $this->get('State');
-		$this->form       = $this->get('Form');
-		$this->item       = $this->get('Item');
 
 		$extension = $this->state->get('filter.extension');
 
