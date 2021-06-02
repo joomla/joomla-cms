@@ -1,10 +1,11 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  FileSystem.Local
+ * @package         Joomla.Plugin
+ * @subpackage      FileSystem.Local
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see
+ *                  LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -14,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 /**
  * FileSystem Local plugin.
@@ -25,7 +27,8 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * Affects constructor behavior. If true, language files will be loaded
+	 * automatically.
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
@@ -88,9 +91,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
 				$directoryPath = rtrim($directoryPath) . '/';
 
-				$adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
-					$directoryPath, $directoryEntity->directory
-				);
+				$adapter = new LocalAdapter($directoryPath, $directoryEntity->directory);
 
 				$adapters[$adapter->getAdapterName()] = $adapter;
 			}
@@ -112,10 +113,12 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 		$directories = (array) $this->params->get('directories');
 
 		// Filter out empty entries.
-		$directories = array_filter($directories, function ($directoryEntity)
-		{
-			return !empty($directoryEntity->directory);
-		});
+		$directories = array_filter(
+			$directories,
+			function ($directoryEntity) {
+				return !empty($directoryEntity->directory);
+			}
+		);
 
 		// If directories have been configured, return them.
 		if (count($directories))
@@ -124,9 +127,11 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 		}
 
 		// Return Media Manager's file path setting.
-		$comMediaParams = ComponentHelper::getParams('com_media');
-		$defaultDirectory = new \stdClass();
-		$defaultDirectory->directory = $comMediaParams->get('file_path', 'images');;
+		$comMediaParams              = ComponentHelper::getParams('com_media');
+		$defaultDirectory            = new \stdClass;
+		$defaultDirectory->directory = $comMediaParams->get(
+			'file_path', 'images'
+		);
 
 		return [$defaultDirectory];
 	}
