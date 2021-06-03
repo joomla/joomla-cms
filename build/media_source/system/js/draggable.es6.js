@@ -45,45 +45,45 @@ if (container) {
   // IOS 10 BUG
   document.addEventListener('touchstart', () => {}, false);
 
-  const getOrderData = (orderRows, inputRows, dragIndex, dropIndex) => {
+  const getOrderData = (rows, inputRows, dragIndex, dropIndex) => {
     let i;
     const result = [];
 
     // Element is moved down
     if (dragIndex < dropIndex) {
-      orderRows[dropIndex].setAttribute('value', orderRows[dropIndex - 1].value);
+      rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
 
       // Move down
       for (i = dragIndex; i < dropIndex; i += 1) {
         if (direction === 'asc') {
-          orderRows[i].setAttribute('value', parseInt(orderRows[i].value, 10) - 1);
+          rows[i].setAttribute('value', parseInt(rows[i].value, 10) - 1);
         } else {
-          orderRows[i].setAttribute('value', parseInt(orderRows[i].value, 10) + 1);
+          rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
         }
 
-        result.push(`order[]=${encodeURIComponent(orderRows[i].value)}`);
+        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
 
-      result.push(`order[]=${encodeURIComponent(orderRows[dropIndex].value)}`);
+      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
       result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
     } else {
       // Element is moved up
 
-      orderRows[dropIndex].setAttribute('value', orderRows[dropIndex + 1].value);
-      orderRows[dropIndex].value = orderRows[dropIndex + 1].value;
+      rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
+      rows[dropIndex].value = rows[dropIndex + 1].value;
 
-      result.push(`order[]=${encodeURIComponent(orderRows[dropIndex].value)}`);
+      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
       result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
 
       for (i = dropIndex + 1; i <= dragIndex; i += 1) {
         if (direction === 'asc') {
-          orderRows[i].value = parseInt(orderRows[i].value, 10) + 1;
+          rows[i].value = parseInt(rows[i].value, 10) + 1;
         } else {
-          orderRows[i].value = parseInt(orderRows[i].value, 10) - 1;
+          rows[i].value = parseInt(rows[i].value, 10) - 1;
         }
 
-        result.push(`order[]=${encodeURIComponent(orderRows[i].value)}`);
+        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
     }
@@ -129,9 +129,9 @@ if (container) {
         rowSelector = `tr`;
       }
 
-      let rows = [].slice.call(container.querySelectorAll(rowSelector));
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
 
-      dragElementIndex = rows.indexOf(el);
+      dragElementIndex = rowElements.indexOf(el);
     })
     .on('cloned', () => {
 
@@ -151,11 +151,11 @@ if (container) {
         inputSelector = '[name="cid[]"]';
       }
 
-      const rows =  [].slice.call(container.querySelectorAll(rowSelector));
-      const orderRows = [].slice.call(container.querySelectorAll(orderSelector));
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+      const rows = [].slice.call(container.querySelectorAll(orderSelector));
       const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
 
-      dropElementIndex = rows.indexOf(el);
+      dropElementIndex = rowElements.indexOf(el);
 
       if (url) {
         // Detach task field if exists
@@ -170,7 +170,7 @@ if (container) {
         const ajaxOptions = {
           url,
           method: 'POST',
-          data: getOrderData(orderRows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+          data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
           perform: true,
         };
 
