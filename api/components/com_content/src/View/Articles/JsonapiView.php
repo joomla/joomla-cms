@@ -96,7 +96,6 @@ class JsonapiView extends BaseApiView
 		'created_by',
 		'created_by_alias',
 		'modified',
-		'modified_by',
 		'hits',
 		'version',
 		'featured_up',
@@ -113,7 +112,6 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created_by',
 		'tags',
-		'modified_by'
 	];
 
 	/**
@@ -164,6 +162,8 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
+		$this->relationship[] = 'modified_by';
+
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
 			$this->fieldsToRenderItem[] = $field->name;

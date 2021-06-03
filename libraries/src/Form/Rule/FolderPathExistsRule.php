@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla CMS.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FolderPathExistsRule extends FilePathRule
 {
@@ -36,7 +36,7 @@ class FolderPathExistsRule extends FilePathRule
 	 *
 	 * @return  boolean  True if the value is valid and points to an existing folder below the Joomla root, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

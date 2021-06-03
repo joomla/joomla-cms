@@ -43,18 +43,18 @@ class PlgWebservicesPrivacy extends CMSPlugin
 		$getDefaults = array_merge(['public' => false], $defaults);
 
 		$routes = [
-			new Route(['GET'], 'v1/privacy/request', 'requests.displayList', [], $getDefaults),
-			new Route(['GET'], 'v1/privacy/request/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['GET'], 'v1/privacy/request/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
-			new Route(['POST'], 'v1/privacy/request', 'requests.add', [], $defaults),
+			new Route(['GET'], 'v1/privacy/requests', 'requests.displayList', [], $getDefaults),
+			new Route(['GET'], 'v1/privacy/requests/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
+			new Route(['GET'], 'v1/privacy/requests/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
+			new Route(['POST'], 'v1/privacy/requests', 'requests.add', [], $defaults),
 		];
 
 		$router->addRoutes($routes);
 
 		$routes = [
-			new Route(['GET'], 'v1/privacy/consent', 'consents.displayList', [], $getDefaults),
-			new Route(['GET'], 'v1/privacy/consent/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['DELETE'], 'v1/privacy/consent/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
+			new Route(['GET'], 'v1/privacy/consents', 'consents.displayList', [], $getDefaults),
+			new Route(['GET'], 'v1/privacy/consents/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
+			new Route(['DELETE'], 'v1/privacy/consents/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
 		];
 
 		$router->addRoutes($routes);

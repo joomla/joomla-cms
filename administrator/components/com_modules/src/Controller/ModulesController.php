@@ -103,7 +103,7 @@ class ModulesController extends AdminController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{

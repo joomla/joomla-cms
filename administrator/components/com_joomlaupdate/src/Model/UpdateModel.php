@@ -1345,7 +1345,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNonCorePlugins($folderFilter = array())
 	{

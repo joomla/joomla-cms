@@ -30,7 +30,7 @@ $settings  = array();
 
 $this->useCoreUI = true;
 ?>
-<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" aria-label="<?php echo Text::_('COM_USERS_USER_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" aria-label="<?php echo Text::_('COM_USERS_USER_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<h2><?php echo $this->form->getValue('name', null, Text::_('COM_USERS_USER_NEW_USER_TITLE')); ?></h2>
 
@@ -108,7 +108,7 @@ $this->useCoreUI = true;
 					</span>
 				<?php endforeach; ?>
 			<?php endif; ?>
-			
+
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

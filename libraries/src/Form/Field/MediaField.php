@@ -115,7 +115,7 @@ class MediaField extends FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $parentclass;
 
@@ -306,7 +306,7 @@ class MediaField extends FormField
 			if (MediaHelper::isValidLocalDirectory($paths[0]))
 			{
 				$adapterName  = array_shift($paths);
-				$this->folder = 'local-' . $adapterName . '/' . implode('/', $paths);
+				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
 		}
 		elseif ($this->directory && strpos(':', $this->directory))

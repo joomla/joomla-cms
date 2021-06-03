@@ -662,7 +662,7 @@ $releaseText = array(
 	'FULL' => 'New Joomla! Installations ',
 	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
 	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
-	'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
+	'UPGRADE' => 'Update from Joomla! 3.10 ',
 );
 $githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
