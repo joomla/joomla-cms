@@ -48,7 +48,6 @@ $app->getLanguage()->load('com_content');
 
 echo LayoutHelper::render('joomla.content.emptystate_module', [
 		'textPrefix' => 'COM_CONTENT',
-		'textSuffix' => '_POPULAR',
 		'icon'       => 'icon-copy',
 	]
 );
