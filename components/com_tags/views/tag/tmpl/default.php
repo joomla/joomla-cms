@@ -20,11 +20,14 @@ $isSingleTag = count($this->item) === 1;
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
 		</h1>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_tag_title', 1)) : ?>
-		<h2>
-			<?php echo JHtml::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
-		</h2>
-	<?php endif; ?>
+	<?php // Workaround for Accessibility: in case page_heading is shown and no tag_title (<h2>) follows, emit it anyway, hidden,
+ 		// using the 'hidden' class attribute, so assuring a <h2> always follows <h1>.
+ 		// As all subsequent tagged items are listed in <h3> elements (see default_items.php), this avoids a 'hole' in header elements,
+ 		// so solving Accessibility 'header nesting' error. ?>
+	<?php $a11y_hidden_h2_fix = ( $this->params->get('show_page_heading') && !($this->params->get('show_tag_title', 1)) ) ? ' class="hidden"' : ''; ?>
+	<h2 <?php echo $a11y_hidden_h2_fix; ?> >
+		<?php echo JHtml::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
+	</h2>
 	<?php // We only show a tag description if there is a single tag. ?>
 	<?php if (count($this->item) === 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 		<div class="category-desc">
