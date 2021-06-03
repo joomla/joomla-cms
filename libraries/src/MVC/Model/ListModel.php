@@ -91,7 +91,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $filterForbiddenList = array();
 
@@ -108,7 +108,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $listForbiddenList = array('select');
 
@@ -155,7 +155,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{
@@ -181,7 +181,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @throws Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function getIsEmptyState(): bool
 	{
