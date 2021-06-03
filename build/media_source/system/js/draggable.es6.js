@@ -126,7 +126,7 @@ if (container) {
       if (groupId) {
         rowSelector = `tr[data-draggable-group="${groupId}"]`;
       } else {
-        rowSelector = `tr`;
+        rowSelector = 'tr';
       }
 
       const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
@@ -137,7 +137,9 @@ if (container) {
 
     })
     .on('drop', (el) => {
-      let orderSelector, inputSelector, rowSelector;
+      let orderSelector;
+      let inputSelector;
+      let rowSelector;
 
       const groupId = el.dataset.draggableGroup;
 
@@ -146,7 +148,7 @@ if (container) {
         orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
         inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
       } else {
-        rowSelector = `tr`;
+        rowSelector = 'tr';
         orderSelector = '[name="order[]"]';
         inputSelector = '[name="cid[]"]';
       }
