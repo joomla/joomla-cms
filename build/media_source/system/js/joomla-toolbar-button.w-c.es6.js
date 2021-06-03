@@ -101,9 +101,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       return false;
     }
 
-    // Avoid multiple call to the task like accidental double-click
-    this.disabled = true;
-
     // eslint-disable-next-line no-restricted-globals
     if (this.confirmMessage && !confirm(this.confirmMessage)) {
       return false;
@@ -112,9 +109,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     if (this.task) {
       Joomla.submitbutton(this.task, this.form, this.formValidation);
     }
-
-    // Enable call to task again after its execution
-    this.disabled = false;
 
     return true;
   }
