@@ -126,20 +126,8 @@ if (container) {
 
     })
     .on('drop', (el) => {
-      let orderSelector;
-      let inputSelector;
-
-      const groupId = el.dataset.draggableGroup;
-      if (groupId) {
-        orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
-        inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
-      } else {
-        orderSelector = '[name="order[]"]';
-        inputSelector = '[name="cid[]"]';
-      }
-
-      const rows = [].slice.call(container.querySelectorAll(orderSelector));
-      const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
+      const rows = [].slice.call(container.querySelectorAll('[name="order[]"]'));
+      const inputRows = [].slice.call(container.querySelectorAll('[name="cid[]"]'));
 
       for (let i = 0, l = rows.length - 1; l > i; i += 1) {
         if (rows[i].dataset.order === el.querySelector('[name="order[]"]').dataset.order) {
