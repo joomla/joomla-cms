@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-if (!key_exists('field', $displayData))
+if (!array_key_exists('field', $displayData))
 {
 	return;
 }

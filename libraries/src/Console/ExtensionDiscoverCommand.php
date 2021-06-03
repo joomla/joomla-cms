@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for discovering extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ExtensionDiscoverCommand extends AbstractCommand
 {
@@ -32,7 +32,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:discover';
 
@@ -41,7 +41,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @var    InputInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $cliInput;
 
@@ -50,14 +50,14 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @var    SymfonyStyle
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Instantiate the command.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct()
 	{
@@ -72,7 +72,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -86,7 +86,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{
@@ -105,7 +105,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function processDiscover(): int
 	{
@@ -125,7 +125,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  string  The text for the note
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNote(int $count): string
 	{
@@ -151,7 +151,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

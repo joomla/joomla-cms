@@ -13,7 +13,7 @@ namespace Joomla\CMS\Session;
 /**
  * Manager for interacting with the session handler to perform updates on sessions.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class SessionManager
 {
@@ -21,7 +21,7 @@ final class SessionManager
 	 * Session handler.
 	 *
 	 * @var    \SessionHandlerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $sessionHandler;
 
@@ -30,7 +30,7 @@ final class SessionManager
 	 *
 	 * @param   \SessionHandlerInterface  $sessionHandler  Session handler.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(\SessionHandlerInterface $sessionHandler)
 	{
@@ -44,7 +44,7 @@ final class SessionManager
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function destroySession(string $sessionId): bool
 	{
@@ -58,7 +58,7 @@ final class SessionManager
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function destroySessions(array $sessionIds): bool
 	{

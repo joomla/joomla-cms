@@ -1952,7 +1952,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 
 			// Get ID from menuitem we just added
-			$itemIds[] = $this->menuItemModel->getstate('item.id');
+			$itemIds[] = $this->menuItemModel->getState('item.id');
 		}
 
 		return $itemIds;

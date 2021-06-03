@@ -388,8 +388,7 @@ class ApiController extends BaseController
 			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
-		$key      = $table->getKeyName();
-		$checkin  = property_exists($table, $table->getColumnAlias('checked_out'));
+		$key = $table->getKeyName();
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -398,10 +397,10 @@ class ApiController extends BaseController
 		}
 
 		// Attempt to check-out the new record for editing and redirect.
-		if ($checkin && !$model->checkout($recordId))
+		if ($table->hasField('checked_out') && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 		}
 
 		$this->save($recordId);

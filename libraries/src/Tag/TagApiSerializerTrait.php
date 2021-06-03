@@ -20,7 +20,7 @@ use Tobscure\JsonApi\Resource;
 /**
  * Trait for implementing tags in an API Serializer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait TagApiSerializerTrait
 {

@@ -84,7 +84,7 @@ if ($remoteSearch)
 	$attr2 .= ' remote-search';
 	$attr2 .= ' url="' . Uri::root(true) . '/index.php?option=com_tags&task=tags.searchAjax"';
 	$attr2 .= ' term-key="like"';
-	$attr2 .= ' min-term-length="' . $minTermLength .'"';
+	$attr2 .= ' min-term-length="' . $minTermLength . '"';
 }
 
 if ($required)

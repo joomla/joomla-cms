@@ -43,7 +43,7 @@ class ContentSerializer extends JoomlaSerializer
 		foreach ($model->associations as $association)
 		{
 			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/article/' . $association->id));
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/articles/' . $association->id));
 		}
 
 		$collection = new Collection($resources, $serializer);

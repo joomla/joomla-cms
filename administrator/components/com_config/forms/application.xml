@@ -32,7 +32,7 @@
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			filter="integer"
+			filter="boolean"
 			showon="caching:1,2"
 			>
 			<option value="0">JNO</option>
@@ -320,7 +320,7 @@
 			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			showon="debug_lang:1"
 			>
 			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
@@ -386,8 +386,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

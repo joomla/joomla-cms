@@ -29,8 +29,8 @@
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
 			size="50"
 			default="images"
-			validate="filePath"
-			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
+			validate="folderPathExists"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
 		/>
 
 		<field
@@ -40,8 +40,8 @@
 			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
 			size="50"
 			default="images"
-			validate="filePath"
-			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
+			validate="folderPathExists"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>
 
 		<field
