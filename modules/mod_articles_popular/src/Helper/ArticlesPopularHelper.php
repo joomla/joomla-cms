@@ -38,7 +38,7 @@ abstract class ArticlesPopularHelper
 		$app = Factory::getApplication();
 
 		// Exit early if hits are disabled
-		if (!ComponentHelper::getParams('com_content')->get('record_hits'))
+		if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
 		{
 			echo Text::_('JGLOBAL_RECORD_HITS_DISABLED');
 
