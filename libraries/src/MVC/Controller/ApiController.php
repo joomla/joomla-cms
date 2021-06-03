@@ -584,8 +584,10 @@ class ApiController extends BaseController
 				continue;
 			}
 
-			$this->modelState->set($modelState['name'],
-				$filter->clean($apiFilterInfo[$apiFilterName], $modelState['type']));
+			$this->modelState->set(
+				$modelState['name'],
+				$filter->clean($apiFilterInfo[$apiFilterName], $modelState['type'])
+			);
 		}
 	}
 }
