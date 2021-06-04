@@ -16,6 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_redirect.admin-add-plugin');
+
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();

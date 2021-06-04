@@ -22,6 +22,10 @@ $displayData = [
 	'icon'       => 'icon-map-signs redirect',
 ];
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_redirect.admin-add-plugin');
+
 $user = Factory::getApplication()->getIdentity();
 
 if ($user->authorise('core.create', 'com_redirect'))
