@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\Application\Exception;
 
-use Throwable;
-
 \defined('JPATH_PLATFORM') or die;
 
 /**
