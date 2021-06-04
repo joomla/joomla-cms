@@ -78,7 +78,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			$lbl = '';
 			if ((($params->get('full_name') === 0) && ($params->get('image') === 0)) || (!$language->image))
 			{
-				$lbl = 'aria-label= "' . $language->title_native . '"';
+				$lbl = 'aria-label="' . $language->title_native . '"';
 			}
 		?>
 		<?php if (!$language->active) : ?>
