@@ -55,6 +55,10 @@ body {
       text-decoration: none !important;
       border: none;
     }
+
+    a.page-link {
+      padding: $pagination-padding-y $pagination-padding-x;
+    }
   }
 }
 
