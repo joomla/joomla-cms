@@ -1,9 +1,17 @@
 <?php
 
 $topFilesFinder = PhpCsFixer\Finder::create()
-	->in(array(__DIR__ . '/layouts'))
-;
+	->in(array(__DIR__ . '/libraries'))
+	->files()
+	->depth(0);
 
+$mainFinder = PhpCsFixer\Finder::create()
+	->in(
+		array(
+			__DIR__ . '/libraries/src',
+		)
+	)
+	->append($topFilesFinder);
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
@@ -50,4 +58,4 @@ return PhpCsFixer\Config::create()
 		    'concat_space' => ['spacing' => 'one'],
       )
     )
-    ->setFinder($topFilesFinder);
+    ->setFinder($mainFinder);
