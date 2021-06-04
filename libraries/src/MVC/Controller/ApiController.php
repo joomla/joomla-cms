@@ -372,7 +372,7 @@ class ApiController extends BaseController
 
 		$recordId = $this->input->getInt('id');
 
-		if ($recordId && !$table->load($recordId))
+		if (!$recordId)
 		{
 			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
