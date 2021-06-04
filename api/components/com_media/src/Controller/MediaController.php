@@ -50,7 +50,7 @@ class MediaController extends ApiController
 	private static $listQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
-			'type' => 'PATH'
+			'type' => 'STRING'
 		],
 		'url'     => [
 			'name' => 'url',
@@ -69,7 +69,7 @@ class MediaController extends ApiController
 	private static $itemQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
-			'type' => 'PATH'
+			'type' => 'STRING'
 		],
 		'url'     => [
 			'name' => 'url',
@@ -151,7 +151,7 @@ class MediaController extends ApiController
 		// Display files in specific path.
 		if ($this->input->exists('path'))
 		{
-			$this->modelState->set('path', $this->input->get('path', '', 'PATH'));
+			$this->modelState->set('path', $this->input->get('path', '', 'STRING'));
 		}
 
 		// Return files (not folders) as url's.
@@ -193,7 +193,7 @@ class MediaController extends ApiController
 		$this->setModelState(self::$itemQueryModelStateMap);
 
 		// Display files in specific path.
-		$this->modelState->set('path', $path ?: $this->input->get('path', '', 'PATH'));
+		$this->modelState->set('path', $path ?: $this->input->get('path', '', 'STRING'));
 
 		// Return files (not folders) as url's.
 		if ($this->input->exists('url'))
@@ -239,7 +239,7 @@ class MediaController extends ApiController
 	 */
 	public function add()
 	{
-		$this->modelState->set('path', $this->input->json->get('path', '', 'PATH'));
+		$this->modelState->set('path', $this->input->json->get('path', '', 'STRING'));
 		// Check if an existing file may be overwritten. Defaults to false.
 		$this->modelState->set('override', $this->input->json->get('override', false));
 
@@ -282,11 +282,9 @@ class MediaController extends ApiController
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
 		}
 
-		$path = $this->input->json->get('path', '', 'STRING');
-		$path = $this->input->json->get('path', '', 'PATH');
-		$this->modelState->set('path', $this->input->json->get('path', '', 'PATH'));
+		$this->modelState->set('path', $this->input->json->get('path', '', 'STRING'));
 		// For renaming/moving files, we need the path to the existing file or folder.
-		$this->modelState->set('old_path', $this->input->get('path', '', 'PATH'));
+		$this->modelState->set('old_path', $this->input->get('path', '', 'STRING'));
 		// Check if an existing file may be overwritten. Defaults to true.
 		$this->modelState->set('override', $this->input->json->get('override', false));
 
@@ -330,7 +328,7 @@ class MediaController extends ApiController
 		$json = $this->input->json;
 
 		// Split destination path into adapter name and file path.
-		['adapter' => $adapter, 'path' => $path] = MediaHelper::adapterNameAndPath($this->input->get('path', '', 'PATH'));
+		['adapter' => $adapter, 'path' => $path] = MediaHelper::adapterNameAndPath($this->input->get('path', '', 'STRING'));
 
 		// Decode content, if any
 		if ($content = base64_decode($json->get('content', '', 'raw')))
@@ -387,7 +385,7 @@ class MediaController extends ApiController
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
 		}
 
-		$this->modelState->set('path', $this->input->get('path', '', 'PATH'));
+		$this->modelState->set('path', $this->input->get('path', '', 'STRING'));
 
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 		$model     = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
