@@ -4,5 +4,5 @@ UPDATE "#__template_styles"
  WHERE "title" = 'atum - Default';
 
 UPDATE "#__template_styles"
-   SET "title" = 'Cassopeia - Default'
+   SET "title" = 'Cassiopeia - Default'
  WHERE "title" = 'cassiopeia - Default';
