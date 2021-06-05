@@ -1311,7 +1311,7 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$label = $this->element['label'] ? (string) $this->element['label'] : null;
 		$label = $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
