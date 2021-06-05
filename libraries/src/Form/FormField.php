@@ -1312,7 +1312,7 @@ abstract class FormField
 	{
 		// Label preprocess
 		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
-		$label = !empty($this->translateLabel) ? Text::_($label) : $label;
+		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
