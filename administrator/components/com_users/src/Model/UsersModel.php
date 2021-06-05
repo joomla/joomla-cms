@@ -31,7 +31,7 @@ class UsersModel extends ListModel
 	 * A list of filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $filterForbiddenList = array('groups', 'excluded');
 

@@ -33,7 +33,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
-					<?php echo nl2br($this->item->address); ?>
+					<?php echo nl2br($this->item->address, false); ?>
 				</span>
 			</dd>
 		<?php endif; ?>

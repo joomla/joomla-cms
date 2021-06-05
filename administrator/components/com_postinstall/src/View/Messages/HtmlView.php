@@ -41,8 +41,13 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
+		if (!\count($this->items))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
-		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId);
 
 		if (empty($this->eid))
 		{

@@ -19,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\Database\ParameterType;
 
 /**
@@ -59,7 +58,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    ItemModel
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -884,7 +883,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = new ItemModel;
+		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
+			->createModel('Item', 'Administrator', ['ignore_request' => true]);
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1410,7 +1410,9 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
+		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
@@ -1434,7 +1436,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
-					'layout'          => 'cassiopeia:dropdown-metismenu',
+					'layout'          => 'cassiopeia:collapse-metismenu',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
@@ -1950,7 +1952,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 
 			// Get ID from menuitem we just added
-			$itemIds[] = $this->menuItemModel->getstate('item.id');
+			$itemIds[] = $this->menuItemModel->getState('item.id');
 		}
 
 		return $itemIds;

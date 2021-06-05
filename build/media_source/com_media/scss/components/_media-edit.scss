@@ -12,6 +12,9 @@
 
     > fieldset {
       padding: 2rem;
+      &.options-form {
+        border: none;
+      }
 
       legend {
         float: left;

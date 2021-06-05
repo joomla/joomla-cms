@@ -27,7 +27,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items))
 {

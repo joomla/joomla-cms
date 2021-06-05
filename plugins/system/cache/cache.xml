@@ -37,6 +37,7 @@
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
 					multiple="multiple"
 					filter="intarray"
+					layout="joomla.form.field.groupedlist-fancy-select"
 				/>
 
 			</fieldset>
