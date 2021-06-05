@@ -99,12 +99,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-											<?php { ?>
-												<?php $url = 'index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . $item->update_site_id; ?>
-											<?php } ?>
-											<span class="badge bg-danger">
-													<a class="text-decoration-none text-white" href="<?php echo $url; ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
-											</span>
+											<?php $url = 'index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id; ?>
+											<a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo $url; ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
 										<?php endif; ?>
 									</th>
 									<td class="d-none d-md-table-cell">
