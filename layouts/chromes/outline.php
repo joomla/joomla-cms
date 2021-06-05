@@ -18,6 +18,8 @@ Factory::getApplication()->getDocument()
 
 $module = $displayData['module'];
 
+// Place Modules Button
+$showModuleButton = Factory::getApplication()->input->getBool('pm');
 ?>
 <div class="mod-preview">
 	<div class="mod-preview-info">
@@ -26,6 +28,11 @@ $module = $displayData['module'];
 		</div>
 		<div class="mod-preview-style">
 			<?php echo Text::sprintf('JGLOBAL_PREVIEW_STYLE', $module->style); ?>
+		</div>
+		<div class="mod-preview-position">
+			<?php if ($showModuleButton): ?>
+				<a class="btn btn-sm btn-info"><?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE'); ?></a>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="mod-preview-wrapper">

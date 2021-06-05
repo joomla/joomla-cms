@@ -100,7 +100,7 @@ abstract class ModuleHelper
 
 		if (\count($result) === 0)
 		{
-			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			if (($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) || $input->getBool('pm'))
 			{
 				$result[0] = static::createDummyModule();
 				$result[0]->title = $position;
@@ -208,7 +208,7 @@ abstract class ModuleHelper
 		}
 
 		// Dynamically add outline style
-		if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if (($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) || $app->input->getBool('pm'))
 		{
 			$attribs['style'] .= ' outline';
 		}
