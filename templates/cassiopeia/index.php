@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -33,6 +34,9 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
+
+// Do not display Add Module Button if Template Position Preview or Place Modules is True
+$displayAddModuleBtn = !$app->input->getBool('tp') && !$app->input->getBool('pm') && ComponentHelper::getParams('com_templates')->get('show_add_module_button');
 
 // Template path
 $templatePath = 'templates/' . $this->template;
@@ -188,6 +192,12 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<jdoc:include type="message" />
 		<main>
 		<jdoc:include type="component" />
+		<?php if ($displayAddModuleBtn): ?>
+		<form method="get">
+			<input name="pm" type="hidden" value="1">
+			<input class="btn btn-primary" type="submit" value="<?php echo Text::_('TPL_CASSIOPEIA_ADD_MODULE'); ?>">
+		</form>
+		<?php endif; ?>
 		</main>
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
