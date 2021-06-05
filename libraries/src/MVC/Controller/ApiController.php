@@ -393,6 +393,7 @@ class ApiController extends BaseController
 		}
 
 		$this->save($recordId);
+		$this->displayItem($recordId);
 
 		return $this;
 	}
@@ -429,6 +430,24 @@ class ApiController extends BaseController
 		$data       = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
+
+		if ($this->input->getMethod() === 'PATCH')
+		{
+			if ($recordKey && $table->load($recordKey))
+			{
+				$fields = $table->getFields();
+
+				foreach ($fields as $field)
+				{
+					if (array_key_exists($field->Field, $data))
+					{
+						continue;
+					}
+
+					$data[$field->Field] = $table->{$field->Field};
+				}
+			}
+		}
 
 		$data = $this->preprocessSaveData($data);
 
