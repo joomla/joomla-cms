@@ -141,7 +141,7 @@ abstract class TagsPopularHelper
 
 				$query = $equery;
 
-				// Re-bind value for t.access
+				// Rebind value for t.access
 				$query->bindArray($groups);
 
 				// Rebind value for t.parent_id
