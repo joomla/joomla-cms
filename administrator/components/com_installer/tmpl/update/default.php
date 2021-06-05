@@ -99,7 +99,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<?php print_r($item); ?>
 											<?php { ?>
 												<?php $url = 'index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . $item->update_site_id; ?>
 											<?php } ?>
