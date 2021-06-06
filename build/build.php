@@ -145,10 +145,6 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/*/Resources/doc');
 	system('rm -rf libraries/vendor/symfony/*/Tests');
 	system('rm -rf libraries/vendor/symfony/console/Resources');
-	system('rm -rf libraries/vendor/symfony/debug/Resources');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/LegacyTestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListenerTrait.php');
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
