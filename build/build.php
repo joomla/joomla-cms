@@ -149,9 +149,6 @@ function clean_checkout(string $dir)
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
 
-	// zendframework/zend-diactoros
-	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
-
 	echo "Cleanup complete.\n";
 
 	chdir($cwd);
