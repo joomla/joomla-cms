@@ -131,11 +131,6 @@ function clean_checkout(string $dir)
 	system('rm -rf images/sampledata/parks');
 	system('rm -rf images/sampledata/fruitshop');
 
-	// paragonie/random_compat
-	system('rm -rf libraries/vendor/paragonie/random_compat/other');
-	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');
-	system('rm -rf libraries/vendor/paragonie/random_compat/psalm-autoload.php');
-
 	// paragonie/sodium_compat
 	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
 
