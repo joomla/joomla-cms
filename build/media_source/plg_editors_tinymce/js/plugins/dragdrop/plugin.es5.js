@@ -42,7 +42,7 @@
           try {
             response = JSON.parse(resp);
           } catch (e) {
-            editor.windowManager.alert(Joomla.Text._('JERROR') + ": {e}");
+            editor.windowManager.alert(Joomla.Text._('ERROR') + ": {e}");
           }
 
           if (response.data && response.data.path) {
