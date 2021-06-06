@@ -13,14 +13,19 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
-Factory::getApplication()->getDocument()
+$app = Factory::getApplication();
+$app->getDocument()
 	->getWebAssetManager()
 	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
 
 $module = $displayData['module'];
 
 // Place Modules Button
-$showModuleButton = Factory::getApplication()->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create');
+$showModuleButton = $app->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create');
+
+// Redirect URL Params for Placing Modules
+$menuId = $app->getMenu()->getActive();
+$templateId = $app->getTemplate(true)->id;
 ?>
 <div class="mod-preview">
 	<div class="mod-preview-info">
@@ -32,7 +37,9 @@ $showModuleButton = Factory::getApplication()->input->getBool('pm') && ContentHe
 		</div>
 		<?php if ($showModuleButton): ?>
 			<div class="mod-preview-position">
-				<a class="btn btn-sm btn-info"><?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE', $module->position); ?></a>
+				<a class="btn btn-sm btn-info" href="administrator/index.php?option=com_modules&task=module.setPosition&position=<?php echo $module->position;?>&menu=<?php echo $menuId->id;?>&template=<?php echo $templateId;?>">
+					<?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE', $module->position); ?>
+				</a>
 			</div>
 		<?php endif; ?>
 	</div>
