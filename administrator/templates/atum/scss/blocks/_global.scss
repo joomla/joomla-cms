@@ -122,6 +122,13 @@ caption {
 .container-main,
 .system-debug {
   padding-bottom: 50px;
+  overflow: scroll;
+}
+
+.container-main::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body .container-main {
