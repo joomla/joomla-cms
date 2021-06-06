@@ -100,8 +100,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
 											<?php $url = 'index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id; ?>
-											<a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo $url; ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
-										<?php endif; ?>
+											<a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo Route::_($url); ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
+											<?php endif; ?>
 									</th>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
