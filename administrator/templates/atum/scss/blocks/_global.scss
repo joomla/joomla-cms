@@ -123,12 +123,12 @@ caption {
 .system-debug {
   padding-bottom: 50px;
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .container-main::-webkit-scrollbar {
   display: none;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 body .container-main {
