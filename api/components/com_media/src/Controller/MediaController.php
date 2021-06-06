@@ -12,18 +12,16 @@ namespace Joomla\Component\Media\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
-use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
 use Joomla\Component\Media\Api\Helper\MediaHelper;
 use Joomla\String\Inflector;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * Media web service controller.
@@ -93,46 +91,6 @@ class MediaController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'media';
-
-	/**
-	 * Execute a task by triggering a method in the derived class.
-	 * This method overrides the base method, to enable mapping of com_media exceptions to API handled exceptions.
-	 *
-	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
-	 *
-	 * @return  mixed   The value returned by the called method.
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   4.0
-	 */
-	public function execute($task)
-	{
-		// Execute parent method and catch com_media specific exceptions and map them to API equivalents.
-		try
-		{
-			parent::execute($task);
-		}
-			// A specific file or folder was requested or meant to be updated or deleted.
-		catch (InvalidPathException $e)
-		{
-			throw new ResourceNotFound();
-		}
-		// A file or folder was meant to be created, but it already exists and overwriting is not the intention.
-		catch (FileExistsException $e)
-		{
-			throw new NotAcceptable();
-		}
-		// This exception is thrown when a filename
-		catch (FileNotFoundException $e)
-		{
-			throw new NotAcceptable();
-		}
-		catch (\Exception $e)
-		{
-			throw $e;
-		}
-	}
 
 	/**
 	 * Display a list of files and/or folders.
@@ -239,6 +197,28 @@ class MediaController extends ApiController
 	 */
 	public function add()
 	{
+		$path = $this->input->json->get('path', '', 'STRING');
+		$content = $this->input->json->get('content', '', 'RAW');
+
+		$missingParameters = [];
+
+		if (empty($path))
+		{
+			$missingParameters[] = 'path';
+		}
+
+		if (empty($content))
+		{
+			$missingParameters[] = 'content';
+		}
+
+		if (count($missingParameters))
+		{
+			throw new InvalidParameterException(
+				Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', implode(' & ', $missingParameters))
+			);
+		}
+
 		$this->modelState->set('path', $this->input->json->get('path', '', 'STRING'));
 		// Check if an existing file may be overwritten. Defaults to false.
 		$this->modelState->set('override', $this->input->json->get('override', false));
@@ -280,6 +260,16 @@ class MediaController extends ApiController
 		if (!$this->allowEdit())
 		{
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
+		}
+
+		$path = $this->input->json->get('path', '', 'STRING');
+		$content = $this->input->json->get('content', '', 'RAW');
+
+		if (empty($path) && empty($content))
+		{
+			throw new InvalidParameterException(
+				Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', 'path | content')
+			);
 		}
 
 		$this->modelState->set('path', $this->input->json->get('path', '', 'STRING'));
@@ -391,6 +381,8 @@ class MediaController extends ApiController
 		$model     = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		$model->delete();
+
+		$this->app->setHeader('status', 204);
 	}
 
 	/**
