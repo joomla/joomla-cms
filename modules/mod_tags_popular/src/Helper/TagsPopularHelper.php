@@ -109,7 +109,9 @@ abstract class TagsPopularHelper
 				'(' . $db->quoteName('c.core_publish_down') . ' IS NULL'
 				. ' OR ' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
 				. ' OR ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
-			);
+			)
+			->bind([':nullDate2', ':nullDate3'], $nullDate)
+			->bind([':nowDate2', ':nowDate3'], $nowDate);
 
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
@@ -122,6 +124,9 @@ abstract class TagsPopularHelper
 
 			if ($params->get('order_value', 'title') === 'title')
 			{
+				// Backup bound parameters array of the original query
+				$bounded = $query->getBounded();
+
 				$query->setLimit($maximum);
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
@@ -141,32 +146,17 @@ abstract class TagsPopularHelper
 
 				$query = $equery;
 
-				// Rebind value for t.access
-				$query->bindArray($groups);
-
-				// Rebind value for t.parent_id
-				if ($parentTags)
+				// Rebind parameters
+				foreach ($bounded as $key => $obj)
 				{
-					$query->bindArray($parentTags);
+					$query->bind($key, $obj->value, $obj->dataType);
 				}
-
-				// Rebind value for t.language
-				if ($language !== 'all')
-				{
-					$query->bindArray([$language, '*'], ParameterType::STRING);
-				}
-
-				// Rebind value for c.core_access
-				$query->bindArray($groups);
 			}
 			else
 			{
 				$query->order($db->quoteName($order_value) . ' ' . $order_direction);
 			}
 		}
-
-		$query->bind([':nullDate2', ':nullDate3'], $nullDate)
-			->bind([':nowDate2', ':nowDate3'], $nowDate);
 
 		$query->setLimit($maximum, 0);
 		$db->setQuery($query);
