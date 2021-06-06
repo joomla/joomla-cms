@@ -69,6 +69,43 @@ class ModuleController extends FormController
 	}
 
 	/**
+	 * Set Position given by Frontend Module Placement.
+	 *
+	 * @return  \Exception|void  True if the record can be added, a \Exception object if not.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPosition()
+	{
+		$app = $this->app;
+
+		// Look for the Template, Menu ID and Position.
+		$menuId = $this->input->getInt('menu');
+		$position = $this->input->get('position');
+		$templateId = $this->input->getInt('template');
+
+		// To Do: Remove the echo and properly redirect & pass the data
+		echo $position . "<br>";
+		echo $menuId . "<br>";
+		echo $templateId . "<br>";
+		die();
+
+		if (empty($position) || empty($templateId))
+		{
+			$redirectUrl = $this->input->server->getString('HTTP_REFERER');
+
+			$this->setRedirect(Route::_($redirectUrl, false));
+
+			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_POSITION'), 'warning');
+		}
+
+		$app->setUserState('com_modules.add.module.menuId', $menuId);
+		$app->setUserState('com_modules.add.module.position', $position);
+		$app->setUserState('com_modules.add.module.templateId', $templateId);
+		echo "es";die();
+	}
+
+	/**
 	 * Override parent cancel method to reset the add module state.
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
