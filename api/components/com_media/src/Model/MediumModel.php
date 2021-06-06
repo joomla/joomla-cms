@@ -12,10 +12,14 @@ namespace Joomla\Component\Media\Api\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\Component\Media\Administrator\Exception\FileExistsException;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
 use Joomla\Component\Media\Api\Helper\MediaHelper;
-use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * Media web service model supporting a single media item.
@@ -87,9 +91,19 @@ class MediumModel extends BaseModel {
 		// if also requested (see below).
 		if ($path && $oldPath)
 		{
-			// ApiModel::move() (or actually LocalAdapter::move()) returns a path
-			// with leading slash.
-			$resultPath = trim($this->mediaApiModel->move($adapterName, $oldPath, $path, $override), '/');
+			try
+			{
+				// ApiModel::move() (or actually LocalAdapter::move()) returns a path
+				// with leading slash.
+				$resultPath = trim($this->mediaApiModel->move($adapterName, $oldPath, $path, $override), '/');
+			}
+			catch (FileNotFoundException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $oldPath),
+					404
+				);
+			}
 		}
 
 		// If we have a (new) path but no old path, we want to create a
@@ -101,13 +115,37 @@ class MediumModel extends BaseModel {
 			$basename = basename($resultPath ?: $path);
 			$dirname  = dirname($resultPath ?: $path);
 
-			// If there is content, com_media's assumes the new item is a file.
-			// Otherwise a folder is assumed.
-			$name = $content
-				? $this->mediaApiModel->createFile($adapterName, $basename, $dirname, $content, $override)
-				: $this->mediaApiModel->createFolder($adapterName, $basename, $dirname, $override);
+			try
+			{
+				// If there is content, com_media's assumes the new item is a file.
+				// Otherwise a folder is assumed.
+				$name = $content
+					? $this->mediaApiModel->createFile($adapterName, $basename, $dirname, $content, $override)
+					: $this->mediaApiModel->createFolder($adapterName, $basename, $dirname, $override);
 
-			$resultPath = $dirname . '/' . $name;
+				$resultPath = $dirname . '/' . $name;
+			}
+			catch (FileNotFoundException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $dirname . '/' . $basename),
+					404
+				);
+			}
+			catch (FileExistsException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_EXISTS', $dirname . '/' . $basename),
+					400
+				);
+			}
+			catch (InvalidPathException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE', $dirname . '/' . $basename),
+					400
+				);
+			}
 		}
 
 		// If we have no (new) path but we do have an old path and we have content,
@@ -119,7 +157,17 @@ class MediumModel extends BaseModel {
 			$basename = basename($resultPath ?: $oldPath);
 			$dirname  = dirname($resultPath ?: $oldPath);
 
-			$this->mediaApiModel->updateFile($adapterName, $basename, $dirname, $content);
+			try
+			{
+				$this->mediaApiModel->updateFile($adapterName, $basename, $dirname, $content);
+			}
+			catch (InvalidPathException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE', $dirname . '/' . $basename),
+					400
+				);
+			}
 
 			$resultPath = $oldPath;
 		}
@@ -127,7 +175,10 @@ class MediumModel extends BaseModel {
 		// If we still have no result path, something fishy is going on.
 		if (!$resultPath)
 		{
-			throw new InvalidParameterException();
+			throw new Save(
+				Text::_('WEBSERVICE_COM_MEDIA_UNSUPPORTED_PARAMETER_COMBINATION'),
+				400
+			);
 		}
 
 		return $resultPath;
@@ -148,7 +199,16 @@ class MediumModel extends BaseModel {
 			'path'    => $path,
 		] = MediaHelper::adapterNameAndPath($path);
 
-		$this->mediaApiModel->delete($adapterName, $path);
+		try
+		{
+			$this->mediaApiModel->delete($adapterName, $path);
+		}
+		catch (FileNotFoundException $e)
+		{
+			throw new Save(
+				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
+				404
+			);
+		}
 	}
-
 }
