@@ -110,6 +110,9 @@
 
   .card-body {
     padding: 0;
+    overflow: hidden;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
   }
 
   .module-actions {
