@@ -91,9 +91,6 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Reinitialise the installer's extensions table's properties.
-		$installer->extension->getFields(true);
-
 		// Ensure we delete the repeatable fields plugin before we remove its files
 		$this->uninstallRepeatableFieldsPlugin();
 
