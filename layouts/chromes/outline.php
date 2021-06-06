@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
 Factory::getApplication()->getDocument()
@@ -19,7 +20,7 @@ Factory::getApplication()->getDocument()
 $module = $displayData['module'];
 
 // Place Modules Button
-$showModuleButton = Factory::getApplication()->input->getBool('pm');
+$showModuleButton = Factory::getApplication()->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create');
 ?>
 <div class="mod-preview">
 	<div class="mod-preview-info">
@@ -29,11 +30,11 @@ $showModuleButton = Factory::getApplication()->input->getBool('pm');
 		<div class="mod-preview-style">
 			<?php echo Text::sprintf('JGLOBAL_PREVIEW_STYLE', $module->style); ?>
 		</div>
-		<div class="mod-preview-position">
-			<?php if ($showModuleButton): ?>
+		<?php if ($showModuleButton): ?>
+			<div class="mod-preview-position">
 				<a class="btn btn-sm btn-info"><?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE', $module->position); ?></a>
-			<?php endif; ?>
-		</div>
+			</div>
+		<?php endif; ?>
 	</div>
 	<div class="mod-preview-wrapper">
 		<?php echo $module->content; ?>

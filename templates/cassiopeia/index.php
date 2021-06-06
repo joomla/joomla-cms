@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -36,7 +37,7 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
 // Do not display Add Module Button if Template Position Preview or Place Modules is True
-$displayAddModuleBtn = !$app->input->getBool('tp') && !$app->input->getBool('pm') && ComponentHelper::getParams('com_templates')->get('show_add_module_button');
+$displayAddModuleBtn = !$app->input->getBool('tp') && !$app->input->getBool('pm') && ComponentHelper::getParams('com_templates')->get('show_add_module_button') && ContentHelper::getActions('com_modules')->get('core.create');
 
 // Template path
 $templatePath = 'templates/' . $this->template;
