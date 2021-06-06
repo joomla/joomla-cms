@@ -31,7 +31,7 @@ $showModuleButton = Factory::getApplication()->input->getBool('pm');
 		</div>
 		<div class="mod-preview-position">
 			<?php if ($showModuleButton): ?>
-				<a class="btn btn-sm btn-info"><?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE'); ?></a>
+				<a class="btn btn-sm btn-info"><?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE', $module->position); ?></a>
 			<?php endif; ?>
 		</div>
 	</div>
