@@ -2,12 +2,12 @@
 <extension version="3.10" type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_eos310</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2021</creationDate>
+	<creationDate>June 2021</creationDate>
 	<copyright>Copyright (C) 2021 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.10.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_QUICKICON_EOS310_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="eos310">eos310.php</filename>
@@ -16,21 +16,4 @@
 		<language tag="en-GB">en-GB.plg_quickicon_eos310.ini</language>
 		<language tag="en-GB">en-GB.plg_quickicon_eos310.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="snooze"
-					type="list"
-					label="PLG_QUICKICON_EOS310_MODE_LABEL"
-					default="0"
-					validate="options"
-					>
-					<option value="0">JNONE</option>
-					<option value="1">PLG_QUICKICON_EOS310_HIDE_INFO</option>
-					<option value="2">PLG_QUICKICON_EOS310_HIDE_WARNING</option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
 </extension>
