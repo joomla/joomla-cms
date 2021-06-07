@@ -71,7 +71,7 @@ class ModuleController extends FormController
 	/**
 	 * Set Position given by Frontend Module Placement.
 	 *
-	 * @return  \Exception|void  True if the record can be added, a \Exception object if not.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -82,10 +82,6 @@ class ModuleController extends FormController
 		// Look for the Template, Menu ID and Position.
 		$menuId = $this->input->getInt('menu');
 		$position = $this->input->get('position');
-
-		// To Do: Remove the echo and properly redirect & pass the data
-		echo $position . "<br>";
-		echo $menuId . "<br>";
 
 		if (empty($position))
 		{
@@ -98,7 +94,9 @@ class ModuleController extends FormController
 
 		$app->setUserState('com_modules.add.module.menuId', $menuId);
 		$app->setUserState('com_modules.add.module.position', $position);
-		die();
+
+		$redirectUrl = 'index.php?option=com_modules&view=select&client_id=0';
+		$this->setRedirect(Route::_($redirectUrl, false));
 	}
 
 	/**
@@ -116,6 +114,8 @@ class ModuleController extends FormController
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.menuId', null);
+		$this->app->setUserState('com_modules.add.module.position', null);
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
 		{
@@ -239,6 +239,8 @@ class ModuleController extends FormController
 		}
 
 		$this->app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.menuId', null);
+		$this->app->setUserState('com_modules.add.module.position', null);
 	}
 
 	/**
