@@ -25,36 +25,12 @@ class plgQuickiconEos310 extends JPlugin
 	const EOS_DATE = '28.05.2021';
 
 	/**
-	 * Indicates sending statistics is always allowed.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	const SNOOZE_INFO = 1;
-
-	/**
-	 * Indicates sending statistics is only allowed one time.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	const SNOOZE_WARNING = 2;
-
-	/**
 	 * Application object
 	 *
 	 * @var    JApplicationCms
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
-
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $db;
 
 	/**
 	 * Load the language file on instantiation.
