@@ -3111,7 +3111,7 @@ class AKText extends AKAbstractObject
 		'BTN_SITEFE'                      => 'Visit your site\'s frontend',
 		'BTN_SITEBE'                      => 'Visit your site\'s backend',
 		'WARNINGS'                        => 'Extraction Warnings',
-		'ERROR_OCCURRED'                   => 'An error occurred',
+		'ERROR_OCCURRED'                  => 'An error occurred',
 		'STEALTH_MODE'                    => 'Stealth mode',
 		'STEALTH_URL'                     => 'HTML file to show to web visitors',
 		'ERR_NOT_A_JPS_FILE'              => 'The file is not a JPA archive',
