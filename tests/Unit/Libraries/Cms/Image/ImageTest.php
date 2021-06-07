@@ -1516,6 +1516,70 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * Test the Image::createResponsiveImages method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testCreateResponsiveImagesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$images = $this->instance->createResponsiveImages('800x600');
+	}
+
+	/**
+	 * Test the Image::createResponsiveImages method with invalid folder.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testCreateResponsiveImagesWithInvalidFolder()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->loadFile($this->testFile);
+		$this->instance->createResponsiveImages('800x600', Image::SCALE_INSIDE, '/foo/bar');
+	}
+
+	/**
+	 * Test the Image::createResponsiveImages method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testCreateResponsiveImages()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->createResponsiveImages('800x600', Image::CROP);
+		$outFileGif = TestHelper::getValue($images[0], 'path');
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileGif);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals(800, $b->width);
+		$this->assertEquals(600, $b->height);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
+
+		unlink($outFileGif);
+	}
+
+	/**
 	 * Tests the Joomla\CMS\Image\Image::destroy method
 	 *
 	 * @return  void

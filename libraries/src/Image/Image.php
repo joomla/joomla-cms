@@ -1239,4 +1239,74 @@ class Image
 
 		return $generated;
 	}
+
+	/**
+	 * Method to create different sized versions of current image and save them to disk.
+	 *
+	 * @param   mixed    $imageSizes        string or array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod    1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   string   $responsiveFolder  destination images folder. null generates a responsive folder in the image folder
+	 *
+	 * @return  array
+	 *
+	 * @since   4.1.0
+	 * @throws  \LogicException
+	 * @throws  \InvalidArgumentException
+	 */
+	public function createResponsiveImages($imageSizes, $creationMethod = self::SCALE_INSIDE, $responsiveFolder = null)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// No responsiveFolder set -> we will create a responsive folder in the current image folder
+		if (\is_null($responsiveFolder))
+		{
+			$responsiveFolder = \dirname($this->getPath()) . '/responsive';
+		}
+
+		// Check destination
+		if (!is_dir($responsiveFolder) && (!is_dir(\dirname($responsiveFolder)) || !@mkdir($responsiveFolder)))
+		{
+			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $responsiveFolder);
+		}
+
+		// Process images
+		$imagesCreated = [];
+
+		if ($images = $this->generateResponsiveImages($imageSizes, $creationMethod))
+		{
+			// Parent image properties
+			$imgProperties = static::getImageFileProperties($this->getPath());
+
+			// Get image filename and extension.
+			$pathInfo      = pathinfo($this->getPath());
+			$filename      = $pathInfo['filename'];
+			$fileExtension = $pathInfo['extension'] ?? '';
+
+			foreach ($images as $image)
+			{
+				// Get image properties
+				$imageWidth  = $image->getWidth();
+				$imageHeight = $image->getHeight();
+
+				// Generate image name
+				$imageFileName = $filename . '_' . $imageWidth . 'x' . $imageHeight . '.' . $fileExtension;
+
+				// Save image file to disk
+				$imageFileName = $responsiveFolder . '/' . $imageFileName;
+
+				if ($image->toFile($imageFileName, $imgProperties->type))
+				{
+					// Return Image object with image path to ease further manipulation
+					$image->path = $imageFileName;
+					$imagesCreated[] = $image;
+				}
+			}
+		}
+
+		return $imagesCreated;
+	}
 }
