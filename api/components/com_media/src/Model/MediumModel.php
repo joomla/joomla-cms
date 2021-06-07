@@ -161,6 +161,13 @@ class MediumModel extends BaseModel {
 			{
 				$this->mediaApiModel->updateFile($adapterName, $basename, $dirname, $content);
 			}
+			catch (FileNotFoundException $e)
+			{
+				throw new Save(
+					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $dirname . '/' . $basename),
+					404
+				);
+			}
 			catch (InvalidPathException $e)
 			{
 				throw new Save(
@@ -169,7 +176,7 @@ class MediumModel extends BaseModel {
 				);
 			}
 
-			$resultPath = $oldPath;
+			$resultPath = $resultPath ?: $oldPath;
 		}
 
 		// If we still have no result path, something fishy is going on.
