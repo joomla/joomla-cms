@@ -4,6 +4,7 @@ function extractionMethodHandler(target, prefix)
 		$em = $(target);
 		displayStyle = ($em.val() === 'direct') ? 'none' : 'table-row';
 
+		document.getElementById(prefix + '_notice').style.display = displayStyle;
 		document.getElementById(prefix + '_hostname').style.display = displayStyle;
 		document.getElementById(prefix + '_port').style.display = displayStyle;
 		document.getElementById(prefix + '_username').style.display = displayStyle;

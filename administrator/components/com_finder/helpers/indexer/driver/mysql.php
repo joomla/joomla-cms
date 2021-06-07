@@ -422,9 +422,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = serialize($item);
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('object') . ' = ' . $db->quote($object))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
