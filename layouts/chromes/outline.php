@@ -23,9 +23,8 @@ $module = $displayData['module'];
 // Place Modules Button
 $showModuleButton = $app->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create');
 
-// Redirect URL Params for Placing Modules
+// Redirect URL Menu ID Param for Placing Modules
 $menuId = $app->getMenu()->getActive();
-$templateId = $app->getTemplate(true)->id;
 ?>
 <div class="mod-preview">
 	<div class="mod-preview-info">
@@ -37,7 +36,7 @@ $templateId = $app->getTemplate(true)->id;
 		</div>
 		<?php if ($showModuleButton): ?>
 			<div class="mod-preview-position">
-				<a class="btn btn-sm btn-info" href="administrator/index.php?option=com_modules&task=module.setPosition&position=<?php echo $module->position;?>&menu=<?php echo $menuId->id;?>&template=<?php echo $templateId;?>">
+				<a class="btn btn-sm btn-info" href="administrator/index.php?option=com_modules&task=module.setPosition&position=<?php echo $module->position;?>&menu=<?php echo $menuId->id;?>">
 					<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE'); ?>
 					<span class="visually-hidden">
 						<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE_POSITION', $module->position); ?>

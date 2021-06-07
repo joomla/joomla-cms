@@ -82,15 +82,12 @@ class ModuleController extends FormController
 		// Look for the Template, Menu ID and Position.
 		$menuId = $this->input->getInt('menu');
 		$position = $this->input->get('position');
-		$templateId = $this->input->getInt('template');
 
 		// To Do: Remove the echo and properly redirect & pass the data
 		echo $position . "<br>";
 		echo $menuId . "<br>";
-		echo $templateId . "<br>";
-		die();
 
-		if (empty($position) || empty($templateId))
+		if (empty($position))
 		{
 			$redirectUrl = $this->input->server->getString('HTTP_REFERER');
 
@@ -101,8 +98,7 @@ class ModuleController extends FormController
 
 		$app->setUserState('com_modules.add.module.menuId', $menuId);
 		$app->setUserState('com_modules.add.module.position', $position);
-		$app->setUserState('com_modules.add.module.templateId', $templateId);
-		echo "es";die();
+		die();
 	}
 
 	/**
