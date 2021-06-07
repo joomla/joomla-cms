@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  __DEPLOY_VERSION__
  */
-class plgQuickiconEos310 extends JPlugin
+class PlgQuickiconEos310 extends JPlugin
 {
 	/**
 	 * The EOS date for 3.10 to be updated at the stable release
@@ -48,7 +48,7 @@ class plgQuickiconEos310 extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param   $context  The calling context
+	 * @param   string  $context  The calling context
 	 *
 	 * @return  array|void  A list of icon definition associative arrays, consisting of the
 	 *                     keys link, image, text and access, or void.
@@ -100,8 +100,8 @@ class plgQuickiconEos310 extends JPlugin
 	/**
 	 * Return the texts to be displayed based on the time until we reach EOS
 	 *
-	 * @param  $monthsUntilEOS  The months until we reach EOS
-	 * @param  $inverted        Have we surpassed the EOS date
+	 * @param   integer  $monthsUntilEOS  The months until we reach EOS
+	 * @param   integer  $inverted        Have we surpassed the EOS date
 	 *
 	 * @return  array|bool  An array with the message to be displayed or false
 	 *
