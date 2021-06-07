@@ -79,7 +79,7 @@ class SiteMenu extends AbstractMenu
 			$query = $db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-				->select('e.element as component')
+				->select('COALESCE(e.element, ' . $db->quote('') . ') AS component')
 				->from('#__menu AS m')
 				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 				->where('m.published = 1')
