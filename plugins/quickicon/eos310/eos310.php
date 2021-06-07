@@ -22,7 +22,7 @@ class plgQuickiconEos310 extends JPlugin
 	/**
 	 * The EOS date for 3.10 to be updated at the stable release
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	const EOS_DATE = '07.06.2024';
@@ -48,12 +48,12 @@ class plgQuickiconEos310 extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param  $context  The calling context
+	 * @param   $context  The calling context
 	 *
-	 * @return array A list of icon definition associative arrays, consisting of the
-	 *				 keys link, image, text and access.
+	 * @return  array|void  A list of icon definition associative arrays, consisting of the
+	 *                     keys link, image, text and access, or void.
 	 *
-	 * @since        __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onGetIcons($context)
 	{
@@ -103,7 +103,7 @@ class plgQuickiconEos310 extends JPlugin
 	 * @param  $monthsUntilEOS  The months until we reach EOS
 	 * @param  $inverted        Have we surpassed the EOS date
 	 *
-	 * @return  array|bool  An array with the message do be displayed or false
+	 * @return  array|bool  An array with the message to be displayed or false
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
