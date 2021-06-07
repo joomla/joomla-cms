@@ -38,7 +38,10 @@ $templateId = $app->getTemplate(true)->id;
 		<?php if ($showModuleButton): ?>
 			<div class="mod-preview-position">
 				<a class="btn btn-sm btn-info" href="administrator/index.php?option=com_modules&task=module.setPosition&position=<?php echo $module->position;?>&menu=<?php echo $menuId->id;?>&template=<?php echo $templateId;?>">
-					<?php echo Text::sprintf('JGLOBAL_PREVIEW_ADD_MODULE', $module->position); ?>
+					<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE'); ?>
+					<span class="visually-hidden">
+						<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE_POSITION', $module->position); ?>
+					</span>
 				</a>
 			</div>
 		<?php endif; ?>
