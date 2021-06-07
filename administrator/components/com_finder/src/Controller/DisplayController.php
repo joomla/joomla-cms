@@ -65,6 +65,7 @@ class DisplayController extends BaseController
 				$this->app->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
 			}
 		}
+
 		// Check for edit form.
 		if ($view === 'filter' && $layout === 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId))
 		{
