@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
- * Joomla! update notification plugin
+ * Joomla! end of support notification plugin
  *
  * @since  __DEPLOY_VERSION__
  */
