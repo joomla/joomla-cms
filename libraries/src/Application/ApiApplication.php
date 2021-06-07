@@ -12,6 +12,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -144,6 +145,19 @@ final class ApiApplication extends CMSApplication
 	 */
 	protected function render()
 	{
+		$method          = $this->input->getMethod();
+
+		$verbs['GET']    = $this->getIdentity()->authorise('core.api.get');
+		$verbs['POST']   = $this->getIdentity()->authorise('core.api.post');
+		$verbs['PATCH']  = $this->getIdentity()->authorise('core.api.patch');
+		$verbs['DELETE'] = $this->getIdentity()->authorise('core.api.delete');
+
+		// Check we have permission
+		if (\array_key_exists($method, $verbs) && !$verbs[$method])
+		{
+			throw new NotAllowed;
+		}
+
 		// Render the document
 		$this->setBody($this->document->render($this->allowCache()));
 	}
