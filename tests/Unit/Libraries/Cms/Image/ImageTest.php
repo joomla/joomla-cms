@@ -1432,6 +1432,90 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * Test the Image::generateResponsiveImages method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testGenerateResponsiveImagesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$thumbs = $this->instance->generateResponsiveImages('1200x800');
+	}
+
+	/**
+	 * Test the Image::generateResponsiveImages method with invalid size.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testGenerateResponsiveImagesWithInvalidSize()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->loadFile($this->testFile);
+
+		$thumbs = $this->instance->generateResponsiveImages('1200_800');
+	}
+
+	/**
+	 * Test the Image::generateResponsiveImages method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
+	 *
+	 * @since   4.1.0
+	 */
+	public function testGenerateResponsiveImages()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->generateResponsiveImages('800x600');
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			800,
+			imagesy(TestHelper::getValue($images[0], 'handle'))
+		);
+		$this->assertEquals(
+			600,
+			imagesx(TestHelper::getValue($images[0], 'handle'))
+		);
+
+		$images = $this->instance->generateResponsiveImages('800x600', Image::CROP);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			800,
+			imagesy(TestHelper::getValue($images[0], 'handle'))
+		);
+		$this->assertEquals(
+			600,
+			imagesx(TestHelper::getValue($images[0], 'handle'))
+		);
+
+		$images = $this->instance->generateResponsiveImages('800x600', Image::CROP_RESIZE);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			800,
+			imagesy(TestHelper::getValue($images[0], 'handle'))
+		);
+		$this->assertEquals(
+			600,
+			imagesx(TestHelper::getValue($images[0], 'handle'))
+		);
+	}
+
+	/**
 	 * Tests the Joomla\CMS\Image\Image::destroy method
 	 *
 	 * @return  void

@@ -1172,4 +1172,71 @@ class Image
 	{
 		$this->generateBestQuality = (boolean) $quality;
 	}
+
+	/**
+	 * Method to generate different sized versions of current image.
+	 *
+	 * @param   mixed    $imageSizes      String or array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 *
+	 * @return  array
+	 *
+	 * @since   4.1.0
+	 * @throws  \LogicException
+	 * @throws  \InvalidArgumentException
+	 */
+	public function generateResponsiveImages($imageSizes, $creationMethod = self::SCALE_INSIDE)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// Accept a single size string as parameter
+		if (!\is_array($imageSizes))
+		{
+			$imageSizes = [$imageSizes];
+		}
+
+		// Process images
+		$generated = [];
+
+		if (!empty($imageSizes))
+		{
+			foreach ($imageSizes as $imageSize)
+			{
+				// Desired image size
+				$size = explode('x', strtolower($imageSize));
+
+				if (\count($size) != 2)
+				{
+					throw new \InvalidArgumentException('Invalid image size received: ' . $imageSize);
+				}
+
+				$imageWidth  = $size[0];
+				$imageHeight = $size[1];
+
+				switch ($creationMethod)
+				{
+					case self::CROP:
+						$thumb = $this->crop($imageWidth, $imageHeight, null, null, true);
+						break;
+
+					case self::CROP_RESIZE:
+						$thumb = $this->cropResize($imageWidth, $imageHeight, true);
+						break;
+
+					default:
+						$thumb = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
+						break;
+				}
+
+				// Store the image in the results array
+				$generated[] = $thumb;
+			}
+		}
+
+		return $generated;
+	}
 }
