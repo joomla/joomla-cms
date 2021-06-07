@@ -71,7 +71,7 @@ class PlgQuickiconEos310 extends JPlugin
 		// Build the message to be displayed
 		$messageText = Text::sprintf(
 			$messageInfo['messageText'],
-			static::EOS_DATE,
+			JHtml::_('date', static::EOS_DATE, Text::_('DATE_FORMAT_LC4')),
 			$messageInfo['messageLink'],
 		);
 
