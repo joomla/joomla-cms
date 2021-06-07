@@ -466,7 +466,7 @@ abstract class DaemonApplication extends CliApplication
 		// Change the user id for the process necessary.
 		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
 		{
-			Log::add('Unable to change user ownership of the proccess.', Log::ERROR);
+			Log::add('Unable to change user ownership of the process.', Log::ERROR);
 
 			return false;
 		}
@@ -474,7 +474,7 @@ abstract class DaemonApplication extends CliApplication
 		// Change the group id for the process necessary.
 		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
 		{
-			Log::add('Unable to change group ownership of the proccess.', Log::ERROR);
+			Log::add('Unable to change group ownership of the process.', Log::ERROR);
 
 			return false;
 		}
@@ -806,15 +806,15 @@ abstract class DaemonApplication extends CliApplication
 		// Write the process id file out to disk.
 		if (!file_put_contents($file, $this->processId))
 		{
-			Log::add('Unable to write proccess id file: ' . $file, Log::ERROR);
+			Log::add('Unable to write process id file: ' . $file, Log::ERROR);
 
 			return false;
 		}
 
-		// Make sure the permissions for the proccess id file are accurate.
+		// Make sure the permissions for the process id file are accurate.
 		if (!chmod($file, 0644))
 		{
-			Log::add('Unable to adjust permissions for the proccess id file: ' . $file, Log::ERROR);
+			Log::add('Unable to adjust permissions for the process id file: ' . $file, Log::ERROR);
 
 			return false;
 		}
