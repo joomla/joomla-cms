@@ -1246,6 +1246,22 @@
 				title="JACTION_LOGIN_API"
 			/>
 			<action
+				name="core.api.get"
+				title="JACTION_API_GET"
+			/>
+			<action
+				name="core.api.post"
+				title="JACTION_API_POST"
+			/>
+			<action
+				name="core.api.patch"
+				title="JACTION_API_PATCH"
+			/>
+			<action
+				name="core.api.delete"
+				title="JACTION_API_DELETE"
+			/>
+			<action
 				name="core.login.offline"
 				title="JACTION_LOGIN_OFFLINE"
 			/>
