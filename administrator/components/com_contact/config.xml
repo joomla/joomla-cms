@@ -396,7 +396,7 @@
 	<fieldset
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
-		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		description="COM_CONTACT_ICONS_SETTINGS_DESC"
 		>
 		<field
 			name="contact_icons"
