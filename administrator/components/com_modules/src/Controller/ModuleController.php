@@ -114,7 +114,7 @@ class ModuleController extends FormController
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
-		$this->app->setUserState('com_modules.add.module.menuId', null);
+		$this->app->setUserState('com_modules.add.module.menu_id', null);
 		$this->app->setUserState('com_modules.add.module.position', null);
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
@@ -239,7 +239,7 @@ class ModuleController extends FormController
 		}
 
 		$this->app->setUserState('com_modules.add.module.params', null);
-		$this->app->setUserState('com_modules.add.module.menuId', null);
+		$this->app->setUserState('com_modules.add.module.menu_id', null);
 		$this->app->setUserState('com_modules.add.module.position', null);
 	}
 
