@@ -785,7 +785,7 @@ class PlgSampledataBlog extends CMSPlugin
 				if (!empty($article['authorValue']))
 				{
 					// Store a field value
-					
+
 					$valueAuthor = (object) [
 						'item_id'  => $articleModel->getItem()->id,
 						'field_id' => $fieldIds[0],
