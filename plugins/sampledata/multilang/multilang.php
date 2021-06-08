@@ -57,7 +57,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @since   4.0.0
 	 */
 	protected $autoloadLanguage = true;
-	
+
 	/**
 	 * @var     string language path
 	 *
