@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -692,6 +693,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
 
+
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
@@ -704,6 +706,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
+			foreach($data['images'] as $name => $path)
+			{
+				// Make sure the file exists.
+				if (is_file(JPATH_ROOT . '/' . $path))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $path);
+					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200', '300x150']);
+				}
+			}
+
 			$registry = new Registry($data['images']);
 
 			$data['images'] = (string) $registry;
