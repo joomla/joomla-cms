@@ -13,6 +13,7 @@ namespace Joomla\Component\Media\Api\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -26,7 +27,8 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
  *
  * @since  4.0
  */
-class MediumModel extends BaseModel {
+class MediumModel extends BaseModel
+{
 
 	/**
 	 * Instance of com_media's ApiModel
@@ -35,7 +37,8 @@ class MediumModel extends BaseModel {
 	 */
 	private $mediaApiModel;
 
-	public function __construct($config = []) {
+	public function __construct($config = [])
+	{
 		parent::__construct($config);
 
 		$this->mediaApiModel = new ApiModel();
@@ -48,20 +51,32 @@ class MediumModel extends BaseModel {
 	 *
 	 * @since   4.0.0
 	 */
-	public function getItem() {
+	public function getItem()
+	{
 		$options = [
 			'path'    => $this->getState('path', ''),
-			'url'     => $this->getState('url', FALSE),
-			'temp'    => $this->getState('temp', FALSE),
-			'content' => $this->getState('content', FALSE),
+			'url'     => $this->getState('url', false),
+			'temp'    => $this->getState('temp', false),
+			'content' => $this->getState('content', false),
 		];
 
 		[
 			'adapter' => $adapterName,
 			'path'    => $path,
-		] = MediaHelper::adapterNameAndPath($this->getState('path', ''));
+		]
+			= MediaHelper::adapterNameAndPath($this->getState('path', ''));
 
-		return $this->mediaApiModel->getFile($adapterName, $path, $options);
+		try
+		{
+			return $this->mediaApiModel->getFile($adapterName, $path, $options);
+		}
+		catch (FileNotFoundException $e)
+		{
+			throw new ResourceNotFound(
+				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
+				404
+			);
+		}
 	}
 
 	/**
@@ -73,16 +88,18 @@ class MediumModel extends BaseModel {
 	 *
 	 * @since   4.0.0
 	 */
-	public function save($path = NULL) {
+	public function save($path = null)
+	{
 		$path     = $this->getState('path', '');
 		$oldPath  = $this->getState('old_path', '');
-		$content  = $this->getState('content', NULL);
-		$override = $this->getState('override', FALSE);
+		$content  = $this->getState('content', null);
+		$override = $this->getState('override', false);
 
 		[
 			'adapter' => $adapterName,
 			'path'    => $path,
-		] = MediaHelper::adapterNameAndPath($path);
+		]
+			= MediaHelper::adapterNameAndPath($path);
 
 		$resultPath = '';
 
@@ -95,12 +112,18 @@ class MediumModel extends BaseModel {
 			{
 				// ApiModel::move() (or actually LocalAdapter::move()) returns a path
 				// with leading slash.
-				$resultPath = trim($this->mediaApiModel->move($adapterName, $oldPath, $path, $override), '/');
+				$resultPath = trim(
+					$this->mediaApiModel->move(
+						$adapterName, $oldPath, $path, $override
+					), '/'
+				);
 			}
 			catch (FileNotFoundException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $oldPath),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $oldPath
+					),
 					404
 				);
 			}
@@ -120,29 +143,42 @@ class MediumModel extends BaseModel {
 				// If there is content, com_media's assumes the new item is a file.
 				// Otherwise a folder is assumed.
 				$name = $content
-					? $this->mediaApiModel->createFile($adapterName, $basename, $dirname, $content, $override)
-					: $this->mediaApiModel->createFolder($adapterName, $basename, $dirname, $override);
+					? $this->mediaApiModel->createFile(
+						$adapterName, $basename, $dirname, $content, $override
+					)
+					: $this->mediaApiModel->createFolder(
+						$adapterName, $basename, $dirname, $override
+					);
 
 				$resultPath = $dirname . '/' . $name;
 			}
 			catch (FileNotFoundException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $dirname . '/' . $basename),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
+						$dirname . '/' . $basename
+					),
 					404
 				);
 			}
 			catch (FileExistsException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_EXISTS', $dirname . '/' . $basename),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_FILE_EXISTS',
+						$dirname . '/' . $basename
+					),
 					400
 				);
 			}
 			catch (InvalidPathException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE', $dirname . '/' . $basename),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
+						$dirname . '/' . $basename
+					),
 					400
 				);
 			}
@@ -159,19 +195,27 @@ class MediumModel extends BaseModel {
 
 			try
 			{
-				$this->mediaApiModel->updateFile($adapterName, $basename, $dirname, $content);
+				$this->mediaApiModel->updateFile(
+					$adapterName, $basename, $dirname, $content
+				);
 			}
 			catch (FileNotFoundException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $dirname . '/' . $basename),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
+						$dirname . '/' . $basename
+					),
 					404
 				);
 			}
 			catch (InvalidPathException $e)
 			{
 				throw new Save(
-					Text::sprintf('WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE', $dirname . '/' . $basename),
+					Text::sprintf(
+						'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
+						$dirname . '/' . $basename
+					),
 					400
 				);
 			}
@@ -183,7 +227,9 @@ class MediumModel extends BaseModel {
 		if (!$resultPath)
 		{
 			throw new Save(
-				Text::_('WEBSERVICE_COM_MEDIA_UNSUPPORTED_PARAMETER_COMBINATION'),
+				Text::_(
+					'WEBSERVICE_COM_MEDIA_UNSUPPORTED_PARAMETER_COMBINATION'
+				),
 				400
 			);
 		}
@@ -198,13 +244,15 @@ class MediumModel extends BaseModel {
 	 *
 	 * @since   4.0.0
 	 */
-	public function delete() {
+	public function delete()
+	{
 		$path = $this->getState('path', '');
 
 		[
 			'adapter' => $adapterName,
 			'path'    => $path,
-		] = MediaHelper::adapterNameAndPath($path);
+		]
+			= MediaHelper::adapterNameAndPath($path);
 
 		try
 		{
@@ -218,4 +266,5 @@ class MediumModel extends BaseModel {
 			);
 		}
 	}
+
 }

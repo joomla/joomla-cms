@@ -11,9 +11,12 @@ namespace Joomla\Component\Media\Api\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
 use Joomla\Component\Media\Api\Helper\MediaHelper;
 
@@ -62,8 +65,18 @@ class MediaModel extends BaseModel implements ListModelInterface
 			'content'   => $this->getState('content', false)
 		];
 
-		list('adapter' => $adapterName, 'path' => $path) = MediaHelper::adapterNameAndPath($this->getState('path', ''));
-		$files       = $this->mediaApiModel->getFiles($adapterName, $path, $options);
+		['adapter' => $adapterName, 'path' => $path] = MediaHelper::adapterNameAndPath($this->getState('path', ''));
+		try
+		{
+			$files       = $this->mediaApiModel->getFiles($adapterName, $path, $options);
+		}
+		catch (FileNotFoundException $e)
+		{
+			throw new ResourceNotFound(
+				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
+				404
+			);
+		}
 
 		// A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object.
 		// Because com_media's ApiModel does not support pagination as we know from regular ListModel
