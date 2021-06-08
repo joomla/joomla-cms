@@ -642,7 +642,17 @@ class ModuleModel extends AdminModel
 				$clientId = $app->input->getInt('client_id', 0);
 				$filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+
+				// Pre-select Module Position set by Frontend Placement if it exists.
+				if ($position = $app->getUserState('com_modules.add.module.position'))
+				{
+					$data->set('position', $position);
+				}
+				else
+				{
+					$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+				}
+
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
 			}

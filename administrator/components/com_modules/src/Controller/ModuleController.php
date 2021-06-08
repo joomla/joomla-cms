@@ -92,7 +92,7 @@ class ModuleController extends FormController
 			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_POSITION'), 'warning');
 		}
 
-		$app->setUserState('com_modules.add.module.menuId', $menuId);
+		$app->setUserState('com_modules.add.module.menu_id', $menuId);
 		$app->setUserState('com_modules.add.module.position', $position);
 
 		$redirectUrl = 'index.php?option=com_modules&view=select&client_id=0';
