@@ -96,7 +96,8 @@ if (!Joomla) {
             }
 
             const jedContainer = document.getElementById('jed-container');
-            jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html);
+            // @todo Sanitize the html with Joomla.sanitizeHtml();
+            jedContainer.innerHTML = response.data.html;
 
             document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
               if (which === 13) {
