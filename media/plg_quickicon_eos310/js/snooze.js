@@ -9,7 +9,7 @@
 	 {
 		 var ajaxData = {
 			 'option' : 'com_ajax',
-			 'group' : 'quickicon',
+			 'group'  : 'quickicon',
 			 'plugin' : 'SnoozeEOS',
 			 'format' : 'json'
 		 }

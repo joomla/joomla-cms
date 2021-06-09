@@ -10,14 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Joomla! end of support notification plugin
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgQuickiconEos310 extends JPlugin
+class PlgQuickiconEos310 extends CMSPlugin
 {
 	/**
 	 * The EOS date for 3.10
@@ -31,10 +33,18 @@ class PlgQuickiconEos310 extends JPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * Load the language file on instantiation.
@@ -43,6 +53,32 @@ class PlgQuickiconEos310 extends JPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Holding the current valid message to be shown
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $currentMessage = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		$diff           = Factory::getDate()->diff(Factory::getDate(static::EOS_DATE));
+		$monthsUntilEOS = floor($diff->days / 30.417);
+
+		$this->currentMessage = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+	}
 
 	/**
 	 * This method is called when the Quick Icons module is constructing its set
@@ -58,49 +94,64 @@ class PlgQuickiconEos310 extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if (!Factory::getApplication()->isClient('administrator') || version_compare(JVERSION, '4.0', '>='))
+		if (!$this->shouldDisplayMessage())
 		{
 			return;
 		}
 
-		$diff = Factory::getDate()->diff(Factory::getDate(static::EOS_DATE));
-		$monthsUntilEOS = floor($diff->days / 30.417);
-
-		$messageInfo   = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
-		$lastSnoozedId = $this->params->get('last_snoozed_id', 0);
-
-		// No messages yet or the message is snoozed
-		if (!$messageInfo || $lastSnoozedId >= $messageInfo['id'])
+		// No messages yet
+		if (!$this->currentMessage)
 		{
 			return;
 		}
 
-		// Show this only above the cpanel
-		if ($this->app->input->get('option') == 'com_cpanel')
+		// Show this only when not snoozed
+		if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id'])
 		{
+			// Load the snooze scripts.
+			HTMLHelper::_('jquery.framework');
+			HTMLHelper::_('script', 'plg_quickicon_eos310/snooze.js', array('version' => 'auto', 'relative' => true));
+
 			// Build the  message to be displayed in the cpanel
 			$messageText = Text::sprintf(
-				$messageInfo['messageText'],
-				JHtml::_('date', static::EOS_DATE, Text::_('DATE_FORMAT_LC3')),
-				$messageInfo['messageLink'],
-			) . "<p><button class='btn btn-warning eosnotify-snooze-btn' type='button'>" . Text::_('PLG_QUICKICON_EOS310_SNOOZE_BUTTON') . "</button></p>";
+				$this->currentMessage['messageText'],
+				HTMLHelper::_('date', static::EOS_DATE, Text::_('DATE_FORMAT_LC3')),
+				$this->currentMessage['messageLink'],
+			);
+
+			if ($this->currentMessage['snozzeable'])
+			{
+				$messageText .=
+					'<p><button class="btn btn-warning eosnotify-snooze-btn" type="button">' .
+					Text::_('PLG_QUICKICON_EOS310_SNOOZE_BUTTON') .
+					'</button></p>';
+			}
 
 			$this->app->enqueueMessage(
 				$messageText,
-				$messageInfo['messageType'],
+				$this->currentMessage['messageType'],
 			);
 		}
 
 		// Make sure it opens in a new window with the rel tags attached.
-		$messageTextQuickIcon = "<a href='" . $messageInfo['messageLink'] . "' target='_blank' rel='noopener noreferrer'>" . $messageInfo['quickiconText'] . "</a> <span class='icon-new-tab'></span>";
+		$messageTextQuickIcon = Text::sprintf(
+			$this->currentMessage['quickiconText'],
+			HTMLHelper::_(
+				'date',
+				static::EOS_DATE,
+				Text::_('DATE_FORMAT_LC3')
+			),
+		);
 
-		// We allways show the message as quickicon
+		// The message as quickicon
 		return array(array(
-			'link'  => $messageInfo['messageLink'],
-			'image' => $messageInfo['image'],
-			'text'  => $messageTextQuickIcon,
-			'id'	=> 'plg_quickicon_eos310',
-			'group' => $messageInfo['groupText'],
+			'link'   => $this->currentMessage['messageLink'],
+			'target' => '_blank',
+			'rel'    => 'noopener noreferrer',
+			'image'  => $this->currentMessage['image'],
+			'text'   => $messageTextQuickIcon,
+			'id'	 => 'plg_quickicon_eos310',
+			'group'  => $this->currentMessage['groupText'],
 		));
 	}
 
@@ -115,19 +166,18 @@ class PlgQuickiconEos310 extends JPlugin
 	 */
 	public function onAjaxSnoozeEOS()
 	{
-		$diff = Factory::getDate()->diff(Factory::getDate(static::EOS_DATE));
-
-		if (!$this->isAllowedUser() || !$this->isAjaxRequest() || !$diff->invert)
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
 			throw new JAccessExceptionNotallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
-		$monthsUntilEOS = floor($diff->days / 30.417);
-		$messageInfo = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+		// Make sure only snozzeable messages can be snoozed
+		if ($this->currentMessage['snozzeable'])
+		{
+			$this->params->set('last_snoozed_id', $this->currentMessage['id']);
 
-		$this->params->set('last_snoozed_id', $messageInfo['id']);
-
-		$this->saveParams();
+			$this->saveParams();
+		}
 	}
 
 	/**
@@ -153,6 +203,7 @@ class PlgQuickiconEos310 extends JPlugin
 				'image'         => 'minus-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_EOS'),
+				'snozzeable'    => false,
 			);
 		}
 
@@ -167,6 +218,7 @@ class PlgQuickiconEos310 extends JPlugin
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'snozzeable'    => true,
 			);
 		}
 
@@ -181,6 +233,7 @@ class PlgQuickiconEos310 extends JPlugin
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'snozzeable'    => true,
 			);
 		}
 
@@ -189,12 +242,13 @@ class PlgQuickiconEos310 extends JPlugin
 		{
 			return array(
 				'id'            => 2,
-				'messageText'   => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_MESSAGE_02',
-				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_MESSAGE_02_SHORT',
-				'messageType  ' => 'info',
+				'messageText'   => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_02',
+				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_02_SHORT',
+				'messageType'   => 'info',
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'snozzeable'    => true,
 			);
 		}
 
@@ -203,16 +257,65 @@ class PlgQuickiconEos310 extends JPlugin
 		{
 			return array(
 				'id'            => 1,
-				'messageText'   => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_MESSAGE_01',
-				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_MESSAGE_01_SHORT',
+				'messageText'   => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_01',
+				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_01_SHORT',
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://joomla.org/4',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'snozzeable'    => true,
 			);
 		}
 
 		return false;
+	}
+
+	/**
+	 * Determines if the message and quickicon should be displayed
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function shouldDisplayMessage()
+	{
+		// Only on admin app
+		if (!$this->app->isClient('administrator'))
+		{
+			return false;
+		}
+
+		// Only if authenticated
+		if (Factory::getUser()->guest)
+		{
+			return false;
+		}
+
+		// Only on HTML documents
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return false;
+		}
+
+		// Only on full page requests
+		if ($this->app->input->getCmd('tmpl', 'index') === 'component')
+		{
+			return false;
+		}
+
+		// Only to com_cpanel
+		if ($this->app->input->get('option') !== 'com_cpanel')
+		{
+			return false;
+		}
+
+		// Don't show anything in 4.0
+		if (version_compare(JVERSION, '4.0', '>='))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -236,7 +339,7 @@ class PlgQuickiconEos310 extends JPlugin
 	 */
 	private function isAllowedUser()
 	{
-		return JFactory::getUser()->authorise('core.login.admin');
+		return Factory::getUser()->authorise('core.login.admin');
 	}
 
 	/**
@@ -303,7 +406,7 @@ class PlgQuickiconEos310 extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
