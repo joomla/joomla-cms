@@ -6,7 +6,7 @@ window.bootstrap = window.bootstrap || {};
 window.bootstrap.Modal = Modal;
 
 const allowed = {
-  iframe: ['src', 'name', 'width', 'height']
+  iframe: ['src', 'name', 'width', 'height'],
 };
 
 Joomla.initialiseModal = (modal, options) => {
