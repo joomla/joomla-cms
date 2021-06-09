@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 class PlgQuickiconEos310 extends JPlugin
 {
 	/**
-	 * The EOS date for 3.10 
+	 * The EOS date for 3.10
 	 * @todo The date is just for testing and is to be updated on release
 	 *
 	 * @var    string
@@ -58,6 +58,11 @@ class PlgQuickiconEos310 extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
+		if (!Factory::getApplication()->isClient('administrator') || version_compare(JVERSION, '4.0', '>='))
+		{
+			return;
+		}
+
 		$diff = Factory::getDate()->diff(Factory::getDate(static::EOS_DATE));
 		$monthsUntilEOS = floor($diff->days / 30.417);
 
@@ -91,7 +96,7 @@ class PlgQuickiconEos310 extends JPlugin
 			return array(array(
 				'link'  => $messageInfo['messageLink'],
 				'image' => $messageInfo['image'],
-				'text'  => $messageText,
+				'text'  => strip_tags($messageText),
 				'id'    => 'plg_quickicon_eos310',
 				'group' => $messageInfo['groupText'],
 			));
