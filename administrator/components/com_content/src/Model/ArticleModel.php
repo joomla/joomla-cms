@@ -715,13 +715,30 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if(is_file(JPATH_ROOT . '/' . $image) && ($i === 'image_intro' || $i === 'image_fulltext'))
 				{
 					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200', '300x150']);
+					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200']);
 				}
 			}
 
 			$registry = new Registry($data['images']);
 
 			$data['images'] = (string) $registry;
+		}
+
+		if(isset($data['articletext']))
+		{
+			// Get all images in content editor and remove duplicates
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['articletext'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($images as $image)
+			{
+				// Make sure the files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200']);
+				}
+			}
 		}
 
 		$this->workflowBeforeSave();

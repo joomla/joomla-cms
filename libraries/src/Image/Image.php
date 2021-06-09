@@ -1220,20 +1220,20 @@ class Image
 				switch ($creationMethod)
 				{
 					case self::CROP:
-						$thumb = $this->crop($imageWidth, $imageHeight, null, null, true);
+						$image = $this->crop($imageWidth, $imageHeight, null, null, true);
 						break;
 
 					case self::CROP_RESIZE:
-						$thumb = $this->cropResize($imageWidth, $imageHeight, true);
+						$image = $this->cropResize($imageWidth, $imageHeight, true);
 						break;
 
 					default:
-						$thumb = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
+						$image = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
 						break;
 				}
 
 				// Store the image in the results array
-				$generated[] = $thumb;
+				$generated[] = $image;
 			}
 		}
 
