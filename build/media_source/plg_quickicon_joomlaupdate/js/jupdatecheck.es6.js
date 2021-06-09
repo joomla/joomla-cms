@@ -15,7 +15,7 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
 
     if (linkSpans.length) {
       linkSpans.forEach((span) => {
-        span.innerHTML = Joomla.sanitize(text);
+        span.innerHTML = Joomla.sanitizeHtmltext);
       });
     }
   };

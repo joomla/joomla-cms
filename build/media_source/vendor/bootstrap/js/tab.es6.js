@@ -43,7 +43,7 @@ Joomla.initialiseTabs = (el, options) => {
              * As we are re-rendering text already displayed on the page we judge that there isn't
              * a risk of XSS attacks
              */
-            link.innerHTML = Joomla.sanitize(element.dataset.title);
+            link.innerHTML = Joomla.sanitizeHtmlelement.dataset.title);
 
             const li = document.createElement('li');
             li.classList.add('nav-item');
