@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
 $app = Factory::getApplication();
@@ -21,7 +20,7 @@ $app->getDocument()
 $module = $displayData['module'];
 
 // Place Modules Button
-$showModuleButton = $app->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create');
+$showModuleButton = $app->input->getBool('pm');
 
 // Redirect URL Menu ID Param for Placing Modules
 $menuId = $app->getMenu()->getActive();
