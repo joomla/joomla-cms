@@ -467,7 +467,7 @@ Joomla = window.Joomla || {};
               }
 
               // Append the option and repopulate the chosen field
-              this.orderFieldName.innerHTML += Joomla.sanitizeHtml$option);
+              this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
             }
           }
         });

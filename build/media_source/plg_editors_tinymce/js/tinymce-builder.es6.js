@@ -219,7 +219,7 @@ Joomla = window.Joomla || {};
       const name = `${options.formControl}[${set}][${group}][]`;
       const value = element.getAttribute('data-name');
 
-      element.innerHTML += Joomla.sanitizeHtml`<input type="hidden" name="${name}" value="${value}">`);
+      element.innerHTML += Joomla.sanitizeHtml(`<input type="hidden" name="${name}" value="${value}">`);
     };
 
     /**
@@ -282,7 +282,7 @@ Joomla = window.Joomla || {};
 
         if (item) {
           $btn = createButton(name, item, type);
-          box.innerHTML += Joomla.sanitizeHtml$btn);
+          box.innerHTML += Joomla.sanitizeHtml($btn);
 
           const newbutton = box.querySelector('.tox-mbtn:last-child');
 

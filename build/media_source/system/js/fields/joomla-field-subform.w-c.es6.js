@@ -183,7 +183,7 @@
       } else {
         tmpEl = document.createElement('div');
       }
-      tmpEl.innerHTML = Joomla.sanitizeHtmlthis.template);
+      tmpEl.innerHTML = Joomla.sanitizeHtml(this.template);
       const row = tmpEl.children[0];
 
       // Add to container

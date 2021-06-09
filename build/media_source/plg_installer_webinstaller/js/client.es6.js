@@ -96,7 +96,7 @@ if (!Joomla) {
             }
 
             const jedContainer = document.getElementById('jed-container');
-            jedContainer.innerHTML = Joomla.sanitizeHtmlresponse.data.html);
+            jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html);
 
             document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
               if (which === 13) {
@@ -119,7 +119,7 @@ if (!Joomla) {
               document.getElementById('search-reset').setAttribute('disabled', 'disabled');
             }
 
-            document.getElementById('search-reset').innerHTML = Joomla.sanitizeHtmlJoomla.Text._('JSEARCH_FILTER_CLEAR'));
+            document.getElementById('search-reset').innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JSEARCH_FILTER_CLEAR'));
 
             // eslint-disable-next-line no-shadow
             const orderingSelect = document.getElementById('com-apps-ordering');
@@ -153,7 +153,7 @@ if (!Joomla) {
             const loaderContainer = document.getElementById('web-loader');
 
             if (request.responseText && errorContainer) {
-              errorContainer.innerHTML = Joomla.sanitizeHtmlrequest.responseText);
+              errorContainer.innerHTML = Joomla.sanitizeHtml(request.responseText);
             }
 
             if (loaderContainer) {

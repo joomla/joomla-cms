@@ -590,9 +590,9 @@
 				cell.calendar = cal;
 				cell.navtype = navtype;
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
-					cell.innerHTML = Joomla.sanitizeHtml"<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>");
+					cell.innerHTML = Joomla.sanitizeHtml("<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>");
 				} else {
-					cell.innerHTML = cs ? Joomla.sanitizeHtml"<div unselectable='on'" + classes + ">" + text + "</div>") : Joomla.sanitizeHtmltext);
+					cell.innerHTML = cs ? Joomla.sanitizeHtml("<div unselectable='on'" + classes + ">" + text + "</div>") : Joomla.sanitizeHtml(text);
 					if (!cs && classes) {
 						cell.className = classes;
 					}
@@ -621,7 +621,7 @@
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
 			cell.className = "day-name wn";
-			cell.innerHTML = Joomla.sanitizeHtmlJoomlaCalLocale.wk);
+			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.wk);
 		}
 		for (var i = 7; i > 0; --i) {
 			cell = createElement("td", row);
@@ -648,7 +648,7 @@
 				cell.classList.add("weekend");
 			}
 
-			cell.innerHTML = Joomla.sanitizeHtmlJoomlaCalLocale.shortDays[(i + fdow) % 7]);
+			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.shortDays[(i + fdow) % 7]);
 			cell = cell.nextSibling;
 		}
 
@@ -878,7 +878,7 @@
 			var cell = row.firstChild;
 			if (this.params.weekNumbers) {
 				cell.className = "day wn";
-				cell.innerHTML = Joomla.sanitizeHtmldate.getLocalWeekNumber(this.params.dateType)); //date.convertNumbers();
+				cell.innerHTML = Joomla.sanitizeHtml(date.getLocalWeekNumber(this.params.dateType)); //date.convertNumbers();
 				cell = cell.nextSibling;
 			}
 
@@ -911,7 +911,7 @@
 					cell.style.cursor = "pointer";
 				}
 				cell.disabled = false;
-				cell.innerHTML = this.params.debug ? Joomla.sanitizeHtmliday) : Joomla.sanitizeHtmlDate.convertNumbers(iday));          // translated day number for each cell
+				cell.innerHTML = this.params.debug ? Joomla.sanitizeHtml(iday) : Joomla.sanitizeHtml(Date.convertNumbers(iday));          // translated day number for each cell
 				if (!cell.disabled) {
 					cell.caldate = new Date(date);
 					if (current_month && iday === mday) {
