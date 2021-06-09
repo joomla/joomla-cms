@@ -19,7 +19,7 @@ Joomla = window.Joomla || {};
     caption: [],
     th: [],
     tr: [],
-    td: []
+    td: [],
   };
 
   const initStatsEvents = (callback) => {
