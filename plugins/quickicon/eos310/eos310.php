@@ -20,7 +20,8 @@ use Joomla\CMS\Language\Text;
 class PlgQuickiconEos310 extends JPlugin
 {
 	/**
-	 * The EOS date for 3.10 to be updated at the stable release
+	 * The EOS date for 3.10 
+	 * @todo The date is just for testing and is to be updated on release
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
