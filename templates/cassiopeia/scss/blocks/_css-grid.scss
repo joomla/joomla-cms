@@ -5,6 +5,7 @@
     display: grid;
     grid-template-areas: ". head head head head ."
       ". banner banner banner banner ."
+      ". top top top top ."
       ". top-a top-a top-a top-a ."
       ". top-b top-b top-b top-b ."
       ". comp comp comp comp ."
@@ -12,6 +13,7 @@
       ". side-l side-l side-l side-l ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
+      ". bot bot bot bot ."
       ". footer footer footer footer ."
       ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
@@ -38,11 +40,13 @@
     @include media-breakpoint-up(md) {
       grid-template-areas: ". head head head head ."
         ". banner banner banner banner ."
+        ". top top top top ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."
         ". side-l comp comp side-r ."
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
+        ". bot bot bot bot ."
         ". footer footer footer footer ."
         ". debug debug debug debug .";
     }
@@ -68,6 +72,10 @@
 
 .container-banner {
   grid-area: banner;
+}
+
+.container-top {
+  grid-area: top;
 }
 
 .container-top-a {
@@ -108,6 +116,10 @@
 
 .container-bottom-b {
   grid-area: bot-b;
+}
+
+.container-bottom {
+  grid-area: bot;
 }
 
 .container-footer {
