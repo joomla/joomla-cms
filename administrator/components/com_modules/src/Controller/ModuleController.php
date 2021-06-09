@@ -69,13 +69,13 @@ class ModuleController extends FormController
 	}
 
 	/**
-	 * Set Position given by Frontend Module Placement.
+	 * Set Position for the New Module in Frontend Module Placement.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setPosition()
+	public function selectPosition()
 	{
 		$app = $this->app;
 
