@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
     tbody: [],
     thead: [],
     caption: [],
-    th: [],
+    th: ['scope'],
     tr: [],
     td: [],
   };
