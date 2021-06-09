@@ -166,6 +166,12 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 */
 	public function onAjaxSnoozeEOS()
 	{
+		// No messages yet so nothing to snooze
+		if (!$this->currentMessage)
+		{
+			return;
+		}
+
 		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
 			throw new JAccessExceptionNotallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
