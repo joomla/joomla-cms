@@ -686,6 +686,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
+		$app = Factory::getApplication();
 		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 		$db = $this->getDbo();
 
@@ -767,8 +768,16 @@ class ModuleModel extends AdminModel
 
 			if (empty($pk))
 			{
-				// If this is a new module, assign to all pages.
-				$assignment = 0;
+				if ($menuId = (int) $app->getUserState('com_modules.add.module.menu_id'))
+				{
+					// If a Menu ID is selected via Frontend Placements then use that.
+					$assignment = 1;
+					$assigned[] = $menuId;
+				}
+				else{
+					// If this is a new module, assign to all pages.
+					$assignment = 0;
+				}
 			}
 			elseif (empty($assigned))
 			{
