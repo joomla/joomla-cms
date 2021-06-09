@@ -11,7 +11,7 @@ const allowList = {
   button: ['type'],
   input: ['type', 'name', 'placeholder', 'inputmode'],
   select: ['name'],
-  option: ['value', 'selected']
+  option: ['value', 'selected'],
 };
 
 const webInstallerOptions = {
@@ -401,14 +401,6 @@ class WebInstaller {
 
 customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
-
-  // Need to wait for the CE to have inserted the tabs list
-  if (installerTabs.firstElementChild.tagName !== 'UL') {
-    window.setTimeout(initialiser, 50);
-
-    return;
-  }
-
   const link = installerTabs.querySelector('#tab-web');
 
   // Abort if the IFW tab cannot be found
