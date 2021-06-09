@@ -16,6 +16,7 @@ $app = Factory::getApplication();
 $app->getDocument()
 	->getWebAssetManager()
 	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
+	->registerAndUseScript('layouts.chromes.outline', 'layouts/chromes/outline.js');
 
 $module = $displayData['module'];
 
