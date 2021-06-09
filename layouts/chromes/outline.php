@@ -22,8 +22,16 @@ $module = $displayData['module'];
 // Place Modules Button
 $showModuleButton = $app->input->getBool('pm');
 
-// Redirect URL Menu ID Param for Placing Modules
+// Attributes of Select Position Tag for Placing Modules
 $menuId = $app->getMenu()->getActive();
+$action = 'href="administrator/index.php?option=com_modules&task=module.selectPosition&position=' . $module->position . "&menu=" . $menuId->id . '"';
+$tag = "a";
+
+if ($showModuleButton && $app->input->getBool('edit'))
+{
+	$tag = "button";
+	$action = 'onclick="selectPosition(' . "'" . $module->position . "'" . ')"';
+}
 ?>
 <div class="mod-preview">
 	<div class="mod-preview-info">
@@ -35,12 +43,12 @@ $menuId = $app->getMenu()->getActive();
 		</div>
 		<?php if ($showModuleButton): ?>
 			<div class="mod-preview-position">
-				<a class="btn btn-sm btn-info" href="administrator/index.php?option=com_modules&task=module.selectPosition&position=<?php echo $module->position;?>&menu=<?php echo $menuId->id;?>">
+				<<?php echo $tag; ?> class="btn btn-sm btn-info" <?php echo $action; ?>>
 					<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE'); ?>
 					<span class="visually-hidden">
 						<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE_POSITION', $module->position); ?>
 					</span>
-				</a>
+				</<?php echo $tag; ?>>
 			</div>
 		<?php endif; ?>
 	</div>
