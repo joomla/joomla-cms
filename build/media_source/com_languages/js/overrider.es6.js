@@ -187,12 +187,12 @@
         key.setAttribute('id', `override_key${this.states.counter}${index}`);
         key.setAttribute('title', item.file);
         key.classList.add('result-key');
-        key.innerHTML = item.constant;
+        key.innerHTML = Joomla.sanitize(item.constant);
 
         const string = document.createElement('div');
         string.setAttribute('id', `override_string${this.states.counter}${index}`);
         string.classList.add('result-string');
-        string.innerHTML = item.string;
+        string.innerHTML = Joomla.sanitize(item.string);
 
         a.appendChild(key);
         a.appendChild(string);
@@ -202,7 +202,7 @@
       // If there aren't any results display an appropriate message
       if (!results.length) {
         const noresult = document.createElement('div');
-        noresult.innerHTML = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+        noresult.innerHTML = Joomla.sanitize(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS'));
 
         resultsDiv.appendChild(noresult);
       }

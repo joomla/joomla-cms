@@ -33,7 +33,7 @@ Joomla = window.Joomla || {};
       warningElement.classList.add('hidden');
     } else if (fileSize) {
       fileSizeElement.classList.remove('hidden');
-      fileSizeElement.innerHTML = Joomla.Text._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', `${fileSizeMB.toFixed(2)} MB`);
+      fileSizeElement.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', `${fileSizeMB.toFixed(2)} MB`));
 
       if (fileSize > form.max_upload_size.value) {
         warningElement.classList.remove('hidden');
@@ -103,13 +103,13 @@ Joomla = window.Joomla || {};
         const settingsfieldset = el.closest('fieldset');
         if (toggle.target.dataset.state === 'closed') {
           toggle.target.dataset.state = 'open';
-          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
+          toggle.target.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.remove('hidden');
           });
         } else {
           toggle.target.dataset.state = 'closed';
-          toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+          toggle.target.innerHTML = Joomla.sanitize(Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION')));
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
           });
@@ -198,7 +198,7 @@ Joomla = window.Joomla || {};
 
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
-          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
+          el.innerHTML = Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.remove('col-md-8');
@@ -234,7 +234,7 @@ Joomla = window.Joomla || {};
           }
         } else {
           el.dataset.state = 'closed';
-          el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+          el.innerHTML = Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.add('col-md-8');
@@ -370,7 +370,7 @@ Joomla = window.Joomla || {};
     }
 
     // Insert the generated html
-    extensionData.element.innerHTML = html;
+    extensionData.element.innerHTML = Joomla.sanitize(html);
 
     // Process Current Version Extension Compatibility
     html = '';
@@ -442,7 +442,7 @@ Joomla = window.Joomla || {};
           const tableRow = problemPluginRow.closest('tr');
           tableRow.classList.add('error');
           const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.innerHTML = `${pluginTitleTableCell.innerHTML}
+          pluginTitleTableCell.innerHTML = Joomla.sanitize(`${pluginTitleTableCell.innerHTML}
               <span class="label label-warning " >
               <span class="icon-warning"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
@@ -454,7 +454,7 @@ Joomla = window.Joomla || {};
               >
               <span class="icon-help"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')}
-              </span>`;
+              </span>`);
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
