@@ -11,7 +11,7 @@
     const installer = document.getElementById('installer-install');
 
     if (loading && installer) {
-      loading.style.top = parseInt(installer.offsetTop - window.pageYOffset, 10);
+      loading.style.top = 0;
       loading.style.left = 0;
       loading.style.width = '100%';
       loading.style.height = '100%';
