@@ -26,7 +26,7 @@ class PlgQuickiconEos310 extends JPlugin
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	const EOS_DATE = '07.06.2024';
+	const EOS_DATE = '2024-07-06';
 
 	/**
 	 * Application object
