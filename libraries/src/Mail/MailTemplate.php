@@ -12,6 +12,8 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -178,6 +180,7 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
@@ -251,7 +254,7 @@ class MailTemplate
 			// If HTML body is empty try to convert the Plain template to html
 			if (!$htmlBody)
 			{
-				$htmlBody = nl2br($plainBody);
+				$htmlBody = nl2br($plainBody, false);
 			}
 
 			$this->mailer->setBody($htmlBody);
@@ -283,13 +286,21 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
-
-		foreach ((array) json_decode($mail->attachments)  as $attachment)
+		if (trim($config->get('attachment_folder')))
 		{
-			if (is_file($path . $attachment->file))
+			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
+
+			if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
 			{
-				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
+				foreach ((array) json_decode($mail->attachments) as $attachment)
+				{
+					$filePath = Path::check($folderPath . '/' . $attachment->file);
+
+					if (is_file($filePath))
+					{
+						$this->mailer->addAttachment($filePath, $this->getAttachmentName($filePath, $attachment->name));
+					}
+				}
 			}
 		}
 
@@ -297,7 +308,7 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $attachment->name);
+				$this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
 			}
 			else
 			{
@@ -463,5 +474,30 @@ class MailTemplate
 		$db->setQuery($query);
 
 		return $db->execute();
+	}
+
+	/**
+	 * Check and if necessary fix the file name of an attachment so that the attached file
+	 * has the same extension as the source file, and not a different file extension
+	 *
+	 * @param   string  $file  Path to the file to be attached
+	 * @param   string  $name  The file name to be used for the attachment
+	 *
+	 * @return  string  The corrected file name for the attachment
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getAttachmentName(string $file, string $name): string
+	{
+		// If no name is given, do not process it further
+		if (!trim($name))
+		{
+			return '';
+		}
+
+		$ext = File::getExt($file);
+
+		// Strip off extension from $name and append extension of $file, if any
+		return File::stripExt($name) . ($ext ? '.' . $ext : '');
 	}
 }

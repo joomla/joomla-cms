@@ -31,7 +31,6 @@ else
 
 	echo LayoutHelper::render('joomla.content.emptystate_module', [
 			'textPrefix' => 'COM_CONTENT',
-			'textSuffix' => '_RECENT',
 			'icon'       => 'icon-copy',
 		]
 	);

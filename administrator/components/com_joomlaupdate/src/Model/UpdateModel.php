@@ -715,6 +715,9 @@ ENDDATA;
 			return false;
 		}
 
+		// Reinitialise the installer's extensions table's properties.
+		$installer->extension->getFields(true);
+
 		// Start Joomla! 1.6.
 		ob_start();
 		ob_implicit_flush(false);
@@ -1345,7 +1348,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNonCorePlugins($folderFilter = array())
 	{

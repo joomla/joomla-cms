@@ -335,7 +335,7 @@ abstract class FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $parentclass;
 
@@ -1311,8 +1311,8 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
