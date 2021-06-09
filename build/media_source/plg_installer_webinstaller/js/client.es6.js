@@ -119,7 +119,7 @@ if (!Joomla) {
               document.getElementById('search-reset').setAttribute('disabled', 'disabled');
             }
 
-            document.getElementById('search-reset').innerHTML = Joomla.JText._('JSEARCH_FILTER_CLEAR');
+            document.getElementById('search-reset').innerHTML = Joomla.Text._('JSEARCH_FILTER_CLEAR');
 
             // eslint-disable-next-line no-shadow
             const orderingSelect = document.getElementById('com-apps-ordering');

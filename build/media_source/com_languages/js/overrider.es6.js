@@ -48,7 +48,7 @@
           this.states.refreshing = false;
         },
         onError: () => {
-          alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+          alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
           this.refreshStatus.classList.remove('show');
         },
       });
@@ -144,7 +144,7 @@
           this.spinner.classList.remove('show');
         },
         onError: () => {
-          alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+          alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
           this.moreResultsButton.disabled = true;
           this.moreResults.classList.remove('show');
           this.resultsContainer.classList.remove('show');
@@ -202,7 +202,7 @@
       // If there aren't any results display an appropriate message
       if (!results.length) {
         const noresult = document.createElement('div');
-        noresult.innerHTML = Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+        noresult.innerHTML = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 
         resultsDiv.appendChild(noresult);
       }

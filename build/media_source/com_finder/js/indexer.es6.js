@@ -115,10 +115,10 @@
         } catch (ignore) {
           if (error === '') {
             // eslint-disable-next-line no-ex-assign
-            error = Joomla.JText._('COM_FINDER_NO_ERROR_RETURNED');
+            error = Joomla.Text._('COM_FINDER_NO_ERROR_RETURNED');
           }
           if (progressHeader) {
-            progressHeader.innerText = Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+            progressHeader.innerText = Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
             progressHeader.classList.add('finder-error');
           }
           if (progressMessage) {
@@ -139,8 +139,8 @@
 
       removeElement('progress');
 
-      const header = data ? data.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-      const message = data ? data.message : `${Joomla.JText._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
+      const header = data ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+      const message = data ? data.message : `${Joomla.Text._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
 
       if (progressHeader) {
         progressHeader.innerText = header;
