@@ -27,6 +27,7 @@ $menuId = $app->getMenu()->getActive();
 $action = 'href="administrator/index.php?option=com_modules&task=module.selectPosition&position=' . $module->position . "&menu=" . $menuId->id . '"';
 $tag = "a";
 
+// True for Backend Edit Module Position's Modal Iframe
 if ($showModuleButton && $app->input->getBool('edit'))
 {
 	$tag = "button";
