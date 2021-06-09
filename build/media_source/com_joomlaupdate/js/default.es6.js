@@ -109,7 +109,7 @@ Joomla = window.Joomla || {};
           });
         } else {
           toggle.target.dataset.state = 'closed';
-          toggle.target.innerHTML = Joomla.sanitize(Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION')));
+          toggle.target.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
           });
@@ -198,7 +198,7 @@ Joomla = window.Joomla || {};
 
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
-          el.innerHTML = Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
+          el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.remove('col-md-8');
@@ -234,7 +234,7 @@ Joomla = window.Joomla || {};
           }
         } else {
           el.dataset.state = 'closed';
-          el.innerHTML = Joomla.sanitize(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
+          el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
             extension.classList.add('col-md-8');
@@ -370,7 +370,7 @@ Joomla = window.Joomla || {};
     }
 
     // Insert the generated html
-    extensionData.element.innerHTML = Joomla.sanitize(html);
+    extensionData.element.innerHTML = Joomla.sanitizeHtml(html);
 
     // Process Current Version Extension Compatibility
     html = '';
@@ -442,7 +442,7 @@ Joomla = window.Joomla || {};
           const tableRow = problemPluginRow.closest('tr');
           tableRow.classList.add('error');
           const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.innerHTML = Joomla.sanitize(`${pluginTitleTableCell.innerHTML}
+          pluginTitleTableCell.innerHTML = Joomla.sanitizeHtml(`${pluginTitleTableCell.innerHTML}
               <span class="label label-warning " >
               <span class="icon-warning"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
