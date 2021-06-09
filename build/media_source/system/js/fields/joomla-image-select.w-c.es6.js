@@ -40,7 +40,7 @@
     }
 
     if (Joomla.selectedMediaFile.path) {
-      container.insertAdjacentHTML('afterbegin', `
+      container.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`
 <joomla-field-mediamore
   parent-id="${currentModal.id}"
   summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
@@ -52,7 +52,7 @@
   figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL')}"
   figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
 ></joomla-field-mediamore>
-`);
+`));
     }
   });
 

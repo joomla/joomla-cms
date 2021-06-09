@@ -71,7 +71,7 @@ Joomla = window.Joomla || {};
         try {
           const json = JSON.parse(response);
           if (json && json.html) {
-            messageContainer.insertAdjacentHTML('beforeend', json.html);
+            messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html));
             messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
             initStatsEvents(getJson);
           }
