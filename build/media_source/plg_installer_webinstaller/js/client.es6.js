@@ -112,11 +112,11 @@ class WebInstaller {
             this.initiateSearch();
           });
 
-          document.getElementById('search-extensions').addEventListener('click', () => {
+          document.getElementById('search-reset').addEventListener('click', () => {
             const searchBox = document.getElementById('com-apps-searchbox');
             searchBox.value = '';
             this.initiateSearch();
-            document.getElementById('search-extensions').setAttribute('disabled', 'disabled');
+            document.getElementById('search-reset').setAttribute('disabled', 'disabled');
           });
 
           if (document.getElementById('com-apps-searchbox').value === '') {
