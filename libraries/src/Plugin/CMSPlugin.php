@@ -137,12 +137,6 @@ abstract class CMSPlugin extends \JEvent
 		$extension = strtolower($extension);
 		$lang      = \JFactory::getLanguage();
 
-		// If language already loaded, don't load it again.
-		if ($lang->getPaths($extension))
-		{
-			return true;
-		}
-
 		return $lang->load($extension, $basePath, null, false, true)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
 	}
