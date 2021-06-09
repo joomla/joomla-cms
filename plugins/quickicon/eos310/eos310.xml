@@ -16,4 +16,14 @@
 		<language tag="en-GB">en-GB.plg_quickicon_eos310.ini</language>
 		<language tag="en-GB">en-GB.plg_quickicon_eos310.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="last_snoozed_id"
+					type="hidden"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
