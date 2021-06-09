@@ -224,7 +224,7 @@ jQuery(document).ready(function($) {
       else
       {
         // Show change language button
-        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml((document.getElementById('select-change').getAttribute('data-change'));
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
         $('#remove-assoc').removeClass("hidden");
         $('#toolbar-copy').hide();
 
