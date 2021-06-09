@@ -11,6 +11,15 @@ Joomla = window.Joomla || {};
 
   const allowed = {
     input: ['type', 'name', 'value'],
+    'joomla-alert': ['type', 'dismiss', 'role'],
+    button: ['type'],
+    table: [],
+    tbody: [],
+    thead: [],
+    caption: [],
+    th: [],
+    tr: [],
+    td: []
   };
 
   const initStatsEvents = (callback) => {
