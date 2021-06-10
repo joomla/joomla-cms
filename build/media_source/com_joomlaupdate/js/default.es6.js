@@ -364,7 +364,7 @@ Joomla = window.Joomla || {};
           PreUpdateChecker.showorangewarning = true;
           break;
         default:
-          // An error occured -> show unknown error note
+          // An error occurred -> show unknown error note
           html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
       }
     }
@@ -375,7 +375,7 @@ Joomla = window.Joomla || {};
     // Process Current Version Extension Compatibility
     html = '';
     if (extensionData.serverError) {
-      // An error occured -> show unknown error note
+      // An error occurred -> show unknown error note
       html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
     } else {
       // Switch the compatibility state
@@ -395,7 +395,7 @@ Joomla = window.Joomla || {};
           html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
           break;
         default:
-          // An error occured -> show unknown error note
+          // An error occurred -> show unknown error note
           html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
       }
     }
