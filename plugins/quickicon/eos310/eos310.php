@@ -188,7 +188,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * Return the texts to be displayed based on the time until we reach EOS
 	 *
 	 * @param   integer  $monthsUntilEOS  The months until we reach EOS
-	 * @param   integer  $inverted		Have we surpassed the EOS date
+	 * @param   integer  $inverted        Have we surpassed the EOS date
 	 *
 	 * @return  array|bool  An array with the message to be displayed or false
 	 *
