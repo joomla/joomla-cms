@@ -133,7 +133,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// Make sure it opens in a new window with the rel tags attached.
+		// The message as quickicon
 		$messageTextQuickIcon = Text::sprintf(
 			$this->currentMessage['quickiconText'],
 			HTMLHelper::_(
