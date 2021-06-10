@@ -226,7 +226,7 @@ $compatibilityTypes = array(
 							<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 								<tr>
 									<td class="exname col-md-8">
-										<?php echo Text::_($extension->name); ?>
+										<?php echo $extension->name; ?>
 									</td>
 									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
