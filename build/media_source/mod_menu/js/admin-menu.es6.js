@@ -74,7 +74,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
 
   // Set active class
   allLinks.forEach((link) => {
-    if (currentUrl === link.href) {
+    if (currentUrl.indexOf(link.href) === 0) {
       link.setAttribute('aria-current', 'page');
       link.classList.add('mm-active');
 
