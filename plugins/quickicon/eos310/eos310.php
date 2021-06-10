@@ -209,7 +209,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'minus-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_EOS'),
-				'snozzeable'    => false,
+				'snoozable'      => false,
 			);
 		}
 
