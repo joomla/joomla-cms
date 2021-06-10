@@ -42,7 +42,7 @@
     if (Joomla.selectedMediaFile.path) {
       container.insertAdjacentHTML('afterbegin', `
 <joomla-field-mediamore
-  parent-id="${Joomla.sanitizeHtml(currentModal.id)}"
+  parent-id="${currentModal.id}"
   summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
   lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}"
   alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"
