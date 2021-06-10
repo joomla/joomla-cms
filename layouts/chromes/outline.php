@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 $app = Factory::getApplication();
 $app->getDocument()
 	->getWebAssetManager()
-	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
+	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css')
 	->registerAndUseScript('layouts.chromes.outline', 'layouts/chromes/outline.js');
 
 $module = $displayData['module'];
