@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 extract($displayData);
 
@@ -85,4 +86,20 @@ Factory::getDocument()->getWebAssetManager()
 		)
 	);
 ?></joomla-field-fancy-select>
-
+<?php 
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'Modal_position',
+		array(
+			'title'       => 'Select position from template',
+			'url'         => Uri::root() . '?pm=1&edit=1',
+			'height'      => '400px',
+			'width'       => 'auto',
+			'bodyHeight'  => 70,
+			'modalWidth'  => 95,
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+		)
+	);
+?>
+<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position">Select position from template</a>
