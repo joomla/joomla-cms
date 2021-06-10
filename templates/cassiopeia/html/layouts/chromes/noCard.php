@@ -22,8 +22,8 @@ if ($module->content === null || $module->content === '')
 
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
-$moduleAttribs['class'] = "$module->position no-card ". (isset($attribs['class'])? " container-$module->position " : '')
-		. ($params->get('moduleclass_sfx') ? htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8') : $attribs['class']);
+$moduleAttribs['class'] = "$module->position no-card $attribs[class] "
+			. (htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8'));
 $headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
