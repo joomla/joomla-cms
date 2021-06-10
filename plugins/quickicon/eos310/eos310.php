@@ -177,7 +177,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 			throw new JAccessExceptionNotallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
-		// Make sure only snozzeable messages can be snoozed
+		// Make sure only snoozable messages can be snoozed
 		if ($this->currentMessage['snozzeable'])
 		{
 			$this->params->set('last_snoozed_id', $this->currentMessage['id']);
