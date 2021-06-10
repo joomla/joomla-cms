@@ -51,7 +51,8 @@
   classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASS_LABEL')}"
   figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL')}"
   figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
-></joomla-field-mediamore>`);
+></joomla-field-mediamore>
+`);
     }
   });
 
