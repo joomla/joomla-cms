@@ -23,7 +23,7 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
 /**
  * Media web service model supporting lists of media items.
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class MediaModel extends BaseModel implements ListModelInterface
 {
@@ -52,7 +52,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  array  An array of data items.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -68,7 +68,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 		['adapter' => $adapterName, 'path' => $path] = MediaHelper::adapterNameAndPath($this->getState('path', ''));
 		try
 		{
-			$files       = $this->mediaApiModel->getFiles($adapterName, $path, $options);
+			$files = $this->mediaApiModel->getFiles($adapterName, $path, $options);
 		}
 		catch (FileNotFoundException $e)
 		{
@@ -91,7 +91,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  Pagination  A Pagination object for the data set.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getPagination()
 	{
@@ -105,7 +105,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getStart()
 	{
@@ -117,7 +117,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTotal()
 	{

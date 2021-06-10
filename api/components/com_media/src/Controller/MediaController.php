@@ -26,7 +26,7 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
 /**
  * Media web service controller.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class MediaController extends ApiController
 {
@@ -36,7 +36,7 @@ class MediaController extends ApiController
 	 * The content type of the item.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $contentType = 'media';
 
@@ -88,7 +88,7 @@ class MediaController extends ApiController
 	 *
 	 * @var    string
 	 *
-	 * @since  3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'media';
 
@@ -99,7 +99,7 @@ class MediaController extends ApiController
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function displayList()
 	{
@@ -143,7 +143,7 @@ class MediaController extends ApiController
 	 * @throws  InvalidPathException
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function displayItem($path = '')
 	{
@@ -169,7 +169,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setModelState(array $mappings)
 	{
@@ -192,8 +192,8 @@ class MediaController extends ApiController
 	 * @throws  \RuntimeException
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function add()
 	{
@@ -233,7 +233,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -252,7 +252,7 @@ class MediaController extends ApiController
 	 * @throws  \RuntimeException
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function edit()
 	{
@@ -290,7 +290,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -307,7 +307,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  integer  The record ID on success, false on failure
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function save($recordKey = null)
 	{
@@ -339,7 +339,7 @@ class MediaController extends ApiController
 	 *
 	 * @throws  \RuntimeException
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkContent()
 	{
@@ -366,7 +366,7 @@ class MediaController extends ApiController
 	 * @throws  \RuntimeException
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function delete($id = null)
 	{
@@ -390,7 +390,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowDelete()
 	{

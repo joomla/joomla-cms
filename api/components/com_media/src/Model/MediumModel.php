@@ -25,7 +25,7 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
 /**
  * Media web service model supporting a single media item.
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class MediumModel extends BaseModel
 {
@@ -49,7 +49,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  \stdClass  A file or folder object.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem()
 	{
@@ -86,7 +86,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  integer  The record ID on success, false on failure
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($path = null)
 	{
@@ -242,7 +242,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function delete()
 	{

@@ -9,14 +9,14 @@
 
 namespace Joomla\Component\Media\Api\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
-
 \defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Helper methods for media web service.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class MediaHelper
 {
@@ -27,14 +27,14 @@ class MediaHelper
 	 *
 	 * @return  array   An array with elements 'adapter' and 'path'.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function adapterNameAndPath(String $path)
 	{
 		$result = [];
 		$parts = explode(':', $path, 2);
 
-		// If we have 2 parts, we have both an adapetr name and a file path.
+		// If we have 2 parts, we have both an adapter name and a file path.
 		if (count($parts) == 2)
 		{
 			$result['adapter'] = $parts[0];
@@ -43,7 +43,7 @@ class MediaHelper
 			return $result;
 		}
 
-		// If we have less than 2 parts, we return a default aadapter name.
+		// If we have less than 2 parts, we return a default adapter name.
 		$result['adapter'] = self::defaultAdapterName();
 		// If we have 1 part, we return it as the path. Otherwise we return a default path.
 		$result['path'] = count($parts) ? $parts[0] : '/';

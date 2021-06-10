@@ -16,7 +16,7 @@ use Joomla\Router\Route;
 /**
  * Web Services adapter for com_media.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgWebservicesMedia extends CMSPlugin
 {
@@ -24,7 +24,7 @@ class PlgWebservicesMedia extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -35,7 +35,7 @@ class PlgWebservicesMedia extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onBeforeApiRoute(&$router)
 	{

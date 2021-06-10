@@ -20,7 +20,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Trait for classes that need adapters.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 trait AdapterTrait
 {
@@ -29,7 +29,7 @@ trait AdapterTrait
 	 *
 	 * @var   ProviderManager
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $providerManager = null;
 
@@ -40,7 +40,7 @@ trait AdapterTrait
 	 *
 	 * @throws \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getAdapter(String $name)
 	{

@@ -19,7 +19,7 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
 /**
  * Media web service view
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class JsonapiView extends BaseApiView
 {
@@ -29,7 +29,7 @@ class JsonapiView extends BaseApiView
 	 * The fields to render item in the documents
 	 *
 	 * @var  array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $fieldsToRenderItem = [
 		'type',
@@ -55,7 +55,7 @@ class JsonapiView extends BaseApiView
 	 * The fields to render items in the documents
 	 *
 	 * @var  array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $fieldsToRenderList = [
 		'type',
@@ -81,7 +81,7 @@ class JsonapiView extends BaseApiView
 	 * Holds the available media file adapters.
 	 *
 	 * @var   ProviderManager
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $providerManager = null;
 
@@ -92,7 +92,7 @@ class JsonapiView extends BaseApiView
 	 *
 	 * @return  object
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function prepareItem($item)
 	{
