@@ -119,7 +119,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				$this->currentMessage['messageLink'],
 			);
 
-			if ($this->currentMessage['snozzeable'])
+			if ($this->currentMessage['snoozable'])
 			{
 				$messageText .=
 					'<p><button class="btn btn-warning eosnotify-snooze-btn" type="button">' .
@@ -178,7 +178,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 		}
 
 		// Make sure only snoozable messages can be snoozed
-		if ($this->currentMessage['snozzeable'])
+		if ($this->currentMessage['snoozable'])
 		{
 			$this->params->set('last_snoozed_id', $this->currentMessage['id']);
 
@@ -209,7 +209,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'minus-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_EOS'),
-				'snoozable'      => false,
+				'snoozable'     => false,
 			);
 		}
 
@@ -224,7 +224,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
-				'snozzeable'    => true,
+				'snoozable'     => true,
 			);
 		}
 
@@ -239,7 +239,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
-				'snozzeable'    => true,
+				'snoozable'     => true,
 			);
 		}
 
@@ -254,7 +254,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
-				'snozzeable'    => true,
+				'snoozable'     => true,
 			);
 		}
 
@@ -269,7 +269,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://joomla.org/4',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
-				'snozzeable'    => true,
+				'snoozable'     => true,
 			);
 		}
 
