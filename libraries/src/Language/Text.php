@@ -12,7 +12,6 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
