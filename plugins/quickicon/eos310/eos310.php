@@ -81,9 +81,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	}
 
 	/**
-	 * This method is called when the Quick Icons module is constructing its set
-	 * of icons. You can return an array which defines a single icon and it will
-	 * be rendered right after the stock Quick Icons.
+	 * Check and show the the alert and quickicon message
 	 *
 	 * @param   string  $context  The calling context
 	 *
