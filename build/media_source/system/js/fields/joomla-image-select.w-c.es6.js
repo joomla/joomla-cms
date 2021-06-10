@@ -43,14 +43,14 @@
       container.insertAdjacentHTML('afterbegin', `
 <joomla-field-mediamore
   parent-id="${Joomla.sanitizeHtml(currentModal.id)}"
-  summary-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL'))}"
-  lazy-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL'))}"
-  alt-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_ALT_LABEL'))}"
-  alt-check-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_LABEL'))}"
-  alt-check-desc-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL'))}"
-  classes-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_CLASS_LABEL'))}"
-  figure-classes-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL'))}"
-  figure-caption-label="${Joomla.sanitizeHtml(Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL'))}"
+  summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
+  lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}"
+  alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"
+  alt-check-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_LABEL')}"
+  alt-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL')}"
+  classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASS_LABEL')}"
+  figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL')}"
+  figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
 ></joomla-field-mediamore>`);
     }
   });
