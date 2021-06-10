@@ -88,7 +88,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * @param   string  $context  The calling context
 	 *
 	 * @return  array|void  A list of icon definition associative arrays, consisting of the
-	 *						keys link, image, text and access, or void.
+	 *			keys link, image, text and access, or void.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
