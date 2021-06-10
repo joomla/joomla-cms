@@ -202,7 +202,7 @@
       // If there aren't any results display an appropriate message
       if (!results.length) {
         const noresult = document.createElement('div');
-        noresult.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS'));
+        noresult.innerText = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 
         resultsDiv.appendChild(noresult);
       }
