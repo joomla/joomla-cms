@@ -50,7 +50,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 0;
+	const PATCH_VERSION = 28;
 
 	/**
 	 * Extra release version info.
@@ -61,7 +61,25 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'rc2-dev';
+	const EXTRA_VERSION = 'dev';
+
+	/**
+	 * Release version.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 * @deprecated  4.0  Use separated version constants instead
+	 */
+	const RELEASE = '3.9';
+
+	/**
+	 * Maintenance version.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 * @deprecated  4.0  Use separated version constants instead
+	 */
+	const DEV_LEVEL = '28-dev';
 
 	/**
 	 * Development status.
@@ -85,7 +103,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '1-June-2021';
+	const RELDATE = '24-May-2021';
 
 	/**
 	 * Release time.
@@ -93,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:47';
+	const RELTIME = '11:29';
 
 	/**
 	 * Release timezone.

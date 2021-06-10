@@ -277,23 +277,36 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Perform application routines.
 			$this->doExecute();
 
-			// If we have an application document object, render it.
-			if ($this->document instanceof \Joomla\CMS\Document\Document)
+		if ($this->get('block_floc', 1))
+		{
+			$headers = $this->getHeaders();
+
+			$notPresent = true;
+
+			foreach ($headers as $header)
 			{
-				// Render the application output.
-				$this->render();
+				if (strtolower($header['name']) === 'permissions-policy')
+				{
+					// Append interest-cohort if the Permissions-Policy is not set
+					if (strpos($header['value'], 'interest-cohort') === false)
+					{
+						$this->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
+					}
+
+					$notPresent = false;
+
+					break;
+				}
 			}
 
-			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-			if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+			if ($notPresent)
 			{
-				$this->compress();
-
-				// Trigger the onAfterCompress event.
-				$this->triggerEvent('onAfterCompress');
+				$this->setHeader('Permissions-Policy', 'interest-cohort=()');
 			}
 		}
-		catch (\Throwable $throwable)
+
+		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			/** @var ErrorEvent $event */
 			$event = AbstractEvent::create(

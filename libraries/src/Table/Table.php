@@ -648,20 +648,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		}
 
 		// If the ignore value is a string, explode it over spaces.
-		if (!\is_array($ignore))
+		if (!is_array($ignore))
 		{
 			$ignore = explode(' ', $ignore);
 		}
-
-		$event = AbstractEvent::create(
-			'onTableBeforeBind',
-			[
-				'subject'	=> $this,
-				'src'		=> $src,
-				'ignore'	=> $ignore
-			]
-		);
-		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
 
 		// If the source value is an object, get its accessible properties.
 		if (\is_object($src))
@@ -674,7 +664,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			foreach ($this->_jsonEncode as $field)
 			{
-				if (isset($src[$field]) && \is_array($src[$field]))
+				if (isset($src[$field]) && is_array($src[$field]))
 				{
 					$src[$field] = json_encode($src[$field]);
 				}

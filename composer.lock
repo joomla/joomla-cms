@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98b1cf07c4c8322cd5f7dc7cb7e85a84",
+    "content-hash": "bbed972753d37f5dfa3e43d4a7e6d356",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -49,14 +49,8 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A library for encoding and decoding internationalized domain names",
-            "homepage": "http://idnaconv.net/",
-            "keywords": [
-                "idn",
-                "idna",
-                "php"
-            ],
-            "time": "2020-10-05T05:49:30+00:00"
+            "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
+            "time": "2020-07-24T10:16:53+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -119,7 +113,7 @@
                 "assertion",
                 "validation"
             ],
-            "time": "2021-04-18T20:11:03+00:00"
+            "time": "2015-09-02T17:23:59+00:00"
         },
         {
             "name": "brick/math",
@@ -156,16 +150,10 @@
             ],
             "description": "Arbitrary-precision arithmetic library",
             "keywords": [
-                "Arbitrary-precision",
-                "BigInteger",
-                "BigRational",
-                "arithmetic",
-                "bigdecimal",
-                "bignum",
-                "brick",
-                "math"
+                "hashing",
+                "password"
             ],
-            "time": "2020-08-18T23:41:20+00:00"
+            "time": "2014-11-20T16:49:30+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -222,7 +210,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2021-01-12T12:10:35+00:00"
+            "time": "2019-03-28T14:55:36+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -259,7 +247,7 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
+            "funding": [
                 {
                     "name": "Taylor Hornby",
                     "email": "taylor@defuse.ca",
@@ -362,7 +350,7 @@
                 "uppercase",
                 "words"
             ],
-            "time": "2021-04-16T17:34:40+00:00"
+            "time": "2015-02-24T00:21:06+00:00"
         },
         {
             "name": "fgrosse/phpasn1",
@@ -418,22 +406,7 @@
                     "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
                 }
             ],
-            "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
-            "homepage": "https://github.com/FGrosse/PHPASN1",
-            "keywords": [
-                "DER",
-                "asn.1",
-                "asn1",
-                "ber",
-                "binary",
-                "decoding",
-                "encoding",
-                "x.509",
-                "x.690",
-                "x509",
-                "x690"
-            ],
-            "time": "2021-04-24T19:01:55+00:00"
+            "time": "2016-04-02T22:20:43+00:00"
         },
         {
             "name": "fig/link-util",
@@ -490,7 +463,7 @@
                 "psr-13",
                 "rest"
             ],
-            "time": "2021-02-03T23:36:04+00:00"
+            "time": "2018-02-25T16:30:45+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -537,40 +510,7 @@
                 "recaptcha",
                 "spam"
             ],
-            "time": "2020-03-31T17:50:54+00:00"
-        },
-        {
-            "name": "jakeasmith/http_build_url",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jakeasmith/http_build_url.git",
-                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jakeasmith/http_build_url/zipball/93c273e77cb1edead0cf8bcf8cd2003428e74e37",
-                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/http_build_url.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jake A. Smith",
-                    "email": "theman@jakeasmith.com"
-                }
-            ],
-            "description": "Provides functionality for http_build_url() to environments without pecl_http.",
-            "time": "2017-05-01T15:36:40+00:00"
+            "time": "2019-10-07T22:54:58+00:00"
         },
         {
             "name": "joomla/application",
@@ -643,7 +583,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:24:44+00:00"
+            "time": "2020-09-02T09:05:23+00:00"
         },
         {
             "name": "joomla/archive",
@@ -695,7 +635,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2021-03-06T12:46:31+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/filter/issues",
+                "source": "https://github.com/joomla-framework/filter/tree/2.0.0-beta4"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-31T22:55:23+00:00"
         },
         {
             "name": "joomla/authentication",
@@ -750,7 +704,17 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:25:47+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-12-02T13:11:43+00:00"
         },
         {
             "name": "joomla/console",
@@ -804,7 +768,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-11-28T14:40:42+00:00"
+            "time": "2019-06-15T22:13:58+00:00"
         },
         {
             "name": "joomla/crypt",
@@ -862,7 +826,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:30:27+00:00"
+            "time": "2019-03-10T15:16:38+00:00"
         },
         {
             "name": "joomla/data",
@@ -909,7 +873,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:27:08+00:00"
+            "time": "2019-11-27T16:58:55+00:00"
         },
         {
             "name": "joomla/database",
@@ -1025,10 +989,10 @@
                 "dependency injection",
                 "di",
                 "framework",
-                "ioc",
-                "joomla"
+                "joomla",
+                "string"
             ],
-            "time": "2020-06-05T11:28:10+00:00"
+            "time": "2020-10-07T08:01:44+00:00"
         },
         {
             "name": "joomla/event",
@@ -1079,30 +1043,29 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:28:34+00:00"
+            "time": "2018-07-01T00:12:15+00:00"
         },
         {
-            "name": "joomla/filesystem",
-            "version": "2.0.0-beta2",
+            "name": "joomla/utilities",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782"
+                "url": "https://github.com/joomla-framework/utilities.git",
+                "reference": "9f7d9fda537ca005f7467de68f92506d48f348f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
-                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/9f7d9fda537ca005f7467de68f92506d48f348f5",
+                "reference": "9f7d9fda537ca005f7467de68f92506d48f348f5",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "joomla/string": "~1.3|~2.0",
+                "php": "^5.3.10|~7.0|^8.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
-                "joomla/test": "^2.0",
-                "mikey179/vfsstream": "^1.1",
-                "phpunit/phpunit": "^8.5|^9.0"
+                "joomla/coding-standards": "~2.0@alpha",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0|^7.0|^8.0"
             },
             "type": "joomla-package",
             "extra": {
@@ -1126,7 +1089,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-09-02T17:35:07+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/utilities/issues",
+                "source": "https://github.com/joomla-framework/utilities/tree/1.6.2"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-06-02T21:39:39+00:00"
         },
         {
             "name": "joomla/filter",
@@ -1154,8 +1131,15 @@
                 "joomla/language": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
-            "suggest": {
-                "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
+            "bin": [
+                "plessc",
+                "lessify"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lessc.inc.php"
+                ]
             },
             "type": "joomla-package",
             "extra": {
@@ -1179,7 +1163,12 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2021-02-01T12:25:08+00:00"
+            "description": "lessphp is a compiler for LESS written in PHP.",
+            "homepage": "http://leafo.net/lessphp/",
+            "support": {
+                "source": "https://github.com/joomla-backports/lessphp/tree/dev-joomla3-php8"
+            },
+            "time": "2020-10-10T19:20:26+00:00"
         },
         {
             "name": "joomla/http",
@@ -5686,7 +5675,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2019-07-13T18:56:54+00:00"
+            "time": "2018-04-04T21:48:54+00:00"
         },
         {
             "name": "joomla/coding-standards",
@@ -5733,20 +5722,20 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2020-01-21T18:27:08+00:00"
+            "time": "2019-03-20T17:19:05+00:00"
         },
         {
-            "name": "joomla/mediawiki",
-            "version": "dev-master",
+            "name": "phpmailer/phpmailer",
+            "version": "dev-joomla-backports",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/mediawiki-api.git",
-                "reference": "e82bb93e1a40ecfdd43005d35ab3cce449914229"
+                "url": "https://github.com/joomla-backports/PHPMailer.git",
+                "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/e82bb93e1a40ecfdd43005d35ab3cce449914229",
-                "reference": "e82bb93e1a40ecfdd43005d35ab3cce449914229",
+                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/54bdc96e899a83a9956d756d51a458fcca587ca2",
+                "reference": "54bdc96e899a83a9956d756d51a458fcca587ca2",
                 "shasum": ""
             },
             "require": {
@@ -5771,7 +5760,6 @@
                     "Joomla\\Mediawiki\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5782,61 +5770,8 @@
                 "joomla",
                 "mediawiki"
             ],
-            "time": "2021-04-06T22:40:19+00:00"
-        },
-        {
-            "name": "joomla/test",
-            "version": "2.0.0-beta",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/test.git",
-                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/e9cfcf8c218eae790226d49b839c475042d6e46b",
-                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2.5"
-            },
-            "conflict": {
-                "joomla/database": "<2.0"
-            },
-            "require-dev": {
-                "joomla/database": "~2.0",
-                "phpunit/phpunit": "^8.5|^9.0"
-            },
-            "suggest": {
-                "joomla/database": "To use the database test case, install joomla/database",
-                "phpunit/phpunit": "To use the database test case, install phpunit/phpunit"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Test\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Test Helper Package",
-            "homepage": "https://github.com/joomla-framework/test",
-            "keywords": [
-                "framework",
-                "joomla",
-                "phpunit",
-                "reflection",
-                "unit test"
-            ],
-            "time": "2020-06-05T11:34:48+00:00"
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "time": "2021-05-17T16:00:43+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -5902,55 +5837,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2020-05-27T16:41:55+00:00"
-        },
-        {
-            "name": "myclabs/deep-copy",
-            "version": "1.10.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "776f831124e9c62e1a2c601ecc52e776d8bb7220"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/776f831124e9c62e1a2c601ecc52e776d8bb7220",
-                "reference": "776f831124e9c62e1a2c601ecc52e776d8bb7220",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "replace": {
-                "myclabs/deep-copy": "self.version"
-            },
-            "require-dev": {
-                "doctrine/collections": "^1.0",
-                "doctrine/common": "^2.6",
-                "phpunit/phpunit": "^7.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DeepCopy\\": "src/DeepCopy/"
-                },
-                "files": [
-                    "src/DeepCopy/deep_copy.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Create deep copies (clones) of your objects",
-            "keywords": [
-                "clone",
-                "copy",
-                "duplicate",
-                "object",
-                "object graph"
-            ],
-            "time": "2020-11-13T09:40:50+00:00"
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6005,8 +5892,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
-            "time": "2020-06-27T14:33:11+00:00"
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
             "name": "phar-io/version",
@@ -6052,8 +5945,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Library for handling version information and constraints",
-            "time": "2021-02-23T14:00:09+00:00"
+            "description": "A simple Atom/RSS parsing library for PHP",
+            "homepage": "http://simplepie.org/",
+            "keywords": [
+                "atom",
+                "feeds",
+                "rss"
+            ],
+            "time": "2012-10-30T17:54:03+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
@@ -6431,14 +6330,9 @@
                     "role": "lead"
                 }
             ],
-            "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
-            "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
-            "keywords": [
-                "coverage",
-                "testing",
-                "xunit"
-            ],
-            "time": "2020-12-02T13:39:03+00:00"
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6529,7 +6423,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21T13:50:34+00:00"
+            "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -6573,12 +6467,8 @@
                     "role": "lead"
                 }
             ],
-            "description": "Utility class for timing",
-            "homepage": "https://github.com/sebastianbergmann/php-timer/",
-            "keywords": [
-                "timer"
-            ],
-            "time": "2020-11-30T08:20:02+00:00"
+            "description": "A tool to automatically fix PHP code style",
+            "time": "2017-09-11T14:11:16+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -6627,8 +6517,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "abandoned": true,
-            "time": "2020-11-30T08:38:46+00:00"
+            "time": "2014-05-11T15:02:19+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -6704,14 +6593,7 @@
                     "role": "lead"
                 }
             ],
-            "description": "The PHP Unit Testing framework.",
-            "homepage": "https://phpunit.de/",
-            "keywords": [
-                "phpunit",
-                "testing",
-                "xunit"
-            ],
-            "time": "2021-03-17T07:27:54+00:00"
+            "time": "2016-01-25T08:17:30+00:00"
         },
         {
             "name": "psr/cache",
@@ -6757,7 +6639,7 @@
                 "psr",
                 "psr-6"
             ],
-            "time": "2016-08-06T20:24:11+00:00"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -6803,7 +6685,8 @@
                 "psr",
                 "psr-14"
             ],
-            "time": "2019-01-08T18:20:26+00:00"
+            "abandoned": true,
+            "time": "2015-08-07T04:57:38+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6842,8 +6725,14 @@
                     "email": "ralph.khattar@gmail.com"
                 }
             ],
-            "description": "A polyfill for getallheaders.",
-            "time": "2019-03-08T08:55:37+00:00"
+            "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
+            "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
+            "keywords": [
+                "coverage",
+                "testing",
+                "xunit"
+            ],
+            "time": "2015-10-06T15:47:00+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -6886,9 +6775,13 @@
                     "email": "sebastian@phpunit.de"
                 }
             ],
-            "description": "Looks up which function or method a line of code belongs to",
-            "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2020-11-30T08:15:22+00:00"
+            "description": "FilterIterator implementation that filters files based on a list of suffixes.",
+            "homepage": "https://github.com/sebastianbergmann/php-file-iterator/",
+            "keywords": [
+                "filesystem",
+                "iterator"
+            ],
+            "time": "2017-11-27T13:52:08+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -6952,7 +6845,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2020-11-30T08:04:30+00:00"
+            "time": "2015-06-21T13:50:34+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -7008,7 +6901,7 @@
                 "unidiff",
                 "unified diff"
             ],
-            "time": "2020-11-30T07:59:04+00:00"
+            "time": "2017-02-26T11:10:40+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -7061,7 +6954,8 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2020-11-30T07:53:42+00:00"
+            "abandoned": true,
+            "time": "2017-12-04T08:55:13+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -7128,7 +7022,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2020-11-30T07:47:53+00:00"
+            "time": "2017-06-21T08:07:12+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -7182,7 +7076,8 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2020-11-30T07:43:24+00:00"
+            "abandoned": true,
+            "time": "2015-10-02T06:51:40+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -7227,9 +7122,14 @@
                     "email": "sebastian@phpunit.de"
                 }
             ],
-            "description": "Traverses array structures and object graphs to enumerate all referenced objects",
-            "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2020-11-30T07:40:27+00:00"
+            "description": "Provides the functionality to compare PHP values for equality",
+            "homepage": "http://www.github.com/sebastianbergmann/comparator",
+            "keywords": [
+                "comparator",
+                "compare",
+                "equality"
+            ],
+            "time": "2017-01-29T09:50:25+00:00"
         },
         {
             "name": "sebastian/object-reflector",
@@ -7272,9 +7172,12 @@
                     "email": "sebastian@phpunit.de"
                 }
             ],
-            "description": "Allows reflection of object attributes, including inherited and non-public ones",
-            "homepage": "https://github.com/sebastianbergmann/object-reflector/",
-            "time": "2020-11-30T07:37:18+00:00"
+            "description": "Diff implementation",
+            "homepage": "https://github.com/sebastianbergmann/diff",
+            "keywords": [
+                "diff"
+            ],
+            "time": "2017-05-22T07:24:03+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -7325,9 +7228,14 @@
                     "email": "aharvey@php.net"
                 }
             ],
-            "description": "Provides functionality to recursively process PHP variables",
-            "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2020-11-30T07:34:24+00:00"
+            "description": "Provides functionality to handle HHVM/PHP environments",
+            "homepage": "http://www.github.com/sebastianbergmann/environment",
+            "keywords": [
+                "Xdebug",
+                "environment",
+                "hhvm"
+            ],
+            "time": "2016-08-18T05:49:44+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -7367,9 +7275,13 @@
                     "email": "sebastian@phpunit.de"
                 }
             ],
-            "description": "Provides a list of PHP built-in functions that operate on resources",
-            "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2020-11-30T07:30:19+00:00"
+            "description": "Provides the functionality to export PHP variables for visualization",
+            "homepage": "http://www.github.com/sebastianbergmann/exporter",
+            "keywords": [
+                "export",
+                "exporter"
+            ],
+            "time": "2016-06-17T09:04:28+00:00"
         },
         {
             "name": "sebastian/type",
@@ -7413,9 +7325,12 @@
                     "role": "lead"
                 }
             ],
-            "description": "Collection of value objects that represent the types of the PHP type system",
-            "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2020-11-30T07:25:11+00:00"
+            "description": "Snapshotting of global state",
+            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "keywords": [
+                "global state"
+            ],
+            "time": "2015-10-12T03:26:01+00:00"
         },
         {
             "name": "sebastian/version",
@@ -7456,9 +7371,9 @@
                     "role": "lead"
                 }
             ],
-            "description": "Library that helps with managing the version number of Git-hosted PHP projects",
-            "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2016-10-03T07:35:21+00:00"
+            "description": "Provides functionality to recursively process PHP variables",
+            "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
+            "time": "2016-10-03T07:41:43+00:00"
         },
         {
             "name": "softcreatr/jsonpath",
@@ -7510,8 +7425,9 @@
                     "role": "Developer"
                 }
             ],
-            "description": "JSONPath implementation for parsing, searching and flattening arrays",
-            "time": "2021-05-07T14:31:33+00:00"
+            "description": "Library that helps with managing the version number of Git-hosted PHP projects",
+            "homepage": "https://github.com/sebastianbergmann/version",
+            "time": "2015-06-21T13:59:46+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -7562,7 +7478,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2021-04-09T00:54:41+00:00"
+            "time": "2014-12-04T22:32:15+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -7664,7 +7580,7 @@
             ],
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
-            "time": "2021-05-16T13:07:46+00:00"
+            "time": "2018-11-20T15:55:20+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -7721,7 +7637,7 @@
             ],
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
-            "time": "2021-05-16T13:07:46+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -7789,7 +7705,7 @@
             ],
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
             "homepage": "https://symfony.com",
-            "time": "2021-02-18T17:12:37+00:00"
+            "time": "2018-11-21T14:20:20+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -7896,7 +7812,7 @@
             ],
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
-            "time": "2021-04-01T10:42:13+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/finder",
@@ -7940,7 +7856,7 @@
             ],
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
-            "time": "2021-05-16T13:07:46+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/polyfill-php70",
@@ -7991,7 +7907,21 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23T14:02:19+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-23T09:01:57+00:00"
         },
         {
             "name": "symfony/process",
@@ -8036,7 +7966,7 @@
             ],
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
-            "time": "2021-04-08T10:27:02+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -8081,133 +8011,14 @@
             ],
             "description": "Provides a way to profile code",
             "homepage": "https://symfony.com",
-            "time": "2021-03-29T15:28:41+00:00"
-        },
-        {
-            "name": "theseer/tokenizer",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "75a63c33a8577608444246075ea0af0d052e452a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/75a63c33a8577608444246075ea0af0d052e452a",
-                "reference": "75a63c33a8577608444246075ea0af0d052e452a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-tokenizer": "*",
-                "ext-xmlwriter": "*",
-                "php": "^7.2 || ^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2020-07-12T23:59:07+00:00"
-        },
-        {
-            "name": "webmozart/assert",
-            "version": "1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozarts/assert.git",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/6964c76c7804814a842473e0c8fd15bab0f18e25",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0",
-                "symfony/polyfill-ctype": "^1.8"
-            },
-            "conflict": {
-                "phpstan/phpstan": "<0.12.20",
-                "vimeo/psalm": "<4.6.1 || 4.6.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5.13"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.10-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webmozart\\Assert\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
-                }
-            ],
-            "description": "Assertions to validate method input/output with nice error messages.",
-            "keywords": [
-                "assert",
-                "check",
-                "validate"
-            ],
-            "time": "2021-03-09T10:59:23+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/application": 10,
-        "joomla/archive": 10,
-        "joomla/authentication": 10,
-        "joomla/console": 10,
-        "joomla/crypt": 10,
-        "joomla/data": 10,
-        "joomla/database": 10,
-        "joomla/di": 10,
-        "joomla/event": 10,
-        "joomla/filter": 10,
-        "joomla/filesystem": 10,
-        "joomla/http": 10,
-        "joomla/input": 10,
-        "joomla/ldap": 10,
-        "joomla/oauth1": 10,
-        "joomla/oauth2": 10,
-        "joomla/registry": 10,
-        "joomla/router": 10,
-        "joomla/session": 10,
-        "joomla/string": 10,
-        "joomla/uri": 10,
-        "joomla/utilities": 10,
-        "joomla/cms-coding-standards": 20,
-        "joomla/coding-standards": 20,
-        "joomla/mediawiki": 20,
-        "joomla-projects/joomla-browser": 20,
-        "joomla/test": 10
+        "leafo/lessphp": 20,
+        "phpmailer/phpmailer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -8219,6 +8030,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.2.5"
-    }
+        "php": "5.3.10"
+    },
+    "plugin-api-version": "1.1.0"
 }
