@@ -30,7 +30,7 @@ Joomla = window.Joomla || {};
 
     if (associations) {
       const html = document.createElement('joomla-alert');
-      html.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE'));
+      html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
 
       associations.insertAdjacentElement('afterbegin', html);
     }
