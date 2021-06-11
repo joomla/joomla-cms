@@ -110,6 +110,39 @@ class SearchModel extends ListModel
 	}
 
 	/**
+	 * Method to get the total number of items for the data set.
+	 *
+	 * @return  integer  The total number of items available in the data set.
+	 *
+	 * @since   4.0
+	 */
+	public function getTotal()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getTotal');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		try
+		{
+			// Load the total and add the total to the internal cache.
+			$this->cache[$store] = (int) $this->_getListCount($this->getListQuery(false));
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $this->cache[$store];
+	}
+
+	/**
 	 * Method to get the query object.
 	 *
 	 * @return  Query  A query object.
@@ -129,25 +162,30 @@ class SearchModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery()
+	protected function getListQuery($limit = true)
 	{
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+		$wrappingQuery = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
+			'l.link_id'
+		);
+		$wrappingQuery->select(
 			$this->getState(
 				'list.select',
-				'l.link_id, l.object'
+				'w.link_id, w.ordering, j.object'
 			)
 		);
+		$wrappingQuery->innerJoin('#__finder_links AS j ON w.link_id = j.link_id');
 
 		$query->from('#__finder_links AS l');
 
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
-		$query->whereIn($db->quoteName('l.access'), $groups)
+		$query->where($db->quoteName('l.access') . ' IN (' . implode(',', $groups) . ')')
 			->where('l.state = 1')
 			->where('l.published = 1');
 
@@ -159,7 +197,6 @@ class SearchModel extends ListModel
 			->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
 
 		$query->group('l.link_id');
-		$query->group('l.object');
 
 		/*
 		 * Add the taxonomy filters to the query. We have to join the taxonomy
@@ -263,7 +300,12 @@ class SearchModel extends ListModel
 		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			// Return the results.
-			return $query;
+			$wrappingQuery->from('(' .
+				($limit ? $query->processLimit((string) $query, $this->getStart(), $this->getState('list.limit')) : $query)
+				. ') AS w'
+			);
+
+			return $wrappingQuery;
 		}
 
 		/*
@@ -283,7 +325,12 @@ class SearchModel extends ListModel
 				->clear('group')
 				->where('false');
 
-			return $query;
+			$wrappingQuery->from('(' .
+				($limit ? $query->processLimit((string) $query, $this->getStart(), $this->getState('list.limit')) : $query)
+				. ') AS w'
+			);
+
+			return $wrappingQuery;
 		}
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
@@ -319,7 +366,12 @@ class SearchModel extends ListModel
 			}
 		}
 
-		return $query;
+		$wrappingQuery->from('(' .
+			($limit ? $query->processLimit((string) $query, $this->getStart(), $this->getState('list.limit')) : $query)
+			. ') AS w'
+		);
+
+		return $wrappingQuery;
 	}
 
 	/**
@@ -486,66 +538,5 @@ class SearchModel extends ListModel
 		// Load the user state.
 		$this->setState('user.id', (int) $user->get('id'));
 		$this->setState('user.groups', $user->getAuthorisedViewLevels());
-	}
-
-	/**
-	 * Method to retrieve data from cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  mixed  The cached data if found, null otherwise.
-	 *
-	 * @since   2.5
-	 */
-	protected function retrieve($id, $persistent = true)
-	{
-		$data = null;
-
-		// Use the internal cache if possible.
-		if (isset($this->cache[$id]))
-		{
-			return $this->cache[$id];
-		}
-
-		// Use the external cache if data is persistent.
-		if ($persistent)
-		{
-			$data = Factory::getCache($this->context, 'output')->get($id);
-			$data = $data ? unserialize($data) : null;
-		}
-
-		// Store the data in internal cache.
-		if ($data)
-		{
-			$this->cache[$id] = $data;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Method to store data in cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   mixed    $data        The data to cache.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   2.5
-	 */
-	protected function store($id, $data, $persistent = true)
-	{
-		// Store the data in internal cache.
-		$this->cache[$id] = $data;
-
-		// Store the data in external cache if data is persistent.
-		if ($persistent)
-		{
-			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
-		}
-
-		return true;
 	}
 }
