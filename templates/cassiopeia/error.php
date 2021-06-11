@@ -129,6 +129,8 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php endif; ?>
 	</header>
 
+	<jdoc:include type="modules" name="top" style="none" class="container-top" />
+	
 	<div class="grid-child container-component">
 		<h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 		<div class="card">
@@ -173,6 +175,8 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		</div>
 	</div>
 
+	<jdoc:include type="modules" name="bottom" style="none" class="container-bottom" />
+	
 	<?php if ($this->countModules('footer')) : ?>
 	<footer class="container-footer footer full-width">
 		<div class="grid-child">
