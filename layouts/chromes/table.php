@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
+$positionClass = isset($displayData['attribs']['class']) ? ' '.$displayData['attribs']['class'] : '';
 ?>
 <table
-	class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+	class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $positionClass; ?>">
 	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
