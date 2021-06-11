@@ -17,9 +17,8 @@ Factory::getApplication()->getDocument()
 	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
 
 $module = $displayData['module'];
-$positionClass = isset($displayData['attribs']['class']) ? $displayData['attribs']['class'] : '';
 ?>
-<div class="mod-preview <?=$positionClass?>">
+<div class="mod-preview <?php echo $displayData['attribs']['class'] ?? '' ?>">
 	<div class="mod-preview-info">
 		<div class="mod-preview-position">
 			<?php echo Text::sprintf('JGLOBAL_PREVIEW_POSITION', $module->position); ?>
