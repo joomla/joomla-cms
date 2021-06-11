@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
 
 extract($displayData);
 
@@ -91,10 +90,8 @@ Factory::getDocument()->getWebAssetManager()
 		'bootstrap.renderModal',
 		'Modal_position',
 		array(
-			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_SELECT_POSITION'),
-			'url'         => Uri::root() . '?pm=1&edit=1',
-			'height'      => '400px',
-			'width'       => 'auto',
+			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
+			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&id=17&client_id=',
 			'bodyHeight'  => 70,
 			'modalWidth'  => 95,
 			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
@@ -102,4 +99,4 @@ Factory::getDocument()->getWebAssetManager()
 		)
 	);
 ?>
-<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position"><?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_SELECT_POSITION'); ?></a>
+<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position"><?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'); ?></a>
