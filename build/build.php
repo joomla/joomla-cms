@@ -71,6 +71,9 @@ $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $showHelp     = isset($options['help']);
 
+// Disable the generation of extra text files
+$includeExtraTextfiles = false;
+
 if ($showHelp)
 {
 	usage($argv[0]);
@@ -84,6 +87,9 @@ if (!$remote)
 	$tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
 	$remote = 'tags/' . $tagVersion;
 	chdir($here);
+
+	// We are in release mode so we need the extra text files
+	$includeExtraTextfiles = true;
 }
 
 echo "Start build for remote $remote.\n";
@@ -392,93 +398,98 @@ if (!$excludeZip)
 
 chdir('..');
 
-foreach (array_keys($checksums) as $packageName)
+// Thats only needed when we release a version
+if ($includeExtraTextfiles)
 {
-	echo "Generating checksums for $packageName\n";
 
-	foreach (array('sha256', 'sha384', 'sha512') as $hash)
+	foreach (array_keys($checksums) as $packageName)
 	{
-		if (file_exists('packages/' . $packageName))
+		echo "Generating checksums for $packageName\n";
+
+		foreach (array('sha256', 'sha384', 'sha512') as $hash)
 		{
-			$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
-		}
-		else
-		{
-			echo "Package $packageName not found in build directories\n";
-		}
-	}
-}
-
-echo "Generating checksums.txt file\n";
-
-$checksumsContent = '';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$checksumsContent .= "Filename: $packageName\n";
-
-	foreach ($packageHashes as $hashType => $hash)
-	{
-		$checksumsContent .= "$hashType: $hash\n";
-	}
-
-	$checksumsContent .= "\n";
-}
-
-file_put_contents('checksums.txt', $checksumsContent);
-
-echo "Generating github_release.txt file\n";
-
-$githubContent = array();
-$githubText = '';
-$releaseText = array(
-	'FULL' => 'New Joomla! Installations ',
-	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
-	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
-	'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
-);
-$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$type = '';
-
-	if (strpos($packageName, 'Full_Package') !== false)
-	{
-		$type = 'FULL';
-	}
-	elseif (strpos($packageName, 'Patch_Package') !== false)
-	{
-		if (strpos($packageName, '.x_to') !== false)
-		{
-			$type = 'MINOR';
-		}
-		else
-		{
-			$type = 'POINT';
+			if (file_exists('packages/' . $packageName))
+			{
+				$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			}
+			else
+			{
+				echo "Package $packageName not found in build directories\n";
+			}
 		}
 	}
-	elseif (strpos($packageName, 'Update_Package') !== false)
+
+	echo "Generating checksums.txt file\n";
+
+	$checksumsContent = '';
+
+	foreach ($checksums as $packageName => $packageHashes)
 	{
-		$type = 'UPGRADE';
+		$checksumsContent .= "Filename: $packageName\n";
+
+		foreach ($packageHashes as $hashType => $hash)
+		{
+			$checksumsContent .= "$hashType: $hash\n";
+		}
+
+		$checksumsContent .= "\n";
 	}
 
-	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
-}
+	file_put_contents('checksums.txt', $checksumsContent);
 
-foreach ($releaseText as $type => $text)
-{
-	if (empty($githubContent[$type]))
+	echo "Generating github_release.txt file\n";
+
+	$githubContent = array();
+	$githubText    = '';
+	$releaseText   = array(
+		'FULL'    => 'New Joomla! Installations ',
+		'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
+		'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
+	);
+	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
+
+	foreach ($checksums as $packageName => $packageHashes)
 	{
-		continue;
+		$type = '';
+
+		if (strpos($packageName, 'Full_Package') !== false)
+		{
+			$type = 'FULL';
+		}
+		elseif (strpos($packageName, 'Patch_Package') !== false)
+		{
+			if (strpos($packageName, '.x_to') !== false)
+			{
+				$type = 'MINOR';
+			}
+			else
+			{
+				$type = 'POINT';
+			}
+		}
+		elseif (strpos($packageName, 'Update_Package') !== false)
+		{
+			$type = 'UPGRADE';
+		}
+
+		$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
 	}
 
-	$githubText .= $text;
-	$githubText .= implode(" | ", $githubContent[$type]);
+	foreach ($releaseText as $type => $text)
+	{
+		if (empty($githubContent[$type]))
+		{
+			continue;
+		}
 
-	$githubText .= "\n";
+		$githubText .= $text;
+		$githubText .= implode(" | ", $githubContent[$type]);
+
+		$githubText .= "\n";
+	}
+
+	file_put_contents('github_release.txt', $githubText);
 }
-
-file_put_contents('github_release.txt', $githubText);
 
 echo "Build of version $fullVersion complete!\n";
