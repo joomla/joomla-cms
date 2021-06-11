@@ -113,7 +113,7 @@ abstract class SearchTools
 		}
 		else
 		{
-			$direction = $direction === 'desc' ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'desc' : 'asc';
 		}
 
 		// Create an object to pass it to the layouts
