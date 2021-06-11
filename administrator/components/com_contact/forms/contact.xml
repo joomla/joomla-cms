@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
