@@ -91,7 +91,7 @@ Factory::getDocument()->getWebAssetManager()
 		'bootstrap.renderModal',
 		'Modal_position',
 		array(
-			'title'       => 'Select position from template',
+			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_SELECT_POSITION'),
 			'url'         => Uri::root() . '?pm=1&edit=1',
 			'height'      => '400px',
 			'width'       => 'auto',
@@ -102,4 +102,4 @@ Factory::getDocument()->getWebAssetManager()
 		)
 	);
 ?>
-<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position">Select position from template</a>
+<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position"><?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_SELECT_POSITION'); ?></a>
