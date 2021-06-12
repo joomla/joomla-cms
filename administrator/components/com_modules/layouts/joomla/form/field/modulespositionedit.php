@@ -91,7 +91,7 @@ Factory::getDocument()->getWebAssetManager()
 		'Modal_position',
 		array(
 			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
-			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&id=17&client_id=',
+			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1',
 			'bodyHeight'  => 70,
 			'modalWidth'  => 95,
 			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
@@ -99,4 +99,6 @@ Factory::getDocument()->getWebAssetManager()
 		)
 	);
 ?>
-<a data-bs-toggle="modal" role="button" data-bs-target="#Modal_position"><?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'); ?></a>
+<span data-bs-toggle="modal" role="button" data-bs-target="#Modal_position" class="form-text">
+<?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'); ?>
+</span>
