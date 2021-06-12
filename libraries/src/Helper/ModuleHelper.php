@@ -159,7 +159,8 @@ abstract class ModuleHelper
 			return '';
 		}
 		
-		if (!isset($attribs['class'])){
+		if (!isset($attribs['class']))
+		{
 			$attribs['class'] = '';
 		}
 
