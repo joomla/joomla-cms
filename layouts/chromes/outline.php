@@ -18,7 +18,7 @@ Factory::getApplication()->getDocument()
 
 $module = $displayData['module'];
 ?>
-<div class="mod-preview <?php echo $displayData['attribs']['class'] ?? '' ?>">
+<div class="mod-preview <?php echo $displayData['attribs']['class'] ?>">
 	<div class="mod-preview-info">
 		<div class="mod-preview-position">
 			<?php echo Text::sprintf('JGLOBAL_PREVIEW_POSITION', $module->position); ?>
