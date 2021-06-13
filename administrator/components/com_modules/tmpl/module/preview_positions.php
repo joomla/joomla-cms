@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -16,12 +17,15 @@ use Joomla\CMS\Uri\Uri;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-preview_positions');
 
+$iframeBaseURL = Uri::root();
+$iframeBaseURL .= Factory::getApplication()->input->get('client_id') == '0' ? 'index.php' : 'administrator';
+
 $this->fieldsets = $this->form->getFieldsets('template_preview');
 echo $this->form->renderField('template_style');
 ?>
 <div class="jviewport-height90">
 <iframe 
-	src=<?php echo Uri::root() . '?tp=1&templateStyle='; ?>
+	src=<?php echo $iframeBaseURL . '?tp=1&templateStyle='; ?>
 	id="module-position-select" 
 	name="module-position-select" 
 	title="module-position-select"

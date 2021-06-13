@@ -76,6 +76,8 @@ Factory::getDocument()->getWebAssetManager()
 	->usePreset('choicesjs')
 	->useScript('webcomponent.field-fancy-select');
 
+$clientId = Factory::getApplication()->input->get('client_id');
+
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
 	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
@@ -91,7 +93,7 @@ Factory::getDocument()->getWebAssetManager()
 		'Modal_position',
 		array(
 			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
-			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1',
+			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1&client_id=' . $clientId,
 			'bodyHeight'  => 70,
 			'modalWidth'  => 95,
 			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
