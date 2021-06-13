@@ -17,11 +17,19 @@ use Joomla\CMS\Uri\Uri;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-preview_positions');
 
-$iframeBaseURL = Uri::root();
-$iframeBaseURL .= Factory::getApplication()->input->get('client_id') == '0' ? '' : 'administrator';
+$isAdmin = Factory::getApplication()->input->get('client_id');
 
-$this->fieldsets = $this->form->getFieldsets('template_preview');
-echo $this->form->renderField('template_style');
+// Get the URL of the iframe that displays template preview.
+$iframeBaseURL = Uri::root();
+$iframeBaseURL .= $isAdmin ? 'administrator' : '';
+
+// Conditionally render the admin or site template select field.
+$templateField = 'template_style_';
+$templateField .= $isAdmin ? 'admin' : 'site';
+
+// Render the template select field.
+$this->fieldsets = $this->form->getFieldsets();
+echo $this->form->renderField($templateField);
 ?>
 <div class="jviewport-height90">
 <iframe 

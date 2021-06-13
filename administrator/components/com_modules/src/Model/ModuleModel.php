@@ -548,6 +548,8 @@ class ModuleModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
@@ -572,19 +574,26 @@ class ModuleModel extends AdminModel
 		$this->setState('item.module', $module);
 
 		// Get the form.
-		if ($clientId == 1)
+		if ($app->input->get('layout') == 'preview_positions')
 		{
-			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
-
-			// Display language field to filter admin custom menus per language
-			if (!ModuleHelper::isAdminMultilang())
-			{
-				$form->setFieldAttribute('language', 'type', 'hidden');
-			}
+			$form = $this->loadForm('com_modules.template_positions', 'template_positions', array('control' => 'jform', 'load_data' => $loadData), true);
 		}
 		else
 		{
-			$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+			if ($clientId == 1)
+			{
+				$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+				// Display language field to filter admin custom menus per language
+				if (!ModuleHelper::isAdminMultilang())
+				{
+					$form->setFieldAttribute('language', 'type', 'hidden');
+				}
+			}
+			else
+			{
+				$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+			}
 		}
 
 		if (empty($form))
