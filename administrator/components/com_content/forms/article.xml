@@ -926,7 +926,7 @@
 			<field
 				name="author"
 				type="text"
-				label="JAUTHOR"
+				label="JFIELD_METADATA_AUTHOR_LABEL"
 				size="20"
 			/>
 

@@ -369,7 +369,7 @@
 				<field
 					name="author"
 					type="hidden"
-					label="JAUTHOR"
+					label="JFIELD_METADATA_AUTHOR_LABEL"
 					filter="unset"
 					size="20"
 				/>
