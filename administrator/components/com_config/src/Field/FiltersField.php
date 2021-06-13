@@ -61,7 +61,7 @@ class FiltersField extends FormField
 
 						while(child.length !== 0) {
 							if(child.children("option:selected").val() !== "NONE") {
-								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+								alert(Joomla.Text._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 								break;
 							}
 
@@ -75,7 +75,7 @@ class FiltersField extends FormField
 
 					while(parent.length !== 0) {
 						if(parent.children("option:selected").val() === "NONE") {
-							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+							alert(Joomla.Text._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 							break;
 						}
 

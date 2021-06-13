@@ -178,6 +178,10 @@
       text-decoration: underline;
     }
 
+    .btn {
+      text-decoration: none;
+    }
+
     .list-group-item a > span {
       &[class^="#{$jicon-css-prefix}-"],
       &[class*=" #{$jicon-css-prefix}-"],
