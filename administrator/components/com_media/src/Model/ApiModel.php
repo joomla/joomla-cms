@@ -394,6 +394,9 @@ class ApiModel extends BaseDatabaseModel
 		$object->path      = $path;
 
 		PluginHelper::importPlugin('content');
+		
+		// Also include the filesystem plugins, perhaps they support batch processing too
+ 		PluginHelper::importPlugin('media-action');
 
 		$result = $app->triggerEvent('onContentBeforeDelete', ['com_media.' . $type, $object]);
 

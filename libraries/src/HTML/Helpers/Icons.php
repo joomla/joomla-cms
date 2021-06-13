@@ -13,8 +13,6 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Filesystem\Path;
 
 /**
  * Utility class for icons.

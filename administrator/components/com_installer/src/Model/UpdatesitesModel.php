@@ -446,7 +446,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Flush the system cache to ensure extra_query is correctly loaded next time.
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 	}
 
 	/**
@@ -491,7 +491,7 @@ class UpdatesitesModel extends InstallerModel
 			'enabled'   => 'string',
 			'type'      => 'string',
 			'folder'    => 'string',
-			'supported' => 'bool',
+			'supported' => 'int',
 		];
 
 		foreach ($stateKeys as $key => $filterType)
@@ -518,6 +518,18 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		parent::populateState($ordering, $direction);
+	}
+
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('search');
+		$id .= ':' . $this->getState('client_id');
+		$id .= ':' . $this->getState('enabled');
+		$id .= ':' . $this->getState('type');
+		$id .= ':' . $this->getState('folder');
+		$id .= ':' . $this->getState('supported');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -635,7 +647,7 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':siteId', $uid, ParameterType::INTEGER);
 		}
 
-		if ($supported != 0)
+		if (is_numeric($supported))
 		{
 			switch ($supported)
 			{

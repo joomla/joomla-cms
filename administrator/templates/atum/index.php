@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -155,11 +155,10 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
-			<div id="subhead" class="subhead mb-3">
-				<div id="container-collapse" class="container-collapse"></div>
+			<div id="subhead-container" class="subhead mb-3">
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="modules" name="toolbar" style="none" />
@@ -169,7 +168,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="xhtml" />
+			<jdoc:include type="modules" name="top" style="html5" />
 			<div class="row">
 				<div class="col-md-12">
 					<main>
@@ -178,7 +177,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</main>
 				</div>
 				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="xhtml" />
+					<jdoc:include type="modules" name="bottom" style="html5" />
 				<?php endif; ?>
 			</div>
 			<?php // End Content ?>

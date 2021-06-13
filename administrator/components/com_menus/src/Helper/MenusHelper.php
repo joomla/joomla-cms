@@ -451,7 +451,7 @@ class MenusHelper extends ContentHelper
 			throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
 		}
 
-		static::installPresetItems($root, $menutype, 1);
+		static::installPresetItems($root, $menutype);
 	}
 
 	/**

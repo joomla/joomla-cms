@@ -8,7 +8,7 @@ Joomla = window.Joomla || {};
    *
    * @param {HTMLElement}  element  The element that initiates the call
    * @returns {void}
-   * @since   4.0
+   * @since   4.0.0
    */
   Joomla.resetFilters = (element) => {
     const { form } = element;
@@ -286,7 +286,7 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const els = this.getFilterFields();
+      const els = [].slice.call(this.getFilterFields());
       let activeFilterCount = 0;
 
       els.forEach((item) => {

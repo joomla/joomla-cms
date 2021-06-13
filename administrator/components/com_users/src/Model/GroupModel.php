@@ -271,6 +271,18 @@ class GroupModel extends AdminModel
 			}
 		}
 
+		// Iterate the items to check if all of them exist.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$table->load($pk))
+			{
+				// Item is not in the table.
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -305,12 +317,6 @@ class GroupModel extends AdminModel
 					unset($pks[$i]);
 					Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
 			}
 		}
 

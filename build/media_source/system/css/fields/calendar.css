@@ -23,6 +23,7 @@
 }
 /* The main calendar widget.  DIV containing a table. */
 div.calendar-container table th, .calendar-container table td {
+	box-shadow: none;
 	padding: 8px 0;
 	line-height: 1.1em;
 	text-align: center;

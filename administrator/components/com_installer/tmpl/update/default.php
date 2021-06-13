@@ -100,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
 										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']); ?>
-										<span class="badge bg-warning text-dark">
+										<span class="badge bg-danger">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"

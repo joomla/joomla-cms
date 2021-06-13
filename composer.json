@@ -99,5 +99,8 @@
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
         "codeception/module-phpbrowser": "^1.0"
+    },
+    "replace": {
+        "paragonie/random_compat": "9.99.99"
     }
 }

@@ -684,40 +684,45 @@ abstract class HTMLHelper
 			return $obj;
 		}
 
-		$url    = preg_replace('#&amp;#', '&', $url);
-		$pieces = explode('?', $url);
+		$mediaUri = new Uri($url);
 
-		parse_str($pieces[1], $urlParams);
-
-		if (isset($urlParams['joomla_image_height']) && $urlParams['joomla_image_height'] !== 'null')
+		// Old image URL format
+		if ($mediaUri->hasVar('joomla_image_height'))
 		{
-			if ((int) $urlParams['joomla_image_height'] > 0)
-			{
-				$obj->attributes['height'] = $urlParams['joomla_image_height'];
-			}
-			else
-			{
-				unset($obj->attributes['height']);
-			}
+			$height = (int) $mediaUri->getVar('joomla_image_height');
+			$width  = (int) $mediaUri->getVar('joomla_image_width');
 
-			unset($urlParams['joomla_image_height']);
+			$mediaUri->delVar('joomla_image_height');
+			$mediaUri->delVar('joomla_image_width');
+		}
+		else
+		{
+			// New Image URL format
+			$fragmentUri = new Uri($mediaUri->getFragment());
+			$width       = (int) $fragmentUri->getVar('width', 0);
+			$height      = (int) $fragmentUri->getVar('height', 0);
 		}
 
-		if (isset($urlParams['joomla_image_width']) && $urlParams['joomla_image_width'] !== 'null')
+		if ($width > 0)
 		{
-			if ((int) $urlParams['joomla_image_width'] > 0)
-			{
-				$obj->attributes['width'] = $urlParams['joomla_image_width'];
-			}
-			else
-			{
-				unset($obj->attributes['width']);
-			}
-
-			unset($urlParams['joomla_image_width']);
+			$obj->attributes['width'] = $width;
+		}
+		else
+		{
+			unset($obj->attributes['width']);
 		}
 
-		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
+		if ($height > 0)
+		{
+			$obj->attributes['height'] = $height;
+		}
+		else
+		{
+			unset($obj->attributes['height']);
+		}
+
+		$mediaUri->setFragment('');
+		$obj->url = $mediaUri->toString();
 
 		return $obj;
 	}

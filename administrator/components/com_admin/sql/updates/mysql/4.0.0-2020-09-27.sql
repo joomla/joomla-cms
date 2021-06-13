@@ -1,3 +1,11 @@
+-- From 4.0.0-2020-09-19.sql
+UPDATE `#__menu` SET `link`='index.php?option=com_finder' WHERE `menutype`='main' AND `title`='com_finder' AND `link`='index.php?option=com_finder&view=index';
+
+-- From 4.0.0-2020-09-22.sql
+UPDATE `#__menu` SET `link`='index.php?option=com_tags&view=tags' WHERE `menutype`='main' AND `path`='Tags';
+UPDATE `#__menu` SET `link`='index.php?option=com_associations&view=associations' WHERE `menutype`='main' AND `path`='Multilingual Associations';
+
+-- From 4.0.0-2020-09-27.sql
 DELETE FROM `#__extensions` WHERE `name` = 'plg_content_imagelazyload' AND `type` = 'plugin' AND `element` = 'imagelazyload' AND `folder` = 'content' AND `client_id` = 0;
 DELETE FROM `#__extensions` WHERE `name` = 'plg_authentication_gmail' AND `type` = 'plugin' AND `element` = 'gmail' AND `folder` = 'authentication' AND `client_id` = 0;
 

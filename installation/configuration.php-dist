@@ -116,11 +116,10 @@ class JConfig
 	/* Debug Settings */
 	public $debug = true;
 	public $debug_lang = false;
-	public $debug_lang_const = 1;
+	public $debug_lang_const = true;
 
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-	public $MetaTitle = true;
 	public $MetaAuthor = true;
 	public $MetaVersion = false;
 	public $MetaRights = '';

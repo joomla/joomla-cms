@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Media helper class
@@ -421,5 +423,43 @@ class MediaHelper
 			default:
 				return $val;
 		}
+	}
+
+	/**
+	 * Method to check if the given directory is a directory configured in FileSystem - Local plugin
+	 *
+	 * @param   string  $directory
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isValidLocalDirectory($directory)
+	{
+		$plugin = PluginHelper::getPlugin('filesystem', 'local');
+
+		if ($plugin)
+		{
+			$params = new Registry($plugin->params);
+
+			$directories = $params->get('directories', '[{"directory": "images"}]');
+
+			// Do a check if default settings are not saved by user
+			// If not initialize them manually
+			if (is_string($directories))
+			{
+				$directories = json_decode($directories);
+			}
+
+			foreach ($directories as $directoryEntity)
+			{
+				if ($directoryEntity->directory === $directory)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

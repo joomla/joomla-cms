@@ -1,3 +1,9 @@
+-- From 4.0.0-2019-10-13.sql
+UPDATE "#__content_types"
+   SET "field_mappings" = REPLACE("field_mappings",'"core_created_time":"registerdate"','"core_created_time":"registerDate"')
+ WHERE "type_alias" = 'com_users.user';
+
+-- From 4.0.0-2019-10-17.sql
 ALTER TABLE "#__users" ALTER COLUMN "registerDate" DROP DEFAULT;
 
 ALTER TABLE "#__users" ALTER COLUMN "lastvisitDate" DROP NOT NULL;

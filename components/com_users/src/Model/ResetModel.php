@@ -24,7 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
 /**
- * Rest model class for Users.
+ * Reset model class for Users.
  *
  * @since  1.5
  */

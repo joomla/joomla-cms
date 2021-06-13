@@ -179,7 +179,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 								<a href="<?php echo $authorURL; ?>" target="_blank" >
 								<?php echo $authorURL; ?>
 								<span class="icon-out-2" aria-hidden="true"></span>
-								<span class="element-invisible"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
+								<span class="visually-hidden"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 								</a>
 							<?php endif;?>
 						</td>

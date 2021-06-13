@@ -65,7 +65,7 @@ class ContenthistoryHelper
 	/**
 	 * Method to decode JSON-encoded fields in a standard object. Used to unpack JSON strings in the content history data column.
 	 *
-	 * @param   \stdClass  $jsonString  Standard class object that may contain one or more JSON-encoded fields.
+	 * @param   string  $jsonString  JSON String to convert to an object.
 	 *
 	 * @return  \stdClass  Object with any JSON-encoded fields unpacked.
 	 *
@@ -169,8 +169,6 @@ class ContenthistoryHelper
 	 */
 	public static function getFormFile(ContentType $typesTable)
 	{
-		$result = false;
-
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
