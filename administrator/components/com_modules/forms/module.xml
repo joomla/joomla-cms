@@ -155,15 +155,4 @@
 			validate="rules"
 		/>
 	</fieldset>
-	<fieldset name="template_preview" addfieldprefix="Joomla\Component\Modules\Administrator\Field">
-		<field
-			name="template_style"
-			id="template-style-select"
-			type="templatestyle"
-			client="site"
-			label="COM_MODULES_MODULE_TEMPLATE_SELECT"
-			>
-			<option value="">JOPTION_USE_DEFAULT</option>
-		</field>
-	</fieldset>
 </form>
