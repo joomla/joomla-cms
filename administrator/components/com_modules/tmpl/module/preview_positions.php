@@ -18,7 +18,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-preview_positions');
 
 $iframeBaseURL = Uri::root();
-$iframeBaseURL .= Factory::getApplication()->input->get('client_id') == '0' ? 'index.php' : 'administrator';
+$iframeBaseURL .= Factory::getApplication()->input->get('client_id') == '0' ? '' : 'administrator';
 
 $this->fieldsets = $this->form->getFieldsets('template_preview');
 echo $this->form->renderField('template_style');
