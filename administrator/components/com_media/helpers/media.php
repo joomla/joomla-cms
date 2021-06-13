@@ -36,21 +36,13 @@ abstract class MediaHelper
 			return '';
 		}
 
-		$link         = 'index.php?option=com_media&view=media';
+		$link         = 'index.php?option=com_media';
+		$adapter      = $mediaObject->get('adapter');
+		$uploadedPath = $mediaObject->get('path');
 
-		// TODO: Fix me in J4!
-		$uploadedPath = substr($mediaObject->get('filepath'), strlen(COM_MEDIA_BASE) + 1);
-
-		// Now remove the filename
-		$uploadedBasePath = substr_replace(
-			$uploadedPath,
-			'',
-			(strlen(DIRECTORY_SEPARATOR . $mediaObject->get('name')) * -1)
-		);
-
-		if (!empty($uploadedBasePath))
+		if (!empty($adapter) && !empty($uploadedPath))
 		{
-			$link = $link . '&folder=' . $uploadedBasePath;
+			$link = $link . '&path=' . $adapter . ':' . $uploadedPath;
 		}
 
 		return $link;
