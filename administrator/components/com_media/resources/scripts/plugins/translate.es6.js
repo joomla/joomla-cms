@@ -4,7 +4,7 @@
 
 const Translate = {
   // Translate from Joomla text
-  translate: (key) => Joomla.JText._(key, key),
+  translate: (key) => Joomla.Text._(key, key),
   sprintf: (string, ...args) => {
     // eslint-disable-next-line no-param-reassign
     string = Translate.translate(string);

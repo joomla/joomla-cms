@@ -36,7 +36,7 @@ class Notifications {
     }
     Joomla.renderMessages(
       {
-        [options.type]: [Joomla.JText._(message)],
+        [options.type]: [Joomla.Text._(message)],
       },
       undefined,
       true,

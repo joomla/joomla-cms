@@ -39,7 +39,7 @@
                 elem.classList.add('float-end');
                 elem.classList.add('badge');
                 elem.classList.add('bg-warning', 'text-dark');
-                elem.innerHTML = response.data;
+                elem.innerHTML = Joomla.sanitizeHtml(response.data);
 
                 element.parentNode.replaceChild(elem, element);
               } else {
