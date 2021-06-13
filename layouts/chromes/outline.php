@@ -21,7 +21,7 @@ $app->getDocument()
 $module = $displayData['module'];
 
 // Place Modules Button
-$showModuleButton = $app->input->getBool('pm');
+$showModuleButton = $app->input->getBool('pm') && ($app->getName() == 'site');
 
 // Attributes of Select Position Tag for Placing Modules
 $menuId = $app->getMenu()->getActive();
