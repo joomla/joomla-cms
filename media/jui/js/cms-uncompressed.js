@@ -79,8 +79,12 @@ Joomla = window.Joomla || {};
 						// select lists, textarea etc. Note that multiple-select list returns an Array here
 						// se we can always tream 'itemval' as an array
 						itemval = $field.val();
+						// a <textarea> $field is stored as array with only one element
+						if ($field.prop("tagName").toLowerCase() == "textarea"){
+							itemval = [ itemval ];
+						} 
 						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
-						if (itemval == null && $field.prop("tagName").toLowerCase() == "select") {
+						else if (itemval == null && $field.prop("tagName").toLowerCase() == "select") {
 							itemval = [];
 						}
 					}
