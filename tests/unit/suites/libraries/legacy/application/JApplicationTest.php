@@ -114,18 +114,27 @@ class JApplicationTest extends TestCase
 	 */
 	public function testIsSSLConnection()
 	{
-		unset($_SERVER['HTTPS']);
+		$this->object->input->server->set('HTTPS', '');
+		$this->object->input->server->set('HTTP_X_FORWARDED_PROTO', '');
 
-		$this->assertThat(
-			$this->object->isSSLConnection(),
-			$this->equalTo(false)
-		);
+		$this->assertFalse($this->object->isSSLConnection());
 
-		$_SERVER['HTTPS'] = 'on';
+		$this->object->input->server->set('HTTPS', 'off');
 
-		$this->assertThat(
-			$this->object->isSSLConnection(),
-			$this->equalTo(true)
-		);
+		$this->assertFalse($this->object->isSSLConnection());
+
+		$this->object->input->server->set('HTTPS', 'on');
+
+		$this->assertTrue($this->object->isSSLConnection());
+
+		$this->object->input->server->set('HTTPS', '');
+
+		$this->object->input->server->set('HTTP_X_FORWARDED_PROTO', 'http');
+
+		$this->assertFalse($this->object->isSSLConnection());
+
+		$this->object->input->server->set('HTTP_X_FORWARDED_PROTO', 'https');
+
+		$this->assertTrue($this->object->isSSLConnection());
 	}
 }

@@ -558,7 +558,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($https !== null)
 		{
-			$_SERVER['HTTPS'] = $https;
+			$this->class->input->server->set('HTTPS', $https);
 		}
 
 		$_SERVER['PHP_SELF'] = $phpSelf;
@@ -1192,7 +1192,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   1.7.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{	
+	{
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 
@@ -1548,11 +1548,26 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testIsSSLConnection()
 	{
-		unset($_SERVER['HTTPS']);
+		$this->class->input->server->set('HTTPS', '');
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', '');
 
 		$this->assertFalse($this->class->isSSLConnection());
 
-		$_SERVER['HTTPS'] = 'on';
+		$this->class->input->server->set('HTTPS', 'off');
+
+		$this->assertFalse($this->class->isSSLConnection());
+
+		$this->class->input->server->set('HTTPS', 'on');
+
+		$this->assertTrue($this->class->isSSLConnection());
+
+		$this->class->input->server->set('HTTPS', '');
+
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', 'http');
+
+		$this->assertFalse($this->class->isSSLConnection());
+
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', 'https');
 
 		$this->assertTrue($this->class->isSSLConnection());
 	}
