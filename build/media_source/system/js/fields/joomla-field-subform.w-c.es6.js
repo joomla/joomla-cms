@@ -14,7 +14,11 @@
 
   const allowList = {
    button: ['type'],
-   input: ['type', 'name', 'placeholder', 'inputmode'],
+   input: ['accept', 'alt', 'autocomplete', 'autofocus', 'capture', 
+           'checked', 'dirname', 'disabled', 'height', 'list', 'max', 
+           'maxlength', 'min', 'minlength', 'multiple', 'type', 'name', 'pattern',
+           'placeholder', 'readonly', 'required', 'size', 'src', 'step', 'value', 
+           'width', 'inputmode'],
    select: ['name'],
    textarea: ['name'],
    option: ['value', 'selected'],
