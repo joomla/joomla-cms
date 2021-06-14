@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>com_cookiemanager</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>COM_COOKIEMANAGER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Cookiemanager</namespace>	
+	<administration>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>cookiemanager.xml</filename>
+			<folder>forms</folder>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_cookiemanager.ini</language>
+			<language tag="en-GB">language/en-GB/com_cookiemanager.sys.ini</language>
+		</languages>
+		<menu link="option=com_cookiemanager">com_cookiemanager</menu>
+	</administration>
+</extension>
