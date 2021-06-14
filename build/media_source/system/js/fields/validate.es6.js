@@ -117,11 +117,11 @@ class JFormValidator {
       const elMsg = document.createElement('span');
       elMsg.classList.add('form-control-feedback');
       if (empty && empty === 'checkbox') {
-        elMsg.innerHTML = (message !== null && Joomla.sanitizeHtml(message)) || Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'));
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK');
       } else if (empty && empty === 'value') {
-        elMsg.innerHTML = (message !== null && Joomla.sanitizeHtml(message)) || Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'));
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE');
       } else {
-        elMsg.innerHTML = (message !== null && Joomla.sanitizeHtml(message)) || Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'));
+        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE');
       }
 
       if (label) {
