@@ -79,27 +79,28 @@ Factory::getDocument()->getWebAssetManager()
 $clientId = Factory::getApplication()->input->get('client_id');
 
 ?>
-<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
-			'id'          => $id,
-			'list.select' => $value,
-			'list.attr'   => implode(' ', $selectAttr),
-		)
-	);
-?></joomla-field-fancy-select>
-<?php 
-	echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'Modal_position',
-		array(
-			'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
-			'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1&client_id=' . $clientId,
-			'bodyHeight'  => 70,
-			'modalWidth'  => 95,
-			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-		)
-	);
+<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>>
+<?php
+echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
+		'id'          => $id,
+		'list.select' => $value,
+		'list.attr'   => implode(' ', $selectAttr),
+	)
+);
+?>
+</joomla-field-fancy-select>
+<?php
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'Modal_position',
+	array(
+		'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
+		'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1&client_id=' . $clientId,
+		'bodyHeight'  => 70,
+		'modalWidth'  => 95,
+		'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+	)
+);
 ?>
 <span data-bs-toggle="modal" role="button" data-bs-target="#Modal_position" class="form-text">
 <?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'); ?>
