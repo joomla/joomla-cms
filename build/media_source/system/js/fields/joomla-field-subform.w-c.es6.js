@@ -12,6 +12,14 @@
     ENTER: 13,
   };
 
+  const allowList = {
+   button: ['type'],
+   input: ['type', 'name', 'placeholder', 'inputmode'],
+   select: ['name'],
+   textarea: ['name'],
+   option: ['value', 'selected'],
+ };
+
   /**
    * Helper for testing whether a selection modifier is pressed
    * @param {Event} event
@@ -183,7 +191,7 @@
       } else {
         tmpEl = document.createElement('div');
       }
-      tmpEl.innerHTML = Joomla.sanitizeHtml(this.template);
+      tmpEl.innerHTML = Joomla.sanitizeHtml(this.template, allowList);
       const row = tmpEl.children[0];
 
       // Add to container
