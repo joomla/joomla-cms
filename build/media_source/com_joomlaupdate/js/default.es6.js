@@ -99,17 +99,17 @@ Joomla = window.Joomla || {};
     [].slice.call(document.querySelectorAll('.settingstoggle')).forEach((el) => {
       el.style.float = 'right';
       el.style.cursor = 'pointer';
-      el.addEventListener('click', (toggle) => {
+      el.addEventListener('click', () => {
         const settingsfieldset = el.closest('fieldset');
-        if (toggle.target.dataset.state === 'closed') {
-          toggle.target.dataset.state = 'open';
-          toggle.target.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
+        if (el.dataset.state === 'closed') {
+          el.dataset.state = 'open';
+          el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.remove('hidden');
           });
         } else {
-          toggle.target.dataset.state = 'closed';
-          toggle.target.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
+          el.dataset.state = 'closed';
+          el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
           settingsfieldset.querySelectorAll('.settingsInfo').forEach((fieldset) => {
             fieldset.classList.add('hidden');
           });
@@ -417,7 +417,7 @@ Joomla = window.Joomla || {};
       PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
         if (plugin.package_id.toString() === extensionId
             || plugin.extension_id.toString() === extensionId) {
-          document.getElementById(`#plg_${plugin.extension_id}`).remove();
+          document.getElementById(`plg_${plugin.extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
       });
