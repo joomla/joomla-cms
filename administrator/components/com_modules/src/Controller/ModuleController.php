@@ -95,6 +95,7 @@ class ModuleController extends FormController
 		$app->setUserState('com_modules.add.module.menu_id', $menuId);
 		$app->setUserState('com_modules.add.module.position', $position);
 
+		// Select Position is only used in the Frontend Module Placement so we pass client_id as 0
 		$redirectUrl = 'index.php?option=com_modules&view=select&client_id=0';
 		$this->setRedirect(Route::_($redirectUrl, false));
 	}
