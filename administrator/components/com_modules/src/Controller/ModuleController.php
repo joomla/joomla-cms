@@ -69,7 +69,7 @@ class ModuleController extends FormController
 	}
 
 	/**
-	 * Set Position for the New Module in Frontend Module Placement.
+	 * Set Position and Menu ID in State for the New Module in Frontend Module Placement.
 	 *
 	 * @return  void
 	 *
@@ -79,8 +79,8 @@ class ModuleController extends FormController
 	{
 		$app = $this->app;
 
-		// Look for the Template, Menu ID and Position.
-		$menuId = $this->input->getInt('menu');
+		// Get the Menu ID and Position.
+		$menuId = $this->input->getInt('menu', 0);
 		$position = $this->input->get('position');
 
 		if (empty($position))
@@ -113,8 +113,8 @@ class ModuleController extends FormController
 		$result = parent::cancel();
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
-		$this->app->setUserState('com_modules.add.module.params', null);
 		$this->app->setUserState('com_modules.add.module.menu_id', null);
+		$this->app->setUserState('com_modules.add.module.params', null);
 		$this->app->setUserState('com_modules.add.module.position', null);
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
@@ -238,8 +238,8 @@ class ModuleController extends FormController
 				break;
 		}
 
-		$this->app->setUserState('com_modules.add.module.params', null);
 		$this->app->setUserState('com_modules.add.module.menu_id', null);
+		$this->app->setUserState('com_modules.add.module.params', null);
 		$this->app->setUserState('com_modules.add.module.position', null);
 	}
 

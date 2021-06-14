@@ -574,9 +574,9 @@ class ModuleModel extends AdminModel
 		$this->setState('item.module', $module);
 
 		// Get the form.
-		if ($app->input->get('layout') == 'preview_positions')
+		if ($app->input->getCMD('layout') == 'preview_positions')
 		{
-			$form = $this->loadForm('com_modules.template_positions', 'template_positions', array('control' => 'jform', 'load_data' => $loadData), true);
+			$form = $this->loadForm('com_modules.preview_positions', 'preview_positions', array('control' => 'jform', 'load_data' => $loadData), true);
 		}
 		else
 		{
