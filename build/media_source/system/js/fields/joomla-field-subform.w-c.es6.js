@@ -12,20 +12,6 @@
     ENTER: 13,
   };
 
-  const allowList = {
-    button: ['type'],
-    input: [
-      'accept', 'alt', 'autocomplete', 'autofocus', 'capture',
-      'checked', 'dirname', 'disabled', 'height', 'list', 'max',
-      'maxlength', 'min', 'minlength', 'multiple', 'type', 'name',
-      'pattern', 'placeholder', 'readonly', 'required', 'size', 'src',
-      'step', 'value', 'width', 'inputmode',
-    ],
-    select: ['name'],
-    textarea: ['name'],
-    option: ['value', 'selected'],
- };
-
   /**
    * Helper for testing whether a selection modifier is pressed
    * @param {Event} event
@@ -197,7 +183,7 @@
       } else {
         tmpEl = document.createElement('div');
       }
-      tmpEl.innerHTML = Joomla.sanitizeHtml(this.template, allowList);
+      tmpEl.innerHTML = this.template;
       const row = tmpEl.children[0];
 
       // Add to container
