@@ -63,7 +63,7 @@ $compatibilityTypes = array(
 			<?php $labelClass = 'success'; ?>
 			<?php foreach ($this->phpOptions as $option) : ?>
 				<?php if (!$option->state) : ?>
-					<?php $labelClass = 'important'; ?>
+					<?php $labelClass = 'danger'; ?>
 					<?php break; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -194,8 +194,8 @@ $compatibilityTypes = array(
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 								<div class="compatibilitytoggle" data-state="closed">
 									<?php echo Text::sprintf(
-                                        'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-                                        '<span class="icon-chevron-right"></span>'
+										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+										'<span class="icon-chevron-right"></span>'
 									); ?>
 								</div>
 							<?php endif; ?>
