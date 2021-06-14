@@ -32,11 +32,11 @@ $this->fieldsets = $this->form->getFieldsets();
 echo $this->form->renderField($templateField);
 ?>
 <div class="jviewport-height90">
-<iframe 
-	src=<?php echo $iframeBaseURL . '?tp=1&templateStyle='; ?>
-	id="module-position-select" 
-	name="module-position-select" 
-	title="module-position-select"
-	height="100%" width="100%">
-</iframe>
+	<iframe 
+		src=<?php echo $iframeBaseURL . '?tp=1&templateStyle='; ?>
+		id="module-position-select" 
+		name="module-position-select" 
+		title="module-position-select"
+		height="100%"width="100%">
+	</iframe>
 </div>
