@@ -955,7 +955,6 @@ class Indexer
 				);
 				++$values;
 			}
-		
 			$db->setQuery($query)->execute();
 
 			// Check if we're approaching the memory limit of the token table.
