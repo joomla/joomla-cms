@@ -800,137 +800,137 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
-	 * Test the Image::generateThumbs method without a loaded image.
+	 * Test the Image::generateMultipleSizes method without a loaded image.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testGenerateThumbsWithoutLoadedImage()
+	public function testGenerateMultipleSizesWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		$thumbs = $this->instance->generateThumbs('50x38');
+		$images = $this->instance->generateMultipleSizes('50x38');
 	}
 
 	/**
-	 * Test the Image::generateThumbs method with invalid size.
+	 * Test the Image::generateMultipleSizes method with invalid size.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testGenerateThumbsWithInvalidSize()
+	public function testGenerateMultipleSizesWithInvalidSize()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $this->instance->generateThumbs('50*38');
+		$images = $this->instance->generateMultipleSizes('50*38');
 	}
 
 	/**
-	 * Test the Image::generateThumbs method.
+	 * Test the Image::generateMultipleSizes method.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testGenerateThumbs()
+	public function testGenerateMultipleSizes()
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $this->instance->generateThumbs('50x38');
+		$images = $this->instance->generateMultipleSizes('50x38');
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			34,
-			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesy(TestHelper::getValue($images[0], 'handle'))
 		);
 		$this->assertEquals(
 			50,
-			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP);
+		$images = $this->instance->generateMultipleSizes('50x38', Image::CROP);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
-			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesy(TestHelper::getValue($images[0], 'handle'))
 		);
 		$this->assertEquals(
 			50,
-			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP_RESIZE);
+		$images = $this->instance->generateMultipleSizes('50x38', Image::CROP_RESIZE);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
-			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesy(TestHelper::getValue($images[0], 'handle'))
 		);
 		$this->assertEquals(
 			50,
-			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 	}
 
 	/**
-	 * Test the Image::createThumbs method without a loaded image.
+	 * Test the Image::createMultipleSizes method without a loaded image.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testCreateThumbsWithoutLoadedImage()
+	public function testCreateMultipleSizesWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		$thumbs = $this->instance->createThumbs('50x38');
+		$images = $this->instance->createMultipleSizes('50x38');
 	}
 
 	/**
-	 * Test the Image::generateThumbs method with invalid folder.
+	 * Test the Image::generateMultipleSizes method with invalid folder.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testGenerateThumbsWithInvalidFolder()
+	public function testGenerateMultipleSizesWithInvalidFolder()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->loadFile($this->testFile);
-		$this->instance->createThumbs('50x38', Image::SCALE_INSIDE, '/foo/bar');
+		$this->instance->createMultipleSizes('50x38', Image::SCALE_INSIDE, true, '/foo/bar');
 	}
 
 	/**
-	 * Test the Image::createThumbs method.
+	 * Test the Image::createMultipleSizes method.
 	 *
 	 * @return  void
 	 *
-	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
 	 *
 	 * @since   1.1.3
 	 */
-	public function testCreateThumbs()
+	public function testCreateMultipleSizes()
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $this->instance->createThumbs('50x38', Image::CROP);
-		$outFileGif = TestHelper::getValue($thumbs[0], 'path');
+		$images = $this->instance->createMultipleSizes('50x38', Image::CROP);
+		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$a = Image::getImageFileProperties($this->testFile);
 		$b = Image::getImageFileProperties($outFileGif);
@@ -1429,154 +1429,6 @@ class ImageTest extends UnitTestCase
 			$expected,
 			TestHelper::invoke($this->instance, 'sanitizeOffset', $input)
 		);
-	}
-
-	/**
-	 * Test the Image::generateResponsiveImages method without a loaded image.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testGenerateResponsiveImagesWithoutLoadedImage()
-	{
-		$this->expectException(\LogicException::class);
-
-		$thumbs = $this->instance->generateResponsiveImages('1200x800');
-	}
-
-	/**
-	 * Test the Image::generateResponsiveImages method with invalid size.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testGenerateResponsiveImagesWithInvalidSize()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		$this->instance->loadFile($this->testFile);
-
-		$thumbs = $this->instance->generateResponsiveImages('1200_800');
-	}
-
-	/**
-	 * Test the Image::generateResponsiveImages method.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::generateResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testGenerateResponsiveImages()
-	{
-		$this->instance->loadFile($this->testFile);
-
-		$images = $this->instance->generateResponsiveImages('800x600');
-
-		// Verify that the resized image is the correct size.
-		$this->assertEquals(
-			800,
-			imagesy(TestHelper::getValue($images[0], 'handle'))
-		);
-		$this->assertEquals(
-			600,
-			imagesx(TestHelper::getValue($images[0], 'handle'))
-		);
-
-		$images = $this->instance->generateResponsiveImages('800x600', Image::CROP);
-
-		// Verify that the resized image is the correct size.
-		$this->assertEquals(
-			800,
-			imagesy(TestHelper::getValue($images[0], 'handle'))
-		);
-		$this->assertEquals(
-			600,
-			imagesx(TestHelper::getValue($images[0], 'handle'))
-		);
-
-		$images = $this->instance->generateResponsiveImages('800x600', Image::CROP_RESIZE);
-
-		// Verify that the resized image is the correct size.
-		$this->assertEquals(
-			800,
-			imagesy(TestHelper::getValue($images[0], 'handle'))
-		);
-		$this->assertEquals(
-			600,
-			imagesx(TestHelper::getValue($images[0], 'handle'))
-		);
-	}
-
-	/**
-	 * Test the Image::createResponsiveImages method without a loaded image.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testCreateResponsiveImagesWithoutLoadedImage()
-	{
-		$this->expectException(\LogicException::class);
-
-		$images = $this->instance->createResponsiveImages('800x600');
-	}
-
-	/**
-	 * Test the Image::createResponsiveImages method with invalid folder.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testCreateResponsiveImagesWithInvalidFolder()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		$this->instance->loadFile($this->testFile);
-		$this->instance->createResponsiveImages('800x600', Image::SCALE_INSIDE, '/foo/bar');
-	}
-
-	/**
-	 * Test the Image::createResponsiveImages method.
-	 *
-	 * @return  void
-	 *
-	 * @covers  \Joomla\CMS\Image\Image::createResponsiveImages
-	 *
-	 * @since   4.1.0
-	 */
-	public function testCreateResponsiveImages()
-	{
-		$this->instance->loadFile($this->testFile);
-
-		$images = $this->instance->createResponsiveImages('800x600', Image::CROP);
-		$outFileGif = TestHelper::getValue($images[0], 'path');
-
-		$a = Image::getImageFileProperties($this->testFile);
-		$b = Image::getImageFileProperties($outFileGif);
-
-		// Assert that properties that should be equal are equal.
-		$this->assertEquals(800, $b->width);
-		$this->assertEquals(600, $b->height);
-		$this->assertEquals($a->bits, $b->bits);
-		$this->assertEquals($a->channels, $b->channels);
-		$this->assertEquals($a->mime, $b->mime);
-		$this->assertEquals($a->type, $b->type);
-		$this->assertEquals($a->channels, $b->channels);
-
-		unlink($outFileGif);
 	}
 
 	/**

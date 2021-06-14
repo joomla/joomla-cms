@@ -715,7 +715,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if(is_file(JPATH_ROOT . '/' . $image) && ($i === 'image_intro' || $i === 'image_fulltext'))
 				{
 					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200']);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
 				}
 			}
 
@@ -736,7 +736,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if(is_file(JPATH_ROOT . '/' . $image))
 				{
 					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createResponsiveImages(['800x600', '600x400', '400x200']);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
 				}
 			}
 		}
