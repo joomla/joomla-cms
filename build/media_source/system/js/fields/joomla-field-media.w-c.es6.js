@@ -175,7 +175,7 @@
         const { value } = this.inputElement;
 
         if (!value) {
-          this.previewElement.innerHTML = '<span class="field-media-preview-icon"></span>';
+          this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
         } else {
           this.previewElement.innerHTML = '';
           const imgPreview = new Image();

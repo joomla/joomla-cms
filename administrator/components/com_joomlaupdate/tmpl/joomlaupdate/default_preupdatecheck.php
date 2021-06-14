@@ -60,22 +60,22 @@ $compatibilityTypes = array(
 <div class="row">
 	<div class="col-md-6">
 		<fieldset class="options-form">
-			<?php
-			$labelClass = 'success';
-			foreach ($this->phpOptions as $option) :
-				if (!$option->state)
-				{
-					$labelClass = 'danger';
-					break;
-				}
-			endforeach;
-			?>
+			<?php $labelClass = 'success'; ?>
+			<?php foreach ($this->phpOptions as $option) : ?>
+				<?php if (!$option->state) : ?>
+					<?php $labelClass = 'danger'; ?>
+					<?php break; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 			<legend>
 				<h3 class="alert alert-<?php echo $labelClass; ?>">
-					<?php
-					echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
-					?>
-					<div class="settingstoggle ms-1" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
+					<?php echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED'); ?>
+					<div class="settingstoggle ms-1" data-state="closed">
+						<?php echo Text::sprintf(
+							'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+							'<span class="icon-chevron-right"></span>'
+						); ?>
+					</div>
 				</h3>
 			</legend>
 			<div class="settingsInfo hidden">
@@ -119,23 +119,23 @@ $compatibilityTypes = array(
 
 	<div class="col-md-6">
 		<fieldset class="options-form">
-			<?php
-			$labelClass = 'success';
-			foreach ($this->phpSettings as $setting) :
-				if ($setting->state !== $setting->recommended)
-				{
-					$labelClass = 'warning';
-					break;
-				}
-			endforeach;
-			?>
+			<?php $labelClass = 'success'; ?>
+			<?php foreach ($this->phpSettings as $setting) : ?>
+				<?php if ($setting->state !== $setting->recommended) : ?>
+					<?php $labelClass = 'warning'; ?>
+					<?php break; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 
 			<legend>
 				<h3 class="alert alert-<?php echo $labelClass; ?>">
-					<?php
-					echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
-					?>
-					<div class="settingstoggle ms-1" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
+					<?php echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED'); ?>
+					<div class="settingstoggle ms-1" data-state="closed">
+						<?php echo Text::sprintf(
+							'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+							'<span class="icon-chevron-right"></span>'
+						); ?>
+					</div>
 				</h3>
 			</legend>
 			<div class="settingsInfo hidden">
@@ -192,7 +192,12 @@ $compatibilityTypes = array(
 					<legend>
 						<h3 class="alert <?php echo $compatibilityDisplayClass; ?>">
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
-								<div class="compatibilitytoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>'); ?></div>
+								<div class="compatibilitytoggle" data-state="closed">
+									<?php echo Text::sprintf(
+										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+										'<span class="icon-chevron-right"></span>'
+									); ?>
+								</div>
 							<?php endif; ?>
 							<?php echo Text::_($compatibilityType); ?>
 						</h3>
@@ -226,7 +231,7 @@ $compatibilityTypes = array(
 							<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 								<tr>
 									<td class="exname col-md-8">
-										<?php echo Text::_($extension->name); ?>
+										<?php echo $extension->name; ?>
 									</td>
 									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
