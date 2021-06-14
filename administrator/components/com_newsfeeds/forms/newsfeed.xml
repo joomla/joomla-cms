@@ -214,6 +214,15 @@
 		/>
 
 		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
@@ -451,15 +460,6 @@
 				rows="2"
 				cols="30"
 				filter="string"
-			/>
-
-			<field
-				name="hits"
-				type="text"
-				label="JGLOBAL_HITS"
-				class="readonly"
-				readonly="true"
-				filter="unset"
 			/>
 		</fieldset>
 	</fields>
