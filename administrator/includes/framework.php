@@ -106,3 +106,13 @@ else
 }
 
 unset($config);
+
+// Suppress loading external XML entites to prevent XXE attacks
+if (function_exists('libxml_disable_entity_loader'))
+{
+	// Disable XML external entity loading explicitly
+	$intialValue = libxml_disable_entity_loader(true);
+
+	// Restore XML external entity loading on exit
+	register_shutdown_function('libxml_disable_entity_loader', $intialValue);
+}
