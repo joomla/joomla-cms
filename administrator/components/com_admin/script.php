@@ -5387,7 +5387,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_csp/tmpl/reports/default.php',
 			'/administrator/components/com_csp/tmpl/reports/default.xml',
 			'/administrator/components/com_fields/src/Field/SubfieldstypeField.php',
-			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/components/com_installer/tmpl/installer/default_ftp.php',
 			'/administrator/components/com_joomlaupdate/src/Helper/Select.php',
 			'/administrator/language/en-GB/com_csp.ini',
@@ -5848,11 +5847,18 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/tools/mixins/_visually-hidden.scss',
 			'/templates/system/js/error-locales.js',
 			// 4.0 from RC 1 to RC 2
+			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/templates/atum/scss/pages/_com_admin.scss',
 			'/administrator/templates/atum/scss/pages/_com_finder.scss',
 			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
 			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
 			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
+			'/media/com_fields/js/admin-field-edit-modal-es5.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js.gz',
+			'/media/com_fields/js/admin-field-edit-modal.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
 		);
 
 		$folders = array(
