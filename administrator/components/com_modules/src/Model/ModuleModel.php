@@ -783,7 +783,8 @@ class ModuleModel extends AdminModel
 					$assignment = 1;
 					$assigned[] = $menuId;
 				}
-				else{
+				else
+				{
 					// If this is a new module, assign to all pages.
 					$assignment = 0;
 				}
