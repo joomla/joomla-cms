@@ -40,7 +40,7 @@ class ModulesRenderer extends DocumentRenderer
 
 		$app          = Factory::getApplication();
 		$user         = Factory::getUser();
-		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
+		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest && !$app->input->get('pm'));
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach (ModuleHelper::getModules($position) as $mod)
