@@ -76,7 +76,7 @@ if (container) {
       }
     }
 
-    for (i = 0; i < rows.length - 1; i++) {
+    for (i = 0; i < rows.length - 1; i += 1) {
       result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
       result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
     }
