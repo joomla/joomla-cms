@@ -194,13 +194,15 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<jdoc:include type="message" />
 		<main>
 		<jdoc:include type="component" />
+		</main>
 		<?php if ($displayAddModuleBtn): ?>
 		<form method="get">
 			<input name="pm" type="hidden" value="1">
-			<input class="btn btn-primary" type="submit" value="<?php echo Text::_('TPL_CASSIOPEIA_ADD_MODULE'); ?>">
+			<button type="submit" class="btn jmodadd">
+			<?php echo Text::_('TPL_CASSIOPEIA_ADD_MODULE'); ?>
+			</button>
 		</form>
 		<?php endif; ?>
-		</main>
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
