@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Methods supporting a list of cookie manager records.
+ * Methods supporting a list of cookie manager groups.
  *
  * @since  1.6
  */
@@ -128,7 +128,7 @@ class GroupsModel extends ListModel
 	}
 
 	/**
-	 * Method to get a list of cookie manager group.
+	 * Method to get a list of cookie manager groups.
 	 * Overridden to add a check for access levels.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
