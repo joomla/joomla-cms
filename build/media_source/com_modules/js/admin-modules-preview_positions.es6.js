@@ -17,5 +17,5 @@ const elIframe = document.getElementById('module-position-select');
 const elTemplateSelect = document.getElementById('jform_template_style_select');
 
 elTemplateSelect.addEventListener('change', (event) => {
-  elIframe.src = elIframe.src.substring(0,elIframe.src.indexOf('templateStyle=')+14) + event.target.value;
+  elIframe.src = elIframe.src.substring(0, elIframe.src.indexOf('templateStyle=') + 14) + event.target.value;
 });
