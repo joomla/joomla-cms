@@ -417,7 +417,7 @@ Joomla = window.Joomla || {};
       PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
         if (plugin.package_id.toString() === extensionId
             || plugin.extension_id.toString() === extensionId) {
-          document.getElementById(`plg_${plugin.extension_id}`).remove();
+          document.getElementById(`#plg_${plugin.extension_id}`).remove();
           PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
         }
       });
