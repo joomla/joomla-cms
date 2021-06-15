@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cookiemanager\Administrator\View\Groups;
+namespace Joomla\Component\Cookiemanager\Administrator\View\Group;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -19,63 +20,56 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View class for a list of cookiemanager group.
+ * View to edit a group.
  *
  * @since  1.6
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * An array of items
+	 * The \JForm object
 	 *
-	 * @var  array
+	 * @var  \JForm
 	 */
-	protected $items;
+	protected $form;
 
 	/**
-	 * The pagination object
+	 * The active item
 	 *
-	 * @var  \JPagination
+	 * @var  object
 	 */
-	protected $pagination;
+	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  object
 	 */
 	protected $state;
 
 	/**
-	 * Form object for search filters
+	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JForm
+	 * @var  \JObject
 	 */
-	public $filterForm;
+	protected $canDo;
 
 	/**
-	 * The active search filters
-	 *
-	 * @var  array
-	 */
-	public $activeFilters;
-
-	/**
-	 * Display the view.
+	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @throws \Exception
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
-		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
@@ -91,22 +85,28 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
-
-		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_GROUPS_PAGE_TITLE'));
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_cookiemanager');
 
-	  if ($canDo->get('core.admin') || $canDo->get('core.options'))
-	  {
-	  	ToolbarHelper::preferences('com_cookiemanager');
-	  }
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
-	  ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_PAGE_EDIT_GROUP'), 'pencil-alt');
+
+		if ($canDo->get('core.create'))
+		{
+				$toolbar->apply('group.apply');
+				$toolbar->save('group.save');
 		}
+
+		$toolbar->cancel('group.cancel', 'JTOOLBAR_CLOSE');
+		
+		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+	}
 }
