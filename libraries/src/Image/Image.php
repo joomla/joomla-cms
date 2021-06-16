@@ -248,7 +248,8 @@ class Image
 	}
 
 	/**
-	 * Method to generate different sized versions of current image.
+	 * Method to generate different sized versions of current image. It allows creation by resizing or
+	 * cropping the original image.
 	 *
 	 * @param   mixed    $imageSizes      String or array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
@@ -315,7 +316,8 @@ class Image
 	}
 
 	/**
-	 * Method to create different sized versions of current image and save them to disk.
+	 * Method to create different sized versions of current image and save them to disk. It allows creation
+	 * by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $imageSizes      string or array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
@@ -328,7 +330,7 @@ class Image
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false, $destFolder = null)
+	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -336,11 +338,8 @@ class Image
 			throw new \LogicException('No valid image was loaded.');
 		}
 
-		// No destFolder set -> we will create a responsive or thumbs folder in the current image folder
-		if (\is_null($destFolder))
-		{
-			$destFolder = \dirname($this->getPath()) . ($thumbs ? '/thumbs' : '/responsive');
-		}
+		// We create a responsive or thumbs folder in the current image folder
+		$destFolder = \dirname($this->getPath()) . ($thumbs ? '/thumbs' : '/responsive');
 
 		// Check destination
 		if (!is_dir($destFolder) && (!is_dir(\dirname($destFolder)) || !@mkdir($destFolder)))
