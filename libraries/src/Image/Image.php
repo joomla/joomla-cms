@@ -385,6 +385,42 @@ class Image
 	}
 
 	/**
+	 * Method to delete different sized versions of current image from disk.
+	 *
+	 * @param   boolean  $thumbs  true to delete thumbs, false to delete responsive images
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 * @throws  \LogicException
+	 */
+	public function deleteMultipleSizes($thumbs = false)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		$image = explode("/", $this->getPath());
+
+		// Get path to the responsive images
+		$imagesPath = implode("/", array_slice($image, 0, count($image) - 1)) . ($thumbs ? '/thumbs' : '/responsive');
+
+		if($imageFiles = scandir($imagesPath))
+		{
+			foreach ($imageFiles as $imageFile)
+			{
+				// Find responsive versions of image and delete them
+				if(preg_replace('/_[^_][0-9]+x[0-9]+[^.]*/', '', $imageFile) === end($image))
+				{
+					unlink($imagesPath . '/' . $imageFile);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Method to crop the current image.
 	 *
 	 * @param   mixed    $width      The width of the image section to crop in pixels or a percentage.

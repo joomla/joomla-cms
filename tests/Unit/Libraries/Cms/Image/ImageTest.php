@@ -948,6 +948,44 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * Test the Image::deleteMultipleSizes method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
+	 *
+	 * @since   4.1.0
+	 */
+	public function testDeleteMultipleSizesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$this->instance->deleteMultipleSizes();
+	}
+
+	/**
+	 * Test the Image::deleteMultipleSizes method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
+	 *
+	 * @since   4.1.0
+	 */
+	public function testDeleteMultipleSizes()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->createMultipleSizes('50x38', Image::CROP);
+		$outFileGif = TestHelper::getValue($images[0], 'path');
+
+		$this->instance->deleteMultipleSizes();
+
+		// Assert that the file is deleted
+		$this->assertEquals(false, file_exists($outFileGif));
+	}
+
+	/**
 	 * Test the Image::isTransparent method without a loaded image.
 	 *
 	 * @return  void

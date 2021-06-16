@@ -496,30 +496,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Get initial article text and images then set them in user state
-		$app->setUserState("articletext", $form->getValue("articletext"));
-		$app->setUserState("images", json_encode($form->getValue("images")));
-
-		$imagesInit = (array) json_decode($app->getUserState("images"));
-		if(isset($imagesInit) && $imagesInit['image_intro'] != "" && ($imageInit = explode("#", $imagesInit['image_intro'])[0]) !== "")
-		{
-			echo $imageInit;
-		}
-
-		// if($imageInit != "")
-		// {
-		// 	// Get all responsive images
-		// 	$imagesPath = JPATH_ROOT . '/' . implode("/", array_slice($imgArr, 0, count($imgArr) - 1)) . '/responsive';
-		// 	$imageFiles = scandir($imagesPath);
-
-		// 	foreach ($imageFiles as $imageFile)
-		// 	{
-		// 		// Find responsive versions of image and delete them
-		// 		if(preg_replace('/_[^.]*/', '', $imageFile) === end($imgArr))
-		// 		{
-		// 			unlink($imagesPath . '/' . $imageFile);
-		// 		}
-		// 	}
-		// }
+		$app->setUserState("com_content.articletext", $form->getValue("articletext"));
+		$app->setUserState("com_content.images", json_encode($form->getValue("images")));
 
 		// Object uses for checking edit state permission of article
 		$record = new \stdClass;
@@ -733,38 +711,28 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			// Get initial images
-			$imagesInit = (array) json_decode($app->getUserState("images"));
+			$imagesInit = (array) json_decode($app->getUserState("com_content.images"));
 
 			foreach($data['images'] as $key => $image)
 			{
-				$image = explode('#', $image)[0];
-
-				// Make sure the files exist
-				if(is_file(JPATH_ROOT . '/' . $image) && ($key === 'image_intro' || $key === 'image_fulltext'))
+				if($key === 'image_intro' || $key === 'image_fulltext')
 				{
-					// Remove previously generated images if original is deleted
-					if(isset($imagesInit) && $imagesInit[$key] != "" && ($imageInit = explode("#", $imagesInit[$key])[0]) !== $image)
+					$imageInit = explode("#", $imagesInit[$key])[0]; // Initial version
+					$image = explode('#', $image)[0]; // Final version
+
+					// Remove previously generated images if original is changed
+					if($imageInit !== "" && $imageInit !== $image)
 					{
-						$imgArr = explode("/", $imageInit);
-
-						// Get all responsive images
-						$imagesPath = JPATH_ROOT . '/' . implode("/", array_slice($imgArr, 0, count($imgArr) - 1)) . '/responsive';
-
-						if($imageFiles = scandir($imagesPath))
-						{
-							foreach ($imageFiles as $imageFile)
-							{
-								// Find responsive versions of image and delete them
-								if(preg_replace('/_[^.]*/', '', $imageFile) === end($imgArr))
-								{
-									unlink($imagesPath . '/' . $imageFile);
-								}
-							}
-						}
+						$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+						$imgObject->deleteMultipleSizes();
 					}
 
-					// $imgObject = new Image(JPATH_ROOT . '/' . $image);
-					// $imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+					// Generate new responsive images if file exist
+					if(is_file(JPATH_ROOT . '/' . $image))
+					{
+						$imgObject = new Image(JPATH_ROOT . '/' . $image);
+						$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+					}
 				}
 			}
 
@@ -774,24 +742,31 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if(isset($data['articletext']))
 		{
-			// Get initial article text
 			$articletextInit = $app->getUserState("articletext");
 
-			// Get all images in content editor and remove duplicates
+			// Get initial images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);
+			$imagesInit = array_unique($imagesInit[1]);
+
+			// Get final images
 			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['articletext'], $images);
 			$images = array_unique($images[1]);
 
+			foreach($imagesInit as $imageInit)
+			{
+				// Remove previously generated images if original is changed
+				if(!in_array($imageInit, $images))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+					$imgObject->deleteMultipleSizes();
+				}
+			}
+
 			foreach($images as $image)
 			{
-				// Make sure the files exist
+				// Generate new responsive images if files exist
 				if(is_file(JPATH_ROOT . '/' . $image))
 				{
-					// Remove previously generated images if original is deleted
-					// if($image !== $articletextInit[$i])
-					// {
-					// 	$input->cookie->set("article text changed", 1);
-					// }
-
 					$imgObject = new Image(JPATH_ROOT . '/' . $image);
 					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
 				}
