@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -692,6 +693,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
 
+
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
@@ -704,9 +706,39 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
+
+			foreach($data['images'] as $i => $image)
+			{
+				$image = explode('#', $image)[0];
+
+				// Make sure the files exist
+				if(is_file(JPATH_ROOT . '/' . $image) && ($i === 'image_intro' || $i === 'image_fulltext'))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
+
 			$registry = new Registry($data['images']);
 
 			$data['images'] = (string) $registry;
+		}
+
+		if(isset($data['articletext']))
+		{
+			// Get all images in content editor and remove duplicates
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['articletext'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($images as $image)
+			{
+				// Make sure the files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
 		}
 
 		$this->workflowBeforeSave();
