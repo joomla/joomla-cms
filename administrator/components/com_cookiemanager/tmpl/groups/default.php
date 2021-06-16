@@ -31,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 					<table class="table" id="cookiemanagerGroupList">
 						<caption class="visually-hidden">
-							<?php echo Text::_('COM_COOKIEMANAGER_TABLE_CAPTION'); ?>,
+							<?php echo Text::_('COM_COOKIEMANAGER_GROUPS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>
 						</caption>
 						<thead>
