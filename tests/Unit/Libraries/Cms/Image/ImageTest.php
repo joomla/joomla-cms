@@ -982,7 +982,7 @@ class ImageTest extends UnitTestCase
 		$this->instance->deleteMultipleSizes();
 
 		// Assert that the file is deleted
-		$this->assertEquals(false, file_exists($outFileGif));
+		$this->assertEquals(false, is_file($outFileGif));
 	}
 
 	/**

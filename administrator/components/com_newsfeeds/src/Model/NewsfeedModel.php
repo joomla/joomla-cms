@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -108,6 +109,8 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
 		// Get the form.
 		$form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -115,6 +118,10 @@ class NewsfeedModel extends AdminModel
 		{
 			return false;
 		}
+
+		// Get initial description and images then set them in user state
+		$app->setUserState("com_newsfeeds.description", $form->getValue("description"));
+		$app->setUserState("com_newsfeeds.images", json_encode($form->getValue("images")));
 
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
@@ -176,7 +183,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -185,6 +192,71 @@ class NewsfeedModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+		}
+
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			// Get initial images
+			$imagesInit = (array) json_decode($app->getUserState("com_newsfeeds.images"));
+
+			foreach($data['images'] as $key => $image)
+			{
+				if($key === 'image_first' || $key === 'image_second')
+				{
+					$imageInit = explode("#", $imagesInit[$key])[0]; // Initial version
+					$image = explode('#', $image)[0]; // Final version
+
+					// Remove previously generated images if original is changed
+					if($imageInit !== "" && $imageInit !== $image)
+					{
+						$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+						$imgObject->deleteMultipleSizes();
+					}
+
+					// Generate new responsive images if file exist
+					if(is_file(JPATH_ROOT . '/' . $image))
+					{
+						$imgObject = new Image(JPATH_ROOT . '/' . $image);
+						$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+					}
+				}
+			}
+
+			$registry = new Registry($data['images']);
+			$data['images'] = (string) $registry;
+		}
+
+		if(isset($data['description']))
+		{
+			$articletextInit = $app->getUserState("com_newsfeeds.description");
+
+			// Get initial images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);
+			$imagesInit = array_unique($imagesInit[1]);
+
+			// Get final images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($imagesInit as $imageInit)
+			{
+				// Remove previously generated images if original is changed
+				if(!in_array($imageInit, $images))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+					$imgObject->deleteMultipleSizes();
+				}
+			}
+
+			foreach($images as $image)
+			{
+				// Generate new responsive images if files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
 		}
 
 		// Save New Category
@@ -216,10 +288,10 @@ class NewsfeedModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

@@ -13,6 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
@@ -183,6 +184,8 @@ class BannerModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app  = Factory::getApplication();
+
 		// Get the form.
 		$form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -190,6 +193,10 @@ class BannerModel extends AdminModel
 		{
 			return false;
 		}
+
+		// Get initial description and image then set them in user state
+		$app->setUserState("com_banners.description", $form->getValue("description"));
+		$app->setUserState("com_banners.imageurl", $form->getValue("params")->imageurl);
 
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
@@ -383,7 +390,7 @@ class BannerModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -392,6 +399,62 @@ class BannerModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
+		}
+
+		if (isset($data['params']['imageurl']))
+		{
+			// Get initial images
+			$imageInit = $app->getUserState("com_banners.imageurl");
+
+			$imageInit = explode("#", $imageInit)[0]; // Initial version
+			$image = explode('#', $data['params']['imageurl'])[0]; // Final version
+
+			// Remove previously generated image if original is changed
+			if($imageInit !== "" && $imageInit !== $image)
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+				$imgObject->deleteMultipleSizes();
+			}
+
+			// Generate new responsive images if file exist
+			if(is_file(JPATH_ROOT . '/' . $image))
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $image);
+				$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+			}
+		}
+
+		if(isset($data['description']))
+		{
+			$descriptionInit = $app->getUserState("com_banners.description");
+
+			// Get initial images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $descriptionInit, $imagesInit);
+			$imagesInit = array_unique($imagesInit[1]);
+
+			// Get final images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($imagesInit as $imageInit)
+			{
+				// Remove previously generated images if original is changed
+				if(!in_array($imageInit, $images))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+					$imgObject->deleteMultipleSizes();
+				}
+			}
+
+			foreach($images as $image)
+			{
+				// Generate new responsive images if files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
 		}
 
 		// Save New Category
@@ -423,11 +486,11 @@ class BannerModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

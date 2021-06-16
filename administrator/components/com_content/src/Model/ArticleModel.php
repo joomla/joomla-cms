@@ -742,7 +742,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if(isset($data['articletext']))
 		{
-			$articletextInit = $app->getUserState("articletext");
+			$articletextInit = $app->getUserState("com_content.articletext");
 
 			// Get initial images
 			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);

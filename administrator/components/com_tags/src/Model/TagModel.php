@@ -14,6 +14,7 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -168,7 +169,7 @@ class TagModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$jinput = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
@@ -178,9 +179,13 @@ class TagModel extends AdminModel
 			return false;
 		}
 
+		// Get initial description and images then set them in user state
+		$app->setUserState("com_tags.description", $form->getValue("description"));
+		$app->setUserState("com_tags.images", json_encode($form->getValue("images")));
+
 		$user = Factory::getUser();
 
-		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
+		if (!$user->authorise('core.edit.state', 'com_tags' . $app->input->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -230,7 +235,7 @@ class TagModel extends AdminModel
 	{
 		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 		$table      = $this->getTable();
-		$input      = Factory::getApplication()->input;
+		$app      = Factory::getApplication();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -253,11 +258,76 @@ class TagModel extends AdminModel
 				$table->setLocation($data['parent_id'], 'last-child');
 			}
 
+			if (isset($data['images']) && is_array($data['images']))
+			{
+				// Get initial images
+				$imagesInit = (array) json_decode($app->getUserState("com_tags.images"));
+
+				foreach($data['images'] as $key => $image)
+				{
+					if($key === 'image_intro' || $key === 'image_fulltext')
+					{
+						$imageInit = explode("#", $imagesInit[$key])[0]; // Initial version
+						$image = explode('#', $image)[0]; // Final version
+
+						// Remove previously generated images if original is changed
+						if($imageInit !== "" && $imageInit !== $image)
+						{
+							$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+							$imgObject->deleteMultipleSizes();
+						}
+
+						// Generate new responsive images if file exist
+						if(is_file(JPATH_ROOT . '/' . $image))
+						{
+							$imgObject = new Image(JPATH_ROOT . '/' . $image);
+							$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+						}
+					}
+				}
+
+				$registry = new Registry($data['images']);
+				$data['images'] = (string) $registry;
+			}
+
+			if(isset($data['description']))
+			{
+				$articletextInit = $app->getUserState("com_tags.description");
+
+				// Get initial images
+				preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);
+				$imagesInit = array_unique($imagesInit[1]);
+
+				// Get final images
+				preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
+				$images = array_unique($images[1]);
+
+				foreach($imagesInit as $imageInit)
+				{
+					// Remove previously generated images if original is changed
+					if(!in_array($imageInit, $images))
+					{
+						$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+						$imgObject->deleteMultipleSizes();
+					}
+				}
+
+				foreach($images as $image)
+				{
+					// Generate new responsive images if files exist
+					if(is_file(JPATH_ROOT . '/' . $image))
+					{
+						$imgObject = new Image(JPATH_ROOT . '/' . $image);
+						$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+					}
+				}
+			}
+
 			// Alter the title for save as copy
-			if ($input->get('task') == 'save2copy')
+			if ($app->input->get('task') == 'save2copy')
 			{
 				$origTable = $this->getTable();
-				$origTable->load($input->getInt('id'));
+				$origTable->load($app->input->getInt('id'));
 
 				if ($data['title'] == $origTable->title)
 				{

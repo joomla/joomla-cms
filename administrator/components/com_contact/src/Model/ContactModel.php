@@ -14,6 +14,7 @@ namespace Joomla\Component\Contact\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -171,6 +172,8 @@ class ContactModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
 		Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
@@ -180,6 +183,10 @@ class ContactModel extends AdminModel
 		{
 			return false;
 		}
+
+		// Get initial content and image then set them in user state
+		$app->setUserState("com_contact.misc", $form->getValue("misc"));
+		$app->setUserState("com_contact.image", $form->getValue("image"));
 
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
@@ -286,7 +293,7 @@ class ContactModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -295,6 +302,62 @@ class ContactModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
+		}
+
+		if (isset($data['image']))
+		{
+			// Get initial images
+			$imageInit = $app->getUserState("com_contact.image");
+
+			$imageInit = explode("#", $imageInit)[0]; // Initial version
+			$image = explode('#', $data['image'])[0]; // Final version
+
+			// Remove previously generated image if original is changed
+			if($imageInit !== "" && $imageInit !== $image)
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+				$imgObject->deleteMultipleSizes();
+			}
+
+			// Generate new responsive images if file exist
+			if(is_file(JPATH_ROOT . '/' . $image))
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $image);
+				$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+			}
+		}
+
+		if(isset($data['misc']))
+		{
+			$descriptionInit = $app->getUserState("com_contact.misc");
+
+			// Get initial images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $descriptionInit, $imagesInit);
+			$imagesInit = array_unique($imagesInit[1]);
+
+			// Get final images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['misc'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($imagesInit as $imageInit)
+			{
+				// Remove previously generated images if original is changed
+				if(!in_array($imageInit, $images))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+					$imgObject->deleteMultipleSizes();
+				}
+			}
+
+			foreach($images as $image)
+			{
+				// Generate new responsive images if files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
 		}
 
 		// Save New Category
@@ -326,10 +389,10 @@ class ContactModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

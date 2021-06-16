@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -246,7 +247,7 @@ class CategoryModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		$extension = $this->getState('category.extension');
-		$jinput = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// A workaround to get the extension into the model for save requests.
 		if (empty($extension) && isset($data['extension']))
@@ -267,13 +268,17 @@ class CategoryModel extends AdminModel
 			return false;
 		}
 
+		// Get initial description and image then set them in user state
+		$app->setUserState("com_categories.description", $form->getValue("description"));
+		$app->setUserState("com_categories.image", $form->getValue("params")->image);
+
 		// Modify the form based on Edit State access controls.
 		if (empty($data['extension']))
 		{
 			$data['extension'] = $extension;
 		}
 
-		$categoryId = $jinput->get('id');
+		$categoryId = $app->input->get('id');
 		$parts      = explode('.', $extension);
 		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
@@ -527,7 +532,7 @@ class CategoryModel extends AdminModel
 	public function save($data)
 	{
 		$table      = $this->getTable();
-		$input      = Factory::getApplication()->input;
+		$app      = Factory::getApplication();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -539,6 +544,62 @@ class CategoryModel extends AdminModel
 
 		// Include the plugins for the save events.
 		PluginHelper::importPlugin($this->events_map['save']);
+
+		if (isset($data['params']['image']))
+		{
+			// Get initial images
+			$imageInit = $app->getUserState("com_categories.image");
+
+			$imageInit = explode("#", $imageInit)[0]; // Initial version
+			$image = explode('#', $data['params']['image'])[0]; // Final version
+
+			// Remove previously generated image if original is changed
+			if($imageInit !== "" && $imageInit !== $image)
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+				$imgObject->deleteMultipleSizes();
+			}
+
+			// Generate new responsive images if file exist
+			if(is_file(JPATH_ROOT . '/' . $image))
+			{
+				$imgObject = new Image(JPATH_ROOT . '/' . $image);
+				$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+			}
+		}
+
+		if(isset($data['description']))
+		{
+			$descriptionInit = $app->getUserState("com_categories.description");
+
+			// Get initial images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $descriptionInit, $imagesInit);
+			$imagesInit = array_unique($imagesInit[1]);
+
+			// Get final images
+			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
+			$images = array_unique($images[1]);
+
+			foreach($imagesInit as $imageInit)
+			{
+				// Remove previously generated images if original is changed
+				if(!in_array($imageInit, $images))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
+					$imgObject->deleteMultipleSizes();
+				}
+			}
+
+			foreach($images as $image)
+			{
+				// Generate new responsive images if files exist
+				if(is_file(JPATH_ROOT . '/' . $image))
+				{
+					$imgObject = new Image(JPATH_ROOT . '/' . $image);
+					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
+				}
+			}
+		}
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)
@@ -554,10 +615,10 @@ class CategoryModel extends AdminModel
 		}
 
 		// Alter the title for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['title'] == $origTable->title)
 			{
