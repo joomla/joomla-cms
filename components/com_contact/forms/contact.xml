@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="contact" addruleprefix="Joomla\Component\Contact\Site\Rule" label="COM_CONTACT_CONTACT_DEFAULT_LABEL">
+		<field
+			name="spacer"
+			type="spacer"
+			label="COM_CONTACT_CONTACT_REQUIRED"
+			class="text"
+		/>
+
+		<field
+			name="contact_name"
+			type="text"
+			label="COM_CONTACT_CONTACT_EMAIL_NAME_LABEL"
+			id="contact-name"
+			size="30"
+			filter="string"
+			required="true"
+		/>
+
+		<field
+			name="contact_email"
+			type="email"
+			label="COM_CONTACT_EMAIL_LABEL"
+			id="contact-email"
+			size="30"
+			filter="string"
+			validate="ContactEmail"
+			autocomplete="email"
+			required="true"
+		/>
+
+		<field
+			name="contact_subject"
+			type="text"
+			label="COM_CONTACT_CONTACT_MESSAGE_SUBJECT_LABEL"
+			id="contact-emailmsg"
+			size="60"
+			filter="string"
+			validate="ContactEmailSubject"
+			required="true"
+		/>
+
+		<field
+			name="contact_message"
+			type="textarea"
+			label="COM_CONTACT_CONTACT_ENTER_MESSAGE_LABEL"
+			cols="50"
+			rows="10"
+			id="contact-message"
+			filter="safehtml"
+			validate="ContactEmailMessage"
+			required="true"
+		/>
+
+		<field
+			name="contact_email_copy"
+			type="checkbox"
+			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
+			id="contact-email-copy"
+			default="0"
+		/>
+	</fieldset>
+
+	<fieldset name="captcha">
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTACT_CAPTCHA_LABEL"
+			validate="captcha"
+			namespace="contact"
+		/>
+	</fieldset>
+</form>

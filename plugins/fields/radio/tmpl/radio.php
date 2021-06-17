@@ -3,10 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Radio
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $value = $field->value;
 
@@ -23,9 +25,8 @@ foreach ($options as $optionValue => $optionText)
 {
 	if (in_array((string) $optionValue, $value))
 	{
-		$texts[] = JText::_($optionText);
+		$texts[] = Text::_($optionText);
 	}
 }
-
 
 echo htmlentities(implode(', ', $texts));

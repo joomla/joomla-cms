@@ -2,32 +2,40 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-
-\JLoader::import('joomla.base.adapterinstance');
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract adapter for the installer.
  *
- * @method         Installer  getParent()  Retrieves the parent object.
- * @property-read  Installer  $parent      Parent object
- *
  * @since  3.4
- * @note   As of 4.0, this class will no longer extend from JAdapterInstance
  */
-abstract class InstallerAdapter extends \JAdapterInstance
+abstract class InstallerAdapter
 {
+	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * */
+	protected $changelogurl = null;
+
 	/**
 	 * ID for the currently installed extension if present
 	 *
@@ -65,7 +73,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 *
 	 * Making this object public allows extensions to customize the manifest in custom scripts.
 	 *
-	 * @var    string
+	 * @var    \SimpleXMLElement
 	 * @since  3.4
 	 */
 	public $manifest = null;
@@ -85,6 +93,14 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 * @since  3.4
 	 */
 	protected $name = null;
+
+	/**
+	 * Installer used with this adapter
+	 *
+	 * @var    Installer
+	 * @since  4.0.0
+	 */
+	protected $parent = null;
 
 	/**
 	 * Install function routing
@@ -115,15 +131,24 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	/**
 	 * Constructor
 	 *
-	 * @param   Installer         $parent   Parent object
-	 * @param   \JDatabaseDriver  $db       Database object
-	 * @param   array             $options  Configuration Options
+	 * @param   Installer       $parent   Parent object
+	 * @param   DatabaseDriver  $db       Database object
+	 * @param   array           $options  Configuration Options
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(Installer $parent, \JDatabaseDriver $db, array $options = array())
+	public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
 	{
-		parent::__construct($parent, $db, $options);
+		$this->parent = $parent;
+		$this->db     = $db;
+
+		foreach ($options as $key => $value)
+		{
+			if (property_exists($this, $key))
+			{
+				$this->$key = $value;
+			}
+		}
 
 		// Get a generic TableExtension instance for use if not already loaded
 		if (!($this->extension instanceof TableInterface))
@@ -135,7 +160,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		if (!$this->type)
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-			$reflection = new \ReflectionClass(get_called_class());
+			$reflection = new \ReflectionClass(\get_called_class());
 			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
 
@@ -204,9 +229,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -248,9 +273,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -284,12 +309,12 @@ abstract class InstallerAdapter extends \JAdapterInstance
 
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_root')))
+			if (!$created = Folder::create($this->parent->getPath('extension_root')))
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -327,7 +352,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
+			$this->parent->message = Text::_($description);
 		}
 		else
 		{
@@ -476,13 +501,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 				// Only rollback if installing
 				if ($route === 'install')
 				{
-					throw new \RuntimeException(
-						\JText::sprintf(
-							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->parent->getDbo()->stderr(true)
-						)
-					);
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 
 				return false;
@@ -511,9 +530,29 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
-		$lang = \JFactory::getLanguage();
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load($extension . '.sys', $source) || $lang->load($extension . '.sys', $base);
 	}
+
+	/**
+	 * Method to finalise the installation processing
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function finaliseInstall();
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function finaliseUninstall(): bool;
 
 	/**
 	 * Checks if the adapter supports discover_install
@@ -550,7 +589,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		}
 
 		// Filter the name for illegal characters
-		return strtolower(\JFilterInput::getInstance()->clean($element, 'cmd'));
+		return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
 	}
 
 	/**
@@ -578,9 +617,21 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		$name = (string) $this->getManifest()->name;
 
 		// Filter the name for illegal characters
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 
 		return $name;
+	}
+
+	/**
+	 * Retrieves the parent installer
+	 *
+	 * @return  Installer
+	 *
+	 * @since   4.0.0
+	 */
+	public function getParent()
+	{
+		return $this->parent;
 	}
 
 	/**
@@ -605,7 +656,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	protected function getScriptClassName()
 	{
 		// Support element names like 'en-GB'
-		$className = \JFilterInput::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
+		$className = InputFilter::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
 
 		// Cannot have - in class names
 		$className = str_replace('-', '', $className);
@@ -623,20 +674,18 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
-		}
-		else
-		{
-			$this->parent->message = '';
+			$this->parent->message = Text::_($description);
 		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -842,18 +891,12 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
+		if (\in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
 			{
-				throw new \RuntimeException(
-					\JText::sprintf(
-						'JLIB_INSTALLER_ABORT_SQL_ERROR',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-						$this->db->stderr(true)
-					)
-				);
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 			}
 
 			// Set the schema version to be the latest update version
@@ -871,13 +914,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(
-						\JText::sprintf(
-							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->db->stderr(true)
-						)
-					);
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 			}
 		}
@@ -906,6 +943,16 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	{
 		// Adapters may not support discover install or may have overridden the default task and aren't using this
 	}
+
+	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function removeExtensionFiles();
 
 	/**
 	 * Set the manifest object.
@@ -980,6 +1027,15 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	}
 
 	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	abstract protected function setupUninstall();
+
+	/**
 	 * Method to setup the update routine for the adapter
 	 *
 	 * @return  void
@@ -1032,9 +1088,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1054,9 +1110,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1075,6 +1131,168 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @param   integer  $id  The extension ID
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   4.0.0
+	 */
+	public function uninstall($id)
+	{
+		if (!$this->extension->load((int) $id))
+		{
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Joomla 4: Locked extensions cannot be removed.
+		if (isset($this->extension->locked) && $this->extension->locked)
+		{
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
+		elseif (!isset($this->extension->locked) && $this->extension->protected)
+		{
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			Log::add(
+				Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+				Log::WARNING,
+				'jerror'
+			);
+
+			return false;
+		}
+
+		// Setup the uninstall job as required
+		try
+		{
+			$this->setupUninstall();
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Set the extension's name and element
+		$this->name    = $this->getName();
+		$this->element = $this->getElement();
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading and Uninstall
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		$this->setupScriptfile();
+
+		try
+		{
+			$this->triggerManifestScript('preflight');
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		try
+		{
+			$this->triggerManifestScript('uninstall');
+		}
+		catch (\RuntimeException $e)
+		{
+			// Ignore errors for now
+		}
+
+		// Tasks from here may fail but we will still attempt to finish the uninstall process
+		$retval = true;
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->parseQueries();
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->removeExtensionFiles();
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$retval |= $this->finaliseUninstall();
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		// And now we run the postflight
+		try
+		{
+			$this->triggerManifestScript('postflight');
+		}
+		catch (\RuntimeException $e)
+		{
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		return $retval;
 	}
 
 	/**

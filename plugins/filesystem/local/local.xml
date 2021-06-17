@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="filesystem" method="upgrade">
+	<name>plg_filesystem_local</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2017</creationDate>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Filesystem\Local</namespace>
+	<files>
+		<filename plugin="local">local.php</filename>
+		<folder>src</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="directories"
+					type="subform"
+					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+					buttons="add,remove,move"
+					default='[{"directory":"images"}]'
+				>
+					<form>
+						<field
+							name="directory"
+							type="folderlist"
+							default="images"
+							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
+							folderFilter=""
+							exclude=""
+							stripext=""
+							hide_none="true"
+							validate="options"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

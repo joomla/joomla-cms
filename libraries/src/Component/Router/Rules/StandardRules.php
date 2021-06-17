@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\Router\RouterView;
 
@@ -40,7 +40,7 @@ class StandardRules implements RulesInterface
 	}
 
 	/**
-	 * Dummymethod to fullfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$query  The query array to process
 	 *
@@ -88,9 +88,9 @@ class StandardRules implements RulesInterface
 			// Our current view is nestable. We need to check first if the segment fits to that
 			if ($views[$vars['view']]->nestable)
 			{
-				if (is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id')))
+				if (\is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id')))
 				{
-					$key = call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
+					$key = \call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
 
 					// Did we get a proper key? If not, we need to look in the child-views
 					if ($key)
@@ -134,10 +134,10 @@ class StandardRules implements RulesInterface
 						break;
 					}
 				}
-				elseif (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
+				elseif (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
 				{
 					// Hand the data over to the router specific method and see if there is a content item that fits
-					$key = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+					$key = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
 
 					if ($key)
 					{

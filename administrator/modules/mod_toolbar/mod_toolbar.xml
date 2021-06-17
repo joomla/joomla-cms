@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_toolbar</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,7 +25,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -33,8 +33,8 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

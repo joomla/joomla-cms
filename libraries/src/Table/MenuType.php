@@ -2,15 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Types table
@@ -22,11 +26,11 @@ class MenuType extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__menu_types', 'id', $db);
 	}
@@ -41,11 +45,22 @@ class MenuType extends Table
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->menutype = ApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
 
 			return false;
 		}
@@ -56,17 +71,21 @@ class MenuType extends Table
 			$this->title = $this->menutype;
 		}
 
+		$id = (int) $this->id;
+
 		// Check for unique menutype.
 		$query = $this->_db->getQuery(true)
 			->select('COUNT(id)')
 			->from($this->_db->quoteName('#__menu_types'))
-			->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype))
-			->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
+			->where($this->_db->quoteName('menutype') . ' = :menutype')
+			->where($this->_db->quoteName('id') . ' <> :id')
+			->bind(':menutype', $this->menutype)
+			->bind(':id', $id, ParameterType::INTEGER);
 		$this->_db->setQuery($query);
 
 		if ($this->_db->loadResult())
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
+			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 
 			return false;
 		}
@@ -91,7 +110,8 @@ class MenuType extends Table
 		if ($this->id)
 		{
 			// Get the user id
-			$userId = \JFactory::getUser()->id;
+			$userId = (int) Factory::getUser()->id;
+			$notIn  = [0, $userId];
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
@@ -99,36 +119,37 @@ class MenuType extends Table
 
 			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true)
-				->select('id')
-				->from('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__menu'))
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':menutype', $table->menutype);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					\JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
 			}
 
 			// Verify that no module for this menu are checked out
+			$searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
 			$query->clear()
-				->select('id')
-				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__modules'))
+				->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :params')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':params', $searchParams);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					\JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -136,21 +157,28 @@ class MenuType extends Table
 
 			// Update the menu items
 			$query->clear()
-				->update('#__menu')
-				->set('menutype=' . $this->_db->quote($this->menutype))
-				->where('menutype=' . $this->_db->quote($table->menutype));
+				->update($this->_db->quoteName('#__menu'))
+				->set($this->_db->quoteName('menutype') . ' = :setmenutype')
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->bind(':setmenutype', $this->menutype)
+				->bind(':menutype', $table->menutype);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the module items
+			$whereParams   = '%"menutype":' . json_encode($table->menutype) . '%';
+			$searchParams  = '"menutype":' . json_encode($table->menutype);
+			$replaceParams = '"menutype":' . json_encode($this->menutype);
 			$query->clear()
-				->update('#__modules')
+				->update($this->_db->quoteName('#__modules'))
 				->set(
-				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
-				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
-			);
-			$query->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
+					$this->_db->quoteName('params') . ' = REPLACE(' . $this->_db->quoteName('params') . ', :search, :value)'
+				);
+			$query->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :whereparams')
+				->bind(':search', $searchParams)
+				->bind(':value', $replaceParams)
+				->bind(':whereparams', $whereParams);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -176,7 +204,9 @@ class MenuType extends Table
 		if ($pk !== null)
 		{
 			// Get the user id
-			$userId = \JFactory::getUser()->id;
+			$userId = (int) Factory::getUser()->id;
+			$notIn  = [0, $userId];
+			$star   = '*';
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
@@ -184,32 +214,41 @@ class MenuType extends Table
 
 			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true)
-				->select('id')
-				->from('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__menu'))
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->where('(' .
+					$this->_db->quoteName('checked_out') . ' NOT IN (NULL, :id)' .
+					' OR ' . $this->_db->quoteName('home') . ' = 1' .
+					' AND ' . $this->_db->quoteName('language') . ' = :star' .
+					')'
+				)
+				->bind(':menutype', $table->menutype)
+				->bind(':id', $userId, ParameterType::INTEGER)
+				->bind(':star', $star);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
 
 			// Verify that no module for this menu are checked out
+			$searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
 			$query->clear()
-				->select('id')
-				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__modules'))
+				->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :menutype')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':menutype', $searchParams);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}

@@ -3,26 +3,30 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageInstaller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * PackageInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends JPlugin
+class PlgInstallerPackageInstaller extends CMSPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Application object
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
 	 */
-	protected $autoloadLanguage = true;
+	protected $app;
 
 	/**
 	 * Textfield or Form of the Plugin.
@@ -33,13 +37,16 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$tab            = array();
 		$tab['name']    = 'package';
-		$tab['label']   = JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
+		$tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 
 		// Render the input
 		ob_start();
-		include JPluginHelper::getLayoutPath('installer', 'packageinstaller');
+		include PluginHelper::getLayoutPath('installer', 'packageinstaller');
 		$tab['content'] = ob_get_clean();
 
 		return $tab;

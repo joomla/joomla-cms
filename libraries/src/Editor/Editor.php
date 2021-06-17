@@ -2,14 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Editor;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\AbstractEvent;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -17,31 +26,9 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Editor extends \JObject
+class Editor implements DispatcherAwareInterface
 {
-	/**
-	 * An array of Observer objects to notify
-	 *
-	 * @var    array
-	 * @since  1.5
-	 */
-	protected $_observers = array();
-
-	/**
-	 * The state of the observable object
-	 *
-	 * @var    mixed
-	 * @since  1.5
-	 */
-	protected $_state = null;
-
-	/**
-	 * A multi dimensional array of [function][] = key for observers
-	 *
-	 * @var    array
-	 * @since  1.5
-	 */
-	protected $_methods = array();
+	use DispatcherAwareTrait;
 
 	/**
 	 * Editor Plugin object
@@ -86,11 +73,33 @@ class Editor extends \JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $editor  The editor name
+	 * @param   string               $editor      The editor name
+	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
 	 */
-	public function __construct($editor = 'none')
+	public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
 	{
 		$this->_name = $editor;
+
+		// Set the dispatcher
+		if (!\is_object($dispatcher))
+		{
+			$dispatcher = Factory::getContainer()->get('dispatcher');
+		}
+
+		$this->setDispatcher($dispatcher);
+
+		// Register the getButtons event
+		$this->getDispatcher()->addListener(
+			'getButtons',
+			function (AbstractEvent $event) {
+				$editor = $event->getArgument('editor', null);
+				$buttons = $event->getArgument('buttons', null);
+				$result = $event->getArgument('result', []);
+				$newResult = $this->getButtons($editor, $buttons);
+				$newResult = (array) $newResult;
+				$event['result'] = array_merge($result, $newResult);
+			}
+		);
 	}
 
 	/**
@@ -109,126 +118,10 @@ class Editor extends \JObject
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new Editor($editor);
+			self::$instances[$signature] = new static($editor);
 		}
 
 		return self::$instances[$signature];
-	}
-
-	/**
-	 * Get the state of the Editor object
-	 *
-	 * @return  mixed    The state of the object.
-	 *
-	 * @since   1.5
-	 */
-	public function getState()
-	{
-		return $this->_state;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			end($this->_observers);
-			$methods = array($observer['event']);
-		}
-		else
-		{
-			if (!($observer instanceof Editor))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->_observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-
-			// @todo We require an Editor object above but get the methods from \JPlugin - something isn't right here!
-			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
-		}
-
-		$key = key($this->_observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->_methods[$method]))
-			{
-				$this->_methods[$method] = array();
-			}
-
-			$this->_methods[$method][] = $key;
-		}
-	}
-
-	/**
-	 * Detach an observer object
-	 *
-	 * @param   object  $observer  An observer object to detach.
-	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   1.5
-	 */
-	public function detach($observer)
-	{
-		$retval = false;
-
-		$key = array_search($observer, $this->_observers);
-
-		if ($key !== false)
-		{
-			unset($this->_observers[$key]);
-			$retval = true;
-
-			foreach ($this->_methods as &$method)
-			{
-				$k = array_search($key, $method);
-
-				if ($k !== false)
-				{
-					unset($method[$k]);
-				}
-			}
-		}
-
-		return $retval;
 	}
 
 	/**
@@ -237,8 +130,6 @@ class Editor extends \JObject
 	 * @return  void
 	 *
 	 * @since   1.5
-	 *
-	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
 	 */
 	public function initialise()
 	{
@@ -248,25 +139,9 @@ class Editor extends \JObject
 			return;
 		}
 
-		$args['event'] = 'onInit';
-
-		$return    = '';
-		$results[] = $this->_editor->update($args);
-
-		foreach ($results as $result)
+		if (method_exists($this->_editor, 'onInit'))
 		{
-			if (trim($result))
-			{
-				// @todo remove code: $return .= $result;
-				$return = $result;
-			}
-		}
-
-		$document = \JFactory::getDocument();
-
-		if (!empty($return) && method_exists($document, 'addCustomTag'))
-		{
-			$document->addCustomTag($return);
+			\call_user_func(array($this->_editor, 'onInit'));
 		}
 	}
 
@@ -298,7 +173,7 @@ class Editor extends \JObject
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -321,123 +196,8 @@ class Editor extends \JObject
 		$args['asset'] = $asset;
 		$args['author'] = $author;
 		$args['params'] = $params;
-		$args['event'] = 'onDisplay';
 
-		$results[] = $this->_editor->update($args);
-
-		foreach ($results as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Save the editor content
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 *
-	 * @deprecated 4.0 Bind functionality to form submit through javascript
-	 */
-	public function save($editor)
-	{
-		$this->_loadEditor();
-
-		// Check whether editor is already loaded
-		if ($this->_editor === null)
-		{
-			return;
-		}
-
-		$args[] = $editor;
-		$args['event'] = 'onSave';
-
-		$return = '';
-		$results[] = $this->_editor->update($args);
-
-		foreach ($results as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Get the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 *
-	 * @deprecated 4.0 Use Joomla.editors API, see core.js
-	 */
-	public function getContent($editor)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-		$args['event'] = 'onGetContent';
-
-		$return = '';
-		$results[] = $this->_editor->update($args);
-
-		foreach ($results as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Set the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 * @param   string  $html    The contents of the text area
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 *
-	 * @deprecated 4.0 Use Joomla.editors API, see core.js
-	 */
-	public function setContent($editor, $html)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-		$args['html'] = $html;
-		$args['event'] = 'onSetContent';
-
-		$return = '';
-		$results[] = $this->_editor->update($args);
-
-		foreach ($results as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
+		return \call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**
@@ -455,22 +215,22 @@ class Editor extends \JObject
 	{
 		$result = array();
 
-		if (is_bool($buttons) && !$buttons)
+		if (\is_bool($buttons) && !$buttons)
 		{
 			return $result;
 		}
 
 		// Get plugins
-		$plugins = \JPluginHelper::getPlugin('editors-xtd');
+		$plugins = PluginHelper::getPlugin('editors-xtd');
 
 		foreach ($plugins as $plugin)
 		{
-			if (is_array($buttons) && in_array($plugin->name, $buttons))
+			if (\is_array($buttons) && \in_array($plugin->name, $buttons))
 			{
 				continue;
 			}
 
-			\JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
+			PluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'PlgEditorsXtd' . $plugin->name;
 
 			if (!class_exists($className))
@@ -480,7 +240,8 @@ class Editor extends \JObject
 
 			if (class_exists($className))
 			{
-				$plugin = new $className($this, (array) $plugin);
+				$dispatcher = $this->getDispatcher();
+				$plugin = new $className($dispatcher, (array) $plugin);
 			}
 
 			// Try to authenticate
@@ -496,7 +257,7 @@ class Editor extends \JObject
 				continue;
 			}
 
-			if (is_array($button))
+			if (\is_array($button))
 			{
 				$result = array_merge($result, $button);
 				continue;
@@ -522,16 +283,16 @@ class Editor extends \JObject
 		// Check whether editor is already loaded
 		if ($this->_editor !== null)
 		{
-			return;
+			return false;
 		}
 
 		// Build the path to the needed editor plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -540,7 +301,7 @@ class Editor extends \JObject
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = PluginHelper::getPlugin('editors', $this->_name);
 
 		// If no plugin is published we get an empty array and there not so much to do with it
 		if (empty($plugin))
@@ -555,11 +316,13 @@ class Editor extends \JObject
 		// Build editor plugin classname
 		$name = 'PlgEditor' . $this->_name;
 
-		if ($this->_editor = new $name($this, (array) $plugin))
+		$dispatcher = $this->getDispatcher();
+
+		if ($this->_editor = new $name($dispatcher, (array) $plugin))
 		{
 			// Load plugin parameters
 			$this->initialise();
-			\JPluginHelper::importPlugin('editors-xtd');
+			PluginHelper::importPlugin('editors-xtd');
 		}
 	}
 }

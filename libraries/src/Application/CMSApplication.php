@@ -2,17 +2,40 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\SessionAwareWebApplicationTrait;
+use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Exception\ExceptionHandler;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Pathway\Pathway;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\MetadataManager;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -21,8 +44,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.2
  */
-class CMSApplication extends WebApplication
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSWebApplicationInterface
 {
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper, SessionAwareWebApplicationTrait;
+
 	/**
 	 * Array of options for the \JDocument object
 	 *
@@ -34,7 +59,7 @@ class CMSApplication extends WebApplication
 	/**
 	 * Application instances container.
 	 *
-	 * @var    CMSApplication[]
+	 * @var    CmsApplication[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -51,33 +76,30 @@ class CMSApplication extends WebApplication
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $clientId
+	 * @since  4.0.0
 	 */
-	protected $_clientId = null;
+	protected $clientId = null;
 
 	/**
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $messageQueue
+	 * @since  4.0.0
 	 */
-	protected $_messageQueue = array();
+	protected $messageQueue = array();
 
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $name
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	protected $_name = null;
+	protected $name = null;
 
 	/**
 	 * The profiler instance
 	 *
-	 * @var    \JProfiler
+	 * @var    Profiler
 	 * @since  3.2
 	 */
 	protected $profiler = null;
@@ -91,31 +113,48 @@ class CMSApplication extends WebApplication
 	protected $template = null;
 
 	/**
+	 * The pathway object
+	 *
+	 * @var    Pathway
+	 * @since  4.0.0
+	 */
+	protected $pathway = null;
+
+	/**
+	 * The authentication plugin type
+	 *
+	 * @var   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param   Input                   $input   An optional argument to provide dependency injection for the application's
-	 *                                           input object.  If the argument is a \JInput object that object will become
-	 *                                           the application's input object, otherwise a default input object is created.
-	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                           config object.  If the argument is a Registry object that object will become
-	 *                                           the application's config object, otherwise a default config object is created.
-	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                           the application's client object, otherwise a default client object is created.
+	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
+	 *                                 object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
+	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
+		$container = $container ?: new Container;
+		$this->setContainer($container);
+
 		parent::__construct($input, $config, $client);
 
-		// Load and set the dispatcher
-		$this->loadDispatcher();
-
 		// If JDEBUG is defined, load the profiler instance
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
-			$this->profiler = \JProfiler::getInstance('Application');
+			$this->profiler = Profiler::getInstance('Application');
 		}
 
 		// Enable sessions by default.
@@ -128,12 +167,6 @@ class CMSApplication extends WebApplication
 		if ($this->config->get('session_name') === null)
 		{
 			$this->config->set('session_name', $this->getName());
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
 		}
 	}
 
@@ -150,8 +183,7 @@ class CMSApplication extends WebApplication
 	 */
 	public function checkSession()
 	{
-		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
-		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
+		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
 	}
 
 	/**
@@ -164,7 +196,7 @@ class CMSApplication extends WebApplication
 	 *
 	 * @since   3.2
 	 */
-	public function enqueueMessage($msg, $type = 'message')
+	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
 		if (trim($msg) === '')
@@ -172,21 +204,58 @@ class CMSApplication extends WebApplication
 			return;
 		}
 
-		$inputFilter = InputFilter::getInstance(array(), array(), 1, 1);
+		$inputFilter = InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		);
 
 		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
 		$message = array(
 			'message' => $inputFilter->clean($msg, 'html'),
-			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
 		);
 
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
 
-		if (!in_array($message, $this->_messageQueue))
+		if (!\in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
-			$this->_messageQueue[] = $message;
+			$this->messageQueue[] = $message;
+		}
+	}
+
+	/**
+	 * Ensure several core system input variables are not arrays.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9
+	 */
+	private function sanityCheckSystemVariables()
+	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function ($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
 		}
 	}
 
@@ -199,23 +268,47 @@ class CMSApplication extends WebApplication
 	 */
 	public function execute()
 	{
-		// Perform application routines.
-		$this->doExecute();
-
-		// If we have an application document object, render it.
-		if ($this->document instanceof \JDocument)
+		try
 		{
-			// Render the application output.
-			$this->render();
+			$this->sanityCheckSystemVariables();
+			$this->setupLogging();
+			$this->createExtensionNamespaceMap();
+
+			// Perform application routines.
+			$this->doExecute();
+
+			// If we have an application document object, render it.
+			if ($this->document instanceof \Joomla\CMS\Document\Document)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+			{
+				$this->compress();
+
+				// Trigger the onAfterCompress event.
+				$this->triggerEvent('onAfterCompress');
+			}
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			/** @var ErrorEvent $event */
+			$event = AbstractEvent::create(
+				'onError',
+				[
+					'subject'     => $throwable,
+					'eventClass'  => ErrorEvent::class,
+					'application' => $this,
+				]
+			);
 
-			// Trigger the onAfterCompress event.
-			$this->triggerEvent('onAfterCompress');
+			// Trigger the onError event.
+			$this->triggerEvent('onError', $event);
+
+			ExceptionHandler::handleException($event->getError());
 		}
 
 		// Send the application response.
@@ -236,10 +329,12 @@ class CMSApplication extends WebApplication
 	 * @param   string  $tasks   Permitted tasks
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
-		if (\JFactory::getUser()->get('requireReset', 0))
+		if (Factory::getUser()->get('requireReset', 0))
 		{
 			$redirect = false;
 
@@ -254,9 +349,9 @@ class CMSApplication extends WebApplication
 			if ($this->get($name . '_reset_password_override', 0))
 			{
 				$option = $this->get($name . '_reset_password_option', '');
-				$view = $this->get($name . '_reset_password_view', '');
+				$view   = $this->get($name . '_reset_password_view', '');
 				$layout = $this->get($name . '_reset_password_layout', '');
-				$tasks = $this->get($name . '_reset_password_tasks', '');
+				$tasks  = $this->get($name . '_reset_password_tasks', '');
 			}
 
 			$task = $this->input->getCmd('task', '');
@@ -290,8 +385,18 @@ class CMSApplication extends WebApplication
 			if ($redirect)
 			{
 				// Redirect to the profile edit page
-				$this->enqueueMessage(\JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+
+				$url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+				// In the administrator we need a different URL
+				if (strtolower($name) === 'administrator')
+				{
+					$user = Factory::getApplication()->getIdentity();
+					$url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
+				}
+
+				$this->redirect($url);
 			}
 		}
 	}
@@ -317,7 +422,7 @@ class CMSApplication extends WebApplication
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
@@ -334,34 +439,51 @@ class CMSApplication extends WebApplication
 	 */
 	public function getClientId()
 	{
-		return $this->_clientId;
+		return $this->clientId;
 	}
 
 	/**
-	 * Returns a reference to the global CMSApplication object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global CmsApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = CMSApplication::getInstance();
+	 * This method must be invoked as: $web = CmsApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the CMSApplication class to instantiate.
+	 * @param   string     $name       The name (optional) of the CmsApplication class to instantiate.
+	 * @param   string     $prefix     The class name prefix of the object.
+	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
-	 * @return  CMSApplication
+	 * @return  CmsApplication
 	 *
-	 * @since   3.2
-	 * @throws  \RuntimeException
+	 * @since       3.2
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
-	public static function getInstance($name = null)
+	public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
 	{
 		if (empty(static::$instances[$name]))
 		{
-			// Create a CMSApplication object.
-			$classname = '\JApplication' . ucfirst($name);
+			// Create a CmsApplication object.
+			$classname = $prefix . ucfirst($name);
 
-			if (!class_exists($classname))
+			if (!$container)
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
+				$container = Factory::getContainer();
 			}
 
-			static::$instances[$name] = new $classname;
+			if ($container->has($classname))
+			{
+				static::$instances[$name] = $container->get($classname);
+			}
+			elseif (class_exists($classname))
+			{
+				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
+				static::$instances[$name] = new $classname(null, null, null, $container);
+			}
+			else
+			{
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
+			}
+
+			static::$instances[$name]->loadIdentity(Factory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -373,7 +495,7 @@ class CMSApplication extends WebApplication
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JMenu|null
+	 * @return  AbstractMenu
 	 *
 	 * @since   3.2
 	 */
@@ -390,16 +512,7 @@ class CMSApplication extends WebApplication
 			$options['app'] = $this;
 		}
 
-		try
-		{
-			$menu = \JMenu::getInstance($name, $options);
-		}
-		catch (\Exception $e)
-		{
-			return;
-		}
-
-		return $menu;
+		return AbstractMenu::getInstance($name, $options);
 	}
 
 	/**
@@ -414,23 +527,22 @@ class CMSApplication extends WebApplication
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!$this->_messageQueue)
+		if (!\count($this->messageQueue))
 		{
-			$session = \JFactory::getSession();
-			$sessionQueue = $session->get('application.queue', array());
+			$sessionQueue = $this->getSession()->get('application.queue', []);
 
 			if ($sessionQueue)
 			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', array());
+				$this->messageQueue = $sessionQueue;
+				$this->getSession()->set('application.queue', []);
 			}
 		}
 
-		$messageQueue = $this->_messageQueue;
+		$messageQueue = $this->messageQueue;
 
 		if ($clear)
 		{
-			$this->_messageQueue = array();
+			$this->messageQueue = array();
 		}
 
 		return $messageQueue;
@@ -445,77 +557,58 @@ class CMSApplication extends WebApplication
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
-	 * Returns the application \JPathway object.
+	 * Returns the application Pathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  \JPathway|null
+	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway()
 	{
-		if (!isset($name))
+		if (!$this->pathway)
 		{
-			$name = $this->getName();
-		}
-		else
-		{
-			// Name should not be used
-			$this->getLogger()->warning(
-				'Name attribute is deprecated, in the future fetch the pathway '
-				. 'through the respective application.',
-				array('category' => 'deprecated')
-			);
+			$resourceName = ucfirst($this->getName()) . 'Pathway';
+
+			if (!$this->getContainer()->has($resourceName))
+			{
+				throw new \RuntimeException(
+					Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+					500
+				);
+			}
+
+			$this->pathway = $this->getContainer()->get($resourceName);
 		}
 
-		try
-		{
-			$pathway = \JPathway::getInstance($name, $options);
-		}
-		catch (\Exception $e)
-		{
-			return;
-		}
-
-		return $pathway;
+		return $this->pathway;
 	}
 
 	/**
-	 * Returns the application \JRouter object.
+	 * Returns the application Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter|null
+	 * @return  Router
 	 *
 	 * @since   3.2
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
+		$app = Factory::getApplication();
+
 		if (!isset($name))
 		{
-			$app = \JFactory::getApplication();
 			$name = $app->getName();
 		}
 
-		$options['mode'] = \JFactory::getConfig()->get('sef');
+		$options['mode'] = $app->get('sef');
 
-		try
-		{
-			$router = \JRouter::getInstance($name, $options);
-		}
-		catch (\Exception $e)
-		{
-			return;
-		}
-
-		return $router;
+		return Router::getInstance($name, $options);
 	}
 
 	/**
@@ -529,17 +622,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new \stdClass;
-
-		$template->template = 'system';
-		$template->params   = new Registry;
-
 		if ($params)
 		{
+			$template = new \stdClass;
+
+			$template->template    = 'system';
+			$template->params      = new Registry;
+			$template->inheritable = 0;
+			$template->parent      = '';
+
 			return $template;
 		}
 
-		return $template->template;
+		return 'system';
 	}
 
 	/**
@@ -554,8 +649,7 @@ class CMSApplication extends WebApplication
 	 */
 	public function getUserState($key, $default = null)
 	{
-		$session = \JFactory::getSession();
-		$registry = $session->get('registry');
+		$registry = $this->getSession()->get('registry');
 
 		if ($registry !== null)
 		{
@@ -571,7 +665,7 @@ class CMSApplication extends WebApplication
 	 * @param   string  $key      The key of the user state variable.
 	 * @param   string  $request  The name of the variable passed in a request.
 	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 *
 	 * @return  mixed  The request user state.
 	 *
@@ -604,9 +698,6 @@ class CMSApplication extends WebApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = \JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -614,26 +705,26 @@ class CMSApplication extends WebApplication
 		}
 
 		// Build our language object
-		$lang = \JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+		$lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
 
 		// Load the language to the API
 		$this->loadLanguage($lang);
 
-		// Register the language object with \JFactory
-		\JFactory::$language = $this->getLanguage();
+		// Register the language object with Factory
+		Factory::$language = $this->getLanguage();
 
 		// Load the library language files
 		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
-		if (!\JPluginHelper::isEnabled('editors', $editor))
+		if (!PluginHelper::isEnabled('editors', $editor))
 		{
 			$editor = $this->get('editor');
 
-			if (!\JPluginHelper::isEnabled('editors', $editor))
+			if (!PluginHelper::isEnabled('editors', $editor))
 			{
 				$editor = 'none';
 			}
@@ -641,61 +732,12 @@ class CMSApplication extends WebApplication
 
 		$this->set('editor', $editor);
 
+		// Load the behaviour plugins
+		PluginHelper::importPlugin('behaviour');
+
 		// Trigger the onAfterInitialise event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
-	}
-
-	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since       3.2
-	 * @deprecated  4.0 Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		try
-		{
-			\JLog::add(
-				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since       3.2
-	 * @deprecated  4.0 Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		try
-		{
-			\JLog::add(
-				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return $this->isClient('site');
 	}
 
 	/**
@@ -752,67 +794,6 @@ class CMSApplication extends WebApplication
 	}
 
 	/**
-	 * Allows the application to load a custom or default session.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create a session,
-	 * if required, based on more specific needs.
-	 *
-	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
-	 *
-	 * @return  CMSApplication  This method is chainable.
-	 *
-	 * @since   3.2
-	 */
-	public function loadSession(\JSession $session = null)
-	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		/*
-		 * Note: The below code CANNOT change from instantiating a session via \JFactory until there is a proper dependency injection container supported
-		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
-		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
-		 * without a proper dependency injection container.
-		 */
-
-		$session = \JFactory::getSession(
-			array(
-				'name'      => \JApplicationHelper::getHash($this->get('session_name', get_class($this))),
-				'expire'    => $this->get('lifetime') ? $this->get('lifetime') * 60 : 900,
-				'force_ssl' => $this->isHttpsForced(),
-			)
-		);
-
-		$session->initialise($this->input, $this->dispatcher);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		/*
-		 * Check for extra session metadata when:
-		 *
-		 * 1) The database handler is in use and the session is new
-		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-		 */
-		if (($handler !== 'database' && (time() % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
-		{
-			$this->checkSession();
-		}
-
-		// Set the session object.
-		$this->session = $session;
-
-		return $this;
-	}
-
-	/**
 	 * Login authentication function.
 	 *
 	 * Username and encoded password are passed the onUserLogin event which
@@ -827,27 +808,27 @@ class CMSApplication extends WebApplication
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean|\JException  True on success, false if failed or silent handling is configured, or a \JException object on authentication error.
+	 * @return  boolean|\Exception  True on success, false if failed or silent handling is configured, or a \Exception object on authentication error.
 	 *
 	 * @since   3.2
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global \JAuthentication object.
-		$authenticate = \JAuthentication::getInstance();
+		// Get the global Authentication object.
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
-		\JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('user');
 
-		if ($response->status === \JAuthentication::STATUS_SUCCESS)
+		if ($response->status === Authentication::STATUS_SUCCESS)
 		{
 			/*
 			 * Validate that the user should be able to login (different to being authenticated).
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
-			$denied_states = \JAuthentication::STATUS_EXPIRED | \JAuthentication::STATUS_DENIED;
+			$denied_states = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
@@ -865,14 +846,20 @@ class CMSApplication extends WebApplication
 					// Return the error.
 					switch ($authorisation->status)
 					{
-						case \JAuthentication::STATUS_EXPIRED:
-							return \JError::raiseWarning('102002', \JText::_('JLIB_LOGIN_EXPIRED'));
+						case Authentication::STATUS_EXPIRED:
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
 
-						case \JAuthentication::STATUS_DENIED:
-							return \JError::raiseWarning('102003', \JText::_('JLIB_LOGIN_DENIED'));
+							return false;
+
+						case Authentication::STATUS_DENIED:
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+
+							return false;
 
 						default:
-							return \JError::raiseWarning('102004', \JText::_('JLIB_LOGIN_AUTHORISATION'));
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+
+							return false;
 					}
 				}
 			}
@@ -887,14 +874,14 @@ class CMSApplication extends WebApplication
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
 
-			if (in_array(false, $results, true) == false)
+			if (\in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
@@ -916,7 +903,7 @@ class CMSApplication extends WebApplication
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== \JAuthentication::STATUS_SUCCESS)
+		if ($response->status !== Authentication::STATUS_SUCCESS)
 		{
 			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
@@ -944,7 +931,7 @@ class CMSApplication extends WebApplication
 	public function logout($userid = null, $options = array())
 	{
 		// Get a user object from the \JApplication.
-		$user = \JFactory::getUser($userid);
+		$user = Factory::getUser($userid);
 
 		// Build the credentials array.
 		$parameters['username'] = $user->get('username');
@@ -957,13 +944,13 @@ class CMSApplication extends WebApplication
 		}
 
 		// Import the user plugin group.
-		\JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-		if (!in_array(false, $results, true))
+		if (!\in_array(false, $results, true))
 		{
 			$options['username'] = $user->get('username');
 			$this->triggerEvent('onUserAfterLogout', array($options));
@@ -971,7 +958,7 @@ class CMSApplication extends WebApplication
 			return true;
 		}
 
-		// Trigger onUserLoginFailure Event.
+		// Trigger onUserLogoutFailure Event.
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
@@ -993,53 +980,10 @@ class CMSApplication extends WebApplication
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
-		if (func_num_args() > 1)
-		{
-			$args = func_get_args();
-
-			/*
-			 * Do some checks on the $args array, values below correspond to legacy redirect() method
-			 *
-			 * $args[0] = $url
-			 * $args[1] = Message to enqueue
-			 * $args[2] = Message type
-			 * $args[3] = $status (previously moved)
-			 */
-			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
-			{
-				$this->getLogger()->warning(
-					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
-					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
-					. '::redirect().',
-					array('category' => 'deprecated')
-				);
-
-				$message = $args[1];
-
-				// Set the message type if present
-				if (isset($args[2]) && !empty($args[2]))
-				{
-					$type = $args[2];
-				}
-				else
-				{
-					$type = 'message';
-				}
-
-				// Enqueue the message
-				$this->enqueueMessage($message, $type);
-
-				// Reset the $moved variable
-				$status = isset($args[3]) ? (boolean) $args[3] : false;
-			}
-		}
-
 		// Persist messages if they exist.
-		if ($this->_messageQueue)
+		if (\count($this->messageQueue))
 		{
-			$session = \JFactory::getSession();
-			$session->set('application.queue', $this->_messageQueue);
+			$this->getSession()->set('application.queue', $this->messageQueue);
 		}
 
 		// Hand over processing to the parent now
@@ -1058,9 +1002,11 @@ class CMSApplication extends WebApplication
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template'] = $this->get('theme');
-		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']   = $this->get('themeParams');
+		$this->docOptions['template']         = $this->get('theme');
+		$this->docOptions['file']             = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']           = $this->get('themeParams');
+		$this->docOptions['csp_nonce']        = $this->get('csp_nonce');
+		$this->docOptions['templateInherits'] = $this->get('themeInherits');
 
 		if ($this->get('themes.base'))
 		{
@@ -1069,19 +1015,19 @@ class CMSApplication extends WebApplication
 		// Fall back to constants.
 		else
 		{
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
 		$this->document->parse($this->docOptions);
 
 		// Trigger the onBeforeRender event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !\JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1114,38 +1060,38 @@ class CMSApplication extends WebApplication
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone \JUri::getInstance();
+		$uri = clone Uri::getInstance();
 
 		$router = static::getRouter();
-		$result = $router->parse($uri);
+		$result = $router->parse($uri, true);
 
 		$active = $this->getMenu()->getActive();
 
 		if ($active !== null
 			&& $active->type === 'alias'
-			&& $active->params->get('alias_redirect')
-			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+			&& $active->getParams()->get('alias_redirect')
+			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
-			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+			$item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 
 			if ($item !== null)
 			{
-				$oldUri = clone \JUri::getInstance();
+				$oldUri = clone Uri::getInstance();
 
 				if ($oldUri->getVar('Itemid') == $active->id)
 				{
 					$oldUri->setVar('Itemid', $item->id);
 				}
 
-				$base = \JUri::base(true);
-				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
+				$base = Uri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
 				$activePathPrefix = StringHelper::strtolower($active->route);
 
 				$position = strpos($oldPath, $activePathPrefix);
 
 				if ($position !== false)
 				{
-					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, strlen($activePathPrefix)));
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
 
 					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -1163,8 +1109,13 @@ class CMSApplication extends WebApplication
 			$this->input->def($key, $value);
 		}
 
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
+		}
+
 		// Trigger the onAfterRoute event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
 	}
 
@@ -1174,13 +1125,13 @@ class CMSApplication extends WebApplication
 	 * @param   string  $key    The path of the state.
 	 * @param   mixed   $value  The value of the variable.
 	 *
-	 * @return  mixed  The previous state, if one existed.
+	 * @return  mixed|void  The previous state, if one existed.
 	 *
 	 * @since   3.2
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = \JFactory::getSession();
+		$session = Factory::getSession();
 		$registry = $session->get('registry');
 
 		if ($registry !== null)
@@ -1219,5 +1170,258 @@ class CMSApplication extends WebApplication
 		$this->sendHeaders();
 
 		return $this->getBody();
+	}
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 *
+	 * @return  string  Hashed var name
+	 *
+	 * @since   4.0.0
+	 */
+	public function getFormToken($forceNew = false)
+	{
+		/** @var Session $session */
+		$session = $this->getSession();
+
+		return $session->getFormToken($forceNew);
+	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public function checkToken($method = 'post')
+	{
+		/** @var Session $session */
+		$session = $this->getSession();
+
+		return $session->checkToken($method);
+	}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since       4.0.0
+	 * @deprecated  5.0  Will be removed without replacements
+	 */
+	public function isCli()
+	{
+		return false;
+	}
+
+	/**
+	 * Checks if 2fa needs to be enforced
+	 * if so returns true, else returns false
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws \Exception
+	 */
+	protected function isTwoFactorAuthenticationRequired(): bool
+	{
+		$userId = $this->getIdentity()->id;
+
+		if (!$userId)
+		{
+			return false;
+		}
+
+		// Check session if user has set up 2fa
+		if ($this->getSession()->has('has2fa'))
+		{
+			return false;
+		}
+
+		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
+
+		if ($enforce2faOptions == 0 || !$enforce2faOptions)
+		{
+			return false;
+		}
+
+		if (!PluginHelper::isEnabled('twofactorauth'))
+		{
+			return false;
+		}
+
+		$pluginsSiteEnable          = false;
+		$pluginsAdministratorEnable = false;
+		$pluginOptions              = PluginHelper::getPlugin('twofactorauth');
+
+		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
+		array_walk($pluginOptions,
+			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
+			{
+				$option  = new Registry($pluginOption->params);
+				$section = $option->get('section', 3);
+
+				switch ($section)
+				{
+					case 1:
+						$pluginsSiteEnable = true;
+						break;
+					case 2:
+						$pluginsAdministratorEnable = true;
+						break;
+					case 3:
+					default:
+						$pluginsAdministratorEnable = true;
+						$pluginsSiteEnable          = true;
+				}
+			}
+		);
+
+		if ($pluginsSiteEnable && $this->isClient('site'))
+		{
+			if (\in_array($enforce2faOptions, [1, 3]))
+			{
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
+			}
+		}
+
+		if ($pluginsAdministratorEnable && $this->isClient('administrator'))
+		{
+			if (\in_array($enforce2faOptions, [2, 3]))
+			{
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Redirects user to his Two Factor Authentication setup page
+	 *
+	 * @return void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function redirectIfTwoFactorAuthenticationRequired(): void
+	{
+		$option = $this->input->get('option');
+		$task   = $this->input->get('task');
+		$view   = $this->input->get('view', null, 'STRING');
+		$layout = $this->input->get('layout', null, 'STRING');
+
+		if ($this->isClient('site'))
+		{
+			// If user is already on edit profile screen or press update/apply button, do nothing to avoid infinite redirect
+			if (($option === 'com_users' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout'], true))
+				|| $option === 'com_users' && $view === 'profile' && $layout === 'edit')
+			{
+				return;
+			}
+
+			// Redirect to com_users profile edit
+			$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
+			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
+		}
+
+		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
+			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
+		{
+			return;
+		}
+
+		// Redirect to com_admin profile edit
+		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
+		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
+	}
+
+	/**
+	 * Checks if otpKey and otep for the user are not empty
+	 * if any one is empty returns false, else returns true
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws \Exception
+	 */
+	private function hasUserConfiguredTwoFactorAuthentication(): bool
+	{
+		$user = $this->getIdentity();
+
+		if (empty($user->otpKey) || empty($user->otep))
+		{
+			return false;
+		}
+
+		// Set session to user has configured 2fa
+		$this->getSession()->set('has2fa', 1);
+
+		return true;
+	}
+
+	/**
+	 * Setup logging functionality.
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 */
+	private function setupLogging(): void
+	{
+		// Add InMemory logger that will collect all log entries to allow to display them later by extensions
+		if ($this->get('debug'))
+		{
+			Log::addLogger(['logger' => 'inmemory']);
+		}
+
+		// Log the deprecated API.
+		if ($this->get('log_deprecated'))
+		{
+			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
+		}
+
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->get('log_everything'))
+		{
+			Log::addLogger(['text_file' => 'everything.php'], Log::ALL, ['deprecated', 'deprecation-notes', 'databasequery'], true);
+		}
+
+		if ($this->get('log_categories'))
+		{
+			$priority = 0;
+
+			foreach ($this->get('log_priorities', ['all']) as $p)
+			{
+				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
+
+				if (defined($const))
+				{
+					$priority |= constant($const);
+				}
+			}
+
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = preg_split('/[^\w.-]+/', $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
+			$mode       = (bool) $this->get('log_category_mode', false);
+
+			if (!$categories)
+			{
+				return;
+			}
+
+			Log::addLogger(['text_file' => 'custom-logging.php'], $priority, $categories, $mode);
+		}
 	}
 }

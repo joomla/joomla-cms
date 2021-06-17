@@ -2,27 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class UsergrouplistField extends \JFormFieldList
+class UsergrouplistField extends ListField
 {
 	/**
 	 * The form field type.
@@ -41,7 +37,7 @@ class UsergrouplistField extends \JFormFieldList
 	protected static $options = array();
 
 	/**
-	 * Method to attach a JForm object to the field.
+	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
@@ -55,7 +51,7 @@ class UsergrouplistField extends \JFormFieldList
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		if (is_string($value) && strpos($value, ',') !== false)
+		if (\is_string($value) && strpos($value, ',') !== false)
 		{
 			$value = explode(',', $value);
 		}
@@ -79,13 +75,12 @@ class UsergrouplistField extends \JFormFieldList
 		if (!isset(static::$options[$checkSuperUser]))
 		{
 			$groups       = UserGroupsHelper::getInstance()->getAll();
-			$isSuperUser  = Factory::getUser()->authorise('core.admin');
 			$cacheOptions = array();
 
 			foreach ($groups as $group)
 			{
-				// Don't show super user groups to non super users.
-				if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
+				// Don't list super user groups.
+				if ($checkSuperUser && Access::checkGroup($group->id, 'core.admin'))
 				{
 					continue;
 				}

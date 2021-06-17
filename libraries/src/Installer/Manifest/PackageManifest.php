@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Manifest;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\InstallerExtension;
 use Joomla\CMS\Installer\Manifest;
@@ -85,7 +85,7 @@ class PackageManifest extends Manifest
 			}
 		}
 
-		if (isset($xml->files->file) && count($xml->files->file))
+		if (isset($xml->files->file) && \count($xml->files->file))
 		{
 			foreach ($xml->files->file as $file)
 			{
@@ -96,7 +96,7 @@ class PackageManifest extends Manifest
 		}
 
 		// Handle cases where package contains folders
-		if (isset($xml->files->folder) && count($xml->files->folder))
+		if (isset($xml->files->folder) && \count($xml->files->folder))
 		{
 			foreach ($xml->files->folder as $folder)
 			{

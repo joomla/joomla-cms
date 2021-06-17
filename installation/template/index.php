@@ -2,87 +2,125 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
+
 /** @var JDocumentHtml $this */
 
-// Output as HTML5
-$this->setHtml5(true);
+// Add required assets
+$this->getWebAssetManager()
+	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->useScript('core')
+	->useScript('keepalive')
+	->useScript('form.validate')
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core', 'form.validate']);
 
-// Load the JavaScript behaviors
-JHtml::_('bootstrap.framework');
-JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.core');
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
-
-// Add installation js
-JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css', array('version' => 'auto'));
-
-// Load JavaScript message titles
-JText::script('ERROR');
-JText::script('WARNING');
-JText::script('NOTICE');
-JText::script('MESSAGE');
-
-// Add strings for JavaScript error translations.
-JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
-JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
-JText::script('JLIB_JS_AJAX_ERROR_OTHER');
-JText::script('JLIB_JS_AJAX_ERROR_PARSE');
-JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
-
-// Load the JavaScript translated messages
-JText::script('INSTL_PROCESS_BUSY');
-JText::script('INSTL_FTP_SETTINGS_CORRECT');
+$this->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('messages')
+	->useScript('webcomponent.core-loader')
+	->addInlineStyle(':root {
+		--hue: 214;
+		--atum-bg-light: #f0f4fb;
+		--atum-text-dark: #495057;
+		--atum-text-light: #ffffff;
+		--atum-link-color: #2a69b8;
+		--atum-special-color: #001b4c;
+	}');
 
 // Add script options
-$this->addScriptOptions('system.installation', array('url' => JRoute::_('index.php')));
+$this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
+
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
+// Add strings for JavaScript error translations.
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+Text::script('INSTL_DATABASE_RESPONSE_ERROR');
+
+// Load the JavaScript translated messages
+Text::script('INSTL_PROCESS_BUSY');
+
+// Load strings for translated messages (directory removal)
+Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<jdoc:include type="head" />
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<jdoc:include type="metas" />
+		<jdoc:include type="styles" />
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
-		<!-- Header -->
-		<div class="header">
-			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla" />
-			<hr />
-			<h5>
-				<?php // Fix wrong display of Joomla!® in RTL language ?>
-				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . (JFactory::getLanguage()->isRtl() ? '&#x200E;' : '') . '</sup>'; ?>
-				<?php $license = '<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>'; ?>
-				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
-			</h5>
-		</div>
-		<!-- Container -->
-		<div class="container">
-			<jdoc:include type="message" />
-			<div id="javascript-warning">
-				<noscript>
-					<div class="alert alert-error">
-						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+	<body data-basepath="<?php echo Uri::root(true); ?>">
+		<div class="j-install">
+			<?php // Header ?>
+			<header id="header" class="header">
+				<div class="row me-0">
+					<div class="col">
+						<div class="logo d-none d-md-block col">
+							<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
+						</div>
+						<div class="mx-2 my-3 d-flex d-md-none">
+							<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
+						</div>
 					</div>
-				</noscript>
+					<div class="d-flex flex-wrap align-items-center col justify-content-center">
+						<h1 class="h2 mx-1 d-flex align-items-baseline text-white">
+							<span class="icon-cogs d-none d-md-block mx-2 align-items-center" aria-hidden="true"></span>
+							<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
+						</h1>
+						<span class="small mx-1">
+							Joomla! <?php echo (new Version)->getShortVersion(); ?>
+						</span>
+					</div>
+					<div class="m-2 d-flex align-items-center col justify-content-end">
+						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
+							<span class="icon-question" aria-hidden="true"></span>
+							<span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+						</a>
+					</div>
+				</div>
+			</header>
+			<?php // Container ?>
+			<div id="wrapper" class="d-flex wrapper flex-wrap">
+				<div class="container-fluid container-main">
+					<div id="content" class="content h-100">
+						<main class="d-flex justify-content-center align-items-center h-100">
+							<div class="j-container">
+								<jdoc:include type="message" />
+								<div id="javascript-warning">
+									<noscript>
+										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
+									</noscript>
+								</div>
+								<div id="container-installation" class="container-installation flex no-js hidden" data-base-url="<?php echo Uri::root(); ?>">
+									<jdoc:include type="component" />
+								</div>
+							</div>
+						</main>
+						<footer class="footer text-center small w-100 p-3">
+							<?php echo Version::URL; ?>
+						</footer>
+					</div>
+				</div>
 			</div>
-			<div id="container-installation">
-				<jdoc:include type="component" />
-			</div>
-			<hr />
+			<jdoc:include type="scripts" />
 		</div>
 	</body>
 </html>

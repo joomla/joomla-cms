@@ -7,163 +7,171 @@
 		>
 
 		<field
-			name="enabled"
+			name="show_taxonomy"
 			type="radio"
-			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
-			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
-			default="0"
+			label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_description"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="description_length"
 			type="number"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION"
-			size="5"
 			default="255"
 			filter="integer"
 			showon="show_description:1"
 		/>
 
-
 		<field
-			name="allow_empty_query"
+			name="show_date"
 			type="radio"
-			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
-			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION"
-			class="btn-group btn-group-yesno"
-			default="0"
+			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_url"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_URL_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="gather_search_statistics"
+			type="radio"
+			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="allow_empty_query"
+			type="radio"
+			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_autosuggest"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_suggested_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			validate="options"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_explained_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			validate="options"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_advanced"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_advanced_tips"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_advanced:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="expand_advanced"
 			type="radio"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
-			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_date_filters"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="sort_order"
 			type="list"
 			label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
-			description="COM_FINDER_CONFIG_SORT_ORDER_DESC"
 			default="relevance"
 			validate="options"
 			>
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+			<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
@@ -172,7 +180,6 @@
 			name="sort_direction"
 			type="list"
 			label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
-			description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC"
 			default="desc"
 			validate="options"
 			>
@@ -184,30 +191,40 @@
 			name="highlight_terms"
 			type="radio"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
-			description="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="opensearch"
+			type="radio"
+			label="COM_FINDER_CONFIG_OPENSEARCH_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="opensearch_name"
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
-			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_DESCRIPTION"
 			default=""
+			showon="opensearch:1"
 		/>
 
 		<field
 			name="opensearch_description"
 			type="textarea"
-			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
-			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESCRIPTION"
+			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTION_LABEL"
 			default=""
 			cols="30"
 			rows="2"
+			showon="opensearch:1"
 		/>
 
 	</fieldset>
@@ -219,10 +236,20 @@
 		>
 
 		<field
+			name="tuplecount"
+			type="list"
+			label="COM_FINDER_CONFIG_TUPLECOUNT_LABEL"
+			default="1"
+			validate="options"
+			>
+			<option value="1">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_DISABLED</option>
+			<option value="3">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_ENABLED</option>
+		</field>
+
+		<field
 			name="batch_size"
 			type="list"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"
-			description="COM_FINDER_CONFIG_BATCH_SIZE_DESCRIPTION"
 			default="50"
 			validate="options"
 			>
@@ -242,8 +269,6 @@
 			name="memory_table_limit"
 			type="number"
 			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			description="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_DESCRIPTION"
-			size="10"
 			default="30000"
 			filter="integer"
 		/>
@@ -252,8 +277,6 @@
 			name="title_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_TITLE_MULTIPLIER_DESCRIPTION"
-			size="5"
 			default="1.7"
 		/>
 
@@ -261,8 +284,6 @@
 			name="text_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_TEXT_MULTIPLIER_DESCRIPTION"
-			size="5"
 			default="0.7"
 		/>
 
@@ -270,8 +291,6 @@
 			name="meta_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_META_MULTIPLIER_DESCRIPTION"
-			size="5"
 			default="1.2"
 		/>
 
@@ -279,8 +298,6 @@
 			name="path_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_PATH_MULTIPLIER_DESCRIPTION"
-			size="5"
 			default="2.0"
 		/>
 
@@ -288,46 +305,50 @@
 			name="misc_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_MISC_MULTIPLIER_DESCRIPTION"
-			size="5"
 			default="0.3"
 		/>
-
-		<field
-			name="stem"
-			type="radio"
-			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION"
-			class="btn-group btn-group-yesno"
-			default="1"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
-			name="stemmer"
-			type="list"
-			label="COM_FINDER_CONFIG_STEMMER_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION"
-			default="snowball"
-			showon="stem:1" 
-			>
-			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
-			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
-			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>
-		</field>
 
 		<field
 			name="enable_logging"
 			type="radio"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
-			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="language_default"
+			type="language"
+			label="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_LABEL"
+			description="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DESC"
+			>
+			<option value="-1">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DEFAULT_LANGUAGE</option>
+			<option value="">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_NONE</option>
+		</field>
+
+		<field
+			name="filter_commonwords"
+			type="radio"
+			label="COM_FINDER_CONFIG_FILTER_COMMONWORDS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="filter_numerics"
+			type="radio"
+			label="COM_FINDER_CONFIG_FILTER_NUMERICS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>

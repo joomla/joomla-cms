@@ -2,13 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Table class supporting modified pre-order tree traversal behavior.
@@ -52,11 +55,11 @@ class Asset extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}
@@ -84,6 +87,17 @@ class Asset extends Nested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->parent_id = (int) $this->parent_id;
 
 		if (empty($this->rules))
@@ -94,18 +108,20 @@ class Asset extends Nested
 		// Nested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
-			// Get the \JDatabaseQuery object
+			// Get the DatabaseQuery object
 			$query = $this->_db->getQuery(true)
 				->select('1')
 				->from($this->_db->quoteName($this->_tbl))
 				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
-			if ($this->_db->setQuery($query, 0, 1)->loadResult())
+			$query->setLimit(1);
+
+			if ($this->_db->setQuery($query)->loadResult())
 			{
 				return true;
 			}
 
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 
 			return false;
 		}
@@ -151,7 +167,7 @@ class Asset extends Nested
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			if (property_exists($this, 'ordering'))
+			if ($this->hasField('ordering'))
 			{
 				$query->order('parent_id, ordering, lft');
 			}

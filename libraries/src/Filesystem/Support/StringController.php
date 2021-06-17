@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Filesystem\Support;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * String Controller
@@ -35,7 +35,7 @@ class StringController
 	 * Create a reference
 	 *
 	 * @param   string  $reference  The key
-	 * @param   string  &$string    The value
+	 * @param   string  $string     The value
 	 *
 	 * @return  void
 	 *

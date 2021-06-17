@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_MAILS_FILTER_SEARCH_LABEL"
+			description="COM_MAILS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JGRID_HEADING_LANGUAGE"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+		</field>
+
+		<field
+			name="extension"
+			type="sql"
+			label="COM_MAILS_HEADING_EXTENSION"
+			query="SELECT DISTINCT extension FROM #__mail_templates WHERE extension IN (SELECT name FROM #__extensions WHERE enabled = 1) ORDER BY extension ASC"
+			key_field="extension"
+			value_field="extension"
+			translate="true"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_MAILS_FILTER_OPTION_SELECT_EXTENSION</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.template_id ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.template_id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.template_id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

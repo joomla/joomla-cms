@@ -3,22 +3,41 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$list    = JSubMenuHelper::getEntries();
-$filters = JSubMenuHelper::getFilters();
-$action  = JSubMenuHelper::getAction();
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Module\Submenu\Administrator\Menu\Menu;
 
-$displayMenu    = count($list);
-$displayFilters = count($filters);
+$menutype = $params->get('menutype', '*');
+$root     = false;
 
-$hide = JFactory::getApplication()->input->getBool('hidemainmenu');
-
-if ($displayMenu || $displayFilters)
+if ($menutype === '*')
 {
-	require JModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
+	$name   = $params->get('preset', 'system');
+	$root = MenusHelper::loadPreset($name);
+}
+else
+{
+	$root = MenusHelper::getMenuItems($menutype, true);
+}
+
+if ($root && $root->hasChildren())
+{
+	Factory::getLanguage()->load(
+		'mod_menu',
+		JPATH_ADMINISTRATOR,
+		Factory::getLanguage()->getTag(),
+		true
+	);
+
+	Menu::preprocess($root);
+
+	// Render the module layout
+	require ModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }

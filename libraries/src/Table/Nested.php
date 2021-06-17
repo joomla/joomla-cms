@@ -2,14 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Event\Dispatcher;
+use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -138,7 +141,7 @@ class Nested extends Table
 	public function getPath($pk = null, $diagnostic = false)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Get the path from the node to the root.
 		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
@@ -168,7 +171,7 @@ class Nested extends Table
 	public function getTree($pk = null, $diagnostic = false)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Get the node and children as a tree.
 		$select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, n.level, n.lft, n.rgt' : 'n.*';
@@ -196,7 +199,7 @@ class Nested extends Table
 	public function isLeaf($pk = null)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 		$node = $this->_getNode($pk);
 
 		// Get the node by primary key.
@@ -228,7 +231,7 @@ class Nested extends Table
 	public function setLocation($referenceId, $position = 'after')
 	{
 		// Make sure the location is valid.
-		if (!in_array($position, $this->_validLocations))
+		if (!\in_array($position, $this->_validLocations))
 		{
 			throw new \InvalidArgumentException(
 				sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
@@ -314,7 +317,7 @@ class Nested extends Table
 		}
 
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Get the node by id.
 		if (!$node = $this->_getNode($pk))
@@ -337,11 +340,11 @@ class Nested extends Table
 		}
 
 		// Cannot move the node to be a child of itself.
-		if (in_array($referenceId, $children))
+		if (\in_array($referenceId, $children))
 		{
 			$this->setError(
 				new \UnexpectedValueException(
-					sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', get_class($this), $pk)
+					sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
 				)
 			);
 
@@ -368,6 +371,7 @@ class Nested extends Table
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -416,7 +420,9 @@ class Nested extends Table
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
-			$this->_db->setQuery($query, 0, 1);
+
+			$query->setLimit(1);
+			$this->_db->setQuery($query);
 			$reference = $this->_db->loadObject();
 
 			if ($this->_debug)
@@ -483,12 +489,12 @@ class Nested extends Table
 			// Update the title and alias fields if they exist for the table.
 			$fields = $this->getFields();
 
-			if (property_exists($this, 'title') && $this->title !== null)
+			if ($this->hasField('title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->quote($this->title));
 			}
 
-			if (array_key_exists('alias', $fields)  && $this->alias !== null)
+			if (\array_key_exists('alias', $fields)  && $this->alias !== null)
 			{
 				$query->set('alias = ' . $this->_db->quote($this->alias));
 			}
@@ -503,7 +509,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published') && $recursiveUpdate)
+		if ($this->hasField('published') && $recursiveUpdate)
 		{
 			$this->recursiveUpdatePublishedColumn($node->$k);
 		}
@@ -530,10 +536,16 @@ class Nested extends Table
 	public function delete($pk = null, $children = true)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
-		// Implement \JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeDelete', array($pk));
+		// Pre-processing by observers
+		$event = new Event(
+			'onBeforeDelete',
+			[
+				'pk'	=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onBeforeDelete', $event);
 
 		// Lock the table for writing.
 		if (!$this->_lock())
@@ -546,6 +558,8 @@ class Nested extends Table
 		if ($this->_trackAssets)
 		{
 			$name = $this->_getAssetName();
+
+			/** @var Asset $asset */
 			$asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 
 			// Lock the table for writing.
@@ -656,8 +670,14 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		// Implement \JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterDelete', array($pk));
+		// Post-processing by observers
+		$event = new Event(
+			'onAfterDelete',
+			[
+				'pk'	=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onAfterDelete', $event);
 
 		return true;
 	}
@@ -674,6 +694,17 @@ class Nested extends Table
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->parent_id = (int) $this->parent_id;
 
 		// Set up a mini exception handler.
@@ -682,7 +713,7 @@ class Nested extends Table
 			// Check that the parent_id field is valid.
 			if ($this->parent_id == 0)
 			{
-				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
 			}
 
 			$query = $this->_db->getQuery(true)
@@ -692,7 +723,7 @@ class Nested extends Table
 
 			if (!$this->_db->setQuery($query)->loadResult())
 			{
-				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
 			}
 		}
 		catch (\UnexpectedValueException $e)
@@ -719,16 +750,20 @@ class Nested extends Table
 	{
 		$k = $this->_tbl_key;
 
-		// Implement \JObservableInterface: Pre-processing by observers
-		// 2.5 upgrade issue - check if property_exists before executing
-		if (property_exists($this, '_observers'))
-		{
-			$this->_observers->update('onBeforeStore', array($updateNulls, $k));
-		}
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeStore',
+			[
+				'subject'		=> $this,
+				'updateNulls'	=> $updateNulls,
+				'k'				=> $k,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeStore', $event);
 
 		if ($this->_debug)
 		{
-			echo "\n" . get_class($this) . "::store\n";
+			echo "\n" . \get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
 
@@ -761,7 +796,9 @@ class Nested extends Table
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
-					$this->_db->setQuery($query, 0, 1);
+
+					$query->setLimit(1);
+					$this->_db->setQuery($query);
 					$reference = $this->_db->loadObject();
 
 					if ($this->_debug)
@@ -814,7 +851,7 @@ class Nested extends Table
 			else
 			{
 				// Negative parent ids are invalid
-				$e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
+				$e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', \get_class($this)));
 				$this->setError($e);
 
 				return false;
@@ -846,23 +883,17 @@ class Nested extends Table
 			}
 		}
 
-		// Implement \JObservableInterface: We do not want parent::store to update observers,
-		// since tables are locked and we are updating it from this level of store():
+		// We do not want parent::store to update observers since tables are locked and we are updating it from this
+		// level of store():
 
-		// 2.5 upgrade issue - check if property_exists before executing
-		if (property_exists($this, '_observers'))
-		{
-			$oldCallObservers = $this->_observers->doCallObservers(false);
-		}
+		$oldDispatcher = clone $this->getDispatcher();
+		$blankDispatcher = new Dispatcher;
+		$this->setDispatcher($blankDispatcher);
 
 		$result = parent::store($updateNulls);
 
-		// Implement \JObservableInterface: Restore previous callable observers state:
-		// 2.5 upgrade issue - check if property_exists before executing
-		if (property_exists($this, '_observers'))
-		{
-			$this->_observers->doCallObservers($oldCallObservers);
-		}
+		// Restore previous callable dispatcher state:
+		$this->setDispatcher($oldDispatcher);
 
 		if ($result)
 		{
@@ -875,17 +906,20 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published'))
+		if ($result && $this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}
 
-		// Implement \JObservableInterface: Post-processing by observers
-		// 2.5 upgrade issue - check if property_exists before executing
-		if (property_exists($this, '_observers'))
-		{
-			$this->_observers->update('onAfterStore', array(&$result));
-		}
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterStore',
+			[
+				'subject'	=> $this,
+				'result'	=> &$result,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterStore', $event);
 
 		return $result;
 	}
@@ -935,7 +969,7 @@ class Nested extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks[0], $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks, $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -943,7 +977,7 @@ class Nested extends Table
 		}
 
 		// Determine if there is checkout support for the table.
-		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+		$checkoutSupport = ($this->hasField('checked_out') || $this->hasField('checked_out_time'));
 
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
@@ -970,7 +1004,7 @@ class Nested extends Table
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks[0], $state, $userId));
+					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);
 
@@ -991,12 +1025,13 @@ class Nested extends Table
 					->where($published . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
-				$this->_db->setQuery($query, 0, 1);
+				$query->setLimit(1);
+				$this->_db->setQuery($query);
 
 				if ($this->_db->loadResult())
 				{
 					$e = new \UnexpectedValueException(
-						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks[0], $state, $userId)
+						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
 					);
 					$this->setError($e);
 
@@ -1009,12 +1044,12 @@ class Nested extends Table
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 		}
 
 		// If the Table instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
+		if (\in_array($this->$k, $pks))
 		{
 			$this->published = $state;
 		}
@@ -1037,7 +1072,7 @@ class Nested extends Table
 	public function orderUp($pk)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Lock the table for writing.
 		if (!$this->_lock())
@@ -1120,7 +1155,7 @@ class Nested extends Table
 	public function orderDown($pk)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Lock the table for writing.
 		if (!$this->_lock())
@@ -1148,8 +1183,7 @@ class Nested extends Table
 		if (empty($sibling))
 		{
 			// Error message set in getNode method.
-			$query->_unlock($this->_db);
-			$this->_locked = false;
+			$this->_unlock();
 
 			return false;
 		}
@@ -1218,7 +1252,7 @@ class Nested extends Table
 
 		$result = $this->_db->setQuery($query)->loadColumn();
 
-		if (count($result) == 1)
+		if (\count($result) == 1)
 		{
 			self::$root_id = $result[0];
 
@@ -1233,7 +1267,7 @@ class Nested extends Table
 
 		$result = $this->_db->setQuery($query)->loadColumn();
 
-		if (count($result) == 1)
+		if (\count($result) == 1)
 		{
 			self::$root_id = $result[0];
 
@@ -1242,7 +1276,7 @@ class Nested extends Table
 
 		$fields = $this->getFields();
 
-		if (array_key_exists('alias', $fields))
+		if (\array_key_exists('alias', $fields))
 		{
 			// Test for a unique record alias = root
 			$query->clear()
@@ -1252,7 +1286,7 @@ class Nested extends Table
 
 			$result = $this->_db->setQuery($query)->loadColumn();
 
-			if (count($result) == 1)
+			if (\count($result) == 1)
 			{
 				self::$root_id = $result[0];
 
@@ -1260,7 +1294,7 @@ class Nested extends Table
 			}
 		}
 
-		$e = new \UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
+		$e = new \UnexpectedValueException(sprintf('%s::getRootId', \get_class($this)));
 		$this->setError($e);
 		self::$root_id = false;
 
@@ -1305,11 +1339,9 @@ class Nested extends Table
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			$orderingField = $this->getColumnAlias('ordering');
-
-			if (property_exists($this, $orderingField))
+			if ($this->hasField('ordering'))
 			{
-				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
+				$query->order('parent_id, ' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ', lft');
 			}
 			else
 			{
@@ -1375,13 +1407,13 @@ class Nested extends Table
 		$fields = $this->getFields();
 
 		// If there is no alias or path field, just return true.
-		if (!array_key_exists('alias', $fields) || !array_key_exists('path', $fields))
+		if (!\array_key_exists('alias', $fields) || !\array_key_exists('path', $fields))
 		{
 			return true;
 		}
 
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = (\is_null($pk)) ? $this->$k : $pk;
 
 		// Get the aliases for the path from the node to the root node.
 		$query = $this->_db->getQuery(true)
@@ -1395,7 +1427,7 @@ class Nested extends Table
 		$segments = $this->_db->loadColumn();
 
 		// Make sure to remove the root path if it exists in the list.
-		if ($segments[0] == 'root')
+		if ($segments[0] === 'root')
 		{
 			array_shift($segments);
 		}
@@ -1440,7 +1472,7 @@ class Nested extends Table
 	 * @param   array  $idArray   id numbers of rows to be reordered.
 	 * @param   array  $lftArray  lft values of rows to be reordered.
 	 *
-	 * @return  integer  1 + value of root rgt on success, false on failure.
+	 * @return  integer|boolean  1 + value of root rgt on success, false on failure.
 	 *
 	 * @since   1.7.0
 	 * @throws  \Exception on database error.
@@ -1452,9 +1484,9 @@ class Nested extends Table
 			$query = $this->_db->getQuery(true);
 
 			// Validate arguments
-			if (is_array($idArray) && is_array($lftArray) && count($idArray) == count($lftArray))
+			if (\is_array($idArray) && \is_array($lftArray) && \count($idArray) == \count($lftArray))
 			{
-				for ($i = 0, $count = count($idArray); $i < $count; $i++)
+				for ($i = 0, $count = \count($idArray); $i < $count; $i++)
 				{
 					// Do an update to change the lft values in the table for each id
 					$query->clear()
@@ -1559,10 +1591,11 @@ class Nested extends Table
 
 		// Update and cascade the publishing state.
 		$query->clear()
-			->update("$table AS c")
-			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
-			->set("$published = c2.newPublished")
-			->where("c.$key IN (" . implode(',', $pks) . ")");
+			->update($table)
+			->innerJoin("($subquery) AS c2")
+			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
+			->where("$key = c2.newId")
+			->where("$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
@@ -1609,12 +1642,13 @@ class Nested extends Table
 			->from($this->_tbl)
 			->where($k . ' = ' . (int) $id);
 
-		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
+		$query->setLimit(1);
+		$row = $this->_db->setQuery($query)->loadObject();
 
 		// Check for no $row returned
 		if (empty($row))
 		{
-			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
+			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
 			$this->setError($e);
 
 			return false;
@@ -1646,7 +1680,7 @@ class Nested extends Table
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{
 		// Make sure the reference an object with a left and right id.
-		if (!is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
+		if (!\is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
 		{
 			return false;
 		}
@@ -1707,9 +1741,9 @@ class Nested extends Table
 
 		if ($this->_debug)
 		{
-			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
-				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
-				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
+			echo "\nRepositioning Data for $position\n-----------------------------------\nLeft Where:    $data->left_where"
+				. "\nRight Where:   $data->right_where\nNew Lft:       $data->new_lft\nNew Rgt:       $data->new_rgt"
+				. "\nNew Parent ID: $data->new_parent_id\nNew Level:     $data->new_level\n";
 		}
 
 		return $data;
@@ -1762,10 +1796,10 @@ class Nested extends Table
 	/**
 	 * Runs a query and unlocks the database on an error.
 	 *
-	 * @param   mixed   $query         A string or \JDatabaseQuery object.
+	 * @param   mixed   $query         A string or DatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
-	 * @return  boolean  void
+	 * @return  void
 	 *
 	 * @note    Since 3.0.0 this method returns void and will rethrow the database exception.
 	 * @since   1.7.0

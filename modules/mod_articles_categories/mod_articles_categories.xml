@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORIES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\ArticlesCategories</namespace>
 	<files>
 		<filename module="mod_articles_categories">mod_articles_categories.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_categories.ini</language>
@@ -21,14 +22,11 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORIES" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_categories/models/fields"
-			>
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 				<field
 					name="parent"
 					type="modal_category"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
 					extension="com_content"
 					filter="integer"
 					published=""
@@ -42,40 +40,37 @@
 				<field
 					name="show_description"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="numitems"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_children"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -85,6 +80,7 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -103,9 +99,9 @@
 					name="maxlevel"
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -126,7 +122,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -134,8 +130,8 @@
 					name="item_heading"
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
 					default="4"
+					filter="integer"
 					validate="options"
 					>
 					<option value="1">JH1</option>
@@ -149,17 +145,17 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="owncache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -169,7 +165,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

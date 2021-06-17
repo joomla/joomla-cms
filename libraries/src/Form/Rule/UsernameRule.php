@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -39,17 +41,23 @@ class UsernameRule extends FormRule
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		// Get the database object and a new query object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
+
+		// Get the extra field check attribute.
+		$userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
 
 		// Build the query.
 		$query->select('COUNT(*)')
-			->from('#__users')
-			->where('username = ' . $db->quote($value));
-
-		// Get the extra field check attribute.
-		$userId = ($form instanceof Form) ? $form->getValue('id') : '';
-		$query->where($db->quoteName('id') . ' <> ' . (int) $userId);
+			->from($db->quoteName('#__users'))
+			->where(
+				[
+					$db->quoteName('username') . ' = :username',
+					$db->quoteName('id') . ' <> :userId',
+				]
+			)
+			->bind(':username', $value)
+			->bind(':userId', $userId, ParameterType::INTEGER);
 
 		// Set and query the database.
 		$db->setQuery($query);

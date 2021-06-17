@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Captcha\Google;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Http\Http;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
@@ -65,12 +66,11 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 		{
 			$response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
 
-			return (string) $response->body;
+			return (string) $response->getBody();
 		}
-		catch (\UnexpectedValueException $exception)
+		catch (InvalidResponseCodeException $exception)
 		{
 			return '';
 		}
 	}
 }
-

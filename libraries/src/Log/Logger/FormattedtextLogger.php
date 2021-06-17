@@ -2,20 +2,21 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Joomla! Formatted Text File Log class
@@ -91,7 +92,7 @@ class FormattedtextLogger extends Logger
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
 		if (empty($this->options['text_file_path']))
 		{
-			$this->options['text_file_path'] = \JFactory::getConfig()->get('log_path');
+			$this->options['text_file_path'] = Factory::getApplication()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
 		}
 
 		// False to treat the log file as a php file.
@@ -138,7 +139,7 @@ class FormattedtextLogger extends Logger
 		// Format all lines and write to file.
 		$lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
 
-		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
+		if (!File::append($this->path, implode("\n", $lines) . "\n"))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}
@@ -171,7 +172,7 @@ class FormattedtextLogger extends Logger
 			$line = $this->formatLine($entry);
 			$line .= "\n";
 
-			if (!\JFile::append($this->path, $line))
+			if (!File::append($this->path, $line))
 			{
 				throw new \RuntimeException('Cannot write to log file.');
 			}
@@ -181,7 +182,7 @@ class FormattedtextLogger extends Logger
 	/**
 	 * Format a line for the log file.
 	 *
-	 * @param   JLogEntry  $entry  The log entry to format as a string.
+	 * @param   LogEntry  $entry  The log entry to format as a string.
 	 *
 	 * @return  String
 	 *
@@ -201,7 +202,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
-		if ((strlen($entry->date) != 10) || !isset($entry->time))
+		if ((\strlen($entry->date) != 10) || !isset($entry->time))
 		{
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();
@@ -220,7 +221,7 @@ class FormattedtextLogger extends Logger
 
 		foreach ($this->fields as $field)
 		{
-			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
+			$line = str_replace('{' . $field . '}', $tmp[$field] ?? '-', $line);
 		}
 
 		return $line;
@@ -248,7 +249,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
-		$head[] = '#Software: ' . \JPlatform::getLongVersion();
+		$head[] = '#Software: ' . (new Version)->getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string
@@ -271,18 +272,18 @@ class FormattedtextLogger extends Logger
 	protected function initFile()
 	{
 		// We only need to make sure the file exists
-		if (\JFile::exists($this->path))
+		if (File::exists($this->path))
 		{
 			return;
 		}
 
 		// Make sure the folder exists in which to create the log file.
-		\JFolder::create(dirname($this->path));
+		Folder::create(\dirname($this->path));
 
 		// Build the log file header.
 		$head = $this->generateFileHeader();
 
-		if (!\JFile::write($this->path, $head))
+		if (!File::write($this->path, $head))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}

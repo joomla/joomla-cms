@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="40"
+			maxlength="100"
+			required="true"
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="COM_MODULES_FIELD_NOTE_LABEL"
+			maxlength="255"
+			size="40"
+		/>
+
+		<field
+			name="module"
+			type="hidden"
+			label="COM_MODULES_FIELD_MODULE_LABEL"
+			readonly="readonly"
+			size="20"
+		/>
+
+		<field
+			name="showtitle"
+			type="radio"
+			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			size="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			default="1"
+			size="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			filter="user_utc"
+			translateformat="true"
+			showtime="true"
+			size="22"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			filter="user_utc"
+			translateformat="true"
+			showtime="true"
+			size="22"
+		/>
+
+		<field
+			name="client_id"
+			type="hidden"
+			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
+			readonly="true"
+			size="1"
+		/>
+
+		<field
+			name="position"
+			type="ModulesPositionedit"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
+			default=""
+			maxlength="50"
+			client="administrator"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="ordering"
+			type="moduleorder"
+			label="JFIELD_ORDERING_LABEL"
+			linked="position"
+		/>
+
+		<field
+			name="language"
+			type="language"
+			label="JFIELD_LANGUAGE_LABEL"
+			default="*"
+			client="administrator"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="content"
+			type="editor"
+			label="COM_MODULES_FIELD_CONTENT_LABEL"
+			buttons="true"
+			filter="JComponentHelper::filterText"
+			hide="readmore,pagebreak,module"
+		/>
+
+		<field name="assignment" type="hidden" />
+
+		<field name="assigned" type="hidden" />
+
+		<field name="asset_id" type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			component="com_modules"
+			section="module"
+			validate="rules"
+		/>
+	</fieldset>
+</form>

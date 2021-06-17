@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
+		<field
+			name="name"
+			type="text"
+			label="COM_USERS_USER_FIELD_NAME_LABEL"
+			required="true"
+			size="30"
+		/>
+
+		<field
+			name="username"
+			type="text"
+			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
+			required="true"
+			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="JGLOBAL_PASSWORD"
+			rules="true"
+			autocomplete="new-password"
+			class="validate-password-strength"
+			filter="raw"
+			validate="password"
+			strengthmeter="true"
+			force="on"
+			size="30"
+		/>
+
+		<field
+			name="password2"
+			type="password"
+			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
+			autocomplete="new-password"
+			class="validate-passwordExtra"
+			filter="raw"
+			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
+			size="30"
+			validate="equals"
+			field="password"
+		/>
+
+		<field
+			name="email"
+			type="email"
+			label="JGLOBAL_EMAIL"
+			required="true"
+			size="30"
+			validate="email"
+			validDomains="com_users.domains"
+		/>
+
+		<field
+			name="registerDate"
+			type="calendar"
+			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="lastvisitDate"
+			type="calendar"
+			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="lastResetTime"
+			type="calendar"
+			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="resetCount"
+			type="number"
+			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
+			class="readonly"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="sendEmail"
+			type="radio"
+			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="block"
+			type="radio"
+			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
+		</field>
+
+		<field
+			name="requireReset"
+			type="radio"
+			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
+			default="0"
+			layout="joomla.form.field.radio.switcher"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			class="readonly"
+			default="0"
+			readonly="true"
+		/>
+
+	</fieldset>
+	<field name="groups" type="hidden" />
+	<field name="twofactor" type="hidden" />
+
+	<fields name="params">
+
+		<!--  Basic user account settings. -->
+		<fieldset name="settings" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
+
+			<field
+				name="admin_style"
+				type="templatestyle"
+				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+				client="administrator"
+				filter="uint"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="admin_language"
+				type="language"
+				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
+				client="administrator"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="language"
+				type="language"
+				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
+				client="site"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="editor"
+				type="plugins"
+				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
+				folder="editors"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field
+				name="timezone"
+				type="timezone"
+				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+		</fieldset>
+		<!-- User accessibility settings -->
+		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
+			<field
+				name="a11y_mono"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_MONOCHROME"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="monochrome">JYES</option>
+			</field>
+			<field
+				name="a11y_contrast"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_CONTRAST"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="high_contrast">JYES</option>
+			</field>
+			<field
+				name="a11y_highlight"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_HIGHLIGHT"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="highlight">JYES</option>
+			</field>
+			<field
+				name="a11y_font"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_FONTSIZE"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="fontsize">JYES</option>
+			</field>
+		</fieldset>
+
+	</fields>
+</form>

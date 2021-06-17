@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ const _JEXEC = 1;
 
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -25,10 +26,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the Platform with legacy libraries.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -51,6 +49,8 @@ ini_set('display_errors', 1);
  */
 class StubGenerator extends CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Entry point for CLI script
 	 *
@@ -60,6 +60,8 @@ class StubGenerator extends CliApplication
 	 */
 	public function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		$file = "<?php\n";
 
 		// Loop the aliases to generate the stubs data
@@ -95,7 +97,51 @@ PHP;
 
 		$this->out('Stubs file written', true);
 	}
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName()
+	{
+		return 'cli-stubgen';
+	}
+
+	/**
+	 * Get the menu object.
+	 *
+	 * @param string $name    The application name for the menu
+	 * @param array  $options An array of options to initialise the menu with
+	 *
+	 * @throws   \BadMethodCallException  Exception thrown as CLI Application has no menu.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		throw new \BadMethodCallException('CLI Application has no menu');
+	}
 }
 
-// Instantiate the application and execute it
-CliApplication::getInstance('StubGenerator')->execute();
+Factory::getContainer()->share(
+	'StubGenerator',
+	function (\Joomla\DI\Container $container)
+	{
+		return new \StubGenerator(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+
+$app = Factory::getContainer()->get('StubGenerator');
+Factory::$application = $app;
+$app->execute();

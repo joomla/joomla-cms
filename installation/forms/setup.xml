@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
+	<fieldset name="site">
+		<field
+			name="language"
+			type="installation.language"
+			label="INSTL_SELECT_LANGUAGE_TITLE"
+			class="required"
+			default="en-GB"
+		/>
+		<field
+			name="site_name"
+			type="text"
+			label="INSTL_SITE_NAME_DESC"
+			class="form-control"
+			required="true"
+		/>
+		<field
+			name="admin_email"
+			type="email"
+			label="INSTL_ADMIN_EMAIL_DESC"
+			class="form-control"
+			validate="email"
+			required="true"
+		/>
+		<field
+			name="admin_user"
+			type="text"
+			label="INSTL_ADMIN_USER_DESC"
+			required="true"
+			class="form-control"
+			size="30"
+		/>
+		<field
+			name="admin_username"
+			type="text"
+			label="INSTL_ADMIN_USERNAME_DESC"
+			required="true"
+			validate="username"
+			class="form-control"
+			size="30"
+			autocomplete="username"
+		/>
+		<field
+			name="admin_password"
+			type="password"
+			label="INSTL_ADMIN_PASSWORD_DESC"
+			description="INSTL_ADMIN_PASSWORD_LENGTH"
+			required="true"
+			autocomplete="new-password"
+			validate="password"
+			strengthmeter="true"
+			force="on"
+			filter="raw"
+		/>
+		<field
+			name="db_type"
+			type="databaseconnection"
+			label="INSTL_DATABASE_TYPE_DESC"
+			class="form-select"
+			supported="mysql,mysqli,pgsql,postgresql"
+			required="true"
+			default="mysqli"
+			filter="string"
+		/>
+		<field
+			name="db_host"
+			type="text"
+			label="INSTL_DATABASE_HOST_DESC"
+			class="form-control"
+			default="localhost"
+			required="true"
+		/>
+		<field
+			name="db_user"
+			type="text"
+			label="INSTL_DATABASE_USER_DESC"
+			class="form-control"
+			required="true"
+		/>
+		<field
+			name="db_pass"
+			type="password"
+			label="INSTL_DATABASE_PASSWORD_DESC"
+			class="form-control"
+			autocomplete="off"
+			filter="raw"
+		/>
+		<field
+			name="db_name"
+			type="text"
+			label="INSTL_DATABASE_NAME_DESC"
+			class="form-control"
+			required="true"
+			default="joomla_db"
+		/>
+	</fieldset>
+
+	<!-- Advanced Settings -->
+	<fieldset name="advanced">
+		<field
+			name="db_prefix"
+			type="installation.prefix"
+			label="INSTL_DATABASE_PREFIX_DESC"
+			class="form-control"
+			required="true"
+			validate="prefix"
+			message="INSTL_DATABASE_PREFIX_MSG"
+			autocomplete="off"
+		/>
+		<field
+			name="db_old"
+			type="hidden"
+			default="backup"
+		/>
+
+		<field
+			name="db_encryption"
+			type="list"
+			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
+			class="form-select"
+			required="true"
+			default="0"
+			filter="integer"
+			validate="options"
+			>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="db_sslkey"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcert"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslverifyservercert"
+			type="radio"
+			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			showon="db_encryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="db_sslca"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
+			filter="path"
+			showon="db_encryption:1,2[AND]db_sslverifyservercert:1"
+		/>
+
+		<field
+			name="db_sslcipher"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			filter="string"
+			showon="db_type:mysql,mysqli[AND]db_encryption:2"
+		/>
+
+	</fieldset>
+</form>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Stats</namespace>
 	<files>
 		<folder>field</folder>
 		<folder>layouts</folder>
@@ -20,18 +21,17 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Plugin\System\Stats\Field">
 				<field
 					name="data"
-					type="plgsystemstats.data"
+					type="data"
 					label=""
 				/>
 
 				<field
 					name="unique_id"
-					type="plgsystemstats.uniqueid"
+					type="uniqueid"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
-					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					size="10"
 				/>
 
@@ -39,7 +39,6 @@
 					name="interval"
 					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
-					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
 					filter="integer"
 					default="12"
 				/>
@@ -48,8 +47,8 @@
 					name="mode"
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					default="1"
+					validate="options"
 					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>

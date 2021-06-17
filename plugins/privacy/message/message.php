@@ -3,13 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.message
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla user messages
@@ -23,14 +26,14 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 *
 	 * This event will collect data for the message table
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyExportDomain[]
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user)
 		{
@@ -38,15 +41,17 @@ class PlgPrivacyMessage extends PrivacyPlugin
 		}
 
 		$domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user->id)
-			->orWhere($this->db->quoteName('user_id_to') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('date_time') . ' ASC');
+			->from($db->quoteName('#__messages'))
+			->where($db->quoteName('user_id_from') . ' = :useridfrom')
+			->extendWhere('OR', $db->quoteName('user_id_to') . ' = :useridto')
+			->order($db->quoteName('date_time') . ' ASC')
+			->bind([':useridfrom', ':useridto'], $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{

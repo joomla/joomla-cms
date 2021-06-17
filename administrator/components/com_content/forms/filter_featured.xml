@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_CONTENT_FILTER_SEARCH_LABEL"
+			description="COM_CONTENT_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="stage"
+			type="workflowstage"
+			label="JOPTION_SELECT_STAGE"
+			onchange="this.form.submit();"
+			activeonly="true"
+			extension="com_content"
+			>
+			<option value="">JOPTION_SELECT_STAGE</option>
+		</field>
+
+		<field
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			onchange="this.form.submit();"
+			extension="com_content.article"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="category_id"
+			type="category"
+			label="JCATEGORY"
+			multiple="true"
+			extension="com_content"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JGRID_HEADING_ACCESS"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_ACCESS"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="JOPTION_SELECT_AUTHOR"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_AUTHOR"
+			onchange="this.form.submit();"
+			>
+			<option value="0">JNONE</option>
+		</field>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JGRID_HEADING_LANGUAGE"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="tag"
+			type="tag"
+			label="JTAG"
+			multiple="true"
+			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="level"
+			type="integer"
+			label="JGLOBAL_MAXLEVEL_LABEL"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+ 			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.title ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="fp.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="category_title ASC">JCATEGORY_ASC</option>
+			<option value="category_title DESC">JCATEGORY_DESC</option>
+			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="a.created_by ASC">JAUTHOR_ASC</option>
+			<option value="a.created_by DESC">JAUTHOR_DESC</option>
+			<option value="a.publish_up ASC">COM_CONTENT_PUBLISH_UP_ASC</option>
+			<option value="a.publish_up DESC">COM_CONTENT_PUBLISH_UP_DESC</option>
+			<option value="a.publish_down ASC">COM_CONTENT_PUBLISH_DOWN_ASC</option>
+			<option value="a.publish_down DESC">COM_CONTENT_PUBLISH_DOWN_DESC</option>
+			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.created ASC">JDATE_ASC</option>
+			<option value="a.created DESC">JDATE_DESC</option>
+			<option value="a.hits ASC" requires="hits">JGLOBAL_HITS_ASC</option>
+			<option value="a.hits DESC" requires="hits">JGLOBAL_HITS_DESC</option>
+			<option value="rating_count ASC" requires="vote">JGLOBAL_VOTES_ASC</option>
+			<option value="rating_count DESC" requires="vote">JGLOBAL_VOTES_DESC</option>
+			<option value="rating ASC" requires="vote">JGLOBAL_RATINGS_ASC</option>
+			<option value="rating DESC" requires="vote">JGLOBAL_RATINGS_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

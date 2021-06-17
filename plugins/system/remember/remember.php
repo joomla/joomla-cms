@@ -3,11 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -15,7 +20,7 @@ defined('_JEXEC') or die;
  * @since  1.5
  */
 
-class PlgSystemRemember extends JPlugin
+class PlgSystemRemember extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -24,6 +29,14 @@ class PlgSystemRemember extends JPlugin
 	 * @since  3.2
 	 */
 	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    \Joomla\Database\DatabaseInterface
+	 * @since  4.0.0
+	 */
+	protected $db;
 
 	/**
 	 * Remember me method to run onAfterInitialise
@@ -36,12 +49,6 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = JFactory::getApplication();
-		}
-
 		// No remember me for admin.
 		if ($this->app->isClient('administrator'))
 		{
@@ -49,20 +56,14 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		// Check for a cookie if user is not logged in
-		if (JFactory::getUser()->get('guest'))
+		if ($this->app->getIdentity()->get('guest'))
 		{
-			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
-
-			// Try with old cookieName (pre 3.6.0) if not found
-			if (!$this->app->input->cookie->get($cookieName))
-			{
-				$cookieName = JUserHelper::getShortHashedUserAgent();
-			}
+			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
 			{
-				$this->app->login(array('username' => ''), array('silent' => true));
+				$this->app->login(['username' => ''], ['silent' => true]);
 			}
 		}
 	}
@@ -83,13 +84,13 @@ class PlgSystemRemember extends JPlugin
 			return true;
 		}
 
-		$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+		$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 		// Check for the cookie
 		if ($this->app->input->cookie->get($cookieName))
 		{
 			// Make sure authentication group is loaded to process onUserAfterLogout event
-			JPluginHelper::importPlugin('authentication');
+			PluginHelper::importPlugin('authentication');
 		}
 
 		return true;
@@ -122,13 +123,15 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		/*
-		 * But now, we need to do something 
+		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
-		$db = JFactory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->delete('#__user_keys')
-			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+			->delete($db->quoteName('#__user_keys'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $user['username']);
+
 		try
 		{
 			$db->setQuery($query)->execute();
@@ -136,9 +139,9 @@ class PlgSystemRemember extends JPlugin
 		catch (RuntimeException $e)
 		{
 			// Log an alert for the site admin
-			JLog::add(
+			Log::add(
 				sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
-				JLog::WARNING,
+				Log::WARNING,
 				'security'
 			);
 		}

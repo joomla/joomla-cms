@@ -5,9 +5,18 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+trigger_error(
+	sprintf(
+		'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
+		__FILE__,
+		__DIR__ . '/bootstrap.php'
+	),
+	E_USER_DEPRECATED
+);
 
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
@@ -43,25 +52,5 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Check if the JsonSerializable interface exists already
-if (!interface_exists('JsonSerializable'))
-{
-	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
-}
-
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-/**
- * Mask for the raw routing mode
- *
- * @deprecated  4.0
- */
-const JROUTER_MODE_RAW = 0;
-
-/**
- * Mask for the SEF routing mode
- *
- * @deprecated  4.0
- */
-const JROUTER_MODE_SEF = 1;

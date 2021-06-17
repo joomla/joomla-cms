@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\Component\Messages\Administrator\Field">
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_MESSAGES_FILTER_SEARCH_LABEL"
+			description="COM_MESSAGES_SEARCH_IN_SUBJECT"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="state"
+			type="MessageStates"
+			label="JSTATUS"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="*">JALL</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.date_time DESC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.subject ASC">COM_MESSAGES_HEADING_SUBJECT_ASC</option>
+			<option value="a.subject DESC">COM_MESSAGES_HEADING_SUBJECT_DESC</option>
+			<option value="a.state ASC">COM_MESSAGES_HEADING_READ_ASC</option>
+			<option value="a.state DESC">COM_MESSAGES_HEADING_READ_DESC</option>
+			<option value="a.user_id_from ASC">COM_MESSAGES_HEADING_FROM_ASC</option>
+			<option value="a.user_id_from DESC">COM_MESSAGES_HEADING_FROM_DESC</option>
+			<option value="a.date_time ASC">JDATE_ASC</option>
+			<option value="a.date_time DESC">JDATE_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="5"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

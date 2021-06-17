@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_random_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_RANDOM_IMAGE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\RandomImage</namespace>
 	<files>
 		<filename module="mod_random_image">mod_random_image.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_random_image.ini</language>
@@ -26,7 +27,6 @@
 					name="type"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_TYPE_DESC"
 					default="jpg"
 				/>
 
@@ -34,7 +34,6 @@
 					name="folder"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC"
 					validate="filePath"
 				/>
 
@@ -42,14 +41,12 @@
 					name="link"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_LINK_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_LINK_DESC"
 				/>
 
 				<field
 					name="width"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC"
 					default="100"
 					filter="integer"
 				/>
@@ -58,7 +55,6 @@
 					name="height"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC"
 					filter="integer"
 				/>
 
@@ -68,7 +64,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -76,8 +72,8 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

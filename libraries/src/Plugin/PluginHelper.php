@@ -2,13 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Plugin;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Plugin helper class
@@ -38,29 +43,35 @@ abstract class PluginHelper
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
-		$template = \JFactory::getApplication()->getTemplate();
+		$templateObj   = Factory::getApplication()->getTemplate(true);
 		$defaultLayout = $layout;
+		$template      = $templateObj->template;
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = $temp[0] === '_' ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $templateObj->template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
 		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
 		// If the template has a layout override use it
-		if (file_exists($tPath))
+		if (is_file($tPath))
 		{
 			return $tPath;
 		}
-		elseif (file_exists($bPath))
+		elseif (!empty($templateObj->parent) && is_file($iPath))
+		{
+			return $iPath;
+		}
+		elseif (is_file($bPath))
 		{
 			return $bPath;
 		}
@@ -135,16 +146,16 @@ abstract class PluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string             $type        The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string             $plugin      The plugin name.
-	 * @param   boolean            $autocreate  Autocreate the plugin.
-	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string               $plugin      The plugin name.
+	 * @param   boolean              $autocreate  Autocreate the plugin.
+	 * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.5
 	 */
-	public static function importPlugin($type, $plugin = null, $autocreate = true, \JEventDispatcher $dispatcher = null)
+	public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
 		static $loaded = array();
 
@@ -157,7 +168,7 @@ abstract class PluginHelper
 		}
 
 		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
-		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
 
 		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
 		$dispatcherHash = spl_object_hash($dispatcher);
@@ -175,7 +186,7 @@ abstract class PluginHelper
 			$plugins = static::load();
 
 			// Get the specified plugin(s).
-			for ($i = 0, $t = count($plugins); $i < $t; $i++)
+			for ($i = 0, $t = \count($plugins); $i < $t; $i++)
 			{
 				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
@@ -199,106 +210,41 @@ abstract class PluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   object             $plugin      The plugin.
-	 * @param   boolean            $autocreate  True to autocreate.
-	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use PluginHelper::import() instead
-	 */
-	protected static function _import($plugin, $autocreate = true, \JEventDispatcher $dispatcher = null)
-	{
-		static::import($plugin, $autocreate, $dispatcher);
-	}
-
-	/**
-	 * Loads the plugin file.
-	 *
-	 * @param   object             $plugin      The plugin.
-	 * @param   boolean            $autocreate  True to autocreate.
-	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   object               $plugin      The plugin.
+	 * @param   boolean              $autocreate  True to autocreate.
+	 * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected static function import($plugin, $autocreate = true, \JEventDispatcher $dispatcher = null)
+	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $paths = array();
-
-		// Ensure we have a dispatcher now so we can correctly track the loaded paths
-		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+		static $plugins = array();
 
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
-		$dispatcherHash = spl_object_hash($dispatcher);
+		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
 
-		if (!isset($paths[$dispatcherHash]))
+		if (\array_key_exists($hash, $plugins))
 		{
-			$paths[$dispatcherHash] = array();
+			return;
 		}
 
-		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
-		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
+		$plugins[$hash] = true;
 
-		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
+		$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-		if (!isset($paths[$dispatcherHash][$path]))
+		if ($dispatcher && $plugin instanceof DispatcherAwareInterface)
 		{
-			if (file_exists($path))
-			{
-				require_once $path;
-
-				$paths[$dispatcherHash][$path] = true;
-
-				if ($autocreate)
-				{
-					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
-
-					if ($plugin->type == 'editors-xtd')
-					{
-						// This type doesn't follow the convention
-						$className = 'PlgEditorsXtd' . $plugin->name;
-
-						if (!class_exists($className))
-						{
-							$className = 'PlgButton' . $plugin->name;
-						}
-					}
-
-					if (class_exists($className))
-					{
-						// Load the plugin from the database.
-						if (!isset($plugin->params))
-						{
-							// Seems like this could just go bye bye completely
-							$plugin = static::getPlugin($plugin->type, $plugin->name);
-						}
-
-						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) $plugin);
-					}
-				}
-			}
-			else
-			{
-				$paths[$dispatcherHash][$path] = false;
-			}
+			$plugin->setDispatcher($dispatcher);
 		}
-	}
 
-	/**
-	 * Loads the published plugins.
-	 *
-	 * @return  array  An array of published plugins
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use PluginHelper::load() instead
-	 */
-	protected static function _load()
-	{
-		return static::load();
+		if (!$autocreate)
+		{
+			return;
+		}
+
+		$plugin->registerListeners();
 	}
 
 	/**
@@ -315,37 +261,41 @@ abstract class PluginHelper
 			return static::$plugins;
 		}
 
-		$levels = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
+		$levels = Factory::getUser()->getAuthorisedViewLevels();
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('com_plugins', 'callback');
+		$cache = Factory::getCache('com_plugins', 'callback');
 
 		$loader = function () use ($levels)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(
 					$db->quoteName(
-						array(
+						[
 							'folder',
 							'element',
 							'params',
-							'extension_id'
-						),
-						array(
+							'extension_id',
+						],
+						[
 							'type',
 							'name',
 							'params',
-							'id'
-						)
+							'id',
+						]
 					)
 				)
-				->from('#__extensions')
-				->where('enabled = 1')
-				->where('type = ' . $db->quote('plugin'))
-				->where('state IN (0,1)')
-				->where('access IN (' . $levels . ')')
-				->order('ordering');
+				->from($db->quoteName('#__extensions'))
+				->where(
+					[
+						$db->quoteName('enabled') . ' = 1',
+						$db->quoteName('type') . ' = ' . $db->quote('plugin'),
+						$db->quoteName('state') . ' IN (0,1)',
+					]
+				)
+				->whereIn($db->quoteName('access'), $levels)
+				->order($db->quoteName('ordering'));
 			$db->setQuery($query);
 
 			return $db->loadObjectList();
@@ -353,9 +303,9 @@ abstract class PluginHelper
 
 		try
 		{
-			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+			static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			static::$plugins = $loader();
 		}

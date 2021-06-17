@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Access rules class.
@@ -38,16 +40,16 @@ class Rules
 	public function __construct($input = '')
 	{
 		// Convert in input to an array.
-		if (is_string($input))
+		if (\is_string($input))
 		{
 			$input = json_decode($input, true);
 		}
-		elseif (is_object($input))
+		elseif (\is_object($input))
 		{
 			$input = (array) $input;
 		}
 
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			// Top level keys represent the actions.
 			foreach ($input as $action => $identities)
@@ -81,7 +83,7 @@ class Rules
 	public function mergeCollection($input)
 	{
 		// Check if the input is an array.
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			foreach ($input as $actions)
 			{
@@ -101,12 +103,12 @@ class Rules
 	 */
 	public function merge($actions)
 	{
-		if (is_string($actions))
+		if (\is_string($actions))
 		{
 			$actions = json_decode($actions, true);
 		}
 
-		if (is_array($actions))
+		if (\is_array($actions))
 		{
 			foreach ($actions as $action => $identities)
 			{
@@ -168,8 +170,6 @@ class Rules
 		{
 			return $this->data[$action]->allow($identity);
 		}
-
-		return;
 	}
 
 	/**
@@ -177,14 +177,14 @@ class Rules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  \JObject  Allowed actions for the identity or identities
+	 * @return  CMSObject  Allowed actions for the identity or identities
 	 *
 	 * @since   1.7.0
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new \JObject;
+		$allowed = new CMSObject;
 
 		foreach ($this->data as $name => &$action)
 		{

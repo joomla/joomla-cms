@@ -2,17 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * HTML document renderer for the system message queue
@@ -42,15 +43,15 @@ class MessageRenderer extends DocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 		}
 
-		if (function_exists('renderMessage'))
+		if (\function_exists('renderMessage'))
 		{
 			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
 
@@ -73,10 +74,10 @@ class MessageRenderer extends DocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = \JFactory::getApplication()->getMessageQueue();
+		$messages = Factory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
-		if (is_array($messages) && !empty($messages))
+		if (\is_array($messages) && !empty($messages))
 		{
 			foreach ($messages as $msg)
 			{

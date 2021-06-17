@@ -3,11 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Plugin to enable loading modules into content (e.g. articles)
@@ -15,7 +19,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class PlgContentLoadmodule extends JPlugin
+class PlgContentLoadmodule extends CMSPlugin
 {
 	protected static $modules = array();
 
@@ -29,7 +33,7 @@ class PlgContentLoadmodule extends JPlugin
 	 * @param   mixed    &$params   The article params
 	 * @param   integer  $page      The 'page' number
 	 *
-	 * @return  mixed   true if there is an error. Void otherwise.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -38,13 +42,13 @@ class PlgContentLoadmodule extends JPlugin
 		// Don't run this plugin when the content is being indexed
 		if ($context === 'com_finder.indexer')
 		{
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further
 		if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false)
 		{
-			return true;
+			return;
 		}
 
 		// Expression to search for (positions)
@@ -164,9 +168,9 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _load($position, $style = 'none')
 	{
 		self::$modules[$position] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModules($position);
+		$modules  = ModuleHelper::getModules($position);
 		$params   = array('style' => $style);
 		ob_start();
 
@@ -195,16 +199,16 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _loadmod($module, $title, $style = 'none')
 	{
 		self::$mods[$module] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$mod      = JModuleHelper::getModule($module, $title);
+		$mod      = ModuleHelper::getModule($module, $title);
 
 		// If the module without the mod_ isn't found, try it with mod_.
 		// This allows people to enter it either way in the content
 		if (!isset($mod))
 		{
 			$name = 'mod_' . $module;
-			$mod  = JModuleHelper::getModule($name, $title);
+			$mod  = ModuleHelper::getModule($name, $title);
 		}
 
 		$params = array('style' => $style);
@@ -232,9 +236,9 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _loadid($id)
 	{
 		self::$modules[$id] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModuleById($id);
+		$modules  = ModuleHelper::getModuleById($id);
 		$params   = array('style' => 'none');
 		ob_start();
 

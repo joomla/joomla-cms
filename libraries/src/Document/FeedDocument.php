@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Language\Text;
 
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document
@@ -63,12 +65,10 @@ class FeedDocument extends Document
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * optional
-	 *
-	 * @var    string
+	 * @var    \Joomla\CMS\Date\Date
 	 * @since  1.7.0
 	 */
-	public $lastBuildDate = '';
+	public $lastBuildDate;
 
 	/**
 	 * Editor feed element
@@ -179,6 +179,10 @@ class FeedDocument extends Document
 
 		// Set document type
 		$this->_type = 'feed';
+
+		// Gets and sets timezone offset from site configuration
+		$this->lastBuildDate = CmsFactory::getDate();
+		$this->lastBuildDate->setTimezone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -196,14 +200,14 @@ class FeedDocument extends Document
 	public function render($cache = false, $params = array())
 	{
 		// Get the feed type
-		$type = \JFactory::getApplication()->input->get('type', 'rss');
+		$type = CmsFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
 
 		if (!($renderer instanceof DocumentRenderer))
 		{
-			throw new \Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
 
 		$this->setMimeEncoding($renderer->getContentType());

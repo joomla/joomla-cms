@@ -2,17 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\UCM;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Base class for implementing UCM
@@ -92,7 +94,7 @@ class UCMContent extends UCMBase
 	/**
 	 * Delete content from the Core Content table
 	 *
-	 * @param   mixed    $pk    The string/array of id's to delete
+	 * @param   mixed    $pk    Array or comma-separated string of ids to delete
 	 * @param   UCMType  $type  The content type object
 	 *
 	 * @return  boolean  True if success
@@ -101,18 +103,19 @@ class UCMContent extends UCMBase
 	 */
 	public function delete($pk, UCMType $type = null)
 	{
-		$db   = \JFactory::getDbo();
+		$db   = Factory::getDbo();
 		$type = $type ?: $this->type;
 
-		if (is_array($pk))
+		if (!\is_array($pk))
 		{
-			$pk = implode(',', $pk);
+			$pk = explode(',', $pk);
 		}
 
 		$query = $db->getQuery(true)
-			->delete('#__ucm_content')
-			->where($db->quoteName('core_type_id') . ' = ' . (int) $type->type_id)
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $pk . ')');
+			->delete($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_type_id') . ' = :typeId')
+			->whereIn($db->quoteName('core_content_item_id'), $pk)
+			->bind(':typeId', $type->type_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		$db->execute();
@@ -132,29 +135,29 @@ class UCMContent extends UCMBase
 	 */
 	public function mapData($original, UCMType $type = null)
 	{
-		$contentType = isset($type) ? $type : $this->type;
+		$contentType = $type ?: $this->type;
 
 		$fields = json_decode($contentType->type->field_mappings);
 
 		$ucmData = array();
 
-		$common = is_object($fields->common) ? $fields->common : $fields->common[0];
+		$common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
 		foreach ($common as $i => $field)
 		{
-			if ($field && $field !== 'null' && array_key_exists($field, $original))
+			if ($field && $field !== 'null' && \array_key_exists($field, $original))
 			{
 				$ucmData['common'][$i] = $original[$field];
 			}
 		}
 
-		if (array_key_exists('special', $ucmData))
+		if (\array_key_exists('special', $ucmData))
 		{
-			$special = is_object($fields->special) ? $fields->special : $fields->special[0];
+			$special = \is_object($fields->special) ? $fields->special : $fields->special[0];
 
 			foreach ($special as $i => $field)
 			{
-				if ($field && $field !== 'null' && array_key_exists($field, $original))
+				if ($field && $field !== 'null' && \array_key_exists($field, $original))
 				{
 					$ucmData['special'][$i] = $original[$field];
 				}
@@ -212,7 +215,7 @@ class UCMContent extends UCMBase
 	/**
 	 * Get the value of the primary key from #__ucm_base
 	 *
-	 * @param   string   $typeId         The ID for the type
+	 * @param   integer  $typeId         The ID for the type
 	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  integer  The integer of the primary key
@@ -221,17 +224,19 @@ class UCMContent extends UCMBase
 	 */
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
-		$db = \JFactory::getDbo();
-		$queryccid = $db->getQuery(true);
-		$queryccid->select($db->quoteName('ucm_id'))
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('ucm_id'))
 			->from($db->quoteName('#__ucm_base'))
 			->where(
-				array(
-					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
-					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId),
-				)
-			);
-		$db->setQuery($queryccid);
+				[
+					$db->quoteName('ucm_item_id') . ' = :itemId',
+					$db->quoteName('ucm_type_id') . ' = :typeId',
+				]
+			)
+			->bind(':itemId', $contentItemId, ParameterType::INTEGER)
+			->bind(':typeId', $typeId, ParameterType::INTEGER);
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}

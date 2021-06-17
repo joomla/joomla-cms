@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 
 /**
@@ -54,7 +55,7 @@ class UserField extends FormField
 	protected $layout = 'joomla.form.field.user';
 
 	/**
-	 * Method to attach a JForm object to the field.
+	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
@@ -66,7 +67,7 @@ class UserField extends FormField
 	 *
 	 * @since   3.7.0
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -112,7 +113,7 @@ class UserField extends FormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = \JText::_('JLIB_FORM_SELECT_USER');
+		$name = Text::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{

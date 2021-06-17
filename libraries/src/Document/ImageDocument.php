@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * ImageDocument class, provides an easy interface to output image data
@@ -48,7 +50,7 @@ class ImageDocument extends Document
 	public function render($cache = false, $params = array())
 	{
 		// Get the image type
-		$type = \JFactory::getApplication()->input->get('type', 'png');
+		$type = Factory::getApplication()->input->get('type', 'png');
 
 		switch ($type)
 		{

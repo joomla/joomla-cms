@@ -2,13 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Schema;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
@@ -17,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * The queries are parsed from the update files in the folder
  * `administrator/components/com_admin/sql/updates/<database>`.
  * These updates are run automatically if the site was updated using com_installer.
- * However, it is possible that the program files could be updated without udpating
+ * However, it is possible that the program files could be updated without updating
  * the database (for example, if a user just copies the new files over the top of an
  * existing installation).
  *
@@ -61,9 +65,9 @@ abstract class ChangeItem
 	public $checkQueryExpected = 1;
 
 	/**
-	 * \JDatabaseDriver object
+	 * DatabaseDriver object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  2.5
 	 */
 	public $db = null;
@@ -79,7 +83,7 @@ abstract class ChangeItem
 	public $queryType = null;
 
 	/**
-	 * Array with values for use in a \JText::sprintf statment indicating what was checked
+	 * Array with values for use in a Text::sprintf statement indicating what was checked
 	 *
 	 * Tells you what the message should be, based on which elements are defined, as follows:
 	 *     For ADD_TABLE: table
@@ -103,7 +107,7 @@ abstract class ChangeItem
 	/**
 	 * Rerun status
 	 *
-	 * @var    int   0=not rerun, -1=skipped, -2=failed, 1=succeeded
+	 * @var    integer   0=not rerun, -1=skipped, -2=failed, 1=succeeded
 	 * @since  2.5
 	 */
 	public $rerunStatus = 0;
@@ -111,9 +115,9 @@ abstract class ChangeItem
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   \JDatabaseDriver  $db     Database connector object
-	 * @param   string            $file   Full path name of the sql file
-	 * @param   string            $query  Text of the sql query (one line of the file)
+	 * @param   DatabaseDriver  $db     Database connector object
+	 * @param   string          $file   Full path name of the sql file
+	 * @param   string          $query  Text of the sql query (one line of the file)
 	 *
 	 * @since   2.5
 	 */
@@ -128,9 +132,9 @@ abstract class ChangeItem
 	/**
 	 * Returns a reference to the ChangeItem object.
 	 *
-	 * @param   \JDatabaseDriver  $db     Database connector object
-	 * @param   string            $file   Full path name of the sql file
-	 * @param   string            $query  Text of the sql query (one line of the file)
+	 * @param   DatabaseDriver  $db     Database connector object
+	 * @param   string          $file   Full path name of the sql file
+	 * @param   string          $query  Text of the sql query (one line of the file)
 	 *
 	 * @return  ChangeItem  instance based on the database driver
 	 *
@@ -201,13 +205,13 @@ abstract class ChangeItem
 			catch (\RuntimeException $e)
 			{
 				// Still render the error message from the Exception object
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				$this->checkStatus = -2;
 
 				return $this->checkStatus;
 			}
 
-			if (count($rows) === $this->checkQueryExpected)
+			if (\count($rows) === $this->checkQueryExpected)
 			{
 				$this->checkStatus = 1;
 
@@ -232,11 +236,14 @@ abstract class ChangeItem
 		if ($this->checkStatus === -2)
 		{
 			// At this point we have a failed query
-			$query = $this->db->convertUtf8mb4QueryToUtf8($this->updateQuery);
+			$query = $this->updateQuery;
+
 			$this->db->setQuery($query);
 
-			if ($this->db->execute())
+			try
 			{
+				$this->db->execute();
+
 				if ($this->check())
 				{
 					$this->checkStatus = 1;
@@ -247,7 +254,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			else
+			catch (ExecutionFailureException $e)
 			{
 				$this->rerunStatus = -2;
 			}

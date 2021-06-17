@@ -1,6 +1,6 @@
 # Joomla Contributor Covenant Code of Conduct
 
-This document outlines the Code of Conduct for all persons volunteering their service to the Joomla Project and/or Open Source Matters. It covers your behaviour as a member of the Joomla community, in any forum, mailing list, Wiki, Web site, IRC channel, install-fest, public meeting or private correspondence. 
+This document outlines the Code of Conduct for all persons volunteering their service to the Joomla Project and/or Open Source Matters. It covers your behaviour as a member of the Joomla community, in any forum, mailing list, Wiki, website, IRC channel, install-fest, public meeting or private correspondence. 
 
 If you cannot agree to any of these principles, then volunteering in the Joomla Project is not for you. Contributing to our community assumes acceptance of these principles:
 ## Be Considerate
@@ -35,7 +35,7 @@ Check your e-mails regularly and answer them promptly—even if it's "I'll get b
 Sometimes the hardest thing to say is "no" or admit you've forgotten to do something. Be honest with each other and yourself with regards to what you say and what you can realistically commit to.
 ## Follow the Rules
 
-Volunteers are expected to uphold Joomla's licensing and trademark requirements including, but not limited to, compliance on their own or affiliate Web sites and extensions. Make sure you have sought the appropriate approvals for domain name, name and logo usage prior to volunteering and that any extensions you distribute comply with the Joomla license.
+Volunteers are expected to uphold Joomla's licensing and trademark requirements including, but not limited to, compliance on their own or affiliate websites and extensions. Make sure you have sought the appropriate approvals for domain name, name and logo usage prior to volunteering and that any extensions you distribute comply with the Joomla license.
 
 All work contributed to the Project, whether code, documentation or other material, must observe the appropriate licenses as set down by the Core Team and Open Source Matters.
 

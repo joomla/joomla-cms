@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>com_workflow</name>
+    <author>Joomla! Project</author>
+    <creationDate>June 2017</creationDate>
+    <copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>4.0.0</version>
+    <description>COM_WORKFLOW_XML_DESCRIPTION</description>
+    <namespace path="src">Joomla\Component\Workflow</namespace>
+    <administration>
+        <menu>COM_WORKFLOW</menu>
+        <files folder="admin">
+            <filename>access.xml</filename>
+            <filename>workflow.xml</filename>
+            <folder>forms</folder>
+            <folder>services</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+        </files>
+        <languages folder="admin">
+            <language tag="en-GB">language/en-GB/com_workflow.ini</language>
+            <language tag="en-GB">language/en-GB/com_workflow.sys.ini</language>
+        </languages>
+    </administration>
+</extension>

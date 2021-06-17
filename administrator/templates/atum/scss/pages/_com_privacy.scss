@@ -1,0 +1,23 @@
+// com-privacy
+
+.tbody-icon {
+  .#{$jicon-css-prefix}-download,
+  .#{$fa-css-prefix}-download {
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  .#{$jicon-css-prefix}-mail,
+  .#{$fa-css-prefix}-mail {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .#{$jicon-css-prefix}-delete,
+  .#{$fa-css-prefix}-delete,
+  .#{$jicon-css-prefix}-times,
+  .#{$fa-css-prefix}-times {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+}

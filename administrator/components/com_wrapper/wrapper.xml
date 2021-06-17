@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>com_wrapper</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2006</creationDate>
+	<copyright>(C) 2007 Open Source Matters, Inc.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>COM_WRAPPER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Wrapper</namespace>
+	<files folder="site">
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/com_wrapper.ini</language>
+	</languages>
+	<media destination="com_wrapper" folder="media">
+		<folder>js</folder>
+	</media>
+	<administration>
+		<files folder="admin">
+			<filename>wrapper.xml</filename>
+			<folder>services</folder>
+			<folder>src</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_wrapper.ini</language>
+			<language tag="en-GB">language/en-GB/com_wrapper.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

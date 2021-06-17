@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
 
@@ -24,6 +24,7 @@ class LogEntry
 {
 	/**
 	 * Application responsible for log entry.
+	 *
 	 * @var    string
 	 * @since  1.7.0
 	 */
@@ -39,6 +40,7 @@ class LogEntry
 
 	/**
 	 * The date the message was logged.
+	 *
 	 * @var    Date
 	 * @since  1.7.0
 	 */
@@ -46,6 +48,7 @@ class LogEntry
 
 	/**
 	 * Message to be logged.
+	 *
 	 * @var    string
 	 * @since  1.7.0
 	 */
@@ -53,6 +56,7 @@ class LogEntry
 
 	/**
 	 * The priority of the message to be logged.
+	 *
 	 * @var    string
 	 * @since  1.7.0
 	 * @see    LogEntry::$priorities
@@ -61,6 +65,7 @@ class LogEntry
 
 	/**
 	 * List of available log priority levels [Based on the Syslog default levels].
+	 *
 	 * @var    array
 	 * @since  1.7.0
 	 */
@@ -98,7 +103,7 @@ class LogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true))
+		if (!\in_array($priority, $this->priorities, true))
 		{
 			$priority = Log::INFO;
 		}

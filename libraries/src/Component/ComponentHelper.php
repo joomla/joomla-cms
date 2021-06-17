@@ -2,16 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Component;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\Dispatcher\ApiDispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -115,28 +124,28 @@ class ComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = \JFilterInput::getInstance()->emailToPunycode($text);
+		$text = InputFilter::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
-		$blackListTags       = array();
-		$blackListAttributes = array();
+		$forbiddenListTags       = array();
+		$forbiddenListAttributes = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
+		$allowedListTags       = array();
+		$allowedListAttributes = array();
 
-		$whiteList  = false;
-		$blackList  = false;
-		$customList = false;
-		$unfiltered = false;
+		$allowedList    = false;
+		$forbiddenList  = false;
+		$customList     = false;
+		$unfiltered     = false;
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are included in the Public group as well.
@@ -163,7 +172,7 @@ class ComponentHelper
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Forbidden list or allowed list.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -190,13 +199,13 @@ class ComponentHelper
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the forbidden list or allowed list tags and attributes.
 				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$forbiddenList           = true;
+					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
+					$forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
 				}
 				elseif ($filterType === 'CBL')
 				{
@@ -210,70 +219,75 @@ class ComponentHelper
 				}
 				elseif ($filterType === 'WL')
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowedList           = true;
+					$allowedListTags       = array_merge($allowedListTags, $tempTags);
+					$allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
-		$customListTags       = array_unique($customListTags);
-		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		// Remove duplicates before processing (because the forbidden list uses both sets of arrays).
+		$forbiddenListTags        = array_unique($forbiddenListTags);
+		$forbiddenListAttributes  = array_unique($forbiddenListAttributes);
+		$customListTags           = array_unique($customListTags);
+		$customListAttributes     = array_unique($customListAttributes);
+		$allowedListTags          = array_unique($allowedListTags);
+		$allowedListAttributes    = array_unique($allowedListAttributes);
 
 		if (!$unfiltered)
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom Forbidden list precedes Default forbidden list.
 			if ($customList)
 			{
-				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = InputFilter::getInstance(array(), array(), 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default forbidden tags and attributes
 				if ($customListTags)
 				{
-					$filter->tagBlacklist = $customListTags;
+					$filter->blockedTags = $customListTags;
 				}
 
 				if ($customListAttributes)
 				{
-					$filter->attrBlacklist = $customListAttributes;
+					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// Forbidden list takes second precedence.
+			elseif ($forbiddenList)
 			{
-				// Remove the whitelisted tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the forbidden list.
+				$forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
+				$forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
-				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance(
+					$forbiddenListTags,
+					$forbiddenListAttributes,
+					InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+					InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+				);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove the allowed tags from filter's default forbidden list.
+				if ($allowedListTags)
 				{
-					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove the allowed attributes from filter's default forbidden list.
+				if ($allowedListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// Allowed lists take third precedence.
+			elseif ($allowedList)
 			{
 				// Turn off XSS auto clean
-				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = \JFilterInput::getInstance();
+				$filter = InputFilter::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');
@@ -295,22 +309,25 @@ class ComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
+		$lang = Factory::getLanguage();
 
-		// Load template language files.
-		$template = $app->getTemplate(true)->template;
-		$lang = \JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		if (!$app->isClient('api'))
+		{
+			// Load template language files.
+			$template = $app->getTemplate(true)->template;
+			$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+		}
 
 		if (empty($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -321,10 +338,10 @@ class ComponentHelper
 
 		// Build the component path.
 		$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-		$file = substr($option, 4);
 
 		// Define component path.
-		if (!defined('JPATH_COMPONENT'))
+
+		if (!\defined('JPATH_COMPONENT'))
 		{
 			/**
 			 * Defines the path to the active component for the request
@@ -333,173 +350,100 @@ class ComponentHelper
 			 *
 			 * @var    string
 			 * @since  1.5
+			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
+			\define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_SITE'))
+		if (!\defined('JPATH_COMPONENT_SITE'))
 		{
 			/**
 			 * Defines the path to the site element of the active component for the request
 			 *
 			 * @var    string
 			 * @since  1.5
+			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+			\define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		if (!\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			/**
 			 * Defines the path to the admin element of the active component for the request
 			 *
 			 * @var    string
 			 * @since  1.5
+			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+			\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
-
-		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
-		if (!static::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// Load common and local language files.
-		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
-		// Handle template preview outlining.
-		$contents = null;
-
-		// Execute the component.
-		$contents = static::executeComponent($path);
+		ob_start();
+		$app->bootComponent($option)->getDispatcher($app)->dispatch();
+		$contents = ob_get_clean();
 
 		// Revert the scope
 		$app->scope = $scope;
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
 	}
 
 	/**
-	 * Execute the component.
-	 *
-	 * @param   string  $path  The component path.
-	 *
-	 * @return  string  The component output
-	 *
-	 * @since   1.7
-	 */
-	protected static function executeComponent($path)
-	{
-		ob_start();
-		require_once $path;
-
-		return ob_get_clean();
-	}
-
-	/**
 	 * Load the installed components into the components property.
-	 *
-	 * @param   string  $option  The element value for the extension
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use JComponentHelper::load() instead
-	 */
-	protected static function _load($option)
-	{
-		return static::load($option);
-	}
-
-	/**
-	 * Load the installed components into the components property.
-	 *
-	 * @param   string  $option  The element value for the extension
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
-	protected static function load($option)
+	protected static function load()
 	{
 		$loader = function ()
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
+				->where(
+					[
+						$db->quoteName('type') . ' = ' . $db->quote('component'),
+						$db->quoteName('state') . ' = 0',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				);
+
+			$components = [];
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', '\JComponentRecord');
+			foreach ($db->getIterator() as $component)
+			{
+				$components[$component->option] = new ComponentRecord((array) $component);
+			}
+
+			return $components;
 		};
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('_system', 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
 		try
 		{
 			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$components = $loader();
-		}
-
-		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
-		if (isset($option) && $option != '*')
-		{
-			// Log deprecated warning and display missing component warning only if using deprecated format.
-			try
-			{
-				\JLog::add(
-					sprintf(
-						'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
-						__METHOD__,
-						__CLASS__
-					),
-					\JLog::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $e)
-			{
-				// Informational log only
-			}
-
-			if (empty(static::$components[$option]))
-			{
-				/*
-				 * Fatal error
-				 *
-				 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
-				 * before logging the error to ensure a human friendly message is always given
-				 */
-
-				if (\JFactory::$language)
-				{
-					$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
-				}
-				else
-				{
-					$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
-				}
-
-				\JLog::add($msg, \JLog::WARNING, 'jerror');
-
-				return false;
-			}
 		}
 
 		return true;
@@ -516,9 +460,35 @@ class ComponentHelper
 	{
 		if (empty(static::$components))
 		{
-			static::load('*');
+			static::load();
 		}
 
 		return static::$components;
+	}
+
+	/**
+	 * Returns the component name (eg. com_content) for the given object based on the class name.
+	 * If the object is not namespaced, then the alternative name is used.
+	 *
+	 * @param   object  $object           The object controller or model
+	 * @param   string  $alternativeName  Mostly the value of getName() from the object
+	 *
+	 * @return  string  The name
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getComponentName($object, string $alternativeName): string
+	{
+		$reflect = new \ReflectionClass($object);
+
+		if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class)
+		{
+			return 'com_' . strtolower($alternativeName);
+		}
+
+		$from = strpos($reflect->getNamespaceName(), '\\Component');
+		$to   = strpos(substr($reflect->getNamespaceName(), $from + 11), '\\');
+
+		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
 }

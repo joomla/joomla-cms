@@ -2,13 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Content History table.
@@ -39,13 +43,13 @@ class ContentHistory extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__ucm_history', 'version_id', $db);
+		parent::__construct('#__history', 'version_id', $db);
 		$this->ignoreChanges = array(
 			'modified_by',
 			'modified_user_id',
@@ -71,9 +75,11 @@ class ContentHistory extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$this->set('character_count', strlen($this->get('version_data')));
+		$this->set('character_count', \strlen($this->get('version_data')));
 		$typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
-		$typeTable->load($this->ucm_type_id);
+		$typeAlias = explode('.', $this->item_id);
+		array_pop($typeAlias);
+		$typeTable->load(array('type_alias' => implode('.', $typeAlias)));
 
 		if (!isset($this->sha1_hash))
 		{
@@ -83,8 +89,8 @@ class ContentHistory extends Table
 		// Modify author and date only when not toggling Keep Forever
 		if ($this->get('keep_forever') === null)
 		{
-			$this->set('editor_user_id', \JFactory::getUser()->id);
-			$this->set('save_date', \JFactory::getDate()->toSql());
+			$this->set('editor_user_id', Factory::getUser()->id);
+			$this->set('save_date', Factory::getDate()->toSql());
 		}
 
 		return parent::store($updateNulls);
@@ -103,13 +109,13 @@ class ContentHistory extends Table
 	 */
 	public function getSha1($jsonData, ContentType $typeTable)
 	{
-		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
+		$object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
+		if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
-			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
-			$this->convertToInt = isset($options->convertToInt) ? $options->convertToInt : $this->convertToInt;
+			$this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
+			$this->convertToInt = $options->convertToInt ?? $this->convertToInt;
 		}
 
 		foreach ($this->ignoreChanges as $remove)
@@ -123,17 +129,17 @@ class ContentHistory extends Table
 		// Convert integers, booleans, and nulls to strings to get a consistent hash value
 		foreach ($object as $name => $value)
 		{
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
+					$object->$subName = \is_int($subValue) || \is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
+				$object->$name = \is_int($value) || \is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
@@ -164,14 +170,19 @@ class ContentHistory extends Table
 	 */
 	public function getHashMatch()
 	{
-		$db    = $this->_db;
-		$query = $db->getQuery(true);
+		$db       = $this->_db;
+		$itemId   = $this->get('item_id');
+		$sha1Hash = $this->get('sha1_hash');
+		$query    = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
-			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
-		$db->setQuery($query, 0, 1);
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = :item_id')
+			->where($db->quoteName('sha1_hash') . ' = :sha1_hash')
+			->bind(':item_id', $itemId, ParameterType::STRING)
+			->bind(':sha1_hash', $sha1Hash);
+
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadObject();
 	}
@@ -190,27 +201,30 @@ class ContentHistory extends Table
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db    = $this->_db;
-		$query = $db->getQuery(true);
+		$db        = $this->_db;
+		$itemId = $this->get('item_id');
+		$query     = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('keep_forever') . ' != 1')
+			->bind(':item_id', $itemId, ParameterType::STRING)
 			->order($db->quoteName('save_date') . ' DESC ');
-		$db->setQuery($query, 0, (int) $maxVersions);
+
+		$query->setLimit((int) $maxVersions);
+		$db->setQuery($query);
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) === (int) $maxVersions)
+		if (\count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
-				->where($db->quoteName('version_id') . ' NOT IN (' . implode(',', $idsToSave) . ')')
-				->where($db->quoteName('keep_forever') . ' != 1');
+			$query->delete($db->quoteName('#__history'))
+				->where($db->quoteName('item_id') . ' = :item_id')
+				->whereNotIn($db->quoteName('version_id'), $idsToSave)
+				->where($db->quoteName('keep_forever') . ' != 1')
+				->bind(':item_id', $itemId, ParameterType::STRING);
 			$db->setQuery($query);
 			$result = (boolean) $db->execute();
 		}

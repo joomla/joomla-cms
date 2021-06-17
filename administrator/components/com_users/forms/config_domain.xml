@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="name"
+			type="text"
+			label="COM_USERS_CONFIG_FIELD_DOMAIN_NAME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_DOMAIN_NAME_DESC"
+			required="true"
+		/>
+
+		<field
+			name="rule"
+			type="radio"
+			label="COM_USERS_CONFIG_FIELD_DOMAIN_RULE_LABEL"
+			description="COM_USERS_CONFIG_FIELD_DOMAIN_RULE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			required="true"
+			default="0"
+			filter="integer"
+			validate="options"
+			>
+			<option value="0">COM_USERS_CONFIG_FIELD_DOMAIN_RULE_OPTION_DISALLOW</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_DOMAIN_RULE_OPTION_ALLOW</option>
+		</field>
+	</fieldset>
+</form>

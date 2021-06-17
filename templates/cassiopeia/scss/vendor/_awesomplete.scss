@@ -1,0 +1,34 @@
+// Awesomplete
+
+.mod-finder__search.input-group {
+  flex-wrap: nowrap;
+  .awesomplete {
+    input {
+      @include border-end-radius(0);
+    }
+  }
+  button {
+    display: flex;
+    align-items: center;
+    .icon-search {
+      margin-right: .2em;
+      [dir=rtl] & {
+        margin-right: 0;
+        margin-left: .2em;
+      }
+    }
+  }
+}
+
+.awesomplete {
+  > input {
+    max-width: 200px;
+
+    @include media-breakpoint-up(md) {
+      max-width: none;
+    }
+  }
+  > ul {
+    z-index: $zindex-dropdown !important;
+  }
+}

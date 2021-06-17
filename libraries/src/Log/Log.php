@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Log Class
@@ -128,12 +128,21 @@ class Log
 	protected $lookup = array();
 
 	/**
+	 * The registry of available loggers
+	 *
+	 * @var    LoggerRegistry
+	 * @since  4.0.0
+	 */
+	protected $loggerRegistry;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since   1.7.0
 	 */
 	protected function __construct()
 	{
+		$this->loggerRegistry = new LoggerRegistry;
 	}
 
 	/**
@@ -154,7 +163,7 @@ class Log
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(static::$instance))
 		{
-			static::setInstance(new Log);
+			static::setInstance(new static);
 		}
 
 		// If the entry object isn't a LogEntry object let's make one.
@@ -183,10 +192,32 @@ class Log
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(static::$instance))
 		{
-			static::setInstance(new Log);
+			static::setInstance(new static);
 		}
 
 		static::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+	}
+
+	/**
+	 * Register a logger to the registry
+	 *
+	 * @param   string   $key      The service key to be registered
+	 * @param   string   $class    The class name of the logger
+	 * @param   boolean  $replace  Flag indicating the service key may replace an existing definition
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function registerLogger(string $key, string $class, bool $replace = false)
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(static::$instance))
+		{
+			static::setInstance(new static);
+		}
+
+		static::$instance->loggerRegistry->register($key, $class, $replace);
 	}
 
 	/**
@@ -221,7 +252,7 @@ class Log
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback']);
 			}
-			elseif (is_array($options['callback']) && count($options['callback']) == 2 && is_object($options['callback'][0]))
+			elseif (\is_array($options['callback']) && \count($options['callback']) == 2 && \is_object($options['callback'][0]))
 			{
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
@@ -306,11 +337,27 @@ class Log
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-				$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
-
-				if (!class_exists($class))
+				if ($this->loggerRegistry->hasLogger($this->configurations[$signature]['logger']))
 				{
-					throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					$class = $this->loggerRegistry->getLoggerClass($this->configurations[$signature]['logger']);
+				}
+				else
+				{
+					@trigger_error(
+						sprintf(
+							'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
+							. ' Use the logger registry instead.',
+							__NAMESPACE__
+						),
+						E_USER_DEPRECATED
+					);
+
+					$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
+
+					if (!class_exists($class))
+					{
+						throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					}
 				}
 
 				$this->loggers[$signature] = new $class($this->configurations[$signature]);
@@ -348,7 +395,7 @@ class Log
 				if ($rules->exclude)
 				{
 					// If either there are no set categories or the category (including the empty case) is not in the list of excluded categories, add this logger.
-					if (empty($rules->categories) || !in_array($category, $rules->categories))
+					if (empty($rules->categories) || !\in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}
@@ -356,7 +403,7 @@ class Log
 				else
 				{
 					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-					if (empty($rules->categories) || in_array($category, $rules->categories))
+					if (empty($rules->categories) || \in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}

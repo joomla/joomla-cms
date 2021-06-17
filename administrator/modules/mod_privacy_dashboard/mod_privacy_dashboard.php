@@ -3,28 +3,41 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Module\PrivacyDashboard\Administrator\Helper\PrivacyDashboardHelper;
+
 // Only super user can view this data
-if (!JFactory::getUser()->authorise('core.admin'))
+if (!$app->getIdentity()->authorise('core.admin'))
 {
 	return;
 }
 
+// Boot component to ensure HTML helpers are loaded
+$app->bootComponent('com_privacy');
+
 // Load the privacy component language file.
-$lang = JFactory::getLanguage();
-$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+$lang = $app->getLanguage();
+$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
+$list = PrivacyDashboardHelper::getData();
 
-JLoader::register('ModPrivacyDashboardHelper', __DIR__ . '/helper.php');
-
-$list            = ModPrivacyDashboardHelper::getData();
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
-require JModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
+if (count($list))
+{
+	require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
+}
+else
+{
+	echo LayoutHelper::render('joomla.content.emptystate_module', [
+			'textPrefix' => 'COM_PRIVACY_REQUESTS',
+			'icon'       => 'icon-lock',
+		]
+	);
+}

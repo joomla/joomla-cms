@@ -3,41 +3,41 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
-$app = JFactory::getApplication();
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
-// Output as HTML5
-$this->setHtml5(true);
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+$app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Styles
-JHtml::_('stylesheet', 'templates/system/css/offline.css', array('version' => 'auto'));
+$wa->registerAndUseStyle('template.system.offline', 'templates/system/css/offline.css');
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', array('version' => 'auto'));
+	$wa->registerAndUseStyle('template.system.offline_rtl', 'templates/system/css/offline_rtl.css');
 }
 
-JHtml::_('stylesheet', 'templates/system/css/general.css', array('version' => 'auto'));
+$wa->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
 </head>
 <body>
@@ -53,34 +53,34 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<p>
 			<?php echo $app->get('offline_message'); ?>
 		</p>
-	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) !== '') : ?>
+	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', Text::_('JOFFLINE_MESSAGE')) !== '') : ?>
 		<p>
-			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
+			<?php echo Text::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php endif; ?>
-	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+	<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
-			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" autocomplete="off" autocapitalize="none" />
+			<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" autocomplete="off" autocapitalize="none" />
 		</p>
 		<p id="form-login-password">
-			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-			<input type="password" name="password" class="inputbox" alt="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
+			<label for="passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+			<input type="password" name="password" class="inputbox" alt="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
 		</p>
 		<?php if (count($twofactormethods) > 1) : ?>
 			<p id="form-login-secretkey">
-				<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
+				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
-		<p id="submit-buton">
-			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
+		<p id="submit-button">
+			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()); ?>" />
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 	</form>
 	</div>

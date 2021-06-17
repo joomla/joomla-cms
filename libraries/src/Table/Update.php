@@ -2,15 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Update table
@@ -21,13 +22,21 @@ use Joomla\Registry\Registry;
 class Update extends Table
 {
 	/**
+	 * Ensure the params in json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = ['params'];
+
+	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -42,10 +51,21 @@ class Update extends Table
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
@@ -55,36 +75,13 @@ class Update extends Table
 			$this->data = '';
 		}
 
+		// While column is not nullable, make sure we have a value.
+		if ($this->description === null)
+		{
+			$this->description = '';
+		}
+
 		return true;
-	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 *                          to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 *
-	 * @see     Table::bind()
-	 * @since   1.7.0
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['control']) && is_array($array['control']))
-		{
-			$registry = new Registry($array['control']);
-			$array['control'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
 	}
 
 	/**

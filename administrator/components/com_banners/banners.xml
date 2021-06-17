@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
-
+	<namespace path="src">Joomla\Component\Banners</namespace>
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -20,16 +20,18 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-
 	<files folder="site">
-		<filename>banners.php</filename>
-		<filename>controller.php</filename>
-		<filename>router.php</filename>
-		<folder>helpers</folder>
-		<folder>models</folder>
+		<folder>src</folder>
 	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/com_banners.ini</language>
+	</languages>
+	<media destination="com_banners" folder="media">
+		<folder>js</folder>
+	</media>
+
 	<administration>
-		<menu img="class:banners">com_banners</menu>
+		<menu img="class:bookmark">com_banners</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
@@ -70,18 +72,18 @@
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>banners.php</filename>
+			<filename>banners.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<folder>controllers</folder>
+			<folder>forms</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>tables</folder>
-			<folder>views</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_banners.ini</language>
-			<language tag="en-GB">language/en-GB.com_banners.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_banners.ini</language>
+			<language tag="en-GB">language/en-GB/com_banners.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="name"
+			type="text"
+			label="COM_CONTACT_FIELD_NAME_LABEL"
+			size="40"
+			required="true"
+		 />
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			size="45"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			size="45"
+			maxlength="255"
+		/>
+
+		<field
+			name="user_id"
+			type="user"
+			label="COM_CONTACT_FIELD_LINKED_USER_LABEL"
+			validate="UserId"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			default="1"
+			class="form-select-color-state"
+			size="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+
+		</field>
+
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			required="true"
+			default=""
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="misc"
+			type="editor"
+			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
+			filter="JComponentHelper::filterText"
+			buttons="true"
+			hide="readmore,pagebreak"
+		/>
+
+		<field
+			name="created_by"
+			type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="COM_CONTACT_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="created"
+			type="calendar"
+			label="COM_CONTACT_FIELD_CREATED_LABEL"
+			size="22"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+			size="22"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+			validate="UserId"
+		/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			content_type="com_contact.contact"
+		/>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
+			cols="30"
+		 />
+
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
+			maxlength="160"
+			charcounter="true"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="featured"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			label="JFEATURED"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			class="advancedSelect"
+			multiple="true"
+		/>
+	</fieldset>
+
+	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
+		<field
+			name="image"
+			type="media"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			hide_none="1"
+		/>
+
+		<field
+			name="con_position"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="email_to"
+			type="email"
+			label="JGLOBAL_EMAIL"
+			validate="email"
+			size="30"
+		/>
+
+		<field
+			name="address"
+			type="textarea"
+			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+
+		<field
+			name="suburb"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="state"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="postcode"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="country"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="telephone"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="mobile"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="fax"
+			type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="webpage"
+			type="url"
+			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
+			size="30"
+			filter="url"
+			validate="url"
+		/>
+
+		<field
+			name="sortname1"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="sortname2"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
+			size="30"
+		/>
+
+		<field
+			name="sortname3"
+			type="text"
+			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
+			size="30"
+		/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+			<fieldset name="basic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+				<field
+					name="show_contact_category"
+					type="list"
+					label="JGLOBAL_SHOW_CATEGORY_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="hide">JHIDE</option>
+					<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
+					<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK</option>
+				</field>
+
+				<field
+					name="show_contact_list"
+					type="list"
+					label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_tags"
+					type="list"
+					label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_info"
+					type="list"
+					label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
+					class="form-select-color"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_name"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_position"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_email"
+					type="list"
+					label="JGLOBAL_EMAIL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="add_mailto_link"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+					class="form-select-color"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="show_street_address"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_suburb"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_state"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_postcode"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_country"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_telephone"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_mobile"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_fax"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_webpage"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_image"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
+					class="form-select-color"
+					useglobal="true"
+					showon="show_info:1"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_misc"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+					class="form-select-color"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="allow_vcard"
+					type="list"
+					label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_articles"
+					type="list"
+					label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="articles_display_num"
+					type="list"
+					label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+					default=""
+					useglobal="true"
+					validate="options"
+					>
+					<option value="5">J5</option>
+					<option value="10">J10</option>
+					<option value="15">J15</option>
+					<option value="20">J20</option>
+					<option value="25">J25</option>
+					<option value="30">J30</option>
+					<option value="50">J50</option>
+					<option value="75">J75</option>
+					<option value="100">J100</option>
+					<option value="150">J150</option>
+					<option value="200">J200</option>
+					<option value="250">J250</option>
+					<option value="300">J300</option>
+					<option value="0">JALL</option>
+				</field>
+
+				<field
+					name="show_profile"
+					type="list"
+					label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_user_custom_fields"
+					type="fieldgroups"
+					label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+					multiple="true"
+					context="com_users.user"
+					addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+					layout="joomla.form.field.list-fancy-select"
+					>
+					<option value="-1">JALL</option>
+				</field>
+
+				<field
+					name="contact_layout"
+					type="componentlayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					extension="com_contact"
+					view="contact"
+					useglobal="true"
+				/>
+			</fieldset>
+
+			<fieldset name="link" label="JGLOBAL_FIELDSET_DISPLAY_LINK_OPTIONS">
+				<field
+					name="show_links"
+					type="list"
+					label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="linka_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
+					size="30"
+				/>
+
+				<field
+					name="linka"
+					type="url"
+					label="COM_CONTACT_FIELD_LINKA_LABEL"
+					size="30"
+					filter="url"
+					validate="url"
+				/>
+
+				<field
+					name="linkb_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
+					size="30"
+				/>
+
+				<field
+					name="linkb"
+					type="url"
+					label="COM_CONTACT_FIELD_LINKB_LABEL"
+					size="30"
+					filter="url"
+					validate="url"
+				/>
+
+				<field
+					name="linkc_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
+					size="30"
+				/>
+
+				<field
+					name="linkc"
+					type="url"
+					label="COM_CONTACT_FIELD_LINKC_LABEL"
+					size="30"
+					filter="url"
+					validate="url"
+				/>
+
+				<field
+					name="linkd_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
+					size="30"
+				/>
+
+				<field
+					name="linkd"
+					type="url"
+					label="COM_CONTACT_FIELD_LINKD_LABEL"
+					size="30"
+					filter="url"
+					validate="url"
+				/>
+
+				<field
+					name="linke_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
+					size="30"
+				/>
+
+				<field
+					name="linke"
+					type="url"
+					label="COM_CONTACT_FIELD_LINKE_LABEL"
+					size="30"
+					filter="url"
+					validate="url"
+				/>
+			</fieldset>
+		</fieldset>
+
+		<fieldset name="email" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
+			<fieldset name="form" label="COM_CONTACT_FIELDSET_FORM_LABEL">
+				<field
+					name="show_email_form"
+					type="list"
+					label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_email_copy"
+					type="list"
+					label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="validate_session"
+					type="list"
+					label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="custom_reply"
+					type="list"
+					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="redirect"
+					type="text"
+					label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
+					size="30"
+				/>
+			</fieldset>
+		</fieldset>
+	</fields>
+
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
+			</field>
+
+			<field
+				name="rights"
+				type="text"
+				label="JFIELD_METADATA_RIGHTS_LABEL"
+				size="20"
+			/>
+		</fieldset>
+	</fields>
+
+	<field
+		name="hits"
+		type="text"
+		label="JGLOBAL_HITS"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
+		name="version"
+		type="text"
+		label="COM_CONTACT_FIELD_VERSION_LABEL"
+		class="readonly"
+		size="6"
+		readonly="true"
+		filter="unset"
+	/>
+</form>

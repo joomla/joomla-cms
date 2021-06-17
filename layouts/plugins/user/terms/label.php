@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ extract($displayData);
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
  * @var   array    $termsArticle           The Article ID holding the Terms Article
- * $var   object   $article                The Article object
+ * @var   object   $article                The Article object
  */
 
 // Get the label text from the XML element, defaulting to the element name.
@@ -57,8 +57,6 @@ $text = $translateLabel ? Text::_($text) : $text;
 
 // Set required to true as this field is not displayed at all if not required.
 $required = true;
-
-JHtml::_('behavior.modal');
 
 // Build the class for the label.
 $class = !empty($description) ? 'hasPopover' : '';
@@ -71,8 +69,9 @@ $label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
 // If a description is specified, use it to build a tooltip.
 if (!empty($description))
 {
+	HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-content="' . htmlspecialchars(
+	$label .= ' data-bs-content="' . htmlspecialchars(
 		$translateDescription ? Text::_($description) : $description,
 		ENT_COMPAT,
 		'UTF-8'
@@ -81,16 +80,32 @@ if (!empty($description))
 
 if (Factory::getLanguage()->isRtl())
 {
-	$label .= ' data-placement="left"';
+	$label .= ' data-bs-placement="left"';
 }
-
-$attribs          = array();
-$attribs['class'] = 'modal';
-$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
 
 if ($article)
 {
+	$attribs = [
+		'data-bs-toggle' => 'modal',
+		'data-bs-target' => '#tosModal',
+	];
+
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'tosModal',
+		[
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+		]
+	);
 }
 else
 {

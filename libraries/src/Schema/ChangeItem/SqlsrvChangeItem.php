@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
 
@@ -39,7 +39,9 @@ class SqlsrvChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -53,7 +55,7 @@ class SqlsrvChangeItem extends ChangeItem
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6)
+		if (\count($wordArray) < 6)
 		{
 			// Done with method
 			return;

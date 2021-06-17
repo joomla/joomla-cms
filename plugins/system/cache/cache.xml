@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_cache</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -22,23 +22,22 @@
 				<field
 					name="browsercache"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
-					description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="exclude_menu_items"
 					type="menuitem"
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
-					description="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_DESC"
 					multiple="multiple"
-					filter="int_array"
+					filter="intarray"
+					layout="joomla.form.field.groupedlist-fancy-select"
 				/>
 
 			</fieldset>
@@ -48,7 +47,6 @@
 					type="textarea"
 					label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
 					description="PLG_CACHE_FIELD_EXCLUDE_DESC"
-					class="input-xxlarge"
 					rows="15"
 					filter="raw"
 				/>

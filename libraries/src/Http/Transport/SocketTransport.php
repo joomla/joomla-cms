@@ -2,25 +2,29 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
+use Joomla\Http\AbstractTransport;
+use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Uri\UriInterface;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using sockets directly.
  *
  * @since  1.7.3
  */
-class SocketTransport implements TransportInterface
+class SocketTransport extends AbstractTransport implements TransportInterface
 {
 	/**
 	 * @var    array  Reusable socket connections.
@@ -29,50 +33,26 @@ class SocketTransport implements TransportInterface
 	protected $connections;
 
 	/**
-	 * @var    Registry  The client options.
-	 * @since  1.7.3
-	 */
-	protected $options;
-
-	/**
-	 * Constructor.
+	 * Send a request to the server and return a Response object with the response.
 	 *
-	 * @param   Registry  $options  Client options object.
-	 *
-	 * @since   1.7.3
-	 * @throws  \RuntimeException
-	 */
-	public function __construct(Registry $options)
-	{
-		if (!self::isSupported())
-		{
-			throw new \RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
-		}
-
-		$this->options = $options;
-	}
-
-	/**
-	 * Send a request to the server and return a HttpResponse object with the response.
-	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   Uri      $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
+	 * @param   string        $method     The HTTP method for sending the request.
+	 * @param   UriInterface  $uri        The URI to the resource to request.
+	 * @param   mixed         $data       Either an associative array or a string to be sent with the request.
+	 * @param   array         $headers    An array of request headers to send with the request.
+	 * @param   integer       $timeout    Read timeout in seconds.
+	 * @param   string        $userAgent  The optional user agent string to send with the request.
 	 *
 	 * @return  Response
 	 *
 	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
-	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
 	{
 		$connection = $this->connect($uri, $timeout);
 
 		// Make sure the connection is alive and valid.
-		if (is_resource($connection))
+		if (\is_resource($connection))
 		{
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($connection);
@@ -105,7 +85,7 @@ class SocketTransport implements TransportInterface
 			}
 
 			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($data);
+			$headers['Content-Length'] = \strlen($data);
 		}
 
 		// Build the request payload.
@@ -120,7 +100,7 @@ class SocketTransport implements TransportInterface
 		}
 
 		// If there are custom headers to send add them to the request payload.
-		if (is_array($headers))
+		if (\is_array($headers))
 		{
 			foreach ($headers as $k => $v)
 			{
@@ -129,7 +109,7 @@ class SocketTransport implements TransportInterface
 		}
 
 		// Set any custom transport options
-		foreach ($this->options->get('transport.socket', array()) as $value)
+		foreach ($this->getOption('transport.socket', array()) as $value)
 		{
 			$request[] = $value;
 		}
@@ -142,9 +122,9 @@ class SocketTransport implements TransportInterface
 		}
 
 		// Authentication, if needed
-		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
-			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
+			$request[] = 'Authorization: Basic ' . base64_encode($this->getOption('userauth') . ':' . $this->getOption('passwordauth'));
 		}
 
 		// Send the request to the server.
@@ -177,13 +157,10 @@ class SocketTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   1.7.3
-	 * @throws  \UnexpectedValueException
+	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse($content)
 	{
-		// Create the response object.
-		$return = new Response;
-
 		if (empty($content))
 		{
 			throw new \UnexpectedValueException('No content in response.');
@@ -196,45 +173,39 @@ class SocketTransport implements TransportInterface
 		$headers = explode("\r\n", $response[0]);
 
 		// Set the body for the response.
-		$return->body = empty($response[1]) ? '' : $response[1];
+		$body = empty($response[1]) ? '' : $response[1];
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
 
-		if (is_numeric($code))
+		if (!is_numeric($code))
 		{
-			$return->code = (int) $code;
+			// No valid response code was detected.
+			throw new InvalidResponseCodeException('No HTTP response code found.');
 		}
 
-		// No valid response code was detected.
-		else
-		{
-			throw new \UnexpectedValueException('No HTTP response code found.');
-		}
+		$statusCode      = (int) $code;
+		$verifiedHeaders = $this->processHeaders($headers);
 
-		// Add the response headers to the response object.
-		foreach ($headers as $header)
-		{
-			$pos = strpos($header, ':');
-			$return->headers[trim(substr($header, 0, $pos))] = trim(substr($header, ($pos + 1)));
-		}
+		$streamInterface = new StreamResponse('php://memory', 'rw');
+		$streamInterface->write($body);
 
-		return $return;
+		return new Response($streamInterface, $statusCode, $verifiedHeaders);
 	}
 
 	/**
 	 * Method to connect to a server and get the resource.
 	 *
-	 * @param   Uri      $uri      The URI to connect with.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   UriInterface  $uri      The URI to connect with.
+	 * @param   integer       $timeout  Read timeout in seconds.
 	 *
 	 * @return  resource  Socket connection resource.
 	 *
 	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
-	protected function connect(Uri $uri, $timeout = null)
+	protected function connect(UriInterface $uri, $timeout = null)
 	{
 		$errno = null;
 		$err = null;
@@ -245,7 +216,7 @@ class SocketTransport implements TransportInterface
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())
 		{
-			$port = ($uri->getScheme() == 'https') ? 443 : 80;
+			$port = ($uri->getScheme() === 'https') ? 443 : 80;
 		}
 
 		// Use the set port.
@@ -258,7 +229,7 @@ class SocketTransport implements TransportInterface
 		$key = md5($host . $port);
 
 		// If the connection already exists, use it.
-		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
+		if (!empty($this->connections[$key]) && \is_resource($this->connections[$key]))
 		{
 			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
@@ -330,6 +301,6 @@ class SocketTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !\JFactory::getConfig()->get('proxy_enable');
+		return \function_exists('fsockopen') && \is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
 	}
 }

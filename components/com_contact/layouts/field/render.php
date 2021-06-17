@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-if (!key_exists('field', $displayData))
+use Joomla\CMS\Language\Text;
+
+if (!array_key_exists('field', $displayData))
 {
 	return;
 }
 
 $field     = $displayData['field'];
-$label     = JText::_($field->label);
+$label     = Text::_($field->label);
 $value     = $field->value;
 $class     = $field->params->get('render_class');
 $showLabel = $field->params->get('showlabel');

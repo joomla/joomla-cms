@@ -3,12 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_toolbar
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$toolbar = JToolbar::getInstance('toolbar')->render('toolbar');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 
-require JModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));
+$toolbar = Toolbar::getInstance('toolbar')->render();
+
+require ModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));

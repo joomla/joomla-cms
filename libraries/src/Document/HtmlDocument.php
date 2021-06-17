@@ -2,21 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-
-jimport('joomla.utilities.utility');
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
@@ -74,6 +77,14 @@ class HtmlDocument extends Document
 	public $_file = null;
 
 	/**
+	 * Script nonce (string if set, null otherwise)
+	 *
+	 * @var    string|null
+	 * @since  4.0.0
+	 */
+	public $cspNonce = null;
+
+	/**
 	 * String holding parsed template
 	 *
 	 * @var    string
@@ -101,11 +112,9 @@ class HtmlDocument extends Document
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  3.0.0
-	 *
-	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
+	 * @since  4.0.0
 	 */
-	private $_html5 = null;
+	private $html5 = true;
 
 	/**
 	 * Class constructor
@@ -146,10 +155,34 @@ class HtmlDocument extends Document
 		$data['script']        = $this->_script;
 		$data['custom']        = $this->_custom;
 
-		// This is for b.c. and can be safely removed in future
-		$data['scriptText']    = \JText::getScriptStrings();
+		// @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+		$data['scriptText']    = Text::getScriptStrings();
 
 		$data['scriptOptions'] = $this->scriptOptions;
+
+		// Get Asset manager state
+		$wa      = $this->getWebAssetManager();
+		$waState = $wa->getManagerState();
+
+		// Get asset objects and filter only manually added/enabled assets,
+		// Dependencies will be picked up from registry files
+		$waState['assets'] = [];
+
+		foreach ($waState['activeAssets'] as $assetType => $assetNames)
+		{
+			foreach ($assetNames as $assetName => $assetState)
+			{
+				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
+				{
+					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
+				}
+			}
+		}
+
+		// We have loaded asset objects, now can remove unused stuff
+		unset($waState['activeAssets']);
+
+		$data['assetManager'] = $waState;
 
 		return $data;
 	}
@@ -165,7 +198,7 @@ class HtmlDocument extends Document
 	 */
 	public function resetHeadData($types = null)
 	{
-		if (is_null($types))
+		if (\is_null($types))
 		{
 			$this->title         = '';
 			$this->description   = '';
@@ -180,7 +213,7 @@ class HtmlDocument extends Document
 			$this->scriptOptions = array();
 		}
 
-		if (is_array($types))
+		if (\is_array($types))
 		{
 			foreach ($types as $type)
 			{
@@ -188,7 +221,7 @@ class HtmlDocument extends Document
 			}
 		}
 
-		if (is_string($types))
+		if (\is_string($types))
 		{
 			$this->resetHeadDatum($types);
 		}
@@ -243,22 +276,46 @@ class HtmlDocument extends Document
 	 */
 	public function setHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return null;
 		}
 
-		$this->title         = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
-		$this->description   = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
-		$this->link          = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags     = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
-		$this->_links        = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
-		$this->_styleSheets  = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style        = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts      = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script       = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom       = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+		$this->title         = $data['title'] ?? $this->title;
+		$this->description   = $data['description'] ?? $this->description;
+		$this->link          = $data['link'] ?? $this->link;
+		$this->_metaTags     = $data['metaTags'] ?? $this->_metaTags;
+		$this->_links        = $data['links'] ?? $this->_links;
+		$this->_styleSheets  = $data['styleSheets'] ?? $this->_styleSheets;
+		$this->_style        = $data['style'] ?? $this->_style;
+		$this->_scripts      = $data['scripts'] ?? $this->_scripts;
+		$this->_script       = $data['script'] ?? $this->_script;
+		$this->_custom       = $data['custom'] ?? $this->_custom;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
+			}
+		}
 
 		return $this;
 	}
@@ -274,7 +331,7 @@ class HtmlDocument extends Document
 	 */
 	public function mergeHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return;
 		}
@@ -285,13 +342,13 @@ class HtmlDocument extends Document
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
 			? $this->description . $data['description']
 			: $this->description;
-		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
+		$this->link = $data['link'] ?? $this->link;
 
 		if (isset($data['metaTags']))
 		{
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
-				$booldog = $type1 == 'http-equiv' ? true : false;
+				$booldog = $type1 === 'http-equiv';
 
 				foreach ($data1 as $name2 => $data2)
 				{
@@ -300,40 +357,46 @@ class HtmlDocument extends Document
 			}
 		}
 
-		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
+		$this->_links = (isset($data['links']) && !empty($data['links']) && \is_array($data['links']))
 			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
+		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && \is_array($data['styleSheets']))
 			? array_merge($this->_styleSheets, $data['styleSheets'])
 			: $this->_styleSheets;
 
 		if (isset($data['style']))
 		{
-			foreach ($data['style'] as $type => $stdata)
+			foreach ($data['style'] as $type => $styles)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
+				foreach ($styles as $hash => $style)
 				{
-					$this->addStyleDeclaration($stdata, $type);
+					if (!isset($this->_style[strtolower($type)][$hash]))
+					{
+						$this->addStyleDeclaration($style, $type);
+					}
 				}
 			}
 		}
 
-		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
+		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && \is_array($data['scripts']))
 			? array_merge($this->_scripts, $data['scripts'])
 			: $this->_scripts;
 
 		if (isset($data['script']))
 		{
-			foreach ($data['script'] as $type => $sdata)
+			foreach ($data['script'] as $type => $scripts)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
+				foreach ($scripts as $hash => $script)
 				{
-					$this->addScriptDeclaration($sdata, $type);
+					if (!isset($this->_script[strtolower($type)][$hash]))
+					{
+						$this->addScriptDeclaration($script, $type);
+					}
 				}
 			}
 		}
 
-		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
+		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && \is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))
 			: $this->_custom;
 
@@ -342,6 +405,30 @@ class HtmlDocument extends Document
 			foreach ($data['scriptOptions'] as $key => $scriptOptions)
 			{
 				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
 			}
 		}
 
@@ -421,7 +508,7 @@ class HtmlDocument extends Document
 	 */
 	public function isHtml5()
 	{
-		return $this->_html5;
+		return $this->html5;
 	}
 
 	/**
@@ -435,9 +522,9 @@ class HtmlDocument extends Document
 	 */
 	public function setHtml5($state)
 	{
-		if (is_bool($state))
+		if (\is_bool($state))
 		{
-			$this->_html5 = $state;
+			$this->html5 = $state;
 		}
 	}
 
@@ -460,7 +547,7 @@ class HtmlDocument extends Document
 			return parent::$_buffer;
 		}
 
-		$title = (isset($attribs['title'])) ? $attribs['title'] : null;
+		$title = $attribs['title'] ?? null;
 
 		if (isset(parent::$_buffer[$type][$name][$title]))
 		{
@@ -469,10 +556,11 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type === 'modules')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
+			$cache = CmsFactory::getCache('com_modules', '');
+			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
@@ -517,13 +605,13 @@ class HtmlDocument extends Document
 	public function setBuffer($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
-		if (func_num_args() > 1 && !is_array($options))
+		if (\func_num_args() > 1 && !\is_array($options))
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 			$options = array();
 			$options['type'] = $args[1];
-			$options['name'] = (isset($args[2])) ? $args[2] : null;
-			$options['title'] = (isset($args[3])) ? $args[3] : null;
+			$options['name'] = $args[2] ?? null;
+			$options['title'] = $args[3] ?? null;
 		}
 
 		parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
@@ -564,6 +652,11 @@ class HtmlDocument extends Document
 			$this->parse($params);
 		}
 
+		if (\array_key_exists('csp_nonce', $params) && $params['csp_nonce'] !== null)
+		{
+			$this->cspNonce = $params['csp_nonce'];
+		}
+
 		$data = $this->_renderTemplate();
 		parent::render($caching, $params);
 
@@ -571,42 +664,47 @@ class HtmlDocument extends Document
 	}
 
 	/**
-	 * Count the modules based on the given condition
+	 * Count the modules in the given position
 	 *
-	 * @param   string  $condition  The condition to use
+	 * @param   string   $positionName     The position to use
+	 * @param   boolean  $withContentOnly  Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   1.7.0
 	 */
-	public function countModules($condition)
+	public function countModules(string $positionName, bool $withContentOnly = false)
 	{
-		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
-
-		if (count($words) === 1)
+		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
-			$name = strtolower($words[0]);
-			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : count(ModuleHelper::getModules($name));
-
-			return $result;
+			return 0;
 		}
 
-		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
+		$modules = ModuleHelper::getModules($positionName);
 
-		for ($i = 0, $n = count($words); $i < $n; $i += 2)
+		if (!$withContentOnly)
 		{
-			// Odd parts (modules)
-			$name = strtolower($words[$i]);
-			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0
-				: count(ModuleHelper::getModules($name));
+			return \count($modules);
 		}
 
-		$str = 'return ' . implode(' ', $words) . ';';
+		// Now we need to count only modules which actually have a content
+		$result   = 0;
+		$renderer = $this->loadRenderer('module');
 
-		return eval($str);
+		foreach ($modules as $module)
+		{
+			if (empty($module->contentRendered))
+			{
+				$renderer->render($module, array('style' => 'raw'));
+			}
+
+			if (trim($module->content) !== '')
+			{
+				$result++;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -622,8 +720,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = \JFactory::getDbo();
-			$app = \JFactory::getApplication();
+			$db = CmsFactory::getDbo();
+			$app = CmsFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -632,9 +730,14 @@ class HtmlDocument extends Document
 			{
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from('#__menu')
-					->where('parent_id = ' . $active->id)
-					->where('published = 1');
+					->from($db->quoteName('#__menu'))
+					->where(
+						[
+							$db->quoteName('parent_id') . ' = :id',
+							$db->quoteName('published') . ' = 1',
+						]
+					)
+					->bind(':id', $active->id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
@@ -658,7 +761,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -668,20 +771,6 @@ class HtmlDocument extends Document
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
-		}
-
-		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-
-		foreach (array($directory, JPATH_BASE) as $dir)
-		{
-			if (file_exists($dir . $icon))
-			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
-				break;
-			}
 		}
 
 		return $contents;
@@ -699,35 +788,46 @@ class HtmlDocument extends Document
 	protected function _fetchTemplate($params = array())
 	{
 		// Check
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$filter = \JFilterInput::getInstance();
+		$directory = $params['directory'] ?? 'templates';
+		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
+		$inherits = $params['templateInherits'] ?? '';
+		$baseDir = $directory . '/' . $template;
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$template = 'system';
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
-		$this->template = $template;
 		$this->baseurl = Uri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new Registry;
+		$this->params = $params['params'] ?? new Registry;
+		$this->template = $template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+		$this->_template = $this->_loadTemplate($baseDir, $file);
 
 		return $this;
 	}
@@ -745,31 +845,33 @@ class HtmlDocument extends Document
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$template_tags_first = array();
-			$template_tags_last = array();
+			$messages = [];
+			$template_tags_first = [];
+			$template_tags_last = [];
 
 			// Step through the jdocs in reverse order.
-			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
+			for ($i = \count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
-				$name = isset($attribs['name']) ? $attribs['name'] : null;
+				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
+				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules')
 				{
-					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_first[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+				}
+				elseif ($type === 'message')
+				{
+					$messages = [$matches[0][$i] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
 				}
 				else
 				{
-					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
 			}
 
-			// Reverse the last array so the jdocs are in forward order.
-			$template_tags_last = array_reverse($template_tags_last);
-
-			$this->_template_tags = $template_tags_first + $template_tags_last;
+			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
 		}
 
 		return $this;
@@ -784,8 +886,8 @@ class HtmlDocument extends Document
 	 */
 	protected function _renderTemplate()
 	{
-		$replace = array();
-		$with = array();
+		$replace = [];
+		$with = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{

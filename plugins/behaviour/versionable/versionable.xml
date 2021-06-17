@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="behaviour" method="upgrade">
+	<name>plg_behaviour_versionable</name>
+	<version>4.0.0</version>
+	<creationDate>August 2015</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_BEHAVIOUR_VERSIONABLE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="versionable">versionable.php</filename>
+	</files>
+	<config />
+</extension>

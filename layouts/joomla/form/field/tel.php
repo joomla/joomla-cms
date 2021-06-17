@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,30 +43,30 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   integer  $maxLength       The maximum length that the field shall accept.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
-
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	$autocomplete,
-	$autofocus ? ' autofocus' : '',
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$onchange ? ' onchange="' . $onchange . '"' : '',
+	$onchange ? 'onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
+	$dataAttribute,
 );
 ?>
-<input type="tel" name="<?php
-echo $name; ?>" <?php
-echo !empty($class) ? ' class="' . $class . '"' : ''; ?> id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
+<input
+	type="tel"
+	inputmode="tel"
+	name="<?php echo $name; ?>"
+	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?>>

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Environment;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -494,7 +494,7 @@ class Browser
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new Browser($userAgent, $accept);
+			self::$instances[$signature] = new static($userAgent, $accept);
 		}
 
 		return self::$instances[$signature];
@@ -514,7 +514,7 @@ class Browser
 	public function match($userAgent = null, $accept = null)
 	{
 		// Set our agent string.
-		if (is_null($userAgent))
+		if (\is_null($userAgent))
 		{
 			if (isset($_SERVER['HTTP_USER_AGENT']))
 			{
@@ -529,7 +529,7 @@ class Browser
 		$this->lowerAgent = strtolower($this->agent);
 
 		// Set our accept string.
-		if (is_null($accept))
+		if (\is_null($accept))
 		{
 			if (isset($_SERVER['HTTP_ACCEPT']))
 			{
@@ -937,14 +937,14 @@ class Browser
 			{
 				$wildcard_match = true;
 
-				if ($type != 'image')
+				if ($type !== 'image')
 				{
 					return true;
 				}
 			}
 
 			// Deal with Mozilla pjpeg/jpeg issue
-			if ($this->isBrowser('mozilla') && ($mimetype == 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
+			if ($this->isBrowser('mozilla') && ($mimetype === 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
 			{
 				return true;
 			}
@@ -955,12 +955,12 @@ class Browser
 			}
 		}
 
-		if ($type != 'image')
+		if ($type !== 'image')
 		{
 			return false;
 		}
 
-		return in_array($subtype, $this->images);
+		return \in_array($subtype, $this->images);
 	}
 
 	/**
@@ -1007,24 +1007,5 @@ class Browser
 	public function isMobile()
 	{
 		return $this->mobile;
-	}
-
-	/**
-	 * Determine if we are using a secure (SSL) connection.
-	 *
-	 * @return  boolean  True if using SSL, false if not.
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0 - Use the isSSLConnection method on the application object.
-	 */
-	public function isSSLConnection()
-	{
-		\JLog::add(
-			'Browser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			\JLog::WARNING,
-			'deprecated'
-		);
-
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 }

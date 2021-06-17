@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $data = $displayData;
 
@@ -18,7 +22,7 @@ $noResultsText     = '';
 $hideActiveFilters = false;
 $showFilterButton  = false;
 $showSelector      = false;
-$selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
+$selectorFieldName = $data['options']['selectorFieldName'] ?? 'client_id';
 
 // If a filter form exists.
 if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
@@ -26,7 +30,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 	// Checks if a selector (e.g. client_id) exists.
 	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
 	{
-		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
+		$showSelector = $selectorField->getAttribute('filtermode', '') === 'selector' ? true : $showSelector;
 
 		// Checks if a selector should be shown in the current layout.
 		if (isset($data['view']->layout))
@@ -51,7 +55,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 		$noResults = $data['view']->filterForm->getFieldAttribute('search', 'noresults', '', 'filter');
 		if (!empty($noResults))
 		{
-			$noResultsText = JText::_($noResults);
+			$noResultsText = Text::_($noResults);
 		}
 	}
 }
@@ -60,12 +64,12 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
-	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'showNoResults'       => !empty($noResultsText),
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
@@ -77,28 +81,26 @@ $data['options'] = array_merge($customOptions, $data['options']);
 $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
 
 // Load search tools
-JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options']);
+HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools clearfix">
-	<div class="clearfix">
-		<?php if ($data['options']['showSelector']) : ?>
-		<div class="js-stools-container-selector">
-			<?php echo $this->sublayout('selector', $data); ?>
-		</div>
-		<?php endif; ?>
-		<div class="js-stools-container-bar">
+<div class="js-stools" role="search">
+	<?php if ($data['options']['showSelector']) : ?>
+	<div class="js-stools-container-selector">
+		<?php echo $this->sublayout('selector', $data); ?>
+	</div>
+	<?php endif; ?>
+	<div class="js-stools-container-bar">
+		<div class="btn-toolbar">
 			<?php echo $this->sublayout('bar', $data); ?>
-		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
 			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<?php if ($data['options']['filterButton']) : ?>
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
+	<div class="js-stools-container-filters clearfix<?php echo $filtersActiveClass; ?>">
+		<?php if ($data['options']['filterButton']) : ?>
 		<?php echo $this->sublayout('filters', $data); ?>
+		<?php endif; ?>
 	</div>
-	<?php endif; ?>
 </div>
 <?php if ($data['options']['showNoResults']) : ?>
 	<?php echo $this->sublayout('noitems', $data); ?>

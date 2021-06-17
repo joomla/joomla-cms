@@ -2,15 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -136,6 +140,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_scripts = array();
 
@@ -144,6 +150,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_script = array();
 
@@ -159,6 +167,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_styleSheets = array();
 
@@ -167,6 +177,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_style = array();
 
@@ -219,6 +231,38 @@ class Document
 	protected $mediaVersion = null;
 
 	/**
+	 * Factory for creating JDocument API objects
+	 *
+	 * @var    FactoryInterface
+	 * @since  4.0.0
+	 */
+	protected $factory;
+
+	/**
+	 * Preload manager
+	 *
+	 * @var    PreloadManagerInterface
+	 * @since  4.0.0
+	 */
+	protected $preloadManager = null;
+
+	/**
+	 * The supported preload types
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
+
+	/**
+	 * Web Asset instance
+	 *
+	 * @var    WebAssetManager
+	 * @since  4.0.0
+	 */
+	protected $webAssetManager = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -227,44 +271,73 @@ class Document
 	 */
 	public function __construct($options = array())
 	{
-		if (array_key_exists('lineend', $options))
+		if (\array_key_exists('lineend', $options))
 		{
 			$this->setLineEnd($options['lineend']);
 		}
 
-		if (array_key_exists('charset', $options))
+		if (\array_key_exists('charset', $options))
 		{
 			$this->setCharset($options['charset']);
 		}
 
-		if (array_key_exists('language', $options))
+		if (\array_key_exists('language', $options))
 		{
 			$this->setLanguage($options['language']);
 		}
 
-		if (array_key_exists('direction', $options))
+		if (\array_key_exists('direction', $options))
 		{
 			$this->setDirection($options['direction']);
 		}
 
-		if (array_key_exists('tab', $options))
+		if (\array_key_exists('tab', $options))
 		{
 			$this->setTab($options['tab']);
 		}
 
-		if (array_key_exists('link', $options))
+		if (\array_key_exists('link', $options))
 		{
 			$this->setLink($options['link']);
 		}
 
-		if (array_key_exists('base', $options))
+		if (\array_key_exists('base', $options))
 		{
 			$this->setBase($options['base']);
 		}
 
-		if (array_key_exists('mediaversion', $options))
+		if (\array_key_exists('mediaversion', $options))
 		{
 			$this->setMediaVersion($options['mediaversion']);
+		}
+
+		if (\array_key_exists('factory', $options))
+		{
+			$this->setFactory($options['factory']);
+		}
+		else
+		{
+			$this->setFactory(new Factory);
+		}
+
+		if (\array_key_exists('preloadManager', $options))
+		{
+			$this->setPreloadManager($options['preloadManager']);
+		}
+		else
+		{
+			$this->setPreloadManager(new PreloadManager);
+		}
+
+		if (\array_key_exists('webAssetManager', $options))
+		{
+			$this->setWebAssetManager($options['webAssetManager']);
+		}
+		else
+		{
+			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+
+			$this->setWebAssetManager($webAssetManager);
 		}
 	}
 
@@ -275,9 +348,10 @@ class Document
 	 * @param   string  $type        The document type to instantiate
 	 * @param   array   $attributes  Array of attributes
 	 *
-	 * @return  object  The document object.
+	 * @return  static  The document object.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -285,47 +359,26 @@ class Document
 
 		if (empty(self::$instances[$signature]))
 		{
-			$type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$ntype = null;
-
-			// Determine the path and class
-			$class = __NAMESPACE__ . '\\' . ucfirst($type) . 'Document';
-
-			if (!class_exists($class))
-			{
-				$class = 'JDocument' . ucfirst($type);
-			}
-
-			if (!class_exists($class))
-			{
-				// @deprecated 4.0 - Document objects should be autoloaded instead
-				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-
-				\JLoader::register($class, $path);
-
-				if (class_exists($class))
-				{
-					\JLog::add('Non-autoloadable Document subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
-				}
-				// Default to the raw format
-				else
-				{
-					$ntype = $type;
-					$class = 'JDocumentRaw';
-				}
-			}
-
-			$instance = new $class($attributes);
-			self::$instances[$signature] = $instance;
-
-			if (!is_null($ntype))
-			{
-				// Set the type to the Document type originally requested
-				$instance->setType($ntype);
-			}
+			self::$instances[$signature] = CmsFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 		}
 
 		return self::$instances[$signature];
+	}
+
+	/**
+	 * Set the factory instance
+	 *
+	 * @param   FactoryInterface  $factory  The factory instance
+	 *
+	 * @return  Document
+	 *
+	 * @since   4.0.0
+	 */
+	public function setFactory(FactoryInterface $factory): self
+	{
+		$this->factory = $factory;
+
+		return $this;
 	}
 
 	/**
@@ -398,16 +451,16 @@ class Document
 	public function getMetaData($name, $attribute = 'name')
 	{
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$result = $this->getGenerator();
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -433,22 +486,22 @@ class Document
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
 		// Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-		if (is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute)))
+		if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !\is_string($attribute)))
 		{
 			$content = array_pop($content);
 		}
 
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$this->setGenerator($content);
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$this->setDescription($content);
 		}
@@ -464,44 +517,17 @@ class Document
 	 * Adds a linked script to the page
 	 *
 	 * @param   string  $url      URL to the linked script.
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
-	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			\JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old mime type parameter.
-			if (!empty($argList[1]))
-			{
-				$attribs['mime'] = $argList[1];
-			}
-
-			// Old defer parameter.
-			if (isset($argList[2]) && $argList[2])
-			{
-				$attribs['defer'] = true;
-			}
-
-			// Old async parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['async'] = true;
-			}
-		}
-
 		// Default value for type.
 		if (!isset($attribs['type']) && !isset($attribs['mime']))
 		{
@@ -515,60 +541,6 @@ class Document
 	}
 
 	/**
-	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
-	 * If not specified Joomla! automatically handles versioning
-	 *
-	 * @param   string  $url      URL to the linked script.
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
-	 *
-	 * @return  Document instance of $this to allow chaining
-	 *
-	 * @since   3.2
-	 * @deprecated 4.0  This method is deprecated, use addScript(url, options, attributes) instead.
-	 */
-	public function addScriptVersion($url, $options = array(), $attribs = array())
-	{
-		\JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
-
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
-
-			// Old mime type parameter.
-			if (!empty($argList[2]))
-			{
-				$attribs['mime'] = $argList[2];
-			}
-
-			// Old defer parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['defer'] = true;
-			}
-
-			// Old async parameter.
-			if (isset($argList[4]) && $argList[4])
-			{
-				$attribs['async'] = true;
-			}
-		}
-		// Default value for version.
-		else
-		{
-			$options['version'] = 'auto';
-		}
-
-		return $this->addScript($url, $options, $attribs);
-	}
-
-	/**
 	 * Adds a script to the page
 	 *
 	 * @param   string  $content  Script
@@ -577,17 +549,19 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_script[$type]))
 		{
-			$this->_script[strtolower($type)] = $content;
+			$this->_script[$type] = array();
 		}
-		else
-		{
-			$this->_script[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_script[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -610,7 +584,7 @@ class Document
 			$this->scriptOptions[$key] = array();
 		}
 
-		if ($merge && is_array($options))
+		if ($merge && \is_array($options))
 		{
 			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
@@ -647,44 +621,17 @@ class Document
 	 * Adds a linked stylesheet to the page
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
-	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (is_string($options))
-		{
-			\JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old mime type parameter.
-			if (!empty($argList[1]))
-			{
-				$attribs['type'] = $argList[1];
-			}
-
-			// Old media parameter.
-			if (isset($argList[2]) && $argList[2])
-			{
-				$attribs['media'] = $argList[2];
-			}
-
-			// Old attribs parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs = array_replace($attribs, $argList[3]);
-			}
-		}
-
 		// Default value for type.
 		if (!isset($attribs['type']) && !isset($attribs['mime']))
 		{
@@ -706,60 +653,6 @@ class Document
 	}
 
 	/**
-	 * Adds a linked stylesheet version to the page. Ex: template.css?54771616b5bceae9df03c6173babf11d
-	 * If not specified Joomla! automatically handles versioning
-	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
-	 *
-	 * @return  Document instance of $this to allow chaining
-	 *
-	 * @since   3.2
-	 * @deprecated 4.0  This method is deprecated, use addStyleSheet(url, options, attributes) instead.
-	 */
-	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
-	{
-		\JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
-
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
-
-			// Old mime type parameter.
-			if (!empty($argList[2]))
-			{
-				$attribs['mime'] = $argList[2];
-			}
-
-			// Old media parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['media'] = $argList[3];
-			}
-
-			// Old attribs parameter.
-			if (isset($argList[4]) && $argList[4])
-			{
-				$attribs = array_replace($attribs, $argList[4]);
-			}
-		}
-		// Default value for version.
-		else
-		{
-			$options['version'] = 'auto';
-		}
-
-		return $this->addStyleSheet($url, $options, $attribs);
-	}
-
-	/**
 	 * Adds a stylesheet declaration to the page
 	 *
 	 * @param   string  $content  Style declarations
@@ -768,17 +661,19 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_style[$type]))
 		{
-			$this->_style[strtolower($type)] = $content;
+			$this->_style[$type] = array();
 		}
-		else
-		{
-			$this->_style[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_style[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -924,6 +819,62 @@ class Document
 	}
 
 	/**
+	 * Set the preload manager
+	 *
+	 * @param   PreloadManagerInterface  $preloadManager  The preload manager service
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   4.0.0
+	 */
+	public function setPreloadManager(PreloadManagerInterface $preloadManager): self
+	{
+		$this->preloadManager = $preloadManager;
+
+		return $this;
+	}
+
+	/**
+	 * Return the preload manager
+	 *
+	 * @return  PreloadManagerInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function getPreloadManager(): PreloadManagerInterface
+	{
+		return $this->preloadManager;
+	}
+
+	/**
+	 * Set WebAsset manager
+	 *
+	 * @param   WebAssetManager  $webAsset  The WebAsset instance
+	 *
+	 * @return  Document
+	 *
+	 * @since   4.0.0
+	 */
+	public function setWebAssetManager(WebAssetManager $webAsset): self
+	{
+		$this->webAssetManager = $webAsset;
+
+		return $this;
+	}
+
+	/**
+	 * Return WebAsset manager
+	 *
+	 * @return  WebAssetManager
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWebAssetManager(): WebAssetManager
+	{
+		return $this->webAssetManager;
+	}
+
+	/**
 	 * Sets the base URI of the document
 	 *
 	 * @param   string  $base  The base URI to be set
@@ -1047,14 +998,14 @@ class Document
 	 */
 	public function setModifiedDate($date)
 	{
-		if (!is_string($date) && !($date instanceof Date))
+		if (!\is_string($date) && !($date instanceof Date))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
 					'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
 					__METHOD__ . '()',
 					'Joomla\\CMS\\Date\\Date',
-					gettype($date) === 'object' ? (get_class($date) . ' instance') : gettype($date)
+					\gettype($date) === 'object' ? (\get_class($date) . ' instance') : \gettype($date)
 				)
 			);
 		}
@@ -1082,8 +1033,8 @@ class Document
 	 * This usually will be text/html because most browsers cannot yet
 	 * accept the proper mime settings for XHTML: application/xhtml+xml
 	 * and to a lesser extent application/xml and text/xml. See the W3C note
-	 * ({@link http://www.w3.org/TR/xhtml-media-types/
-	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
+	 * ({@link https://www.w3.org/TR/xhtml-media-types/
+	 * https://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
 	 * @param   string   $type  The document type to be sent
 	 * @param   boolean  $sync  Should the type be synced with HTML?
@@ -1092,7 +1043,7 @@ class Document
 	 *
 	 * @since   1.7.0
 	 *
-	 * @link    http://www.w3.org/TR/xhtml-media-types
+	 * @link    https://www.w3.org/TR/xhtml-media-types/
 	 */
 	public function setMimeEncoding($type = 'text/html', $sync = true)
 	{
@@ -1193,49 +1144,14 @@ class Document
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  DocumentRenderer
+	 * @return  RendererInterface
 	 *
 	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
-		// Determine the path and class
-		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($this->getType()) . '\\' . ucfirst($type) . 'Renderer';
-
-		if (!class_exists($class))
-		{
-			$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
-		}
-
-		if (!class_exists($class))
-		{
-			// "Legacy" class name structure
-			$class = 'JDocumentRenderer' . $type;
-
-			if (!class_exists($class))
-			{
-				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
-				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
-
-				if (!file_exists($path))
-				{
-					throw new \RuntimeException('Unable to load renderer class', 500);
-				}
-
-				\JLoader::register($class, $path);
-
-				\JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
-
-				// If the class still doesn't exist after including the path, we've got issues
-				if (!class_exists($class))
-				{
-					throw new \RuntimeException('Unable to load renderer class', 500);
-				}
-			}
-		}
-
-		return new $class($this);
+		return $this->factory->createRenderer($this, $type);
 	}
 
 	/**
@@ -1258,13 +1174,13 @@ class Document
 	 * @param   boolean  $cache   If true, cache the output
 	 * @param   array    $params  Associative array of attributes
 	 *
-	 * @return  void  The rendered data
+	 * @return  string  The rendered data
 	 *
 	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = CmsFactory::getApplication();
 
 		if ($mdate = $this->getModifiedDate())
 		{
@@ -1278,5 +1194,81 @@ class Document
 
 		$app->mimeType = $this->_mime;
 		$app->charSet  = $this->_charset;
+
+		// Handle preloading for configured assets in web applications
+		if ($app instanceof AbstractWebApplication)
+		{
+			$this->preloadAssets();
+		}
+
+		return '';
+	}
+
+	/**
+	 * Generate the Link header for assets configured for preloading
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function preloadAssets()
+	{
+		// Process stylesheets first
+		foreach ($this->_styleSheets as $link => $properties)
+		{
+			if (empty($properties['options']['preload']))
+			{
+				continue;
+			}
+
+			foreach ($properties['options']['preload'] as $preloadMethod)
+			{
+				// Make sure the preload method is supported, special case for `dns-prefetch` to convert it to the right method name
+				if ($preloadMethod === 'dns-prefetch')
+				{
+					$this->getPreloadManager()->dnsPrefetch($link);
+				}
+				elseif (\in_array($preloadMethod, $this->preloadTypes))
+				{
+					$this->getPreloadManager()->$preloadMethod($link);
+				}
+				else
+				{
+					throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+				}
+			}
+		}
+
+		// Now process scripts
+		foreach ($this->_scripts as $link => $properties)
+		{
+			if (empty($properties['options']['preload']))
+			{
+				continue;
+			}
+
+			foreach ($properties['options']['preload'] as $preloadMethod)
+			{
+				// Make sure the preload method is supported, special case for `dns-prefetch` to convert it to the right method name
+				if ($preloadMethod === 'dns-prefetch')
+				{
+					$this->getPreloadManager()->dnsPrefetch($link);
+				}
+				elseif (\in_array($preloadMethod, $this->preloadTypes))
+				{
+					$this->getPreloadManager()->$preloadMethod($link);
+				}
+				else
+				{
+					throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+				}
+			}
+		}
+
+		// Check if the manager's provider has links, if so add the Link header
+		if ($links = $this->getPreloadManager()->getLinkProvider()->getLinks())
+		{
+			CmsFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
+		}
 	}
 }

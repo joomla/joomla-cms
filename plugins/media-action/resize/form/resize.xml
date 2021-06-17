@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="resize" label="PLG_MEDIA-ACTION_RESIZE_LABEL">
+		<field
+			name="resize_quality"
+			type="number"
+			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_QUALITY"
+			min="1"
+			max="100"
+			step="1"
+			default="80"
+			filter="integer"
+		/>
+
+		<field
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="resize_width"
+			type="text"
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+
+		<field
+			name="resize_height"
+			type="text"
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
+		/>
+	</fieldset>
+</form>

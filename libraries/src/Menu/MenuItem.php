@@ -2,24 +2,27 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Tree\NodeInterface;
+use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 /**
  * Object representing a menu item
  *
  * @since  3.7.0
- * @note   This class will no longer extend stdClass in Joomla 4
  */
-class MenuItem extends \stdClass
+class MenuItem implements NodeInterface
 {
+	use NodeTrait;
+
 	/**
 	 * Primary key
 	 *
@@ -103,7 +106,7 @@ class MenuItem extends \stdClass
 	/**
 	 * The click behaviour of the link
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.7.0
 	 */
 	public $browserNav;
@@ -205,69 +208,6 @@ class MenuItem extends \stdClass
 	}
 
 	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
-	 */
-	public function __get($name)
-	{
-		if ($name === 'params')
-		{
-			return $this->getParams();
-		}
-
-		return $this->get($name);
-	}
-
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
-	 */
-	public function __set($name, $value)
-	{
-		if ($name === 'params')
-		{
-			$this->setParams($value);
-
-			return;
-		}
-
-		$this->set($name, $value);
-	}
-
-	/**
-	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
-	 *
-	 * @param   string  $name  The property name to check.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.1
-	 * @deprecated  4.0 Deprecated without replacement
-	 */
-	public function __isset($name)
-	{
-		if ($name === 'params')
-		{
-			return !($this->params instanceof Registry);
-		}
-
-		return $this->get($name) !== null;
-	}
-
-	/**
 	 * Returns the menu item parameters
 	 *
 	 * @return  Registry
@@ -308,45 +248,5 @@ class MenuItem extends \stdClass
 	public function setParams($params)
 	{
 		$this->params = $params;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
-	 *
-	 * @return  mixed    The value of the property.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0
-	 */
-	public function get($property, $default = null)
-	{
-		if (isset($this->$property))
-		{
-			return $this->$property;
-		}
-
-		return $default;
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set.
-	 *
-	 * @return  mixed  Previous value of the property.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0
-	 */
-	public function set($property, $value = null)
-	{
-		$previous = isset($this->$property) ? $this->$property : null;
-		$this->$property = $value;
-
-		return $previous;
 	}
 }

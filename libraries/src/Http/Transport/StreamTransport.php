@@ -2,73 +2,46 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
+use Joomla\Http\AbstractTransport;
+use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Uri\Uri;
+use Joomla\Uri\UriInterface;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using PHP streams.
  *
  * @since  1.7.3
  */
-class StreamTransport implements TransportInterface
+class StreamTransport extends AbstractTransport implements TransportInterface
 {
 	/**
-	 * @var    Registry  The client options.
-	 * @since  1.7.3
-	 */
-	protected $options;
-
-	/**
-	 * Constructor.
+	 * Send a request to the server and return a Response object with the response.
 	 *
-	 * @param   Registry  $options  Client options object.
-	 *
-	 * @since   1.7.3
-	 * @throws  \RuntimeException
-	 */
-	public function __construct(Registry $options)
-	{
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new \RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
-		}
-
-		// Verify that fopen() is available.
-		if (!self::isSupported())
-		{
-			throw new \RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
-		}
-
-		$this->options = $options;
-	}
-
-	/**
-	 * Send a request to the server and return a HttpResponse object with the response.
-	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   Uri      $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
+	 * @param   string        $method     The HTTP method for sending the request.
+	 * @param   UriInterface  $uri        The URI to the resource to request.
+	 * @param   mixed         $data       Either an associative array or a string to be sent with the request.
+	 * @param   array         $headers    An array of request headers to send with the request.
+	 * @param   integer       $timeout    Read timeout in seconds.
+	 * @param   string        $userAgent  The optional user agent string to send with the request.
 	 *
 	 * @return  Response
 	 *
 	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
-	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
 	{
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
@@ -93,7 +66,7 @@ class StreamTransport implements TransportInterface
 			}
 
 			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($options['content']);
+			$headers['Content-Length'] = \strlen($options['content']);
 		}
 
 		// If an explicit timeout is given user it.
@@ -112,27 +85,27 @@ class StreamTransport implements TransportInterface
 		$options['ignore_errors'] = 1;
 
 		// Follow redirects.
-		$options['follow_location'] = (int) $this->options->get('follow_location', 1);
+		$options['follow_location'] = (int) $this->getOption('follow_location', 1);
 
 		// Set any custom transport options
-		foreach ($this->options->get('transport.stream', array()) as $key => $value)
+		foreach ($this->getOption('transport.stream', array()) as $key => $value)
 		{
 			$options[$key] = $value;
 		}
 
 		// Add the proxy configuration, if any.
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
-		if ($config->get('proxy_enable'))
+		if ($app->get('proxy_enable'))
 		{
-			$options['proxy'] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+			$options['proxy'] = $app->get('proxy_host') . ':' . $app->get('proxy_port');
 			$options['request_fulluri'] = true;
 
 			// Put any required authorization into the headers array to be handled later
 			// TODO: do we need to support any auth type other than Basic?
-			if ($user = $config->get('proxy_user'))
+			if ($user = $app->get('proxy_user'))
 			{
-				$auth = base64_encode($config->get('proxy_user') . ':' . $config->get('proxy_pass'));
+				$auth = base64_encode($app->get('proxy_user') . ':' . $app->get('proxy_pass'));
 
 				$headers['Proxy-Authorization'] = 'Basic ' . $auth;
 			}
@@ -158,29 +131,24 @@ class StreamTransport implements TransportInterface
 		// Add our options to the current ones, if any.
 		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
 
-		$streamOptions = array(
-			'http' => $options,
-			'ssl' => array(
-				'verify_peer'   => true,
-				'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
-				'verify_depth'  => 5,
-			),
+		// Create the stream context for the request.
+		$context = stream_context_create(
+			array(
+				'http' => $options,
+				'ssl' => array(
+					'verify_peer'      => true,
+					'cafile'           => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
+					'verify_depth'     => 5,
+					'verify_peer_name' => true,
+				),
+			)
 		);
 
-		// Ensure the ssl peer name is verified where possible
-		if (version_compare(PHP_VERSION, '5.6.0') >= 0)
-		{
-			$streamOptions['ssl']['verify_peer_name'] = true;
-		}
-
-		// Create the stream context for the request.
-		$context = stream_context_create($streamOptions);
-
 		// Authentication, if needed
-		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
-			$uri->setUser($this->options->get('userauth'));
-			$uri->setPass($this->options->get('passwordauth'));
+			$uri->setUser($this->getOption('userauth'));
+			$uri->setPass($this->getOption('passwordauth'));
 		}
 
 		// Capture PHP errors
@@ -196,7 +164,7 @@ class StreamTransport implements TransportInterface
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri);
 			}
 
 			// Restore error tracking to give control to the exception handler
@@ -242,39 +210,27 @@ class StreamTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   1.7.3
-	 * @throws  \UnexpectedValueException
+	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse(array $headers, $body)
 	{
-		// Create the response object.
-		$return = new Response;
-
-		// Set the body for the response.
-		$return->body = $body;
-
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
 
-		if (is_numeric($code))
+		if (!is_numeric($code))
 		{
-			$return->code = (int) $code;
+			// No valid response code was detected.
+			throw new InvalidResponseCodeException('No HTTP response code found.');
 		}
 
-		// No valid response code was detected.
-		else
-		{
-			throw new \UnexpectedValueException('No HTTP response code found.');
-		}
+		$statusCode      = (int) $code;
+		$verifiedHeaders = $this->processHeaders($headers);
 
-		// Add the response headers to the response object.
-		foreach ($headers as $header)
-		{
-			$pos = strpos($header, ':');
-			$return->headers[trim(substr($header, 0, $pos))] = trim(substr($header, ($pos + 1)));
-		}
+		$streamInterface = new StreamResponse('php://memory', 'rw');
+		$streamInterface->write($body);
 
-		return $return;
+		return new Response($streamInterface, $statusCode, $verifiedHeaders);
 	}
 
 	/**
@@ -286,6 +242,6 @@ class StreamTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
+		return \function_exists('fopen') && \is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }

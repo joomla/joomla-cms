@@ -2,23 +2,33 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Exception;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Model class for handling lists of items.
  *
  * @since  1.6
  */
-class ListModel extends BaseDatabaseModel
+class ListModel extends BaseDatabaseModel implements ListModelInterface
 {
+	use FormBehaviorTrait;
+	use FormFactoryAwareTrait;
+
 	/**
 	 * Internal memory based cache array of data.
 	 *
@@ -47,7 +57,7 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    \JDatabaseQuery[]
+	 * @var    DatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -69,34 +79,53 @@ class ListModel extends BaseDatabaseModel
 	protected $htmlFormName = 'adminForm';
 
 	/**
-	 * A blacklist of filter variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
 	 *
-	 * @var    array
-	 * @since  3.4.5
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $filterForbiddenList instead
 	 */
 	protected $filterBlacklist = array();
 
 	/**
-	 * A blacklist of list variables to not merge into the model's state
+	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  3.4.5
+	 * @since  4.0.0
+	 */
+	protected $filterForbiddenList = array();
+
+	/**
+	 * A list of forbidden variables to not merge into the model's state
+	 *
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $listForbiddenList instead
 	 */
 	protected $listBlacklist = array('select');
 
 	/**
-	 * Constructor.
+	 * A list of forbidden variables to not merge into the model's state
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     \JModelLegacy
-	 * @since   1.6
+	 * @var    array
+	 * @since  4.0.0
 	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
+	protected $listForbiddenList = array('select');
 
-		// Add the ordering filtering fields whitelist.
+	/**
+	 * Constructor
+	 *
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 *
+	 * @since   1.6
+	 * @throws  Exception
+	 */
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	{
+		parent::__construct($config, $factory);
+
+		// Add the ordering filtering fields allowed list.
 		if (isset($config['filter_fields']))
 		{
 			$this->filter_fields = $config['filter_fields'];
@@ -107,6 +136,56 @@ class ListModel extends BaseDatabaseModel
 		{
 			$this->context = strtolower($this->option . '.' . $this->getName());
 		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->filterBlacklist))
+		{
+			$this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
+		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->listBlacklist))
+		{
+			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
+		}
+	}
+
+	/**
+	 * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = clone $this->_getListQuery();
+
+		if ($query instanceof DatabaseQuery)
+		{
+			$query->clear('bounded')
+				->clear('group')
+				->clear('having')
+				->clear('join')
+				->clear('values')
+				->clear('where');
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @throws Exception
+	 *
+	 * @since 4.0.0
+	 */
+	public function getIsEmptyState(): bool
+	{
+		return $this->_getListCount($this->getEmptyStateQuery()) === 0;
 	}
 
 	/**
@@ -114,7 +193,7 @@ class ListModel extends BaseDatabaseModel
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  DatabaseQuery  A DatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -197,9 +276,9 @@ class ListModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -211,7 +290,7 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * Method to get a \JPagination object for the data set.
 	 *
-	 * @return  \JPagination  A \JPagination object for the data set.
+	 * @return  Pagination  A Pagination object for the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -229,7 +308,7 @@ class ListModel extends BaseDatabaseModel
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 
 		// Create the pagination object and add the object to the internal cache.
-		$this->cache[$store] = new \JPagination($this->getTotal(), $this->getStart(), $limit);
+		$this->cache[$store] = new Pagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $this->cache[$store];
 	}
@@ -333,98 +412,38 @@ class ListModel extends BaseDatabaseModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
 	 * @since   3.2
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-		$form = null;
-
 		// Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
 		if (empty($this->filterFormName))
 		{
-			$classNameParts = explode('Model', get_called_class());
+			$classNameParts = explode('Model', \get_called_class());
 
-			if (count($classNameParts) == 2)
+			if (\count($classNameParts) >= 2)
 			{
-				$this->filterFormName = 'filter_' . strtolower($classNameParts[1]);
+				$this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
 			}
 		}
 
-		if (!empty($this->filterFormName))
+		if (empty($this->filterFormName))
 		{
-			// Get the form.
-			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+			return null;
 		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to get a form object.
-	 *
-	 * @param   string          $name     The name of the form.
-	 * @param   string          $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array           $options  Optional array of options for the form creation.
-	 * @param   boolean         $clear    Optional argument to force load a new form.
-	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
-	 *
-	 * @return  \JForm|boolean  \JForm object on success, False on error.
-	 *
-	 * @see     \JForm
-	 * @since   3.2
-	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-	{
-		// Handle the optional arguments.
-		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
-
-		// Create a signature hash.
-		$hash = md5($source . serialize($options));
-
-		// Check if we can use a previously loaded form.
-		if (!$clear && isset($this->_forms[$hash]))
-		{
-			return $this->_forms[$hash];
-		}
-
-		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 
 		try
 		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
-
-			if (isset($options['load_data']) && $options['load_data'])
-			{
-				// Get the data for the form.
-				$data = $this->loadFormData();
-			}
-			else
-			{
-				$data = array();
-			}
-
-			// Allow for additional modification of the form, and events to be triggered.
-			// We pass the data because plugins may require it.
-			$this->preprocessForm($form, $data);
-
-			// Load the data into the form after the plugins have operated.
-			$form->bind($data);
+			// Get the form.
+			return $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
 		}
-		catch (\Exception $e)
+		catch (\RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
-
-			return false;
 		}
 
-		// Store the form for later.
-		$this->_forms[$hash] = $form;
-
-		return $form;
+		return null;
 	}
 
 	/**
@@ -437,7 +456,7 @@ class ListModel extends BaseDatabaseModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
+		$data = Factory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -474,16 +493,16 @@ class ListModel extends BaseDatabaseModel
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = \JFactory::getApplication();
-			$inputFilter = \JFilterInput::getInstance();
+			$app         = Factory::getApplication();
+			$inputFilter = InputFilter::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
 			{
 				foreach ($filters as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!in_array($name, $this->filterBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->filterForbiddenList))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -497,8 +516,8 @@ class ListModel extends BaseDatabaseModel
 			{
 				foreach ($list as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!in_array($name, $this->listBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->listForbiddenList))
 					{
 						// Extra validations
 						switch ($name)
@@ -506,12 +525,12 @@ class ListModel extends BaseDatabaseModel
 							case 'fullordering':
 								$orderingParts = explode(' ', $value);
 
-								if (count($orderingParts) >= 2)
+								if (\count($orderingParts) >= 2)
 								{
 									// Latest part will be considered the direction
 									$fullDirection = end($orderingParts);
 
-									if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
+									if (\in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
@@ -523,12 +542,12 @@ class ListModel extends BaseDatabaseModel
 										$value = $ordering . ' ' . $direction;
 									}
 
-									unset($orderingParts[count($orderingParts) - 1]);
+									unset($orderingParts[\count($orderingParts) - 1]);
 
 									// The rest will be the ordering
 									$fullOrdering = implode(' ', $orderingParts);
 
-									if (in_array($fullOrdering, $this->filter_fields))
+									if (\in_array($fullOrdering, $this->filter_fields))
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
@@ -551,14 +570,14 @@ class ListModel extends BaseDatabaseModel
 								break;
 
 							case 'ordering':
-								if (!in_array($value, $this->filter_fields))
+								if (!\in_array($value, $this->filter_fields))
 								{
 									$value = $ordering;
 								}
 								break;
 
 							case 'direction':
-								if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+								if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 								{
 									$value = $direction;
 								}
@@ -592,10 +611,10 @@ class ListModel extends BaseDatabaseModel
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
-				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
+				// Check if the ordering field is in the allowed list, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
-				if (!in_array($value, $this->filter_fields))
+				if (!\in_array($value, $this->filter_fields))
 				{
 					$value = $ordering;
 					$app->setUserState($this->context . '.ordercol', $value);
@@ -606,7 +625,7 @@ class ListModel extends BaseDatabaseModel
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);
@@ -618,7 +637,7 @@ class ListModel extends BaseDatabaseModel
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
+			if (!empty($oldOrdering) && \in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}
@@ -626,7 +645,7 @@ class ListModel extends BaseDatabaseModel
 			// Support old direction field
 			$oldDirection = $app->input->get('filter_order_Dir');
 
-			if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
+			if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
 			{
 				$this->setState('list.direction', $oldDirection);
 			}
@@ -643,42 +662,6 @@ class ListModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Method to allow derived classes to preprocess the form.
-	 *
-	 * @param   \JForm  $form   A \JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @throws  \Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
-	{
-		// Import the appropriate plugin group.
-		\JPluginHelper::importPlugin($group);
-
-		// Get the dispatcher.
-		$dispatcher = \JEventDispatcher::getInstance();
-
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			if (!($error instanceof \Exception))
-			{
-				throw new \Exception($error);
-			}
-		}
-	}
-
-	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
 	 * This is the same as the method in \JApplication except that this also can optionally
@@ -687,7 +670,7 @@ class ListModel extends BaseDatabaseModel
 	 * @param   string   $key        The key of the user state variable.
 	 * @param   string   $request    The name of the variable passed in a request.
 	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
@@ -696,10 +679,10 @@ class ListModel extends BaseDatabaseModel
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
-		$cur_state = $old_state !== null ? $old_state : $default;
+		$cur_state = $old_state ?? $default;
 		$new_state = $input->get($request, null, $type);
 
 		// BC for Search Tools which uses different naming

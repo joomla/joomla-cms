@@ -2,26 +2,26 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a select grouped list of template styles
  *
  * @since  1.6
  */
-class TemplatestyleField extends \JFormFieldGroupedList
+class TemplatestyleField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -93,7 +93,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 	}
 
 	/**
-	 * Method to attach a JForm object to the field.
+	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
@@ -145,11 +145,23 @@ class TemplatestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('s.id, s.title, e.name as name, s.template')
-			->from('#__template_styles as s')
-			->where('s.client_id = ' . (int) $client->id)
-			->order('template')
-			->order('title');
+		$query->select(
+			[
+				$db->quoteName('s.id'),
+				$db->quoteName('s.title'),
+				$db->quoteName('e.name'),
+				$db->quoteName('s.template'),
+			]
+		)
+			->from($db->quoteName('#__template_styles', 's'))
+			->where($db->quoteName('s.client_id') . ' = :clientId')
+			->bind(':clientId', $client->id, ParameterType::INTEGER)
+			->order(
+				[
+					$db->quoteName('template'),
+					$db->quoteName('title'),
+				]
+			);
 
 		if ($template)
 		{
@@ -170,9 +182,9 @@ class TemplatestyleField extends \JFormFieldGroupedList
 			foreach ($styles as $style)
 			{
 				$template = $style->template;
-				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
-				$name = \JText::_($style->name);
+				$lang->load('tpl_' . $template . '.sys', $client->path)
+					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
+				$name = Text::_($style->name);
 
 				// Initialize the group if necessary.
 				if (!isset($groups[$name]))
@@ -180,7 +192,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 					$groups[$name] = array();
 				}
 
-				$groups[$name][] = \JHtml::_('select.option', $style->id, $style->title);
+				$groups[$name][] = HTMLHelper::_('select.option', $style->id, $style->title);
 			}
 		}
 

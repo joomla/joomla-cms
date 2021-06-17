@@ -1,0 +1,8 @@
+// Matches default `<td>` alignment by inheriting `text-align`.
+// 1. Fix alignment for Safari
+
+th {
+  text-align: inherit;
+  /* stylelint-disable-next-line */
+  text-align: -webkit-match-parent; // 1
+}

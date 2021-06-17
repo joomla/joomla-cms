@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/Unit/bootstrap.php" colors="false">
+	<testsuites>
+		<testsuite name="Unit">
+			<directory suffix="Test.php">./tests/Unit/Libraries</directory>
+		</testsuite>
+		<testsuite name="Integration">
+			<directory suffix="Test.php">./tests/Integration/Libraries</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<const name="JTEST_DB_ENGINE" value="pgsql" />
+		<const name="JTEST_DB_HOST" value="postgres" />
+		<const name="JTEST_DB_NAME" value="test_joomla" />
+		<const name="JTEST_DB_USER" value="root" />
+		<const name="JTEST_DB_PASSWORD" value="joomla_ut" />
+	</php>
+</phpunit>

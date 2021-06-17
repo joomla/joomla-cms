@@ -3,13 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$app       = JFactory::getApplication();
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+
+$app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $input     = $app->input;
 $component = $input->getCmd('option', 'com_content');
@@ -21,16 +26,16 @@ if ($component === 'com_categories')
 	$component = $parts[0];
 }
 
-$saveHistory = JComponentHelper::getParams($component)->get('save_history', 0);
+$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: array(
+	'transition',
 	array('parent', 'parent_id'),
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
 	'sticky',
 	'access',
-	'id',
 	'language',
 	'tags',
 	'note',
@@ -38,15 +43,21 @@ $fields = $displayData->get('fields') ?: array(
 );
 
 $hiddenFields   = $displayData->get('hidden_fields') ?: array();
-$hiddenFields[] = 'id';
 
 if (!$saveHistory)
 {
 	$hiddenFields[] = 'version_note';
 }
 
+if (!Multilanguage::isEnabled())
+{
+	$hiddenFields[] = 'language';
+	$form->setFieldAttribute('language', 'default', '*');
+}
+
 $html   = array();
 $html[] = '<fieldset class="form-vertical">';
+$html[] = '<legend class="visually-hidden">' . Text::_('JGLOBAL_FIELDSET_GLOBAL') . '</legend>';
 
 foreach ($fields as $field)
 {

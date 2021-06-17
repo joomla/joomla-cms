@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Updater\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
@@ -56,6 +56,7 @@ class ExtensionAdapter extends UpdateAdapter
 				$this->currentUpdate->detailsurl = $this->_url;
 				$this->currentUpdate->folder = '';
 				$this->currentUpdate->client_id = 1;
+				$this->currentUpdate->infourl = '';
 				break;
 
 			// Don't do anything
@@ -63,23 +64,23 @@ class ExtensionAdapter extends UpdateAdapter
 				break;
 
 			default:
-				if (in_array($name, $this->updatecols))
+				if (\in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -101,38 +102,15 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		array_pop($this->stack);
 
-		// @todo remove code: echo 'Closing: '. $name .'<br />';
 		switch ($name)
 		{
 			case 'UPDATE':
 				// Lower case and remove the exclamation mark
 				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
-				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
-				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
-				{
-					Log::add(
-						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
-						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
-						Log::WARNING,
-						'deprecated'
-					);
-				}
-
-				/*
-				 * Check that the product matches and that the version matches (optionally a regexp)
-				 *
-				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
-				 */
-				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level)
-					|| Version::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
-				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level)
-					|| Version::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
-
+				// Check that the product matches and that the version matches (optionally a regexp)
 				if ($product == $this->currentUpdate->targetplatform['NAME']
-					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
-					&& $patchMinimumSupported
-					&& $patchMaximumSupported)
+					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
@@ -142,7 +120,7 @@ class ExtensionAdapter extends UpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = \JText::sprintf(
+						$msg = Text::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -178,21 +156,21 @@ class ExtensionAdapter extends UpdateAdapter
 						}
 
 						// Do we have an entry for the database?
-						if (array_key_exists($dbType, $supportedDbs))
+						if (\array_key_exists($dbType, $supportedDbs))
 						{
-							$minumumVersion = $supportedDbs[$dbType];
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+							$minimumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
 							if (!$dbMatch)
 							{
 								// Notify the user of the potential update
-								$dbMsg = \JText::sprintf(
+								$dbMsg = Text::sprintf(
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									\JText::_($db->name),
+									Text::_($db->name),
 									$dbVersion,
-									$minumumVersion
+									$minimumVersion
 								);
 
 								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -201,11 +179,11 @@ class ExtensionAdapter extends UpdateAdapter
 						else
 						{
 							// Notify the user of the potential update
-							$dbMsg = \JText::sprintf(
+							$dbMsg = Text::sprintf(
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								\JText::_($db->name)
+								Text::_($db->name)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -284,18 +262,18 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$tag = $this->_getLastTag();
 
-		if (in_array($tag, $this->updatecols))
+		if (\in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -306,7 +284,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @param   array  $options  Update options.
 	 *
-	 * @return  array  Array containing the array of update sites and array of updates
+	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
 	 *
 	 * @since   1.7.0
 	 */
@@ -319,7 +297,7 @@ class ExtensionAdapter extends UpdateAdapter
 			return false;
 		}
 
-		if (array_key_exists('minimum_stability', $options))
+		if (\array_key_exists('minimum_stability', $options))
 		{
 			$this->minimum_stability = $options['minimum_stability'];
 		}
@@ -332,17 +310,16 @@ class ExtensionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 
 				return $this->findUpdate($options);
 			}
 
-			Log::add('Error parsing url: ' . $this->_url, Log::WARNING, 'updater');
-
 			$app = Factory::getApplication();
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
@@ -351,24 +328,10 @@ class ExtensionAdapter extends UpdateAdapter
 
 		if (isset($this->latest))
 		{
-			if (isset($this->latest->client) && strlen($this->latest->client))
+			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				if (is_numeric($this->latest->client))
-				{
-					$byName = false;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					Log::add(
-						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						Log::WARNING, 'deprecated'
-					);
-				}
-				else
-				{
-					$byName = true;
-				}
-
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 
@@ -396,9 +359,9 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
-		if (defined($constant))
+		if (\defined($constant))
 		{
-			return constant($constant);
+			return \constant($constant);
 		}
 
 		return Updater::STABILITY_STABLE;

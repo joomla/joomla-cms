@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\Router\RouterView;
 
@@ -40,7 +40,7 @@ class NomenuRules implements RulesInterface
 	}
 
 	/**
-	 * Dummymethod to fullfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$query  The query array to process
 	 *
@@ -67,17 +67,55 @@ class NomenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (!is_object($active))
+		if (!\is_object($active))
 		{
 			$views = $this->router->getViews();
 
 			if (isset($views[$segments[0]]))
 			{
 				$vars['view'] = array_shift($segments);
+				$view = $views[$vars['view']];
 
-				if (isset($views[$vars['view']]->key) && isset($segments[0]))
+				if (isset($view->key) && isset($segments[0]))
 				{
-					$vars[$views[$vars['view']]->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+					if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
+					{
+						if ($view->parent_key && $this->router->app->input->get($view->parent_key))
+						{
+							$vars[$view->parent->key] = $this->router->app->input->get($view->parent_key);
+							$vars[$view->parent_key] = $this->router->app->input->get($view->parent_key);
+						}
+
+						if ($view->nestable)
+						{
+							$vars[$view->key] = 0;
+
+							while (count($segments))
+							{
+								$segment = array_shift($segments);
+								$result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+
+								if (!$result)
+								{
+									array_unshift($segments, $segment);
+									break;
+								}
+
+								$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+							}
+						}
+						else
+						{
+							$segment = array_shift($segments);
+							$result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+
+							$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+						}
+					}
+					else
+					{
+						$vars[$view->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+					}
 				}
 			}
 		}
@@ -101,7 +139,8 @@ class NomenuRules implements RulesInterface
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
-			if (!isset($query['option']) || ($item && $item->query['option'] === $query['option']))
+			if (!isset($query['option'])
+				|| ($item && isset($item->query['option']) && $item->query['option'] === $query['option']))
 			{
 				$menu_found = true;
 			}
@@ -118,10 +157,23 @@ class NomenuRules implements RulesInterface
 
 				if ($view->key && isset($query[$view->key]))
 				{
-					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
+					if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
 					{
-						$result = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
-						$segments[] = str_replace(':', '-', array_shift($result));
+						$result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+
+						if ($view->nestable)
+						{
+							array_pop($result);
+
+							while (count($result))
+							{
+								$segments[] = str_replace(':', '-', array_pop($result));
+							}
+						}
+						else
+						{
+							$segments[] = str_replace(':', '-', array_pop($result));
+						}
 					}
 					else
 					{

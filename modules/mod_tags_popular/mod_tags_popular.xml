@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.1.0</version>
 	<description>MOD_TAGS_POPULAR_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\TagsPopular</namespace>
 	<files>
 		<filename module="mod_tags_popular">mod_tags_popular.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_tags_popular.ini</language>
@@ -28,7 +29,7 @@
 					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
 					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					mode="nested"
 				/>
 
@@ -36,7 +37,6 @@
 					name="maximum"
 					type="integer"
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
-					description="MOD_TAGS_POPULAR_MAX_DESC"
 					default="5"
 					filter="integer"
 					first="1"
@@ -48,7 +48,6 @@
 					name="timeframe"
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC"
 					default="alltime"
 					validate="options"
 					>
@@ -64,7 +63,6 @@
 					name="order_value"
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_DESC"
 					default="count"
 					validate="options"
 					>
@@ -77,9 +75,9 @@
 					name="order_direction"
 					type="list"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
-					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
@@ -88,27 +86,25 @@
 				<field
 					name="display_count"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="no_results_text"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset
@@ -138,7 +134,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					default="_:default"
 					validate="moduleLayout"
 				/>
@@ -147,17 +143,17 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="owncache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -167,7 +163,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

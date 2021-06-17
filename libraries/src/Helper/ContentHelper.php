@@ -2,21 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -45,10 +47,10 @@ class ContentHelper
 	/**
 	 * Adds Count relations for Category and Tag Managers
 	 *
-	 * @param   stdClass[]  &$items  The category or tag objects
-	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
+	 * @param   \stdClass[]  &$items  The category or tag objects
+	 * @param   \stdClass    $config  Configuration object allowing to use a custom relations table
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   3.9.1
 	 */
@@ -82,27 +84,31 @@ class ContentHelper
 		}
 
 		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
-		$related_tbl = $db->quoteName('#__' . $config->related_tbl, 'c');
-		$state_col   = $db->quoteName('c.' . $config->state_col);
+		$related_tbl = '#__' . $config->related_tbl;
+		$state_col   = 'c.' . $config->state_col;
 
 		// Supported cases
 		switch ($config->relation_type)
 		{
 			case 'tag_assigments':
-				$recid_col = $db->quoteName('ct.' . $config->group_col);
+				$recid_col = 'ct.' . $config->group_col;
 
 				$query = $db->getQuery(true)
 					->from($db->quoteName('#__contentitem_tag_map', 'ct'))
-					->join('INNER', $related_tbl . ' ON ' . $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ' .
-						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension)
-					);
+					->join(
+						'INNER',
+						$db->quoteName($related_tbl, 'c'),
+						$db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id')
+						. ' AND ' . $db->quoteName('ct.type_alias') . ' = :extension'
+					)
+					->bind(':extension', $config->extension);
 				break;
 
 			case 'category_or_group':
-				$recid_col = $db->quoteName('c.' . $config->group_col);
+				$recid_col = 'c.' . $config->group_col;
 
 				$query = $db->getQuery(true)
-					->from($related_tbl);
+					->from($db->quoteName($related_tbl, 'c'));
 				break;
 
 			default:
@@ -114,14 +120,20 @@ class ContentHelper
 		 * NOTE: 'state IN', allows counting specific states / conditions only, also prevents warnings with custom states / conditions, do not remove
 		 */
 		$query
-			->select($recid_col . ' AS catid, ' . $state_col . ' AS state, COUNT(*) AS count')
-			->where($recid_col . ' IN (' . implode(',', array_keys($records)) . ')')
-			->where($state_col . ' IN (' . implode(',', array_keys($counter_names)) . ')')
-			->group($recid_col . ', ' . $state_col);
+			->select(
+				[
+					$db->quoteName($recid_col, 'catid'),
+					$db->quoteName($state_col, 'state'),
+					'COUNT(*) AS ' . $db->quoteName('count'),
+				]
+			)
+			->whereIn($db->quoteName($recid_col), array_keys($records))
+			->whereIn($db->quoteName($state_col), array_keys($counter_names))
+			->group($db->quoteName([$recid_col, $state_col]));
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
 
-		// Loop through the DB data overwritting the above zeros with the found count
+		// Loop through the DB data overwriting the above zeros with the found count
 		foreach ($relationsAll as $relation)
 		{
 			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings
@@ -140,73 +152,16 @@ class ContentHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  $categoryId  The category ID.
-	 * @param   integer  $id          The item ID.
-	 * @param   string   $assetName   The asset name
-	 *
-	 * @return  \JObject
-	 *
-	 * @since   3.1
-	 * @deprecated  3.2  Use ContentHelper::getActions() instead
-	 */
-	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
-	{
-		// Log usage of deprecated function
-		Log::add(__METHOD__ . '() is deprecated, use ContentHelper::getActions() with new arguments order instead.', Log::WARNING, 'deprecated');
-
-		// Reverted a change for version 2.5.6
-		$user   = Factory::getUser();
-		$result = new \JObject;
-
-		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
-
-		if (empty($id) && empty($categoryId))
-		{
-			$section = 'component';
-		}
-		elseif (empty($id))
-		{
-			$section = 'category';
-			$assetName .= '.category.' . (int) $categoryId;
-		}
-		else
-		{
-			// Used only in com_content
-			$section = 'article';
-			$assetName .= '.article.' . (int) $id;
-		}
-
-		$actions = Access::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
 	 * @param   string   $component  The component name.
 	 * @param   string   $section    The access section name.
 	 * @param   integer  $id         The item ID.
 	 *
-	 * @return  \JObject
+	 * @return  CMSObject
 	 *
 	 * @since   3.2
 	 */
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
-		// Check for deprecated arguments order
-		if (is_int($component) || $component === null)
-		{
-			$result = self::_getActions($component, $section, $id);
-
-			return $result;
-		}
-
 		$assetName = $component;
 
 		if ($section && $id)
@@ -214,7 +169,7 @@ class ContentHelper
 			$assetName .= '.' . $section . '.' . (int) $id;
 		}
 
-		$result = new \JObject;
+		$result = new CMSObject;
 
 		$user = Factory::getUser();
 
@@ -225,7 +180,7 @@ class ContentHelper
 		if ($actions === false)
 		{
 			Log::add(
-				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
+				Text::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
 			);
 
 			return $result;
@@ -266,7 +221,7 @@ class ContentHelper
 			}
 			else
 			{
-				$langCode = Factory::getSession()->get('plg_system_languagefilter.language');
+				$langCode = $app->getSession()->get('plg_system_languagefilter.language');
 			}
 		}
 
@@ -300,9 +255,10 @@ class ContentHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('lang_id')
-			->from('#__languages')
-			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+			->select($db->quoteName('lang_id'))
+			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('lang_code') . ' = :language')
+			->bind(':language', $langCode);
 		$db->setQuery($query);
 
 		return $db->loadResult();

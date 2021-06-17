@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Uri\Uri;
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.7.0
  */
-class DocumentRenderer
+abstract class DocumentRenderer implements RendererInterface
 {
 	/**
 	 * Reference to the Document object that instantiated the renderer
@@ -45,21 +45,6 @@ class DocumentRenderer
 	public function __construct(Document $doc)
 	{
 		$this->_doc = $doc;
-	}
-
-	/**
-	 * Renders a script and returns the results as a string
-	 *
-	 * @param   string  $name     The name of the element to render
-	 * @param   array   $params   Array of values
-	 * @param   string  $content  Override the output of the renderer
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   1.7.0
-	 */
-	public function render($name, $params = null, $content = null)
-	{
 	}
 
 	/**

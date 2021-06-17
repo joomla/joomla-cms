@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_PRIVACY_FILTER_SEARCH_LABEL"
+			description="COM_PRIVACY_SEARCH_IN_USERNAME"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="list"
+			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
+			onchange="this.form.submit();"
+			validate="options"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="1">COM_PRIVACY_CONSENTS_STATE_VALID</option>
+			<option value="0">COM_PRIVACY_CONSENTS_STATE_OBSOLETE</option>
+			<option value="-1">COM_PRIVACY_CONSENTS_STATE_INVALIDATED</option>
+		</field>
+
+		<field
+			name="subject"
+			type="sql"
+			label="COM_PRIVACY_CONSENTS_FILTER_SUBJECT"
+			sql_select="subject"
+			sql_from="#__privacy_consents"
+			sql_group="subject"
+			sql_order="subject ASC"
+			key_field="subject"
+			translate="true"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_PRIVACY_CONSENTS_SUBJECT_DEFAULT</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.id DESC"
+			validate="options"
+			>
+			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
+			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
+			<option value="u.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="u.name DESC">JGLOBAL_NAME_DESC</option>
+			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
+			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
+			<option value="a.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
+			<option value="a.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
+			<option value="a.subject ASC">COM_PRIVACY_HEADING_SUBJECT_ASC</option>
+			<option value="a.subject DESC">COM_PRIVACY_HEADING_SUBJECT_DESC</option>
+			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
+			<option value="a.created DESC">COM_PRIVACY_HEADING_CREATED_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			class="input-mini"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

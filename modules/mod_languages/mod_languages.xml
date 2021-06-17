@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Languages</namespace>
 	<files>
 		<filename module="mod_languages">mod_languages.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_languages.ini</language>
@@ -26,6 +27,7 @@
 				type="list"
 				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				>
 				<option value="*">JALL</option>
 			</field>
@@ -36,7 +38,6 @@
 					name="header_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
-					description="MOD_LANGUAGES_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -46,7 +47,6 @@
 					name="footer_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
-					description="MOD_LANGUAGES_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -55,106 +55,78 @@
 				<field
 					name="dropdown"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="dropdownimage"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					showon="dropdown:1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="lineheight"
-					type="radio"
-					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					filter="integer"
-					showon="dropdown:1[AND]dropdownimage:1"
-					>
 					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="image"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					showon="dropdown:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="spacer3"
-					type="spacer"
-					label="MOD_LANGUAGES_SPACER_USENAME_LABEL"
-					class="text"
-					showon="image:0[AND]dropdown:0"
-				/>
-
-				<field
-					name="show_active"
-					type="radio"
-					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
-					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					showon="dropdownimage:1[OR]dropdown:0"
-					>
 					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="full_name"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
-					class="btn-group btn-group-yesno"
+					showon="dropdown:1[OR]image:0"
 					default="1"
 					filter="integer"
-					showon="dropdown:0[AND]image:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="show_active"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
+					default="1"
+					showon="dropdownimage:1[OR]dropdown:0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="inline"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
-					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					showon="dropdown:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -162,7 +134,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -170,8 +142,8 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

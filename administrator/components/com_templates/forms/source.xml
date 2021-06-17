@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="extension_id"
+			type="hidden"
+		/>
+
+		<field
+			name="filename"
+			type="hidden"
+		 />
+
+		<field
+			name="source"
+			type="editor"
+			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
+			editor="codemirror|none"
+			buttons="no"
+			rows="40"
+			cols="80"
+			syntax="php"
+			filter="raw"
+		/>
+
+		<field
+			name="core"
+			type="editor"
+			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
+			editor="codemirror|none"
+			buttons="no"
+			rows="40"
+			cols="80"
+			syntax="php"
+			filter="raw"
+			readonly="true"
+		/>
+
+		<field
+			name="show_core"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE</option>
+			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE</option>
+		</field>
+
+		<field
+			name="show_diff"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF</option>
+			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF</option>
+		</field>
+	</fieldset>
+</form>

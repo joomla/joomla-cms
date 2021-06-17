@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -34,7 +34,7 @@ class Files extends Input
 	 *
 	 * @param   array  $source   The source argument is ignored. $_FILES is always used.
 	 * @param   array  $options  An optional array of configuration options:
-	 *                           filter : a custom JFilterInput object.
+	 *                           filter : a custom InputFilter object.
 	 *
 	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
@@ -66,7 +66,7 @@ class Files extends Input
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     JFilterInput::clean()
+	 * @see     InputFilter::clean()
 	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
@@ -115,7 +115,7 @@ class Files extends Input
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{

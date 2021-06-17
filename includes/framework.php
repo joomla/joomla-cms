@@ -2,34 +2,22 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
-// Joomla system checks.
-@ini_set('magic_quotes_runtime', 0);
-
 // System includes
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
-
-// Set system error handling
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
-
-$version = new JVersion;
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === $version->isInDevelopmentState())))
+	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version)->isInDevelopmentState())))
 {
 	if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
@@ -53,11 +41,12 @@ ob_end_clean();
 // System configuration.
 $config = new JConfig;
 
-// Set the error_reporting
+// Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting)
 {
 	case 'default':
 	case '-1':
+
 		break;
 
 	case 'none':
@@ -73,13 +62,8 @@ switch ($config->error_reporting)
 		break;
 
 	case 'maximum':
+	case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
 		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
-
-		break;
-
-	case 'development':
-		error_reporting(-1);
 		ini_set('display_errors', 1);
 
 		break;
@@ -96,11 +80,15 @@ if (!defined('JDEBUG'))
 	define('JDEBUG', $config->debug);
 }
 
-// System profiler
-if (JDEBUG)
+if (JDEBUG || $config->error_reporting === 'maximum')
 {
-	// @deprecated 4.0 - The $_PROFILER global will be removed
-	$_PROFILER = JProfiler::getInstance('Application');
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
 }
 
 /**

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Utility;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 // Workaround for B/C. Will be removed with 4.0
 BufferStreamHandler::stream_register();
@@ -70,8 +70,6 @@ class BufferStreamHandler
 
 			self::$registered = true;
 		}
-
-		return;
 	}
 
 	/**
@@ -113,7 +111,7 @@ class BufferStreamHandler
 	public function stream_read($count)
 	{
 		$ret = substr($this->buffers[$this->name], $this->position, $count);
-		$this->position += strlen($ret);
+		$this->position += \strlen($ret);
 
 		return $ret;
 	}
@@ -131,11 +129,11 @@ class BufferStreamHandler
 	public function stream_write($data)
 	{
 		$left = substr($this->buffers[$this->name], 0, $this->position);
-		$right = substr($this->buffers[$this->name], $this->position + strlen($data));
+		$right = substr($this->buffers[$this->name], $this->position + \strlen($data));
 		$this->buffers[$this->name] = $left . $data . $right;
-		$this->position += strlen($data);
+		$this->position += \strlen($data);
 
-		return strlen($data);
+		return \strlen($data);
 	}
 
 	/**
@@ -161,7 +159,7 @@ class BufferStreamHandler
 	 */
 	public function stream_eof()
 	{
-		return $this->position >= strlen($this->buffers[$this->name]);
+		return $this->position >= \strlen($this->buffers[$this->name]);
 	}
 
 	/**
@@ -204,7 +202,7 @@ class BufferStreamHandler
 	 */
 	protected function seek_set($offset)
 	{
-		if ($offset < 0 || $offset > strlen($this->buffers[$this->name]))
+		if ($offset < 0 || $offset > \strlen($this->buffers[$this->name]))
 		{
 			return false;
 		}
@@ -242,7 +240,7 @@ class BufferStreamHandler
 	 */
 	protected function seek_end($offset)
 	{
-		$offset += strlen($this->buffers[$this->name]);
+		$offset += \strlen($this->buffers[$this->name]);
 
 		if ($offset < 0)
 		{

@@ -2,21 +2,30 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
+use Joomla\Event\Event;
 
 /**
  * Package installer
@@ -25,14 +34,6 @@ use Joomla\CMS\Table\Update;
  */
 class PackageAdapter extends InstallerAdapter
 {
-	/**
-	 * Flag if the internal event callback has been registered
-	 *
-	 * @var    boolean
-	 * @since  3.7.0
-	 */
-	private static $eventRegistered = false;
-
 	/**
 	 * An array of extension IDs for each installed extension
 	 *
@@ -93,9 +94,9 @@ class PackageAdapter extends InstallerAdapter
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -123,20 +124,21 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		// Install all necessary files
-		if (!count($this->getManifest()->files->children()))
+		if (!\count($this->getManifest()->files->children()))
 		{
 			throw new \RuntimeException(
-				\JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
-					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+				Text::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
 
+		$dispatcher = Factory::getApplication()->getDispatcher();
+
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
-		if (!self::$eventRegistered)
+		if (!$dispatcher->hasListener([$this, 'onExtensionAfterInstall'], 'onExtensionAfterInstall'))
 		{
-			self::$eventRegistered = true;
-			\JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+			$dispatcher->addListener('onExtensionAfterInstall', [$this, 'onExtensionAfterInstall']);
 		}
 
 		foreach ($this->getManifest()->files->children() as $child)
@@ -162,9 +164,9 @@ class PackageAdapter extends InstallerAdapter
 			if (!$installResult)
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						basename($file)
 					)
 				);
@@ -223,17 +225,18 @@ class PackageAdapter extends InstallerAdapter
 		{
 			$db = $this->db;
 			$query = $db->getQuery(true)
-				->update('#__extensions')
-				->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
-				->where($db->quoteName('extension_id') . ' IN (' . implode(', ', $this->installedIds) . ')');
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('package_id') . ' = :id')
+				->whereIn($db->quoteName('extension_id'), $this->installedIds)
+				->bind(':id', $this->extension->extension_id, ParameterType::INTEGER);
 
 			try
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
-				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}
 		}
 
@@ -246,9 +249,9 @@ class PackageAdapter extends InstallerAdapter
 		{
 			// Install failed, rollback changes
 			throw new \RuntimeException(
-				\JText::sprintf(
-					'JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP',
-					\JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')
+				Text::sprintf(
+					'JLIB_INSTALLER_ABORT_COPY_SETUP',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -259,12 +262,12 @@ class PackageAdapter extends InstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				if (!\JFolder::create($this->parent->getPath('extension_root')))
+				if (!Folder::create($this->parent->getPath('extension_root')))
 				{
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-							\JText::_('JLIB_INSTALLER_' . $this->route),
+							Text::_('JLIB_INSTALLER_' . $this->route),
 							$this->parent->getPath('extension_root')
 						)
 					);
@@ -292,10 +295,63 @@ class PackageAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+					throw new \RuntimeException(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_MANIFEST',
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						)
+					);
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall(): bool
+	{
+		$db = $this->parent->getDbo();
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
+			->bind(':extension_id', $this->extension->extension_id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Clobber any possible pending updates
+		$update = Table::getInstance('update');
+		$uid    = $update->find(
+			[
+				'element' => $this->extension->element,
+				'type'    => $this->type,
+			]
+		);
+
+		if ($uid)
+		{
+			$update->delete($uid);
+		}
+
+		File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+
+		$folder = $this->parent->getPath('extension_root');
+
+		if (Folder::exists($folder))
+		{
+			Folder::delete($folder);
+		}
+
+		$this->extension->delete();
+
+		return true;
 	}
 
 	/**
@@ -315,7 +371,7 @@ class PackageAdapter extends InstallerAdapter
 			$element = (string) $this->getManifest()->packagename;
 
 			// Filter the name for illegal characters
-			$element = 'pkg_' . \JFilterInput::getInstance()->clean($element, 'cmd');
+			$element = 'pkg_' . InputFilter::getInstance()->clean($element, 'cmd');
 		}
 
 		return $element;
@@ -338,18 +394,17 @@ class PackageAdapter extends InstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   Installer        $installer  Installer instance managing the extension's installation
-	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(Installer $installer, $eid)
+	public function onExtensionAfterInstall(Event $event)
 	{
-		if ($eid !== false)
+		if ($event->getArgument('eid', false) !== false)
 		{
-			$this->installedIds[] = $eid;
+			$this->installedIds[] = $event->getArgument('eid');
 		}
 	}
 
@@ -363,6 +418,50 @@ class PackageAdapter extends InstallerAdapter
 	protected function parseOptionalTags()
 	{
 		$this->parent->parseLanguages($this->getManifest()->languages);
+	}
+
+	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		$manifest = new PackageManifest(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+		$error = false;
+
+		foreach ($manifest->filelist as $extension)
+		{
+			$tmpInstaller = new Installer;
+			$tmpInstaller->setPackageUninstall(true);
+
+			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
+
+			if ($id)
+			{
+				if (!$tmpInstaller->uninstall($extension->type, $id))
+				{
+					$error = true;
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
+				}
+			}
+			else
+			{
+				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+			}
+		}
+
+		// Remove any language files
+		$this->parent->removeFiles($this->getManifest()->languages);
+
+		// Clean up manifest file after we're done if there were no errors
+		if ($error)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
+		}
 	}
 
 	/**
@@ -380,14 +479,57 @@ class PackageAdapter extends InstallerAdapter
 		if (empty($packagepath))
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK',
-					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
 
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $packagepath);
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setupUninstall()
+	{
+		$manifestFile = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
+		$manifest = new PackageManifest($manifestFile);
+
+		// Set the package root path
+		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
+
+		// Set the source path for compatibility with the API
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
+
+		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
+		if (!file_exists($manifestFile))
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
+		}
+
+		$xml = simplexml_load_file($manifestFile);
+
+		if (!$xml)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
+		}
+
+		// Check for a valid XML root tag.
+		if ($xml->getName() !== 'extension')
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
+		}
+
+		$this->setManifest($xml);
+
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage(JPATH_SITE);
 	}
 
 	/**
@@ -406,9 +548,9 @@ class PackageAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)
 				);
@@ -419,21 +561,18 @@ class PackageAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name = $this->name;
-			$this->extension->type = 'package';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'package';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for packages
-			$this->extension->folder = '';
-			$this->extension->enabled = 1;
+			$this->extension->folder    = '';
+			$this->extension->enabled   = 1;
 			$this->extension->protected = 0;
-			$this->extension->access = 1;
+			$this->extension->access    = 1;
 			$this->extension->client_id = 0;
-
-			// Custom data
-			$this->extension->custom_data = '';
-			$this->extension->system_data = '';
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->params    = $this->parent->getParams();
 		}
 
 		// Update the manifest cache for the entry
@@ -443,7 +582,7 @@ class PackageAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -479,9 +618,9 @@ class PackageAdapter extends InstallerAdapter
 					{
 						// The script failed, rollback changes
 						throw new \RuntimeException(
-							\JText::sprintf(
+							Text::sprintf(
 								'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-								\JText::_('JLIB_INSTALLER_' . $this->route)
+								Text::_('JLIB_INSTALLER_' . $this->route)
 							)
 						);
 					}
@@ -504,9 +643,9 @@ class PackageAdapter extends InstallerAdapter
 						{
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -529,162 +668,6 @@ class PackageAdapter extends InstallerAdapter
 	}
 
 	/**
-	 * Custom uninstall method
-	 *
-	 * @param   integer  $id  The id of the package to uninstall.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($id)
-	{
-		$row = null;
-		$retval = true;
-
-		$row = Table::getInstance('extension');
-		$row->load($id);
-
-		if ($row->protected)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') . '.xml';
-		$manifest = new PackageManifest($manifestFile);
-
-		// Set the package root path
-		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
-
-		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
-		if (!file_exists($manifestFile))
-		{
-			// TODO: Fail?
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		$xml = simplexml_load_file($manifestFile);
-
-		// If we cannot load the XML file return false
-		if (!$xml)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Check for a valid XML root tag.
-		if ($xml->getName() !== 'extension')
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// If there is a manifest class file, let's load it
-		$manifestScript = (string) $manifest->scriptfile;
-
-		if ($manifestScript)
-		{
-			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
-
-			// Set the class name
-			$classname = $row->element . 'InstallerScript';
-
-			\JLoader::register($classname, $manifestScriptFile);
-
-			if (class_exists($classname))
-			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
-			}
-		}
-
-		ob_start();
-		ob_implicit_flush(false);
-
-		// Run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall'))
-		{
-			$this->parent->manifestClass->uninstall($this);
-		}
-
-		$msg = ob_get_contents();
-		ob_end_clean();
-
-		if ($msg != '')
-		{
-			$this->parent->set('extension_message', $msg);
-		}
-
-		$error = false;
-
-		foreach ($manifest->filelist as $extension)
-		{
-			$tmpInstaller = new Installer;
-			$tmpInstaller->setPackageUninstall(true);
-
-			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
-			$client = ApplicationHelper::getClientInfo($extension->client, true);
-
-			if ($id)
-			{
-				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id))
-				{
-					$error = true;
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), \JLog::WARNING, 'jerror');
-				}
-			}
-			else
-			{
-				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
-			}
-		}
-
-		// Remove any language files
-		$this->parent->removeFiles($xml->languages);
-
-		// Clean up manifest file after we're done if there were no errors
-		if (!$error)
-		{
-			\JFile::delete($manifestFile);
-			$folder = $this->parent->getPath('extension_root');
-
-			if (\JFolder::exists($folder))
-			{
-				\JFolder::delete($folder);
-			}
-
-			$row->delete();
-		}
-		else
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'), \JLog::WARNING, 'jerror');
-		}
-
-		// Return the result up the line
-		return $retval;
-	}
-
-	/**
 	 * Gets the extension id.
 	 *
 	 * @param   string   $type    The extension type.
@@ -701,16 +684,24 @@ class PackageAdapter extends InstallerAdapter
 		$db = $this->parent->getDbo();
 
 		$query = $db->getQuery(true)
-			->select('extension_id')
-			->from('#__extensions')
-			->where('type = ' . $db->quote($type))
-			->where('element = ' . $db->quote($id));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('type') . ' = :type',
+					$db->quoteName('element') . ' = :element',
+				]
+			)
+			->bind(':type', $type)
+			->bind(':element', $id);
 
 		switch ($type)
 		{
 			case 'plugin':
 				// Plugins have a folder but not a client
-				$query->where('folder = ' . $db->quote($group));
+				$query->where('folder = :folder')
+					->bind(':folder', $group);
+
 				break;
 
 			case 'library':
@@ -724,8 +715,11 @@ class PackageAdapter extends InstallerAdapter
 			case 'module':
 			case 'template':
 				// Languages, modules and templates have a client but not a folder
-				$client = ApplicationHelper::getClientInfo($client, true);
-				$query->where('client_id = ' . (int) $client->id);
+				$clientId = ApplicationHelper::getClientInfo($client, true)->id;
+
+				$query->where('client_id = :client_id')
+					->bind(':client_id', $clientId, ParameterType::INTEGER);
+
 				break;
 		}
 
@@ -761,7 +755,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

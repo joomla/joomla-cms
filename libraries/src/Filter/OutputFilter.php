@@ -2,17 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Language;
 
 /**
  * OutputFilter
@@ -34,7 +35,7 @@ class OutputFilter extends BaseOutputFilter
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-		return preg_replace_callback("#$regex#i", array('\\Joomla\\CMS\\Filter\\OutputFilter', '_ampReplaceCallback'), $input);
+		return preg_replace_callback("#$regex#i", array('\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'), $input);
 	}
 
 	/**
@@ -83,11 +84,14 @@ class OutputFilter extends BaseOutputFilter
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)
-		$lang = $language == '' || $language == '*' ? \JFactory::getLanguage() : Language::getInstance($language);
+		$lang = $language == '' || $language == '*' ? Factory::getLanguage() : Language::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
 		$str = trim(StringHelper::strtolower($str));
+
+		// Remove any apostrophe. We do it here to ensure it is not replaced by a '-'
+		$str = str_replace("'", '', $str);
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
@@ -112,20 +116,5 @@ class OutputFilter extends BaseOutputFilter
 		$rx = '&(?!amp;)';
 
 		return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
-	}
-
-	/**
-	 * Callback method for replacing & with &amp; in a string
-	 *
-	 * @param   string  $m  String to process
-	 *
-	 * @return  string  Replaced string
-	 *
-	 * @since       1.7.0
-	 * @deprecated  4.0 Use OutputFilter::ampReplaceCallback() instead
-	 */
-	public static function _ampReplaceCallback($m)
-	{
-		return static::ampReplaceCallback($m);
 	}
 }

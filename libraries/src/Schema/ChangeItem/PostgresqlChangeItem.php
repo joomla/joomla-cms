@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
 
@@ -39,7 +39,9 @@ class PostgresqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 
 		$result = null;
 		$splitIntoWords = "~'[^']*'(*SKIP)(*F)|\s+~";
@@ -57,7 +59,7 @@ class PostgresqlChangeItem extends ChangeItem
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = preg_split($splitIntoWords, $updateQuery, null, PREG_SPLIT_NO_EMPTY);
 
-		$totalWords = count($wordArray);
+		$totalWords = \count($wordArray);
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
@@ -73,7 +75,7 @@ class PostgresqlChangeItem extends ChangeItem
 		if ($command === 'ALTER TABLE')
 		{
 			// Check only the last action
-			$actions = ltrim(substr($updateQuery, strpos($updateQuery, $wordArray[2]) + strlen($wordArray[2])));
+			$actions = ltrim(substr($updateQuery, strpos($updateQuery, $wordArray[2]) + \strlen($wordArray[2])));
 			$actions = preg_split($splitIntoActions, $actions);
 
 			// Get the last action
@@ -84,7 +86,15 @@ class PostgresqlChangeItem extends ChangeItem
 
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
-			if ($alterCommand === 'ADD COLUMN')
+			if ($alterCommand === 'RENAME TO')
+			{
+				$table = $this->fixQuote($wordArray[5]);
+				$result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
+				$this->queryType = 'RENAME_TABLE';
+				$this->checkQueryExpected = 1;
+				$this->msgElements = array($table);
+			}
+			elseif ($alterCommand === 'ADD COLUMN')
 			{
 				$result = 'SELECT column_name'
 					. ' FROM information_schema.columns'
@@ -119,7 +129,7 @@ class PostgresqlChangeItem extends ChangeItem
 
 				if ($alterAction === 'TYPE')
 				{
-					$type = implode(' ', array_slice($wordArray, 7));
+					$type = implode(' ', \array_slice($wordArray, 7));
 
 					if ($pos = stripos($type, ' USING '))
 					{
@@ -133,6 +143,11 @@ class PostgresqlChangeItem extends ChangeItem
 					else
 					{
 						$datatype = $type;
+					}
+
+					if ($datatype === 'varchar')
+					{
+						$datatype = 'character varying';
 					}
 
 					$result = 'SELECT column_name, data_type '

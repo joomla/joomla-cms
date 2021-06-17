@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Response;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * JSON Response class.
@@ -67,14 +69,14 @@ class JsonResponse
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
-		if (!$ignoreMessages && $app !== null && is_callable(array($app, 'getMessageQueue')))
+		if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue')))
 		{
 			$messages = $app->getMessageQueue();
 
 			// Build the sorted messages list
-			if (is_array($messages) && count($messages))
+			if (\is_array($messages) && \count($messages))
 			{
 				foreach ($messages as $message)
 				{
@@ -86,14 +88,14 @@ class JsonResponse
 			}
 
 			// If messages exist add them to the output
-			if (isset($lists) && is_array($lists))
+			if (isset($lists) && \is_array($lists))
 			{
 				$this->messages = $lists;
 			}
 		}
 
 		// Check if we are dealing with an error
-		if ($response instanceof \Exception || $response instanceof \Throwable)
+		if ($response instanceof \Throwable)
 		{
 			// Prepare the error response
 			$this->success = false;

@@ -2,13 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Help;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
 
 /**
  * Help system class
@@ -32,11 +38,11 @@ class Help
 	public static function createUrl($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 
 		if ($component === null)
 		{
-			$component = \JApplicationHelper::getComponentName();
+			$component = ApplicationHelper::getComponentName();
 		}
 
 		//  Determine the location of the help file.  At this stage the URL
@@ -55,7 +61,7 @@ class Help
 			if ($useComponent)
 			{
 				// Look for help URL in component parameters.
-				$params = \JComponentHelper::getParams($component);
+				$params = ComponentHelper::getParams($component);
 				$url    = $params->get('helpURL');
 
 				if ($url == '')
@@ -85,13 +91,13 @@ class Help
 		/*
 		 *  Replace substitution codes in the URL.
 		 */
-		$lang    = \JFactory::getLanguage();
-		$version = new \JVersion;
+		$lang    = Factory::getLanguage();
+		$version = new Version;
 		$jver    = explode('.', $version->getShortVersion());
 		$jlang   = explode('-', $lang->getTag());
 
 		$debug  = $lang->setDebug(false);
-		$keyref = \JText::_($ref);
+		$keyref = Text::_($ref);
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.
@@ -178,7 +184,7 @@ class Help
 		if (!$xml)
 		{
 			$option['text']  = 'English (GB) help.joomla.org';
-			$option['value'] = 'http://help.joomla.org';
+			$option['value'] = 'https://help.joomla.org';
 
 			$list[] = (object) $option;
 		}

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE" option="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_OPTION">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
+		/>
+		<message>
+			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+
+			<field
+				name="url"
+				type="url"
+				label="COM_WRAPPER_FIELD_URL_LABEL"
+				size="30"
+				required="true"
+				filter="url"
+				validate="url"
+			/>
+		</fieldset>
+		<!-- Add fields to the parameters object for the layout. -->
+
+		<!-- Scroll. -->
+		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
+			<field
+				name="width"
+				type="text"
+				label="JGLOBAL_WIDTH"
+				default="100%"
+				size="5"
+			/>
+
+			<field
+				name="height"
+				type="number"
+				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
+				default="500"
+			/>
+		</fieldset>
+
+		<!-- Advanced options. -->
+		<fieldset name="advanced">
+			<field
+				name="height_auto"
+				type="radio"
+				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
+				default="0"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="add_scheme"
+				type="radio"
+				label="COM_WRAPPER_FIELD_ADD_LABEL"
+				description="COM_WRAPPER_FIELD_ADD_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="lazyloading"
+				type="radio"
+				label="COM_WRAPPER_FIELD_LAZYLOADING_LABEL"
+				default="lazy"
+				layout="joomla.form.field.radio.switcher"
+				validate="options"
+				>
+				<option value="eager">JNO</option>
+				<option value="lazy">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

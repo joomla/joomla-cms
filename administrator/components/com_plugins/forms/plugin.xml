@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
+	<fieldset>
+		<field
+			name="extension_id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<field
+			name="name"
+			type="hidden"
+			label="COM_PLUGINS_FIELD_NAME_LABEL"
+		/>
+
+		<field
+			name="enabled"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			size="1"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="ordering"
+			type="pluginordering"
+			label="JFIELD_ORDERING_LABEL"
+		/>
+
+		<field
+			name="folder"
+			type="text"
+			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
+			class="readonly"
+			size="20"
+			readonly="true"
+		/>
+
+		<field
+			name="element"
+			type="text"
+			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
+			class="readonly"
+			size="20"
+			readonly="true"
+		/>
+
+		<field
+			name="note"
+			type="textarea"
+			label="JFIELD_NOTE_LABEL"
+			size="40"
+			maxlength="255"
+		/>
+
+	</fieldset>
+</form>

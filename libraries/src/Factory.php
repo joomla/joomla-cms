@@ -2,28 +2,35 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Access;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Joomla Platform Factory class.
@@ -35,7 +42,7 @@ abstract class Factory
 	/**
 	 * Global application object
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  1.7.0
 	 */
 	public static $application = null;
@@ -49,12 +56,21 @@ abstract class Factory
 	public static $cache = null;
 
 	/**
-	 * Global configuraiton object
+	 * Global configuration object
 	 *
-	 * @var    \JConfig
-	 * @since  1.7.0
+	 * @var         \JConfig
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the configuration object within the application
 	 */
 	public static $config = null;
+
+	/**
+	 * Global container object
+	 *
+	 * @var    Container
+	 * @since  4.0.0
+	 */
+	public static $container = null;
 
 	/**
 	 * Container for Date instances
@@ -67,41 +83,36 @@ abstract class Factory
 	/**
 	 * Global session object
 	 *
-	 * @var    Session
-	 * @since  1.7.0
+	 * @var         Session
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the session service in the DI container
 	 */
 	public static $session = null;
 
 	/**
 	 * Global language object
 	 *
-	 * @var   Language
-	 * @since  1.7.0
+	 * @var         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the language service in the DI container
 	 */
 	public static $language = null;
 
 	/**
 	 * Global document object
 	 *
-	 * @var    \JDocument
-	 * @since  1.7.0
+	 * @var         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the document service in the DI container
 	 */
 	public static $document = null;
 
 	/**
-	 * Global ACL object
-	 *
-	 * @var    Access
-	 * @since  1.7.0
-	 * @deprecated  4.0
-	 */
-	public static $acl = null;
-
-	/**
 	 * Global database object
 	 *
-	 * @var    \JDatabaseDriver
-	 * @since  1.7.0
+	 * @var         DatabaseDriver
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	public static $database = null;
 
@@ -114,33 +125,18 @@ abstract class Factory
 	public static $mailer = null;
 
 	/**
-	 * Get an application object.
+	 * Get the global application object. When the global application doesn't exist, an exception is thrown.
 	 *
-	 * Returns the global {@link CMSApplication} object, only creating it if it doesn't already exist.
+	 * @return  CMSApplicationInterface object
 	 *
-	 * @param   mixed   $id      A client identifier or name.
-	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   string  $prefix  Application prefix
-	 *
-	 * @return  CMSApplication object
-	 *
-	 * @see     JApplication
 	 * @since   1.7.0
 	 * @throws  \Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
+	public static function getApplication()
 	{
 		if (!self::$application)
 		{
-			if (!$id)
-			{
-				throw new \Exception('Failed to start application', 500);
-			}
-
-			self::$application = CMSApplication::getInstance($id);
-
-			// Attach a delegated JLog object to the application
-			self::$application->setLogger(Log::createDelegatedLogger());
+			throw new \Exception('Failed to start application', 500);
 		}
 
 		return self::$application;
@@ -157,11 +153,30 @@ abstract class Factory
 	 *
 	 * @return  Registry
 	 *
-	 * @see     Registry
-	 * @since   1.7.0
+	 * @see         Registry
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The configuration object should be read from the application.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
+		/**
+		 * If there is an application object, fetch the configuration from there.
+		 * Check it's not null because LanguagesModel can make it null and if it's null
+		 * we would want to re-init it from configuration.php.
+		 */
+		if (self::$application && self::$application->getConfig() !== null)
+		{
+			return self::$application->getConfig();
+		}
+
 		if (!self::$config)
 		{
 			if ($file === null)
@@ -176,6 +191,41 @@ abstract class Factory
 	}
 
 	/**
+	 * Get a container object
+	 *
+	 * Returns the global service container object, only creating it if it doesn't already exist.
+	 *
+	 * This method is only suggested for use in code whose responsibility is to create new services
+	 * and needs to be able to resolve the dependencies, and should therefore only be used when the
+	 * container is not accessible by other means.  Valid uses of this method include:
+	 *
+	 * - A static `getInstance()` method calling a factory service from the container,
+	 *   see `Joomla\CMS\Toolbar\Toolbar::getInstance()` as an example
+	 * - An application front controller loading and executing the Joomla application class,
+	 *   see the `cli/joomla.php` file as an example
+	 * - Retrieving optional constructor dependencies when not injected into a class during a transitional
+	 *   period to retain backward compatibility, in this case a deprecation notice should also be emitted to
+	 *   notify developers of changes needed in their code
+	 *
+	 * This method is not suggested for use as a one-for-one replacement of static calls, such as
+	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
+	 * should be refactored to support dependency injection instead of making this change.
+	 *
+	 * @return  Container
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getContainer(): Container
+	{
+		if (!self::$container)
+		{
+			self::$container = self::createContainer();
+		}
+
+		return self::$container;
+	}
+
+	/**
 	 * Get a session object.
 	 *
 	 * Returns the global {@link Session} object, only creating it if it doesn't already exist.
@@ -184,17 +234,22 @@ abstract class Factory
 	 *
 	 * @return  Session object
 	 *
-	 * @see     Session
-	 * @since   1.7.0
+	 * @see         Session
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	public static function getSession(array $options = array())
 	{
-		if (!self::$session)
-		{
-			self::$session = self::createSession($options);
-		}
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
 
-		return self::$session;
+		return self::getApplication()->getSession();
 	}
 
 	/**
@@ -204,11 +259,21 @@ abstract class Factory
 	 *
 	 * @return  Language object
 	 *
-	 * @see     Language
-	 * @since   1.7.0
+	 * @see         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
 	 */
 	public static function getLanguage()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$language)
 		{
 			self::$language = self::createLanguage();
@@ -220,15 +285,25 @@ abstract class Factory
 	/**
 	 * Get a document object.
 	 *
-	 * Returns the global {@link \JDocument} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \Joomla\CMS\Document\Document} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JDocument object
+	 * @return  Document object
 	 *
-	 * @see     \JDocument
-	 * @since   1.7.0
+	 * @see         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
 	 */
 	public static function getDocument()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$document)
 		{
 			self::$document = self::createDocument();
@@ -246,14 +321,24 @@ abstract class Factory
 	 *
 	 * @return  User object
 	 *
-	 * @see     User
-	 * @since   1.7.0
+	 * @see         User
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getUser($id = null)
 	{
-		$instance = self::getSession()->get('user');
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
 
-		if (is_null($id))
+		$instance = self::getApplication()->getSession()->get('user');
+
+		if (\is_null($id))
 		{
 			if (!($instance instanceof User))
 			{
@@ -261,7 +346,7 @@ abstract class Factory
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof User) || \is_string($id) || $instance->id !== $id)
 		{
 			$instance = User::getInstance($id);
 		}
@@ -280,11 +365,20 @@ abstract class Factory
 	 *
 	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
-	 * @see     JCache
-	 * @since   1.7.0
+	 * @see         Cache
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$hash = md5($group . $handler . $storage);
 
 		if (isset(self::$cache[$hash]))
@@ -292,7 +386,7 @@ abstract class Factory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -301,7 +395,7 @@ abstract class Factory
 			$options['storage'] = $storage;
 		}
 
-		$cache = Cache::getInstance($handler, $options);
+		$cache = self::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -309,42 +403,37 @@ abstract class Factory
 	}
 
 	/**
-	 * Get an authorization object
-	 *
-	 * Returns the global {@link Access} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @return  Access object
-	 *
-	 * @deprecated  4.0 - Use JAccess directly.
-	 */
-	public static function getAcl()
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use Access directly.', Log::WARNING, 'deprecated');
-
-		if (!self::$acl)
-		{
-			self::$acl = new Access;
-		}
-
-		return self::$acl;
-	}
-
-	/**
 	 * Get a database object.
 	 *
-	 * Returns the global {@link \JDatabaseDriver} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link DatabaseDriver} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JDatabaseDriver
+	 * @return  DatabaseDriver
 	 *
-	 * @see     \JDatabaseDriver
-	 * @since   1.7.0
+	 * @see         DatabaseDriver
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the database service from the dependency injection container
 	 */
 	public static function getDbo()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the database from the dependency injection container.',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$database)
 		{
-			self::$database = self::createDbo();
+			if (self::getContainer()->has('DatabaseDriver'))
+			{
+				self::$database = self::getContainer()->get('DatabaseDriver');
+			}
+			else
+			{
+				self::$database = self::createDbo();
+			}
 		}
 
 		return self::$database;
@@ -353,11 +442,11 @@ abstract class Factory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Mail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	public static function getMailer()
@@ -373,137 +462,9 @@ abstract class Factory
 	}
 
 	/**
-	 * Get a parsed XML Feed Source
-	 *
-	 * @param   string   $url        Url for feed source.
-	 * @param   integer  $cacheTime  Time to cache feed for (using internal cache mechanism).
-	 *
-	 * @return  mixed  SimplePie parsed object on success, false on failure.
-	 *
-	 * @since   1.7.0
-	 * @throws  \BadMethodCallException
-	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
-	 */
-	public static function getFeedParser($url, $cacheTime = 0)
-	{
-		if (!class_exists('JSimplepieFactory'))
-		{
-			throw new \BadMethodCallException('JSimplepieFactory not found');
-		}
-
-		Log::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', Log::WARNING, 'deprecated');
-
-		return \JSimplepieFactory::getFeedParser($url, $cacheTime);
-	}
-
-	/**
-	 * Reads a XML file.
-	 *
-	 * @param   string   $data    Full path and file name.
-	 * @param   boolean  $isFile  true to load a file or false to load a string.
-	 *
-	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
-	 *
-	 * @see     JXMLElement
-	 * @since   1.7.0
-	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  4.0 - Use SimpleXML directly.
-	 */
-	public static function getXml($data, $isFile = true)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', Log::WARNING, 'deprecated');
-
-		$class = 'SimpleXMLElement';
-
-		if (class_exists('JXMLElement'))
-		{
-			$class = 'JXMLElement';
-		}
-
-		// Disable libxml errors and allow to fetch error information as needed
-		libxml_use_internal_errors(true);
-
-		if ($isFile)
-		{
-			// Try to load the XML file
-			$xml = simplexml_load_file($data, $class);
-		}
-		else
-		{
-			// Try to load the XML string
-			$xml = simplexml_load_string($data, $class);
-		}
-
-		if ($xml === false)
-		{
-			Log::add(\JText::_('JLIB_UTIL_ERROR_XML_LOAD'), Log::WARNING, 'jerror');
-
-			if ($isFile)
-			{
-				Log::add($data, Log::WARNING, 'jerror');
-			}
-
-			foreach (libxml_get_errors() as $error)
-			{
-				Log::add($error->message, Log::WARNING, 'jerror');
-			}
-		}
-
-		return $xml;
-	}
-
-	/**
-	 * Get an editor object.
-	 *
-	 * @param   string  $editor  The editor to load, depends on the editor plugins that are installed
-	 *
-	 * @return  Editor instance of Editor
-	 *
-	 * @since   1.7.0
-	 * @throws  \BadMethodCallException
-	 * @deprecated 4.0 - Use Editor directly
-	 */
-	public static function getEditor($editor = null)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use JEditor directly.', Log::WARNING, 'deprecated');
-
-		if (!class_exists('JEditor'))
-		{
-			throw new \BadMethodCallException('JEditor not found');
-		}
-
-		// Get the editor configuration setting
-		if (is_null($editor))
-		{
-			$conf = self::getConfig();
-			$editor = $conf->get('editor');
-		}
-
-		return Editor::getInstance($editor);
-	}
-
-	/**
-	 * Return a reference to the {@link Uri} object
-	 *
-	 * @param   string  $uri  Uri name.
-	 *
-	 * @return  Uri object
-	 *
-	 * @see     Uri
-	 * @since   1.7.0
-	 * @deprecated  4.0 - Use JUri directly.
-	 */
-	public static function getUri($uri = 'SERVER')
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use JUri directly.', Log::WARNING, 'deprecated');
-
-		return Uri::getInstance($uri);
-	}
-
-	/**
 	 * Return the {@link Date} object
 	 *
-	 * @param   mixed  $time      The initial time for the JDate object
+	 * @param   mixed  $time      The initial time for the Date object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
 	 * @return  Date object
@@ -562,11 +523,20 @@ abstract class Factory
 	 *
 	 * @return  Registry
 	 *
-	 * @see     Registry
-	 * @since   1.7.0
+	 * @see         Registry
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The configuration object should be read from the application.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (is_file($file))
 		{
 			include_once $file;
@@ -582,7 +552,7 @@ abstract class Factory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -595,16 +565,58 @@ abstract class Factory
 	}
 
 	/**
+	 * Create a container object
+	 *
+	 * @return  Container
+	 *
+	 * @since   4.0.0
+	 */
+	protected static function createContainer(): Container
+	{
+		$container = (new Container)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User);
+
+		return $container;
+	}
+
+	/**
 	 * Create a session object
 	 *
 	 * @param   array  $options  An array containing session options
 	 *
 	 * @return  Session object
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	protected static function createSession(array $options = array())
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. The session should be a service in the dependency injection container.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		// Get the Joomla configuration settings
 		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
@@ -620,7 +632,7 @@ abstract class Factory
 
 		$session = Session::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -631,13 +643,23 @@ abstract class Factory
 	/**
 	 * Create a database object
 	 *
-	 * @return  \JDatabaseDriver
+	 * @return  DatabaseDriver
 	 *
-	 * @see     \JDatabaseDriver
-	 * @since   1.7.0
+	 * @see         DatabaseDriver
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	protected static function createDbo()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
+				__METHOD__,
+				DatabaseInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
@@ -646,13 +668,30 @@ abstract class Factory
 		$database = $conf->get('db');
 		$prefix = $conf->get('dbprefix');
 		$driver = $conf->get('dbtype');
-		$debug = $conf->get('debug');
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
+		if ((int) $conf->get('dbencryption') !== 0)
+		{
+			$options['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
+			];
+
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($conf->get('dbssl' . $value, ''));
+
+				if ($confVal !== '')
+				{
+					$options['ssl'][$value] = $confVal;
+				}
+			}
+		}
+
 		try
 		{
-			$db = \JDatabaseDriver::getInstance($options);
+			$db = DatabaseDriver::getInstance($options);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -664,17 +703,15 @@ abstract class Factory
 			jexit('Database Error: ' . $e->getMessage());
 		}
 
-		$db->setDebug($debug);
-
 		return $db;
 	}
 
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     \JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	protected static function createMailer()
@@ -709,7 +746,7 @@ abstract class Factory
 					Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
 				}
 			}
-			catch (\phpmailerException $e)
+			catch (phpmailerException $e)
 			{
 				Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
 			}
@@ -739,15 +776,25 @@ abstract class Factory
 	 *
 	 * @return  Language object
 	 *
-	 * @see     Language
-	 * @since   1.7.0
+	 * @see         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
 	 */
 	protected static function createLanguage()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
-		$lang = Language::getInstance($locale, $debug);
+		$lang = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
 		return $lang;
 	}
@@ -755,13 +802,23 @@ abstract class Factory
 	/**
 	 * Create a document object
 	 *
-	 * @return  \JDocument object
+	 * @return  Document object
 	 *
-	 * @see     \JDocument
-	 * @since   1.7.0
+	 * @see         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
 	 */
 	protected static function createDocument()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$lang = self::getLanguage();
 
 		$input = self::getApplication()->input;
@@ -778,7 +835,7 @@ abstract class Factory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return \JDocument::getInstance($type, $attributes);
+		return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 	}
 
 	/**
@@ -789,15 +846,13 @@ abstract class Factory
 	 * @param   string   $userAgentSuffix  String to append to user agent
 	 * @param   boolean  $maskUserAgent    User agent masking (prefix Mozilla)
 	 *
-	 * @return  \JStream
+	 * @return  Stream
 	 *
-	 * @see     \JStream
+	 * @see     Stream
 	 * @since   1.7.0
 	 */
-	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = null, $maskUserAgent = false)
+	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
 	{
-		\JLoader::import('joomla.filesystem.stream');
-
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new Version;
@@ -808,8 +863,8 @@ abstract class Factory
 
 		if ($usePrefix)
 		{
-			$FTPOptions = \JClientHelper::getCredentials('ftp');
-			$SCPOptions = \JClientHelper::getCredentials('scp');
+			$FTPOptions = ClientHelper::getCredentials('ftp');
+			$SCPOptions = ClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $useNetwork)
 			{
@@ -828,11 +883,11 @@ abstract class Factory
 				$prefix = JPATH_ROOT . '/';
 			}
 
-			$retval = new \JStream($prefix, JPATH_ROOT, $context);
+			$retval = new Stream($prefix, JPATH_ROOT, $context);
 		}
 		else
 		{
-			$retval = new \JStream('', '', $context);
+			$retval = new Stream('', '', $context);
 		}
 
 		return $retval;

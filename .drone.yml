@@ -1,729 +1,274 @@
 ---
 kind: pipeline
-name: Codequality
+name: default
 
-platform:
-  os: linux
-  arch: amd64
+clone:
 
 steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.4
-  commands:
-  - php -v
-  - git config --global url."git://".insteadOf https://
-  - git config --global url."ssh://".insteadOf https://
-  - composer install
-  - composer require phpmd/phpmd
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
+  - name: composer
+    image: joomlaprojects/docker-images:php7.3
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+    commands:
+      - composer validate --no-check-all --strict
+      - composer install --no-progress --no-suggest
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
-- name: phpcs
-  image: joomlaprojects/docker-images:php7.2
-  commands:
-  - php -v
-  - libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+  - name: phpcs
+    image: joomlaprojects/docker-images:php7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - echo $(date)
 
-- name: javascript
-  image: joomlaprojects/docker-images:systemtests
-  commands:
-  - echo $(date)
-  - export DISPLAY=:0
-  - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-  - sleep 3
-  - fluxbox  > /dev/null 2>&1 &
-  - cd tests/javascript
-  - npm install
-  - cd ../..
-  - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
-  - echo $(date)
+  - name: npm
+    image: node:14-alpine
+    depends_on: [ phpcs ]
+    commands:
+      - npm ci --unsafe-perm
+
+  - name: php72-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php73-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php74-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php80-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php72-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php73-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php74-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php80-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php72-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php73-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php74-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php80-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:css
+
+  - name: javascript-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:js
+
+  - name: system-tests-mysql
+    depends_on: [ javascript-cs ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: system-tests-mysql8
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql8 ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ api-tests ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+        - failure
+
+  - name: analysis4x
+    image: rips/rips-cli:3.2.2
+    depends_on: [ api-tests ]
+    when:
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 4.0-dev
+    commands:
+      - export RIPS_BASE_URI='https://api.rips.joomla.org'
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
+    environment:
+      RIPS_EMAIL:
+        from_secret: RIPS_EMAIL
+      RIPS_PASSWORD:
+        from_secret: RIPS_PASSWORD
+
+branches:
+  exclude: [ l10n_* ]
 
 volumes:
 - name: composer-cache
   host:
     path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 5.3
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php5.3
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php5.3
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php5.3
-  commands:
-  - libraries/vendor/bin/phpunit
 
 services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 5.4
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php5.4
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php5.4
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php5.4
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 5.5
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php5.5
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php5.5
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php5.5
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 5.6
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php5.6
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php5.6
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php5.6
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.0
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php7.0
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php7.0
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 7.1
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.1
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php7.1
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php7.1
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 7.2
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.2
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php7.2
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php7.2
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 7.3
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.3
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php7.3
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php7.3
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 7.4
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php7.4
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php7.4
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php7.4
-  commands:
-  - libraries/vendor/bin/phpunit
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
-
----
-kind: pipeline
-name: PHP 8.0
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: composer
-  image: joomlaprojects/docker-images:php8.0
-  commands:
-  - php -v
-  - composer install
-  volumes:
-  - name: composer-cache
-    path: /tmp/composer-cache
-
-- name: prepare
-  image: joomlaprojects/docker-images:php8.0
-  commands:
-  - php -v
-  - sleep 20
-  - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
-  - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
-  environment:
-    PGPASSWORD: joomla_ut
-
-- name: PHPUnit
-  image: joomlaprojects/docker-images:php8.0
-  commands:
-  - libraries/vendor/bin/phpunit
-  failure: ignore
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: joomla_ut
-    MYSQL_PASSWORD: joomla_ut
-    MYSQL_ROOT_PASSWORD: joomla_ut
-    MYSQL_USER: joomla_ut
-
-- name: postgres
-  image: postgres:11-alpine
-  environment:
-    POSTGRES_DB: joomla_ut
-    POSTGRES_PASSWORD: joomla_ut
-    POSTGRES_USER: joomla_ut
-  ports:
-  - 5432
-
-- name: memcached
-  image: memcached:alpine
-
-- name: redis
-  image: redis:alpine
-
-volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  - name: mysql8
+    image: mysql:8
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  - name: postgres
+    image: postgres:11-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
 
 ---
 kind: pipeline
 name: package
 
-platform:
-  os: linux
-  arch: amd64
-
 steps:
-- name: packager
-  image: joomlaprojects/docker-images:packager
-  commands:
-  - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
-  - /bin/drone_build.sh
-  environment:
-    DRONE_COMMIT: DRONE_COMMIT
-    DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-    FTP_DEST_DIR: /artifacts
-    FTP_HOSTNAME: ci.joomla.org
-    FTP_PASSWORD:
-      from_secret: ftppassword
-    FTP_PORT: 21
-    FTP_SECURE: true
-    FTP_USERNAME:
-      from_secret: ftpusername
-    FTP_VERIFY: false
-    GITHUB_TOKEN:
-      from_secret: github_token
-    HTTP_ROOT: https://ci.joomla.org/artifacts
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
+      - /bin/drone_build.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+        - 4.0-dev
 
----
-kind: pipeline
-name: Rips
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: analysis3x
-  image: rips/rips-cli:3.2.2
-  commands:
-  - export RIPS_BASE_URI='https://api.rips.joomla.org'
-  - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-  - rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-  environment:
-    RIPS_EMAIL:
-      from_secret: RIPS_EMAIL
-    RIPS_PASSWORD:
-      from_secret: RIPS_PASSWORD
-  when:
-    branch:
-    - staging
-    repo:
-    - joomla/joomla-cms
-    - joomla/cms-security
 
 ---
 kind: signature
-hmac: cbef4bc42fe32344786211da2373cc3f6899ed9d40c31678f93fe24dce99a0d6
+hmac: f99784b6fd6bf3707a600f262bb9e59aa7b5f97e54df8976e459096de4344ef3
 
 ...

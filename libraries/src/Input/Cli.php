@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Filter\InputFilter;
  * Joomla! Input CLI Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use Joomla\Input\Cli instead
+ * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class Cli extends Input
 {
@@ -25,7 +25,7 @@ class Cli extends Input
 	 *
 	 * @var    string
 	 * @since  1.7.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	public $executable;
 
@@ -35,7 +35,7 @@ class Cli extends Input
 	 *
 	 * @var    array
 	 * @since  1.7.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	public $args = array();
 
@@ -46,7 +46,7 @@ class Cli extends Input
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   1.7.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -72,7 +72,7 @@ class Cli extends Input
 	 * @return  string  The serialized input.
 	 *
 	 * @since   3.0.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	public function serialize()
 	{
@@ -96,7 +96,7 @@ class Cli extends Input
 	 * @return  Input  The input object.
 	 *
 	 * @since   3.0.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	public function unserialize($input)
 	{
@@ -122,7 +122,7 @@ class Cli extends Input
 	 * @return  void
 	 *
 	 * @since   1.7.0
-	 * @deprecated  5.0  Use Joomla\Input\Cli instead
+	 * @deprecated  5.0  Use the `joomla/console` package instead
 	 */
 	protected function parseArguments()
 	{
@@ -132,7 +132,7 @@ class Cli extends Input
 
 		$out = array();
 
-		for ($i = 0, $j = count($argv); $i < $j; $i++)
+		for ($i = 0, $j = \count($argv); $i < $j; $i++)
 		{
 			$arg = $argv[$i];
 
@@ -154,7 +154,7 @@ class Cli extends Input
 					}
 					else
 					{
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 					}
 
 					$out[$key] = $value;
@@ -186,12 +186,12 @@ class Cli extends Input
 					foreach ($chars as $char)
 					{
 						$key = $char;
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 						$out[$key] = $value;
 					}
 
 					// -a a-value
-					if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
+					if ((\count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
 					{
 						$out[$key] = $argv[$i + 1];
 						$i++;

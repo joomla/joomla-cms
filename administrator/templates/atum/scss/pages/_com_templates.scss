@@ -1,0 +1,48 @@
+// com_templates
+.com_templates {
+
+  .menu-assignment {
+    position: relative;
+
+    .menu-links {
+      padding-left: 0;
+      margin-top: 15px;
+      margin-left: 0;
+      column-count: 3;
+      column-gap: 15px;
+
+      @include media-breakpoint-down(lg) {
+        column-count: auto;
+      }
+
+      > li {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 15px;
+        vertical-align: top;
+        list-style: none;
+        backface-visibility: hidden;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+    }
+
+    .menu-links-block {
+      padding: 15px;
+      background-color: var(--card-bg);
+      border: 1px solid $border-color;
+      border-radius: 3px;
+    }
+
+    label {
+      display: block;
+      padding: 3px 0;
+      font-size: inherit;
+
+      input {
+        position: relative;
+        margin-inline-end: 5px;
+      }
+    }
+  }
+}

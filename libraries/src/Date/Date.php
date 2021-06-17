@@ -2,20 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Date;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
- * JDate is a class that stores a date and provides logic to manipulate
+ * Date is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
  *
- * @method  Date|bool  add(\DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a JDate object.
- * @method  Date|bool  sub(\DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a JDate object.
+ * @method  Date|bool  add(\DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a Date object.
+ * @method  Date|bool  sub(\DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a Date object.
  * @method  Date|bool  modify(string $modify)       Alter the timestamp of this object by incre/decre-menting in a format accepted by strtotime().
  *
  * @property-read  string   $daysinmonth   t - Number of days in the given month.
@@ -54,6 +58,8 @@ class Date extends \DateTime
 	 *
 	 * @var    object
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0 Without replacement
 	 */
 	protected static $gmt;
 
@@ -63,6 +69,8 @@ class Date extends \DateTime
 	 *
 	 * @var    object
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0 Without replacement
 	 */
 	protected static $stz;
 
@@ -87,6 +95,7 @@ class Date extends \DateTime
 		// Create the base GMT and server time zone objects.
 		if (empty(self::$gmt) || empty(self::$stz))
 		{
+			// @TODO: This code block stays here only for B/C, can be removed in 5.0
 			self::$gmt = new \DateTimeZone('GMT');
 			self::$stz = new \DateTimeZone(@date_default_timezone_get());
 		}
@@ -94,25 +103,30 @@ class Date extends \DateTime
 		// If the time zone object is not set, attempt to build it.
 		if (!($tz instanceof \DateTimeZone))
 		{
-			if ($tz === null)
-			{
-				$tz = self::$gmt;
-			}
-			elseif (is_string($tz))
+			if (\is_string($tz))
 			{
 				$tz = new \DateTimeZone($tz);
 			}
+			else
+			{
+				$tz = new \DateTimeZone('UTC');
+			}
 		}
 
-		// If the date is numeric assume a unix timestamp and convert it.
+		// Backup active time zone
+		$activeTZ = date_default_timezone_get();
+
+		// Force UTC timezone for correct time handling
 		date_default_timezone_set('UTC');
+
+		// If the date is numeric assume a unix timestamp and convert it.
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// Reset the timezone for 3rd party libraries/extension that does not use JDate
-		date_default_timezone_set(self::$stz->getName());
+		// Restore previously active timezone
+		date_default_timezone_set($activeTZ);
 
 		// Set the timezone object for access later.
 		$this->tz = $tz;
@@ -206,7 +220,7 @@ class Date extends \DateTime
 	}
 
 	/**
-	 * Proxy for new JDate().
+	 * Proxy for new Date().
 	 *
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date.
@@ -217,7 +231,7 @@ class Date extends \DateTime
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
-		return new Date($date, $tz);
+		return new static($date, $tz);
 	}
 
 	/**
@@ -235,19 +249,19 @@ class Date extends \DateTime
 		switch ($day)
 		{
 			case 0:
-				return $abbr ? \JText::_('SUN') : \JText::_('SUNDAY');
+				return $abbr ? Text::_('SUN') : Text::_('SUNDAY');
 			case 1:
-				return $abbr ? \JText::_('MON') : \JText::_('MONDAY');
+				return $abbr ? Text::_('MON') : Text::_('MONDAY');
 			case 2:
-				return $abbr ? \JText::_('TUE') : \JText::_('TUESDAY');
+				return $abbr ? Text::_('TUE') : Text::_('TUESDAY');
 			case 3:
-				return $abbr ? \JText::_('WED') : \JText::_('WEDNESDAY');
+				return $abbr ? Text::_('WED') : Text::_('WEDNESDAY');
 			case 4:
-				return $abbr ? \JText::_('THU') : \JText::_('THURSDAY');
+				return $abbr ? Text::_('THU') : Text::_('THURSDAY');
 			case 5:
-				return $abbr ? \JText::_('FRI') : \JText::_('FRIDAY');
+				return $abbr ? Text::_('FRI') : Text::_('FRIDAY');
 			case 6:
-				return $abbr ? \JText::_('SAT') : \JText::_('SATURDAY');
+				return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
 		}
 	}
 
@@ -289,10 +303,10 @@ class Date extends \DateTime
 			$format = preg_replace('/(^|[^\\\])F/', "\\1" . self::MONTH_NAME, $format);
 		}
 
-		// If the returned time should not be local use GMT.
-		if ($local == false && !empty(self::$gmt))
+		// If the returned time should not be local use UTC.
+		if ($local == false)
 		{
-			parent::setTimezone(self::$gmt);
+			parent::setTimezone(new \DateTimeZone('UTC'));
 		}
 
 		// Format the date.
@@ -322,7 +336,7 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false && !empty($this->tz))
+		if ($local == false && $this->tz !== null)
 		{
 			parent::setTimezone($this->tz);
 		}
@@ -359,29 +373,29 @@ class Date extends \DateTime
 		switch ($month)
 		{
 			case 1:
-				return $abbr ? \JText::_('JANUARY_SHORT') : \JText::_('JANUARY');
+				return $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY');
 			case 2:
-				return $abbr ? \JText::_('FEBRUARY_SHORT') : \JText::_('FEBRUARY');
+				return $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY');
 			case 3:
-				return $abbr ? \JText::_('MARCH_SHORT') : \JText::_('MARCH');
+				return $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH');
 			case 4:
-				return $abbr ? \JText::_('APRIL_SHORT') : \JText::_('APRIL');
+				return $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL');
 			case 5:
-				return $abbr ? \JText::_('MAY_SHORT') : \JText::_('MAY');
+				return $abbr ? Text::_('MAY_SHORT') : Text::_('MAY');
 			case 6:
-				return $abbr ? \JText::_('JUNE_SHORT') : \JText::_('JUNE');
+				return $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE');
 			case 7:
-				return $abbr ? \JText::_('JULY_SHORT') : \JText::_('JULY');
+				return $abbr ? Text::_('JULY_SHORT') : Text::_('JULY');
 			case 8:
-				return $abbr ? \JText::_('AUGUST_SHORT') : \JText::_('AUGUST');
+				return $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST');
 			case 9:
-				return $abbr ? \JText::_('SEPTEMBER_SHORT') : \JText::_('SEPTEMBER');
+				return $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER');
 			case 10:
-				return $abbr ? \JText::_('OCTOBER_SHORT') : \JText::_('OCTOBER');
+				return $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER');
 			case 11:
-				return $abbr ? \JText::_('NOVEMBER_SHORT') : \JText::_('NOVEMBER');
+				return $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER');
 			case 12:
-				return $abbr ? \JText::_('DECEMBER_SHORT') : \JText::_('DECEMBER');
+				return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
 		}
 	}
 
@@ -415,25 +429,25 @@ class Date extends \DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(\DateTime::RFC3339, $local, false);
+		return $this->format(\DateTimeInterface::RFC3339, $local, false);
 	}
 
 	/**
 	 * Gets the date as an SQL datetime string.
 	 *
-	 * @param   boolean           $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   \JDatabaseDriver  $db     The database driver or null to use \JFactory::getDbo()
+	 * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   2.5.0
 	 */
-	public function toSql($local = false, \JDatabaseDriver $db = null)
+	public function toSql($local = false, DatabaseDriver $db = null)
 	{
 		if ($db === null)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 		}
 
 		return $this->format($db->getDateFormat(), $local, false);
@@ -452,7 +466,7 @@ class Date extends \DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(\DateTime::RFC2822, $local, false);
+		return $this->format(\DateTimeInterface::RFC2822, $local, false);
 	}
 
 	/**

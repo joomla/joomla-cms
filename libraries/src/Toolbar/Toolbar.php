@@ -2,106 +2,195 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Toolbar\Button\BasicButton;
+use Joomla\CMS\Toolbar\Button\ConfirmButton;
+use Joomla\CMS\Toolbar\Button\CustomButton;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
+use Joomla\CMS\Toolbar\Button\HelpButton;
+use Joomla\CMS\Toolbar\Button\LinkButton;
+use Joomla\CMS\Toolbar\Button\PopupButton;
+use Joomla\CMS\Toolbar\Button\SeparatorButton;
+use Joomla\CMS\Toolbar\Button\StandardButton;
 
 /**
  * ToolBar handler
+ *
+ * @method  StandardButton  standardButton(string $name = '', string $text = '', string $task = '')
+ * @method  SeparatorButton  separatorButton(string $name = '', string $text = '', string $task = '')
+ * @method  PopupButton  popupButton(string $name = '', string $text = '', string $task = '')
+ * @method  LinkButton  linkButton(string $name = '', string $text = '', string $task = '')
+ * @method  HelpButton  helpButton(string $name = '', string $text = '', string $task = '')
+ * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
+ * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
+ * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
+ * @method  DropdownButton  dropdownButton(string $name = '', string $text = '', string $task = '')
  *
  * @since  1.5
  */
 class Toolbar
 {
+	use CoreButtonsTrait;
+
 	/**
 	 * Toolbar name
 	 *
 	 * @var    string
+	 * @since  1.5
 	 */
-	protected $_name = array();
+	protected $_name = '';
 
 	/**
 	 * Toolbar array
 	 *
 	 * @var    array
+	 * @since  1.5
 	 */
-	protected $_bar = array();
-
-	/**
-	 * Loaded buttons
-	 *
-	 * @var    array
-	 */
-	protected $_buttons = array();
+	protected $_bar = [];
 
 	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
+	 * @since  1.5
 	 */
-	protected $_buttonPath = array();
+	protected $_buttonPath = [];
 
 	/**
 	 * Stores the singleton instances of various toolbar.
 	 *
-	 * @var    Toolbar
+	 * @var    Toolbar[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
 
 	/**
+	 * Factory for creating Toolbar API objects
+	 *
+	 * @var    ToolbarFactoryInterface
+	 * @since  4.0.0
+	 */
+	protected $factory;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   string  $name  The toolbar name.
+	 * @param   string                   $name     The toolbar name.
+	 * @param   ToolbarFactoryInterface  $factory  The toolbar factory.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($name = 'toolbar')
+	public function __construct($name = 'toolbar', ToolbarFactoryInterface $factory = null)
 	{
 		$this->_name = $name;
 
+		// At 5.0, require the factory to be injected
+		if (!$factory)
+		{
+			Log::add(
+				sprintf(
+					'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
+					ToolbarFactoryInterface::class,
+					\get_class($this)
+				),
+				Log::WARNING,
+				'deprecated'
+			);
+
+			$factory = new ContainerAwareToolbarFactory;
+			$factory->setContainer(Factory::getContainer());
+		}
+
+		$this->setFactory($factory);
+
 		// Set base path to find buttons.
-		$this->_buttonPath[] = __DIR__ . '/button';
+		$this->_buttonPath[] = __DIR__ . '/Button';
 	}
 
 	/**
-	 * Returns the global Toolbar object, only creating it if it
-	 * doesn't already exist.
+	 * Returns the global Toolbar object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $name  The name of the toolbar.
 	 *
-	 * @return  \JToolbar  The JToolbar object.
+	 * @return  Toolbar  The Toolbar object.
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the ToolbarFactoryInterface instead
+	 *
+	 * @throws \Joomla\DI\Exception\KeyNotFoundException
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = new Toolbar($name);
+			self::$instances[$name] = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
 		}
 
 		return self::$instances[$name];
 	}
 
 	/**
-	 * Set a value
+	 * Set the factory instance
 	 *
-	 * @return  string  The set value.
+	 * @param   ToolbarFactoryInterface  $factory  The factory instance
+	 *
+	 * @return  $this
+	 *
+	 * @since   4.0.0
+	 */
+	public function setFactory(ToolbarFactoryInterface $factory): self
+	{
+		$this->factory = $factory;
+
+		return $this;
+	}
+
+	/**
+	 * Append a button to toolbar.
+	 *
+	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   array          $args    The more arguments.
+	 *
+	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
+	 *                                 returns true
 	 *
 	 * @since   1.5
 	 */
-	public function appendButton()
+	public function appendButton($button, ...$args)
 	{
-		// Push button onto the end of the toolbar array.
-		$btn          = func_get_args();
-		$this->_bar[] = $btn;
+		if ($button instanceof ToolbarButton)
+		{
+			$button->setParent($this);
+
+			$this->_bar[] = $button;
+
+			return $button;
+		}
+
+		// B/C
+		array_unshift($args, $button);
+		$this->_bar[] = $args;
+
+		Log::add(
+			sprintf(
+				'%s::appendButton() should only accept %s instance in Joomla 5.0.',
+				static::class,
+				ToolbarButton::class
+			),
+			Log::WARNING,
+			'deprecated'
+		);
 
 		return true;
 	}
@@ -119,6 +208,22 @@ class Toolbar
 	}
 
 	/**
+	 * Set the button list.
+	 *
+	 * @param   ToolbarButton[]  $items  The button list array.
+	 *
+	 * @return  static
+	 *
+	 * @since   4.0.0
+	 */
+	public function setItems(array $items): self
+	{
+		$this->_bar = $items;
+
+		return $this;
+	}
+
+	/**
 	 * Get the name of the toolbar.
 	 *
 	 * @return  string
@@ -131,17 +236,40 @@ class Toolbar
 	}
 
 	/**
-	 * Get a value.
+	 * Prepend a button to toolbar.
 	 *
-	 * @return  string
+	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   array          $args    The more arguments.
+	 *
+	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
+	 *                                 returns true
 	 *
 	 * @since   1.5
 	 */
-	public function prependButton()
+	public function prependButton($button, ...$args)
 	{
-		// Insert button into the front of the toolbar array.
-		$btn = func_get_args();
-		array_unshift($this->_bar, $btn);
+		if ($button instanceof ToolbarButton)
+		{
+			$button->setParent($this);
+
+			array_unshift($this->_bar, $button);
+
+			return $button;
+		}
+
+		// B/C
+		array_unshift($args, $button);
+		array_unshift($this->_bar, $args);
+
+		Log::add(
+			sprintf(
+				'%s::prependButton() should only accept %s instance in Joomla 5.0.',
+				static::class,
+				ToolbarButton::class
+			),
+			Log::WARNING,
+			'deprecated'
+		);
 
 		return true;
 	}
@@ -149,29 +277,54 @@ class Toolbar
 	/**
 	 * Render a toolbar.
 	 *
+	 * @param   array  $options  The options of toolbar.
+	 *
 	 * @return  string  HTML for the toolbar.
 	 *
+	 * @throws \Exception
 	 * @since   1.5
 	 */
-	public function render()
+	public function render(array $options = [])
 	{
-		$html = array();
+		$html = [];
+
+		$isChild = !empty($options['is_child']);
 
 		// Start toolbar div.
-		$layout = new FileLayout('joomla.toolbar.containeropen');
+		if (!$isChild)
+		{
+			$layout = new FileLayout('joomla.toolbar.containeropen');
 
-		$html[] = $layout->render(array('id' => $this->_name));
+			$html[] = $layout->render(['id' => $this->_name]);
+		}
+
+		$len = count($this->_bar);
 
 		// Render each button in the toolbar.
-		foreach ($this->_bar as $button)
+		foreach ($this->_bar as $i => $button)
 		{
-			$html[] = $this->renderButton($button);
+			if ($button instanceof ToolbarButton)
+			{
+				// Child dropdown only support new syntax
+				$button->setOption('is_child', $isChild);
+				$button->setOption('is_first_child', $i === 0);
+				$button->setOption('is_last_child', $i === $len - 1);
+				$html[] = $button->render();
+			}
+			// B/C
+			else
+			{
+				$html[] = $this->renderButton($button);
+			}
 		}
 
 		// End toolbar div.
-		$layout = new FileLayout('joomla.toolbar.containerclose');
+		if (!$isChild)
+		{
+			$layout = new FileLayout('joomla.toolbar.containerclose');
 
-		$html[] = $layout->render(array());
+			$html[] = $layout->render([]);
+		}
 
 		return implode('', $html);
 	}
@@ -179,11 +332,12 @@ class Toolbar
 	/**
 	 * Render a button.
 	 *
-	 * @param   object  &$node  A toolbar node.
+	 * @param   array  &$node  A toolbar node.
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function renderButton(&$node)
 	{
@@ -195,8 +349,10 @@ class Toolbar
 		// Check for error.
 		if ($button === false)
 		{
-			return \JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
+			throw new \UnexpectedValueException(Text::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type));
 		}
+
+		$button->setParent($this);
 
 		return $button->render($node);
 	}
@@ -207,97 +363,23 @@ class Toolbar
 	 * @param   string   $type  Button Type
 	 * @param   boolean  $new   False by default
 	 *
-	 * @return  boolean
+	 * @return  false|ToolbarButton
 	 *
 	 * @since   1.5
 	 */
 	public function loadButtonType($type, $new = false)
 	{
-		$signature = md5($type);
-
-		if ($new === false && isset($this->_buttons[$signature]))
+		// For B/C, catch the exceptions thrown by the factory
+		try
 		{
-			return $this->_buttons[$signature];
+			return $this->factory->createButton($this, $type);
 		}
-
-		if (!class_exists('Joomla\\CMS\\Toolbar\\ToolbarButton'))
+		catch (\InvalidArgumentException $e)
 		{
-			\JLog::add(\JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}
-
-		$buttonClass = $this->loadButtonClass($type);
-
-		if (!$buttonClass)
-		{
-			if (isset($this->_buttonPath))
-			{
-				$dirs = $this->_buttonPath;
-			}
-			else
-			{
-				$dirs = array();
-			}
-
-			$file = \JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
-
-			\JLoader::import('joomla.filesystem.path');
-
-			if ($buttonFile = \JPath::find($dirs, $file))
-			{
-				include_once $buttonFile;
-			}
-			else
-			{
-				\JLog::add(\JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
-
-				return false;
-			}
-
-			$buttonClass = $this->loadButtonClass($type);
-
-			if (!$buttonClass)
-			{
-				return false;
-			}
-		}
-
-		$this->_buttons[$signature] = new $buttonClass($this);
-
-		return $this->_buttons[$signature];
-	}
-
-	/**
-	 * Load the button class including the deprecated ones.
-	 *
-	 * @param   string  $type  Button Type
-	 *
-	 * @return  string|null
-	 *
-	 * @since   3.8.0
-	 */
-	private function loadButtonClass($type)
-	{
-		$buttonClasses = array(
-			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
-			// @deprecated 3.8.0
-			'JToolbarButton' . ucfirst($type),
-			// @deprecated 3.1.4 Remove the acceptance of legacy classes starting with JButton.
-			'JButton' . ucfirst($type)
-		);
-
-		foreach ($buttonClasses as $buttonClass)
-		{
-			if (!class_exists($buttonClass))
-			{
-				continue;
-			}
-
-			return $buttonClass;
-		}
-
-		return null;
 	}
 
 	/**
@@ -313,10 +395,22 @@ class Toolbar
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0  ToolbarButton classes should be autoloaded
 	 */
 	public function addButtonPath($path)
 	{
+		Log::add(
+			sprintf(
+				'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
+				. ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
+				ToolbarButton::class,
+				ToolbarFactoryInterface::class
+			),
+			Log::WARNING,
+			'deprecated'
+		);
+
 		// Loop through the path directories.
 		foreach ((array) $path as $dir)
 		{
@@ -333,5 +427,77 @@ class Toolbar
 			// Add to the top of the search dirs.
 			array_unshift($this->_buttonPath, $dir);
 		}
+	}
+
+	/**
+	 * Get the lookup paths for button objects
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 * @deprecated  5.0  ToolbarButton classes should be autoloaded
+	 */
+	public function getButtonPath(): array
+	{
+		Log::add(
+			sprintf(
+				'Lookup paths for %s objects is deprecated and will be removed in Joomla 5.0.',
+				ToolbarButton::class
+			),
+			Log::WARNING,
+			'deprecated'
+		);
+
+		return $this->_buttonPath;
+	}
+
+	/**
+	 * Create child toolbar.
+	 *
+	 * @param   string  $name  The toolbar name.
+	 *
+	 * @return  static
+	 *
+	 * @since   4.0.0
+	 */
+	public function createChild($name): self
+	{
+		return new static($name, $this->factory);
+	}
+
+	/**
+	 * Magic method proxy.
+	 *
+	 * @param   string  $name  The method name.
+	 * @param   array   $args  The method arguments.
+	 *
+	 * @return  ToolbarButton
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   4.0.0
+	 */
+	public function __call($name, $args)
+	{
+		if (strtolower(substr($name, -6)) === 'button')
+		{
+			$type = substr($name, 0, -6);
+
+			$button = $this->factory->createButton($this, $type);
+
+			$button->name($args[0] ?? '')
+				->text($args[1] ?? '')
+				->task($args[2] ?? '');
+
+			return $this->appendButton($button);
+		}
+
+		throw new \BadMethodCallException(
+			sprintf(
+				'Method %s() not found in class: %s',
+				$name,
+				static::class
+			)
+		);
 	}
 }

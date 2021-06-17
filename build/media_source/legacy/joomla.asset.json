@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "jquery-noconflict",
+      "type": "script",
+      "dependencies": [
+        "jquery"
+      ],
+      "uri": "legacy/jquery-noconflict.min.js"
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "dependencies": [
+        "jquery"
+      ],
+      "uri": "legacy/treeselectmenu.min.js",
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}

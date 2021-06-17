@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Uri\Uri;
 
@@ -22,13 +22,15 @@ class AdministratorRouter extends Router
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   Uri  &$uri  The uri.
+	 * @param   Uri   &$uri     The uri.
+	 * @param   bool  $setVars  Set the parsed data in the internal
+	 *                          storage for current-request-URLs
 	 *
 	 * @return  array
 	 *
 	 * @since   1.5
 	 */
-	public function parse(&$uri)
+	public function parse(&$uri, $setVars = false)
 	{
 		return array();
 	}

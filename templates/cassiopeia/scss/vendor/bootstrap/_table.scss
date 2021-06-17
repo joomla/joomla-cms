@@ -1,0 +1,20 @@
+// Table
+
+.table {
+
+  thead th {
+    white-space: nowrap;
+    border-bottom-width: 1px;
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+
+    label {
+      margin-bottom: 0;
+    }
+
+  }
+
+}

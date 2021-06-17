@@ -2,15 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Pathway;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -23,17 +24,17 @@ class SitePathway extends Pathway
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  $options  The class options.
+	 * @param   SiteApplication  $app  Application Object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($options = array())
+	public function __construct(SiteApplication $app = null)
 	{
-		$this->_pathway = array();
+		$this->pathway = array();
 
-		$app  = CMSApplication::getInstance('site');
+		$app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
 		$menu = $app->getMenu();
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		if ($item = $menu->getActive())
 		{
@@ -49,7 +50,7 @@ class SitePathway extends Pathway
 				$home  = $menu->getDefault();
 			}
 
-			if (is_object($home) && ($item->id != $home->id))
+			if (\is_object($home) && ($item->id != $home->id))
 			{
 				foreach ($item->tree as $menupath)
 				{
@@ -76,7 +77,7 @@ class SitePathway extends Pathway
 
 						case 'alias':
 							// If this is an alias use the item id stored in the parameters to make the link.
-							$url = 'index.php?Itemid=' . $link->params->get('aliasoptions');
+							$url = 'index.php?Itemid=' . $link->getParams()->get('aliasoptions');
 							break;
 
 						default:

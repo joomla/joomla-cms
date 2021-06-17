@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.2" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_postinstall</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2013</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.2.0</version>
+	<version>4.0.0</version>
 	<description>COM_POSTINSTALL_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Postinstall</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>fof.xml</filename>
-			<filename>postinstall.php</filename>
-			<filename>toolbar.php</filename>
-			<folder>controllers</folder>
-			<folder>models</folder>
-			<folder>views</folder>
+			<filename>postinstall.xml</filename>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_postinstall.ini</language>
-			<language tag="en-GB">language/en-GB.com_postinstall.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_postinstall.ini</language>
+			<language tag="en-GB">language/en-GB/com_postinstall.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

@@ -1,0 +1,19 @@
+// Dragula
+
+.gu-mirror {
+  position: fixed !important;
+  z-index: $zindex-popover !important;
+  display: table;
+  margin: 0 !important;
+  cursor: move;
+  background-color: $teal;
+  opacity: .8;
+
+  td, th {
+    background-color: $teal;
+  }
+}
+
+.js-draggable .sortable-handler {
+  cursor: move;
+}

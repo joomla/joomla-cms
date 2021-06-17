@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
@@ -45,9 +45,9 @@ class CallbackLogger extends Logger
 		parent::__construct($options);
 
 		// Throw an exception if there is not a valid callback
-		if (!isset($this->options['callback']) || !is_callable($this->options['callback']))
+		if (!isset($this->options['callback']) || !\is_callable($this->options['callback']))
 		{
-			throw new \RuntimeException(sprintf('%s created without valid callback function.', get_class($this)));
+			throw new \RuntimeException(sprintf('%s created without valid callback function.', \get_class($this)));
 		}
 
 		$this->callback = $this->options['callback'];
@@ -66,6 +66,6 @@ class CallbackLogger extends Logger
 	public function addEntry(LogEntry $entry)
 	{
 		// Pass the log entry to the callback function
-		call_user_func($this->callback, $entry);
+		\call_user_func($this->callback, $entry);
 	}
 }

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Registry\Registry;
@@ -55,7 +55,7 @@ class FeedFactory
 			{
 				$response = HttpFactory::getHttp($options)->get($uri);
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
 			}
@@ -66,7 +66,7 @@ class FeedFactory
 			}
 
 			// Set the value to the XMLReader parser
-			if (!$reader->xml($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+			if (!$reader->XML($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 			{
 				throw new \RuntimeException('Unable to parse the feed.');
 			}
@@ -127,6 +127,18 @@ class FeedFactory
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to get the registered Parsers
+	 *
+	 * @return array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getParsers()
+	{
+		return $this->parsers;
 	}
 
 	/**

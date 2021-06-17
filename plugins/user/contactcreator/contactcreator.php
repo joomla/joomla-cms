@@ -3,15 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\String\StringHelper;
 
 /**
@@ -21,7 +21,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class PlgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -30,6 +30,22 @@ class PlgUserContactCreator extends JPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application Instance
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
+	 * Database Driver Instance
+	 *
+	 * @var    \Joomla\Database\DatabaseDriver
+	 * @since  4.0.0
+	 */
+	protected $db;
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -41,22 +57,22 @@ class PlgUserContactCreator extends JPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		// If the user wasn't stored we don't resync
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		// If the user isn't new we don't sync
 		if (!$isnew)
 		{
-			return false;
+			return;
 		}
 
 		// Ensure the user id is really an int
@@ -65,16 +81,16 @@ class PlgUserContactCreator extends JPlugin
 		// If the user id appears invalid then bail out just in case
 		if (empty($user_id))
 		{
-			return false;
+			return;
 		}
 
 		$categoryId = $this->params->get('category', 0);
 
 		if (empty($categoryId))
 		{
-			JError::raiseWarning('', Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
+			$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
-			return false;
+			return;
 		}
 
 		if ($contact = $this->getContactTable())
@@ -92,7 +108,7 @@ class PlgUserContactCreator extends JPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getConfig()->get('access');
+			$contact->access   = (int) $this->app->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 
@@ -121,13 +137,11 @@ class PlgUserContactCreator extends JPlugin
 
 			if ($contact->check() && $contact->store())
 			{
-				return true;
+				return;
 			}
 		}
 
-		JError::raiseWarning('', Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'));
-
-		return false;
+		$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
 	}
 
 	/**
@@ -161,14 +175,12 @@ class PlgUserContactCreator extends JPlugin
 	/**
 	 * Get an instance of the contact table
 	 *
-	 * @return  ContactTableContact
+	 * @return  ContactTable|null
 	 *
 	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
-
-		return Table::getInstance('contact', 'ContactTable');
+		return $this->app->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator', ['dbo' => $this->db]);
 	}
 }

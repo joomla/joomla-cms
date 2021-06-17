@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Association;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -63,7 +63,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
 	 */
 	public function getItemTypes()
 	{
@@ -78,7 +78,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	 *
 	 * @return   array
 	 *
-	 * @since    3.7.0
+	 * @since   3.7.0
 	 */
 	public function getAssociationList($typeName, $itemId)
 	{
@@ -189,7 +189,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists('title', $type))
+		if (!\array_key_exists('title', $type))
 		{
 			return '';
 		}
@@ -211,7 +211,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists($part, $type))
+		if (!\array_key_exists($part, $type))
 		{
 			return array();
 		}
@@ -233,7 +233,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$fields = $this->getTypeFields($typeName);
 
-		if (!array_key_exists($fieldName, $fields))
+		if (!\array_key_exists($fieldName, $fields))
 		{
 			return '';
 		}

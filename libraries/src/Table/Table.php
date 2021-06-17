@@ -2,15 +2,26 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Abstract Table class
@@ -20,8 +31,10 @@ defined('JPATH_PLATFORM') or die;
  * @since  1.7.0
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends \JObject implements \JObservableInterface, \JTableInterface
+abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * Include paths for searching for Table classes.
 	 *
@@ -55,9 +68,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected $_tbl_keys = array();
 
 	/**
-	 * \JDatabaseDriver object.
+	 * DatabaseDriver object.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  1.7.0
 	 */
 	protected $_db;
@@ -73,7 +86,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    \JAccessRules  A \JAccessRules object.
+	 * @var    Rules  A Rules object.
 	 * @since  1.7.0
 	 */
 	protected $_rules;
@@ -95,14 +108,6 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected $_autoincrement = true;
 
 	/**
-	 * Generic observers for this Table (Used e.g. for tags Processing)
-	 *
-	 * @var    \JObserverUpdater
-	 * @since  3.1.2
-	 */
-	protected $_observers;
-
-	/**
 	 * Array with alias for "special" columns such as ordering, hits etc etc
 	 *
 	 * @var    array
@@ -119,34 +124,53 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected $_jsonEncode = array();
 
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  3.10.0
+	 */
+	protected $_supportNullValue = false;
+
+	/**
+	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $typeAlias = null;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string            $table  Name of the table to model.
-	 * @param   mixed             $key    Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   \JDatabaseDriver  $db     \JDatabaseDriver object.
+	 * @param   string               $table       Name of the table to model.
+	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
+	 * @param   DatabaseDriver       $db          DatabaseDriver object.
+	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($table, $key, $db)
+	public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
+		parent::__construct();
+
 		// Set internal variables.
 		$this->_tbl = $table;
 
 		// Set the key to be an array.
-		if (is_string($key))
+		if (\is_string($key))
 		{
 			$key = array($key);
 		}
-		elseif (is_object($key))
+		elseif (\is_object($key))
 		{
 			$key = (array) $key;
 		}
 
 		$this->_tbl_keys = $key;
 
-		if (count($key) == 1)
+		if (\count($key) == 1)
 		{
 			$this->_autoincrement = true;
 		}
@@ -168,7 +192,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			foreach ($fields as $name => $v)
 			{
 				// Add the field if it is not already present.
-				if (!property_exists($this, $name))
+				if (!$this->hasField($name))
 				{
 					$this->$name = null;
 				}
@@ -176,52 +200,33 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if (property_exists($this, 'asset_id'))
+		if ($this->hasField('asset_id'))
 		{
 			$this->_trackAssets = true;
 		}
 
 		// If the access property exists, set the default.
-		if (property_exists($this, 'access'))
+		if ($this->hasField('access'))
 		{
-			$this->access = (int) \JFactory::getConfig()->get('access');
+			$this->access = (int) Factory::getApplication()->get('access');
 		}
 
-		// Implement \JObservableInterface:
-		// Create observer updater and attaches all observers interested by $this class:
-		$this->_observers = new \JObserverUpdater($this);
-		\JObserverMapper::attachAllObservers($this);
-	}
+		// Create or set a Dispatcher
+		if (!\is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
+		{
+			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
+			$dispatcher = Factory::getApplication()->getDispatcher();
+		}
 
-	/**
-	 * Implement \JObservableInterface:
-	 * Adds an observer to this instance.
-	 * This method will be called fron the constructor of classes implementing \JObserverInterface
-	 * which is instanciated by the constructor of $this with \JObserverMapper::attachAllObservers($this)
-	 *
-	 * @param   \JObserverInterface|\JTableObserver  $observer  The observer object
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1.2
-	 */
-	public function attachObserver(\JObserverInterface $observer)
-	{
-		$this->_observers->attachObserver($observer);
-	}
+		$this->setDispatcher($dispatcher);
 
-	/**
-	 * Gets the instance of the observer of class $observerClass
-	 *
-	 * @param   string  $observerClass  The observer class-name to return the object of
-	 *
-	 * @return  \JTableObserver|null
-	 *
-	 * @since   3.1.2
-	 */
-	public function getObserverOfClass($observerClass)
-	{
-		return $this->_observers->getObserverOfClass($observerClass);
+		$event = AbstractEvent::create(
+			'onTableObjectCreate',
+			[
+				'subject'	=> $this,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableObjectCreate', $event);
 	}
 
 	/**
@@ -266,7 +271,8 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the MvcFactory instead
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -278,14 +284,12 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
 			$paths = self::addIncludePath();
 			$pathIndex = 0;
 
-			while (!class_exists($tableClass) && $pathIndex < count($paths))
+			while (!class_exists($tableClass) && $pathIndex < \count($paths))
 			{
-				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
 					include_once $tryThis;
@@ -305,8 +309,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
+		$db = $config['dbo'] ?? Factory::getDbo();
+
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (Factory::getContainer()->has($tableClass))
+		{
+			return Factory::getContainer()->get($tableClass);
+		}
 
 		// Instantiate a new table class and return it.
 		return new $tableClass($db);
@@ -319,7 +329,8 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -342,7 +353,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				if (!in_array($dir, self::$_includePaths))
+				if (!\in_array($dir, self::$_includePaths))
 				{
 					array_unshift(self::$_includePaths, $dir);
 				}
@@ -405,7 +416,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
-		/** @var  \JTableAsset  $assets */
+		/** @var Asset $assets */
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
 
@@ -420,8 +431,8 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	/**
 	 * Method to append the primary keys for this table to a query.
 	 *
-	 * @param   \JDatabaseQuery  $query  A query object to append.
-	 * @param   mixed            $pk     Optional primary key parameter.
+	 * @param   DatabaseQuery  $query  A query object to append.
+	 * @param   mixed          $pk     Optional primary key parameter.
 	 *
 	 * @return  void
 	 *
@@ -429,7 +440,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function appendPrimaryKeys($query, $pk = null)
 	{
-		if (is_null($pk))
+		if (\is_null($pk))
 		{
 			foreach ($this->_tbl_keys as $k)
 			{
@@ -438,7 +449,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		}
 		else
 		{
-			if (is_string($pk))
+			if (\is_string($pk))
 			{
 				$pk = array($this->_tbl_key => $pk);
 			}
@@ -476,7 +487,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function getKeyName($multiple = false)
 	{
 		// Count the number of keys
-		if (count($this->_tbl_keys))
+		if (\count($this->_tbl_keys))
 		{
 			if ($multiple)
 			{
@@ -494,9 +505,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	}
 
 	/**
-	 * Method to get the \JDatabaseDriver object.
+	 * Returns the identity (primary key) value of this record
 	 *
-	 * @return  \JDatabaseDriver  The internal database driver object.
+	 * @return  mixed
+	 *
+	 * @since   4.0.0
+	 */
+	public function getId()
+	{
+		$key = $this->getKeyName();
+
+		return $this->$key;
+	}
+
+	/**
+	 * Method to get the DatabaseDriver object.
+	 *
+	 * @return  DatabaseDriver  The internal database driver object.
 	 *
 	 * @since   1.7.0
 	 */
@@ -506,15 +531,15 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	}
 
 	/**
-	 * Method to set the \JDatabaseDriver object.
+	 * Method to set the DatabaseDriver object.
 	 *
-	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
+	 * @param   DatabaseDriver  $db  A DatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.7.0
 	 */
-	public function setDbo($db)
+	public function setDbo(DatabaseDriver $db)
 	{
 		$this->_db = $db;
 
@@ -524,7 +549,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
+	 * @param   mixed  $input  A Rules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -532,20 +557,20 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof \JAccessRules)
+		if ($input instanceof Rules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new \JAccessRules($input);
+			$this->_rules = new Rules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  \JAccessRules object
+	 * @return  Rules object
 	 *
 	 * @since   1.7.0
 	 */
@@ -565,11 +590,19 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function reset()
 	{
+		$event = AbstractEvent::create(
+			'onTableBeforeReset',
+			[
+				'subject'	=> $this,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeReset', $event);
+
 		// Get the default values for the class from the table.
 		foreach ($this->getFields() as $k => $v)
 		{
 			// If the property is not the primary key or private, reset it.
-			if (!in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
+			if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
 			{
 				$this->$k = $v->Default;
 			}
@@ -577,6 +610,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		// Reset table errors
 		$this->_errors = array();
+
+		$event = AbstractEvent::create(
+			'onTableAfterReset',
+			[
+				'subject'	=> $this,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterReset', $event);
 	}
 
 	/**
@@ -594,47 +635,57 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function bind($src, $ignore = array())
 	{
+		// Check if the source value is an array or object
+		if (!\is_object($src) && !\is_array($src))
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
+					\get_class($this),
+					\gettype($src)
+				)
+			);
+		}
+
+		// If the ignore value is a string, explode it over spaces.
+		if (!\is_array($ignore))
+		{
+			$ignore = explode(' ', $ignore);
+		}
+
+		$event = AbstractEvent::create(
+			'onTableBeforeBind',
+			[
+				'subject'	=> $this,
+				'src'		=> $src,
+				'ignore'	=> $ignore
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
+
+		// If the source value is an object, get its accessible properties.
+		if (\is_object($src))
+		{
+			$src = get_object_vars($src);
+		}
+
 		// JSON encode any fields required
 		if (!empty($this->_jsonEncode))
 		{
 			foreach ($this->_jsonEncode as $field)
 			{
-				if (isset($src[$field]) && is_array($src[$field]))
+				if (isset($src[$field]) && \is_array($src[$field]))
 				{
 					$src[$field] = json_encode($src[$field]);
 				}
 			}
 		}
 
-		// Check if the source value is an array or object
-		if (!is_object($src) && !is_array($src))
-		{
-			throw new \InvalidArgumentException(
-				sprintf(
-					'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
-					get_class($this),
-					gettype($src)
-				)
-			);
-		}
-
-		// If the source value is an object, get its accessible properties.
-		if (is_object($src))
-		{
-			$src = get_object_vars($src);
-		}
-
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
-		{
-			$ignore = explode(' ', $ignore);
-		}
-
 		// Bind the source value, excluding the ignored fields.
 		foreach ($this->getProperties() as $k => $v)
 		{
 			// Only process fields not in the ignore array.
-			if (!in_array($k, $ignore))
+			if (!\in_array($k, $ignore))
 			{
 				if (isset($src[$k]))
 				{
@@ -642,6 +693,16 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				}
 			}
 		}
+
+		$event = AbstractEvent::create(
+			'onTableAfterBind',
+			[
+				'subject'	=> $this,
+				'src'		=> $src,
+				'ignore'	=> $ignore
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterBind', $event);
 
 		return true;
 	}
@@ -662,8 +723,16 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function load($keys = null, $reset = true)
 	{
-		// Implement \JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeLoad', array($keys, $reset));
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeLoad',
+			[
+				'subject'	=> $this,
+				'keys'		=> $keys,
+				'reset'		=> $reset,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeLoad', $event);
 
 		if (empty($keys))
 		{
@@ -683,10 +752,10 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				return true;
 			}
 		}
-		elseif (!is_array($keys))
+		elseif (!\is_array($keys))
 		{
 			// Load by primary key.
-			$keyCount = count($this->_tbl_keys);
+			$keyCount = \count($this->_tbl_keys);
 
 			if ($keyCount)
 			{
@@ -717,9 +786,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		foreach ($keys as $field => $value)
 		{
 			// Check that $field is in the table.
-			if (!in_array($field, $fields))
+			if (!\in_array($field, $fields))
 			{
-				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
+				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
 			}
 
 			// Add the search tuple to the query.
@@ -741,8 +810,16 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$result = $this->bind($row);
 		}
 
-		// Implement \JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterLoad', array(&$result, $row));
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterLoad',
+			[
+				'subject'		=> $this,
+				'result'		=> &$result,
+				'row'			=> $row,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterLoad', $event);
 
 		return $result;
 	}
@@ -758,6 +835,15 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function check()
 	{
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableCheck',
+			[
+				'subject'		=> $this,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableCheck', $event);
+
 		return true;
 	}
 
@@ -779,8 +865,16 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		$k = $this->_tbl_keys;
 
-		// Implement \JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeStore',
+			[
+				'subject'		=> $this,
+				'updateNulls'	=> $updateNulls,
+				'k'				=> $k,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeStore', $event);
 
 		$currentAssetId = 0;
 
@@ -795,15 +889,29 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			unset($this->asset_id);
 		}
 
-		// If a primary key exists update the object, otherwise insert it.
-		if ($this->hasPrimaryKey())
+		// We have to unset typeAlias since updateObject / insertObject will try to insert / update all public variables...
+		$typeAlias = $this->typeAlias;
+		unset($this->typeAlias);
+
+		try
 		{
-			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			// If a primary key exists update the object, otherwise insert it.
+			if ($this->hasPrimaryKey())
+			{
+				$this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			}
+			else
+			{
+				$this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+			}
 		}
-		else
+		catch (\Exception $e)
 		{
-			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+			$this->setError($e->getMessage());
+			$result = false;
 		}
+
+		$this->typeAlias = $typeAlias;
 
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
@@ -820,7 +928,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
-			/** @var  \JTableAsset  $asset */
+			/** @var Asset $asset */
 			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 			$asset->loadByName($name);
 
@@ -847,9 +955,11 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				// Prepare the asset to be stored.
 				$asset->parent_id = $parentId;
 				$asset->name      = $name;
-				$asset->title     = $title;
 
-				if ($this->_rules instanceof \JAccessRules)
+				// Respect the table field limits
+				$asset->title = StringHelper::substr($title, 0, 100);
+
+				if ($this->_rules instanceof Rules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
@@ -878,8 +988,15 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
-		// Implement \JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterStore', array(&$result));
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterStore',
+			[
+				'subject'	=> $this,
+				'result'	=> &$result,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterStore', $event);
 
 		return $result;
 	}
@@ -920,7 +1037,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		}
 
 		// Attempt to check the row in, just in case it was checked out.
-		if (!$this->checkin())
+		if (!$this->checkIn())
 		{
 			return false;
 		}
@@ -950,7 +1067,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function delete($pk = null)
 	{
-		if (is_null($pk))
+		if (\is_null($pk))
 		{
 			$pk = array();
 
@@ -959,14 +1076,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
 
 		foreach ($this->_tbl_keys as $key)
 		{
-			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+			$pk[$key] = \is_null($pk[$key]) ? $this->$key : $pk[$key];
 
 			if ($pk[$key] === null)
 			{
@@ -976,15 +1093,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$this->$key = $pk[$key];
 		}
 
-		// Implement \JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeDelete', array($pk));
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeDelete',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeDelete', $event);
 
 		// If tracking assets, remove the asset first.
 		if ($this->_trackAssets)
 		{
 			// Get the asset name
 			$name  = $this->_getAssetName();
-			/** @var  \JTableAsset  $asset */
+
+			/** @var Asset $asset */
 			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
@@ -1008,8 +1133,15 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		// Check for a database error.
 		$this->_db->execute();
 
-		// Implement \JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterDelete', array($pk));
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterDelete',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterDelete', $event);
 
 		return true;
 	}
@@ -1031,16 +1163,24 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function checkOut($userId, $pk = null)
 	{
-		$checkedOutField = $this->getColumnAlias('checked_out');
-		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeCheckout',
+			[
+				'subject'	=> $this,
+				'userId'	=> $userId,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeCheckout', $event);
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			return true;
 		}
 
-		if (is_null($pk))
+		if (\is_null($pk))
 		{
 			$pk = array();
 
@@ -1049,14 +1189,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
 
 		foreach ($this->_tbl_keys as $key)
 		{
-			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+			$pk[$key] = \is_null($pk[$key]) ? $this->$key : $pk[$key];
 
 			if ($pk[$key] === null)
 			{
@@ -1064,8 +1204,12 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
+		// Get column names.
+		$checkedOutField     = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+
 		// Get the current time in the database format.
-		$time = \JFactory::getDate()->toSql();
+		$time = Factory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1079,6 +1223,17 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		// Set table values in the object.
 		$this->$checkedOutField      = (int) $userId;
 		$this->$checkedOutTimeField = $time;
+
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterCheckout',
+			[
+				'subject'	=> $this,
+				'userId'	=> $userId,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterCheckout', $event);
 
 		return true;
 	}
@@ -1097,16 +1252,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function checkIn($pk = null)
 	{
-		$checkedOutField = $this->getColumnAlias('checked_out');
-		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeCheckin',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			return true;
 		}
 
-		if (is_null($pk))
+		if (\is_null($pk))
 		{
 			$pk = array();
 
@@ -1115,7 +1277,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				$pk[$this->$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
@@ -1130,11 +1292,18 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
+		// Get column names.
+		$checkedOutField     = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+
+		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
+
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1142,11 +1311,20 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterCheckin', array($this->_tbl));
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterCheckin',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
+
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
 
 		return true;
 	}
@@ -1204,15 +1382,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function hit($pk = null)
 	{
-		$hitsField = $this->getColumnAlias('hits');
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeHit',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeHit', $event);
 
 		// If there is no hits field, just return true.
-		if (!property_exists($this, $hitsField))
+		if (!$this->hasField('hits'))
 		{
 			return true;
 		}
 
-		if (is_null($pk))
+		if (\is_null($pk))
 		{
 			$pk = array();
 
@@ -1221,20 +1407,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
 
 		foreach ($this->_tbl_keys as $key)
 		{
-			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+			$pk[$key] = \is_null($pk[$key]) ? $this->$key : $pk[$key];
 
 			if ($pk[$key] === null)
 			{
 				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
+
+		// Get column name.
+		$hitsField = $this->getColumnAlias('hits');
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1246,6 +1435,16 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		// Set table values in the object.
 		$this->hits++;
+
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterHit',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterHit', $event);
 
 		return true;
 	}
@@ -1265,7 +1464,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function isCheckedOut($with = 0, $against = null)
 	{
 		// Handle the non-static case.
-		if (isset($this) && ($this instanceof Table) && is_null($against))
+		if (isset($this) && ($this instanceof Table) && \is_null($against))
 		{
 			$checkedOutField = $this->getColumnAlias('checked_out');
 			$against = $this->get($checkedOutField);
@@ -1277,16 +1476,23 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			return false;
 		}
 
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(userid)')
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $against);
-		$db->setQuery($query);
-		$checkedOut = (boolean) $db->loadResult();
+		// This last check can only be relied on if tracking session metadata
+		if (Factory::getApplication()->get('session_metadata', true))
+		{
+			$db = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select('COUNT(userid)')
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = ' . (int) $against);
+			$db->setQuery($query);
+			$checkedOut = (boolean) $db->loadResult();
 
-		// If a session exists for the user then it is checked out.
-		return $checkedOut;
+			// If a session exists for the user then it is checked out.
+			return $checkedOut;
+		}
+
+		// Assume if we got here that there is a value in the checked out column but it doesn't match the given user
+		return true;
 	}
 
 	/**
@@ -1304,16 +1510,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function getNextOrder($where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField('ordering'))
 		{
-			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
 		$query = $this->_db->getQuery(true)
-			->select('MAX(' . $this->_db->quoteName($orderingField) . ')')
+			->select('MAX(' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ')')
 			->from($this->_tbl);
 
 		if ($where)
@@ -1366,14 +1570,12 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function reorder($where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField('ordering'))
 		{
-			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
 		}
 
-		$quotedOrderingField = $this->_db->quoteName($orderingField);
+		$quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
 
 		$subquery = $this->_db->getQuery(true)
 			->from($this->_tbl)
@@ -1401,11 +1603,36 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		$subquery->where($quotedOrderingField . ' >= 0');
 		$query->where($quotedOrderingField . ' >= 0');
+		$query->innerJoin('(' . (string) $subquery . ') AS sq ');
 
-		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		foreach ($innerOn as $key)
+		{
+			$query->where($key);
+		}
+
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeReorder',
+			[
+				'subject'	=> $this,
+				'query'		=> $query,
+				'where'		=> $where,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeReorder', $event);
 
 		$this->_db->setQuery($query);
 		$this->_db->execute();
+
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterReorder',
+			[
+				'subject'	=> $this,
+				'where'		=> $where,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterReorder', $event);
 
 		return true;
 	}
@@ -1426,13 +1653,12 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function move($delta, $where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField('ordering'))
 		{
-			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
 		}
 
+		$orderingField       = $this->getColumnAlias('ordering');
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// If the change is none, do nothing.
@@ -1467,8 +1693,21 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$query->where($where);
 		}
 
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeMove',
+			[
+				'subject'	=> $this,
+				'query'		=> $query,
+				'delta'		=> $delta,
+				'where'		=> $where,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeMove', $event);
+
 		// Select the first row with the criteria.
-		$this->_db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$this->_db->setQuery($query);
 		$row = $this->_db->loadObject();
 
 		// If a row is found, move the item.
@@ -1504,6 +1743,18 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$this->_db->execute();
 		}
 
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterMove',
+			[
+				'subject'	=> $this,
+				'row'		=> $row,
+				'delta'		=> $delta,
+				'where'		=> $where,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterMove', $event);
+
 		return true;
 	}
 
@@ -1526,16 +1777,28 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
-		if (!is_null($pks))
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforePublish',
+			[
+				'subject'	=> $this,
+				'pks'		=> $pks,
+				'state'		=> $state,
+				'userId'	=> $userId,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforePublish', $event);
+
+		if (!\is_null($pks))
 		{
-			if (!is_array($pks))
+			if (!\is_array($pks))
 			{
 				$pks = array($pks);
 			}
 
 			foreach ($pks as $key => $pk)
 			{
-				if (!is_array($pk))
+				if (!\is_array($pk))
 				{
 					$pks[$key] = array($this->_tbl_key => $pk);
 				}
@@ -1556,7 +1819,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}
@@ -1576,14 +1839,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
 
 			// If publishing, set published date/time if not previously set
-			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
+			if ($state && $this->hasField('publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
+				$nowDate = $this->_db->quote(Factory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 
 			// Determine if there is checkin support for the table.
-			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
+			if ($this->hasField('checked_out') || $this->hasField('checked_out_time'))
 			{
 				$query->where(
 					'('
@@ -1616,9 +1879,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 
 			// If checkin is supported and all rows were adjusted, check them in.
-			if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+			if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 
 			// If the Table instance value is in the list of primary keys that were set, set the instance.
@@ -1639,6 +1902,18 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		}
 
 		$this->setError('');
+
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterPublish',
+			[
+				'subject'	=> $this,
+				'pks'		=> $pks,
+				'state'		=> $state,
+				'userId'	=> $userId,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterPublish', $event);
 
 		return true;
 	}
@@ -1700,7 +1975,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
-		// Santize the column name alias
+		// Sanitize the column name alias
 		$column = strtolower($column);
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 
@@ -1717,8 +1992,11 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	protected function _unlock()
 	{
-		$this->_db->unlockTables();
-		$this->_locked = false;
+		if ($this->_locked)
+		{
+			$this->_db->unlockTables();
+			$this->_locked = false;
+		}
 
 		return true;
 	}

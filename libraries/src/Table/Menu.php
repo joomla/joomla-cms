@@ -2,16 +2,21 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,18 +27,26 @@ use Joomla\Registry\Registry;
 class Menu extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__menu', 'id', $db);
 
 		// Set the default access level.
-		$this->access = (int) \JFactory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -52,7 +65,7 @@ class Menu extends Nested
 		// Verify that the default home menu is not unset
 		if ($this->home == '1' && $this->language === '*' && $array['home'] == '0')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
 			return false;
 		}
@@ -60,7 +73,7 @@ class Menu extends Nested
 		// Verify that the default home menu set to "all" languages" is not unset
 		if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
 			return false;
 		}
@@ -68,12 +81,12 @@ class Menu extends Nested
 		// Verify that the default home menu is not unpublished
 		if ($this->home == '1' && $this->language === '*' && $array['published'] != '1')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 
 			return false;
 		}
 
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
@@ -92,10 +105,21 @@ class Menu extends Nested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check for a title.
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
 			return false;
 		}
@@ -124,9 +148,20 @@ class Menu extends Nested
 		// Verify that the home item is a component.
 		if ($this->home && $this->type !== 'component')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 
 			return false;
+		}
+
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
 		}
 
 		return true;
@@ -142,7 +177,7 @@ class Menu extends Nested
 	 * @see     Table::store()
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -156,19 +191,17 @@ class Menu extends Nested
 		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
 			// Verify that a first level menu item alias is not 'component'.
-			if ($this->alias == 'component')
+			if ($this->alias === 'component')
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
 				return false;
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			jimport('joomla.filesystem.folder');
-
-			if (in_array($this->alias, \JFolder::folders(JPATH_ROOT)))
+			if (\in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
 				return false;
 			}
@@ -177,7 +210,7 @@ class Menu extends Nested
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
 		if (empty($this->alias))
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 		else
 		{
@@ -197,13 +230,16 @@ class Menu extends Nested
 				// When editing an item with All language check if there are more menu items with the same alias in any language.
 				elseif ($this->language === '*' && $this->id != 0)
 				{
+					$id    = (int) $this->id;
 					$query = $db->getQuery(true)
 						->select('id')
 						->from($db->quoteName('#__menu'))
 						->where($db->quoteName('parent_id') . ' = 1')
 						->where($db->quoteName('client_id') . ' = 0')
-						->where($db->quoteName('id') . ' != ' . (int) $this->id)
-						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+						->where($db->quoteName('id') . ' != :id')
+						->where($db->quoteName('alias') . ' = :alias')
+						->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':alias', $this->alias);
 
 					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
@@ -229,7 +265,7 @@ class Menu extends Nested
 			{
 				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
 				$menuTypeTable->load(array('menutype' => $table->menutype));
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
 
 				return false;
 			}
@@ -239,15 +275,15 @@ class Menu extends Nested
 		{
 			// Verify that the home page for this menu is unique.
 			if ($table->load(
-					array(
+				array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
 					'home' => '1',
-					)
 				)
+			)
 				&& ($table->language != $this->language))
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
 
 				return false;
 			}
@@ -257,14 +293,14 @@ class Menu extends Nested
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
 				{
-					$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
+					$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 
 					return false;
 				}
 
 				$table->home = 0;
-				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
+				$table->checked_out = null;
+				$table->checked_out_time = null;
 				$table->store();
 			}
 		}

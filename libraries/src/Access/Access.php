@@ -2,16 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\User\User;
+use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class that handles all access authorisation routines.
@@ -43,27 +50,6 @@ class Access
 	 * @since  1.7.0
 	 */
 	protected static $assetRulesIdentities = array();
-
-	/**
-	 * Array of permissions for an asset type
-	 * (Array Key = Asset ID)
-	 * Also includes the rules string for the asset
-	 *
-	 * @var    array
-	 * @since  1.7.0
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static $assetPermissionsById = array();
-
-	/**
-	 * Array of permissions for an asset type
-	 * (Array Key = Asset Name)
-	 *
-	 * @var    array
-	 * @since  1.7.0
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static $assetPermissionsByName = array();
 
 	/**
 	 * Array of the permission parent ID mappings
@@ -149,10 +135,6 @@ class Access
 		self::$groupsByUser                    = array();
 		self::$preloadedAssets                 = array();
 		self::$rootAssetId                     = null;
-
-		// The following properties are deprecated since 3.7.0 and will be removed in 4.0.
-		self::$assetPermissionsById   = array();
-		self::$assetPermissionsByName = array();
 	}
 
 	/**
@@ -205,7 +187,7 @@ class Access
 		}
 
 		// Check for default case:
-		$isDefault = is_string($assetTypes) && in_array($assetTypes, array('components', 'component'));
+		$isDefault = \is_string($assetTypes) && \in_array($assetTypes, array('components', 'component'));
 
 		// Preload the rules for all of the components.
 		if ($isDefault)
@@ -216,7 +198,7 @@ class Access
 		}
 
 		// If we get to this point, this is a regular asset type and we'll proceed with the preloading process.
-		if (!is_array($assetTypes))
+		if (!\is_array($assetTypes))
 		{
 			$assetTypes = (array) $assetTypes;
 		}
@@ -278,46 +260,6 @@ class Access
 	}
 
 	/**
-	 * Method to retrieve the list of Asset IDs and their Parent Asset IDs
-	 * and store them for later usage in getAssetRules().
-	 *
-	 * @param   string  $assetType  The asset type, or the asset name, or the extension of the asset
-	 *                              (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
-	 *
-	 * @return  array  List of asset ids (includes parent asset id information).
-	 *
-	 * @since   1.6
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static function &preloadPermissionsParentIdMapping($assetType)
-	{
-		// Get the extension name from the $assetType provided
-		$extensionName = self::getExtensionNameFromAsset($assetType);
-
-		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
-		{
-			// Get the database connection object.
-			$db = \JFactory::getDbo();
-
-			// Get a fresh query object:
-			$query    = $db->getQuery(true);
-
-			// Build the database query:
-			$query->select('a.id, a.parent_id');
-			$query->from('#__assets AS a');
-			$query->where('(a.name LIKE ' . $db->quote($extensionName . '.%') . ' OR a.name = ' . $db->quote($extensionName) . ' OR a.id = 1)');
-
-			// Get the Name Permission Map List
-			$db->setQuery($query);
-			$parentIdMapping = $db->loadObjectList('id');
-
-			self::$assetPermissionsParentIdMapping[$extensionName] = &$parentIdMapping;
-		}
-
-		return self::$assetPermissionsParentIdMapping[$extensionName];
-	}
-
-	/**
 	 * Method to retrieve the Asset Rule strings for this particular
 	 * Asset Type and stores them for later usage in getAssetRules().
 	 * Stores 2 arrays: one where the list has the Asset ID as the key
@@ -327,10 +269,9 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  boolean  True
+	 * @return  void
 	 *
 	 * @since   1.6
-	 * @note    This function will return void in 4.0.
 	 */
 	protected static function preloadPermissions($assetType, $reload = false)
 	{
@@ -340,47 +281,46 @@ class Access
 		// If asset is a component, make sure that all the component assets are preloaded.
 		if ((isset(self::$preloadedAssetTypes[$extensionName]) || isset(self::$preloadedAssetTypes[$assetType])) && !$reload)
 		{
-			return true;
+			return;
 		}
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db         = \JFactory::getDbo();
-		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
+		$db       = Factory::getDbo();
+		$assetKey = $extensionName . '.%';
 
 		// Get a fresh query object.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->where(
+				[
+					$db->quoteName('name') . ' LIKE :asset',
+					$db->quoteName('name') . ' = :extension',
+					$db->quoteName('parent_id') . ' = 0',
+				],
+				'OR'
+			)
+			->bind(':extension', $extensionName)
+			->bind(':asset', $assetKey);
 
 		// Get the permission map for all assets in the asset extension.
 		$assets = $db->setQuery($query)->loadObjectList();
 
 		self::$assetPermissionsParentIdMapping[$extensionName] = array();
 
-		// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
-		self::$assetPermissionsById[$assetType]   = array();
-		self::$assetPermissionsByName[$assetType] = array();
-
 		foreach ($assets as $asset)
 		{
 			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
 			self::$preloadedAssets[$asset->id]                                 = $asset->name;
-
-			// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
-			self::$assetPermissionsById[$assetType][$asset->id]     = $asset;
-			self::$assetPermissionsByName[$assetType][$asset->name] = $asset;
 		}
 
 		// Mark asset type and it's extension name as preloaded.
 		self::$preloadedAssetTypes[$assetType]     = true;
 		self::$preloadedAssetTypes[$extensionName] = true;
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
-
-		return true;
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
 	}
 
 	/**
@@ -402,13 +342,13 @@ class Access
 			return array();
 		}
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
 		// Add root to asset names list.
 		$components = array('root.1');
 
 		// Add enabled components to asset names list.
-		foreach (\JComponentHelper::getComponents() as $component)
+		foreach (ComponentHelper::getComponents() as $component)
 		{
 			if ($component->enabled)
 			{
@@ -417,13 +357,13 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -459,7 +399,7 @@ class Access
 		// Mark all components asset type as preloaded.
 		self::$preloadedAssetTypes['components'] = true;
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
 
 		return $components;
 	}
@@ -498,7 +438,7 @@ class Access
 	protected static function getGroupPath($groupId)
 	{
 		// Load all the groups to improve performance on intensive groups checks
-		$groups = \JHelperUsergroups::getInstance()->getAll();
+		$groups = UserGroupsHelper::getInstance()->getAll();
 
 		if (!isset($groups[$groupId]))
 		{
@@ -558,14 +498,14 @@ class Access
 		{
 			if ($extensionName && $assetName !== $extensionName)
 			{
-				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, \JLog::WARNING, 'assets');
+				Log::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, Log::WARNING, 'assets');
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset, $preload);
 			}
 
 			if (self::$rootAssetId !== null && $assetName !== self::$preloadedAssets[self::$rootAssetId])
 			{
-				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], \JLog::WARNING, 'assets');
+				Log::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], Log::WARNING, 'assets');
 
 				return self::getAssetRules(self::$preloadedAssets[self::$rootAssetId], $recursive, $recursiveParentAsset, $preload);
 			}
@@ -574,7 +514,7 @@ class Access
 		// Almost all calls can take advantage of preloading.
 		if ($assetId && isset(self::$preloadedAssets[$assetId]))
 		{
-			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			// Collects permissions for each asset
 			$collected = array();
@@ -636,15 +576,15 @@ class Access
 				self::$assetRules[$assetId] = self::$assetRulesIdentities[$hash];
 			}
 
-			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			return self::$assetRulesIdentities[$hash];
 		}
 
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
-		\JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', \JLog::INFO, 'assets');
+		Log::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', Log::INFO, 'assets');
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
 		// There's no need to process it with the recursive method for the Root Asset ID.
 		if ((int) $assetKey === 1)
@@ -653,62 +593,65 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
-			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
-			->from($db->qn('#__assets', 'a'));
+			->select($db->quoteName($recursive ? 'b.rules' : 'a.rules', 'rules'))
+			->from($db->quoteName('#__assets', 'a'));
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
-		$extensionString = '';
+		if (is_numeric($assetKey))
+		{
+			$query->where($db->quoteName('a.id') . ' = :asset', 'OR')
+				->bind(':asset', $assetKey, ParameterType::INTEGER);
+		}
+		else
+		{
+			$query->where($db->quoteName('a.name') . ' = :asset', 'OR')
+				->bind(':asset', $assetKey);
+		}
 
 		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
 		{
-			$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
+			$query->where($db->quoteName('a.name') . ' = :extension')
+				->bind(':extension', $extensionName);
 		}
-
-		$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
-
-		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order($db->qn('b.lft'));
+			$query->where($db->quoteName('a.parent_id') . ' = 0')
+				->join(
+					'LEFT',
+					$db->quoteName('#__assets', 'b'),
+					$db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
+				)
+				->order($db->quoteName('b.lft'));
 		}
 
 		// Execute the query and load the rules from the result.
-		$result = $db->setQuery($query)->loadObjectList();
+		$result = $db->setQuery($query)->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
-			$assets = new Asset($db);
+			$rootId = (new Asset($db))->getRootId();
 
 			$query->clear()
-				->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
-				->from($db->qn('#__assets'))
-				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
+				->select($db->quoteName('rules'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('id') . ' = :rootId')
+				->bind(':rootId', $rootId, ParameterType::INTEGER);
 
-			$result = $db->setQuery($query)->loadObjectList();
-		}
-
-		$collected = array();
-
-		foreach ($result as $asset)
-		{
-			$collected[] = $asset->rules;
+			$result = $db->setQuery($query)->loadColumn();
 		}
 
 		// Instantiate and return the Rules object for the asset rules.
 		$rules = new Rules;
-		$rules->mergeCollection($collected);
+		$rules->mergeCollection($result);
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
 
 		return $rules;
 	}
@@ -737,7 +680,7 @@ class Access
 		}
 
 		// No preload. Return root asset id from Assets.
-		$assets = new Asset(\JFactory::getDbo());
+		$assets = new Asset(Factory::getDbo());
 
 		return $assets->getRootId();
 	}
@@ -780,7 +723,7 @@ class Access
 				// Else we have to do an extra db query to fetch it from the table fetch it from table.
 				else
 				{
-					$table = new Asset(\JFactory::getDbo());
+					$table = new Asset(Factory::getDbo());
 					$table->load(array('name' => $assetKey));
 					$loaded[$assetKey] = $table->id;
 				}
@@ -824,7 +767,7 @@ class Access
 			// Else we have to do an extra db query to fetch it from the table fetch it from table.
 			else
 			{
-				$table = new Asset(\JFactory::getDbo());
+				$table = new Asset(Factory::getDbo());
 				$table->load($assetKey);
 				$loaded[$assetKey] = $table->name;
 			}
@@ -897,18 +840,22 @@ class Access
 	 *
 	 * @param   integer  $groupId  Id of the group for which to get the title of.
 	 *
-	 * @return  string   The title of the group
+	 * @return  string  The title of the group
 	 *
 	 * @since   3.5
 	 */
 	public static function getGroupTitle($groupId)
 	{
+		// Cast as integer until method is typehinted.
+		$groupId = (int) $groupId;
+
 		// Fetch the group title from the database
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('title')
-			->from('#__usergroups')
-			->where('id = ' . $db->quote($groupId));
+		$query->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :groupId')
+			->bind(':groupId', $groupId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -928,20 +875,16 @@ class Access
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
+		// Cast as integer until method is typehinted.
+		$userId = (int) $userId;
+
 		// Creates a simple unique string for each parameter combination:
 		$storeId = $userId . ':' . (int) $recursive;
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from \JComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('\JComponentHelper'))
-			{
-				$guestUsergroup = \JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			}
-			else
-			{
-				$guestUsergroup = 1;
-			}
+			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
+			$guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
@@ -951,28 +894,34 @@ class Access
 			// Registered user and guest if all groups are requested
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
-					->select($recursive ? 'b.id' : 'a.id');
+					->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
 
 				if (empty($userId))
 				{
-					$query->from('#__usergroups AS a')
-						->where('a.id = ' . (int) $guestUsergroup);
+					$query->from($db->quoteName('#__usergroups', 'a'))
+						->where($db->quoteName('a.id') . ' = :guest')
+						->bind(':guest', $guestUsergroup, ParameterType::INTEGER);
 				}
 				else
 				{
-					$query->from('#__user_usergroup_map AS map')
-						->where('map.user_id = ' . (int) $userId)
-						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
+					$query->from($db->quoteName('#__user_usergroup_map', 'map'))
+						->where($db->quoteName('map.user_id') . ' = :userId')
+						->join('LEFT', $db->quoteName('#__usergroups', 'a'), $db->quoteName('a.id') . ' = ' . $db->quoteName('map.group_id'))
+						->bind(':userId', $userId, ParameterType::INTEGER);
 				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
 				{
-					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+					$query->join(
+						'LEFT',
+						$db->quoteName('#__usergroups', 'b'),
+						$db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
+					);
 				}
 
 				// Execute the query and load the rules from the result.
@@ -984,7 +933,7 @@ class Access
 
 				if (empty($result))
 				{
-					$result = array('1');
+					$result = array(1);
 				}
 				else
 				{
@@ -1011,18 +960,26 @@ class Access
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
-		// Get a database object.
-		$db = \JFactory::getDbo();
+		// Cast as integer until method is typehinted.
+		$groupId = (int) $groupId;
 
-		$test = $recursive ? '>=' : '=';
+		// Get a database object.
+		$db = Factory::getDbo();
+
+		$test = $recursive ? ' >= ' : ' = ';
 
 		// First find the users contained in the group
 		$query = $db->getQuery(true)
-			->select('DISTINCT(user_id)')
-			->from('#__usergroups as ug1')
-			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
-			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
-			->where('ug1.id=' . $db->quote($groupId));
+			->select('DISTINCT(' . $db->quoteName('user_id') . ')')
+			->from($db->quoteName('#__usergroups', 'ug1'))
+			->join(
+				'INNER',
+				$db->quoteName('#__usergroups', 'ug2'),
+				$db->quoteName('ug2.lft') . $test . $db->quoteName('ug1.lft') . ' AND ' . $db->quoteName('ug1.rgt') . $test . $db->quoteName('ug2.rgt')
+			)
+			->join('INNER', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('ug2.id') . ' = ' . $db->quoteName('m.group_id'))
+			->where($db->quoteName('ug1.id') . ' = :groupId')
+			->bind(':groupId', $groupId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1049,11 +1006,11 @@ class Access
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Build the base query.
 			$query = $db->getQuery(true)
-				->select('id, rules')
+				->select($db->quoteName(['id', 'rules']))
 				->from($db->quoteName('#__viewlevels'));
 
 			// Set the query for execution.
@@ -1070,8 +1027,8 @@ class Access
 		$authorised = array(1);
 
 		// Check for the recovery mode setting and return early.
-		$user      = \JUser::getInstance($userId);
-		$root_user = \JFactory::getConfig()->get('root_user');
+		$user      = User::getInstance($userId);
+		$root_user = Factory::getApplication()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
@@ -1105,7 +1062,7 @@ class Access
 					break;
 				}
 				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups))
+				elseif (($id >= 0) && \in_array($id, $groups))
 				{
 					$authorised[] = $level;
 					break;
@@ -1114,37 +1071,6 @@ class Access
 		}
 
 		return $authorised;
-	}
-
-	/**
-	 * Method to return a list of actions for which permissions can be set given a component and section.
-	 *
-	 * @param   string  $component  The component from which to retrieve the actions.
-	 * @param   string  $section    The name of the section within the component from which to retrieve the actions.
-	 *
-	 * @return  array  List of actions available for the given component and section.
-	 *
-	 * @since       1.7.0
-	 * @deprecated  4.0  Use Access::getActionsFromFile or Access::getActionsFromData instead.
-	 * @codeCoverageIgnore
-	 */
-	public static function getActions($component, $section = 'component')
-	{
-		\JLog::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', \JLog::WARNING, 'deprecated');
-
-		$actions = self::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']/"
-		);
-
-		if (empty($actions))
-		{
-			return array();
-		}
-		else
-		{
-			return $actions;
-		}
 	}
 
 	/**
@@ -1186,13 +1112,13 @@ class Access
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
 		{
 			return false;
 		}
 
 		// Attempt to load the XML if a string.
-		if (is_string($data))
+		if (\is_string($data))
 		{
 			try
 			{
@@ -1214,19 +1140,25 @@ class Access
 		$actions = array();
 
 		// Get the elements from the xpath
-		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
+		$elements = $data->xpath($xpath . 'action[@name][@title]');
 
 		// If there some elements, analyse them
 		if (!empty($elements))
 		{
-			foreach ($elements as $action)
+			foreach ($elements as $element)
 			{
 				// Add the action to the actions array
-				$actions[] = (object) array(
-					'name' => (string) $action['name'],
-					'title' => (string) $action['title'],
-					'description' => (string) $action['description'],
+				$action = array(
+					'name' => (string) $element['name'],
+					'title' => (string) $element['title'],
 				);
+
+				if (isset($element['description']))
+				{
+					$action['description'] = (string) $element['description'];
+				}
+
+				$actions[] = (object) $action;
 			}
 		}
 

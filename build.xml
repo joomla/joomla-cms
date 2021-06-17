@@ -2,7 +2,7 @@
 
 <project name="joomla" default="build" basedir=".">
 	<property name="source" value="." />
-	<property name="joomlasource" value="administrator,cli,components,includes,installation,language/en-GB,libraries/cms,modules,plugins,templates" />
+	<property name="joomlasource" value="administrator,cli,components,includes,installation,language/en-GB,libraries/src,modules,plugins,templates" />
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/api" />
@@ -37,9 +37,10 @@
 		<exec executable="phpcs">
 			<arg value="--report=checkstyle" />
 			<arg value="--extensions=php" />
+			<arg value="--encoding=utf-8" />
 			<arg value="-p" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
+			<arg value="--standard=${basedir}/libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS" />
 			<arg path="${source}" />
 		</exec>
 	</target>
@@ -76,7 +77,7 @@
 			<arg value="-i" />
 			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/src/,${basedir}/libraries/vendor/joomla/" />
+			<arg path="${basedir}/libraries/src/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
 			<arg path="${basedir}/libraries/loader.php" />
 			<arg value="-t" />
@@ -84,7 +85,7 @@
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS 3.9 API" />
+			<arg value="Joomla! CMS 4.0 API" />
 		</exec>
 	</target>
 
@@ -155,8 +156,8 @@
 		</copy>
 		<echo message="Copy language files" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.sys.ini"/>
 		<echo message="Archiving package" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
 		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />

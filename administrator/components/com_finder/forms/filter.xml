@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="filter_id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			class="readonly"
+			size="10"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="45"
+		/>
+
+		<field
+			name="created"
+			type="calendar"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			readonly="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="created_by"
+			type="user"
+			label="COM_FINDER_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="COM_FINDER_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+			validate="UserId"
+		 />
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			filter="intval"
+			size="1"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+
+		<field
+			name="map_count"
+			type="text"
+			label="COM_FINDER_FILTER_MAP_COUNT"
+			class="readonly"
+			size="10"
+			default="0"
+			readonly="true"
+		/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="jbasic" label="COM_FINDER_FILTER_FIELDSET_PARAMS">
+			<field
+				name="w1"
+				type="list"
+				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
+				default=""
+				filter="string"
+				validate="options"
+				>
+				<option value="">JNONE</option>
+				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
+				<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
+				<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
+			</field>
+
+			<field
+				name="d1"
+				type="calendar"
+				label="COM_FINDER_FILTER_START_DATE_LABEL"
+				translateformat="true"
+				size="22"
+				filter="user_utc"
+			/>
+
+			<field
+				name="w2"
+				type="list"
+				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
+				default=""
+				filter="string"
+				validate="options"
+				>
+				<option value="">JNONE</option>
+				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
+				<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
+				<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
+			</field>
+
+			<field
+				name="d2"
+				type="calendar"
+				label="COM_FINDER_FILTER_END_DATE_LABEL"
+				translateformat="true"
+				size="22"
+				filter="user_utc"
+			/>
+		</fieldset>
+
+	</fields>
+</form>

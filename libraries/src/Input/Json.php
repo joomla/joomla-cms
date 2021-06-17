@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -50,7 +50,7 @@ class Json extends Input
 			$this->filter = InputFilter::getInstance();
 		}
 
-		if (is_null($source))
+		if (\is_null($source))
 		{
 			$this->_raw = file_get_contents('php://input');
 			$this->data = json_decode($this->_raw, true);

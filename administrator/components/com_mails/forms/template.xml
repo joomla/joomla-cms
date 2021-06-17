@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="template_id"
+			type="hidden"
+		/>
+		<field
+			name="language"
+			type="hidden"
+		/>
+		<field
+			name="subject"
+			type="text"
+			label="COM_MAILS_FIELD_SUBJECT_LABEL"
+			size="40"
+		/>
+		<field
+			name="body"
+			type="textarea"
+			label="COM_MAILS_FIELD_BODY_LABEL"
+			editor="none"
+			buttons="false"
+			rows="20"
+			class="form-control"
+			filter="JComponentHelper::filterText"
+		/>
+		<field
+			name="htmlbody"
+			type="editor"
+			label="COM_MAILS_FIELD_HTMLBODY_LABEL"
+			buttons="false"
+			class="inputbox"
+			filter="JComponentHelper::filterText"
+		/>
+	</fieldset>
+	<field
+		name="attachments"
+		type="subform"
+		label="COM_MAILS_FIELD_ATTACHMENTS_LABEL"
+		multiple="true"
+		layout="joomla.form.field.subform.repeatable-table"
+		>
+		<form>
+			<field
+				name="file"
+				type="filelist"
+				hide_default="true"
+				label="COM_MAILS_FIELD_FILE_LABEL"
+				validate="options"
+			/>
+			<field
+				name="name"
+				type="text"
+				label="COM_MAILS_FIELD_FILENAME_LABEL"
+			/>
+		</form>
+	</field>
+	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+
+		<fieldset name="basic">
+
+			<field
+				name="alternative_mailconfig"
+				type="radio"
+				label="COM_MAILS_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				filter="boolean"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="mailfrom"
+				type="email"
+				label="COM_MAILS_FIELD_MAIL_FROM_EMAIL_LABEL"
+				filter="string"
+				size="30"
+				validate="email"
+				showon="alternative_mailconfig:1"
+			/>
+
+			<field
+				name="fromname"
+				type="text"
+				label="COM_MAILS_FIELD_MAIL_FROM_NAME_LABEL"
+				filter="string"
+				size="30"
+				showon="alternative_mailconfig:1"
+			/>
+
+			<field
+				name="replyto"
+				type="email"
+				label="COM_MAILS_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
+				filter="string"
+				size="30"
+				validate="email"
+				showon="alternative_mailconfig:1"
+			/>
+
+			<field
+				name="replytoname"
+				type="text"
+				label="COM_MAILS_FIELD_MAIL_REPLY_TO_NAME_LABEL"
+				filter="string"
+				size="30"
+				showon="alternative_mailconfig:1"
+			/>
+
+			<field
+				name="mailer"
+				type="list"
+				label="COM_MAILS_FIELD_MAIL_MAILER_LABEL"
+				default="mail"
+				filter="word"
+				showon="alternative_mailconfig:1"
+				validate="options"
+				>
+				<option value="mail">COM_MAILS_FIELD_VALUE_PHP_MAIL</option>
+				<option value="sendmail">COM_MAILS_FIELD_VALUE_SENDMAIL</option>
+				<option value="smtp">COM_MAILS_FIELD_VALUE_SMTP</option>
+			</field>
+
+			<field
+				name="sendmail"
+				type="text"
+				label="COM_MAILS_FIELD_MAIL_SENDMAIL_PATH_LABEL"
+				default="/usr/sbin/sendmail"
+				showon="alternative_mailconfig:1[AND]mailer:sendmail"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="smtphost"
+				type="text"
+				label="COM_MAILS_FIELD_MAIL_SMTP_HOST_LABEL"
+				default="localhost"
+				showon="alternative_mailconfig:1[AND]mailer:smtp"
+				filter="string"
+				size="30"
+			/>
+
+			<field
+				name="smtpport"
+				type="number"
+				label="COM_MAILS_FIELD_MAIL_SMTP_PORT_LABEL"
+				showon="alternative_mailconfig:1[AND]mailer:smtp"
+				min="1"
+				max="65535"
+				default="25"
+				hint="25"
+				validate="number"
+				filter="integer"
+			/>
+
+			<field
+				name="smtpsecure"
+				type="list"
+				label="COM_MAILS_FIELD_MAIL_SMTP_SECURE_LABEL"
+				default="none"
+				showon="alternative_mailconfig:1[AND]mailer:smtp"
+				filter="word"
+				validate="options"
+				>
+				<option value="none">COM_MAILS_FIELD_VALUE_NONE</option>
+				<option value="ssl">COM_MAILS_FIELD_VALUE_SSL</option>
+				<option value="tls">COM_MAILS_FIELD_VALUE_TLS</option>
+			</field>
+
+			<field
+				name="smtpauth"
+				type="radio"
+				label="COM_MAILS_FIELD_MAIL_SMTP_AUTH_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				showon="alternative_mailconfig:1[AND]mailer:smtp"
+				filter="boolean"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="smtpuser"
+				type="text"
+				label="COM_MAILS_FIELD_MAIL_SMTP_USERNAME_LABEL"
+				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
+				filter="string"
+				autocomplete="off"
+				size="30"
+			/>
+
+			<field
+				name="smtppass"
+				type="password"
+				label="COM_MAILS_FIELD_MAIL_SMTP_PASSWORD_LABEL"
+				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
+				filter="raw"
+				autocomplete="off"
+				size="30"
+				lock="true"
+			/>
+
+			<field
+				name="copyto"
+				type="email"
+				label="COM_MAILS_FIELD_MAIL_COPY_MAIL_LABEL"
+				validate="email"
+				default=""
+				filter="string"
+				size="30"
+			/>
+		</fieldset>
+	</fields>
+</form>

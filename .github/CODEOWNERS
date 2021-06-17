@@ -7,14 +7,13 @@ plugins/fields/*  @laoneo
 plugins/systems/fields/*  @laoneo
 
 # Smart Search
-#administrator/components/com_finder/*
-#components/com_finder/*
-#modules/mod_finder/*
-#plugins/content/finder/*
-#plugins/finder/*
+administrator/components/com_finder/*  @hackwar
+components/com_finder/*  @hackwar
+modules/mod_finder/*  @hackwar
+plugins/content/finder/*  @hackwar
+plugins/finder/*  @hackwar
 
 # CodeMirror
-media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000
 
 # Statistics Server
@@ -32,19 +31,38 @@ libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
 libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
 
 # Automated Testing
-build/jenkins/*  @rdeutz
-build/travis/*  @rdeutz
-tests/codeception/*  @rdeutz
-tests/javascript/*  @wilsonge @rdeutz
-tests/unit/*  @rdeutz
-.appveyor.yml  @rdeutz
-.drone.yml  @rdeutz
-.hound.yml  @wilsonge
-.travis.yml  @rdeutz
-appveyor-phpunit.xml  @rdeutz
-codeception.yml  @rdeutz
-karma.conf.js  @wilsonge @rdeutz
-phpunit.xml.dist  @rdeutz
-RoboFile.dist.ini  @rdeutz
-RoboFile.php  @rdeutz
-travis-phpunit.xml  @rdeutz
+tests/*  @hackwar
+tests/Codeception/*  @rdeutz
+tests/javascript/*  @rdeutz
+tests/Unit/*  @rdeutz
+.appveyor.yml  @rdeutz @hackwar
+.drone.yml  @rdeutz @hackwar
+.hound.yml  @wilsonge @hackwar
+codeception.yml  @rdeutz @hackwar
+phpunit.xml.dist  @rdeutz @hackwar
+phpunit-pgsql.xml.dist  @rdeutz @hackwar
+RoboFile.php  @rdeutz @hackwar
+
+# CSP Tooling
+plugins/system/httpheaders/*  @zero-24
+
+# Web Authentication (WebAuthn)
+plugins/system/webauthn/*   @nikosdion
+media/plg_system_webauthn/*   @nikosdion
+administrator/language/en-GB/plg_system_webauthn.ini   @nikosdion
+administrator/language/en-GB/plg_system_webauthn.sys.ini   @nikosdion
+
+# Workflow
+administrator/components/com_workflow/*	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.ini	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.sys.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.sys.ini	@bembelimen @hleithner
+libraries/src/Form/Field/TransitionField.php	@bembelimen @hleithner
+libraries/src/Form/Field/Workflow*	@bembelimen @hleithner
+libraries/src/HTML/Helpers/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/Workflow/*	@bembelimen @hleithner
+build/media_source/com_workflow/*	@bembelimen @hleithner
+plugins/workflow/*	@bembelimen @hleithner

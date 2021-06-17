@@ -1,0 +1,28 @@
+/**
+ * @copyright	(C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.mooTree_node {
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 10px;
+	white-space: nowrap;
+}
+
+.mooTree_text {
+	padding-top: 3px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.mooTree_img {
+	float: left;
+	width: 18px;
+	height: 18px;
+	overflow: hidden;
+}
+
+.mooTree_selected	 {
+	background-color: #ffc;
+	font-weight: bold;
+}

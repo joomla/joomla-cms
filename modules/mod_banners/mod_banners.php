@@ -3,21 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include the banners functions only once
-JLoader::register('ModBannersHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Component\Banners\Administrator\Helper\BannersHelper as BannersComponentHelper;
+use Joomla\Module\Banners\Site\Helper\BannersHelper;
 
 $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
 
-JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
-BannersHelper::updateReset();
-$list = &ModBannersHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+BannersComponentHelper::updateReset();
 
-require JModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));
+$model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
+$list  = BannersHelper::getList($params, $model, $app);
+
+require ModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

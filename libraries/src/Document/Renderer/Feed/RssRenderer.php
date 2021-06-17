@@ -2,15 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -45,27 +49,31 @@ class RssRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = \JFactory::getApplication();
-
-		// Gets and sets timezone offset from site configuration
+		$app = Factory::getApplication();
 		$tz  = new \DateTimeZone($app->get('offset'));
-		$now = \JFactory::getDate();
-		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
+		// If the last build date from the document isn't a Date object, create one
+		if (!($data->lastBuildDate instanceof Date))
+		{
+			// Gets and sets timezone offset from site configuration
+			$data->lastBuildDate = Factory::getDate();
+			$data->lastBuildDate->setTimezone(new \DateTimeZone($app->get('offset')));
+		}
+
 		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = \JRoute::_('&format=feed&type=rss');
+		$syndicationURL = Route::_('&format=feed&type=rss');
 
 		$title = $data->getTitle();
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
@@ -82,7 +90,7 @@ class RssRenderer extends DocumentRenderer
 		$feed .= "		<title>" . $feed_title . "</title>\n";
 		$feed .= "		<description><![CDATA[" . $data->getDescription() . "]]></description>\n";
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
-		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
+		$feed .= "		<lastBuildDate>" . htmlspecialchars($data->lastBuildDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
 		$feed .= "		<atom:link rel=\"self\" type=\"application/rss+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
@@ -134,14 +142,14 @@ class RssRenderer extends DocumentRenderer
 
 		if ($data->pubDate != '')
 		{
-			$pubDate = \JFactory::getDate($data->pubDate);
-			$pubDate->setTimeZone($tz);
+			$pubDate = Factory::getDate($data->pubDate);
+			$pubDate->setTimezone($tz);
 			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
 
 		if (!empty($data->category))
 		{
-			if (is_array($data->category))
+			if (\is_array($data->category))
 			{
 				foreach ($data->category as $cat)
 				{
@@ -179,7 +187,7 @@ class RssRenderer extends DocumentRenderer
 			$feed .= "		<skipDays>" . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
 		}
 
-		for ($i = 0, $count = count($data->items); $i < $count; $i++)
+		for ($i = 0, $count = \count($data->items); $i < $count; $i++)
 		{
 			$itemlink = $data->items[$i]->link;
 
@@ -224,7 +232,7 @@ class RssRenderer extends DocumentRenderer
 
 			if (empty($data->items[$i]->category) === false)
 			{
-				if (is_array($data->items[$i]->category))
+				if (\is_array($data->items[$i]->category))
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{
@@ -244,8 +252,8 @@ class RssRenderer extends DocumentRenderer
 
 			if ($data->items[$i]->date != '')
 			{
-				$itemDate = \JFactory::getDate($data->items[$i]->date);
-				$itemDate->setTimeZone($tz);
+				$itemDate = Factory::getDate($data->items[$i]->date);
+				$itemDate->setTimezone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}
 

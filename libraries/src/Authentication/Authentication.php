@@ -2,24 +2,30 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
  * @since  1.7.0
  */
-class Authentication extends \JObject
+class Authentication
 {
-	// Shared success status
+	use DispatcherAwareTrait;
+
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
 	 *
@@ -28,7 +34,6 @@ class Authentication extends \JObject
 	 */
 	const STATUS_SUCCESS = 1;
 
-	// These are for authentication purposes (username and password is valid)
 	/**
 	 * Status to indicate cancellation of authentication (unused)
 	 *
@@ -45,7 +50,6 @@ class Authentication extends \JObject
 	 */
 	const STATUS_FAILURE = 4;
 
-	// These are for authorisation purposes (can the user login)
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
 	 *
@@ -71,47 +75,43 @@ class Authentication extends \JObject
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * An array of Observer objects to notify
-	 *
-	 * @var    array
-	 * @since  3.0.0
-	 */
-	protected $observers = array();
-
-	/**
-	 * The state of the observable object
-	 *
-	 * @var    mixed
-	 * @since  3.0.0
-	 */
-	protected $state = null;
-
-	/**
-	 * A multi dimensional array of [function][] = key for observers
-	 *
-	 * @var    array
-	 * @since  3.0.0
-	 */
-	protected $methods = array();
-
-	/**
-	 * @var    Authentication  Authentication instances container.
+	 * @var    Authentication[]  JAuthentication instances container.
 	 * @since  1.7.3
 	 */
-	protected static $instance;
+	protected static $instance = [];
+
+	/**
+	 * Plugin Type to run
+	 *
+	 * @var   string
+	 * @since  4.0.0
+	 */
+	protected $pluginType;
 
 	/**
 	 * Constructor
 	 *
+	 * @param   string               $pluginType  The plugin type to run authorisation and authentication on
+	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+	 *
 	 * @since   1.7.0
 	 */
-	public function __construct()
+	public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
 	{
-		$isLoaded = PluginHelper::importPlugin('authentication');
+		// Set the dispatcher
+		if (!\is_object($dispatcher))
+		{
+			$dispatcher = Factory::getContainer()->get('dispatcher');
+		}
+
+		$this->setDispatcher($dispatcher);
+		$this->pluginType = $pluginType;
+
+		$isLoaded = PluginHelper::importPlugin($this->pluginType);
 
 		if (!$isLoaded)
 		{
-			\JLog::add(\JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), Log::WARNING, 'jerror');
 		}
 	}
 
@@ -119,132 +119,20 @@ class Authentication extends \JObject
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
+	 * @param   string  $pluginType  The plugin type to run authorisation and authentication on
+	 *
 	 * @return  Authentication  The global Authentication object
 	 *
 	 * @since   1.7.0
 	 */
-	public static function getInstance()
+	public static function getInstance(string $pluginType = 'authentication')
 	{
-		if (empty(self::$instance))
+		if (empty(self::$instance[$pluginType]))
 		{
-			self::$instance = new Authentication;
+			self::$instance[$pluginType] = new static($pluginType);
 		}
 
-		return self::$instance;
-	}
-
-	/**
-	 * Get the state of the Authentication object
-	 *
-	 * @return  mixed    The state of the object.
-	 *
-	 * @since   1.7.0
-	 */
-	public function getState()
-	{
-		return $this->state;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   object  $observer  An observer object to attach
-	 *
-	 * @return  void
-	 *
-	 * @since   1.7.0
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->observers[] = $observer;
-			end($this->observers);
-			$methods = array($observer['event']);
-		}
-		else
-		{
-			if (!($observer instanceof Authentication))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('\\JPlugin'));
-		}
-
-		$key = key($this->observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->methods[$method]))
-			{
-				$this->methods[$method] = array();
-			}
-
-			$this->methods[$method][] = $key;
-		}
-	}
-
-	/**
-	 * Detach an observer object
-	 *
-	 * @param   object  $observer  An observer object to detach.
-	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   1.7.0
-	 */
-	public function detach($observer)
-	{
-		$retval = false;
-
-		$key = array_search($observer, $this->observers);
-
-		if ($key !== false)
-		{
-			unset($this->observers[$key]);
-			$retval = true;
-
-			foreach ($this->methods as &$method)
-			{
-				$k = array_search($key, $method);
-
-				if ($k !== false)
-				{
-					unset($method[$k]);
-				}
-			}
-		}
-
-		return $retval;
+		return self::$instance[$pluginType];
 	}
 
 	/**
@@ -262,7 +150,7 @@ class Authentication extends \JObject
 	public function authenticate($credentials, $options = array())
 	{
 		// Get plugins
-		$plugins = PluginHelper::getPlugin('authentication');
+		$plugins = PluginHelper::getPlugin($this->pluginType);
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
@@ -276,16 +164,12 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($this, (array) $plugin);
-			}
-			else
+			if (!method_exists($plugin, 'onUserAuthenticate'))
 			{
 				// Bail here if the plugin can't be created
-				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
 				continue;
 			}
 
@@ -297,7 +181,7 @@ class Authentication extends \JObject
 			{
 				if (empty($response->type))
 				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
+					$response->type = $plugin->_name ?? $plugin->name;
 				}
 
 				break;
@@ -331,15 +215,13 @@ class Authentication extends \JObject
 	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
 	 * @since  1.7.0
+	 * @throws \Exception
 	 */
-	public static function authorise($response, $options = array())
+	public function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been imported already
 		PluginHelper::importPlugin('user');
-
-		PluginHelper::importPlugin('authentication');
-		$dispatcher = \JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
+		$results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}

@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache callback type object
@@ -23,36 +24,11 @@ class CallbackController extends CacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * Since arguments to this function are read with func_get_args you can pass any number of arguments to this method
-	 * as long as the first argument passed is the callback definition.
-	 *
-	 * The callback definition can be in several forms:
-	 * - Standard PHP Callback array see <https://www.php.net/callback> [recommended]
-	 * - Function name as a string eg. 'foo' for function foo()
-	 * - Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
-	 *
-	 * @return  mixed  Result of the callback
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0
-	 */
-	public function call()
-	{
-		// Get callback and arguments
-		$args     = func_get_args();
-		$callback = array_shift($args);
-
-		return $this->get($callback, $args);
-	}
-
-	/**
-	 * Executes a cacheable callback if not found in cache else returns cached output and result
-	 *
-	 * @param   mixed    $callback    Callback or string shorthand for a callback
-	 * @param   array    $args        Callback arguments
-	 * @param   mixed    $id          Cache ID
-	 * @param   boolean  $wrkarounds  True to use workarounds
-	 * @param   array    $woptions    Workaround options
+	 * @param   callable  $callback    Callback or string shorthand for a callback
+	 * @param   array     $args        Callback arguments
+	 * @param   mixed     $id          Cache ID
+	 * @param   boolean   $wrkarounds  True to use workarounds
+	 * @param   array     $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback
 	 *
@@ -60,31 +36,6 @@ class CallbackController extends CacheController
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
-		// Normalize callback
-		if (is_array($callback) || is_callable($callback))
-		{
-			// We have a standard php callback array -- do nothing
-		}
-		elseif (strstr($callback, '::'))
-		{
-			// This is shorthand for a static method callback classname::methodname
-			list ($class, $method) = explode('::', $callback);
-			$callback = array(trim($class), trim($method));
-		}
-		elseif (strstr($callback, '->'))
-		{
-			/*
-			 * This is a really not so smart way of doing this... we provide this for backward compatibility but this
-			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
-			 * PHP callback array syntax: <https://www.php.net/callback>
-			 *
-			 * We have to use some silly global notation to pull it off and this is very unreliable
-			 */
-			list ($object_123456789, $method) = explode('->', $callback);
-			global $$object_123456789;
-			$callback = array($$object_123456789, $method);
-		}
-
 		if (!$id)
 		{
 			// Generate an ID
@@ -119,7 +70,7 @@ class CallbackController extends CacheController
 			{
 				echo Cache::getWorkarounds(
 					$data['output'],
-					array('mergehead' => isset($woptions['mergehead']) ? $woptions['mergehead'] : 0)
+					array('mergehead' => $woptions['mergehead'] ?? 0)
 				);
 			}
 			else
@@ -130,7 +81,7 @@ class CallbackController extends CacheController
 			return $data['result'];
 		}
 
-		if (!is_array($args))
+		if (!\is_array($args))
 		{
 			$referenceArgs = !empty($args) ? array(&$args) : array();
 		}
@@ -142,14 +93,14 @@ class CallbackController extends CacheController
 		if ($locktest->locked === false && $locktest->locklooped === true)
 		{
 			// We can not store data because another process is in the middle of saving
-			return call_user_func_array($callback, $referenceArgs);
+			return \call_user_func_array($callback, $referenceArgs);
 		}
 
 		$coptions = array();
 
 		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 		{
-			$document = \JFactory::getDocument();
+			$document = Factory::getDocument();
 
 			if (method_exists($document, 'getHeadData'))
 			{
@@ -163,14 +114,14 @@ class CallbackController extends CacheController
 			$coptions['modulemode'] = 0;
 		}
 
-		$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
-		$coptions['nohead']    = isset($woptions['nohead'])    ? $woptions['nohead'] : 1;
-		$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
+		$coptions['nopathway'] = $woptions['nopathway'] ?? 1;
+		$coptions['nohead']    = $woptions['nohead'] ?? 1;
+		$coptions['nomodules'] = $woptions['nomodules'] ?? 1;
 
 		ob_start();
 		ob_implicit_flush(false);
 
-		$result = call_user_func_array($callback, $referenceArgs);
+		$result = \call_user_func_array($callback, $referenceArgs);
 		$output = ob_get_clean();
 
 		$data = array('result' => $result);
@@ -198,10 +149,42 @@ class CallbackController extends CacheController
 	}
 
 	/**
+	 * Store data to cache by ID and group
+	 *
+	 * @param   mixed    $data        The data to store
+	 * @param   string   $id          The cache data ID
+	 * @param   string   $group       The cache data group
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 *
+	 * @return  boolean  True if cache stored
+	 *
+	 * @since   4.0.0
+	 */
+	public function store($data, $id, $group = null, $wrkarounds = true)
+	{
+		$locktest = $this->cache->lock($id, $group);
+
+		if ($locktest->locked === false && $locktest->locklooped === true)
+		{
+			// We can not store data because another process is in the middle of saving
+			return false;
+		}
+
+		$result = $this->cache->store(serialize($data), $id, $group);
+
+		if ($locktest->locked === true)
+		{
+			$this->cache->unlock($id, $group);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Generate a callback cache ID
 	 *
-	 * @param   callback  $callback  Callback to cache
-	 * @param   array     $args      Arguments to the callback method to cache
+	 * @param   mixed  $callback  Callback to cache
+	 * @param   array  $args      Arguments to the callback method to cache
 	 *
 	 * @return  string  MD5 Hash
 	 *
@@ -209,10 +192,10 @@ class CallbackController extends CacheController
 	 */
 	protected function _makeId($callback, $args)
 	{
-		if (is_array($callback) && is_object($callback[0]))
+		if (\is_array($callback) && \is_object($callback[0]))
 		{
 			$vars        = get_object_vars($callback[0]);
-			$vars[]      = strtolower(get_class($callback[0]));
+			$vars[]      = strtolower(\get_class($callback[0]));
 			$callback[0] = $vars;
 		}
 

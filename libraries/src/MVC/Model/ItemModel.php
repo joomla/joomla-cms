@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Prototype item model.
  *
  * @since  1.6
  */
-abstract class ItemModel extends BaseDatabaseModel
+abstract class ItemModel extends BaseDatabaseModel implements ItemModelInterface
 {
 	/**
 	 * An item.

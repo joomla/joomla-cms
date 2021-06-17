@@ -2,15 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -21,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
-class User extends \JObject
+class User extends CMSObject
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -154,7 +158,7 @@ class User extends \JObject
 	/**
 	 * Count since last Reset Time
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.0.1
 	 */
 	public $resetCount = null;
@@ -162,7 +166,7 @@ class User extends \JObject
 	/**
 	 * Flag to require the user's password be reset
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	public $requireReset = null;
@@ -208,15 +212,6 @@ class User extends \JObject
 	protected $_errorMsg = null;
 
 	/**
-	 * UserWrapper object
-	 *
-	 * @var    UserWrapper
-	 * @since  3.4
-	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
-	 */
-	protected $userHelper = null;
-
-	/**
 	 * @var    array  User instances container.
 	 * @since  1.7.3
 	 */
@@ -225,20 +220,12 @@ class User extends \JObject
 	/**
 	 * Constructor activating the default information of the language
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($identifier = 0, UserWrapper $userHelper = null)
+	public function __construct($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
-
-		$this->userHelper = $userHelper;
-
 		// Create the user parameters object
 		$this->_params = new Registry;
 
@@ -260,28 +247,28 @@ class User extends \JObject
 	/**
 	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
-	public static function getInstance($identifier = 0, UserWrapper $userHelper = null)
+	public static function getInstance($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
 
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = $userHelper->getUserId($identifier))
-			{
-				// If the $identifier doesn't match with any id, just return an empty User.
-				return new User;
-			}
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
 		}
 		else
 		{
@@ -292,14 +279,13 @@ class User extends \JObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new User;
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new User($id, $userHelper);
-			self::$instances[$id] = $user;
+			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		return self::$instances[$id];
@@ -369,7 +355,7 @@ class User extends \JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = \JFactory::getConfig()->get('root_user');
+			$rootUser = Factory::getApplication()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -412,25 +398,30 @@ class User extends \JObject
 	{
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
+			->select($db->quoteName(['id', 'asset_id']))
+			->from($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->select($db->quoteName(['c.id', 'a.name']))
+			->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
+			->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			if ($this->authorise($action, $category->name))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -510,30 +501,11 @@ class User extends \JObject
 	public function setLastVisit($timestamp = null)
 	{
 		// Create the user table object
+		/** @var \Joomla\CMS\Table\User $table */
 		$table = $this->getTable();
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
-	 * This method used to load the user parameters from a file.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0 - Instead use User::getParam()
-	 */
-	public function getParameters()
-	{
-		// @codeCoverageIgnoreStart
-		\JLog::add('User::getParameters() is deprecated. User::getParam().', \JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -547,7 +519,7 @@ class User extends \JObject
 	 */
 	public function getTimezone()
 	{
-		$timezone = $this->getParam('timezone', \JFactory::getApplication()->get('offset', 'GMT'));
+		$timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
 
 		return new \DateTimeZone($timezone);
 	}
@@ -576,7 +548,7 @@ class User extends \JObject
 	 * @param   string  $type    The user table name to be used
 	 * @param   string  $prefix  The user table prefix to be used
 	 *
-	 * @return  object  The user table object
+	 * @return  Table  The user table object
 	 *
 	 * @note    At 4.0 this method will no longer be static
 	 * @since   1.7.0
@@ -620,7 +592,7 @@ class User extends \JObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password'] = $this->userHelper->genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword(32);
 				$array['password2'] = $array['password'];
 			}
 
@@ -628,17 +600,17 @@ class User extends \JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}
 
 			$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
-			$array['password'] = $this->userHelper->hashPassword($array['password']);
+			$array['password'] = UserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
-			$this->set('registerDate', \JFactory::getDate()->toSql());
+			$this->set('registerDate', Factory::getDate()->toSql());
 		}
 		else
 		{
@@ -647,7 +619,7 @@ class User extends \JObject
 			{
 				if ($array['password'] != $array['password2'])
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+					$this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
 					return false;
 				}
@@ -655,14 +627,14 @@ class User extends \JObject
 				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
-				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
+				if ($this->requireReset == 1 && UserHelper::verifyPassword($this->password_clear, $this->password))
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
 
-				$array['password'] = $this->userHelper->hashPassword($array['password']);
+				$array['password'] = UserHelper::hashPassword($array['password']);
 
 				// Reset the change password flag
 				$array['requireReset'] = 0;
@@ -679,11 +651,11 @@ class User extends \JObject
 			unset($array['resetCount']);
 		}
 
-		if (array_key_exists('params', $array))
+		if (\array_key_exists('params', $array))
 		{
 			$this->_params->loadArray($array['params']);
 
-			if (is_array($array['params']))
+			if (\is_array($array['params']))
 			{
 				$params = (string) $this->_params;
 			}
@@ -698,7 +670,7 @@ class User extends \JObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+			$this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
 		}
@@ -742,7 +714,7 @@ class User extends \JObject
 
 			// @todo ACL - this needs to be acl checked
 
-			$my = \JFactory::getUser();
+			$my = Factory::getUser();
 
 			// Are we creating a new user
 			$isNew = empty($this->id);
@@ -771,8 +743,16 @@ class User extends \JObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if we are using a CLI application
+			$isCli = false;
+
+			if (Factory::getApplication()->isCli())
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))
@@ -795,11 +775,10 @@ class User extends \JObject
 
 			// Fire the onUserBeforeSave event.
 			PluginHelper::importPlugin('user');
-			$dispatcher = \JEventDispatcher::getInstance();
 
-			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
 				return false;
@@ -821,7 +800,7 @@ class User extends \JObject
 			}
 
 			// Fire the onUserAfterSave event
-			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+			Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (\Exception $e)
 		{
@@ -845,8 +824,7 @@ class User extends \JObject
 		PluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
+		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -857,7 +835,7 @@ class User extends \JObject
 		}
 
 		// Trigger the onUserAfterDelete event
-		$dispatcher->trigger('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+		Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 
 		return $result;
 	}
@@ -882,7 +860,7 @@ class User extends \JObject
 			// Reset to guest user
 			$this->guest = 1;
 
-			\JLog::add(\JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -936,8 +914,7 @@ class User extends \JObject
 	public function __wakeup()
 	{
 		// Initialise some variables
-		$this->userHelper = new UserWrapper;
-		$this->_params    = new Registry;
+		$this->_params = new Registry;
 
 		// Load the user if it exists
 		if (!empty($this->id) && $this->load($this->id))

@@ -2,13 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Viewlevels table class.
@@ -20,11 +24,11 @@ class ViewLevel extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__viewlevels', 'id', $db);
 	}
@@ -44,7 +48,7 @@ class ViewLevel extends Table
 		// Bind the rules as appropriate.
 		if (isset($array['rules']))
 		{
-			if (is_array($array['rules']))
+			if (\is_array($array['rules']))
 			{
 				$array['rules'] = json_encode($array['rules']);
 			}
@@ -62,26 +66,41 @@ class ViewLevel extends Table
 	 */
 	public function check()
 	{
-		// Validate the title.
-		if ((trim($this->title)) == '')
+		try
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
 
 			return false;
 		}
 
+		// Validate the title.
+		if ((trim($this->title)) == '')
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+
+			return false;
+		}
+
+		$id = (int) $this->id;
+
 		// Check for a duplicate title.
 		$db = $this->_db;
 		$query = $db->getQuery(true)
-			->select('COUNT(title)')
+			->select('COUNT(' . $db->quoteName('title') . ')')
 			->from($db->quoteName('#__viewlevels'))
-			->where($db->quoteName('title') . ' = ' . $db->quote($this->title))
-			->where($db->quoteName('id') . ' != ' . (int) $this->id);
+			->where($db->quoteName('title') . ' = :title')
+			->where($db->quoteName('id') . ' != :id')
+			->bind(':title', $this->title)
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
+			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
 
 			return false;
 		}

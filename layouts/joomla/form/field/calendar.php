@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
 // Get some system objects.
-$document = JFactory::getDocument();
+$document = Factory::getApplication()->getDocument();
 
 /**
  * Layout variables
@@ -45,6 +47,8 @@ $document = JFactory::getDocument();
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  *
  * Calendar Specific
  * @var   string   $localesPath     The relative path for the locale file
@@ -66,8 +70,8 @@ $inputvalue = '';
 $attributes = array();
 
 empty($size)      ? null : $attributes['size'] = $size;
-empty($maxlength) ? null : $attributes['maxlength'] = ' maxlength="' . $maxLength . '"';
-empty($class)     ? null : $attributes['class'] = $class;
+empty($maxlength) ? null : $attributes['maxlength'] = $maxLength;
+empty($class)     ? $attributes['class'] = 'form-control' : $attributes['class'] = 'form-control ' . $class;
 !$readonly        ? null : $attributes['readonly'] = 'readonly';
 !$disabled        ? null : $attributes['disabled'] = 'disabled';
 empty($onchange)  ? null : $attributes['onchange'] = $onchange;
@@ -75,50 +79,51 @@ empty($onchange)  ? null : $attributes['onchange'] = $onchange;
 if ($required)
 {
 	$attributes['required'] = '';
-	$attributes['aria-required'] = 'true';
 }
 
 // Handle the special case for "now".
-if (strtoupper($value) == 'NOW')
+if (strtoupper($value) === 'NOW')
 {
-	$value = JFactory::getDate()->format('Y-m-d H:i:s');
+	$value = Factory::getDate()->format('Y-m-d H:i:s');
 }
 
-$readonly = isset($attributes['readonly']) && $attributes['readonly'] == 'readonly';
-$disabled = isset($attributes['disabled']) && $attributes['disabled'] == 'disabled';
+$readonly = isset($attributes['readonly']) && $attributes['readonly'] === 'readonly';
+$disabled = isset($attributes['disabled']) && $attributes['disabled'] === 'disabled';
 
 if (is_array($attributes))
 {
 	$attributes = ArrayHelper::toString($attributes);
 }
 
-$cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
+// Redefine locale/helper assets to use correct path, and load calendar assets
+$document->getWebAssetManager()
+	->registerAndUseScript('field.calendar.locale', $localesPath, [], ['defer' => true])
+	->registerAndUseScript('field.calendar.helper', $helperPath, [], ['defer' => true])
+	->useStyle('field.calendar' . ($direction === 'rtl' ? '-rtl' : ''))
+	->useScript('field.calendar');
 
-// Load polyfills for older IE
-JHtml::_('behavior.polyfill', array('event', 'classlist', 'map'), 'lte IE 11');
-
-// The static assets for the calendar
-JHtml::_('script', $localesPath, false, true, false, false, true);
-JHtml::_('script', $helperPath, false, true, false, false, true);
-JHtml::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
-	<div class="input-append">
+	<div class="input-group">
 		<?php endif; ?>
-		<input type="text" id="<?php echo $id; ?>" name="<?php
-		echo $name; ?>" value="<?php
-		echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attributes; ?>
-		<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?> data-alt-value="<?php
-		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off"/>
-		<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
-			id="<?php echo  $id; ?>_btn"
+		<input
+			type="text"
+			id="<?php echo $id; ?>"
+			name="<?php echo $name; ?>"
+			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
+			<?php echo $attributes; ?>
+			<?php echo $dataAttribute ?? ''; ?>
+			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
+			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
+		<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-primary"
+			id="<?php echo $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"
 			data-dayformat="<?php echo $format; ?>"
 			data-button="<?php echo $id; ?>_btn"
-			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
-			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
+			data-firstday="<?php echo Factory::getLanguage()->getFirstDay(); ?>"
+			data-weekend="<?php echo Factory::getLanguage()->getWeekEnd(); ?>"
 			data-today-btn="<?php echo $todaybutton; ?>"
 			data-week-numbers="<?php echo $weeknumbers; ?>"
 			data-show-time="<?php echo $showtime; ?>"
@@ -127,8 +132,10 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 			data-only-months-nav="<?php echo $singleheader; ?>"
 			<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 			<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-			title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-		><span class="icon-calendar" aria-hidden="true"></span></button>
+			title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
+		><span class="icon-calendar" aria-hidden="true"></span>
+		<span class="visually-hidden"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
+		</button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
 <?php endif; ?>

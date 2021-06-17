@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Form\Form;
@@ -46,7 +46,7 @@ class RulesRule extends FormRule
 		// Make sure that all posted actions are in the list of possible actions for the field.
 		foreach ($valueActions as $action)
 		{
-			if (!in_array($action, $fieldActions))
+			if (!\in_array($action, $fieldActions))
 			{
 				return false;
 			}
@@ -95,18 +95,24 @@ class RulesRule extends FormRule
 		$component = $element['component'] ? (string) $element['component'] : '';
 
 		// Get the asset actions for the element.
-		$elActions = Access::getActions($component, $section);
+		$elActions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
-		// Iterate over the asset actions and add to the actions.
-		foreach ($elActions as $item)
+		if ($elActions)
 		{
-			$actions[] = $item->name;
+			// Iterate over the asset actions and add to the actions.
+			foreach ($elActions as $item)
+			{
+				$actions[] = $item->name;
+			}
 		}
 
 		// Iterate over the children and add to the actions.
 		foreach ($element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$actions[] = (string) $el['name'];
 			}

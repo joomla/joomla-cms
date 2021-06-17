@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Microdata;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform class for interacting with Microdata semantics.
@@ -392,7 +392,7 @@ class Microdata
 						break;
 
 					case 'meta':
-						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
+						$html = $this->machineContent ?? $html;
 						$html = static::htmlMeta($html, $this->property);
 						break;
 
@@ -417,7 +417,7 @@ class Microdata
 						$nestedProperty = '';
 
 						// If there is a Fallback Type then probably it could be the expectedType
-						if (in_array($this->fallbackType, $nestedType))
+						if (\in_array($this->fallbackType, $nestedType))
 						{
 							$nestedType = $this->fallbackType;
 
@@ -465,7 +465,7 @@ class Microdata
 						// Check if a $content is available, otherwise fallback to an 'inline' display type
 						if ($this->content !== null)
 						{
-							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = $this->machineContent ?? $this->content;
 							$html = static::htmlMeta($html, $this->property) . $this->content;
 						}
 						else
@@ -510,7 +510,7 @@ class Microdata
 						break;
 
 					case 'meta':
-						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
+						$html = $this->machineContent ?? $html;
 						$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
@@ -524,7 +524,7 @@ class Microdata
 			{
 				/*
 				 * Process and return the HTML in an automatic way,
-				 * with the $Property expected Types an display everything in the right way,
+				 * with the $Property expected Types and display everything in the right way,
 				 * check if the Property is 'nested' or must be rendered in a metadata tag
 				 */
 				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
@@ -533,7 +533,7 @@ class Microdata
 						// Check if a $content is available, otherwise fallback to an 'inline' display Type
 						if ($this->content !== null)
 						{
-							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = $this->machineContent ?? $this->content;
 							$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						}
 						else
@@ -737,7 +737,7 @@ class Microdata
 		}
 
 		// Control if the $Property exists, and return 'true'
-		if (array_key_exists($property, static::$types[$type]['properties']))
+		if (\array_key_exists($property, static::$types[$type]['properties']))
 		{
 			return true;
 		}
@@ -766,7 +766,7 @@ class Microdata
 	{
 		static::loadTypes();
 
-		return (array_key_exists($type, static::$types)) ? true : false;
+		return \array_key_exists($type, static::$types);
 	}
 
 	/**
@@ -863,7 +863,7 @@ class Microdata
 		// Control if it is an empty element without a closing tag
 		if ($tag === 'meta')
 		{
-			return "<meta$tmp content='$content'/>";
+			return "<meta$tmp content='$content'>";
 		}
 
 		return '<' . $tag . $tmp . '>' . $content . '</' . $tag . '>';

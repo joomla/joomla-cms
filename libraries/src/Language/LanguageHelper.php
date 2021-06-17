@@ -2,14 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -43,7 +49,7 @@ class LanguageHelper
 			$metadata = $installed ? $language->metadata : $language;
 
 			$list[] = array(
-				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
+				'text'     => $metadata['nativeName'] ?? $metadata['name'],
 				'value'    => $languageCode,
 				'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
 			);
@@ -77,9 +83,9 @@ class LanguageHelper
 					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
 					$Jinstall_lang = $systemLang->lang_code;
 
-					if (strlen($Jinstall_lang) < 6)
+					if (\strlen($Jinstall_lang) < 6)
 					{
-						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, strlen($browserLang))))
+						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang))))
 						{
 							return $systemLang->lang_code;
 						}
@@ -96,8 +102,6 @@ class LanguageHelper
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -116,7 +120,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (\JFactory::getApplication()->getClientId() == 2)
+			if (Factory::getApplication()->isClient('installation'))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);
@@ -131,7 +135,9 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = \JFactory::getCache('com_languages', '');
+				/** @var OutputController $cache */
+				$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+					->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 				if ($cache->contains('languages'))
 				{
@@ -139,12 +145,12 @@ class LanguageHelper
 				}
 				else
 				{
-					$db = \JFactory::getDbo();
+					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
-						->from('#__languages')
-						->where('published=1')
-						->order('ordering ASC');
+						->from($db->quoteName('#__languages'))
+						->where($db->quoteName('published') . ' = 1')
+						->order($db->quoteName('ordering') . ' ASC');
 					$db->setQuery($query);
 
 					$languages['default'] = $db->loadObjectList();
@@ -183,13 +189,16 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
-		$orderField = null, $orderDirection = null)
+		$orderField = null, $orderDirection = null
+	)
 	{
 		static $installedLanguages = null;
 
 		if ($installedLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -197,14 +206,25 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
-					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
+					->select(
+						[
+							$db->quoteName('element'),
+							$db->quoteName('name'),
+							$db->quoteName('client_id'),
+							$db->quoteName('extension_id'),
+						]
+					)
 					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-					->where($db->quoteName('state') . ' = 0')
-					->where($db->quoteName('enabled') . ' = 1');
+					->where(
+						[
+							$db->quoteName('type') . ' = ' . $db->quote('language'),
+							$db->quoteName('state') . ' = 0',
+							$db->quoteName('enabled') . ' = 1',
+						]
+					);
 
 				$installedLanguages = $db->setQuery($query)->loadObjectList();
 
@@ -221,7 +241,7 @@ class LanguageHelper
 		foreach ($installedLanguages as $language)
 		{
 			// If the language client is not needed continue cycle. Drop for performance.
-			if (!in_array((int) $language->client_id, $clients))
+			if (!\in_array((int) $language->client_id, $clients))
 			{
 				continue;
 			}
@@ -231,7 +251,12 @@ class LanguageHelper
 			if ($processMetaData || $processManifest)
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+
+				if (!is_file($metafile))
+				{
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				}
 
 				// Process the language metadata.
 				if ($processMetaData)
@@ -244,15 +269,15 @@ class LanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
 
 					// No metadata found, not a valid language. Fail silently.
-					if (!is_array($lang->metadata))
+					if (!\is_array($lang->metadata))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -263,21 +288,21 @@ class LanguageHelper
 				{
 					try
 					{
-						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
+						$lang->manifest = Installer::parseXMLInstallFile($metafile);
 					}
 
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
 
 					// No metadata found, not a valid language. Fail silently.
-					if (!is_array($lang->manifest))
+					if (!\is_array($lang->manifest))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -295,7 +320,7 @@ class LanguageHelper
 			foreach ($languages as $cId => $language)
 			{
 				// If the language client is not needed continue cycle. Drop for performance.
-				if (!in_array($cId, $clients))
+				if (!\in_array($cId, $clients))
 				{
 					continue;
 				}
@@ -310,7 +335,7 @@ class LanguageHelper
 			foreach ($languages as $cId => $language)
 			{
 				// If the language client is not needed continue cycle. Drop for performance.
-				if (!in_array($cId, $clients))
+				if (!\in_array($cId, $clients))
 				{
 					continue;
 				}
@@ -336,13 +361,16 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-		$orderDirection = null)
+		$orderDirection = null
+	)
 	{
 		static $contentLanguages = null;
 
 		if ($contentLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -350,7 +378,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('*')
@@ -375,11 +403,11 @@ class LanguageHelper
 		}
 
 		// Check the language published state, if needed.
-		if (count($publishedStates) > 0)
+		if (\count($publishedStates) > 0)
 		{
 			foreach ($languages as $key => $language)
 			{
-				if (!in_array((int) $language->published, $publishedStates, true))
+				if (!\in_array((int) $language->published, $publishedStates, true))
 				{
 					unset($languages[$key]);
 				}
@@ -413,29 +441,16 @@ class LanguageHelper
 	 * @param   string   $fileName  The language ini file path.
 	 * @param   boolean  $debug     If set to true debug language ini file.
 	 *
-	 * @return  array
+	 * @return  array  The strings parsed.
 	 *
 	 * @since   3.9.0
 	 */
 	public static function parseIniFile($fileName, $debug = false)
 	{
 		// Check if file exists.
-		if (!file_exists($fileName))
+		if (!is_file($fileName))
 		{
 			return array();
-		}
-
-		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
-		if (!defined('_QQ_'))
-		{
-			/**
-			 * Defines a placeholder for a double quote character (") in a language file
-			 *
-			 * @var    string
-			 * @since  1.6
-			 * @deprecated  4.0 Use escaped double quotes (\") instead.
-			 */
-			define('_QQ_', '"');
 		}
 
 		// Capture hidden PHP errors from the parsing.
@@ -451,12 +466,11 @@ class LanguageHelper
 		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
 		// issue it is solving
 		$disabledFunctions = explode(',', ini_get('disable_functions'));
-		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+		$isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
-		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
+		if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($fileName);
-			$contents = str_replace('_QQ_', '"\""', $contents);
 			$strings = @parse_ini_string($contents);
 		}
 		else
@@ -470,7 +484,7 @@ class LanguageHelper
 			ini_set('track_errors', $trackErrors);
 		}
 
-		return is_array($strings) ? $strings : array();
+		return \is_array($strings) ? $strings : array();
 	}
 
 	/**
@@ -485,8 +499,6 @@ class LanguageHelper
 	 */
 	public static function saveToIniFile($fileName, array $strings)
 	{
-		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
-
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
 		{
@@ -496,7 +508,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return \JFile::write($fileName, $registry->toString('INI'));
+		return File::write($fileName, $registry->toString('INI'));
 	}
 
 	/**
@@ -546,7 +558,13 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+
+		if (!is_file($file))
+		{
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
@@ -611,7 +629,12 @@ class LanguageHelper
 			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
 				$dirPathParts = pathinfo($directory);
-				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+				$file         = $directory . '/langmetadata.xml';
+
+				if (!is_file($file))
+				{
+					$file = $directory . '/' . $dirPathParts['filename'] . '.xml';
+				}
 
 				if (!is_file($file))
 				{
@@ -628,6 +651,7 @@ class LanguageHelper
 				}
 				catch (\RuntimeException $e)
 				{
+					// Ignore it
 				}
 			}
 		}
@@ -661,7 +685,7 @@ class LanguageHelper
 		}
 
 		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
+		if ((string) $xml->getName() !== 'metafile')
 		{
 			return;
 		}

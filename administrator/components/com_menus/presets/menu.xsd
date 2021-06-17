@@ -24,6 +24,7 @@
 			<xs:enumeration value="default" />
 			<xs:enumeration value="edit" />
 			<xs:enumeration value="help" />
+			<xs:enumeration value="massmail" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="trueFalse">
@@ -62,7 +63,15 @@
 		<xs:attribute type="xs:string" name="sql_innerjoin" use="optional"/>
 		<xs:attribute type="xs:string" name="sql_group" use="optional"/>
 		<xs:attribute type="xs:string" name="sql_order" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_target" use="optional"/>
 		<xs:attribute type="browserNavType" name="target" use="optional" default=""/>
 		<xs:attribute type="scopeType" name="scope" use="optional" default="default"/>
+		<xs:attribute type="xs:string" name="permission" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-title" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-icon" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-permission" use="optional"/>
+		<xs:attribute type="xs:string" name="ajax-badge" use="optional"/>
+		<xs:attribute type="xs:string" name="dashboard" use="optional"/>
 	</xs:complexType>
 </xs:schema>

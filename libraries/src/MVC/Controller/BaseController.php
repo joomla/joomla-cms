@@ -2,13 +2,29 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\View\ViewInterface;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Input\Input;
 
 /**
  * Base class for a Joomla Controller
@@ -18,7 +34,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-class BaseController extends \JObject
+class BaseController implements ControllerInterface
 {
 	/**
 	 * The base path of the controller
@@ -119,15 +135,23 @@ class BaseController extends \JObject
 	/**
 	 * Hold a JInput object for easier access to the input variables.
 	 *
-	 * @var    \JInput
+	 * @var    Input
 	 * @since  3.0
 	 */
 	protected $input;
 
 	/**
+	 * The factory.
+	 *
+	 * @var    MVCFactoryInterface
+	 * @since  3.10.0
+	 */
+	protected $factory;
+
+	/**
 	 * Instance container.
 	 *
-	 * @var    \JControllerLegacy
+	 * @var    static
 	 * @since  3.0
 	 */
 	protected static $instance;
@@ -135,10 +159,18 @@ class BaseController extends \JObject
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \JViewLegacy[]
+	 * @var    ViewInterface[]
 	 * @since  3.4
 	 */
 	protected static $views;
+
+	/**
+	 * The Application
+	 *
+	 * @var    CMSApplication|null
+	 * @since  4.0.0
+	 */
+	protected $app;
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -152,7 +184,7 @@ class BaseController extends \JObject
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		\JModelLegacy::addIncludePath($path, $prefix);
+		BaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -165,7 +197,7 @@ class BaseController extends \JObject
 	 *
 	 * @since   3.0
 	 */
-	protected static function createFileName($type, $parts = array())
+	public static function createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -214,31 +246,42 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  \JControllerLegacy
+	 * @return  static
 	 *
-	 * @since   3.0
-	 * @throws  \Exception if the controller cannot be loaded.
+	 * @since       3.0
+	 * @deprecated  5.0 Get the controller through the MVCFactory instead
+	 * @throws      \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
-		if (is_object(self::$instance))
+		if (\is_object(self::$instance))
 		{
 			return self::$instance;
 		}
 
-		$input = \JFactory::getApplication()->input;
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
+
+		$app   = Factory::getApplication();
+		$input = $app->input;
 
 		// Get the environment configuration.
-		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
+		$basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
 		$format   = $input->getWord('format');
 		$command  = $input->get('task', 'display');
 
 		// Check for array format.
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 
-		if (is_array($command))
+		if (\is_array($command))
 		{
-			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
+			$keys = array_keys($command);
+			$command = $filter->clean(array_pop($keys), 'cmd');
 		}
 		else
 		{
@@ -278,40 +321,52 @@ class BaseController extends \JObject
 		if (!class_exists($class))
 		{
 			// If the controller file path exists, include it.
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
-			elseif (isset($backuppath) && file_exists($backuppath))
+			elseif (isset($backuppath) && is_file($backuppath))
 			{
 				require_once $backuppath;
 			}
 			else
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
 		// Instantiate the class.
 		if (!class_exists($class))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
-		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config);
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (Factory::getContainer()->has($class))
+		{
+			self::$instance = Factory::getContainer()->get($class);
+		}
+		else
+		{
+			self::$instance = new $class($config, null, $app, $input);
+		}
+
+		return self::$instance;
 	}
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -320,15 +375,16 @@ class BaseController extends \JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		if (defined('JDEBUG') && JDEBUG)
+		$this->app   = $app ? $app : Factory::getApplication();
+		$this->input = $input ? $input : $this->app->input;
+
+		if (\defined('JDEBUG') && JDEBUG)
 		{
-			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
+			Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));
 		}
 
-		$this->input = \JFactory::getApplication()->input;
-
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -339,7 +395,7 @@ class BaseController extends \JObject
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if ($mName === 'display' || !in_array($mName, $xMethods))
+			if ($mName === 'display' || !\in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
@@ -351,7 +407,7 @@ class BaseController extends \JObject
 		// Set the view name
 		if (empty($this->name))
 		{
-			if (array_key_exists('name', $config))
+			if (\array_key_exists('name', $config))
 			{
 				$this->name = $config['name'];
 			}
@@ -362,7 +418,7 @@ class BaseController extends \JObject
 		}
 
 		// Set a base path for use by the controller
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->basePath = $config['base_path'];
 		}
@@ -372,7 +428,7 @@ class BaseController extends \JObject
 		}
 
 		// If the default task is set, register it as such
-		if (array_key_exists('default_task', $config))
+		if (\array_key_exists('default_task', $config))
 		{
 			$this->registerDefaultTask($config['default_task']);
 		}
@@ -384,7 +440,7 @@ class BaseController extends \JObject
 		// Set the models prefix
 		if (empty($this->model_prefix))
 		{
-			if (array_key_exists('model_prefix', $config))
+			if (\array_key_exists('model_prefix', $config))
 			{
 				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
@@ -396,7 +452,7 @@ class BaseController extends \JObject
 		}
 
 		// Set the default model search path
-		if (array_key_exists('model_path', $config))
+		if (\array_key_exists('model_path', $config))
 		{
 			// User-defined dirs
 			$this->addModelPath($config['model_path'], $this->model_prefix);
@@ -407,7 +463,7 @@ class BaseController extends \JObject
 		}
 
 		// Set the default view search path
-		if (array_key_exists('view_path', $config))
+		if (\array_key_exists('view_path', $config))
 		{
 			// User-defined dirs
 			$this->setPath('view', $config['view_path']);
@@ -418,7 +474,7 @@ class BaseController extends \JObject
 		}
 
 		// Set the default view.
-		if (array_key_exists('default_view', $config))
+		if (\array_key_exists('default_view', $config))
 		{
 			$this->default_view = $config['default_view'];
 		}
@@ -426,6 +482,8 @@ class BaseController extends \JObject
 		{
 			$this->default_view = $this->getName();
 		}
+
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
@@ -434,7 +492,7 @@ class BaseController extends \JObject
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -449,7 +507,7 @@ class BaseController extends \JObject
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(\JPath::check($dir), '/') . '/';
+			$dir = rtrim(Path::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -463,30 +521,13 @@ class BaseController extends \JObject
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
 	public function addViewPath($path)
 	{
 		return $this->addPath('view', $path);
-	}
-
-	/**
-	 * Authorisation check
-	 *
-	 * @param   string  $task  The ACO Section Value to check access on.
-	 *
-	 * @return  boolean  True if authorised
-	 *
-	 * @since   3.0
-	 * @deprecated  3.0  Use \JAccess instead.
-	 */
-	public function authorise($task)
-	{
-		\JLog::add(__METHOD__ . ' is deprecated. Use \JAccess instead.', \JLog::WARNING, 'deprecated');
-
-		return true;
 	}
 
 	/**
@@ -503,13 +544,13 @@ class BaseController extends \JObject
 	{
 		if ($id)
 		{
-			$values = (array) \JFactory::getApplication()->getUserState($context . '.id');
+			$values = (array) $this->app->getUserState($context . '.id');
 
-			$result = in_array((int) $id, $values);
+			$result = \in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
-				\JLog::add(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Checking edit ID %s.%s: %d %s',
 						$context,
@@ -517,8 +558,7 @@ class BaseController extends \JObject
 						(int) $result,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					\JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 
@@ -536,17 +576,20 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean   Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$model = $this->factory->createModel($name, $prefix, $config);
 
-		return \JModelLegacy::getInstance($modelName, $classPrefix, $config);
+		if ($model === null)
+		{
+			return false;
+		}
+
+		return $model;
 	}
 
 	/**
@@ -562,40 +605,16 @@ class BaseController extends \JObject
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  \JViewLegacy|null  View object on success; null or error result on failure.
+	 * @return  ViewInterface|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+		$config['paths'] = $this->paths['view'];
 
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
-		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if (!$path)
-			{
-				return null;
-			}
-
-			require_once $path;
-
-			if (!class_exists($viewClass))
-			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-			}
-		}
-
-		return new $viewClass($config);
+		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
 	/**
@@ -605,15 +624,16 @@ class BaseController extends \JObject
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -621,7 +641,7 @@ class BaseController extends \JObject
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
-		if ($model = $this->getModel($viewName))
+		if ($model = $this->getModel($viewName, '', array('base_path' => $this->basePath)))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
@@ -630,17 +650,17 @@ class BaseController extends \JObject
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
-			if (is_array($urlparams))
+			if (\is_array($urlparams))
 			{
-				$app = \JFactory::getApplication();
+				$this->app = Factory::getApplication();
 
-				if (!empty($app->registeredurlparams))
+				if (!empty($this->app->registeredurlparams))
 				{
-					$registeredurlparams = $app->registeredurlparams;
+					$registeredurlparams = $this->app->registeredurlparams;
 				}
 				else
 				{
@@ -649,20 +669,20 @@ class BaseController extends \JObject
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe URL parameters with variable type as value {@see \JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see InputFilter::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
-				$app->registeredurlparams = $registeredurlparams;
+				$this->app->registeredurlparams = $registeredurlparams;
 			}
 
 			try
 			{
-				/** @var \JCacheControllerView $cache */
-				$cache = \JFactory::getCache($option, 'view');
+				/** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
+				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
-			catch (\JCacheException $exception)
+			catch (CacheExceptionInterface $exception)
 			{
 				$view->display();
 			}
@@ -701,7 +721,7 @@ class BaseController extends \JObject
 		}
 		else
 		{
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -717,7 +737,7 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -728,9 +748,21 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (!$prefix)
 		{
-			$prefix = $this->model_prefix;
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			// When the frontend uses an administrator model
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -738,10 +770,17 @@ class BaseController extends \JObject
 			// Task is a reserved state
 			$model->setState('task', $this->task);
 
-			// Let's get the application object and set menu information if it's available
-			$menu = \JFactory::getApplication()->getMenu();
+			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
+			// return early
+			if ($this->app->isClient('api'))
+			{
+				return $model;
+			}
 
-			if (is_object($menu) && $item = $menu->getActive())
+			// Let's get the application object and set menu information if it's available
+			$menu = Factory::getApplication()->getMenu();
+
+			if (\is_object($menu) && $item = $menu->getActive())
 			{
 				$params = $menu->getParams($item->id);
 
@@ -770,9 +809,9 @@ class BaseController extends \JObject
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
+			if (!preg_match('/(.*)Controller/i', \get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -813,7 +852,7 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  \JViewLegacy  Reference to the view or an error.
+	 * @return  ViewInterface  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -831,9 +870,21 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (!$prefix)
 		{
-			$prefix = $this->getName() . 'View';
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			// When the front uses an administrator view
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
@@ -844,7 +895,7 @@ class BaseController extends \JObject
 			}
 			else
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
 			}
 		}
 
@@ -863,27 +914,25 @@ class BaseController extends \JObject
 	 */
 	protected function holdEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
 			$values[] = (int) $id;
 			$values   = array_unique($values);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
-				\JLog::add(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Holding edit ID %s.%s %s',
 						$context,
 						$id,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					\JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 		}
@@ -900,13 +949,11 @@ class BaseController extends \JObject
 	{
 		if ($this->redirect)
 		{
-			$app = \JFactory::getApplication();
-
 			// Enqueue the redirect message
-			$app->enqueueMessage($this->message, $this->messageType);
+			$this->app->enqueueMessage($this->message, $this->messageType);
 
 			// Execute the redirect
-			$app->redirect($this->redirect);
+			$this->app->redirect($this->redirect);
 		}
 
 		return false;
@@ -917,7 +964,7 @@ class BaseController extends \JObject
 	 *
 	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -934,13 +981,13 @@ class BaseController extends \JObject
 	 * @param   string  $task    The task.
 	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
 	public function registerTask($task, $method)
 	{
-		if (in_array(strtolower($method), $this->methods))
+		if (\in_array(strtolower($method), $this->methods))
 		{
 			$this->taskMap[strtolower($task)] = $method;
 		}
@@ -953,7 +1000,7 @@ class BaseController extends \JObject
 	 *
 	 * @param   string  $task  The task.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -976,28 +1023,26 @@ class BaseController extends \JObject
 	 */
 	protected function releaseEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Do a strict search of the edit list values.
 		$index = array_search((int) $id, $values, true);
 
-		if (is_int($index))
+		if (\is_int($index))
 		{
 			unset($values[$index]);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
-				\JLog::add(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Releasing edit ID %s.%s %s',
 						$context,
 						$id,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					\JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 		}
@@ -1044,7 +1089,7 @@ class BaseController extends \JObject
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with \JHtml::_('form.token') or \JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or Session::getFormToken.
 	 *
 	 * @param   string   $method    The request method in which to look for the token key.
 	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
@@ -1052,24 +1097,23 @@ class BaseController extends \JObject
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
 	 * @since   3.7.0
-	 * @see     \JSession::checkToken()
+	 * @see     Session::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)
 	{
-		$valid = \JSession::checkToken($method);
+		$valid = Session::checkToken($method);
 
 		if (!$valid && $redirect)
 		{
 			$referrer = $this->input->server->getString('HTTP_REFERER');
 
-			if (!\JUri::isInternal($referrer))
+			if (!Uri::isInternal($referrer))
 			{
 				$referrer = 'index.php';
 			}
 
-			$app = \JFactory::getApplication();
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
-			$app->redirect($referrer);
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$this->app->redirect($referrer);
 		}
 
 		return $valid;
@@ -1082,7 +1126,7 @@ class BaseController extends \JObject
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
 	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */

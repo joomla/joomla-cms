@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,12 +29,12 @@
 					type="radio"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset
@@ -43,24 +43,24 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
+					class="form-select"
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -70,7 +70,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

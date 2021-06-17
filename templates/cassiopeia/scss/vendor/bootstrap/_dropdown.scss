@@ -1,0 +1,34 @@
+// Dropdown
+
+.dropdown-menu {
+  padding: .2rem 0;
+  margin-top: .5rem;
+  background-color: $white;
+  border-color: $cassiopeia-border-color;
+
+  &::after {
+    position: absolute;
+    top: -1.5rem;
+    left: .9rem;
+    font-family: "Font Awesome 5 Free";
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: $white;
+    text-shadow: 0 -1px 0 hsla(0, 0%, 0%, .2);
+    content: "\f0d8";
+  }
+
+}
+
+.dropdown-item {
+  padding: 3px .75rem;
+}
+
+.dropdown-menu-end {
+
+  &::after {
+    right: .9rem;
+    left: auto;
+  }
+
+}

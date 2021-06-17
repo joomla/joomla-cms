@@ -2,18 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Form's helper class.
@@ -45,7 +44,7 @@ class FormHelper
 	 * @var   string
 	 * @since 3.8.0
 	 */
-	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Static array of Form's entity objects for re-use.
@@ -59,7 +58,7 @@ class FormHelper
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Method to load a form field object given a type.
@@ -89,6 +88,21 @@ class FormHelper
 	public static function loadRuleType($type, $new = true)
 	{
 		return self::loadType('rule', $type, $new);
+	}
+
+	/**
+	 * Method to load a form filter object given a type.
+	 *
+	 * @param   string   $type  The rule type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return  FormFilterInterface|boolean  FormRule object on success, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterType($type, $new = true)
+	{
+		return self::loadType('filter', $type, $new);
 	}
 
 	/**
@@ -131,8 +145,8 @@ class FormHelper
 	}
 
 	/**
-	 * Attempt to import the JFormField class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a field for inheritance or composition.
+	 * Attempt to import the FormField class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a field for inheritance or composition.
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
@@ -146,8 +160,8 @@ class FormHelper
 	}
 
 	/**
-	 * Attempt to import the JFormRule class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a rule for inheritance or composition.
+	 * Attempt to import the FormRule class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a rule for inheritance or composition.
 	 *
 	 * @param   string  $type  Type of a rule whose class should be loaded.
 	 *
@@ -158,6 +172,21 @@ class FormHelper
 	public static function loadRuleClass($type)
 	{
 		return self::loadClass('rule', $type);
+	}
+
+	/**
+	 * Attempt to import the FormFilter class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a filter for inheritance or composition.
+	 *
+	 * @param   string  $type  Type of a filter whose class should be loaded.
+	 *
+	 * @return  string|boolean  Class name on success or false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterClass($type)
+	{
+		return self::loadClass('filter', $type);
 	}
 
 	/**
@@ -181,8 +210,16 @@ class FormHelper
 			$name = Normalise::toSpaceSeparated($type);
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
+			$subPrefix = '';
+
+			if (strpos($name, '.'))
+			{
+				list($subPrefix, $name) = explode('.', $name);
+				$subPrefix = ucfirst($subPrefix) . '\\';
+			}
+
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
+			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))
@@ -212,13 +249,13 @@ class FormHelper
 		if ($pos = strpos($type, '_'))
 		{
 			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			for ($i = 0, $n = \count($paths); $i < $n; $i++)
 			{
 				// Derive the new path.
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
+				if (!\in_array($path, $paths))
 				{
 					$paths[] = $path;
 				}
@@ -233,7 +270,7 @@ class FormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = \JPath::find($path, $type);
+			$file = Path::find($path, $type);
 
 			if (!$file)
 			{
@@ -295,6 +332,20 @@ class FormHelper
 	}
 
 	/**
+	 * Method to add a path to the list of filter include paths.
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return self::addPath('filter', $new);
+	}
+
+	/**
 	 * Method to add a path to the list of include paths for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
@@ -307,23 +358,13 @@ class FormHelper
 	 */
 	protected static function addPath($entity, $new = null)
 	{
+		if (!isset(self::$paths[$entity]))
+		{
+			self::$paths[$entity] = [];
+		}
+
 		// Reference to an array with paths for current entity
 		$paths = &self::$paths[$entity];
-
-		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
-			// While we support limited number of entities (form, field and rule)
-			// we can do this simple pluralisation:
-			$entity_plural = $entity . 's';
-
-			/*
-			 * But when someday we would want to support more entities, then we should consider adding
-			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			 */
-			$paths[] = __DIR__ . '/' . $entity_plural;
-		}
 
 		// Force the new path(s) to an array.
 		settype($new, 'array');
@@ -331,11 +372,11 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
-			$path = trim($path);
+			$path = \trim($path);
 
-			if (!in_array($path, $paths))
+			if (!\in_array($path, $paths))
 			{
-				array_unshift($paths, $path);
+				\array_unshift($paths, $path);
 			}
 		}
 
@@ -385,6 +426,20 @@ class FormHelper
 	}
 
 	/**
+	 * Method to add a namespace to the list of filter lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPrefix($new = null)
+	{
+		return self::addPrefix('filter', $new);
+	}
+
+	/**
 	 * Method to add a namespace to the list of namespaces for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
@@ -414,7 +469,7 @@ class FormHelper
 		{
 			$prefix = trim($prefix);
 
-			if (in_array($prefix, $prefixes))
+			if (\in_array($prefix, $prefixes))
 			{
 				continue;
 			}

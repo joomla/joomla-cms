@@ -1,83 +1,127 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Layout
+ * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/** @var  array  $displayData */
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
 $data = $displayData;
 
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if ($data['view'] instanceof MenusViewItems || $data['view'] instanceof MenusViewMenus)
+$noResultsText     = '';
+$hideActiveFilters = false;
+$showFilterButton  = false;
+$showSelector      = false;
+$selectorFieldName = $data['options']['selectorFieldName'] ?? 'client_id';
+
+// If a filter form exists.
+if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 {
-	$doc = JFactory::getDocument();
+	// Checks if a selector (e.g. client_id) exists.
+	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
+	{
+		$showSelector = $selectorField->getAttribute('filtermode', '') === 'selector' ? true : $showSelector;
 
-	$doc->addStyleDeclaration("
-		/* Fixed filter field in search bar */
-		.js-stools .js-stools-menutype,
-		.js-stools .js-stools-client_id {
-			float: left;
-			margin-right: 10px;
-			min-width: 220px;
+		// Checks if a selector should be shown in the current layout.
+		if (isset($data['view']->layout))
+		{
+			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;
 		}
-		html[dir=rtl] .js-stools .js-stools-menutype,
-		html[dir=rtl] .js-stools .js-stools-client_id {
-			float: right;
-			margin-left: 10px
-			margin-right: 0;
-		}
-		.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
-			padding: 3px 0;
-		}
-	");
 
-	// Client selector doesn't have to activate the filter bar.
-	unset($data['view']->activeFilters['client_id']);
+		// Unset the selector field from active filters group.
+		unset($data['view']->activeFilters[$selectorFieldName]);
+	}
 
-	// Menutype filter doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['menutype']);
+	if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) :
+		unset($data['view']->activeFilters['client_id']);
+	endif;
+
+	// Checks if the filters button should exist.
+	$filters = $data['view']->filterForm->getGroup('filter');
+	$showFilterButton = isset($filters['filter_search']) && count($filters) === 1 ? false : true;
+
+	// Checks if it should show the be hidden.
+	$hideActiveFilters = empty($data['view']->activeFilters);
+
+	// Check if the no results message should appear.
+	if (isset($data['view']->total) && (int) $data['view']->total === 0)
+	{
+		$noResults = $data['view']->filterForm->getFieldAttribute('search', 'noresults', '', 'filter');
+		if (!empty($noResults))
+		{
+			$noResultsText = Text::_($noResults);
+		}
+	}
 }
 
-// Set some basic options
+// Set some basic options.
 $customOptions = array(
-	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
-	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
+	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
+	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
+	'selectorFieldName'   => $selectorFieldName,
+	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'totalResults'        => isset($data['options']['totalResults']) ? $data['options']['totalResults'] : -1,
-	'noResultsText'       => isset($data['options']['noResultsText']) ? $data['options']['noResultsText'] : JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
+	'showNoResults'       => !empty($noResultsText),
+	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
+	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
 
+// Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);
 
-$formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
+// Add class to hide the active filters if needed.
+$filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
 
 // Load search tools
-JHtml::_('searchtools.form', $formSelector, $data['options']);
-
-$filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
+HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools clearfix">
-	<div class="clearfix">
-		<div class="js-stools-container-bar">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+<div class="js-stools" role="search">
+	<?php if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) : ?>
+	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
+	<?php $app = Factory::getApplication(); ?>
+		<?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
+		<?php if ($clientIdField) : ?>
+		<div class="js-stools-container-selector">
+			<div class="visually-hidden">
+				<?php echo $clientIdField->label; ?>
+			</div>
+			<div class="js-stools-field-selector js-stools-client_id">
+				<?php echo $clientIdField->input; ?>
+			</div>
 		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($data['options']['showSelector']) : ?>
+	<div class="js-stools-container-selector">
+		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+	</div>
+	<?php endif; ?>
+	<div class="js-stools-container-bar ms-auto">
+		<div class="btn-toolbar">
+			<?php echo $this->sublayout('bar', $data); ?>
+			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+	<div class="js-stools-container-filters clearfix<?php echo $filtersActiveClass; ?>">
+		<?php if ($data['options']['filterButton']) : ?>
+		<?php echo $this->sublayout('filters', $data); ?>
+		<?php endif; ?>
 	</div>
 </div>
-<?php if ($data['options']['totalResults'] === 0) : ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+<?php if ($data['options']['showNoResults']) : ?>
+	<?php echo $this->sublayout('noitems', $data); ?>
 <?php endif; ?>

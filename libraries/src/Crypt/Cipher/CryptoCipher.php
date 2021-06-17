@@ -2,21 +2,22 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Crypt\Cipher;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Crypt\CipherInterface;
-use Joomla\CMS\Crypt\Key;
+use Joomla\Crypt\CipherInterface;
+use Joomla\Crypt\Key;
 
 /**
  * Crypt cipher for encryption, decryption and key generation via the php-encryption library.
  *
- * @since  3.5
+ * @since       3.5
+ * @deprecated  5.0   Without replacement use SodiumCipher
  */
 class CryptoCipher implements CipherInterface
 {
@@ -34,15 +35,15 @@ class CryptoCipher implements CipherInterface
 	public function decrypt($data, Key $key)
 	{
 		// Validate key.
-		if ($key->type != 'crypto')
+		if ($key->getType() !== 'crypto')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
 
 		// Decrypt the data.
 		try
 		{
-			return \Crypto::Decrypt($data, $key->public);
+			return \Crypto::Decrypt($data, $key->getPublic());
 		}
 		catch (\InvalidCiphertextException $ex)
 		{
@@ -72,15 +73,15 @@ class CryptoCipher implements CipherInterface
 	public function encrypt($data, Key $key)
 	{
 		// Validate key.
-		if ($key->type != 'crypto')
+		if ($key->getType() !== 'crypto')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
 
 		// Encrypt the data.
 		try
 		{
-			return \Crypto::Encrypt($data, $key->public);
+			return \Crypto::Encrypt($data, $key->getPublic());
 		}
 		catch (\CryptoTestFailedException $ex)
 		{
@@ -104,13 +105,10 @@ class CryptoCipher implements CipherInterface
 	 */
 	public function generateKey(array $options = array())
 	{
-		// Create the new encryption key object.
-		$key = new Key('crypto');
-
 		// Generate the encryption key.
 		try
 		{
-			$key->public = \Crypto::CreateNewRandomKey();
+			$public = \Crypto::CreateNewRandomKey();
 		}
 		catch (\CryptoTestFailedException $ex)
 		{
@@ -122,8 +120,29 @@ class CryptoCipher implements CipherInterface
 		}
 
 		// Explicitly flag the private as unused in this cipher.
-		$key->private = 'unused';
+		$private = 'unused';
 
-		return $key;
+		return new Key('crypto', $private, $public);
+	}
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isSupported(): bool
+	{
+		try
+		{
+			\Crypto::RuntimeTest();
+
+			return true;
+		}
+		catch (\CryptoTestFailedException $e)
+		{
+			return false;
+		}
 	}
 }

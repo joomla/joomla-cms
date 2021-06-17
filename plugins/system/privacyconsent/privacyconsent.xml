@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_privacyconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2018</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_SYSTEM_PRIVACYCONSENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\PrivacyConsent</namespace>
 	<files>
 		<filename plugin="privacyconsent">privacyconsent.php</filename>
-		<folder>privacyconsent</folder>
-		<folder>field</folder>
+		<folder>forms</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_privacyconsent.ini</language>
@@ -20,18 +21,27 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="privacy_note"
 					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT"
-					class="span12"
 					rows="7"
 					cols="20"
 					filter="html"
 				/>
+				<field
+					name="privacy_type"
+					type="list"
+					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_LABEL"
+					default="article"
+					validate="options"
+					>
+					<option value="article">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_ARTICLE</option>
+					<option value="menu_item">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_MENU_ITEM</option>
+				</field>
 				<field
 					name="privacy_article"
 					type="modal_article"
@@ -42,6 +52,19 @@
 					edit="true"
 					clear="true"
 					filter="integer"
+					showon="privacy_type:article"
+				/>
+				<field
+					addfieldprefix="Joomla\Component\Menus\Administrator\Field"
+					name="privacy_menu_item"
+					type="modal_menu"
+					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_MENU_ITEM_LABEL"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					filter="integer"
+					showon="privacy_type:menu_item"
 				/>
 				<field
 					name="messageOnRedirect"
@@ -64,12 +87,12 @@
 					type="radio"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="cachetimeout"

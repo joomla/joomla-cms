@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<creationDate>August 2011</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<description>COM_FINDER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Finder</namespace>
 	<menu link="option=com_finder">COM_FINDER</menu>
-	<files folder="site">
-		<filename>controller.php</filename>
-		<filename>finder.php</filename>
-		<filename>router.php</filename>
-		<folder>controllers</folder>
-		<folder>helpers</folder>
-		<folder>models</folder>
-		<folder>views</folder>
-	</files>
-	<media destination="com_finder" folder="media">
-		<folder>js</folder>
-		<folder>css</folder>
-	</media>
 	<install>
 		<sql>
 			<file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
@@ -35,26 +23,34 @@
 			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
 		</sql>
 	</uninstall>
+	<files folder="site">
+		<folder>helpers</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<media destination="com_finder" folder="media">
+		<folder>css</folder>
+		<folder>js</folder>
+	</media>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_finder.ini</language>
+		<language tag="en-GB">language/en-GB/com_finder.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>finder.php</filename>
-			<folder>controllers</folder>
+			<filename>finder.xml</filename>
+			<folder>forms</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
+			<folder>services</folder>
+			<folder>src</folder>
 			<folder>sql</folder>
-			<folder>tables</folder>
-			<folder>views</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_finder.ini</language>
-			<language tag="en-GB">language/en-GB.com_finder.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_finder.ini</language>
+			<language tag="en-GB">language/en-GB/com_finder.sys.ini</language>
 		</languages>
-		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
+		<menu img="class:search-plus" link="option=com_finder">COM_FINDER</menu>
 	</administration>
 </extension>

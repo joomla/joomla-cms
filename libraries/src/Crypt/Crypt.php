@@ -2,134 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Crypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Crypt\Cipher\SimpleCipher;
-use Joomla\CMS\Log\Log;
+use Joomla\Crypt\Crypt as JCrypt;
 
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
  * @since  3.0.0
  */
-class Crypt
+class Crypt extends JCrypt
 {
-	/**
-	 * @var    CipherInterface  The encryption cipher object.
-	 * @since  3.0.0
-	 */
-	private $_cipher;
-
-	/**
-	 * @var    Key  The encryption key[/pair)].
-	 * @since  3.0.0
-	 */
-	private $_key;
-
-	/**
-	 * Object Constructor takes an optional key to be used for encryption/decryption. If no key is given then the
-	 * secret word from the configuration object is used.
-	 *
-	 * @param   CipherInterface  $cipher  The encryption cipher object.
-	 * @param   Key              $key     The encryption key[/pair)].
-	 *
-	 * @since   3.0.0
-	 */
-	public function __construct(CipherInterface $cipher = null, Key $key = null)
-	{
-		// Set the encryption key[/pair)].
-		$this->_key = $key;
-
-		// Set the encryption cipher.
-		$this->_cipher = isset($cipher) ? $cipher : new SimpleCipher;
-	}
-
-	/**
-	 * Method to decrypt a data string.
-	 *
-	 * @param   string  $data  The encrypted string to decrypt.
-	 *
-	 * @return  string  The decrypted data string.
-	 *
-	 * @since   3.0.0
-	 * @throws  \InvalidArgumentException
-	 */
-	public function decrypt($data)
-	{
-		try
-		{
-			return $this->_cipher->decrypt($data, $this->_key);
-		}
-		catch (\InvalidArgumentException $e)
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Method to encrypt a data string.
-	 *
-	 * @param   string  $data  The data string to encrypt.
-	 *
-	 * @return  string  The encrypted data string.
-	 *
-	 * @since   3.0.0
-	 */
-	public function encrypt($data)
-	{
-		return $this->_cipher->encrypt($data, $this->_key);
-	}
-
-	/**
-	 * Method to generate a new encryption key[/pair] object.
-	 *
-	 * @param   array  $options  Key generation options.
-	 *
-	 * @return  Key
-	 *
-	 * @since   3.0.0
-	 */
-	public function generateKey(array $options = array())
-	{
-		return $this->_cipher->generateKey($options);
-	}
-
-	/**
-	 * Method to set the encryption key[/pair] object.
-	 *
-	 * @param   Key  $key  The key object to set.
-	 *
-	 * @return  Crypt
-	 *
-	 * @since   3.0.0
-	 */
-	public function setKey(Key $key)
-	{
-		$this->_key = $key;
-
-		return $this;
-	}
-
-	/**
-	 * Generate random bytes.
-	 *
-	 * @param   integer  $length  Length of the random data to generate
-	 *
-	 * @return  string  Random binary data
-	 *
-	 * @since   3.0.0
-	 */
-	public static function genRandomBytes($length = 16)
-	{
-		return random_bytes($length);
-	}
-
 	/**
 	 * A timing safe comparison method.
 	 *
@@ -146,33 +35,40 @@ class Crypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
-		// This function is native in PHP as of 5.6 and backported via the symfony/polyfill-56 library
-		return hash_equals((string) $known, (string) $unknown);
-	}
-
-	/**
-	 * Tests for the availability of updated crypt().
-	 * Based on a method by Anthony Ferrera
-	 *
-	 * @return  boolean  Always returns true since 3.3
-	 *
-	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
-	 * @link    https://github.com/ircmaxell/password_compat/blob/master/version-test.php
-	 * @since   3.2
-	 * @deprecated  4.0
-	 */
-	public static function hasStrongPasswordSupport()
-	{
-		// Log usage of deprecated function
-		Log::add(__METHOD__ . '() is deprecated without replacement.', Log::WARNING, 'deprecated');
-
-		if (!defined('PASSWORD_DEFAULT'))
+		/**
+		 * Explanation about the function_exists
+		 *
+		 * Yes, hash_equals has existed since PHP 5.6.0 and Joomla's minimum requirements are higher
+		 * than that. However, this does not prevent a misguided server administrator from disabling
+		 * hash_equals in php.ini. Hence the need for checking whether the function exists or not.
+		 */
+		if (function_exists('hash_equals'))
 		{
-			// Always make sure that the password hashing API has been defined.
-			include_once JPATH_ROOT . '/vendor/ircmaxell/password-compat/lib/password.php';
+			return hash_equals($known, $unknown);
 		}
 
-		return true;
+		/**
+		 * If hash_equals is not available we use a pure PHP implementation by Anthony Ferrara.
+		 *
+		 * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+		 */
+		$safeLen = strlen($known);
+		$userLen = strlen($unknown);
+
+		if ($userLen != $safeLen)
+		{
+			return false;
+		}
+
+		$result = 0;
+
+		for ($i = 0; $i < $userLen; $i++)
+		{
+			$result |= (ord($known[$i]) ^ ord($unknown[$i]));
+		}
+
+		// They are only identical strings if $result is exactly 0...
+		return $result === 0;
 	}
 
 	/**
@@ -194,7 +90,7 @@ class Crypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_strlen');
+			$exists = \function_exists('mb_strlen');
 		}
 
 		if ($exists)
@@ -232,7 +128,7 @@ class Crypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_substr');
+			$exists = \function_exists('mb_substr');
 		}
 
 		if ($exists)

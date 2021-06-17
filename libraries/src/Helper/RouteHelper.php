@@ -2,15 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -71,8 +74,8 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getCmd('view');
-			$this->extension = \JFactory::getApplication()->input->getCmd('option');
+			$this->view = Factory::getApplication()->input->getString('view');
+			$this->extension = Factory::getApplication()->input->getCmd('option');
 		}
 
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -92,7 +95,7 @@ class RouteHelper
 
 		if ($catid > 1)
 		{
-			$categories = \JCategories::getInstance($name);
+			$categories = Categories::getInstance($name);
 
 			if ($categories)
 			{
@@ -133,9 +136,9 @@ class RouteHelper
 	 */
 	protected function findItem($needles = array())
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
-		$language = isset($needles['language']) ? $needles['language'] : '*';
+		$language = $needles['language'] ?? '*';
 
 		// $this->extension may not be set if coming from a static method, check it
 		if ($this->extension === null)
@@ -174,7 +177,7 @@ class RouteHelper
 
 					if (isset($item->query['id']))
 					{
-						if (is_array($item->query['id']))
+						if (\is_array($item->query['id']))
 						{
 							$item->query['id'] = $item->query['id'][0];
 						}
@@ -226,7 +229,7 @@ class RouteHelper
 	/**
 	 * Fetches the category route
 	 *
-	 * @param   mixed   $catid      Category ID or \JCategoryNode instance
+	 * @param   mixed   $catid      Category ID or CategoryNode instance
 	 * @param   mixed   $language   Language code
 	 * @param   string  $extension  Extension to lookup
 	 *
@@ -244,7 +247,7 @@ class RouteHelper
 			throw new \InvalidArgumentException(sprintf('$extension is a required argument in %s()', __METHOD__));
 		}
 
-		if ($catid instanceof \JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id       = $catid->id;
 			$category = $catid;
@@ -253,7 +256,7 @@ class RouteHelper
 		{
 			$extensionName = ucfirst(substr($extension, 4));
 			$id            = (int) $catid;
-			$category      = \JCategories::getInstance($extensionName)->get($id);
+			$category      = Categories::getInstance($extensionName)->get($id);
 		}
 
 		if ($id < 1)

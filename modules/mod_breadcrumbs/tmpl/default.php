@@ -3,21 +3,25 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 ?>
-<div aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>" role="navigation">
-	<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
+<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>">
+	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb px-3 py-2">
 		<?php if ($params->get('showHere', 1)) : ?>
-			<li>
-				<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
+			<li class="mod-breadcrumbs__here float-start">
+				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 			</li>
 		<?php else : ?>
-			<li class="active">
-				<span class="divider icon-location"></span>
+			<li class="mod-breadcrumbs__divider float-start">
+				<span class="divider icon-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 
@@ -43,32 +47,22 @@ defined('_JEXEC') or die;
 		// Generate the trail
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
+				if (!empty($item->link)) :
+					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span></a>';
+				else :
+					$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
+				endif;
 				// Render all but last item - along with separator ?>
-				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-					<?php if (!empty($item->link)) : ?>
-						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway"><span itemprop="name"><?php echo $item->name; ?></span></a>
-					<?php else : ?>
-						<span itemprop="name">
-							<?php echo $item->name; ?>
-						</span>
-					<?php endif; ?>
-
-					<?php if (($key !== $penult_item_key) || $show_last) : ?>
-						<span class="divider">
-							<?php echo $separator; ?>
-						</span>
-					<?php endif; ?>
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php elseif ($show_last) :
-				// Render last item if reqd. ?>
-				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
-					<span itemprop="name">
-						<?php echo $item->name; ?>
-					</span>
+				$breadcrumbItem = '<span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span>';
+				// Render last item if required. ?>
+				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php endif;
 		endforeach; ?>
-	</ul>
-</div>
+	</ol>
+</nav>

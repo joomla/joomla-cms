@@ -3,36 +3,43 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var  PlgSystemStats             $plugin        Plugin rendering this layout
- * @var  \Joomla\Registry\Registry  $pluginParams  Plugin parameters
- * @var  array                      $statsData     Array containing the data that will be sent to the stats server
+ * @var  PlgSystemStats  $plugin        Plugin rendering this layout
+ * @var  Registry        $pluginParams  Plugin parameters
+ * @var  array           $statsData     Array containing the data that will be sent to the stats server
  */
 ?>
-<div class="alert alert-info js-pstats-alert" style="display:none;">
-	<button data-dismiss="alert" class="close" type="button">×</button>
-	<h2><?php echo JText::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></h2>
-	<p>
-		<?php echo JText::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?>
-		<a href="#" class="js-pstats-btn-details alert-link"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
-	</p>
-	<?php
-		echo $plugin->render('stats', compact('statsData'));
-	?>
-	<p><?php echo JText::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
-	<p class="actions">
-		<a href="#" class="btn js-pstats-btn-allow-always"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></a>
-		<a href="#" class="btn js-pstats-btn-allow-once"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></a>
-		<a href="#" class="btn js-pstats-btn-allow-never"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></a>
-	</p>
-</div>
+
+<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog">
+	<div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
+	<div>
+		<div class="alert-message">
+			<p>
+				<?php echo Text::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?>
+				<a href="#" class="js-pstats-btn-details alert-link"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+			</p>
+			<?php
+				echo $plugin->render('stats', compact('statsData'));
+			?>
+			<p><?php echo Text::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
+			<p class="actions">
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-always"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-once"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-never"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></button>
+			</p>
+		</div>
+	</div>
+</joomla-alert>

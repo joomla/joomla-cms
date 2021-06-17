@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_USERS_LOGIN_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGIN_VIEW_DEFAULT_OPTION">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
+		/>
+		<message>
+			<![CDATA[COM_USERS_LOGIN_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+		<!-- Basic options. -->
+		<fieldset name="basic" addruleprefix="Joomla\Component\Users\Site\Rule" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+			<fieldset name="login" label="COM_USERS_FIELD_OPTIONS_LOGIN">
+				<field
+					name="loginredirectchoice"
+					type="radio"
+					label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					>
+					<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
+					<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
+				</field>
+
+				<field
+					name="login_redirect_url"
+					type="text"
+					label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
+					description="JFIELD_LOGIN_REDIRECT_URL_DESC"
+					validate="LoginUniqueField"
+					field="login_redirect_menuitem"
+					hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
+					message="COM_USERS_FIELD_LOGIN_REDIRECT_ERROR"
+					showon="loginredirectchoice:0"
+				/>
+
+				<field
+					name="login_redirect_menuitem"
+					type="modal_menu"
+					label="COM_USERS_FIELD_LOGIN_REDIRECTMENU_LABEL"
+					description="COM_USERS_FIELD_LOGIN_REDIRECTMENU_DESC"
+					disable="separator,alias,heading,url"
+					showon="loginredirectchoice:1"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					>
+					<option value="">JOPTION_SELECT_MENU</option>
+				</field>
+
+				<field
+					name="logindescription_show"
+					type="list"
+					label="JFIELD_BASIC_LOGIN_DESCRIPTION_SHOW_LABEL"
+					default="1"
+					class="form-select-color-state"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="login_description"
+					type="textarea"
+					label="JFIELD_BASIC_LOGIN_DESCRIPTION_LABEL"
+					rows="3"
+					cols="40"
+					filter="safehtml"
+					showon="logindescription_show:1"
+				/>
+
+				<field
+					name="login_image"
+					type="media"
+					label="JFIELD_LOGIN_IMAGE_LABEL"
+				/>
+
+				<field
+					name="login_image_alt"
+					type="text"
+					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="login_image_alt_empty"
+					type="checkbox"
+					label="COM_USERS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_USERS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+			</fieldset>
+
+			<fieldset name="logout" label="COM_USERS_FIELD_OPTIONS_LOGOUT">
+				<field
+					name="logoutredirectchoice"
+					type="radio"
+					label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					>
+					<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
+					<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
+				</field>
+
+				<field
+					name="logout_redirect_url"
+					type="text"
+					label="JFIELD_LOGOUT_REDIRECT_URL_LABEL"
+					field="logout_redirect_menuitem"
+					validate="LogoutUniqueField"
+					hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
+					message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
+					showon="logoutredirectchoice:0"
+				/>
+
+				<field
+					name="logout_redirect_menuitem"
+					type="modal_menu"
+					label="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_LABEL"
+					description="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_DESC"
+					disable="separator,alias,heading,url"
+					showon="logoutredirectchoice:1"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					>
+					<option value="">JOPTION_SELECT_MENU</option>
+				</field>
+
+				<field
+					name="logoutdescription_show"
+					type="list"
+					label="JFIELD_BASIC_LOGOUT_DESCRIPTION_SHOW_LABEL"
+					default="1"
+					class="form-select-color-state"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="logout_description"
+					type="textarea"
+					label="JFIELD_BASIC_LOGOUT_DESCRIPTION_LABEL"
+					rows="3"
+					cols="40"
+					filter="safehtml"
+					showon="logoutdescription_show:1"
+				/>
+
+				<field
+					name="logout_image"
+					type="media"
+					label="JFIELD_LOGOUT_IMAGE_LABEL"
+				/>
+
+				<field
+					name="logout_image_alt"
+					type="text"
+					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="logout_image_alt_empty"
+					type="checkbox"
+					label="COM_USERS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_USERS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+			</fieldset>
+		</fieldset>
+	</fields>
+</metadata>

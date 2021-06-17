@@ -1,0 +1,127 @@
+/**
+ * Styling search results page
+ */
+.com-finder * {
+  margin-bottom: 0;
+}
+
+.com-finder > * + *,
+.com-finder__results > * + * {
+  margin-top: 1.5em;
+}
+
+/**
+ * Styling search explained
+ */
+.com-finder__explained span.term,
+.com-finder__explained span.date,
+.com-finder__explained span.when,
+.com-finder__explained span.branch,
+.com-finder__explained span.node,
+.com-finder__explained span.op {
+  font-weight: 800;
+}
+
+.com-finder__explained span.op {
+  text-transform: uppercase;
+}
+
+/**
+ * Styling search result items list
+ */
+.com-finder__results-list {
+  list-style: none;
+  padding: 0;
+}
+
+/**
+ * Styling search result item
+ */
+.result__item + .result__item {
+  margin-top: 1.5em;
+  padding-top: 1.5em;
+  border-top: 1px solid currentColor;
+}
+
+.result__item > * {
+  margin-bottom: 0;
+}
+
+.result__item > * + * {
+  margin-top: .25em;
+}
+
+.result__title-link {
+  display: flex;
+  flex-direction: column;
+}
+
+.result__title-text {
+  font-size: 1.3rem;
+}
+
+.result__title-url {
+  order: -1;
+  margin-bottom: .25em;
+  color: hsl(0, 0%, 34%);
+  font-style: normal;
+}
+
+.result__title-link:focus,
+.result__title-link:hover {
+  text-decoration: none;
+}
+
+.result__title-link:focus .result__title-text,
+.result__title-link:hover .result__title-text {
+  text-decoration: underline;
+}
+
+.result__date {
+  color: hsl(0, 0%, 34%);
+}
+
+.result__date:after {
+  content: "-";
+}
+
+.result__taxonomy {
+  padding: 0;
+  list-style: none;
+}
+
+.result__taxonomy-item {
+  display: inline-block;
+}
+
+.result__taxonomy-item + .result__taxonomy-item {
+  margin-left: .5em;
+}
+
+.result__taxonomy-item + .result__taxonomy-item:before {
+  content: "|";
+  padding-right: .5em;
+}
+
+/**
+ * Styling search word highlight
+ */
+.result__item .highlight {
+  position: relative;
+}
+
+.result__item .highlight:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: calc(100% + 6px);
+  height: calc(100% + 2px);
+  background: hsla(60, 100%, 50%, .5);
+  pointer-events: none;
+  border-radius: 3px;
+}

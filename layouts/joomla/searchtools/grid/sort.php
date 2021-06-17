@@ -3,21 +3,45 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$data = $displayData;
+use Joomla\CMS\Language\Text;
 
-$title = htmlspecialchars(JText::_($data->tip ?: $data->title));
-JHtml::_('bootstrap.popover');
+$data = $displayData;
+$icon = "icon-sort";
+$sort = '';
+$caption = '';
+$selected = '';
+$id = '';
+
+if ($data->order === $data->selected) :
+	$icon = $data->orderIcon;
+	$sort = $data->direction === 'asc' ? 'descending' : 'ascending';
+	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
+	$selected = ' selected';
+	$id = 'id="sorted"';
+endif;
 ?>
-<a href="#" onclick="return false;" class="js-stools-column-order hasPopover"
-   data-order="<?php echo $data->order; ?>" data-direction="<?php echo strtoupper($data->direction); ?>" data-name="<?php echo JText::_($data->title); ?>"
-   title="<?php echo $title; ?>" data-content="<?php echo htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')); ?>" data-placement="top">
-<?php if (!empty($data->icon)) : ?><span class="<?php echo $data->icon; ?>"></span><?php endif; ?>
-<?php if (!empty($data->title)) : ?><?php echo JText::_($data->title); ?><?php endif; ?>
-<?php if ($data->order == $data->selected) : ?><span class="<?php echo $data->orderIcon; ?>"></span><?php endif; ?>
+
+<a href="" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
+	<?php echo $id; ?>
+	data-order="<?php echo $data->order; ?>"
+	data-direction="<?php echo strtoupper($data->direction); ?>"
+	data-caption="<?php echo $caption; ?>"
+	<?php if (!empty($sort)) : ?>
+		data-sort="<?php echo $sort; ?>"
+	<?php endif; ?>>
+	<?php // The following statement has been concatenated purposely to remove whitespace. ?>
+	<?php // Please leave as is. ?>
+	<?php if (!empty($data->title)) : ?><span><?php echo Text::_($data->title); ?></span><?php endif; ?><span
+		class="ms-1 <?php echo $icon; ?>"
+		aria-hidden="true"></span>
+	<span class="visually-hidden">
+		<?php echo Text::_('JGLOBAL_SORT_BY'); ?>
+		<?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
+	</span>
 </a>

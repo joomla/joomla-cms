@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -47,17 +47,17 @@ class EqualsRule extends FormRule
 		// Check that a validation field is set.
 		if (!$field)
 		{
-			throw new \UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('$field empty in %s::test', \get_class($this)));
 		}
 
-		if (is_null($form))
+		if (\is_null($form))
 		{
-			throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+			throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', \get_class($this)));
 		}
 
-		if (is_null($input))
+		if (\is_null($input))
 		{
-			throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+			throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', \get_class($this)));
 		}
 
 		$test = $input->get($field);

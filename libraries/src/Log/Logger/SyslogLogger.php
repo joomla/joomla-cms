@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -129,7 +129,7 @@ class SyslogLogger extends Logger
 	public function addEntry(LogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
-		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
+		$priority = \constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
 
 		// Send the entry to Syslog.
 		syslog($priority, '[' . $entry->category . '] ' . $entry->message);

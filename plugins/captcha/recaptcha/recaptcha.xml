@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" type="plugin" group="captcha" method="upgrade">
+<extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
 	<version>3.4.0</version>
 	<creationDate>December 2011</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
@@ -20,21 +20,13 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="message"
-					type="note"
-					label="PLG_RECAPTCHA_VERSION_1_WARNING_LABEL"
-					showon="version:1.0"
-				/>
-
-				<field
 					name="version"
 					type="list"
 					label="PLG_RECAPTCHA_VERSION_LABEL"
-					description="PLG_RECAPTCHA_VERSION_DESC"
 					default="2.0"
 					size="1"
+					validate="options"
 					>
-					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 				</field>
 
@@ -42,7 +34,6 @@
 					name="public_key"
 					type="text"
 					label="PLG_RECAPTCHA_PUBLIC_KEY_LABEL"
-					description="PLG_RECAPTCHA_PUBLIC_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
@@ -54,7 +45,6 @@
 					name="private_key"
 					type="text"
 					label="PLG_RECAPTCHA_PRIVATE_KEY_LABEL"
-					description="PLG_RECAPTCHA_PRIVATE_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
@@ -63,28 +53,13 @@
 				/>
 
 				<field
-					name="theme"
-					type="list"
-					label="PLG_RECAPTCHA_THEME_LABEL"
-					description="PLG_RECAPTCHA_THEME_DESC"
-					default="clean"
-					showon="version:1.0"
-					filter=""
-					>
-					<option value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
-					<option value="white">PLG_RECAPTCHA_THEME_WHITE</option>
-					<option value="blackglass">PLG_RECAPTCHA_THEME_BLACKGLASS</option>
-					<option value="red">PLG_RECAPTCHA_THEME_RED</option>
-				</field>
-
-				<field
 					name="theme2"
 					type="list"
 					label="PLG_RECAPTCHA_THEME_LABEL"
-					description="PLG_RECAPTCHA_THEME_DESC"
 					default="light"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 					<option value="dark">PLG_RECAPTCHA_THEME_DARK</option>
@@ -94,10 +69,10 @@
 					name="size"
 					type="list"
 					label="PLG_RECAPTCHA_SIZE_LABEL"
-					description="PLG_RECAPTCHA_SIZE_DESC"
 					default="normal"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
@@ -108,6 +83,7 @@
 					type="number"
 					label="PLG_RECAPTCHA_TABINDEX_LABEL"
 					description="PLG_RECAPTCHA_TABINDEX_DESC"
+					filter="integer"
 					default="0"
 					showon="version:2.0"
 					min="0"

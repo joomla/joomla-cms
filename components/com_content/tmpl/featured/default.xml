@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONTENT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FEATURED_VIEW_DEFAULT_OPTION">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_FEATURED"
+		/>
+		<message>
+			<![CDATA[COM_CONTENT_CATEGORY_VIEW_FEATURED_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL">
+			<field
+				name="featured_categories"
+				type="category"
+				label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
+				extension="com_content"
+				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
+				default=""
+				parentclass="stack span-3"
+				>
+				<option value="">JOPTION_ALL_CATEGORIES</option>
+			</field>
+
+			<field
+				name="layout_type"
+				type="hidden"
+				default="blog"
+			/>
+			<field
+				name="num_leading_articles"
+				type="number"
+				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+				filter="integer"
+				useglobal="true"
+				parentclass="stack span-1"
+			/>
+
+			<field
+				name="blog_class_leading"
+				type="text"
+				label="JGLOBAL_BLOG_CLASS_LEADING"
+				parentclass="stack span-2-inline"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="num_intro_articles"
+				type="number"
+				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+				filter="integer"
+				useglobal="true"
+				parentclass="stack span-1"
+			/>
+
+			<field
+				name="blog_class"
+				type="text"
+				label="JGLOBAL_BLOG_CLASS"
+				description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
+				parentclass="stack span-2-inline"
+				useglobal="true"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="num_columns"
+				type="number"
+				label="JGLOBAL_NUM_COLUMNS_LABEL"
+				filter="integer"
+				parentclass="stack span-1-inline"
+				useglobal="true"
+			/>
+
+			<field
+				name="multi_column_order"
+				type="list"
+				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+				parentclass="stack span-1-inline"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+			</field>
+
+			<field
+				name="num_links"
+				type="number"
+				label="JGLOBAL_NUM_LINKS_LABEL"
+				filter="integer"
+				parentclass="stack span-1"
+				useglobal="true"
+			/>
+
+			<field
+				name="link_intro_image"
+				type="list"
+				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				parentclass="stack span-2-inline"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="orderby_pri"
+				type="list"
+				label="JGLOBAL_CATEGORY_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				parentclass="stack span-2"
+				>
+				<option value="none">JGLOBAL_NO_ORDER</option>
+				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+			</field>
+
+			<field
+				name="orderby_sec"
+				type="list"
+				label="JGLOBAL_ARTICLE_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				parentclass="stack span-2-inline"
+				>
+				<option value="front">COM_CONTENT_FEATURED_ORDER</option>
+				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+				<option value="date">JGLOBAL_OLDEST_FIRST</option>
+				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+				<option value="random">JGLOBAL_RANDOM_ORDER</option>
+				<option value="order">JGLOBAL_ORDERING</option>
+				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+			</field>
+
+			<field
+				name="order_date"
+				type="list"
+				label="JGLOBAL_ORDERING_DATE_LABEL"
+				useglobal="true"
+				validate="options"
+				parentclass="stack span-2-inline"
+				>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+				<option value="unpublished">JUNPUBLISHED</option>
+			</field>
+
+			<field
+				name="show_pagination"
+				type="list"
+				label="JGLOBAL_PAGINATION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				parentclass="stack span-2"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+
+			<field
+				name="show_pagination_results"
+				type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				parentclass="stack span-2-inline"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+
+		<fieldset name="article"
+			label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
+			<field
+				name="show_title"
+				type="list"
+				label="JGLOBAL_SHOW_TITLE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="link_titles"
+				type="list"
+				label="JGLOBAL_LINKED_TITLES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="show_intro"
+				type="list"
+				label="JGLOBAL_SHOW_INTRO_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="info_block_position"
+				type="list"
+				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+			</field>
+
+			<field
+				name="info_block_show_title"
+				type="list"
+				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_category"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="link_category"
+				type="list"
+				label="JGLOBAL_LINK_CATEGORY_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="show_parent_category"
+				type="list"
+				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="link_parent_category"
+				type="list"
+				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="show_associations"
+				type="assoc"
+				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+
+			<field
+				name="show_author"
+				type="list"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="link_author"
+				type="list"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="show_create_date"
+				type="list"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_modify_date"
+				type="list"
+				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_publish_date"
+				type="list"
+				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_item_navigation"
+				type="list"
+				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_vote"
+				type="votelist"
+				label="JGLOBAL_SHOW_VOTE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_readmore"
+				type="list"
+				label="JGLOBAL_SHOW_READMORE_LABEL"
+				description="JGLOBAL_SHOW_READMORE_DESC"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_readmore_title"
+				type="list"
+				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_hits"
+				type="list"
+				label="JGLOBAL_SHOW_HITS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_tags"
+				type="list"
+				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_noauth"
+				type="list"
+				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+
+		<fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL">
+			<field
+				name="show_feed_link"
+				type="list"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="feed_summary"
+				type="list"
+				label="JGLOBAL_FEED_SUMMARY_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JGLOBAL_INTRO_TEXT</option>
+				<option value="1">JGLOBAL_FULL_TEXT</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

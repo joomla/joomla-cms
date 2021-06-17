@@ -1,0 +1,96 @@
+@import "template";
+
+body {
+  direction: rtl;
+}
+
+// Javascript Warning
+#javascript-warning {
+  font-size: 16px;
+  text-align: center;
+}
+
+textarea {
+  resize: both;
+}
+
+textarea.vert {
+  resize: vertical;
+}
+
+textarea.noResize {
+  resize: none;
+}
+
+.j-install-step {
+  select {
+    width: 100%;
+    margin-right: 0 !important;
+  }
+}
+
+.j-install-step-header {
+  span {
+    margin-right: 5px;
+    margin-left: auto;
+  }
+}
+
+.lang-select {
+  left: 0;
+}
+
+.control-group {
+  .control-label {
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: right;
+  }
+}
+
+.checkboxes {
+  .checkbox input {
+    margin-right: 0;
+  }
+}
+
+.form-group {
+  text-align: right;
+}
+
+.container-installation {
+  text-align: right;
+}
+
+.j-header-help {
+  margin: 20px auto 20px 20px;
+}
+
+.j-footer {
+  text-align: left;
+}
+
+.#{$jicon-css-prefix}-chevron-right::before,
+.#{$fa-css-prefix}-chevron-right::before {
+  content: "";
+}
+
+.j-install-last-step [class^="icon-"],
+.j-install-last-step [class*=" icon-"] {
+  display: inline;
+}
+
+.j-install-step-header span {
+  margin-right: auto;
+  margin-left: 5px;
+}
+
+#jform_db_prefix {
+  text-align: right;
+  direction: ltr;
+}
+
+// Language Table
+caption {
+  text-align: right;
+}

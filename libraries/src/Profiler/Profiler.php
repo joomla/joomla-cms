@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Profiler;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class to assist in the process of benchmarking the execution
@@ -89,7 +89,7 @@ class Profiler
 	{
 		if (empty(self::$instances[$prefix]))
 		{
-			self::$instances[$prefix] = new Profiler($prefix);
+			self::$instances[$prefix] = new static($prefix);
 		}
 
 		return self::$instances[$prefix];
@@ -111,9 +111,9 @@ class Profiler
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
-			'time' => ($current > $this->previousTime ? '+' : '') . (($current - $this->previousTime) * 1000),
+			'time' => ($current - $this->previousTime) * 1000,
 			'totalTime' => ($current * 1000),
-			'memory' => ($currentMem > $this->previousMem ? '+' : '') . ($currentMem - $this->previousMem),
+			'memory' => $currentMem - $this->previousMem,
 			'totalMemory' => $currentMem,
 			'label' => $label,
 		);
@@ -123,9 +123,9 @@ class Profiler
 			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
 			$m->prefix,
 			$m->totalTime / 1000,
-			$current - $this->previousTime,
+			$m->time / 1000,
 			$m->totalMemory,
-			$currentMem - $this->previousMem,
+			$m->memory,
 			$m->label
 		);
 		$this->buffer[] = $mark;
@@ -134,35 +134,6 @@ class Profiler
 		$this->previousMem = $currentMem;
 
 		return $mark;
-	}
-
-	/**
-	 * Get the current time.
-	 *
-	 * @return  float The current time
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0 - Use PHP's microtime(1)
-	 */
-	public static function getmicrotime()
-	{
-		list ($usec, $sec) = explode(' ', microtime());
-
-		return (float) $usec + (float) $sec;
-	}
-
-	/**
-	 * Get information about current memory usage.
-	 *
-	 * @return  integer  The memory usage
-	 *
-	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   1.7.0
-	 * @deprecated  4.0 - Use PHP's native memory_get_usage()
-	 */
-	public function getMemory()
-	{
-		return memory_get_usage();
 	}
 
 	/**

@@ -2,16 +2,30 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\Authentication\Password\Argon2idHandler;
+use Joomla\Authentication\Password\Argon2iHandler;
+use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Authentication\Password\ChainedHandler;
+use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
+use Joomla\CMS\Authentication\Password\MD5Handler;
+use Joomla\CMS\Authentication\Password\PHPassHandler;
+use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,6 +39,100 @@ use Joomla\Utilities\ArrayHelper;
 abstract class UserHelper
 {
 	/**
+	 * Constant defining the Argon2i password algorithm for use with password hashes
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	const HASH_ARGON2I = 'argon2i';
+
+	/**
+	 * B/C constant `PASSWORD_ARGON2I` for PHP < 7.4 (using integer)
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 * @deprecated 4.0.0  Use self::HASH_ARGON2I instead
+	 */
+	const HASH_ARGON2I_BC = 2;
+
+	/**
+	 * Constant defining the Argon2id password algorithm for use with password hashes
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	const HASH_ARGON2ID = 'argon2id';
+
+	/**
+	 * B/C constant `PASSWORD_ARGON2ID` for PHP < 7.4 (using integer)
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_ARGON2ID instead
+	 */
+	const HASH_ARGON2ID_BC = 3;
+
+	/**
+	 * Constant defining the BCrypt password algorithm for use with password hashes
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	const HASH_BCRYPT = '2y';
+
+	/**
+	 * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_BCRYPT instead
+	 */
+	const HASH_BCRYPT_BC = 1;
+
+	/**
+	 * Constant defining the MD5 password algorithm for use with password hashes
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * @deprecated  5.0  Support for MD5 hashed passwords will be removed
+	 */
+	const HASH_MD5 = 'md5';
+
+	/**
+	 * Constant defining the PHPass password algorithm for use with password hashes
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * @deprecated  5.0  Support for PHPass hashed passwords will be removed
+	 */
+	const HASH_PHPASS = 'phpass';
+
+	/**
+	 * Mapping array for the algorithm handler
+	 *
+	 * @var array
+	 * @since  4.0.0
+	 */
+	const HASH_ALGORITHMS = [
+		self::HASH_ARGON2I => Argon2iHandler::class,
+		self::HASH_ARGON2I_BC => Argon2iHandler::class,
+		self::HASH_ARGON2ID => Argon2idHandler::class,
+		self::HASH_ARGON2ID_BC => Argon2idHandler::class,
+		self::HASH_BCRYPT => BCryptHandler::class,
+		self::HASH_BCRYPT_BC => BCryptHandler::class,
+		self::HASH_MD5 => MD5Handler::class,
+		self::HASH_PHPASS => PHPassHandler::class
+	];
+
+	/**
 	 * Method to add a user to a group.
 	 *
 	 * @param   integer  $userId   The id of the user.
@@ -37,18 +145,23 @@ abstract class UserHelper
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
+		// Cast as integer until method is typehinted.
+		$userId  = (int) $userId;
+		$groupId = (int) $groupId;
+
 		// Get the user object.
-		$user = new User((int) $userId);
+		$user = new User($userId);
 
 		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
+		if (!\in_array($groupId, $user->groups))
 		{
 			// Check whether the group exists.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . (int) $groupId);
+				->where($db->quoteName('id') . ' = :groupId')
+				->bind(':groupId', $groupId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			// If the group does not exist, return an exception.
@@ -60,18 +173,21 @@ abstract class UserHelper
 			// Add the group data to the user object.
 			$user->groups[$groupId] = $groupId;
 
+			// Reindex the array for prepared statements binding
+			$user->groups = array_values($user->groups);
+
 			// Store the user object.
 			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp         = User::getInstance((int) $userId);
+		$temp         = User::getInstance($userId);
 		$temp->groups = $user->groups;
 
-		if (\JFactory::getSession()->getId())
+		if (Factory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = \JFactory::getUser();
+			$temp = Factory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -96,7 +212,7 @@ abstract class UserHelper
 		// Get the user object.
 		$user = User::getInstance((int) $userId);
 
-		return isset($user->groups) ? $user->groups : array();
+		return $user->groups ?? array();
 	}
 
 	/**
@@ -119,19 +235,19 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			// Remove the user from the group.
 			unset($user->groups[$key]);
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp = \JFactory::getUser((int) $userId);
+		$temp = Factory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
 		// Set the group data for the user object in the session.
-		$temp = \JFactory::getUser();
+		$temp = Factory::getUser();
 
 		if ($temp->id == $userId)
 		{
@@ -161,16 +277,16 @@ abstract class UserHelper
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
+			->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
+			->whereIn($db->quoteName('id'), $user->groups);
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
 		// Set the titles for the user groups.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		for ($i = 0, $n = \count($results); $i < $n; $i++)
 		{
 			$user->groups[$results[$i]->id] = $results[$i]->id;
 		}
@@ -178,14 +294,14 @@ abstract class UserHelper
 		// Store the user object.
 		$user->save();
 
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = \JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
+		// Set the group data for any preloaded user objects.
+		$temp = Factory::getUser((int) $userId);
+		$temp->groups = $user->groups;
 
+		if (Factory::getSession()->getId())
+		{
 			// Set the group data for the user object in the session.
-			$temp = \JFactory::getUser();
+			$temp = Factory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -209,19 +325,18 @@ abstract class UserHelper
 	{
 		if ($userId == 0)
 		{
-			$user   = \JFactory::getUser();
+			$user   = Factory::getUser();
 			$userId = $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = \JEventDispatcher::getInstance();
 		PluginHelper::importPlugin('user');
 
-		$data = new \JObject;
+		$data = new CMSObject;
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -237,22 +352,23 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db = \JFactory::getDbo();
+		$db       = Factory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
+			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $activation);
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = User::getInstance((int) $id);
+			$user = User::getInstance($id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -260,14 +376,14 @@ abstract class UserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				\JLog::add($user->getError(), \JLog::WARNING, 'jerror');
+				Log::add($user->getError(), Log::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -287,12 +403,14 @@ abstract class UserHelper
 	public static function getUserId($username)
 	{
 		// Initialise some variables
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($username));
-		$db->setQuery($query, 0, 1);
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $username)
+			->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
@@ -300,20 +418,33 @@ abstract class UserHelper
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string   $password   The plaintext password to encrypt.
-	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
-	 * @param   array    $options    The options for the algorithm to use.
+	 * @param   string          $password   The plaintext password to encrypt.
+	 * @param   string|integer  $algorithm  The hashing algorithm to use, represented by `HASH_*` class constants, or a container service ID.
+	 * @param   array           $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   3.2.1
+	 * @throws  \InvalidArgumentException when the algorithm is not supported
 	 */
-	public static function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
+	public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = array())
 	{
-		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-		\JCrypt::hasStrongPasswordSupport();
+		$container = Factory::getContainer();
 
-		return password_hash($password, $algorithm, $options);
+		// If the algorithm is a valid service ID, use that service to generate the hash
+		if ($container->has($algorithm))
+		{
+			return $container->get($algorithm)->hashPassword($password, $options);
+		}
+
+		// Try to load handler
+		if (isset(self::HASH_ALGORITHMS[$algorithm]))
+		{
+			return $container->get(self::HASH_ALGORITHMS[$algorithm])->hashPassword($password, $options);
+		}
+
+		// Unsupported algorithm, sorry!
+		throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
 	}
 
 	/**
@@ -331,72 +462,45 @@ abstract class UserHelper
 	 */
 	public static function verifyPassword($password, $hash, $userId = 0)
 	{
-		$passwordAlgorithm = PASSWORD_BCRYPT;
+		$passwordAlgorithm = self::HASH_BCRYPT;
+		$container         = Factory::getContainer();
 
-		// If we are using phpass
+		// Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
 		if (strpos($hash, '$P$') === 0)
 		{
-			// Use PHPass's portable hashes with a cost of 10.
-			$phpass = new \PasswordHash(10, true);
-
-			$match = $phpass->CheckPassword($password, $hash);
-
-			$rehash = true;
+			/** @var PHPassHandler $handler */
+			$handler = $container->get(PHPassHandler::class);
 		}
 		// Check for Argon2id hashes
 		elseif (strpos($hash, '$argon2id') === 0)
 		{
-			// This implementation is not supported through any existing polyfills
-			$match = password_verify($password, $hash);
+			/** @var Argon2idHandler $handler */
+			$handler = $container->get(Argon2idHandler::class);
 
-			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2ID);
-
-			$passwordAlgorithm = PASSWORD_ARGON2ID;
+			$passwordAlgorithm = self::HASH_ARGON2ID;
 		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
-			// This implementation is not supported through any existing polyfills
-			$match = password_verify($password, $hash);
+			/** @var Argon2iHandler $handler */
+			$handler = $container->get(Argon2iHandler::class);
 
-			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
-
-			$passwordAlgorithm = PASSWORD_ARGON2I;
+			$passwordAlgorithm = self::HASH_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
 		{
-			// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-			\JCrypt::hasStrongPasswordSupport();
-			$match = password_verify($password, $hash);
-
-			$rehash = password_needs_rehash($hash, PASSWORD_BCRYPT);
-		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
-		{
-			// Check the password
-			$parts     = explode(':', $hash);
-			$salt      = @$parts[1];
-			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
-
-			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
-
-			$rehash = true;
+			/** @var BCryptHandler $handler */
+			$handler = $container->get(BCryptHandler::class);
 		}
 		else
 		{
-			// Check the password
-			$parts = explode(':', $hash);
-			$salt  = @$parts[1];
-
-			$rehash = true;
-
-			// Compile the hash to compare
-			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
-			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
-
-			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
+			/** @var ChainedHandler $handler */
+			$handler = $container->get(ChainedHandler::class);
 		}
+
+		$match  = $handler->validatePassword($password, $hash);
+		$rehash = $handler instanceof CheckIfRehashNeededHandlerInterface ? $handler->checkIfRehashNeeded($hash) : false;
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
 		if ((int) $userId > 0 && $match && $rehash)
@@ -407,250 +511,6 @@ abstract class UserHelper
 		}
 
 		return $match;
-	}
-
-	/**
-	 * Formats a password using the old encryption methods.
-	 *
-	 * @param   string   $plaintext    The plaintext password to encrypt.
-	 * @param   string   $salt         The salt to use to encrypt the password. []
-	 *                                 If not present, a new salt will be
-	 *                                 generated.
-	 * @param   string   $encryption   The kind of password encryption to use.
-	 *                                 Defaults to md5-hex.
-	 * @param   boolean  $showEncrypt  Some password systems prepend the kind of
-	 *                                 encryption to the crypted password ({SHA},
-	 *                                 etc). Defaults to false.
-	 *
-	 * @return  string  The encrypted password.
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0
-	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $showEncrypt = false)
-	{
-		// Get the salt to use.
-		$salt = static::getSalt($encryption, $salt, $plaintext);
-
-		// Encrypt the password.
-		switch ($encryption)
-		{
-			case 'plain':
-				return $plaintext;
-
-			case 'sha':
-				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext));
-
-				return ($showEncrypt) ? '{SHA}' . $encrypted : $encrypted;
-
-			case 'crypt':
-			case 'crypt-des':
-			case 'crypt-md5':
-			case 'crypt-blowfish':
-				return ($showEncrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
-
-			case 'md5-base64':
-				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext));
-
-				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
-
-			case 'ssha':
-				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext . $salt) . $salt);
-
-				return ($showEncrypt) ? '{SSHA}' . $encrypted : $encrypted;
-
-			case 'smd5':
-				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext . $salt) . $salt);
-
-				return ($showEncrypt) ? '{SMD5}' . $encrypted : $encrypted;
-
-			case 'aprmd5':
-				$length = strlen($plaintext);
-				$context = $plaintext . '$apr1$' . $salt;
-				$binary = static::_bin(md5($plaintext . $salt . $plaintext));
-
-				for ($i = $length; $i > 0; $i -= 16)
-				{
-					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
-				}
-
-				for ($i = $length; $i > 0; $i >>= 1)
-				{
-					$context .= ($i & 1) ? chr(0) : $plaintext[0];
-				}
-
-				$binary = static::_bin(md5($context));
-
-				for ($i = 0; $i < 1000; $i++)
-				{
-					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
-
-					if ($i % 3)
-					{
-						$new .= $salt;
-					}
-
-					if ($i % 7)
-					{
-						$new .= $plaintext;
-					}
-
-					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = static::_bin(md5($new));
-				}
-
-				$p = array();
-
-				for ($i = 0; $i < 5; $i++)
-				{
-					$k = $i + 6;
-					$j = $i + 12;
-
-					if ($j == 16)
-					{
-						$j = 5;
-					}
-
-					$p[] = static::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
-				}
-
-				return '$apr1$' . $salt . '$' . implode('', $p) . static::_toAPRMD5(ord($binary[11]), 3);
-
-			case 'sha256':
-				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
-
-				return ($showEncrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
-
-			case 'md5-hex':
-			default:
-				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
-
-				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
-		}
-	}
-
-	/**
-	 * Returns a salt for the appropriate kind of password encryption using the old encryption methods.
-	 * Optionally takes a seed and a plaintext password, to extract the seed
-	 * of an existing password, or for encryption types that use the plaintext
-	 * in the generation of the salt.
-	 *
-	 * @param   string  $encryption  The kind of password encryption to use.
-	 *                               Defaults to md5-hex.
-	 * @param   string  $seed        The seed to get the salt from (probably a
-	 *                               previously generated password). Defaults to
-	 *                               generating a new seed.
-	 * @param   string  $plaintext   The plaintext password that we're generating
-	 *                               a salt for. Defaults to none.
-	 *
-	 * @return  string  The generated or extracted salt.
-	 *
-	 * @since   1.7.0
-	 * @deprecated  4.0
-	 */
-	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
-	{
-		// Encrypt the password.
-		switch ($encryption)
-		{
-			case 'crypt':
-			case 'crypt-des':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2);
-				}
-				else
-				{
-					return substr(md5(mt_rand()), 0, 2);
-				}
-				break;
-
-			case 'sha256':
-				if ($seed)
-				{
-					return preg_replace('|^{sha256}|i', '', $seed);
-				}
-				else
-				{
-					return static::genRandomPassword(16);
-				}
-				break;
-
-			case 'crypt-md5':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
-				}
-				else
-				{
-					return '$1$' . substr(md5(\JCrypt::genRandomBytes()), 0, 8) . '$';
-				}
-				break;
-
-			case 'crypt-blowfish':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 30);
-				}
-				else
-				{
-					return '$2y$10$' . substr(md5(\JCrypt::genRandomBytes()), 0, 22) . '$';
-				}
-				break;
-
-			case 'ssha':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{SSHA}|', '', $seed), -20);
-				}
-				else
-				{
-					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(\JCrypt::genRandomBytes())), 0, 8), 4);
-				}
-				break;
-
-			case 'smd5':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{SMD5}|', '', $seed), -16);
-				}
-				else
-				{
-					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(\JCrypt::genRandomBytes())), 0, 8), 4);
-				}
-				break;
-
-			case 'aprmd5': // 64 characters that are valid for APRMD5 passwords.
-				$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-				if ($seed)
-				{
-					return substr(preg_replace('/^\$apr1\$(.{8}).*/', '\\1', $seed), 0, 8);
-				}
-				else
-				{
-					$salt = '';
-
-					for ($i = 0; $i < 8; $i++)
-					{
-						$salt .= $APRMD5[mt_rand(0, 63)];
-					}
-
-					return $salt;
-				}
-				break;
-
-			default:
-				$salt = '';
-
-				if ($seed)
-				{
-					$salt = $seed;
-				}
-
-				return $salt;
-				break;
-		}
 	}
 
 	/**
@@ -665,7 +525,7 @@ abstract class UserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		$base = strlen($salt);
+		$base = \strlen($salt);
 		$makepass = '';
 
 		/*
@@ -675,144 +535,16 @@ abstract class UserHelper
 		 * distribution is even, and randomize the start shift so it's not
 		 * predictable.
 		 */
-		$random = \JCrypt::genRandomBytes($length + 1);
-		$shift = ord($random[0]);
+		$random = Crypt::genRandomBytes($length + 1);
+		$shift = \ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[($shift + ord($random[$i])) % $base];
-			$shift += ord($random[$i]);
+			$makepass .= $salt[($shift + \ord($random[$i])) % $base];
+			$shift += \ord($random[$i]);
 		}
 
 		return $makepass;
-	}
-
-	/**
-	 * Converts to allowed 64 characters for APRMD5 passwords.
-	 *
-	 * @param   string   $value  The value to convert.
-	 * @param   integer  $count  The number of characters to convert.
-	 *
-	 * @return  string  $value converted to the 64 MD5 characters.
-	 *
-	 * @since   1.7.0
-	 */
-	protected static function _toAPRMD5($value, $count)
-	{
-		// 64 characters that are valid for APRMD5 passwords.
-		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-		$aprmd5 = '';
-		$count = abs($count);
-
-		while (--$count)
-		{
-			$aprmd5 .= $APRMD5[$value & 0x3f];
-			$value >>= 6;
-		}
-
-		return $aprmd5;
-	}
-
-	/**
-	 * Converts hexadecimal string to binary data.
-	 *
-	 * @param   string  $hex  Hex data.
-	 *
-	 * @return  string  Binary data.
-	 *
-	 * @since   1.7.0
-	 */
-	private static function _bin($hex)
-	{
-		$bin = '';
-		$length = strlen($hex);
-
-		for ($i = 0; $i < $length; $i += 2)
-		{
-			$tmp = sscanf(substr($hex, $i, 2), '%x');
-			$bin .= chr(array_shift($tmp));
-		}
-
-		return $bin;
-	}
-
-	/**
-	 * Method to remove a cookie record from the database and the browser
-	 *
-	 * @param   string  $userId      User ID for this user
-	 * @param   string  $cookieName  Series id (cookie name decoded)
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself. The 'invalid' column in the db should be removed as well
-	 */
-	public static function invalidateCookie($userId, $cookieName)
-	{
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Invalidate cookie in the database
-		$query
-			->update($db->quoteName('#__user_keys'))
-			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
-
-		$db->setQuery($query)->execute();
-
-		// Destroy the cookie in the browser.
-		$app = \JFactory::getApplication();
-		$app->input->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
-
-		return true;
-	}
-
-	/**
-	 * Clear all expired tokens for all users.
-	 *
-	 * @return  mixed  Database query result
-	 *
-	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself
-	 */
-	public static function clearExpiredTokens()
-	{
-		$now = time();
-
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete('#__user_keys')
-			->where($db->quoteName('time') . ' < ' . $db->quote($now));
-
-		return $db->setQuery($query)->execute();
-	}
-
-	/**
-	 * Method to get the remember me cookie data
-	 *
-	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
-	 *
-	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself
-	 */
-	public static function getRememberCookieData()
-	{
-		// Create the cookie name
-		$cookieName = static::getShortHashedUserAgent();
-
-		// Fetch the cookie value
-		$app = \JFactory::getApplication();
-		$cookieValue = $app->input->cookie->get($cookieName);
-
-		if (!empty($cookieValue))
-		{
-			return explode('.', $cookieValue);
-		}
-		else
-		{
-			return false;
-		}
 	}
 
 	/**
@@ -825,12 +557,12 @@ abstract class UserHelper
 	 */
 	public static function getShortHashedUserAgent()
 	{
-		$ua = \JFactory::getApplication()->client;
+		$ua = Factory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(\JUri::base() . $uaShort);
+		return md5(Uri::base() . $uaShort);
 	}
 
 	/**

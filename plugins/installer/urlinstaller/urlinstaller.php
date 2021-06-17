@@ -3,25 +3,29 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlinstaller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * UrlFolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerUrlInstaller extends JPlugin
+class PlgInstallerUrlInstaller extends CMSPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Application object.
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
 	 */
-	protected $autoloadLanguage = true;
+	protected $app;
 
 	/**
 	 * Textfield or Form of the Plugin.
@@ -32,13 +36,16 @@ class PlgInstallerUrlInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$tab            = array();
 		$tab['name']    = 'url';
-		$tab['label']   = JText::_('PLG_INSTALLER_URLINSTALLER_TEXT');
+		$tab['label']   = Text::_('PLG_INSTALLER_URLINSTALLER_TEXT');
 
 		// Render the input
 		ob_start();
-		include JPluginHelper::getLayoutPath('installer', 'urlinstaller');
+		include PluginHelper::getLayoutPath('installer', 'urlinstaller');
 		$tab['content'] = ob_get_clean();
 
 		return $tab;

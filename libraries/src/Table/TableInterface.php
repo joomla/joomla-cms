@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Table class interface.
@@ -57,9 +59,9 @@ interface TableInterface
 	public function delete($pk = null);
 
 	/**
-	 * Method to get the \JDatabaseDriver object.
+	 * Method to get the DatabaseDriver object.
 	 *
-	 * @return  \JDatabaseDriver  The internal database driver object.
+	 * @return  DatabaseDriver  The internal database driver object.
 	 *
 	 * @since   3.2
 	 */
@@ -113,4 +115,24 @@ interface TableInterface
 	 * @since   3.2
 	 */
 	public function store($updateNulls = false);
+
+	/**
+	 * Returns the identity (primary key) value of this record
+	 *
+	 * @return  mixed
+	 *
+	 * @since  4.0.0
+	 */
+	public function getId();
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function hasField($key);
 }

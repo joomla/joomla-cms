@@ -2,17 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -45,33 +47,38 @@ class PasswordRule extends FormRule
 	{
 		$meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
 		$threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
-		$minimumLength    = isset($element['minimum_length']) ? (int) $element['minimum_length'] : 4;
+		$minimumLength    = isset($element['minimum_length']) ? (int) $element['minimum_length'] : 12;
 		$minimumIntegers  = isset($element['minimum_integers']) ? (int) $element['minimum_integers'] : 0;
 		$minimumSymbols   = isset($element['minimum_symbols']) ? (int) $element['minimum_symbols'] : 0;
 		$minimumUppercase = isset($element['minimum_uppercase']) ? (int) $element['minimum_uppercase'] : 0;
 		$minimumLowercase = isset($element['minimum_lowercase']) ? (int) $element['minimum_lowercase'] : 0;
 
-		// If we have parameters from com_users, use those instead.
-		// Some of these may be empty for legacy reasons.
-		$params = ComponentHelper::getParams('com_users');
-
-		if (!empty($params))
+		// In the installer we don't have any access to the
+		// database yet so use the hard coded default settings
+		if (!Factory::getApplication()->isClient('installation'))
 		{
-			$minimumLengthp    = $params->get('minimum_length');
-			$minimumIntegersp  = $params->get('minimum_integers');
-			$minimumSymbolsp   = $params->get('minimum_symbols');
-			$minimumUppercasep = $params->get('minimum_uppercase');
-			$minimumLowercasep = $params->get('minimum_lowercase');
-			$meterp            = $params->get('meter');
-			$thresholdp        = $params->get('threshold');
+			// If we have parameters from com_users, use those instead.
+			// Some of these may be empty for legacy reasons.
+			$params = ComponentHelper::getParams('com_users');
 
-			empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
-			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-			empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-			empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-			empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
-			empty($meterp) ? : $meter = $meterp;
-			empty($thresholdp) ? : $threshold = $thresholdp;
+			if (!empty($params))
+			{
+				$minimumLengthp    = $params->get('minimum_length', 12);
+				$minimumIntegersp  = $params->get('minimum_integers', 0);
+				$minimumSymbolsp   = $params->get('minimum_symbols', 0);
+				$minimumUppercasep = $params->get('minimum_uppercase', 0);
+				$minimumLowercasep = $params->get('minimum_lowercase', 0);
+				$meterp            = $params->get('meter');
+				$thresholdp        = $params->get('threshold', 66);
+
+				empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
+				empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
+				empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
+				empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
+				empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
+				empty($meterp) ? : $meter = $meterp;
+				empty($thresholdp) ? : $threshold = $thresholdp;
+			}
 		}
 
 		// If the field is empty and not required, the field is valid.
@@ -82,15 +89,12 @@ class PasswordRule extends FormRule
 			return true;
 		}
 
-		$valueLength = strlen($value);
-
-		// Load language file of com_users component
-		\JFactory::getLanguage()->load('com_users');
+		$valueLength = \strlen($value);
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
 		if ($valueLength > 4096)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('JFIELD_PASSWORD_TOO_LONG'), 'error');
 		}
 
 		// We don't allow white space inside passwords
@@ -99,11 +103,11 @@ class PasswordRule extends FormRule
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
-		if (strlen($valueTrim) !== $valueLength)
+		if (\strlen($valueTrim) !== $valueLength)
 		{
-			\JFactory::getApplication()->enqueueMessage(
-				\JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
-				'warning'
+			Factory::getApplication()->enqueueMessage(
+				Text::_('JFIELD_PASSWORD_SPACES_IN_PASSWORD'),
+				'error'
 			);
 
 			$validPassword = false;
@@ -116,9 +120,9 @@ class PasswordRule extends FormRule
 
 			if ($nInts < $minimumIntegers)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
-					'warning'
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
+					'error'
 				);
 
 				$validPassword = false;
@@ -132,9 +136,9 @@ class PasswordRule extends FormRule
 
 			if ($nsymbols < $minimumSymbols)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
-					'warning'
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
+					'error'
 				);
 
 				$validPassword = false;
@@ -148,9 +152,9 @@ class PasswordRule extends FormRule
 
 			if ($nUppercase < $minimumUppercase)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
-					'warning'
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
+					'error'
 				);
 
 				$validPassword = false;
@@ -164,9 +168,9 @@ class PasswordRule extends FormRule
 
 			if ($nLowercase < $minimumLowercase)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
-					'warning'
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
+					'error'
 				);
 
 				$validPassword = false;
@@ -176,11 +180,11 @@ class PasswordRule extends FormRule
 		// Minimum length option
 		if (!empty($minimumLength))
 		{
-			if (strlen((string) $value) < $minimumLength)
+			if (\strlen((string) $value) < $minimumLength)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
-					'warning'
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength),
+					'error'
 				);
 
 				$validPassword = false;

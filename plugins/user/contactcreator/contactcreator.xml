@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="user" method="upgrade">
+<extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_contactcreator</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2009</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -31,7 +31,6 @@
 					name="category"
 					type="category"
 					label="JCATEGORY"
-					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
 					filter="integer"
 				/>
@@ -39,14 +38,13 @@
 				<field
 					name="autopublish"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
-					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

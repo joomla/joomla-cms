@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+<extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_textarea</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,27 +25,22 @@
 					name="rows"
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_DESC"
 					default="10"
 					filter="integer"
-					size="5"
 				/>
 
 				<field
 					name="cols"
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_COLS_DESC"
 					default="10"
 					filter="integer"
-					size="5"
 				/>
 
 				<field
 					name="maxlength"
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_DESC"
 					filter="integer"
 				/>
 
@@ -53,8 +48,7 @@
 					name="filter"
 					type="list"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_DESC"
-					class="btn-group"
+					class="list"
 					default="JComponentHelper::filterText"
 					validate="options"
 					>

@@ -2,15 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -68,15 +70,15 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
-		$this->_persistent = $config->get('redis_persist', true);
+		$this->_persistent = $app->get('redis_persist', true);
 
 		$server = array(
-			'host' => $config->get('redis_server_host', 'localhost'),
-			'port' => $config->get('redis_server_port', 6379),
-			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null),
+			'host' => $app->get('redis_server_host', 'localhost'),
+			'port' => $app->get('redis_server_port', 6379),
+			'auth' => $app->get('redis_server_auth', null),
+			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
 		// If you are trying to connect to a socket file, ignore the supplied port
@@ -100,6 +102,7 @@ class RedisStorage extends CacheStorage
 		}
 		catch (\RedisException $e)
 		{
+			$connection = false;
 			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
@@ -107,13 +110,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis connection failed');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis connection failed', 500);
 		}
 
 		try
@@ -130,13 +127,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis authentication failed');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis authentication failed', 500);
 		}
 
 		$select = static::$_redis->select($server['db']);
@@ -145,13 +136,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis failed to select database');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis failed to select database', 500);
 		}
 
 		try
@@ -162,13 +147,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			// Because the application instance may not be available on cli script, use it only if needed
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis ping failed');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis ping failed', 500);
 		}
 
 		return static::$_redis;
@@ -240,7 +219,7 @@ class RedisStorage extends CacheStorage
 			{
 				$namearr = explode('-', $key);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -253,7 +232,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8);
+					$item->updateSize(\strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}
@@ -336,12 +315,12 @@ class RedisStorage extends CacheStorage
 
 		foreach ($allKeys as $key)
 		{
-			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
+			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group')
 			{
 				static::$_redis->del($key);
 			}
 
-			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
+			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group')
 			{
 				static::$_redis->del($key);
 			}

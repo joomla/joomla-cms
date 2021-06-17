@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\ArticlesNews</namespace>
 	<files>
 		<filename module="mod_articles_news">mod_articles_news.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
@@ -26,43 +27,42 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
 					name="tag"
 					type="tag"
 					label="JTAG"
-					description="JTAG_DESC"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
 				<field
 					name="image"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="img_intro_full"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
 					default="none"
+					validate="options"
 					>
 					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option>
 					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
@@ -72,25 +72,24 @@
 				<field
 					name="item_title"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="link_titles"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
 					default=""
 					filter="integer"
-					class="chzn-color"
+					class="form-select-color"
 					showon="item_title:1"
+					validate="options"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
@@ -101,7 +100,6 @@
 					name="item_heading"
 					type="list"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
-					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
 					default="h4"
 					showon="item_title:1"
 					validate="options"
@@ -117,59 +115,54 @@
 					name="triggerevents"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="showLastSeparator"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_introtext"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
 					default="1"
 					filter="integer"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="readmore"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="count"
 					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
 					default="5"
 					filter="integer"
 				/>
@@ -178,9 +171,9 @@
 					name="show_featured"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
 					default=""
 					filter="integer"
+					validate="options"
 					>
 					<option value="">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -188,10 +181,21 @@
 				</field>
 
 				<field
+					name="exclude_current"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_EXCLUDE_CURRENT_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="ordering"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
 					default="a.publish_up"
 					validate="options"
 					>
@@ -207,10 +211,10 @@
 					name="direction"
 					type="list"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
-					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
 					filter="integer"
 					showon="ordering:a.publish_up,a.created,a.modified,a.ordering,a.hits"
+					validate="options"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
@@ -222,7 +226,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -230,17 +234,17 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -250,7 +254,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-		addfieldpath="/administrator/components/com_fields/models/fields"
 		>
-
 		<field
 			name="contact_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			class="form-select"
 			menuitems="true"
 			extension="com_contact"
 			view="contact"
@@ -22,9 +19,8 @@
 			name="show_contact_category"
 			type="list"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
 			default="hide"
-			class="chzn-color"
+			validate="options"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -34,20 +30,18 @@
 		<field
 			name="save_history"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="history_limit"
 			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="10"
 			filter="integer"
 			showon="save_history:1"
@@ -56,239 +50,208 @@
 		<field
 			name="show_contact_list"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="presentation_style"
-			type="list"
-			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
-			default="sliders"
-			>
-			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-			<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_tags"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
-			id="show_tags"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_info"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_name"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-		</field>	
+			<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="show_position"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
-			showon="show_info:1"			
+			layout="joomla.form.field.radio.switcher"
+			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_email"
 			type="radio"
 			label="JGLOBAL_EMAIL"
-			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="add_mailto_link"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1[AND]show_email:1"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_street_address"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_suburb"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_state"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_postcode"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_country"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_telephone"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_mobile"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_fax"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_webpage"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
-			showon="show_info:1"			
+			layout="joomla.form.field.radio.switcher"
+			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_image"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_info:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 			default=""
 			showon="show_info:1[AND]show_image:1"
 		/>
@@ -296,46 +259,43 @@
 		<field
 			name="show_misc"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="allow_vcard"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_articles"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
-			description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="articles_display_num"
 			type="list"
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
-			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
 			default="10"
 			showon="show_articles:1"
+			validate="options"
 			>
 			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 			<option value="5">J5</option>
@@ -357,22 +317,22 @@
 		<field
 			name="show_profile"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
-			description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_user_custom_fields"
 			type="fieldgroups"
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
-			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 			multiple="true"
 			context="com_users.user"
+			addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -380,20 +340,18 @@
 		<field
 			name="show_links"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="linka_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
 			default=""
 			showon="show_links:1"
@@ -403,7 +361,6 @@
 			name="linkb_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
 			default=""
 			showon="show_links:1"
@@ -413,7 +370,6 @@
 			name="linkc_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
 			default=""
 			showon="show_links:1"
@@ -423,7 +379,6 @@
 			name="linkd_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
 			default=""
 			showon="show_links:1"
@@ -433,26 +388,22 @@
 			name="linke_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
 			default=""
 			showon="show_links:1"
 		/>
-
 	</fieldset>
-
 	<fieldset
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
-		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		description="COM_CONTACT_ICONS_SETTINGS_DESC"
 		>
-
 		<field
 			name="contact_icons"
 			type="list"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_CONTACT_FIELD_VALUE_ICONS</option>
 			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
@@ -463,7 +414,6 @@
 			name="icon_address"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -473,7 +423,6 @@
 			name="icon_email"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -483,7 +432,6 @@
 			name="icon_telephone"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -493,7 +441,6 @@
 			name="icon_mobile"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -503,7 +450,15 @@
 			name="icon_fax"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
+			hide_none="1"
+			default=""
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_webpage"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -513,24 +468,21 @@
 			name="icon_misc"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
 		/>
 	</fieldset>
-
 	<fieldset
 		name="Category"
 		label="JCATEGORY"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 		>
-
 		<field
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			class="form-select"
 			menuitems="true"
 			extension="com_contact"
 			view="category"
@@ -539,45 +491,42 @@
 		<field
 			name="show_category_title"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_description"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_description_image"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="maxLevel"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
+			validate="options"
 			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
@@ -589,80 +538,95 @@
 		</field>
 
 		<field
+			name="show_no_contacts"
+			type="radio"
+			label="COM_CONTACT_NO_CONTACTS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_subcat_desc"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="maxLevel:-1,1,2,3,4,5"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_empty_categories"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="maxLevel:-1,1,2,3,4,5"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_cat_items"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_cat_tags"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_TAGS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_CAT_TAGS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
-
 	<fieldset
 		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
 		>
-
 		<field
 			name="show_base_description"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="maxLevelcat"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
+			validate="options"
 			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
@@ -676,207 +640,189 @@
 		<field
 			name="show_subcat_desc_cat"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_empty_categories_cat"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_cat_items_cat"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="contacts"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
 		>
-
 		<field
 			name="filter_field"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_pagination_limit"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_image_heading"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_position_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_email_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_EMAIL"
-			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_telephone_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_mobile_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_fax_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_suburb_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_state_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_country_headings"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_headings:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
-			description="JGLOBAL_PAGINATION_DESC"
 			default="2"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -886,42 +832,55 @@
 		<field
 			name="show_pagination_results"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="show_pagination:1,2"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
+
+		<field
+ 			name="contacts_display_num"
+ 			type="list"
+ 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+ 			default="10"
+			validate="options"
+ 			>
+ 			<option value="5">J5</option>
+ 			<option value="10">J10</option>
+ 			<option value="15">J15</option>
+ 			<option value="20">J20</option>
+ 			<option value="25">J25</option>
+ 			<option value="30">J30</option>
+ 			<option value="50">J50</option>
+ 			<option value="100">J100</option>
+ 			<option value="0">JALL</option>
+ 		</field>
 
 		<field
 			name="initial_sort"
 			type="list"
 			label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
-			description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
 			default="ordering"
 			validate="options"
 			>
 			<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
 			<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
 			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
+			<option value="featuredordering">COM_CONTACT_FIELD_VALUE_ORDERING_FEATURED</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 		>
-
 		<field
 			name="captcha"
 			type="plugins"
 			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
-			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
 			folder="captcha"
 			filter="cmd"
 			useglobal="true"
@@ -932,26 +891,24 @@
 		<field
 			name="show_email_form"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
-			description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_email_copy"
 			type="radio"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			showon="show_email_form:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -990,124 +947,92 @@
 		<field
 			name="validate_session"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			showon="show_email_form:1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="custom_reply"
 			type="radio"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			showon="show_email_form:1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="redirect"
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
 			default=""
 			size="30"
 			showon="show_email_form:1"
 		/>
-
 	</fieldset>
-
 	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
-
-		<field
+		<fieldset
 			name="integration_newsfeeds"
-			type="note"
 			label="JGLOBAL_FEED_TITLE"
-		/>
-
-		<field
-			name="show_feed_link"
-			type="radio"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			description="JGLOBAL_SHOW_FEED_LINK_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
+			<field
+				name="show_feed_link"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+		<fieldset
 			name="integration_sef"
-			type="note"
 			label="JGLOBAL_SEF_TITLE"
-		/>
-
-		<field
-			name="sef_advanced"
-			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer"
-		>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
-			class="btn-group btn-group-yesno"
-			default="0"
-			showon="sef_advanced:1"
-			filter="integer"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
+			<field
+				name="sef_ids"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				label="JGLOBAL_SEF_NOIDS_LABEL"
+				filter="integer">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+		<fieldset
 			name="integration_customfields"
-			type="note"
 			label="JGLOBAL_FIELDS_TITLE"
-		/>
-
-		<field
-			name="custom_fields_enable"
-			type="radio"
-			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
+			<field
+				name="custom_fields_enable"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
 	</fieldset>
-
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
 		>
-
 		<field
 			name="rules"
 			type="rules"
@@ -1117,6 +1042,5 @@
 			component="com_contact"
 			section="component"
 		/>
-
 	</fieldset>
 </config>

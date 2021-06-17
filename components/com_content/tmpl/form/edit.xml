@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONTENT_FORM_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FORM_VIEW_DEFAULT_OPTION">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CREATE"
+		/>
+		<message>
+			<![CDATA[COM_CONTENT_FORM_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		>
+			<field 
+				name="enable_category"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="catid"
+				type="modal_category"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				extension="com_content"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+				showon="enable_category:1"
+			/>
+
+			<field
+				name="redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_DESC"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="custom_cancel_redirect"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="cancel_redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_DESC"
+				showon="custom_cancel_redirect:1"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

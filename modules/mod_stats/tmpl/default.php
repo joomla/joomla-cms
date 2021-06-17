@@ -3,15 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
-<dl class="stats-module<?php echo $moduleclass_sfx; ?>">
+<ul class="mod-stats list-group">
 <?php foreach ($list as $item) : ?>
-	<dt><?php echo $item->title; ?></dt>
-	<dd><?php echo $item->data; ?></dd>
+	<li class="list-group-item">
+		<?php echo $item->title; ?>
+		<span class="badge bg-secondary float-end rounded-pill"><?php echo $item->data; ?></span>
+	</li>
 <?php endforeach; ?>
-</dl>
+</ul>

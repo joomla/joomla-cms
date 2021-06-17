@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_FINDER_INDEX_SEARCH_LABEL"
+			description="COM_FINDER_INDEX_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="status"
+			label="JSTATUS"
+			optionsFilter="0,1"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="type"
+			type="contenttypes"
+			label="COM_FINDER_MAPS_HEADING_TYPE"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
+		</field>
+
+		<field
+			name="content_map"
+			type="contentmap"
+			label="COM_FINDER_MAPS_HEADING_CONTENT_MAP"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_FINDER_FILTER_SELECT_CONTENT_MAP</option>
+		</field>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JGRID_HEADING_LANGUAGE"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+			<option value="*">JALL</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="l.title ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="l.published ASC">JSTATUS_ASC</option>
+			<option value="l.published DESC">JSTATUS_DESC</option>
+			<option value="l.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="l.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="t.title ASC">COM_FINDER_INDEX_HEADING_INDEX_TYPE_ASC</option>
+			<option value="t.title DESC">COM_FINDER_INDEX_HEADING_INDEX_TYPE_DESC</option>
+			<option value="l.indexdate ASC">COM_FINDER_INDEX_HEADING_INDEX_DATE_ASC</option>
+			<option value="l.indexdate DESC">COM_FINDER_INDEX_HEADING_INDEX_DATE_DESC</option>
+			<option value="l.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="l.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="l.url ASC">COM_FINDER_INDEX_HEADING_LINK_URL_ASC</option>
+			<option value="l.url DESC">COM_FINDER_INDEX_HEADING_LINK_URL_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

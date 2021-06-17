@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params">
+		<fieldset
+			name="advanced">
+
+			<field
+				name="module_tag"
+				type="moduletag"
+				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
+				default="div"
+				validate="options"
+			/>
+
+			<field
+				name="bootstrap_size"
+				type="integer"
+				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
+				first="0"
+				last="12"
+				step="1"
+			/>
+
+			<field
+				name="header_tag"
+				type="headertag"
+				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
+				default="h3"
+				validate="options"
+			/>
+
+			<field
+				name="header_class"
+				type="textarea"
+				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
+				rows="3"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="style"
+				type="chromestyle"
+				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+			/>
+		</fieldset>
+	</fields>
+</form>

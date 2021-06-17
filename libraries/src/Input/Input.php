@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -72,7 +72,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @param   mixed  $name  Name of the input object to retrieve.
 	 *
-	 * @return  Input  The request input object
+	 * @return  \Joomla\Input\Input  The request input object
 	 *
 	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
@@ -95,7 +95,7 @@ class Input extends \Joomla\Input\Input
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
+		if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -112,11 +112,11 @@ class Input extends \Joomla\Input\Input
 	 * @param   array   $vars           Associative array of keys and filter types to apply.
 	 *                                  If empty and datasource is null, all the input data will be returned
 	 *                                  but filtered using the filter given by the parameter defaultFilter in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   mixed   $datasource     Array to retrieve data from, or null.
-	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
 	 *                                  datasource is null. If 'unknown', the default case is used in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
@@ -134,11 +134,11 @@ class Input extends \Joomla\Input\Input
 	 * @param   array   $vars           Associative array of keys and filter types to apply.
 	 *                                  If empty and datasource is null, all the input data will be returned
 	 *                                  but filtered using the filter given by the parameter defaultFilter in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   mixed   $datasource     Array to retrieve data from, or null.
-	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
 	 *                                  datasource is null. If 'unknown', the default case is used in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   bool    $recursion      Flag to indicate a recursive function call.
 	 *
 	 * @return  mixed  The filtered input data.
@@ -148,7 +148,7 @@ class Input extends \Joomla\Input\Input
 	 */
 	protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
 	{
-		if (empty($vars) && is_null($datasource))
+		if (empty($vars) && \is_null($datasource))
 		{
 			$vars = $this->data;
 		}
@@ -164,9 +164,9 @@ class Input extends \Joomla\Input\Input
 
 		foreach ($vars as $k => $v)
 		{
-			if (is_array($v))
+			if (\is_array($v))
 			{
-				if (is_null($datasource))
+				if (\is_null($datasource))
 				{
 					$results[$k] = $this->getArrayRecursive($v, $this->get($k, null, 'array'), $defaultFilter, true);
 				}
@@ -177,9 +177,9 @@ class Input extends \Joomla\Input\Input
 			}
 			else
 			{
-				$filter = isset($defaultFilter) ? $defaultFilter : $v;
+				$filter = $defaultFilter ?? $v;
 
-				if (is_null($datasource))
+				if (\is_null($datasource))
 				{
 					$results[$k] = $this->get($k, null, $filter);
 				}

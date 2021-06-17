@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field">
+
+	<fieldset>
+
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="name"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			size="45"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			default="1"
+			class="form-select-color-state"
+			size="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			extension="com_newsfeeds"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			required="true"
+			default=""
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			multiple="true"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			size="45"
+			maxlength="255"
+		/>
+
+		<field
+			name="description"
+			type="editor"
+			label="JGLOBAL_DESCRIPTION"
+			buttons="true"
+			hide="pagebreak,readmore"
+			filter="JComponentHelper::filterText"
+		/>
+
+		<field
+			name="link"
+			type="url"
+			label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
+			size="60"
+			required="true"
+			filter="url"
+			validate="url"
+		/>
+
+		<field
+			name="numarticles"
+			type="number"
+			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
+			default="5"
+		/>
+
+		<field
+			name="cache_time"
+			type="number"
+			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
+			default="3600"
+		/>
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			content_type="com_newsfeeds.newsfeed"
+		/>
+
+		<field
+			name="created"
+			type="calendar"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="created_by"
+			type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			readonly="true"
+			filter="user_utc"
+		/>
+
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+			validate="UserId"
+		/>
+
+		<field
+			name="version"
+			type="text"
+			label="COM_NEWSFEEDS_FIELD_VERSION_LABEL"
+			class="readonly"
+			size="6"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out"
+			type="Text"
+			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
+			size="6"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="Text"
+			label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
+			size="6"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
+		/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
+			maxlength="160"
+			charcounter="true"
+		/>
+
+		<fields name="images">
+
+			<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+
+				<field
+					name="image_first"
+					type="media"
+					label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
+				/>
+
+				<field
+					name="float_first"
+					type="list"
+					label="COM_NEWSFEEDS_FLOAT_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+				</field>
+
+				<field
+					name="image_first_alt"
+					type="text"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="image_first_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
+					name="image_first_caption"
+					type="text"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="spacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="image_second"
+					type="media"
+					label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
+				/>
+
+				<field
+					name="float_second"
+					type="list"
+					label="COM_NEWSFEEDS_FLOAT_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+				</field>
+
+				<field
+					name="image_second_alt"
+					type="text"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="image_second_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
+					name="image_second_caption"
+					type="text"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+					size="20"
+				/>
+			</fieldset>
+		</fields>
+	</fieldset>
+
+	<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
+		<field
+			name="numarticles"
+			type="number"
+			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
+			default="5"
+		/>
+
+		<field
+			name="cache_time"
+			type="number"
+			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
+			default="3600"
+		/>
+
+		<field
+			name="rtl"
+			type="list"
+			label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE</option>
+			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR</option>
+			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL</option>
+		</field>
+
+		<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
+			<field
+				name="show_feed_image"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_feed_description"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_item_description"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="feed_character_count"
+				type="number"
+				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				filter="integer"
+				useglobal="true"
+			/>
+
+			<field
+				name="newsfeed_layout"
+				type="componentlayout"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="form-select"
+				extension="com_newsfeeds"
+				view="newsfeed"
+				useglobal="true"
+			/>
+
+			<field
+				name="feed_display_order"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
+				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
+			</field>
+		</fields>
+	</fieldset>
+
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
+			</field>
+
+			<field
+				name="rights"
+				type="text"
+				label="JFIELD_META_RIGHTS_LABEL"
+				rows="2"
+				cols="30"
+				filter="string"
+			/>
+		</fieldset>
+	</fields>
+</form>

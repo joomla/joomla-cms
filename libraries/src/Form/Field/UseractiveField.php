@@ -2,26 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Field to show a list of available user active statuses
  *
  * @since  3.2
  */
-class UseractiveField extends \JFormFieldPredefinedList
+class UseractiveField extends PredefinedlistField
 {
 	/**
 	 * The form field type.

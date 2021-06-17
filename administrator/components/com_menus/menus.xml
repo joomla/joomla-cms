@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_menus</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<description>COM_MENUS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Menus</namespace>
+	<files folder="site">
+		<folder>forms</folder>
+		<folder>src</folder>
+	</files>
+	<media destination="com_menus" folder="media">
+		<folder>css</folder>
+		<folder>js</folder>
+	</media>
 	<administration>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>menus.php</filename>
-			<folder>controllers</folder>
+			<filename>menus.xml</filename>
+			<folder>forms</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>views</folder>
+			<folder>layouts</folder>
 			<folder>presets</folder>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_menus.ini</language>
-			<language tag="en-GB">language/en-GB.com_menus.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_menus.ini</language>
+			<language tag="en-GB">language/en-GB/com_menus.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_MENUS_DASHBOARD_TITLE" icon="icon-list">menus</dashboard>
+	</dashboards>
 </extension>

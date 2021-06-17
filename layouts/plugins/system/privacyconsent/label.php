@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -46,8 +47,9 @@ extract($displayData);
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
- * @var   array    $privacyArticle         The Article ID holding the Privacy Article
- * $var   object   $article                The Article object
+ * @var   array    $privacyArticle         The Article ID holding the Privacy Article.
+ * @var   object   $article                The Article object.
+ * @var   object   $privacyLink            Link to the privacy article or menu item.
  */
 
 // Get the label text from the XML element, defaulting to the element name.
@@ -56,8 +58,6 @@ $text = $translateLabel ? Text::_($text) : $text;
 
 // Set required to true as this field is not displayed at all if not required.
 $required = true;
-
-JHtml::_('behavior.modal');
 
 // Build the class for the label.
 $class = !empty($description) ? 'hasPopover' : '';
@@ -70,8 +70,9 @@ $label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
 // If a description is specified, use it to build a tooltip.
 if (!empty($description))
 {
+	HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-content="' . htmlspecialchars(
+	$label .= ' data-bs-content="' . htmlspecialchars(
 		$translateDescription ? Text::_($description) : $description,
 		ENT_COMPAT,
 		'UTF-8'
@@ -80,16 +81,32 @@ if (!empty($description))
 
 if (Factory::getLanguage()->isRtl())
 {
-	$label .= ' data-placement="left"';
+	$label .= ' data-bs-placement="left"';
 }
 
-$attribs          = array();
-$attribs['class'] = 'modal';
-$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-if ($article)
+if ($privacyLink)
 {
-	$link = JHtml::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+	$attribs = [
+		'data-bs-toggle' => 'modal',
+		'data-bs-target' => '#consentModal',
+	];
+
+	$link = HTMLHelper::_('link', Route::_($privacyLink . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'consentModal',
+		[
+			'url'    => Route::_($privacyLink . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+		]
+	);
 }
 else
 {

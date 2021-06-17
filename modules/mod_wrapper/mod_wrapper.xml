@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Wrapper</namespace>
 	<files>
 		<filename module="mod_wrapper">mod_wrapper.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_wrapper.ini</language>
@@ -26,7 +27,6 @@
 					name="url"
 					type="text"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
-					description="MOD_WRAPPER_FIELD_URL_DESC"
 					size="30"
 					required="true"
 				/>
@@ -34,33 +34,19 @@
 				<field
 					name="add"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
-					description="MOD_WRAPPER_FIELD_ADD_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="scrolling"
-					type="list"
-					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
-					description="MOD_WRAPPER_FIELD_SCROLL_DESC"
-					default="auto"
-					>
-					<option value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
-					<option value="no">JNO</option>
-					<option value="yes">JYES</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="width"
 					type="text"
 					label="MOD_WRAPPER_FIELD_WIDTH_LABEL"
-					description="MOD_WRAPPER_FIELD_WIDTH_DESC"
 					size="5"
 					default="100%"
 				/>
@@ -69,7 +55,6 @@
 					name="height"
 					type="text"
 					label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
-					description="MOD_WRAPPER_FIELD_HEIGHT_DESC"
 					size="5"
 					default="200"
 				/>
@@ -77,43 +62,40 @@
 				<field
 					name="height_auto"
 					type="radio"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
-					description="MOD_WRAPPER_FIELD_AUTOHEIGHT_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="frameborder"
-					type="radio"
-					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
-					description="MOD_WRAPPER_FIELD_FRAME_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					>
 					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="target"
 					type="text"
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
-					description="MOD_WRAPPER_FIELD_TARGET_DESC"
 					size="30"
 				/>
+
+				<field
+					name="lazyloading"
+					type="radio"
+					label="MOD_WRAPPER_FIELD_LAZYLOADING_LABEL"
+					default="lazy"
+					layout="joomla.form.field.radio.switcher"
+					validate="options"
+					>
+					<option value="eager">JNO</option>
+					<option value="lazy">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -121,17 +103,17 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -141,7 +123,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

@@ -3,19 +3,21 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -23,15 +25,15 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PlgUserProfile extends JPlugin
+class PlgUserProfile extends CMSPlugin
 {
 	/**
-	 * Date of birth.
+	 * Application object.
 	 *
-	 * @var    string
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  4.0.0
 	 */
-	private $date = '';
+	protected $app;
 
 	/**
 	 * Load the language file on instantiation.
@@ -42,18 +44,20 @@ class PlgUserProfile extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Constructor
+	 * Date of birth.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   1.5
+	 * @var    string
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
+	private $date = '';
+
+	/**
+	 * Database object
+	 *
+	 * @var    DatabaseInterface
+	 * @since  4.0.0
+	 */
+	protected $db;
 
 	/**
 	 * Runs on content preparation
@@ -68,38 +72,37 @@ class PlgUserProfile extends JPlugin
 	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile')))
+		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration']))
 		{
 			return true;
 		}
 
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
-				$db = Factory::getDbo();
-				$db->setQuery(
-					'SELECT profile_key, profile_value FROM #__user_profiles'
-						. ' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'"
-						. ' ORDER BY ordering'
-				);
+				$db    = $this->db;
+				$query = $db->getQuery(true)
+					->select(
+						[
+							$db->quoteName('profile_key'),
+							$db->quoteName('profile_value'),
+						]
+					)
+					->from($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = :userid')
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+					->order($db->quoteName('ordering'))
+					->bind(':userid', $userId, ParameterType::INTEGER);
 
-				try
-				{
-					$results = $db->loadRowList();
-				}
-				catch (RuntimeException $e)
-				{
-					$this->_subject->setError($e->getMessage());
-
-					return false;
-				}
+				$db->setQuery($query);
+				$results = $db->loadRowList();
 
 				// Merge the profile data.
-				$data->profile = array();
+				$data->profile = [];
 
 				foreach ($results as $v)
 				{
@@ -115,22 +118,22 @@ class PlgUserProfile extends JPlugin
 
 			if (!HTMLHelper::isRegistered('users.url'))
 			{
-				HTMLHelper::register('users.url', array(__CLASS__, 'url'));
+				HTMLHelper::register('users.url', [__CLASS__, 'url']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.calendar'))
 			{
-				HTMLHelper::register('users.calendar', array(__CLASS__, 'calendar'));
+				HTMLHelper::register('users.calendar', [__CLASS__, 'calendar']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.tos'))
 			{
-				HTMLHelper::register('users.tos', array(__CLASS__, 'tos'));
+				HTMLHelper::register('users.tos', [__CLASS__, 'tos']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.dob'))
 			{
-				HTMLHelper::register('users.dob', array(__CLASS__, 'dob'));
+				HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
 			}
 		}
 
@@ -236,16 +239,17 @@ class PlgUserProfile extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
 
 		// Add the registration fields to the form.
-		Form::addFormPath(__DIR__ . '/profiles');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('profile');
 
-		$fields = array(
+		$fields = [
 			'address1',
 			'address2',
 			'city',
@@ -258,26 +262,7 @@ class PlgUserProfile extends JPlugin
 			'aboutme',
 			'dob',
 			'tos',
-		);
-
-		// Change fields description when displayed in frontend or backend profile editing
-		$app = Factory::getApplication();
-
-		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
-		{
-			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('city', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('region', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('country', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('postal_code', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('phone', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('website', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('favoritebook', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('aboutme', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('dob', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
-		}
+		];
 
 		$tosArticle = $this->params->get('register_tos_article');
 		$tosEnabled = $this->params->get('register-require_tos', 0);
@@ -325,7 +310,7 @@ class PlgUserProfile extends JPlugin
 				}
 			}
 			// Case profile in site or admin
-			elseif ($name === 'com_users.profile' || $name === 'com_admin.profile')
+			elseif ($name === 'com_users.profile')
 			{
 				// Toggle whether the field is required.
 				if ($this->params->get('profile-require_' . $field, 1) > 0)
@@ -386,8 +371,8 @@ class PlgUserProfile extends JPlugin
 		}
 
 		// Check that the tos is checked if required ie only in registration from frontend.
-		$task       = Factory::getApplication()->input->getCmd('task');
-		$option     = Factory::getApplication()->input->getCmd('option');
+		$task       = $this->app->input->getCmd('task');
+		$option     = $this->app->input->getCmd('option');
 		$tosArticle = $this->params->get('register_tos_article');
 		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
@@ -408,71 +393,80 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		if ($userId && $result && isset($data['profile']) && count($data['profile']))
 		{
-			try
+			$db = $this->db;
+
+			// Sanitize the date
+			if (!empty($data['profile']['dob']))
 			{
-				$db = Factory::getDbo();
-
-				// Sanitize the date
-				if (!empty($data['profile']['dob']))
-				{
-					$data['profile']['dob'] = $this->date;
-				}
-
-				$keys = array_keys($data['profile']);
-
-				foreach ($keys as &$key)
-				{
-					$key = 'profile.' . $key;
-					$key = $db->quote($key);
-				}
-
-				$query = $db->getQuery(true)
-					->delete($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-					->where($db->quoteName('profile_key') . ' IN (' . implode(',', $keys) . ')');
-				$db->setQuery($query);
-				$db->execute();
-
-				$query = $db->getQuery(true)
-					->select($db->quoteName('ordering'))
-					->from($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
-				$db->setQuery($query);
-				$usedOrdering = $db->loadColumn();
-
-				$tuples = array();
-				$order = 1;
-
-				foreach ($data['profile'] as $k => $v)
-				{
-					while (in_array($order, $usedOrdering))
-					{
-						$order++;
-					}
-
-					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
-				}
-
-				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
-				$db->execute();
+				$data['profile']['dob'] = $this->date;
 			}
-			catch (RuntimeException $e)
+
+			$keys = array_keys($data['profile']);
+
+			foreach ($keys as &$key)
 			{
-				$this->_subject->setError($e->getMessage());
-
-				return false;
+				$key = 'profile.' . $key;
 			}
+
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = :userid')
+				->whereIn($db->quoteName('profile_key'), $keys, ParameterType::STRING)
+				->bind(':userid', $userId, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$db->execute();
+
+			$query->clear()
+				->select($db->quoteName('ordering'))
+				->from($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userId, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$usedOrdering = $db->loadColumn();
+
+			$order = 1;
+			$query->clear()
+				->insert($db->quoteName('#__user_profiles'));
+
+			foreach ($data['profile'] as $k => $v)
+			{
+				while (in_array($order, $usedOrdering))
+				{
+					$order++;
+				}
+
+				$query->values(
+					implode(
+						',',
+						$query->bindArray(
+							[
+								$userId,
+								'profile.' . $k,
+								json_encode($v),
+								$order++,
+							],
+							[
+								ParameterType::INTEGER,
+								ParameterType::STRING,
+								ParameterType::STRING,
+								ParameterType::INTEGER,
+							]
+						)
+					)
+				);
+			}
+
+			$db->setQuery($query);
+			$db->execute();
 		}
-
-		return true;
 	}
 
 	/**
@@ -484,37 +478,28 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId)
 		{
-			try
-			{
-				$db = Factory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId
-						. " AND profile_key LIKE 'profile.%'"
-				);
+			$db = $this->db;
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = :userid')
+				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+				->bind('userid', $userId, ParameterType::INTEGER);
 
-				$db->execute();
-			}
-			catch (Exception $e)
-			{
-				$this->_subject->setError($e->getMessage());
-
-				return false;
-			}
+			$db->setQuery($query);
+			$db->execute();
 		}
-
-		return true;
 	}
 }

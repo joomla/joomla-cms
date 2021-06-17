@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Menu</namespace>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
-		<folder>preset</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
-		<filename>menu.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>
@@ -23,12 +22,11 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="menutype"
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
-					description="MOD_MENU_FIELD_MENUTYPE_DESC"
 					clientid="1"
 					>
 					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
@@ -37,9 +35,9 @@
 				<field
 					name="preset"
 					type="menuPreset"
+					default="default"
 					label="MOD_MENU_FIELD_PRESET_LABEL"
 					description="MOD_MENU_FIELD_PRESET_DESC"
-					addfieldpath="administrator/components/com_menus/models/fields"
 					showon="menutype:*"
 				/>
 
@@ -48,21 +46,20 @@
 					type="radio"
 					label="MOD_MENU_FIELD_CHECK_LABEL"
 					description="MOD_MENU_FIELD_CHECK_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					showon="menutype!:*"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="shownew"
 					type="radio"
 					label="MOD_MENU_FIELD_SHOWNEW"
-					description="MOD_MENU_FIELD_SHOWNEW_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					showon="menutype:*"
@@ -75,8 +72,7 @@
 					name="showhelp"
 					type="radio"
 					label="MOD_MENU_FIELD_SHOWHELP"
-					description="MOD_MENU_FIELD_SHOWHELP_DESC"
-					class="btn-group btn-group-yesno"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					showon="menutype:*"
@@ -103,7 +99,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="form-select"
 					validate="moduleLayout"
 				/>
 
@@ -111,8 +107,8 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

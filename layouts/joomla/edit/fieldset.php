@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
+use Joomla\CMS\Factory;
+
+$app  = Factory::getApplication();
 $form = $displayData->getForm();
 
 $name = $displayData->get('fieldset');
@@ -21,7 +23,7 @@ if (empty($fieldSet))
 }
 
 $ignoreFields = $displayData->get('ignore_fields') ? : array();
-$extraFields = $displayData->get('extra_fields') ? : array();
+$extraFields  = $displayData->get('extra_fields') ? : array();
 
 if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 {
@@ -52,7 +54,7 @@ if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 else
 {
 	$html = array();
-	$html[] = '<div style="display:none;">';
+	$html[] = '<div class="hidden">';
 	foreach ($fieldSet as $field)
 	{
 		$html[] = $field->input;

@@ -2,16 +2,27 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,33 +33,50 @@ use Joomla\Registry\Registry;
 class AdministratorApplication extends CMSApplication
 {
 	/**
+	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
+	 *
+	 * By default we allow two core components:
+	 *
+	 * - com_login   Absolutely necessary to let users log into the backend of the site. Do NOT remove!
+	 * - com_ajax    Handle AJAX requests or other administrative callbacks without logging in. Required for
+	 *               passwordless authentication using WebAuthn.
+	 *
+	 * @var array
+	 */
+	protected $allowedUnprivilegedOptions = [
+		'com_login',
+		'com_ajax',
+	];
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param   Input                   $input   An optional argument to provide dependency injection for the application's
-	 *                                           input object.  If the argument is a \JInput object that object will become
-	 *                                           the application's input object, otherwise a default input object is created.
-	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                           config object.  If the argument is a Registry object that object will become
-	 *                                           the application's config object, otherwise a default config object is created.
-	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                           the application's client object, otherwise a default client object is created.
+	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                 client object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
+	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->_name = 'administrator';
+		$this->name = 'administrator';
 
 		// Register the client ID
-		$this->_clientId = 1;
+		$this->clientId = 1;
 
 		// Execute the parent constructor
-		parent::__construct($input, $config, $client);
+		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		\JUri::root(null, rtrim(dirname(\JUri::base(true)), '/\\'));
+		Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
 	}
 
 	/**
@@ -64,29 +92,43 @@ class AdministratorApplication extends CMSApplication
 	{
 		if ($component === null)
 		{
-			$component = \JAdministratorHelper::findOption();
+			$component = $this->findOption();
 		}
 
 		// Load the document to the API
 		$this->loadDocument();
 
 		// Set up the params
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
+				$clientId = $this->getClientId();
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
+
+				// Add Asset registry files
+				$wr = $document->getWebAssetManager()->getRegistry();
+
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				if (!empty($template->parent))
+				{
+					$wr->addTemplateRegistryFile($template->parent, $clientId);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $clientId);
 
 				break;
 
@@ -94,7 +136,7 @@ class AdministratorApplication extends CMSApplication
 				break;
 		}
 
-		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		$document->setTitle($this->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
 		$document->setGenerator('Joomla! - Open Source Content Management');
 
@@ -102,7 +144,7 @@ class AdministratorApplication extends CMSApplication
 		$document->setBuffer($contents, 'component');
 
 		// Trigger the onAfterDispatch event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
 	}
 
@@ -116,26 +158,11 @@ class AdministratorApplication extends CMSApplication
 	protected function doExecute()
 	{
 		// Get the language from the (login) form or user state
-		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application
 		$this->initialiseApp($options);
-
-		// Test for magic quotes
-		if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc())
-		{
-			$lang = $this->getLanguage();
-
-			if ($lang->hasKey('JERROR_MAGIC_QUOTES'))
-			{
-				$this->enqueueMessage(\JText::_('JERROR_MAGIC_QUOTES'), 'error');
-			}
-			else
-			{
-				$this->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'error');
-			}
-		}
 
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
@@ -153,7 +180,7 @@ class AdministratorApplication extends CMSApplication
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
+		$this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
@@ -163,12 +190,12 @@ class AdministratorApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since	3.2
 	 */
@@ -189,7 +216,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if ($params)
 			{
@@ -199,42 +226,68 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = \JFactory::getUser()->getParam('admin_style');
+		$admin_style = (int) Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
+
 		$query = $db->getQuery(true)
-			->select('template, s.params')
-			->from('#__template_styles as s')
-			->join('LEFT', '#__extensions as e ON e.type=' . $db->quote('template') . ' AND e.element=s.template AND e.client_id=s.client_id');
+			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+				]
+			);
 
 		if ($admin_style)
 		{
-			$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
+			$query->extendWhere(
+				'OR',
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.id') . ' = :style',
+					$db->quoteName('e.enabled') . ' = 1',
+				]
+			)
+				->bind(':style', $admin_style, ParameterType::INTEGER);
 		}
 
-		$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR')
-			->order('home');
+		$query->order($db->quoteName('s.home'));
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		// Fallback template
+		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
-			$template->template = 'isis';
+			$template->template = 'atum';
+
+			// Check, the data were found and if template really exists
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			}
 		}
 
 		// Cache the result
 		$this->template = $template;
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-		{
-			throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-		}
+		// Pass the parent template to the state
+		$this->set('themeInherits', $template->parent);
 
 		if ($params)
 		{
@@ -255,7 +308,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -270,7 +323,7 @@ class AdministratorApplication extends CMSApplication
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -282,11 +335,11 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		// One last check to make sure we have something
-		if (!\JLanguageHelper::exists($options['language']))
+		if (!LanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (\JLanguageHelper::exists($lang))
+			if (LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -320,9 +373,9 @@ class AdministratorApplication extends CMSApplication
 		$options['autoregister'] = false;
 
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.
@@ -355,20 +408,25 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$user = \JFactory::getUser();
-		$userid = $user->get('id');
+		$userId = Factory::getUser()->id;
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select($db->quoteName(['cfg_name', 'cfg_value']))
 			->from($db->quoteName('#__messages_cfg'))
-			->where($db->quoteName('user_id') . ' = ' . (int) $userid, 'AND')
-			->where($db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'), 'AND');
+			->where(
+				[
+					$db->quoteName('user_id') . ' = :userId',
+					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
+				]
+			)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) && $config->cfg_name === 'auto_purge')
+		if (\is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
@@ -382,13 +440,19 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = \JFactory::getDate(time() - $purge * 86400);
-			$pastStamp = $past->toSql();
+			$past = Factory::getDate(time() - $purge * 86400)->toSql();
 
-			$query->clear()
+			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
-				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
+				->where(
+					[
+						$db->quoteName('date_time') . ' < :past',
+						$db->quoteName('user_id_to') . ' = :userId',
+					]
+				)
+				->bind(':past', $past)
+				->bind(':userId', $userId, ParameterType::INTEGER);
+
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -423,26 +487,26 @@ class AdministratorApplication extends CMSApplication
 
 		if (property_exists('\JConfig', 'root_user'))
 		{
-			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
+			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 			// Show this message to superusers too
-			elseif (\JFactory::getUser()->authorise('core.admin'))
+			elseif (Factory::getUser()->authorise('core.admin'))
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 		}
@@ -464,7 +528,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
@@ -473,8 +537,58 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
+		}
+
 		// Trigger the onAfterRoute event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
+	}
+
+	/**
+	 * Return the application option string [main component].
+	 *
+	 * @return  string  The component to access.
+	 *
+	 * @since   4.0.0
+	 */
+	public function findOption(): string
+	{
+		/** @var self $app */
+		$app    = Factory::getApplication();
+		$option = strtolower($app->input->get('option'));
+		$user   = $app->getIdentity();
+
+		/**
+		 * Special handling for guest users and authenticated users without the Backend Login privilege.
+		 *
+		 * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
+		 * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
+		 * with a user account that has the Backend Login privilege.
+		 */
+		if ($user->get('guest') || !$user->authorise('core.login.admin'))
+		{
+			$option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
+		}
+
+		/**
+		 * If no component is defined in the request we will try to load com_cpanel, the administrator Control Panel
+		 * component. This allows the /administrator URL to display something meaningful after logging in instead of an
+		 * error.
+		 */
+		if (empty($option))
+		{
+			$option = 'com_cpanel';
+		}
+
+		/**
+		 * Force the option to the input object. This is necessary because we might have force-changed the component in
+		 * the two if-blocks above.
+		 */
+		$app->input->set('option', $option);
+
+		return $option;
 	}
 }

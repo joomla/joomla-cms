@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule class.
@@ -38,7 +38,7 @@ class Rule
 	public function __construct($identities)
 	{
 		// Convert string input to an array.
-		if (is_string($identities))
+		if (\is_string($identities))
 		{
 			$identities = json_decode($identities, true);
 		}
@@ -74,7 +74,7 @@ class Rule
 			$identities = $identities->getData();
 		}
 
-		if (is_array($identities))
+		if (\is_array($identities))
 		{
 			foreach ($identities as $identity => $allow)
 			{
@@ -133,7 +133,7 @@ class Rule
 		// Check that the inputs are valid.
 		if (!empty($identities))
 		{
-			if (!is_array($identities))
+			if (!\is_array($identities))
 			{
 				$identities = array($identities);
 			}

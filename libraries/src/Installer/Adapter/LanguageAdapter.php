@@ -2,24 +2,29 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-
-jimport('joomla.filesystem.folder');
 
 /**
  * Language installer
@@ -37,6 +42,22 @@ class LanguageAdapter extends InstallerAdapter
 	protected $core = false;
 
 	/**
+	 * The language tag for the package
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $tag;
+
+	/**
+	 * Flag indicating the uninstall process should not run SQL queries
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $ignoreUninstallQueries = false;
+
+	/**
 	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
@@ -50,6 +71,94 @@ class LanguageAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to finalise the installation processing
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseInstall()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall(): bool
+	{
+		if ($this->ignoreUninstallQueries)
+		{
+			return false;
+		}
+
+		$this->resetUserLanguage();
+
+		$extensionId = $this->extension->extension_id;
+
+		// Remove the schema version
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Clobber any possible pending updates
+		$update = Table::getInstance('update');
+		$uid    = $update->find(
+			[
+				'element' => $this->extension->element,
+				'type'    => $this->type,
+			]
+		);
+
+		if ($uid)
+		{
+			$update->delete($uid);
+		}
+
+		// Clean installed languages cache.
+		Factory::getCache()->clean('com_languages');
+
+		// Remove the extension table entry
+		$this->extension->delete();
+
+		return true;
+	}
+
+	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		$this->parent->removeFiles($this->getManifest()->media);
+
+		// Construct the path from the client, the language and the extension element name
+		$path = ApplicationHelper::getClientInfo($this->extension->client_id)->path . '/language/' . $this->extension->element;
+
+		if (!Folder::delete($path))
+		{
+			// If deleting failed we'll leave the extension entry in tact just in case
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), Log::WARNING, 'jerror');
+
+			$this->ignoreUninstallQueries = true;
+		}
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -59,6 +168,52 @@ class LanguageAdapter extends InstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setupUninstall()
+	{
+		// Grab a copy of the client details
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		// Check the element isn't blank to prevent nuking the languages directory...just in case
+		if (empty($this->extension->element))
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'));
+		}
+
+		// Verify that it's not the default language for that client
+		$params = ComponentHelper::getParams('com_languages');
+
+		if ($params->get($client->name) === $this->extension->element)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
+		}
+
+		// Construct the path from the client, the language and the extension element name
+		$path = $client->path . '/language/' . $this->extension->element;
+
+		// Get the package manifest object and remove media
+		$this->parent->setPath('source', $path);
+
+		// Check it exists
+		if (!Folder::exists($path))
+		{
+			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
+			$this->extension->delete();
+
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'));
+		}
+
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -93,9 +248,9 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			$this->parent
 				->setPath(
-				'source',
-				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
-			);
+					'source',
+					ApplicationHelper::getClientInfo($this->parent->extension->client_id)->path . '/language/' . $this->parent->extension->element
+				);
 		}
 
 		$this->setManifest($this->parent->getManifest());
@@ -108,7 +263,7 @@ class LanguageAdapter extends InstallerAdapter
 
 			if ($client === null)
 			{
-				$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
+				$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
 
 				return false;
 			}
@@ -149,8 +304,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
-		$this->set('name', $name);
+		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->getManifest()->tag;
@@ -158,18 +312,18 @@ class LanguageAdapter extends InstallerAdapter
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if (!$tag)
 		{
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
 
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
+		if ($element && \count($element->children()))
 		{
 			$files = $element->children();
 
@@ -188,15 +342,15 @@ class LanguageAdapter extends InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_site')))
+			if (!$created = Folder::create($this->parent->getPath('extension_site')))
 			{
 				$this->parent
 					->abort(
-					\JText::sprintf(
-						'JLIB_INSTALLER_ABORT',
-						\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
-					)
-				);
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
+						)
+					);
 
 				return false;
 			}
@@ -219,19 +373,29 @@ class LanguageAdapter extends InstallerAdapter
 				if (file_exists($this->parent->getPath('extension_site')))
 				{
 					// If the site exists say so.
-					\JLog::add(
-						\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))),
-						\JLog::WARNING, 'jerror'
+					Log::add(
+						Text::sprintf('JLIB_INSTALLER_ABORT', Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))),
+						Log::WARNING, 'jerror'
+					);
+				}
+				elseif (file_exists($this->parent->getPath('extension_administrator')))
+				{
+					// If the admin exists say so.
+					Log::add(
+						Text::sprintf('JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
+						),
+						Log::WARNING, 'jerror'
 					);
 				}
 				else
 				{
-					// If the admin exists say so.
-					\JLog::add(
-						\JText::sprintf('JLIB_INSTALLER_ABORT',
-							\JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
+					// If the api exists say so.
+					Log::add(
+						Text::sprintf('JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_api'))
 						),
-						\JLog::WARNING, 'jerror'
+						Log::WARNING, 'jerror'
 					);
 				}
 
@@ -261,46 +425,12 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
 
-		/*
-		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
-		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
-		 */
-		if (is_dir($basePath . '/language/pdf_fonts'))
-		{
-			try
-			{
-				\JLog::add(
-					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
-					\JLog::WARNING,
-					'deprecated'
-				);
-			}
-			catch (RuntimeException $exception)
-			{
-				// Informational log only
-			}
-		}
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($this->getManifest()->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
-
 		// Get the language description
 		$description = (string) $this->getManifest()->description;
 
 		if ($description)
 		{
-			$this->parent->set('message', \JText::_($description));
+			$this->parent->set('message', Text::_($description));
 		}
 		else
 		{
@@ -309,9 +439,10 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Add an entry to the extension table with a whole heap of defaults
 		$row = Table::getInstance('extension');
-		$row->set('name', $this->get('name'));
+		$row->set('name', $this->name);
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->tag);
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// There is no folder for languages
 		$row->set('folder', '');
@@ -325,86 +456,20 @@ class LanguageAdapter extends InstallerAdapter
 		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 
 			return false;
 		}
 
-		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
-			// Load the site language manifest.
-			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
-
-			// Set the content language title as the language metadata name.
-			$contentLanguageTitle = $siteLanguageManifest['name'];
-
-			// Set, as fallback, the content language native title to the language metadata name.
-			$contentLanguageNativeTitle = $contentLanguageTitle;
-
-			// If exist, load the native title from the language xml metadata.
-			if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
-			{
-				$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
-			}
-
-			// Try to load a language string from the installation language var. Will be removed in 4.0.
-			if ($contentLanguageNativeTitle === $contentLanguageTitle)
-			{
-				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
-				{
-					$installationLanguage = new Language($this->tag);
-					$installationLanguage->load('', JPATH_INSTALLATION);
-
-					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
-					{
-						// Make sure it will not use the en-GB fallback.
-						$defaultLanguage = new Language('en-GB');
-						$defaultLanguage->load('', JPATH_INSTALLATION);
-
-						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-						if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
-						{
-							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-						}
-					}
-				}
-			}
-
-			// Prepare language data for store.
-			$languageData = array(
-				'lang_id'      => 0,
-				'lang_code'    => $this->tag,
-				'title'        => $contentLanguageTitle,
-				'title_native' => $contentLanguageNativeTitle,
-				'sef'          => $this->getSefString($this->tag),
-				'image'        => strtolower(str_replace('-', '_', $this->tag)),
-				'published'    => 0,
-				'ordering'     => 0,
-				'access'       => (int) \JFactory::getConfig()->get('access', 1),
-				'description'  => '',
-				'metakey'      => '',
-				'metadesc'     => '',
-				'sitename'     => '',
-			);
-
-			$tableLanguage = Table::getInstance('language');
-
-			if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
-			{
-				\JLog::add(
-					\JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					\JLog::NOTICE,
-					'jerror'
-				);
-			}
+			$this->createContentLanguage($this->tag);
 		}
 
 		// Clobber any possible pending updates
+		/** @var Update $update */
 		$update = Table::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -412,11 +477,10 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		return $row->get('extension_id');
 	}
-
 
 	/**
 	 * Gets a unique language SEF string.
@@ -439,10 +503,10 @@ class LanguageAdapter extends InstallerAdapter
 		$numberPrefixesFound = 0;
 
 		// Get the sef value of all current content languages.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('sef'))
-			->from($db->qn('#__languages'));
+			->select($db->quoteName('sef'))
+			->from($db->quoteName('#__languages'));
 		$db->setQuery($query);
 
 		$siteLanguages = $db->loadObjectList();
@@ -478,7 +542,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		if ($client === null || (empty($cname) && $cname !== 0))
 		{
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
 
 			return false;
 		}
@@ -489,8 +553,8 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'cmd');
-		$this->set('name', $name);
+		$name = InputFilter::getInstance()->clean($name, 'cmd');
+		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $xml->tag;
@@ -498,18 +562,18 @@ class LanguageAdapter extends InstallerAdapter
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if (!$tag)
 		{
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
 
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
+		if (\count($xml->files->children()))
 		{
 			foreach ($xml->files->children() as $file)
 			{
@@ -533,40 +597,6 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
 
-		/*
-		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
-		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
-		 */
-		if (is_dir($basePath . '/language/pdf_fonts'))
-		{
-			try
-			{
-				\JLog::add(
-					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
-					\JLog::WARNING,
-					'deprecated'
-				);
-			}
-			catch (RuntimeException $exception)
-			{
-				// Informational log only
-			}
-		}
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($xml->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
-
 		// Get the language description and set it as message
 		$this->parent->set('message', (string) $xml->description);
 
@@ -578,7 +608,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Clobber any possible pending updates
 		$update = Table::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
 
 		if ($uid)
 		{
@@ -587,7 +617,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Update an entry to the extension table
 		$row = Table::getInstance('extension');
-		$eid = $row->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
 
 		if ($eid)
 		{
@@ -606,162 +636,29 @@ class LanguageAdapter extends InstallerAdapter
 			$row->set('params', $this->parent->getParams());
 		}
 
-		$row->set('name', $this->get('name'));
+		$row->set('name', $this->name);
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->tag);
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+			$this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 
 			return false;
+		}
+
+		if ($clientId === 0)
+		{
+			$this->createContentLanguage($this->tag);
 		}
 
 		return $row->get('extension_id');
-	}
-
-	/**
-	 * Custom uninstall method
-	 *
-	 * @param   string  $eid  The tag of the language to uninstall
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($eid)
-	{
-		// Load up the extension details
-		$extension = Table::getInstance('extension');
-		$extension->load($eid);
-
-		// Grab a copy of the client details
-		$client = ApplicationHelper::getClientInfo($extension->get('client_id'));
-
-		// Check the element isn't blank to prevent nuking the languages directory...just in case
-		$element = $extension->get('element');
-
-		if (empty($element))
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Check that the language is not protected, Normally en-GB.
-		$protected = $extension->get('protected');
-
-		if ($protected == 1)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Verify that it's not the default language for that client
-		$params = ComponentHelper::getParams('com_languages');
-
-		if ($params->get($client->name) === $element)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($extension->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $extension->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Construct the path from the client, the language and the extension element name
-		$path = $client->path . '/language/' . $element;
-
-		// Get the package manifest object and remove media
-		$this->parent->setPath('source', $path);
-
-		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
-		$this->parent->findManifest();
-		$this->setManifest($this->parent->getManifest());
-		$this->parent->removeFiles($this->getManifest()->media);
-
-		// Check it exists
-		if (!\JFolder::exists($path))
-		{
-			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
-			$extension->delete();
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		if (!\JFolder::delete($path))
-		{
-			// If deleting failed we'll leave the extension entry in tact just in case
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Remove the extension table entry
-		$extension->delete();
-
-		// Setting the language of users which have this language as the default language
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__users')
-			->select('*');
-		$db->setQuery($query);
-		$users = $db->loadObjectList();
-
-		if ($client->name === 'administrator')
-		{
-			$param_name = 'admin_language';
-		}
-		else
-		{
-			$param_name = 'language';
-		}
-
-		$count = 0;
-
-		foreach ($users as $user)
-		{
-			$registry = new Registry($user->params);
-
-			if ($registry->get($param_name) === $element)
-			{
-				$registry->set($param_name, '');
-				$query->clear()
-					->update('#__users')
-					->set('params=' . $db->quote($registry))
-					->where('id=' . (int) $user->id);
-				$db->setQuery($query);
-				$db->execute();
-				$count++;
-			}
-		}
-
-		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
-
-		if (!empty($count))
-		{
-			\JLog::add(\JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), \JLog::NOTICE, 'jerror');
-		}
-
-		// All done!
-		return true;
 	}
 
 	/**
@@ -775,35 +672,30 @@ class LanguageAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_languages = \JFolder::folders(JPATH_SITE . '/language');
-		$admin_languages = \JFolder::folders(JPATH_ADMINISTRATOR . '/language');
+		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
-		foreach ($site_languages as $language)
+		foreach ($clients as $clientId => $basePath)
 		{
-			if (file_exists(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml'))
+			$languages = Folder::folders($basePath . '/language');
+
+			foreach ($languages as $language)
 			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml');
+				$manifestfile = $basePath . '/language/' . $language . '/langmetadata.xml';
+
+				if (!is_file($manifestfile))
+				{
+					$manifestfile = $basePath . '/language/' . $language . '/' . $language . '.xml';
+
+					if (!is_file($manifestfile))
+					{
+						continue;
+					}
+				}
+
+				$manifest_details = Installer::parseXMLInstallFile($manifestfile);
 				$extension = Table::getInstance('extension');
 				$extension->set('type', 'language');
-				$extension->set('client_id', 0);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
-			}
-		}
-
-		foreach ($admin_languages as $language)
-		{
-			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
-			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 1);
+				$extension->set('client_id', $clientId);
 				$extension->set('element', $language);
 				$extension->set('folder', '');
 				$extension->set('name', $language);
@@ -828,18 +720,24 @@ class LanguageAdapter extends InstallerAdapter
 	public function discover_install()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$short_element = $this->parent->extension->element;
-		$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element          = $this->parent->extension->element;
+		$manifestPath           = $client->path . '/language/' . $short_element . '/langmetadata.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/language/' . $short_element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = 1;
 
 		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
@@ -849,13 +747,18 @@ class LanguageAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
 			return false;
 		}
 
+		if ($client->id === 0)
+		{
+			$this->createContentLanguage($short_element);
+		}
+
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		return $this->parent->extension->get('extension_id');
 	}
@@ -869,23 +772,195 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function refreshManifestCache()
 	{
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$client       = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/langmetadata.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		if ($this->parent->extension->store())
 		{
 			return true;
 		}
+
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+		return false;
+	}
+
+	/**
+	 * Resets user language to default language
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function resetUserLanguage(): void
+	{
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		if ($client->name !== 'site' && $client->name !== 'administrator')
+		{
+			return;
+		}
+
+		// Setting the language of users which have this language as the default language
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('params'),
+				]
+			)
+			->from($db->quoteName('#__users'));
+		$db->setQuery($query);
+		$users = $db->loadObjectList();
+
+		if ($client->name === 'administrator')
+		{
+			$param_name = 'admin_language';
+		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			$param_name = 'language';
+		}
 
-			return false;
+		$count = 0;
+
+		// Prepare the query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__users'))
+			->set($db->quoteName('params') . ' = :registry')
+			->where($db->quoteName('id') . ' = :userId')
+			->bind(':registry', $registry)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		foreach ($users as $user)
+		{
+			$registry = new Registry($user->params);
+
+			if ($registry->get($param_name) === $this->extension->element)
+			{
+				// Update query parameters.
+				$registry->set($param_name, '');
+				$userId = $user->id;
+
+				$db->execute();
+				$count++;
+			}
+		}
+
+		if (!empty($count))
+		{
+			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
+		}
+	}
+
+	/**
+	 * Create an unpublished content language.
+	 *
+	 * @param  $tag  string  The language tag
+	 *
+	 * @throws \Exception
+	 * @since   4.0.0
+	 */
+	protected function createContentLanguage($tag)
+	{
+		$tableLanguage = Table::getInstance('language');
+
+		// Check if content language already exists.
+		if ($tableLanguage->load(array('lang_code' => $tag)))
+		{
+			return;
+		}
+
+		$manifestfile = JPATH_SITE . '/language/' . $tag . '/langmetadata.xml';
+
+		if (!is_file($manifestfile))
+		{
+			$manifestfile = JPATH_SITE . '/language/' . $tag . '/' . $tag . '.xml';
+		}
+
+		// Load the site language manifest.
+		$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile($manifestfile);
+
+		// Set the content language title as the language metadata name.
+		$contentLanguageTitle = $siteLanguageManifest['name'];
+
+		// Set, as fallback, the content language native title to the language metadata name.
+		$contentLanguageNativeTitle = $contentLanguageTitle;
+
+		// If exist, load the native title from the language xml metadata.
+		if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
+		{
+			$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
+		}
+
+		// Try to load a language string from the installation language var. Will be removed in 4.0.
+		if ($contentLanguageNativeTitle === $contentLanguageTitle)
+		{
+			$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/langmetadata.xml';
+
+			if (!is_file($manifestfile))
+			{
+				$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/' . $tag . '.xml';
+			}
+
+			if (file_exists($manifestfile))
+			{
+				$installationLanguage = new Language($tag);
+				$installationLanguage->load('', JPATH_INSTALLATION);
+
+				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
+				{
+					// Make sure it will not use the en-GB fallback.
+					$defaultLanguage = new Language('en-GB');
+					$defaultLanguage->load('', JPATH_INSTALLATION);
+
+					$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+					if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
+					{
+						$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					}
+				}
+			}
+		}
+
+		// Prepare language data for store.
+		$languageData = array(
+			'lang_id'      => 0,
+			'lang_code'    => $tag,
+			'title'        => $contentLanguageTitle,
+			'title_native' => $contentLanguageNativeTitle,
+			'sef'          => $this->getSefString($tag),
+			'image'        => strtolower(str_replace('-', '_', $tag)),
+			'published'    => 0,
+			'ordering'     => 0,
+			'access'       => (int) Factory::getApplication()->get('access', 1),
+			'description'  => '',
+			'metadesc'     => '',
+			'sitename'     => '',
+		);
+
+		if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
+		{
+			Log::add(
+				Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
+				Log::NOTICE,
+				'jerror'
+			);
 		}
 	}
 }

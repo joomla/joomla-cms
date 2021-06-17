@@ -2,24 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
-
-\JLoader::import('joomla.environment.browser');
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
@@ -46,6 +45,7 @@ abstract class HTMLHelper
 	 *
 	 * @var    string[]
 	 * @since  1.5
+	 * @deprecated  5.0
 	 */
 	protected static $includePaths = array();
 
@@ -54,8 +54,17 @@ abstract class HTMLHelper
 	 *
 	 * @var    callable[]
 	 * @since  1.6
+	 * @deprecated  5.0
 	 */
 	protected static $registry = array();
+
+	/**
+	 * The service registry for custom and overridden JHtml helpers
+	 *
+	 * @var    Registry
+	 * @since  4.0.0
+	 */
+	protected static $serviceRegistry;
 
 	/**
 	 * Method to extract a key
@@ -65,7 +74,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  Contains lowercase key, prefix, file, function.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	protected static function extract($key)
 	{
@@ -74,8 +84,24 @@ abstract class HTMLHelper
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
-		$file   = count($parts) === 2 ? array_shift($parts) : '';
+		if (\count($parts) === 3)
+		{
+			try
+			{
+				Log::add(
+					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+					Log::WARNING,
+					'deprecated'
+				);
+			}
+			catch (\RuntimeException $exception)
+			{
+				// Informational message only, continue on
+			}
+		}
+
+		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
+		$file   = \count($parts) === 2 ? array_shift($parts) : '';
 		$func   = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
@@ -87,35 +113,52 @@ abstract class HTMLHelper
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
-	 *                        prefix and class are optional and can be used to load custom
-	 *                        html helpers.
+	 * @param   string  $key         The name of helper method to load, (prefix).(class).function
+	 *                               prefix and class are optional and can be used to load custom
+	 *                               html helpers.
+	 * @param   array   $methodArgs  The arguments to pass forward to the method being called
 	 *
 	 * @return  mixed  Result of HTMLHelper::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function _($key)
+	final public static function _(string $key, ...$methodArgs)
 	{
 		list($key, $prefix, $file, $func) = static::extract($key);
 
-		if (array_key_exists($key, static::$registry))
+		if (\array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
-			$args     = func_get_args();
 
-			// Remove function name from arguments
-			array_shift($args);
+			return static::call($function, $methodArgs);
+		}
 
-			return static::call($function, $args);
+		/*
+		 * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
+		 * the service comes from a class other than this one, and a service has been registered for the file.
+		 */
+		if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
+		{
+			$service = static::getServiceRegistry()->getService($file);
+
+			$toCall = array($service, $func);
+
+			if (!\is_callable($toCall))
+			{
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
+			}
+
+			static::register($key, $toCall);
+
+			return static::call($toCall, $methodArgs);
 		}
 
 		$className = $prefix . ucfirst($file);
 
 		if (!class_exists($className))
 		{
-			$path = \JPath::find(static::$includePaths, strtolower($file) . '.php');
+			$path = Path::find(static::$includePaths, strtolower($file) . '.php');
 
 			if (!$path)
 			{
@@ -130,44 +173,58 @@ abstract class HTMLHelper
 			}
 		}
 
+		// If calling a method from this class, do not allow access to internal methods
+		if ($className === __CLASS__)
+		{
+			if (!((new \ReflectionMethod($className, $func))->isPublic()))
+			{
+				throw new \InvalidArgumentException('Access to internal class methods is not allowed.');
+			}
+		}
+
 		$toCall = array($className, $func);
 
-		if (!is_callable($toCall))
+		if (!\is_callable($toCall))
 		{
 			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 
 		static::register($key, $toCall);
-		$args = func_get_args();
 
-		// Remove function name from arguments
-		array_shift($args);
-
-		return static::call($toCall, $args);
+		return static::call($toCall, $methodArgs);
 	}
 
 	/**
 	 * Registers a function to be called with a specific key
 	 *
-	 * @param   string  $key       The name of the key
-	 * @param   string  $function  Function or method
+	 * @param   string    $key       The name of the key
+	 * @param   callable  $function  Function or method
 	 *
 	 * @return  boolean  True if the function is callable
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
-	public static function register($key, $function)
+	public static function register($key, callable $function)
 	{
-		list($key) = static::extract($key);
-
-		if (is_callable($function))
+		try
 		{
-			static::$registry[$key] = $function;
-
-			return true;
+			Log::add(
+				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational message only, continue on
 		}
 
-		return false;
+		list($key) = static::extract($key);
+
+		static::$registry[$key] = $function;
+
+		return true;
 	}
 
 	/**
@@ -177,10 +234,24 @@ abstract class HTMLHelper
 	 *
 	 * @return  boolean  True if a set key is unset
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function unregister($key)
 	{
+		try
+		{
+			Log::add(
+				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational message only, continue on
+		}
+
 		list($key) = static::extract($key);
 
 		if (isset(static::$registry[$key]))
@@ -210,6 +281,23 @@ abstract class HTMLHelper
 	}
 
 	/**
+	 * Retrieves the service registry.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getServiceRegistry(): Registry
+	{
+		if (!static::$serviceRegistry)
+		{
+			static::$serviceRegistry = Factory::getContainer()->get(Registry::class);
+		}
+
+		return static::$serviceRegistry;
+	}
+
+	/**
 	 * Function caller method
 	 *
 	 * @param   callable  $function  Function or method to call
@@ -221,13 +309,8 @@ abstract class HTMLHelper
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
-	protected static function call($function, $args)
+	protected static function call(callable $function, $args)
 	{
-		if (!is_callable($function))
-		{
-			throw new \InvalidArgumentException('Function not supported', 500);
-		}
-
 		// PHP 5.3 workaround
 		$temp = array();
 
@@ -236,7 +319,7 @@ abstract class HTMLHelper
 			$temp[] = &$arg;
 		}
 
-		return call_user_func_array($function, $temp);
+		return \call_user_func_array($function, $temp);
 	}
 
 	/**
@@ -252,7 +335,7 @@ abstract class HTMLHelper
 	 */
 	public static function link($url, $text, $attribs = null)
 	{
-		if (is_array($attribs))
+		if (\is_array($attribs))
 		{
 			$attribs = ArrayHelper::toString($attribs);
 		}
@@ -274,37 +357,12 @@ abstract class HTMLHelper
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
 	{
-		if (is_array($attribs))
+		if (\is_array($attribs))
 		{
 			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
-	}
-
-	/**
-	 * Include version with MD5SUM file in path.
-	 *
-	 * @param   string  $path  Folder name to search into (images, css, js, ...).
-	 *
-	 * @return  string  Query string to add.
-	 *
-	 * @since   3.7.0
-	 *
-	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
-	 */
-	protected static function getMd5Version($path)
-	{
-		$md5 = dirname($path) . '/MD5SUM';
-
-		if (file_exists($md5))
-		{
-			Log::add('Usage of MD5SUM files is deprecated, use version instead.', Log::WARNING, 'deprecated');
-
-			return '?' . file_get_contents($md5);
-		}
-
-		return '';
 	}
 
 	/**
@@ -318,241 +376,355 @@ abstract class HTMLHelper
 	 *
 	 * @return  array    files to be included.
 	 *
-	 * @see     JBrowser
+	 * @see     Browser
 	 * @since   1.6
 	 */
 	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
 	{
-		// If http is present in filename just return it as an array
-		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
+		// Set debug flag
+		$debugMode = false;
+
+		// Detect debug mode
+		if ($detectDebug && JDEBUG)
 		{
-			return array($file);
+			$debugMode = true;
 		}
 
-		// Extract extension and strip the file
-		$strip = \JFile::stripExt($file);
-		$ext   = \JFile::getExt($file);
-
-		// Prepare array of files
-		$includes = array();
-
-		// Detect browser and compute potential files
-		if ($detectBrowser)
+		// If http is present in filename
+		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
 		{
-			$navigator = Browser::getInstance();
-			$browser   = $navigator->getBrowser();
-			$major     = $navigator->getMajor();
-			$minor     = $navigator->getMinor();
-
-			// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
-			// where major and minor are the browser version names
-			$potential = array(
-				$strip,
-				$strip . '_' . $browser,
-				$strip . '_' . $browser . '_' . $major,
-				$strip . '_' . $browser . '_' . $major . '_' . $minor,
-			);
+			$includes = [$file];
 		}
 		else
 		{
-			$potential = array($strip);
-		}
+			// Extract extension and strip the file
+			$strip = File::stripExt($file);
+			$ext   = File::getExt($file);
 
-		// If relative search in template directory or media directory
-		if ($relative)
-		{
-			// Get the template
-			$template = Factory::getApplication()->getTemplate();
+			// Prepare array of files
+			$includes = [];
 
-			// For each potential files
-			foreach ($potential as $strip)
+			// Detect browser and compute potential files
+			if ($detectBrowser)
 			{
-				$files = array();
+				$navigator = Browser::getInstance();
+				$browser   = $navigator->getBrowser();
+				$major     = $navigator->getMajor();
+				$minor     = $navigator->getMinor();
+				$minExt    = '';
 
-				// Detect debug mode
-				if ($detectDebug && Factory::getConfig()->get('debug'))
+				if (\strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 				{
-					/*
-					 * Detect if we received a file in the format name.min.ext
-					 * If so, strip the .min part out, otherwise append -uncompressed
-					 */
-					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
-					{
-						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
-					}
-					else
-					{
-						$files[] = $strip . '-uncompressed.' . $ext;
-					}
+					$minExt    = '.min';
+					$strip = preg_replace('#\.min$#', '', $strip);
 				}
 
-				$files[] = $strip . '.' . $ext;
+				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
+				// where major and minor are the browser version names
+				$potential = [
+					$strip . $minExt,
+					$strip . '_' . $browser . $minExt,
+					$strip . '_' . $browser . '_' . $major . $minExt,
+					$strip . '_' . $browser . '_' . $major . '_' . $minor . $minExt,
+				];
+			}
+			else
+			{
+				$potential = [$strip];
+			}
 
-				/*
-				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
-				 * This MD5SUM file must represent the signature of the folder content
-				 */
-				foreach ($files as $file)
+			// If relative search in template directory or media directory
+			if ($relative)
+			{
+				$app        = Factory::getApplication();
+				$template   = $app->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->inheritable || !empty($template->parent))
 				{
-					// If the file is in the template folder
-					$path = JPATH_THEMES . "/$template/$folder/$file";
+					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
-					if (file_exists($path))
-					{
-						$includes[] = Uri::base(true) . "/templates/$template/$folder/$file" . static::getMd5Version($path);
+				// For each potential files
+				foreach ($potential as $strip)
+				{
+					$files = [];
+					$files[] = $strip . '.' . $ext;
 
-						break;
-					}
-					else
+					/**
+					 * Loop on 1 or 2 files and break on first found.
+					 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					 * This MD5SUM file must represent the signature of the folder content
+					 */
+					foreach ($files as $file)
 					{
-						// If the file contains any /: it can be in a media extension subfolder
-						if (strpos($file, '/'))
+						if (!empty($template->parent))
 						{
-							// Divide the file extracting the extension as the first part before /
-							list($extension, $file) = explode('/', $file, 2);
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
 
-							// If the file yet contains any /: it can be a plugin
+							if (empty($found))
+							{
+								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
+							}
+						}
+						else
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+						}
+
+						if (!empty($found))
+						{
+							$includes[] = $found;
+
+							break;
+						}
+						else
+						{
+							// If the file contains any /: it can be in a media extension subfolder
 							if (strpos($file, '/'))
 							{
-								// Divide the file extracting the element as the first part before /
-								list($element, $file) = explode('/', $file, 2);
+								// Divide the file extracting the extension as the first part before /
+								list($extension, $file) = explode('/', $file, 2);
 
-								// Try to deal with plugins group in the media folder
-								$path = JPATH_ROOT . "/media/$extension/$element/$folder/$file";
-
-								if (file_exists($path))
+								// If the file yet contains any /: it can be a plugin
+								if (strpos($file, '/'))
 								{
-									$includes[] = Uri::root(true) . "/media/$extension/$element/$folder/$file" . static::getMd5Version($path);
+									// Divide the file extracting the element as the first part before /
+									list($element, $file) = explode('/', $file, 2);
 
-									break;
+									// Try to deal with plugins group in the media folder
+									$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
+
+									if (!empty($found))
+									{
+										$includes[] = $found;
+
+										break;
+									}
+
+									// Try to deal with classical file in a media subfolder called element
+									$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+
+									if (!empty($found))
+									{
+										$includes[] = $found;
+
+										break;
+									}
+
+									// Try to deal with system files in the template folder
+									if (!empty($template->parent))
+									{
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
 								}
-
-								// Try to deal with classical file in a media subfolder called element
-								$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
-
-								if (file_exists($path))
+								else
 								{
-									$includes[] = Uri::root(true) . "/media/$extension/$folder/$element/$file" . static::getMd5Version($path);
+									// Try to deal with files in the extension's media folder
+									$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$file", $ext, $debugMode);
 
-									break;
-								}
+									if (!empty($found))
+									{
+										$includes[] = $found;
 
-								// Try to deal with system files in the template folder
-								$path = JPATH_THEMES . "/$template/$folder/system/$element/$file";
+										break;
+									}
 
-								if (file_exists($path))
-								{
-									$includes[] = Uri::root(true) . "/templates/$template/$folder/system/$element/$file" . static::getMd5Version($path);
+									// Try to deal with system files in the template folder
+									if (!empty($template->parent))
+									{
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-									break;
-								}
+										if (!empty($found))
+										{
+											$includes[] = $found;
 
-								// Try to deal with system files in the media folder
-								$path = JPATH_ROOT . "/media/system/$folder/$element/$file";
+											break;
+										}
 
-								if (file_exists($path))
-								{
-									$includes[] = Uri::root(true) . "/media/system/$folder/$element/$file" . static::getMd5Version($path);
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
 
-									break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+
+									// Try to deal with system files in the media folder
+									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
+
+									if (!empty($found))
+									{
+										$includes[] = $found;
+
+										break;
+									}
 								}
 							}
 							else
 							{
-								// Try to deals in the extension media folder
-								$path = JPATH_ROOT . "/media/$extension/$folder/$file";
-
-								if (file_exists($path))
-								{
-									$includes[] = Uri::root(true) . "/media/$extension/$folder/$file" . static::getMd5Version($path);
-
-									break;
-								}
-
-								// Try to deal with system files in the template folder
-								$path = JPATH_THEMES . "/$template/$folder/system/$file";
-
-								if (file_exists($path))
-								{
-									$includes[] = Uri::root(true) . "/templates/$template/$folder/system/$file" . static::getMd5Version($path);
-
-									break;
-								}
-
 								// Try to deal with system files in the media folder
-								$path = JPATH_ROOT . "/media/system/$folder/$file";
+								$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
 
-								if (file_exists($path))
+								if (!empty($found))
 								{
-									$includes[] = Uri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
+									$includes[] = $found;
 
 									break;
 								}
-							}
-						}
-						// Try to deal with system files in the media folder
-						else
-						{
-							$path = JPATH_ROOT . "/media/system/$folder/$file";
-
-							if (file_exists($path))
-							{
-								$includes[] = Uri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
-
-								break;
 							}
 						}
 					}
 				}
 			}
-		}
-		// If not relative and http is not present in filename
-		else
-		{
-			foreach ($potential as $strip)
+			else
 			{
-				$files = array();
-
-				// Detect debug mode
-				if ($detectDebug && Factory::getConfig()->get('debug'))
+				// If not relative and http is not present in filename
+				foreach ($potential as $strip)
 				{
-					/*
-					 * Detect if we received a file in the format name.min.ext
-					 * If so, strip the .min part out, otherwise append -uncompressed
+					$files = [];
+
+					$files[] = $strip . '.' . $ext;
+
+					/**
+					 * Loop on 1 or 2 files and break on first found.
+					 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					 * This MD5SUM file must represent the signature of the folder content
 					 */
-					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
+					foreach ($files as $file)
 					{
-						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
-					}
-					else
-					{
-						$files[] = $strip . '-uncompressed.' . $ext;
-					}
-				}
+						$path = JPATH_ROOT . "/$file";
 
-				$files[] = $strip . '.' . $ext;
+						$found = static::addFileToBuffer($path, $ext, $debugMode);
 
-				/*
-				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
-				 * This MD5SUM file must represent the signature of the folder content
-				 */
-				foreach ($files as $file)
-				{
-					$path = JPATH_ROOT . "/$file";
+						if (!empty($found))
+						{
+							$includes[] = $found;
 
-					if (file_exists($path))
-					{
-						$includes[] = Uri::root(true) . "/$file" . static::getMd5Version($path);
-
-						break;
+							break;
+						}
 					}
 				}
 			}
 		}
 
 		return $includes;
+	}
+
+	/**
+	 * Gets a URL, cleans the Joomla specific params and returns an object
+	 *
+	 * @param    string        $url        The relative or absolute URL to use for the src attribute.
+	 *
+	 * @return   object
+	 * @example  {
+	 *             url:    'string',
+	 *             width:  integer,
+	 *             height: integer,
+	 *           }
+	 *
+	 * @since    4.0.0
+	 */
+	public static function cleanImageURL($url)
+	{
+		$obj = new \stdClass;
+
+		$obj->attributes = [
+			'width'  => 0,
+			'height' => 0,
+		];
+
+		if (!strpos($url, '?'))
+		{
+			$obj->url = $url;
+
+			return $obj;
+		}
+
+		$mediaUri = new Uri($url);
+
+		// Old image URL format
+		if ($mediaUri->hasVar('joomla_image_height'))
+		{
+			$height = (int) $mediaUri->getVar('joomla_image_height');
+			$width  = (int) $mediaUri->getVar('joomla_image_width');
+
+			$mediaUri->delVar('joomla_image_height');
+			$mediaUri->delVar('joomla_image_width');
+		}
+		else
+		{
+			// New Image URL format
+			$fragmentUri = new Uri($mediaUri->getFragment());
+			$width       = (int) $fragmentUri->getVar('width', 0);
+			$height      = (int) $fragmentUri->getVar('height', 0);
+		}
+
+		if ($width > 0)
+		{
+			$obj->attributes['width'] = $width;
+		}
+		else
+		{
+			unset($obj->attributes['width']);
+		}
+
+		if ($height > 0)
+		{
+			$obj->attributes['height'] = $height;
+		}
+		else
+		{
+			unset($obj->attributes['height']);
+		}
+
+		$mediaUri->setFragment('');
+		$obj->url = $mediaUri->toString();
+
+		return $obj;
 	}
 
 	/**
@@ -575,10 +747,15 @@ abstract class HTMLHelper
 	{
 		$returnPath = (int) $returnPath;
 
+		if (strpos($file, '?') !== false)
+		{
+			$file = (static::cleanImageURL($file))->url;
+		}
+
 		if ($returnPath !== -1)
 		{
 			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
-			$file = count($includes) ? $includes[0] : null;
+			$file = \count($includes) ? $includes[0] : null;
 		}
 
 		// If only path is required
@@ -587,7 +764,7 @@ abstract class HTMLHelper
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /') . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
@@ -599,47 +776,27 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
-	 * @see     Browser
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   Browser
+	 * @since 1.5
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($attribs))
-		{
-			Log::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-
-			// Old parameters.
-			$attribs                  = isset($argList[1]) ? $argList[1] : array();
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
-		}
-		else
-		{
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
-		}
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
 		if ($options['pathOnly'])
 		{
-			if (count($includes) === 0)
+			if (\count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) === 1)
+			if (\count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -648,7 +805,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -671,55 +828,27 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   HTMLHelper::stylesheet()
+	 * @since 1.5
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options))
-		{
-			Log::add('The script method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old parameters.
-			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
-		}
-		else
-		{
-			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
-		}
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
 		if ($options['pathOnly'])
 		{
-			if (count($includes) === 0)
+			if (\count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) === 1)
+			if (\count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -728,7 +857,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -781,6 +910,8 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
+		$app = Factory::getApplication();
+
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
@@ -788,7 +919,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone(Factory::getUser()->getTimezone());
+			$date->setTimezone($app->getIdentity()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -797,7 +928,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone(Factory::getConfig()->get('offset')));
+			$date->setTimezone(new \DateTimeZone($app->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -817,12 +948,12 @@ abstract class HTMLHelper
 		// If no format is given use the default locale based format.
 		if (!$format)
 		{
-			$format = \JText::_('DATE_FORMAT_LC1');
+			$format = Text::_('DATE_FORMAT_LC1');
 		}
 		// $format is an existing language key
 		elseif (Factory::getLanguage()->hasKey($format))
 		{
-			$format = \JText::_($format);
+			$format = Text::_($format);
 		}
 
 		if ($gregorian)
@@ -851,7 +982,7 @@ abstract class HTMLHelper
 	 */
 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTooltip')
 	{
-		if (is_array($title))
+		if (\is_array($title))
 		{
 			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
@@ -910,7 +1041,7 @@ abstract class HTMLHelper
 	 *
 	 * @param   string   $title      The title of the tooltip (or combined '::' separated string).
 	 * @param   string   $content    The content to tooltip.
-	 * @param   boolean  $translate  If true will pass texts through JText.
+	 * @param   boolean  $translate  If true will pass texts through Text.
 	 * @param   boolean  $escape     If true will pass texts through htmlspecialchars.
 	 *
 	 * @return  string  The tooltip string
@@ -931,11 +1062,11 @@ abstract class HTMLHelper
 				list($title, $content) = explode('::', $title, 2);
 			}
 
-			// Pass texts through JText if required.
+			// Pass texts through Text if required.
 			if ($translate)
 			{
-				$title = \JText::_($title);
-				$content = \JText::_($content);
+				$title = Text::_($title);
+				$content = Text::_($content);
 			}
 
 			// Use only the content if no title is given.
@@ -951,7 +1082,7 @@ abstract class HTMLHelper
 			// Use a formatted string combining the title and content.
 			elseif ($content !== '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<strong>' . $title . '</strong><br>' . $content;
 			}
 			else
 			{
@@ -992,7 +1123,7 @@ abstract class HTMLHelper
 	{
 		$tag       = Factory::getLanguage()->getTag();
 		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getDocument()->getDirection());
+		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -1024,17 +1155,17 @@ abstract class HTMLHelper
 		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] === '';
 		$required     = isset($attribs['required']) && $attribs['required'] === '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] === '';
-		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
-		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
-		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
-		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
-		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
-		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
-		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
-		$class        = isset($attribs['class']) ? $attribs['class'] : '';
-		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
-		$minYear      = isset($attribs['minYear']) ? $attribs['minYear'] : null;
-		$maxYear      = isset($attribs['maxYear']) ? $attribs['maxYear'] : null;
+		$todayBtn     = $attribs['todayBtn'] ?? true;
+		$weekNumbers  = $attribs['weekNumbers'] ?? true;
+		$showTime     = $attribs['showTime'] ?? false;
+		$fillTable    = $attribs['fillTable'] ?? true;
+		$timeFormat   = $attribs['timeFormat'] ?? 24;
+		$singleHeader = $attribs['singleHeader'] ?? false;
+		$hint         = $attribs['placeholder'] ?? '';
+		$class        = $attribs['class'] ?? '';
+		$onchange     = $attribs['onChange'] ?? '';
+		$minYear      = $attribs['minYear'] ?? null;
+		$maxYear      = $attribs['maxYear'] ?? null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1056,31 +1187,33 @@ abstract class HTMLHelper
 		}
 
 		$data = array(
-			'id'           => $id,
-			'name'         => $name,
-			'class'        => $class,
-			'value'        => $inputvalue,
-			'format'       => $format,
-			'filter'       => $filter,
-			'required'     => $required,
-			'readonly'     => $readonly,
-			'disabled'     => $disabled,
-			'hint'         => $hint,
-			'autofocus'    => $autofocus,
-			'autocomplete' => $autocomplete,
-			'todaybutton'  => $todayBtn,
-			'weeknumbers'  => $weekNumbers,
-			'showtime'     => $showTime,
-			'filltable'    => $fillTable,
-			'timeformat'   => $timeFormat,
-			'singleheader' => $singleHeader,
-			'tag'          => $tag,
-			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
-			'direction'    => $direction,
-			'onchange'     => $onchange,
-			'minYear'      => $minYear,
-			'maxYear'      => $maxYear,
+			'id'             => $id,
+			'name'           => $name,
+			'class'          => $class,
+			'value'          => $inputvalue,
+			'format'         => $format,
+			'filter'         => $filter,
+			'required'       => $required,
+			'readonly'       => $readonly,
+			'disabled'       => $disabled,
+			'hint'           => $hint,
+			'autofocus'      => $autofocus,
+			'autocomplete'   => $autocomplete,
+			'todaybutton'    => $todayBtn,
+			'weeknumbers'    => $weekNumbers,
+			'showtime'       => $showTime,
+			'filltable'      => $fillTable,
+			'timeformat'     => $timeFormat,
+			'singleheader'   => $singleHeader,
+			'tag'            => $tag,
+			'helperPath'     => $helperPath,
+			'localesPath'    => $localesPath,
+			'direction'      => $direction,
+			'onchange'       => $onchange,
+			'minYear'        => $minYear,
+			'maxYear'        => $maxYear,
+			'dataAttribute'  => '',
+			'dataAttributes' => '',
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1094,16 +1227,30 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function addIncludePath($path = '')
 	{
+		try
+		{
+			Log::add(
+				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational message only, continue on
+		}
+
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, static::$includePaths))
+			if (!empty($dir) && !\in_array($dir, static::$includePaths))
 			{
-				array_unshift(static::$includePaths, \JPath::clean($dir));
+				array_unshift(static::$includePaths, Path::clean($dir));
 			}
 		}
 
@@ -1111,63 +1258,83 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Internal method to get a JavaScript object notation string from an array
+	 * Method that searches if file exists in given path and returns the relative path. If a minified version exists it will be preferred.
 	 *
-	 * @param   array  $array  The array to convert to JavaScript object notation
+	 * @param   string   $path       The actual path of the file
+	 * @param   string   $ext        The extension of the file
+	 * @param   boolean  $debugMode  Signifies if debug is enabled
 	 *
-	 * @return  string  JavaScript object notation representation of the array
+	 * @return  string  The relative path of the file
 	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
+	 * @since   4.0.0
 	 */
-	public static function getJSObject(array $array = array())
+	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		Log::add(
-			__METHOD__ . " is deprecated. Use json_encode() or \\Joomla\\Registry\\Registry::toString('json') instead.",
-			Log::WARNING,
-			'deprecated'
-		);
+		$position = strrpos($path, '.min.');
 
-		$elements = array();
-
-		foreach ($array as $k => $v)
+		// We are handling a name.min.ext file:
+		if ($position !== false)
 		{
-			// Don't encode either of these types
-			if ($v === null || is_resource($v))
+			$minifiedPath    = $path;
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
+
+			if ($debugMode)
 			{
-				continue;
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
 			}
 
-			// Safely encode as a Javascript string
-			$key = json_encode((string) $k);
-
-			if (is_bool($v))
-			{
-				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
-			}
-			elseif (is_numeric($v))
-			{
-				$elements[] = $key . ': ' . ($v + 0);
-			}
-			elseif (is_string($v))
-			{
-				if (strpos($v, '\\') === 0)
-				{
-					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
-					$elements[] = $key . ': ' . substr($v, 1);
-				}
-				else
-				{
-					// The safest way to insert a string
-					$elements[] = $key . ': ' . json_encode((string) $v);
-				}
-			}
-			else
-			{
-				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
-			}
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
-		return '{' . implode(',', $elements) . '}';
+		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
+
+		if ($debugMode)
+		{
+			return self::checkFileOrder($minifiedPath, $path);
+		}
+
+		return self::checkFileOrder($path, $minifiedPath);
+	}
+
+	/**
+	 * Method that takes a file path and converts it to a relative path
+	 *
+	 * @param   string  $path  The actual path of the file
+	 *
+	 * @return  string  The relative path of the file
+	 *
+	 * @since   4.0.0
+	 */
+	protected static function convertToRelativePath($path)
+	{
+		$relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
+
+		// On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
+		return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
+	}
+
+	/**
+	 * Method that takes two paths and checks if the files exist with different order
+	 *
+	 * @param   string  $first   the path of the minified file
+	 * @param   string  $second  the path of the non minified file
+	 *
+	 * @return  string
+	 *
+	 * @since  4.0.0
+	 */
+	private static function checkFileOrder($first, $second)
+	{
+		if (is_file($second))
+		{
+			return static::convertToRelativePath($second);
+		}
+
+		if (is_file($first))
+		{
+			return static::convertToRelativePath($first);
+		}
+
+		return '';
 	}
 }

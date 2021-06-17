@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<field
+		name="id"
+		type="text"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		default="0"
+		class="readonly"
+		readonly="true"
+	/>
+
+	<field
+		name="hits"
+		type="text"
+		label="JGLOBAL_HITS"
+		class="readonly"
+		default="0"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
+		name="parent_id"
+		type="tag"
+		label="COM_TAGS_FIELD_PARENT_LABEL"
+		mode="nested"
+		validate="notequals"
+		field="id"
+		parent="parent"
+		>
+		<option value="1">JNONE</option>
+	</field>
+
+	<field
+		name="lft"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="rgt"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="level"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="path"
+		type="text"
+		label="CATEGORIES_PATH_LABEL"
+		description="CATEGORIES_PATH_DESC"
+		class="readonly"
+		size="40"
+		readonly="true"
+	/>
+
+	<field
+		name="title"
+		type="text"
+		label="JGLOBAL_TITLE"
+		size="40"
+		required="true"
+	/>
+
+	<field
+		name="note"
+		type="text"
+		label="COM_TAGS_FIELD_NOTE_LABEL"
+		maxlength="255"
+		size="40"
+	/>
+
+	<field
+		name="description"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="JComponentHelper::filterText"
+		buttons="true"
+		hide="readmore,pagebreak"
+	/>
+
+	<field
+		name="published"
+		type="list"
+		label="JSTATUS"
+		class="form-select-color-state"
+		default="1"
+		size="1"
+		validate="options"
+		>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="version"
+		type="text"
+		label="COM_TAGS_FIELD_VERSION_LABEL"
+		size="6"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
+		name="access"
+		type="accesslevel"
+		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
+	/>
+
+	<field
+		name="metadesc"
+		type="textarea"
+		label="JFIELD_META_DESCRIPTION_LABEL"
+		rows="3"
+		cols="40"
+		maxlength="160"
+		charcounter="true"
+	/>
+
+	<field
+		name="metakey"
+		type="textarea"
+		label="JFIELD_META_KEYWORDS_LABEL"
+		rows="3"
+		cols="40"
+	/>
+
+	<field
+		name="alias"
+		type="text"
+		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
+		hint="JFIELD_ALIAS_PLACEHOLDER"
+		size="40"
+	/>
+
+	<field
+		name="created_user_id"
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
+	/>
+
+	<field
+		name="created_by_alias"
+		type="text"
+		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
+		size="20"
+	/>
+
+	<field
+		name="created_time"
+		type="calendar"
+		label="JGLOBAL_CREATED_DATE"
+		class="readonly"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+		readonly="true"
+	/>
+
+	<field
+		name="modified_user_id"
+		type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		validate="UserId"
+	/>
+
+	<field
+		name="modified_time"
+		type="calendar"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		class="readonly"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+		readonly="true"
+	/>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		>
+		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="version_note"
+		type="text"
+		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+		maxlength="255"
+		size="45"
+	/>
+
+
+	<fieldset
+		name="basic"
+		label="COM_TAGS_BASIC_FIELDSET_LABEL"
+	>
+		<fieldset
+			name="options"
+			label="COM_TAGS_BASIC_FIELDSET_LABEL"
+		>
+
+			<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
+				<field
+					name="tag_layout"
+					type="componentlayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					useglobal="true"
+					extension="com_tags"
+					view="tag"
+				/>
+
+				<field
+					name="tag_link_class"
+					type="text"
+					label="COM_TAGS_FIELD_TAG_LINK_CLASS"
+					size="20"
+					validate="CssIdentifier"
+				/>
+
+			</fields>
+		</fieldset>
+		<fields name="images">
+
+			<fieldset name="image-intro" label="COM_TAGS_PARAMS_IMAGE_INTRO">
+				<field
+					name="image_intro"
+					type="media"
+					label="COM_TAGS_FIELD_INTRO_LABEL"
+				/>
+
+				<field
+					name="float_intro"
+					type="list"
+					label="COM_TAGS_FLOAT_LABEL"
+					validate="options"
+					>
+					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
+					<option value="right">COM_TAGS_RIGHT</option>
+					<option value="left">COM_TAGS_LEFT</option>
+					<option value="none">COM_TAGS_NONE</option>
+				</field>
+
+				<field
+					name="image_intro_alt"
+					type="text"
+					label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="image_intro_caption"
+					type="text"
+					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+					size="20"
+				/>
+			</fieldset>
+			<fieldset name="image-fulltext" label="COM_TAGS_PARAMS_IMAGE_FULLTEXT">
+
+				<field
+					name="image_fulltext"
+					type="media"
+					label="COM_TAGS_FIELD_FULL_LABEL"
+				/>
+
+				<field
+					name="float_fulltext"
+					type="list"
+					label="COM_TAGS_FLOAT_LABEL"
+					validate="options"
+					>
+					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
+					<option value="right">COM_TAGS_RIGHT</option>
+					<option value="left">COM_TAGS_LEFT</option>
+					<option value="none">COM_TAGS_NONE</option>
+				</field>
+
+				<field
+					name="image_fulltext_alt"
+					type="text"
+					label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+
+				<field
+					name="image_fulltext_caption"
+					type="text"
+					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+					size="20"
+				/>
+			</fieldset>
+		</fields>
+	</fieldset>
+
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+			<field
+				name="author"
+				type="text"
+				label="JAUTHOR"
+				size="30"
+			/>
+
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
