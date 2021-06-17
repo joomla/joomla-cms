@@ -20,7 +20,7 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="basic" label="JDETAILS">
+		<fieldset name="details" label="JDETAILS">
 			<field
 				name="description"
 				type="textarea"

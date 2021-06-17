@@ -20,7 +20,7 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="search" label="COM_COOKIEMANAGER_GROUP_LABEL_SEARCH_INFORMATION">
+		<fieldset name="search" label="COM_COOKIEMANAGER_GROUP_SEARCH_INFORMATION_LABEL">
 			<field
 				name="search"
 				type="text"
