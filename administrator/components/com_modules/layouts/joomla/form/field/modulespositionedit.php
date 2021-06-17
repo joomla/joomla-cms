@@ -94,7 +94,7 @@ echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'Modal_position',
 	array(
-		'title'       => Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'),
+		'title'       => Text::_('COM_MODULES_MODULE_SELECT_TEMPLATE_POSITION'),
 		'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1&client_id=' . $clientId,
 		'bodyHeight'  => 70,
 		'modalWidth'  => 95,
@@ -103,5 +103,5 @@ echo HTMLHelper::_(
 );
 ?>
 <span data-bs-toggle="modal" role="button" data-bs-target="#Modal_position" class="form-text">
-<?php echo Text::_('COM_MODULES_MODULE_TEMPLATE_POSITIONS_PREVIEW'); ?>
+<?php echo Text::_('COM_MODULES_MODULE_SELECT_TEMPLATE_POSITION'); ?>
 </span>
