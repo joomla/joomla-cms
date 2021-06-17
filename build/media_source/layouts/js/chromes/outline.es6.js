@@ -3,7 +3,6 @@
   * @license    GNU General Public License version 2 or later; see LICENSE.txt
   */
 
-
 (() => {
   'use strict';
 
@@ -23,8 +22,14 @@
       elements[i].addEventListener('click', (event) => {
         const position = event.target.getAttribute('data-position');
 
-        // TODO: change the below line to set value of the custom field to position
-        console.log(position, window.parent.parent.document.querySelector('joomla-field-fancy-select'))
+        // Select value of the choices field by triggering mousedown event on the position option
+        const elPositionSelect = window.parent.parent.document.querySelector('#jform_position');
+        const elPositionOptions = elPositionSelect.closest('.choices').querySelectorAll('.choices__item--selectable');
+        for (let j = 0; j < elPositionOptions.length; j += 1) {
+          if (elPositionOptions[j].dataset.value === position) {
+            elPositionOptions[j].dispatchEvent(new Event('mousedown'));
+          }
+        }
 
         if (window.parent.parent.Joomla.Modal) {
           window.parent.parent.Joomla.Modal.getCurrent().close();
