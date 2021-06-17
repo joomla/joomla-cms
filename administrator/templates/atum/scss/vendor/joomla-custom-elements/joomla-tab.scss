@@ -137,7 +137,9 @@ joomla-tab {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark-60);
         background-image: none;
+        border-top: 1px solid transparent;
         border-right: 0;
+        border-bottom: 1px solid #dee2e6;
         box-shadow: none;
 
         &::after {
