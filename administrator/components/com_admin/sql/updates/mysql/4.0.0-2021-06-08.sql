@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `#__cookiemanager` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `title` varchar(64) NOT NULL
+  `title` varchar(64) NOT NULL,
+  `params` varchar(1024) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
 
 INSERT IGNORE INTO `#__cookiemanager` (`title`) VALUES
