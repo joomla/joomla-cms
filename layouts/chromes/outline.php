@@ -32,7 +32,7 @@ $tag = "a";
 if ($showModuleButton && $app->input->getBool('edit'))
 {
 	$tag = "button";
-	$action = 'onclick="selectPosition(' . "'" . $module->position . "'" . ')"';
+	$action = 'data-position="' . $module->position . '"';
 }
 ?>
 <div class="mod-preview">
@@ -45,7 +45,7 @@ if ($showModuleButton && $app->input->getBool('edit'))
 		</div>
 		<?php if ($showModuleButton): ?>
 			<div class="mod-preview-position">
-				<<?php echo $tag; ?> class="btn btn-sm btn-info" <?php echo $action; ?>>
+				<<?php echo $tag; ?> class="btn btn-sm btn-info jmod-position-select" <?php echo $action; ?>>
 					<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE'); ?>
 					<span class="visually-hidden">
 						<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE_POSITION', $module->position); ?>
