@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-
 		<field
-		name="id"
-		type="number"
-		label="JGLOBAL_FIELD_ID_LABEL"
-		default="0"
-		class="readonly"
-		readonly="true"
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
 		/>
 
 		<field
-		name="title"
-		type="text"
-		label="COM_COOKIEMANAGER_GROUP_LABEL_TITLE"
-		size="40"
-		required="true"
+			name="title"
+			type="text"
+			label="COM_COOKIEMANAGER_GROUP_LABEL_TITLE"
+			size="40"
+			required="true"
 		/>
 	</fieldset>
 
 	<fields name="params">
 		<fieldset name="search" label="COM_COOKIEMANAGER_GROUP_LABEL_SEARCH_INFORMATION">
-
 			<field
-			name="search"
-			type="text"
-			label="COM_COOKIEMANAGER_GROUP_LABEL_CCUUID"
-			hint="COM_COOKIEMANAGER_GROUP_HINT_SEARCH_CCUUID"
+				name="search"
+				type="text"
+				label="COM_COOKIEMANAGER_GROUP_LABEL_CCUUID"
+				hint="COM_COOKIEMANAGER_GROUP_HINT_SEARCH_CCUUID"
 			/>
-
 		</fieldset>
 	</fields>
 </form>

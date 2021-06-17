@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_COOKIEMANAGER_GROUP_LABEL_TITLE"
+			size="40"
+			required="true"
+		/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="basic" label="JDETAILS">
+			<field
+				name="description"
+				type="textarea"
+				label="COM_COOKIEMANAGER_COOKIE_DESCRIPTION_LABEL"
+				rows="3"
+				cols="40"
+				default="This website uses cookies to ensure that we give you the best experience on our website."
+			/>
+
+			<field
+				name="policylink"
+				type="url"
+				label="COM_COOKIEMANAGER_POLICY_LINK_LABEL"
+				filter="url"
+				validate="url"
+				default="https://example.com/index.php/cookie-policy"
+			/>
+
+			<field
+				name="revoke"
+				type="text"
+				label="COM_COOKIEMANAGER_REVOKE_BUTTON_LABEL"
+				default="Decline all cookies"
+			/>
+
+			<field
+				name="accept"
+				type="text"
+				label="COM_COOKIEMANAGER_ACCEPT_BUTTON_LABEL"
+				default="Accept all cookies"
+			/>
+
+			<field
+				name="preference"
+				type="text"
+				label="COM_COOKIEMANAGER_PREFERENCE_BUTTON_LABEL"
+				default="Cookie preferences"
+			/>
+
+			<field
+				name="preview"
+				type="text"
+				label="COM_COOKIEMANAGER_PREVIEW_BUTTON_LABEL"
+				default="Cookie bar"
+			/>
+
+			<field
+				name="consent"
+				type="text"
+				label="COM_COOKIEMANAGER_CONSENT_BUTTON_LABEL"
+				default="Cookie consent"
+			/>
+		</fieldset>
+
+		<fieldset name="option" label="JGLOBAL_FIELDSET_BASIC">
+			<field
+				name="position"
+				type="list"
+				label="COM_COOKIEMANAGER_POSITION_BUTTON_LABEL"
+				default="bottom"
+			>
+			<option value="bottom">Bottom</option>
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+			<option value="top">Top</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
