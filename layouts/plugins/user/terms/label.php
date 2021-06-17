@@ -59,35 +59,15 @@ $text = $translateLabel ? Text::_($text) : $text;
 $required = true;
 
 // Build the class for the label.
-$class = !empty($description) ? 'hasPopover' : '';
-$class = $class . ' required';
+$class = 'required';
 $class = !empty($labelclass) ? $class . ' ' . $labelclass : $class;
-
-// Add the opening label tag and main attributes.
-$label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
-
-// If a description is specified, use it to build a tooltip.
-if (!empty($description))
-{
-	HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
-	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-bs-content="' . htmlspecialchars(
-		$translateDescription ? Text::_($description) : $description,
-		ENT_COMPAT,
-		'UTF-8'
-	) . '"';
-}
-
-if (Factory::getLanguage()->isRtl())
-{
-	$label .= ' data-bs-placement="left"';
-}
 
 if ($article)
 {
 	$attribs = [
 		'data-bs-toggle' => 'modal',
 		'data-bs-target' => '#tosModal',
+		'class' => 'required',
 	];
 
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
@@ -100,8 +80,8 @@ if ($article)
 			'title'  => $text,
 			'height' => '100%',
 			'width'  => '100%',
-			'modalWidth'  => '800',
-			'bodyHeight'  => '500',
+			'bodyHeight'  => 70,
+			'modalWidth'  => 80,
 			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
 				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 		]
@@ -109,10 +89,10 @@ if ($article)
 }
 else
 {
-	$link = $text;
+	$link = '<span class="' . $class . '">' . $text . '</span>';
 }
 
-// Add the label text and closing tag.
-$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+// Add the label text and star.
+$label = $link . '<span class="star">&#160;*</span>';
 
 echo $label;
