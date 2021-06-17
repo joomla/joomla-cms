@@ -99,14 +99,17 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_PAGE_EDIT_GROUP'), 'pencil-alt');
 
-		if ($canDo->get('core.create'))
+		if($this->item->id!==3)
 		{
-				$toolbar->apply('group.apply');
-				$toolbar->save('group.save');
+			if ($canDo->get('core.create'))
+			{
+					$toolbar->apply('group.apply');
+					$toolbar->save('group.save');
+			}
 		}
 
 		$toolbar->cancel('group.cancel', 'JTOOLBAR_CLOSE');
-		
+
 		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}
 }
