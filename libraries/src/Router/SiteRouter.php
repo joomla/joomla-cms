@@ -500,7 +500,7 @@ class SiteRouter extends Router
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath(trim($route, '/'));
+		$uri->setPath($route);
 	}
 
 	/**
