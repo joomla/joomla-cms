@@ -16,13 +16,7 @@ function handleKeyPressEvent(e) {
     else if (e.key.toLowerCase() == "n") {
       addShortcut(e, "joomla-toolbar-button button.button-new");
     }
-
-    // On Press ALT + O
-    else if (e.key.toLowerCase() == "o") {
-      addShortcut(e, "joomla-toolbar-button button.button-options");
-    }
-
-    // On Press ALT + w
+    // On Press ALT + W
     else if (e.key.toLowerCase() == "w") {
       addShortcut(e, "joomla-toolbar-button button.button-save");
     }
@@ -39,7 +33,7 @@ function handleKeyPressEvent(e) {
   else if (e.key.toLowerCase() == "h") {
     addShortcut(e, "joomla-toolbar-button button.button-help");
   }
-  // On Pres Escape
+  // On Press ALT + Q
   else if (e.key.toLowerCase() == "q") {
     addShortcut(e, "joomla-toolbar-button button.button-cancel");
   }
