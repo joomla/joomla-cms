@@ -87,7 +87,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  DatabaseQuery  the database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   3.1
 	 */
@@ -147,7 +147,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  void
+	 * @return  int  The count of discovered extensions
 	 *
 	 * @since   1.6
 	 */
@@ -173,6 +173,8 @@ class DiscoverModel extends InstallerModel
 			$extensions[$key] = $install;
 		}
 
+		$count = 0;
+
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
@@ -183,8 +185,11 @@ class DiscoverModel extends InstallerModel
 				// Put it into the table
 				$result->check();
 				$result->store();
+				$count++;
 			}
 		}
+
+		return $count;
 	}
 
 	/**
@@ -276,7 +281,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

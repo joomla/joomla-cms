@@ -43,10 +43,21 @@ body {
   }
 
   &.a11y_highlight {
-    a {
+    a,
+    .header-item-content {
       padding: 3px;
       text-decoration: underline !important;
       border: #f00 dotted 1px;
+    }
+
+    .joomlaversion {
+      padding: 0;
+      text-decoration: none !important;
+      border: none;
+    }
+
+    a.page-link {
+      padding: $pagination-padding-y $pagination-padding-x;
     }
   }
 }
@@ -114,6 +125,7 @@ caption {
 }
 
 body .container-main {
+  order: 1;
   position: relative;
   padding-right: 0;
   padding-left: 0;

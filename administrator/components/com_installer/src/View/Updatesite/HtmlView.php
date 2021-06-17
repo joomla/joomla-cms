@@ -110,7 +110,7 @@ class HtmlView extends InstallerViewDefault
 		$toolbarButtons = [];
 
 		// Can't save the record if it's checked out and editable
-		if (!$checkedOut && $itemEditable)
+		if (!$checkedOut && $itemEditable && $this->form->getField('extra_query'))
 		{
 			$toolbarButtons[] = ['apply', 'updatesite.apply'];
 			$toolbarButtons[] = ['save', 'updatesite.save'];

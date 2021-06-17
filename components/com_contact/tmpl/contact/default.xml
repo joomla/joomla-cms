@@ -33,7 +33,7 @@
 		<!-- Basic options. -->
 		<fieldset name="params"
 			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
-		>
+			>
 
 			<field
 				name="show_contact_category"
@@ -404,9 +404,10 @@
 		</fieldset>
 
 		<!-- Form options. -->
-		<fieldset name="Contact_Form"
+		<fieldset
+			name="Contact_Form"
 			label="COM_CONTACT_MAIL_FIELDSET_LABEL"
-		>
+			>
 
 			<field
 				name="show_email_form"

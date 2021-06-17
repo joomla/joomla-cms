@@ -15,7 +15,6 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -290,6 +289,12 @@ class CategoryModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -369,15 +374,6 @@ class CategoryModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		// Don't allow to change the users if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			if (isset($data['created_user_id']))
-			{
-				unset($data['created_user_id']);
-			}
-		}
-
 		if (!Factory::getUser()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))
@@ -888,7 +884,7 @@ class CategoryModel extends AdminModel
 
 			$db->setQuery($query);
 
-			$max = (int) $db->loadresult();
+			$max = (int) $db->loadResult();
 			$max++;
 
 			$query->clear();
@@ -1299,7 +1295,7 @@ class CategoryModel extends AdminModel
 	 * Custom clean the cache of com_content and content modules
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

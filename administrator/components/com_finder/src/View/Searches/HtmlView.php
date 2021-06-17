@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * View class for a list of search terms.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @var boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $isEmptyState = false;
 

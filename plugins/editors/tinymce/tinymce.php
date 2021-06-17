@@ -532,7 +532,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			Text::script('JERROR');
+			Text::script('ERROR');
 			Text::script('PLG_TINY_DND_ADDITIONALDATA');
 			Text::script('PLG_TINY_DND_ALTTEXT');
 			Text::script('PLG_TINY_DND_LAZYLOADED');
@@ -543,7 +543,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local-0:';
+			$scriptOptions['comMediaAdapter']    = 'local-images:';
 		}
 
 		// Convert pt to px in dropdown

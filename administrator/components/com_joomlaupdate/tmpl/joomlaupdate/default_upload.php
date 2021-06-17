@@ -69,9 +69,6 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 				</div>
 			</div>
 		</div>
-
-		<hr>
-
 		<div class="control-group">
 			<div class="controls">
 				<button id="uploadButton" class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>

@@ -30,12 +30,8 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">
-	<div id="subhead" class="subhead mb-3">
-	<nav aria-label="toolbar">
-		<div class="btn-toolbar d-flex" id="toolbar">
-			<?php echo $this->toolbar->render(); ?>
-		</div>
-	</nav>
+	<div id="subhead" class="subhead noshadow mb-3">
+		<?php echo $this->toolbar->render(); ?>
 	</div>
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">

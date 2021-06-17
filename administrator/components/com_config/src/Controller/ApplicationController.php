@@ -309,7 +309,7 @@ class ApplicationController extends BaseController
 			$this->app->close();
 		}
 
-		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 		echo new JsonResponse($model->storePermissions());
 		$this->app->close();

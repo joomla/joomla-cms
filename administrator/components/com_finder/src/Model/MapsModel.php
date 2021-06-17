@@ -97,6 +97,18 @@ class MapsModel extends ListModel
 		// Include the content plugins for the on delete events.
 		PluginHelper::importPlugin('content');
 
+		// Iterate the items to check if all of them exist.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$table->load($pk))
+			{
+				// Item is not in the table.
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -141,12 +153,6 @@ class MapsModel extends ListModel
 						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
 			}
 		}
 
@@ -222,7 +228,7 @@ class MapsModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'd.branch_title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'branch_title, a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -294,7 +300,7 @@ class MapsModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'branch_title', $direction = 'ASC')
+	protected function populateState($ordering = 'branch_title, a.lft', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -399,7 +405,7 @@ class MapsModel extends ListModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

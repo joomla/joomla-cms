@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->master->htmlbody = nl2br($this->master->body);
+			$this->master->htmlbody = nl2br($this->master->body, false);
 		}
 
 		$this->templateData = [

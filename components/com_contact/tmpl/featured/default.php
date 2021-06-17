@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// If the page class is defined, add to class as suffix.
-// It will be a separate class if the user starts it with a space
 ?>
 <div class="com-contact-featured blog-featured">
 <?php if ($this->params->get('show_page_heading') != 0 ) : ?>
