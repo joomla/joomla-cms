@@ -50,13 +50,10 @@ class SearchController extends JControllerLegacy
 		// If searchword enclosed in double quotes, strip quotes and do exact match
 		if (substr($searchword, 0, 1) === '"' && substr($searchword, -1) === '"')
 		{
-			$post['searchword'] = substr($searchword, 1, -1);
+			$searchword = substr($searchword, 1, -1);
 			$this->input->set('searchphrase', 'exact');
 		}
-		else
-		{
-			$post['searchword'] = $searchword;
-		}
+		$post['searchword'] = urlencode(urlencode($searchword));
 
 		$post['ordering']     = $this->input->post->getWord('ordering');
 		$post['searchphrase'] = $this->input->post->getWord('searchphrase', 'all');
