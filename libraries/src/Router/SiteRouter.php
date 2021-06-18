@@ -504,7 +504,7 @@ class SiteRouter extends Router
 		// Set path again in the URI
 		$uri->setPath(ltrim($route, '/'));
 
-		if (!$item->home)
+		if (!isset($item->home) || !$item->home)
 		{
 			$uri->setPath(rtrim($route, '/'));
 		}
