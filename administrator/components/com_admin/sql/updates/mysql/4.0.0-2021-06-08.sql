@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__cookiemanager` (
+CREATE TABLE IF NOT EXISTS `#__cookiemanager_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` varchar(64) NOT NULL,
   `params` varchar(1024) NOT NULL DEFAULT ''
