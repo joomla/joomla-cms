@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{

@@ -29,7 +29,7 @@ class GroupModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_COOKIEMANAGER';
 
