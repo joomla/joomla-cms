@@ -495,7 +495,7 @@ class SiteRouter extends Router
 		// Get the route
 		$route = ltrim($uri->getPath() . '/' . $tmp, '/');
 
-		if (!isset($item->home) || !$item->home)
+		if (substr($route, -10) === 'index.php/' || !isset($item->home) || !$item->home)
 		{
 			$route = rtrim($route, '/');
 		}
