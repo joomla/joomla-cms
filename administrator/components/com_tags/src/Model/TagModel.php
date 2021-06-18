@@ -14,6 +14,7 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -261,28 +262,16 @@ class TagModel extends AdminModel
 			if (isset($data['images']) && is_array($data['images']))
 			{
 				// Get initial images
-				$imagesInit = (array) json_decode($app->getUserState("com_tags.images"));
+				$initImages = (array) json_decode($app->getUserState("com_tags.images"));
 
 				foreach($data['images'] as $key => $image)
 				{
 					if($key === 'image_intro' || $key === 'image_fulltext')
 					{
-						$imageInit = explode("#", $imagesInit[$key])[0]; // Initial version
-						$image = explode('#', $image)[0]; // Final version
+						$initImage = explode("#", $initImages[$key])[0]; // Initial version
+						$finalImage = explode('#', $image)[0]; // Final version
 
-						// Remove previously generated images if original is changed
-						if($imageInit !== "" && $imageInit !== $image)
-						{
-							$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-							$imgObject->deleteMultipleSizes();
-						}
-
-						// Generate new responsive images if file exist
-						if(is_file(JPATH_ROOT . '/' . $image))
-						{
-							$imgObject = new Image(JPATH_ROOT . '/' . $image);
-							$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-						}
+						MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 					}
 				}
 
@@ -292,35 +281,8 @@ class TagModel extends AdminModel
 
 			if(isset($data['description']))
 			{
-				$articletextInit = $app->getUserState("com_tags.description");
-
-				// Get initial images
-				preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);
-				$imagesInit = array_unique($imagesInit[1]);
-
-				// Get final images
-				preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
-				$images = array_unique($images[1]);
-
-				foreach($imagesInit as $imageInit)
-				{
-					// Remove previously generated images if original is changed
-					if(!in_array($imageInit, $images))
-					{
-						$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-						$imgObject->deleteMultipleSizes();
-					}
-				}
-
-				foreach($images as $image)
-				{
-					// Generate new responsive images if files exist
-					if(is_file(JPATH_ROOT . '/' . $image))
-					{
-						$imgObject = new Image(JPATH_ROOT . '/' . $image);
-						$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-					}
-				}
+				$initDescription = $app->getUserState("com_tags.description");
+				MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
 			}
 
 			// Alter the title for save as copy

@@ -13,6 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -403,58 +404,16 @@ class BannerModel extends AdminModel
 
 		if (isset($data['params']['imageurl']))
 		{
-			// Get initial images
-			$imageInit = $app->getUserState("com_banners.imageurl");
+			$initImage = explode("#", $app->getUserState("com_banners.imageurl"))[0]; // Initial version
+			$finalImage = explode('#', $data['params']['imageurl'])[0]; // Final version
 
-			$imageInit = explode("#", $imageInit)[0]; // Initial version
-			$image = explode('#', $data['params']['imageurl'])[0]; // Final version
-
-			// Remove previously generated image if original is changed
-			if($imageInit !== "" && $imageInit !== $image)
-			{
-				$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-				$imgObject->deleteMultipleSizes();
-			}
-
-			// Generate new responsive images if file exist
-			if(is_file(JPATH_ROOT . '/' . $image))
-			{
-				$imgObject = new Image(JPATH_ROOT . '/' . $image);
-				$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-			}
+			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 		}
 
 		if(isset($data['description']))
 		{
-			$descriptionInit = $app->getUserState("com_banners.description");
-
-			// Get initial images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $descriptionInit, $imagesInit);
-			$imagesInit = array_unique($imagesInit[1]);
-
-			// Get final images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['description'], $images);
-			$images = array_unique($images[1]);
-
-			foreach($imagesInit as $imageInit)
-			{
-				// Remove previously generated images if original is changed
-				if(!in_array($imageInit, $images))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-					$imgObject->deleteMultipleSizes();
-				}
-			}
-
-			foreach($images as $image)
-			{
-				// Generate new responsive images if files exist
-				if(is_file(JPATH_ROOT . '/' . $image))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-				}
-			}
+			$initDescription = $app->getUserState("com_banners.description");
+			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
 		}
 
 		// Save New Category

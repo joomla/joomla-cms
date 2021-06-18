@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
@@ -306,58 +307,16 @@ class ContactModel extends AdminModel
 
 		if (isset($data['image']))
 		{
-			// Get initial images
-			$imageInit = $app->getUserState("com_contact.image");
+			$initImage = explode("#", $app->getUserState("com_contact.image"))[0]; // Initial version
+			$finalImage = explode('#', $data['image'])[0]; // Final version
 
-			$imageInit = explode("#", $imageInit)[0]; // Initial version
-			$image = explode('#', $data['image'])[0]; // Final version
-
-			// Remove previously generated image if original is changed
-			if($imageInit !== "" && $imageInit !== $image)
-			{
-				$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-				$imgObject->deleteMultipleSizes();
-			}
-
-			// Generate new responsive images if file exist
-			if(is_file(JPATH_ROOT . '/' . $image))
-			{
-				$imgObject = new Image(JPATH_ROOT . '/' . $image);
-				$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-			}
+			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 		}
 
 		if(isset($data['misc']))
 		{
-			$descriptionInit = $app->getUserState("com_contact.misc");
-
-			// Get initial images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $descriptionInit, $imagesInit);
-			$imagesInit = array_unique($imagesInit[1]);
-
-			// Get final images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['misc'], $images);
-			$images = array_unique($images[1]);
-
-			foreach($imagesInit as $imageInit)
-			{
-				// Remove previously generated images if original is changed
-				if(!in_array($imageInit, $images))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-					$imgObject->deleteMultipleSizes();
-				}
-			}
-
-			foreach($images as $image)
-			{
-				// Generate new responsive images if files exist
-				if(is_file(JPATH_ROOT . '/' . $image))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-				}
-			}
+			$initDescription = $app->getUserState("com_contact.misc");
+			MediaHelper::generateResponsiveContentImages($initDescription, $data['misc']);
 		}
 
 		// Save New Category

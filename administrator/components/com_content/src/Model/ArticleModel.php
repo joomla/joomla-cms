@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Image\Image;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -711,28 +711,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			// Get initial images
-			$imagesInit = (array) json_decode($app->getUserState("com_content.images"));
+			$initImages = (array) json_decode($app->getUserState("com_content.images"));
 
 			foreach($data['images'] as $key => $image)
 			{
 				if($key === 'image_intro' || $key === 'image_fulltext')
 				{
-					$imageInit = explode("#", $imagesInit[$key])[0]; // Initial version
-					$image = explode('#', $image)[0]; // Final version
+					$initImage = explode("#", $initImages[$key])[0]; // Initial version
+					$finalImage = explode('#', $image)[0]; // Final version
 
-					// Remove previously generated images if original is changed
-					if($imageInit !== "" && $imageInit !== $image)
-					{
-						$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-						$imgObject->deleteMultipleSizes();
-					}
-
-					// Generate new responsive images if file exist
-					if(is_file(JPATH_ROOT . '/' . $image))
-					{
-						$imgObject = new Image(JPATH_ROOT . '/' . $image);
-						$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-					}
+					MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 				}
 			}
 
@@ -742,35 +730,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if(isset($data['articletext']))
 		{
-			$articletextInit = $app->getUserState("com_content.articletext");
-
-			// Get initial images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $articletextInit, $imagesInit);
-			$imagesInit = array_unique($imagesInit[1]);
-
-			// Get final images
-			preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $data['articletext'], $images);
-			$images = array_unique($images[1]);
-
-			foreach($imagesInit as $imageInit)
-			{
-				// Remove previously generated images if original is changed
-				if(!in_array($imageInit, $images))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $imageInit);
-					$imgObject->deleteMultipleSizes();
-				}
-			}
-
-			foreach($images as $image)
-			{
-				// Generate new responsive images if files exist
-				if(is_file(JPATH_ROOT . '/' . $image))
-				{
-					$imgObject = new Image(JPATH_ROOT . '/' . $image);
-					$imgObject->createMultipleSizes(['800x600', '600x400', '400x200']);
-				}
-			}
+			$initArticletext = $app->getUserState("com_content.articletext");
+			MediaHelper::generateResponsiveContentImages($initArticletext, $data['articletext']);
 		}
 
 		$this->workflowBeforeSave();

@@ -929,7 +929,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->createMultipleSizes('50x38', Image::CROP);
+		$images = $this->instance->createMultipleSizes('800x600', Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$a = Image::getImageFileProperties($this->testFile);

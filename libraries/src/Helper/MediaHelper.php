@@ -13,6 +13,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -24,6 +25,14 @@ use Joomla\Registry\Registry;
  */
 class MediaHelper
 {
+	/**
+	 * Default sizes for responsive images
+	 *
+	 * @var    array
+	 * @since  4.1
+	 */
+	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
+
 	/**
 	 * Checks if the file is an image
 	 *
@@ -461,5 +470,89 @@ class MediaHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to generate different-sized versions of a form image
+	 *
+	 * @param   string  $initImage   Image value before submission
+	 * @param   string  $finalImage  Image value during submission
+	 * @param   mixed  	$sizes       String or array of strings. Example: $sizes = array('1200x800','800x600');
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public static function generateResponsiveFormImages($initImage, $finalImage, $sizes = null)
+	{
+		// Use default if sizes are not provided
+		if(is_null($sizes))
+		{
+			$sizes = static::$responsiveSizes;
+		}
+
+		// Remove previously generated images if original is changed
+		if($initImage !== "" && $initImage !== $finalImage)
+		{
+			$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
+			$imgObj->deleteMultipleSizes();
+		}
+
+		// Generate new responsive images if file exists
+		if(is_file(JPATH_ROOT . '/' . $finalImage))
+		{
+			$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
+			$imgObj->createMultipleSizes($sizes);
+		}
+	}
+
+	/**
+	 * Method to generate different-sized versions of content images
+	 *
+	 * @param   string  $initContent   Content before submission
+	 * @param   string  $finalContent  Content during submission
+	 * @param   mixed   $sizes         String or array of strings. Example: $sizes = array('1200x800','800x600');
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public static function generateResponsiveContentImages($initContent, $finalContent, $sizes = null)
+	{
+		// Use default if sizes are not provided
+		if(is_null($sizes))
+		{
+			$sizes = static::$responsiveSizes;
+		}
+
+		$pattern = '/src="([^"]+)"/';
+
+		// Get initial images and remove duplicates
+		preg_match_all($pattern, $initContent, $initImages);
+		$initImages = array_unique(array_pop($initImages));
+
+		// Get final images and remove duplicates
+		preg_match_all($pattern, $finalContent, $finalImages);
+		$finalImages = array_unique(array_pop($finalImages));
+
+		foreach($initImages as $initImage)
+		{
+			// Remove previously generated images if original is changed
+			if(!in_array($initImage, $finalImages))
+			{
+				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
+				$imgObj->deleteMultipleSizes();
+			}
+		}
+
+		foreach($finalImages as $finalImage)
+		{
+			// Generate new responsive images if file exists
+			if(is_file(JPATH_ROOT . '/' . $finalImage))
+			{
+				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
+				$imgObj->createMultipleSizes($sizes);
+			}
+		}
 	}
 }
