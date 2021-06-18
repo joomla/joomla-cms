@@ -492,9 +492,10 @@ class SiteRouter extends Router
 			$tmp = 'component/' . substr($query['option'], 4) . '/' . $tmp;
 		}
 
-		// Get the route
+		// Get the route without any leading slash
 		$route = ltrim($uri->getPath() . '/' . $tmp, '/');
 
+		// Remove trailing slash if URL ends with 'index.php/' or is not a home menu item
 		if (substr($route, -10) === 'index.php/' || !isset($item->home) || !$item->home)
 		{
 			$route = rtrim($route, '/');
