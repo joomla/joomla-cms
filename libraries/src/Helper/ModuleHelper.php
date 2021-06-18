@@ -159,6 +159,11 @@ abstract class ModuleHelper
 			return '';
 		}
 
+		if (!isset($attribs['class']))
+		{
+			$attribs['class'] = '';
+		}
+
 		// Get module parameters
 		$params = new Registry($module->params);
 
