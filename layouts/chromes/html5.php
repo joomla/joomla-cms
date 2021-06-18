@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
+$attribs = $displayData['attribs'];
 
 if ((string) $module->content === '')
 {
