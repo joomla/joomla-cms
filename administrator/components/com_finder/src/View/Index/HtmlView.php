@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	 * The id of the content - finder plugin in mysql
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $finderPluginId = 0;
 

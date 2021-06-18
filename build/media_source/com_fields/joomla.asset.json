@@ -52,29 +52,6 @@
       }
     },
     {
-      "name": "com_fields.admin-field-edit-modal.es5",
-      "type": "script",
-      "uri": "com_fields/admin-field-edit-modal-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_fields.admin-field-edit-modal",
-      "type": "script",
-      "uri": "com_fields/admin-field-edit-modal.min.js",
-      "dependencies": [
-        "com_fields.admin-field-edit-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
       "name": "com_fields.admin-field-typehaschanged.es5",
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged-es5.min.js",
