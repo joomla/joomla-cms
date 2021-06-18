@@ -28,6 +28,17 @@
 					filter="url"
 					validate="url"
 				/>
+				<field
+					name="autoredirect"
+					type="radio"
+					label="PLG_SEF_AUTOREDIRECT_LABEL"
+					description="PLG_SEF_AUTOREDIRECT_DESCRIPTION"
+					class="btn-group btn-group-yesno"
+					default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

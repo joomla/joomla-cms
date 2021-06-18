@@ -80,6 +80,34 @@ class PlgSystemSef extends JPlugin
 	}
 
 	/**
+	 * AutoCorrect SEF url so there is no content-duplicates
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onAfterRoute()
+	{
+		if ($this->params->get('autoredirect', true))
+		{
+			if (!JFactory::getApplication()->isClient('administrator') && !JFactory::getApplication()->input->post->getArray())
+			{
+				$uri   = JUri::getInstance();
+				$vars  = JFactory::getApplication()->input->getArray();
+				$query = array();
+				foreach ($vars as $k => $v)
+				{
+					$query[] = $k . '=' . $v;
+				}
+				if ($uri->getPath() . ($uri->getQuery() ? '?' . $uri->getQuery() : '') != JRoute::_('index.php?' . implode('&', $query)))
+				{
+					JFactory::getApplication()->redirect(JRoute::_('index.php?' . implode('&', $query)), 301);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Convert the site URL to fit to the HTTP request.
 	 *
 	 * @return  void
