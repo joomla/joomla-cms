@@ -493,21 +493,19 @@ class SiteRouter extends Router
 		}
 
 		// Get the route
-		$route = $uri->getPath() . '/' . $tmp;
+		$route = ltrim($uri->getPath() . '/' . $tmp, '/');
+
+		if (!isset($item->home) || !$item->home)
+		{
+			$route = rtrim($route, '/');
+		}
 
 		// Unset unneeded query information
 		unset($query['option']);
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-
-		// Set path again in the URI
-		$uri->setPath(ltrim($route, '/'));
-
-		if (!isset($item->home) || !$item->home)
-		{
-			$uri->setPath(rtrim($route, '/'));
-		}
+		$uri->setPath($route);
 	}
 
 	/**
