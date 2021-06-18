@@ -500,7 +500,14 @@ class SiteRouter extends Router
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath(trim($route, '/'));
+
+		// Set path again in the URI
+		$uri->setPath(ltrim($route, '/'));
+
+		if (!$item->home)
+		{
+			$uri->setPath(rtrim($route, '/'));
+		}
 	}
 
 	/**
