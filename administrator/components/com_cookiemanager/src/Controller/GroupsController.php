@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 /**
  * Cookie manager list controller class.
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 class GroupsController extends AdminController
 {
@@ -29,7 +29,7 @@ class GroupsController extends AdminController
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Groups', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{

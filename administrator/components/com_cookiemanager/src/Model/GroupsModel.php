@@ -25,7 +25,7 @@ use Joomla\Database\ParameterType;
 /**
  * Methods supporting a list of cookie manager groups.
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 class GroupsModel extends ListModel
 {
@@ -34,7 +34,7 @@ class GroupsModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
 	public function __construct($config = array())
@@ -60,7 +60,7 @@ class GroupsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'asc')
 	{
@@ -82,7 +82,7 @@ class GroupsModel extends ListModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -97,7 +97,7 @@ class GroupsModel extends ListModel
 	 *
 	 * @return  \Joomla\Database\DatabaseQuery
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -133,7 +133,7 @@ class GroupsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{

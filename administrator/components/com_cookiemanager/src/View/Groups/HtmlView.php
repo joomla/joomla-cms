@@ -21,7 +21,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View class for a list of cookiemanager group.
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

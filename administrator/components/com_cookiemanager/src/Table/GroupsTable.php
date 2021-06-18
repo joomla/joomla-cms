@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Cookie manager groups table
  *
- * @since  1.5
+ * @since   __DEPLOY_VERSION__
  */
 class GroupsTable extends Table
 {
@@ -26,7 +26,7 @@ class GroupsTable extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{

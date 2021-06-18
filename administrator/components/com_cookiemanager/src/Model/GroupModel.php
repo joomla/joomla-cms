@@ -20,7 +20,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Item Model for a group to edit.
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 
 class GroupModel extends AdminModel
@@ -29,7 +29,7 @@ class GroupModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_COOKIEMANAGER';
 
@@ -42,7 +42,7 @@ class GroupModel extends AdminModel
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
@@ -66,13 +66,14 @@ class GroupModel extends AdminModel
 	 *
 	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
+		// Get the id.
 		$id=	$this->getState('group.id');
 
+		// Get the form.
 		if ($id===1){
 				$form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
 		}
@@ -89,7 +90,6 @@ class GroupModel extends AdminModel
 		{
 			return false;
 		}
-		// $id = $this->item->id;
 
 		return $form;
 	}
@@ -99,7 +99,7 @@ class GroupModel extends AdminModel
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{

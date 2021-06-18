@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 /**
  * Controller for a single group to edit
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 class GroupController extends FormController
 {

@@ -45,10 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</thead>
 						<tbody>
-						<?php
-						$n = count($this->items);
-						foreach ($this->items as $i => $item) :
-							?>
+						<?php foreach ($this->items as $i => $item) : ?>
 							<tr>
 								<th scope="row">
 									<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=group.edit&id=' . $item->id); ?>">

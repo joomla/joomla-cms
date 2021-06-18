@@ -25,7 +25,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The cookiemanager service provider.
  *
- * @since  4.0.0
+ * @since   __DEPLOY_VERSION__
  */
 return new class implements ServiceProviderInterface
 {

@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
 /**
  * Group Table class.
  *
- * @since  1.0
+ * @since   __DEPLOY_VERSION__
  */
 class GroupTable extends Table implements VersionableTableInterface, TaggableTableInterface
 {
@@ -36,7 +36,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $_supportNullValue = true;
 
@@ -44,7 +44,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 * Ensure the params in json encoded in the bind method
 	 *
 	 * @var    array
-	 * @since  3.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $_jsonEncode = array('params');
 
@@ -53,7 +53,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -68,7 +68,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function bind($array, $ignore = array())
 	{
@@ -89,7 +89,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function store($updateNulls = true)
 	{
@@ -105,7 +105,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     \JTable::check
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{

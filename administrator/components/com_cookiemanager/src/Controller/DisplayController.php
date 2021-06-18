@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Component Controller
  *
- * @since  1.5
+ * @since   __DEPLOY_VERSION__
  */
 class DisplayController extends BaseController
 {
@@ -24,7 +24,7 @@ class DisplayController extends BaseController
 	 * The default view.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'groups';
 
@@ -36,7 +36,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return  BaseController|boolean  This object to support chaining.
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
