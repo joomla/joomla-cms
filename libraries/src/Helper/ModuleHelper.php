@@ -101,7 +101,7 @@ abstract class ModuleHelper
 
 		if (\count($result) === 0)
 		{
-			if (($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) || ($input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create')))
+			if ($input->getBool('pm') || ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')))
 			{
 				$result[0] = static::createDummyModule();
 				$result[0]->title = $position;
