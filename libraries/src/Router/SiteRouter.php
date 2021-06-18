@@ -496,7 +496,7 @@ class SiteRouter extends Router
 		$route = ltrim($uri->getPath() . '/' . $tmp, '/');
 
 		// Remove trailing slash if URL ends with 'index.php/' or is not a home menu item
-		if (substr($route, -10) === 'index.php/' || !isset($item->home) || !$item->home)
+		if (substr($route, -10) === 'index.php/' || $item === null || !$item->home)
 		{
 			$route = rtrim($route, '/');
 		}
