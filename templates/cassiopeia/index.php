@@ -48,11 +48,11 @@ if ($placeModules)
 {
 	if (!$canCreateModules)
 	{
-		$app->enqueueMessage(Text::sprintf('TPLL_CASSIOPEIA_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
+		$app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
 	}
 	elseif ($app->input->getBool('edit') && !$canEditModules)
 	{
-		$app->enqueueMessage(Text::sprintf('TPLL_CASSIOPEIA_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
+		$app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
 	}
 }
 
