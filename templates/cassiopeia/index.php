@@ -32,13 +32,29 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$showAllPositions = $app->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.edit');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Do not display Add Module Button if Template Position Preview or Place Modules is True
-$displayAddModuleBtn = !$app->input->getBool('tp') && !$showAllPositions && ComponentHelper::getParams('com_templates')->get('show_add_module_button') && ContentHelper::getActions('com_modules')->get('core.create');
+// Frontend Module Placement Variables
+$canCreateModules 	= ContentHelper::getActions('com_modules')->get('core.create');
+$canEditModules 	= ContentHelper::getActions('com_modules')->get('core.edit');
+$placeModules		= $app->input->getBool('pm');
+$showAddModuleBtn 	= $canCreateModules && !$app->input->getBool('tp') && !$placeModules;
+$showAllPositions 	= $placeModules && ($canEditModules || $canCreateModules);
+
+// Display Warning message when user is not logged in or does not have permissions
+if ($placeModules)
+{
+	if (!$canCreateModules)
+	{
+		$app->enqueueMessage(Text::sprintf('TPLL_CASSIOPEIA_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
+	}
+	elseif ($app->input->getBool('edit') && !$canEditModules)
+	{
+		$app->enqueueMessage(Text::sprintf('TPLL_CASSIOPEIA_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
+	}
+}
 
 // Template path
 $templatePath = 'templates/' . $this->template;
@@ -195,7 +211,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<main>
 		<jdoc:include type="component" />
 		</main>
-		<?php if ($displayAddModuleBtn): ?>
+		<?php if ($showAddModuleBtn): ?>
 		<form method="get">
 			<input name="pm" type="hidden" value="1">
 			<button type="submit" class="btn jmodadd">
