@@ -14,6 +14,8 @@ namespace Joomla\Component\Media\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -394,7 +396,7 @@ class ApiModel extends BaseDatabaseModel
 		$object->path      = $path;
 
 		PluginHelper::importPlugin('content');
-		
+
 		// Also include the filesystem plugins, perhaps they support batch processing too
  		PluginHelper::importPlugin('media-action');
 
@@ -403,6 +405,13 @@ class ApiModel extends BaseDatabaseModel
 		if (in_array(false, $result, true))
 		{
 			throw new \Exception($object->getError());
+		}
+
+		// Remove responsive versions if file is an image
+		if($type === "file" && MediaHelper::isImage($object->path))
+		{
+			$imgObj = new Image(JPATH_ROOT . '/images' . $object->path);
+			$imgObj->deleteMultipleSizes();
 		}
 
 		$this->getAdapter($object->adapter)->delete($object->path);
