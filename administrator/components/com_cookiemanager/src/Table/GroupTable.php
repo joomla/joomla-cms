@@ -17,8 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
-// use Joomla\String\StringHelper;
-// use Joomla\Registry\Registry;
 
 /**
  * Group Table class.
