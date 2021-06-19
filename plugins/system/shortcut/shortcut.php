@@ -8,7 +8,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.
  *
- * @since  4.1
+ * @since  __DEPLOY_VERSION__
  */
 
 class PlgSystemShortcut extends CMSPlugin
