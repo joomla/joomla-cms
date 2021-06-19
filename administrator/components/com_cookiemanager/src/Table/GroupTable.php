@@ -57,7 +57,7 @@ class GroupTable extends Table implements VersionableTableInterface, TaggableTab
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__cookiemanager', 'id', $db);
+		parent::__construct('#__cookiemanager_groups', 'id', $db);
 	}
 
 	/**
