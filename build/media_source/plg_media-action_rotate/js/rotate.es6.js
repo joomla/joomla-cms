@@ -35,7 +35,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
     // The format
-    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
 
     // The quality
     const quality = document.getElementById('jform_rotate_quality').value;
