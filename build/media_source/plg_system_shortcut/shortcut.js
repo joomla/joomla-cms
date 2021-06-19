@@ -33,7 +33,7 @@ if (!Joomla) {
 
     // Then map shortcuts
     window.Joomla.shortcutsEvent.map(( {actionButton, selector} ) => {
-      let splitArr = actionButton.split();
+      let splitArr = actionButton.split('+');
       // meta+shift+alt+c => [meta, shift, alt, c]
       let lastKey = actionButton.charAt(actionButton.length -1);
       if(e.key.toLowerCase() == lastKey)
