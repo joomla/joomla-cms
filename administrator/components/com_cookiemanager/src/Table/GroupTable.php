@@ -16,21 +16,17 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Tag\TaggableTableInterface;
-use Joomla\CMS\Tag\TaggableTableTrait;
-use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
-use Joomla\String\StringHelper;
-use Joomla\Registry\Registry;
+// use Joomla\String\StringHelper;
+// use Joomla\Registry\Registry;
 
 /**
  * Group Table class.
  *
  * @since   __DEPLOY_VERSION__
  */
-class GroupTable extends Table implements VersionableTableInterface, TaggableTableInterface
+class GroupTable extends Table
 {
-	use TaggableTableTrait;
 
 	/**
 	 * Indicates that columns fully support the NULL value in the database

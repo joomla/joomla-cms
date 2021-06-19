@@ -47,7 +47,7 @@ class GroupModel extends AdminModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
 	{
-		$name = 'groups';
+		$name = 'group';
 		$prefix = 'Table';
 
 		if ($table = $this->_createTable($name, $prefix, $options))
