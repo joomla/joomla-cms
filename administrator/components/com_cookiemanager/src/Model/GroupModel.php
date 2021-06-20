@@ -71,18 +71,21 @@ class GroupModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the id.
-		$id=	$this->getState('group.id');
+		$id = $this->getState('group.id');
 
 		// Get the form.
-		if ($id===1){
+		if ($id === 1)
+		{
 				$form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
 		}
 
-		elseif ($id===2){
+		elseif ($id === 2)
+		{
 			$form = $this->loadForm('com_cookiemanager.settings', 'settings', array('control' => 'jform', 'load_data' => $loadData));
 		}
 
-		else{
+		else
+		{
 			$form = $this->loadForm('com_cookiemanager.information', 'information', array('control' => 'jform', 'load_data' => $loadData));
 		}
 

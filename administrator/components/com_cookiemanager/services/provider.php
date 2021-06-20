@@ -36,23 +36,23 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	 public function register(Container $container)
-	 {
-		 $container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Cookiemanager'));
-		 $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Cookiemanager'));
-		 $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Cookiemanager'));
-		 $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Cookiemanager'));
+	public function register(Container $container)
+	{
+		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Cookiemanager'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Cookiemanager'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Cookiemanager'));
+		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Cookiemanager'));
 
-		 $container->set(
-			 ComponentInterface::class,
-			 function (Container $container)
+		$container->set(
+			ComponentInterface::class,
+			function (Container $container)
 			 {
-				 $component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				 $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
-				 return $component;
-			 }
-		 );
-	 }
+				return $component;
+			}
+		);
+	}
 };

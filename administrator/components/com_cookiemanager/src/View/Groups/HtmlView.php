@@ -102,11 +102,11 @@ class HtmlView extends BaseHtmlView
 
 		$canDo = ContentHelper::getActions('com_cookiemanager');
 
-	  if ($canDo->get('core.admin') || $canDo->get('core.options'))
-	  {
-	  	ToolbarHelper::preferences('com_cookiemanager');
-	  }
-
-	  ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			ToolbarHelper::preferences('com_cookiemanager');
 		}
+
+		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+	}
 }

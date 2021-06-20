@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class GroupsController extends AdminController
 {
-  /**
+	/**
 	 * Proxy for getModel.
 	 *
 	 * @param   string  $name    The name of the model.

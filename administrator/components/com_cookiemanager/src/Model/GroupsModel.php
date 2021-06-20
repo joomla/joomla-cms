@@ -107,7 +107,7 @@ class GroupsModel extends ListModel
 
 		// Select the required fields from the table.
 		$query->select('id, title')
-					->from('#__cookiemanager_groups AS a');
+			->from('#__cookiemanager_groups AS a');
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
