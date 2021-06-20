@@ -30,9 +30,9 @@ use Joomla\Utilities\ArrayHelper;
 class CategoryModel extends ListModel
 {
 	/**
-	 * Category items data
+	 * Category item data
 	 *
-	 * @var array
+	 * @var CategoryNode|null
 	 */
 	protected $_item = null;
 
@@ -44,11 +44,18 @@ class CategoryModel extends ListModel
 	protected $_articles = null;
 
 	/**
-	 * Category left and right of this one
+	 * Left sibling of the current category
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var    CategoryNode|null
 	 */
-	protected $_siblings = null;
+	protected $_leftsibling = null;
+
+	/**
+	 * Right sibling of the current category
+	 *
+	 * @var    CategoryNode|null
+	 */
+	protected $_rightsibling = null;
 
 	/**
 	 * Array of child-categories
@@ -70,20 +77,6 @@ class CategoryModel extends ListModel
 	 * @var		string
 	 */
 	protected $_context = 'com_content.category';
-
-	/**
-	 * The category that applies.
-	 *
-	 * @var	   object
-	 */
-	protected $_category = null;
-
-	/**
-	 * The list of categories.
-	 *
-	 * @var	   array
-	 */
-	protected $_categories = null;
 
 	/**
 	 * Constructor.
@@ -259,6 +252,7 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
+			/* @var ArticlesModel $model */
 			$model = $this->bootComponent('com_content')->getMVCFactory()
 				->createModel('Articles', 'Site', ['ignore_request' => true]);
 			$model->setState('params', Factory::getApplication()->getParams());
@@ -362,7 +356,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @return  object
+	 * @return  CategoryNode|null  Current category or null if an error occurs.
 	 *
 	 * @since   1.5
 	 */
@@ -422,7 +416,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Get the parent category.
 	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @return  CategoryNode|false  Parent of the current category or false if an error occurs.
 	 *
 	 * @since   1.6
 	 */
@@ -437,9 +431,9 @@ class CategoryModel extends ListModel
 	}
 
 	/**
-	 * Get the left sibling (adjacent) categories.
+	 * Get the left sibling category.
 	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @return  CategoryNode|null  Left sibling of the current category or null if an error occurs.
 	 *
 	 * @since   1.6
 	 */
@@ -454,9 +448,9 @@ class CategoryModel extends ListModel
 	}
 
 	/**
-	 * Get the right sibling (adjacent) categories.
+	 * Get the right sibling category.
 	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @return  CategoryNode|null  Right sibling of the current category or null if an error occurs.
 	 *
 	 * @since   1.6
 	 */
@@ -473,7 +467,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Get the child categories.
 	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @return  CategoryNode[]|false  An array of child-categories or false if an error occurs.
 	 *
 	 * @since   1.6
 	 */
@@ -509,8 +503,7 @@ class CategoryModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = Factory::getApplication()->input;
-		$hitcount = $input->getInt('hitcount', 1);
+		$hitcount = Factory::getApplication()->input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
