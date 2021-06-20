@@ -40,8 +40,7 @@ if (!Joomla) {
       {
         Joomla.addShortcut(e, selector);
       }
-      
-      // console.log(actionButton + " " + selector)
+
     });
     
     
