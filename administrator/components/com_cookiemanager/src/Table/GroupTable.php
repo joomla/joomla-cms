@@ -26,15 +26,6 @@ use Joomla\Registry\Registry;
  */
 class GroupTable extends Table
 {
-
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected $_supportNullValue = true;
-
 	/**
 	 * Ensure the params in json encoded in the bind method
 	 *
@@ -75,56 +66,6 @@ class GroupTable extends Table
 		}
 
 		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Stores a contact.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function store($updateNulls = true)
-	{
-		// Convert IDN urls to punycode
-		$this->policylink = PunycodeHelper::urlToPunycode($this->policylink);
-
-		return parent::store($updateNulls);
-	}
-
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     \JTable::check
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		$this->default_con = (int) $this->default_con;
-
-		if (\JFilterInput::checkAttribute(array('href', $this->policylink)))
-		{
-			$this->setError(Text::_('COM_COOKIEMANAGER_WARNING_PROVIDE_VALID_URL'));
-
-			return false;
-		}
-
-		return true;
 	}
 
 }
