@@ -114,27 +114,27 @@ if ($rules)
 
 	if ($minLength)
 	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
+		$requirements[] = Text::plural('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
 	}
 
 	if ($minIntegers)
 	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
+		$requirements[] = Text::plural('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
 	}
 
 	if ($minSymbols)
 	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
+		$requirements[] = Text::plural('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
 	}
 
 	if ($minUppercase)
 	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
+		$requirements[] = Text::plural('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
 	}
 
 	if ($minLowercase)
 	{
-		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
+		$requirements[] = Text::plural('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
 	}
 }
 ?>
