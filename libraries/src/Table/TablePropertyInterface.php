@@ -30,7 +30,7 @@ interface TablePropertyInterface // SqlDataInterface //TablePropertyInterface
 
 	/**
 	 * Gets the date as an SQL datetime string.
-	 * 
+	 *
 	 * @return  number|string|boolean  The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
