@@ -24,7 +24,7 @@ class PlgSystemShortcut extends CMSPlugin
 
             if (!$wa->assetExists('script', 'shortcut'))
             {
-                $wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true]);
+                $wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
             }
             $wa->useScript('shortcut');
             return true;

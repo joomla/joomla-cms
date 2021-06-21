@@ -22,7 +22,6 @@ if (!Joomla) {
     
     // like this maintain a list of all the shortcuts
     // add a check if the array is already defined, if not then define it.
-    
     window.Joomla.shortcutsEvent = [{ actionButton:'meta+alt+s', selector:'joomla-toolbar-button button.button-apply' }, 
                       {actionButton:'meta+alt+n', selector:'joomla-toolbar-button button.button-new'},
                       {actionButton:'meta+alt+w', selector:'joomla-toolbar-button button.button-save'},
