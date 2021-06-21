@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
@@ -110,12 +111,12 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-circle systeminfo');
 		ToolbarHelper::link(
-			Route::_('index.php?option=com_admin&view=sysinfo&format=text'),
+			Route::_('index.php?option=com_admin&view=sysinfo&format=text&' . Session::getFormToken() . '=1'),
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT',
 			'download'
 		);
 		ToolbarHelper::link(
-			Route::_('index.php?option=com_admin&view=sysinfo&format=json'),
+			Route::_('index.php?option=com_admin&view=sysinfo&format=json&' . Session::getFormToken() . '=1'),
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON',
 			'download'
 		);

@@ -178,6 +178,10 @@
       text-decoration: underline;
     }
 
+    .btn {
+      text-decoration: none;
+    }
+
     .list-group-item a > span {
       &[class^="#{$jicon-css-prefix}-"],
       &[class*=" #{$jicon-css-prefix}-"],
@@ -196,17 +200,19 @@
     }
   }
 
-  .list-group-item a > span.home-image {
+  .list-group-item span.home-image {
     &[class^="#{$jicon-css-prefix}-"],
     &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: inline-block;
       padding: 0;
+      margin: 0 .85rem;
       font-size: .9rem;
       color: rgba(1, 1, 1, 1);
       background: var(--white-offset);
       box-shadow: none;
+      transform: scale(1.2);
     }
   }
 
