@@ -814,7 +814,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 		// Bind the source value, excluding the ignored fields.
 		$fields = $this->getFields();
-		
+
 		foreach ($src as $k => $value)
 		{
 			// Only process fields not in the ignore array.
@@ -2207,7 +2207,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$objectSql->{$name} = static::TypeConvert($this->{$name},$field->TypeProperty);
+			$objectSql->{$name} = static::TypeConvert($this->{$name}, $field->TypeProperty);
 
 			// Pre-processing by observers
 			$event = \Joomla\CMS\Event\AbstractEvent::create(
@@ -2273,32 +2273,32 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			return new $type($value);
 		}
 
-		if (is_scalar($value) && $type =='tosql')
+		if (is_scalar($value) && $type == 'tosql')
 		{
 			return $value;
 		}
 
-		if (is_scalar($value) && $type=='string')
+		if (is_scalar($value) && $type == 'string')
 		{
-			return (string)$value;
+			return (string) $value;
 		}
 
 		// Conditions for DateTime types
 		if (in_array($type, ['tosql','string']) && $value instanceof DateTimeInterface)
 		{
-			if ( ! $value instanceof \Joomla\CMS\Date\Date)
+			if (!$value instanceof \Joomla\CMS\Date\Date)
 			{
 				$value = new \Joomla\CMS\Date\Date($value);
 			}
 
 			$value = $value->toSql();
+
 			return $value;
 		}
 		// Convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
 		if (is_object($value) && in_array($type, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
-			$value = $value->toSql();
-			return $value;
+			return $value->toSql();
 		}
 
 		if (in_array($type, ['tostring','string']) && method_exists($value, '__toString'))
@@ -2310,6 +2310,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = new \Joomla\CMS\Date\Date($value);
+
 			return $value;
 		}
 
@@ -2317,6 +2318,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = (new \Joomla\CMS\Date\Date($value))->toSql();
+
 			return $value;
 		}
 
@@ -2324,6 +2326,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = date_format($value, 'u');
+
 			return $value;
 		}
 
@@ -2331,6 +2334,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = date_format($value, 'U');
+
 			return $value;
 		}
 
