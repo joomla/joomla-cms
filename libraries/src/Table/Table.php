@@ -201,7 +201,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'nvarchar' => 'string',
 		'nchar' => 'string',
 		'json' => 'string',
-		
+
 		'cidr' => 'string',
 		'macaddr' => 'string',
 		'macaddr8' => 'string',
@@ -2306,7 +2306,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 			return $value;
 		}
-		
+
 		// Convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
 		if (is_object($value) && in_array($type, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
