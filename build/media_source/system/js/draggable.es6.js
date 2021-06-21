@@ -140,10 +140,26 @@ if (container) {
       }
     }
 
+    // Update positions for a children of the moved item
+    rearrangeChildren(el);
+
     // Reset data order attribute for initial ordering
     const elements = container.querySelectorAll('[name="order[]"]');
     for (let i = 0, l = elements.length; l > i; i += 1) {
       elements[i].dataset.order = i + 1;
+    }
+  };
+
+  const rearrangeChildren = ($parent) => {
+    if (!$parent.dataset.itemId) {
+      return;
+    }
+    const parentId = $parent.dataset.itemId;
+    // Get children list. Each child row should have an attribute data-parents=" 1 2 3" where the number is id of parent
+    const $children = container.querySelectorAll(`tr[data-parents~="${parentId}"]`);
+
+    if ($children.length) {
+      $parent.after(...$children);
     }
   };
 
