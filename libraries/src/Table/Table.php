@@ -331,7 +331,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				}
 			}
 
-			$field->DefaultProperty = static::TypeConvert($field->Default, $type);
+			$field->DefaultProperty = static::TypeConvert($field->Default, $type, $this->_tz);
 			$this->$name = $field->DefaultProperty;
 		}
 
@@ -393,7 +393,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			foreach ($fields as $field)
 			{
 				$field->TypeProperty = static::getTypeProperty($field->Type);
-				$field->DefaultProperty = static::TypeConvert($field->Default, $field->TypeProperty);
+				$field->DefaultProperty = static::TypeConvert($field->Default, $field->TypeProperty, $this->_tz);
 			}
 
 			$cache = $fields;
@@ -837,14 +837,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			if (isset($fields[$k]))
 			{
 				$type = $fields[$k]->TypeProperty;
-				$this->{$k} = static::TypeConvert($value, $type);
+				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
 				continue;
 			}
 
 			if (isset($this->_propertyTypes[$k]))
 			{
 				$type = $this->_propertyTypes[$k];
-				$this->{$k} = static::TypeConvert($value, $type);
+				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
 				continue;
 			}
 
@@ -2218,7 +2218,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$objectSql->{$name} = static::TypeConvert($this->{$name}, $field->TypeProperty);
+			$objectSql->{$name} = static::TypeConvert($this->{$name}, $field->TypeProperty, $this->_tz);
 
 			// Pre-processing by observers
 			$event = \Joomla\CMS\Event\AbstractEvent::create(
@@ -2259,12 +2259,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * if empty type then return value as exist.
 	 * if empty value then return default value for this type
 	 *
-	 * @param mixed $value
-	 * @param string $type
+	 * @param mixed $value Value converting in new type
+	 * @param string $type New type for value
+	 * @param  mixed  $tz  Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 * @return mixed
 	 * @since  4.0.0
 	 */
-	protected static function TypeConvert($value = null, $type = '')
+	protected static function TypeConvert($value = null, $type = '', $tz = null)
 	{
 		if ($type == '')
 		{
@@ -2299,7 +2300,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			if (!$value instanceof \Joomla\CMS\Date\Date)
 			{
-				$value = new \Joomla\CMS\Date\Date($value, $this->_tz);
+				$value = new \Joomla\CMS\Date\Date($value, $tz);
 			}
 
 			$value = $value->toSql();
@@ -2321,7 +2322,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		if ($type == 'datetime' || $type == strtolower('Joomla\CMS\Date\Date'))
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
-			$value = new \Joomla\CMS\Date\Date($value, $this->_tz);
+			$value = new \Joomla\CMS\Date\Date($value, $tz);
 
 			return $value;
 		}
@@ -2329,7 +2330,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		if ($type == 'timestamp')
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
-			$value = (new \Joomla\CMS\Date\Date($value, $this->_tz))->toSql();
+			$value = (new \Joomla\CMS\Date\Date($value, $tz))->toSql();
 
 			return $value;
 		}
