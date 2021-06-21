@@ -49,10 +49,14 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
-		<h2 class="pb-3 ms-3">
+		<div class="modules-alert alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
+		<h2 class="pb-3 ms-3" id="comModulesSelectTypeHeader">
 			<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 		</h2>
-		<div class="main-card card-columns p-4">
+		<div class="main-card card-columns p-4" id="comModulesSelectResultsContainer">
 			<?php foreach ($this->items as &$item) : ?>
 				<?php // Prepare variables for the link. ?>
 					<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>

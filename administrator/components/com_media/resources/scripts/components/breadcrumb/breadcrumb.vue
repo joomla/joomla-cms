@@ -1,7 +1,6 @@
 <template>
   <nav
     class="media-breadcrumb"
-    role="navigation"
     :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
   >
     <ol>

@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 $displayData = [
 	'textPrefix' => 'COM_REDIRECT',
@@ -41,6 +42,30 @@ if ($user->authorise('core.create', 'com_redirect')
 		],
 		$this->loadTemplate('batch_body')
 	);
-}
-
-echo LayoutHelper::render('joomla.content.emptystate', $displayData);
+} ?>
+<?php if ($this->redirectPluginId) : ?>
+	<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal'); ?>
+	<?php echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'plugin' . $this->redirectPluginId . 'Modal',
+		array(
+			'url'         => $link,
+			'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+			'height'      => '400px',
+			'width'       => '800px',
+			'bodyHeight'  => '70',
+			'modalWidth'  => '80',
+			'closeButton' => false,
+			'backdrop'    => 'static',
+			'keyboard'    => false,
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+				. Text::_('JSAVE') . '</button>'
+				. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+				. Text::_('JAPPLY') . '</button>'
+		)
+	); ?>
+<?php endif; ?>
+<?php echo LayoutHelper::render('joomla.content.emptystate', $displayData);

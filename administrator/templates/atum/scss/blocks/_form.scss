@@ -18,8 +18,8 @@
   box-shadow: none;
 }
 
-
 .control-group {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 1rem;
@@ -71,10 +71,6 @@ td .form-control {
   width: auto;
 }
 
-legend {
-  margin-bottom: 1.1rem;
-}
-
 .checkboxes {
   padding-top: 5px;
 
@@ -119,13 +115,12 @@ legend {
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
-  max-width: 100%;
   padding: .5em;
   margin: .25em;
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem;
+  border-radius: .2rem !important;
 }
 
 // reveal associated tooltip on focus

@@ -13,8 +13,6 @@ use Joomla\CMS\Language\Text;
 
 /** @var PlgInstallerUrlInstaller $this */
 
-Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
-
 $this->app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], ['defer' => true], ['core']);
 
@@ -29,7 +27,6 @@ $this->app->getDocument()->getWebAssetManager()
 		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
 	</div>
 </div>
-<hr>
 <div class="control-group">
 	<div class="controls">
 		<button type="button" class="btn btn-primary" id="installbutton_url" onclick="Joomla.submitbuttonurl()">

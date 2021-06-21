@@ -17,8 +17,8 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 /** @var HtmlView $this */
 
 // JText::script doesn't have a sprintf equivalent so work around this
-Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true))
-	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true))
+Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>', true))
+	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up"></span>', true))
 	->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 $compatibilityTypes = array(
@@ -28,7 +28,7 @@ $compatibilityTypes = array(
 		'group' => 0,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
-		'class' => 'label-important',
+		'class' => 'alert-danger',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
 		'group' => 4,
 	),
@@ -60,22 +60,22 @@ $compatibilityTypes = array(
 <div class="row">
 	<div class="col-md-6">
 		<fieldset class="options-form">
-			<?php
-			$labelClass = 'success';
-			foreach ($this->phpOptions as $option) :
-				if (!$option->state)
-				{
-					$labelClass = 'important';
-					break;
-				}
-			endforeach;
-			?>
-			<legend class="label label-<?php echo $labelClass;?>">
-				<h3>
-					<?php
-					echo $labelClass === 'important' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
-					?>
-					<div class="settingstoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+			<?php $labelClass = 'success'; ?>
+			<?php foreach ($this->phpOptions as $option) : ?>
+				<?php if (!$option->state) : ?>
+					<?php $labelClass = 'danger'; ?>
+					<?php break; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
+					<?php echo $labelClass === 'danger' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED'); ?>
+					<div class="settingstoggle ms-1" data-state="closed">
+						<?php echo Text::sprintf(
+							'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+							'<span class="icon-chevron-right"></span>'
+						); ?>
+					</div>
 				</h3>
 			</legend>
 			<div class="settingsInfo hidden">
@@ -98,13 +98,15 @@ $compatibilityTypes = array(
 						<tr>
 							<th scope="row">
 								<?php echo $option->label; ?>
+								<?php if ($option->notice) : ?>
+								<div class="small">
+									<?php echo $option->notice; ?>
+								</div>
+								<?php endif; ?>
 							</th>
 							<td>
 								<span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-									<?php if ($option->notice) : ?>
-										<span class="icon-info-circle icon-white" title="<?php echo $option->notice; ?>"></span>
-									<?php endif; ?>
 								</span>
 							</td>
 						</tr>
@@ -117,23 +119,23 @@ $compatibilityTypes = array(
 
 	<div class="col-md-6">
 		<fieldset class="options-form">
-			<?php
-			$labelClass = 'success';
-			foreach ($this->phpSettings as $setting) :
-				if ($setting->state !== $setting->recommended)
-				{
-					$labelClass = 'warning';
-					break;
-				}
-			endforeach;
-			?>
+			<?php $labelClass = 'success'; ?>
+			<?php foreach ($this->phpSettings as $setting) : ?>
+				<?php if ($setting->state !== $setting->recommended) : ?>
+					<?php $labelClass = 'warning'; ?>
+					<?php break; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 
-			<legend class="label label-<?php echo $labelClass;?>">
-				<h3>
-					<?php
-					echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
-					?>
-					<div class="settingstoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+			<legend>
+				<h3 class="alert alert-<?php echo $labelClass; ?>">
+					<?php echo $labelClass === 'warning' ? Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED'); ?>
+					<div class="settingstoggle ms-1" data-state="closed">
+						<?php echo Text::sprintf(
+							'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+							'<span class="icon-chevron-right"></span>'
+						); ?>
+					</div>
 				</h3>
 			</legend>
 			<div class="settingsInfo hidden">
@@ -187,10 +189,15 @@ $compatibilityTypes = array(
 				<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
 				<?php $compatibilityTypeGroup    = $compatibilityData['group']; ?>
 				<fieldset id="compatibilitytype<?php echo $compatibilityTypeGroup;?>" class="col-md-12 compatibilitytypes">
-					<legend class="alert <?php echo $compatibilityDisplayClass;?>">
-						<h3>
+					<legend>
+						<h3 class="alert <?php echo $compatibilityDisplayClass; ?>">
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
-								<div class="compatibilitytoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+								<div class="compatibilitytoggle" data-state="closed">
+									<?php echo Text::sprintf(
+										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+										'<span class="icon-chevron-right"></span>'
+									); ?>
+								</div>
 							<?php endif; ?>
 							<?php echo Text::_($compatibilityType); ?>
 						</h3>
@@ -224,7 +231,7 @@ $compatibilityTypes = array(
 							<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 								<tr>
 									<td class="exname col-md-8">
-										<?php echo Text::_($extension->name); ?>
+										<?php echo $extension->name; ?>
 									</td>
 									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>

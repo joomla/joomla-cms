@@ -71,7 +71,7 @@ class GroupsController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getContextFromInput()
 	{

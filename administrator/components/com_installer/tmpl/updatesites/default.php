@@ -105,9 +105,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<br>
 									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-										<?php if ($item->extra_query): ?>
-											<br><pre><?php echo $item->extra_query; ?></pre>
-										<?php endif; ?>
 									</span>
 									<br>
 									<span class="small break-word">
@@ -117,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge bg-warning text-dark">
+										<span class="badge bg-danger">
 											<span class="hasPopover"
 													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"

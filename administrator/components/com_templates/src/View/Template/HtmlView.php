@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 			}
 			catch (\RuntimeException $exception)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILALE'));
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
 				$this->type = 'home';
 			}
 		}

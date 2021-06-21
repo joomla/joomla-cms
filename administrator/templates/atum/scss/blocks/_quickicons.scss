@@ -82,9 +82,9 @@
 
       &.warning,
       &.danger {
-        --text-color: var(--white);
-        --bg-color: var(--danger);
-        --icon-color: var(--white);
+        --text-color: var(--danger);
+        --bg-color: #f4f0f0;
+        --icon-color: #ce8484;
         --bg-color-hvr: var(--danger);
       }
 
@@ -115,7 +115,7 @@
 
       > * {
         margin-bottom: 10px;
-        color: #30517b;
+        color: hsl(var(--hue), 30%, 40%);
       }
 
       &:hover,

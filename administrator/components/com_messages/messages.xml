@@ -17,7 +17,7 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>mdessages.xml</filename>
+			<filename>messages.xml</filename>
 			<folder>forms</folder>
 			<folder>services</folder>
 			<folder>src</folder>

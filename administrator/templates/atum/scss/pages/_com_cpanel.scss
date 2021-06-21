@@ -74,7 +74,6 @@
   }
 
   .card {
-
     p:last-child {
       margin-bottom: 0;
     }
@@ -111,6 +110,9 @@
 
   .card-body {
     padding: 0;
+    overflow: hidden;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
   }
 
   .module-actions {
@@ -164,15 +166,20 @@
 .cpanel-modules {
   .list-group {
     border-top: 1px solid $list-group-border-color;
-
-    &:not(.sample-data) {
-      font-size: .95rem;
-    }
   }
 
   .list-group-item {
     &:hover {
       background: var(--toolbar-bg);
+    }
+
+    a {
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .btn {
+      text-decoration: none;
     }
 
     .list-group-item a > span {
@@ -193,17 +200,19 @@
     }
   }
 
-  .list-group-item a > span.home-image {
+  .list-group-item span.home-image {
     &[class^="#{$jicon-css-prefix}-"],
     &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: inline-block;
       padding: 0;
+      margin: 0 .85rem;
       font-size: .9rem;
       color: rgba(1, 1, 1, 1);
       background: var(--white-offset);
       box-shadow: none;
+      transform: scale(1.2);
     }
   }
 
