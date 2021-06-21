@@ -235,7 +235,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function __construct($table, $key, DatabaseDriver $db = null, DispatcherInterface $dispatcher = null)
 	{
-		
 		if (!isset($this->_tz))
 		{
 			$this->_tz = Factory::getUser()->getTimezone();
@@ -273,7 +272,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Initialise the table properties.
 		foreach ((new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop)// [0=>(name,class)... ]
 		{
-			if('_' == substr($prop->name, 0, 1))
+			if ('_' == substr($prop->name, 0, 1))
 			{
 				continue;
 			}
@@ -281,12 +280,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			$type = (string)$prop->getType();//->getName()
 			$this->_propertyTypes[$prop->name] = $type;
 
-			if(isset($this->{$prop->name}))
+			if (isset($this->{$prop->name}))
 			{
 				continue;
 			}
 
-			if($type == '' || substr($type, 0, 1) == '?'){
+			if ($type == '' || substr($type, 0, 1) == '?'){
 				$this->{$prop->name} = null;
 				continue;
 			}
@@ -299,7 +298,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			// Add the field if it is not already present.
 			$type = $field->TypeProperty;
-			if(isset($this->_propertyTypes[$field->Field]))
+			if (isset($this->_propertyTypes[$field->Field]))
 			{
 				$field->TypeProperty = $this->_propertyTypes[$field->Field];
 				$type = $field->TypeProperty;
@@ -308,7 +307,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			{
 				//get type PHP from type DB without length
 				$field->TypeProperty = static::getTypeProperty($field->Type);
-				if(isset(static::$_typesVeluesProperty[$field->TypeProperty]))
+				if (isset(static::$_typesVeluesProperty[$field->TypeProperty]))
 				{
 					$type = static::$_typesVeluesProperty[$field->TypeProperty];
 				}
@@ -815,23 +814,23 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		foreach ($src as $k => $value)
 		{
 			// Only process fields not in the ignore array.
-			if(\in_array($k, $ignore))
+			if (\in_array($k, $ignore))
 			{
 				continue;
 			}
-			if(isset($fields[$k]))
+			if (isset($fields[$k]))
 			{
 				$type = $fields[$k]->TypeProperty;
 				$this->{$k} = static::TypeConvert($value,$type);
 				continue;
 			}
-			if(isset($this->_propertyTypes[$k]))
+			if (isset($this->_propertyTypes[$k]))
 			{
 				$type = $this->_propertyTypes[$k];
 				$this->{$k} = static::TypeConvert($value,$type);
 				continue;
 			}
-			if(isset($this->{$k}))
+			if (isset($this->{$k}))
 			{
 				$this->{$k} = $value;
 			}
@@ -2175,7 +2174,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function setTimezone($tz = null)
 	{
-		if($tz)
+		if ($tz)
 		{
 			$this->_tz = $tz;
 		}
@@ -2192,7 +2191,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	{
 		$objectSql = new \stdClass;
 		foreach ($this->getFields() as $name => $field){
-			if(!isset($this->{$name})){
+			if (!isset($this->{$name})){
 				$objectSql->{$name} = $field->DefaultProperty;
 				continue;
 			}
@@ -2245,7 +2244,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	protected static function TypeConvert($value = null, $type = '')
 	{
-		if($type == '')
+		if ($type == '')
 		{
 			return $value;
 		}
@@ -2253,67 +2252,67 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$typeParam = $type;
 		$type  = strtolower($type);
 
-		if(empty($value) && isset(static::$_devaultValuesProperty[$type]))
+		if (empty($value) && isset(static::$_devaultValuesProperty[$type]))
 		{
 			return static::$_devaultValuesProperty[$type];
 		}
-		if(empty($value) && class_exists($type) && is_a($type, "Joomla\CMS\Table\TablePropertyInterface", true))
+		if (empty($value) && class_exists($type) && is_a($type, "Joomla\CMS\Table\TablePropertyInterface", true))
 		{
 			return new $type($value);
 		}
 
-		if(is_scalar($value) && $type =='tosql')
+		if (is_scalar($value) && $type =='tosql')
 		{
 			return $value;
 		}
-		if(is_scalar($value) && $type=='string')
+		if (is_scalar($value) && $type=='string')
 		{
 			return (string)$value;
 		}
 		// conditions for DateTime types
-		if(in_array($type, ['tosql','string']) && $value instanceof DateTimeInterface)
+		if (in_array($type, ['tosql','string']) && $value instanceof DateTimeInterface)
 		{
-			if( ! $value instanceof \Joomla\CMS\Date\Date)
+			if ( ! $value instanceof \Joomla\CMS\Date\Date)
 				$value = new \Joomla\CMS\Date\Date($value);
 			$value = $value->toSql();
 			return $value;
 		}
 		// convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
-		if(is_object($value) && in_array($type, ['tosql','string']) && method_exists($value, 'toSql'))
+		if (is_object($value) && in_array($type, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
 			$value = $value->toSql();
 			return $value;
 		}
-		if(in_array($type, ['tostring','string']) && method_exists($value, '__toString'))
+		if (in_array($type, ['tostring','string']) && method_exists($value, '__toString'))
 		{
 			return $value->__toString();
 		}
-		if($type == 'datetime' || $type == strtolower('Joomla\CMS\Date\Date'))
+		if ($type == 'datetime' || $type == strtolower('Joomla\CMS\Date\Date'))
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
 			$value = new \Joomla\CMS\Date\Date($value);
 			return $value;
 		}
-		if($type == 'timestamp')
+		if ($type == 'timestamp')
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
 			$value = (new \Joomla\CMS\Date\Date($value))->toSql();
 			return $value;
 		}
-		if(in_array($typeParam, ['u']))
+		if (in_array($typeParam, ['u']))
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
 			$value = date_format($value,'u');
 			return $value;
 		}
-		if(in_array($typeParam, ['U','Unix','toUnix',]))
+		if (in_array($typeParam, ['U','Unix','toUnix',]))
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
 			$value = date_format($value,'U');
 			return $value;
 		}
 
-		if(isset(static::$_typesVeluesProperty[$type]))
+		if (isset(static::$_typesVeluesProperty[$type]))
 		{
 			$type = static::$_typesVeluesProperty[$type];
 			settype($value,$type);
