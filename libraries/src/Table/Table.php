@@ -246,9 +246,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function __construct($table, $key, DatabaseDriver $db = null, DispatcherInterface $dispatcher = null)
 	{
-		if (!isset($this->_tz) && class_exists('Joomla\CMS\Factory'))
+		if (!isset($this->_tz) && class_exists('Joomla\CMS\Factory') && Factory::$application)
 		{
-			$this->_tz = Factory::getUser()->getTimezone();
+			$user = Factory::getApplication()->getIdentity();
+			$this->_tz = $user ? $user->getTimezone() : null;
 		}
 
 		// Set internal variables.
