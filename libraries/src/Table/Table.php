@@ -277,7 +277,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$type = (string)$prop->getType();
+			$type = (string) $prop->getType();
 			$this->_propertyTypes[$prop->name] = $type;
 
 			if (isset($this->{$prop->name}))
@@ -291,14 +291,15 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$this->{$prop->name} = static::TypeConvert('',$type);
+			$this->{$prop->name} = static::TypeConvert('', $type);
 		}
 
-		// convert types otherwise default value
+		// Convert types otherwise default value
 		foreach ($this->getFields() as $name => $field)
 		{
 			// Add the field if it is not already present.
 			$type = $field->TypeProperty;
+
 			if (isset($this->_propertyTypes[$field->Field]))
 			{
 				$field->TypeProperty = $this->_propertyTypes[$field->Field];
@@ -306,8 +307,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			}
 			else
 			{
-				//get type PHP from type DB without length
+				// Get type PHP from type DB without length
 				$field->TypeProperty = static::getTypeProperty($field->Type);
+
 				if (isset(static::$_typesVeluesProperty[$field->TypeProperty]))
 				{
 					$type = static::$_typesVeluesProperty[$field->TypeProperty];
@@ -317,7 +319,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 					$type = '';
 				}
 			}
-	
+
 			$field->DefaultProperty = static::TypeConvert($field->Default, $type);
 			$this->$name = $field->DefaultProperty;
 		}
@@ -382,7 +384,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				$field->TypeProperty = static::getTypeProperty($field->Type);
 				$field->DefaultProperty = static::TypeConvert($field->Default, $field->TypeProperty);
 			}
-			
+
 			$cache = $fields;
 		}
 
@@ -812,6 +814,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 		// Bind the source value, excluding the ignored fields.
 		$fields = $this->getFields();
+		
 		foreach ($src as $k => $value)
 		{
 			// Only process fields not in the ignore array.
@@ -823,14 +826,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			if (isset($fields[$k]))
 			{
 				$type = $fields[$k]->TypeProperty;
-				$this->{$k} = static::TypeConvert($value,$type);
+				$this->{$k} = static::TypeConvert($value, $type);
 				continue;
 			}
 
 			if (isset($this->_propertyTypes[$k]))
 			{
 				$type = $this->_propertyTypes[$k];
-				$this->{$k} = static::TypeConvert($value,$type);
+				$this->{$k} = static::TypeConvert($value, $type);
 				continue;
 			}
 
@@ -2241,12 +2244,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Convert type, 
+	 * Convert type.
 	 * if empty type then return value as exist.
 	 * if empty value then return default value for this type
 	 *
-	 * @param mixed $value 
-	 * @param string $type 
+	 * @param mixed $value
+	 * @param string $type
 	 * @return mixed
 	 * @since  4.0.0
 	 */
@@ -2264,6 +2267,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			return static::$_devaultValuesProperty[$type];
 		}
+
 		if (empty($value) && class_exists($type) && is_a($type, "Joomla\CMS\Table\TablePropertyInterface", true))
 		{
 			return new $type($value);
@@ -2273,64 +2277,67 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			return $value;
 		}
-		
+
 		if (is_scalar($value) && $type=='string')
 		{
 			return (string)$value;
 		}
-		
-		// conditions for DateTime types
+
+		// Conditions for DateTime types
 		if (in_array($type, ['tosql','string']) && $value instanceof DateTimeInterface)
 		{
 			if ( ! $value instanceof \Joomla\CMS\Date\Date)
+			{
 				$value = new \Joomla\CMS\Date\Date($value);
+			}
+
 			$value = $value->toSql();
 			return $value;
 		}
-		// convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
+		// Convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
 		if (is_object($value) && in_array($type, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
 			$value = $value->toSql();
 			return $value;
 		}
-		
+
 		if (in_array($type, ['tostring','string']) && method_exists($value, '__toString'))
 		{
 			return $value->__toString();
 		}
-		
+
 		if ($type == 'datetime' || $type == strtolower('Joomla\CMS\Date\Date'))
 		{
-			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
+			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = new \Joomla\CMS\Date\Date($value);
 			return $value;
 		}
-		
+
 		if ($type == 'timestamp')
 		{
-			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
+			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
 			$value = (new \Joomla\CMS\Date\Date($value))->toSql();
 			return $value;
 		}
-		
+
 		if (in_array($typeParam, ['u']))
 		{
-			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
-			$value = date_format($value,'u');
+			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
+			$value = date_format($value, 'u');
 			return $value;
 		}
-		
+
 		if (in_array($typeParam, ['U','Unix','toUnix',]))
 		{
-			$value = in_array($value, [null,'','CURRENT_TIMESTAMP'])? 'now' : $value;
-			$value = date_format($value,'U');
+			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
+			$value = date_format($value, 'U');
 			return $value;
 		}
 
 		if (isset(static::$_typesVeluesProperty[$type]))
 		{
 			$type = static::$_typesVeluesProperty[$type];
-			settype($value,$type);
+			settype($value, $type);
 		}
 
 		return $value;
