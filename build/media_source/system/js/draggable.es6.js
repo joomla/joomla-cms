@@ -8,6 +8,7 @@ let direction;
 let isNested;
 let dragElementIndex;
 let dropElementIndex;
+let dropElement;
 let container = document.querySelector('.js-draggable');
 const orderRows = container.querySelectorAll('[name="order[]"]');
 
@@ -91,6 +92,61 @@ if (container) {
     return result;
   };
 
+  const saveTheOrder = (el) => {
+    let orderSelector;
+    let inputSelector;
+    let rowSelector;
+
+    const groupId = el.dataset.draggableGroup;
+
+    if (groupId) {
+      rowSelector = `tr[data-draggable-group="${groupId}"]`;
+      orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
+      inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
+    } else {
+      rowSelector = 'tr';
+      orderSelector = '[name="order[]"]';
+      inputSelector = '[name="cid[]"]';
+    }
+
+    const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+    const rows = [].slice.call(container.querySelectorAll(orderSelector));
+    const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
+
+    dropElementIndex = rowElements.indexOf(el);
+
+    if (url) {
+      // Detach task field if exists
+      const task = document.querySelector('[name="task"]');
+
+      // Detach task field if exists
+      if (task) {
+        task.setAttribute('name', 'some__Temporary__Name__');
+      }
+
+      // Prepare the options
+      const ajaxOptions = {
+        url,
+        method: 'POST',
+        data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+        perform: true,
+      };
+
+      Joomla.request(ajaxOptions);
+
+      // Re-Append original task field
+      if (task) {
+        task.setAttribute('name', 'task');
+      }
+    }
+
+    // Reset data order attribute for initial ordering
+    const elements = container.querySelectorAll('[name="order[]"]');
+    for (let i = 0, l = elements.length; l > i; i += 1) {
+      elements[i].dataset.order = i + 1;
+    }
+  };
+
   // eslint-disable-next-line no-undef
   dragula([container], {
     // Y axis is considered when determining where an element would be dropped
@@ -133,62 +189,13 @@ if (container) {
 
       dragElementIndex = rowElements.indexOf(el);
     })
-    .on('cloned', () => {
-
-    })
     .on('drop', (el) => {
-      let orderSelector;
-      let inputSelector;
-      let rowSelector;
-
-      const groupId = el.dataset.draggableGroup;
-
-      if (groupId) {
-        rowSelector = `tr[data-draggable-group="${groupId}"]`;
-        orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
-        inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
-      } else {
-        rowSelector = 'tr';
-        orderSelector = '[name="order[]"]';
-        inputSelector = '[name="cid[]"]';
-      }
-
-      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
-      const rows = [].slice.call(container.querySelectorAll(orderSelector));
-      const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
-
-      dropElementIndex = rowElements.indexOf(el);
-
-      if (url) {
-        // Detach task field if exists
-        const task = document.querySelector('[name="task"]');
-
-        // Detach task field if exists
-        if (task) {
-          task.setAttribute('name', 'some__Temporary__Name__');
-        }
-
-        // Prepare the options
-        const ajaxOptions = {
-          url,
-          method: 'POST',
-          data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
-          perform: true,
-        };
-
-        Joomla.request(ajaxOptions);
-
-        // Re-Append original task field
-        if (task) {
-          task.setAttribute('name', 'task');
-        }
-      }
+      dropElement = el;
     })
     .on('dragend', () => {
-      const elements = container.querySelectorAll('[name="order[]"]');
-      // Reset data order attribute for initial ordering
-      for (let i = 0, l = elements.length; l > i; i += 1) {
-        elements[i].dataset.order = i + 1;
+      if (dropElement) {
+        saveTheOrder(dropElement);
+        dropElement = null;
       }
     });
 }
