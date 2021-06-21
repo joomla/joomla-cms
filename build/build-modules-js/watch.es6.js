@@ -24,7 +24,7 @@ module.exports.watching = (path) => {
       if (extname(file) === '.scss' && !basename(file).startsWith('_')) {
         debounce(handleScssFile(file), 300);
       }
-      if (extname(file) === '.css' ) {
+      if (extname(file) === '.css') {
         debounce(handleCssFile(file), 300);
       }
     });
@@ -41,7 +41,7 @@ module.exports.watching = (path) => {
       if (extname(file) === '.scss' && !basename(file).startsWith('_')) {
         debounce(handleScssFile(file), 300);
       }
-      if (extname(file) === '.css' ) {
+      if (extname(file) === '.css') {
         debounce(handleCssFile(file), 300);
       }
     });
