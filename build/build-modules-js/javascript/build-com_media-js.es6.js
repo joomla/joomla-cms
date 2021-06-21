@@ -173,6 +173,6 @@ module.exports.watchMediaManager = async () => {
         sourcemap: false,
         file: 'media/com_media/js/media-manager.min.js',
       },
-    ]
+    ],
   });
 };
