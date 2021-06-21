@@ -482,7 +482,7 @@ class SiteRouter extends Router
 		{
 			if (!$item->home)
 			{
-				$tmp = $item->route . '/' . $tmp;
+				$tmp = $tmp ? $item->route . '/' . $tmp : $item->route;
 			}
 
 			unset($query['Itemid']);
@@ -492,13 +492,10 @@ class SiteRouter extends Router
 			$tmp = 'component/' . substr($query['option'], 4) . '/' . $tmp;
 		}
 
-		// Get the route without leading slash
-		$route = ltrim($uri->getPath() . '/' . $tmp, '/');
-
-		// Remove trailing slash if URL ends with 'index.php/' or is not a home menu item
-		if (substr($route, -10) === 'index.php/' || $item === null || !$item->home)
+		// Get the route
+		if ($tmp)
 		{
-			$route = rtrim($route, '/');
+			$uri->setPath($uri->getPath() . '/' . $tmp);
 		}
 
 		// Unset unneeded query information
@@ -506,7 +503,6 @@ class SiteRouter extends Router
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath($route);
 	}
 
 	/**
