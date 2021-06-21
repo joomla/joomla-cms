@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
+		name="permissio"
+		label="COM_COOKIEMANAGER_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
+		>
+		<field
+			name="policylink"
+			type="menuitem"
+			label="COM_COOKIEMANAGER_POLICY_LINK_LABEL"
+		/>
+
+		<field
+			name="position"
+			type="list"
+			label="COM_COOKIEMANAGER_POSITION_BUTTON_LABEL"
+			default="bottom"
+		>
+		<option value="bottom">Bottom</option>
+		<option value="left">Left</option>
+		<option value="right">Right</option>
+		<option value="top">Top</option>
+		</field>
+	</fieldset>
+
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
