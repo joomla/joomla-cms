@@ -119,7 +119,7 @@ if (Program.compileJs) {
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watching();
+  watching(Program.args[0]);
 }
 
 // Gzip js/css files
