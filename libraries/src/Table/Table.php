@@ -145,7 +145,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @var    \DateTimeZone
 	 * @since  4.0.0
 	 */
-	protected $_tz;
+	protected $_tz = null;
 
 	/**
 	 * List public properties and this default types
@@ -2299,7 +2299,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			if (!$value instanceof \Joomla\CMS\Date\Date)
 			{
-				$value = new \Joomla\CMS\Date\Date($value);
+				$value = new \Joomla\CMS\Date\Date($value, $this->_tz);
 			}
 
 			$value = $value->toSql();
@@ -2321,7 +2321,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		if ($type == 'datetime' || $type == strtolower('Joomla\CMS\Date\Date'))
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
-			$value = new \Joomla\CMS\Date\Date($value);
+			$value = new \Joomla\CMS\Date\Date($value, $this->_tz);
 
 			return $value;
 		}
@@ -2329,7 +2329,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		if ($type == 'timestamp')
 		{
 			$value = in_array($value, [null,'','CURRENT_TIMESTAMP']) ? 'now' : $value;
-			$value = (new \Joomla\CMS\Date\Date($value))->toSql();
+			$value = (new \Joomla\CMS\Date\Date($value, $this->_tz))->toSql();
 
 			return $value;
 		}
