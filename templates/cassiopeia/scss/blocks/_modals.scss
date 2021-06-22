@@ -45,6 +45,11 @@
 
 .contentpane {
   padding: 15px;
+
+  .main-card {
+    margin: -10px;
+    box-shadow: none;
+  }
 }
 
 // Content History

@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -90,7 +91,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $filterForbiddenList = array();
 
@@ -107,7 +108,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $listForbiddenList = array('select');
 
@@ -118,7 +119,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   1.6
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -147,6 +148,44 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		{
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
+	}
+
+	/**
+	 * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = clone $this->_getListQuery();
+
+		if ($query instanceof DatabaseQuery)
+		{
+			$query->clear('bounded')
+				->clear('group')
+				->clear('having')
+				->clear('join')
+				->clear('values')
+				->clear('where');
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @throws Exception
+	 *
+	 * @since 4.0.0
+	 */
+	public function getIsEmptyState(): bool
+	{
+		return $this->_getListCount($this->getEmptyStateQuery()) === 0;
 	}
 
 	/**

@@ -13,6 +13,7 @@ namespace Joomla\Module\Submenu\Administrator\Menu;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -52,6 +53,17 @@ abstract class Menu
 		foreach ($children as $item)
 		{
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
+			/*
+			 * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
+			 * the Language Filter plugin
+			 */
+
+			if ($item->element === 'com_associations' && !Associations::isEnabled())
 			{
 				$parent->removeChild($item);
 				continue;

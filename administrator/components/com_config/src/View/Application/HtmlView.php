@@ -11,7 +11,6 @@ namespace Joomla\Component\Config\Administrator\View\Application;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -91,12 +90,8 @@ class HtmlView extends BaseHtmlView
 		// Get the params for com_media.
 		$mediaParams = ComponentHelper::getParams('com_media');
 
-		// Load settings for the FTP layer.
-		$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-
 		$this->form        = &$form;
 		$this->data        = &$data;
-		$this->ftp         = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
 		$this->components  = ConfigHelper::getComponentsWithConfig();
@@ -118,7 +113,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'sliders-h config');
+		ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'cog config');
 		ToolbarHelper::apply('application.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('application.save');

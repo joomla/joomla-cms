@@ -156,11 +156,6 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
-		{
-			$this->params->set('page_subheading', $menu->title);
-		}
-
 		// Set metadata for all tags menu item
 		if ($this->params->get('menu-meta_description'))
 		{

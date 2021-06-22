@@ -20,7 +20,7 @@ $id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
-	$sort = $data->direction === 'asc' ? 'ascending' : 'descending';
+	$sort = $data->direction === 'asc' ? 'descending' : 'ascending';
 	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
 	$selected = ' selected';
 	$id = 'id="sorted"';

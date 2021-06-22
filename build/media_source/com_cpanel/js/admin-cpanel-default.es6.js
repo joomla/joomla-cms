@@ -3,6 +3,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * Debounce
+ * https://gist.github.com/nmsdvid/8807205
+ *
+ * @param { function } callback  The callback function to be executed
+ * @param { int }  time      The time to wait before firing the callback
+ * @param { int }  interval  The interval
+ */
+// eslint-disable-next-line max-len, no-param-reassign, no-return-assign
+const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, interval = setTimeout(callback, time, ...args));
+
 ((window, document, Joomla) => {
   Joomla.unpublishModule = (element) => {
     // Get variables
@@ -20,12 +31,12 @@
         wrapper.parentNode.removeChild(wrapper);
 
         Joomla.renderMessages({
-          message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')],
+          message: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')],
         });
       },
       onError: () => {
         Joomla.renderMessages({
-          error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')],
+          error: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')],
         });
       },
     });
@@ -79,11 +90,7 @@
       MasonryLayout.resizeAllGridItems();
 
       // Watch on window resize
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(MasonryLayout.resizeAllGridItems, 300);
-      });
+      window.addEventListener('resize', debounce(MasonryLayout.resizeAllGridItems, 50));
     },
   };
 

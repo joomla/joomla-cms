@@ -117,19 +117,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		$this->state            = $this->get('State');
+		$this->transitions      = $this->get('Items');
+		$this->pagination       = $this->get('Pagination');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
+		$this->workflow         = $this->get('Workflow');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->state            = $this->get('State');
-		$this->transitions      = $this->get('Items');
-		$this->pagination       = $this->get('Pagination');
-		$this->filterForm    	= $this->get('FilterForm');
-		$this->activeFilters 	= $this->get('ActiveFilters');
-
-		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
 
 		$parts = explode('.', $this->workflow->extension);

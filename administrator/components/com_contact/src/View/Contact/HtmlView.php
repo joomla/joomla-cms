@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 			{
 				ToolbarHelper::apply('contact.apply');
 

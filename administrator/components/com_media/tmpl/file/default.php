@@ -34,7 +34,9 @@ $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
 {
+	echo '<div class="subhead noshadow">';
 	echo Toolbar::getInstance('toolbar')->render();
+	echo '</div>';
 }
 
 // Populate the media config
@@ -52,14 +54,12 @@ $this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
-<div class="row">
-	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">
-	<?php $fieldSets = $form->getFieldsets(); ?>
-	<?php if ($fieldSets) : ?>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
-		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around col-md-9 p-4"></div>'; ?>
-		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-	<?php endif; ?>
-	</form>
-</div>
+<form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
+<?php $fieldSets = $form->getFieldsets(); ?>
+<?php if ($fieldSets) : ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+	<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
+	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+<?php endif; ?>
+</form>
