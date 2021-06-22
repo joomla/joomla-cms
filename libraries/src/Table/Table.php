@@ -2256,7 +2256,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			return static::$_defaultValuesProperty[$typeLower];
 		}
-		
+
 		if (isset(static::$_typesVeluesProperty[$typeLower]))
 		{
 			$typeLower = static::$_typesVeluesProperty[$typeLower];
