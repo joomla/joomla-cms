@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  *
  * @since   __DEPLOY_VERSION__
  */
-class GroupsController extends AdminController
+class CookiesController extends AdminController
 {
 	/**
 	 * Proxy for getModel.

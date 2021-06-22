@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since   __DEPLOY_VERSION__
  */
-class GroupTable extends Table
+class CookieTable extends Table
 {
 	/**
 	 * Ensure the params in json encoded in the bind method

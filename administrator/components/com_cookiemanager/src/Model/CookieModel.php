@@ -23,7 +23,7 @@ use Joomla\CMS\Table\Table;
  * @since   __DEPLOY_VERSION__
  */
 
-class GroupModel extends AdminModel
+class CookieModel extends AdminModel
 {
 	/**
 	 * The prefix to use with controller messages.

@@ -18,6 +18,6 @@ use Joomla\CMS\MVC\Controller\FormController;
  *
  * @since   __DEPLOY_VERSION__
  */
-class GroupController extends FormController
+class CookieController extends FormController
 {
 }

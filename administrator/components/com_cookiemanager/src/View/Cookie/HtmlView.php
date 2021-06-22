@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cookiemanager\Administrator\View\Group;
+namespace Joomla\Component\Cookiemanager\Administrator\View\Cookie;
 
 defined('_JEXEC') or die;
 

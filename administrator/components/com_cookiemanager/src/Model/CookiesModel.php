@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
  *
  * @since   __DEPLOY_VERSION__
  */
-class GroupsModel extends ListModel
+class CookiesModel extends ListModel
 {
 	/**
 	 * Constructor.
