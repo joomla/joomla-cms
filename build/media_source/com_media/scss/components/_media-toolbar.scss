@@ -32,24 +32,6 @@
   }
 }
 
-.media-toolbar-icon {
-  display: inline-block;
-  width: $toolbar-icon-width;
-  font-size: 1.3rem;
-  line-height: $toolbar-height;
-  color: var(--atum-bg-dark-60);
-  text-align: center;
-  background-color: transparent;
-  border: 0;
-  border-left: 1px solid $border-color;
-  box-shadow: 1px 0 #fefefe inset;
-  &:hover {
-    background-color: $toolbar-icon-bg-hover;
-    box-shadow: none;
->>>>>>> upstream/4.0-dev
-  }
-}
-
 .media-view-icons {
   display: flex;
   .disabled {
