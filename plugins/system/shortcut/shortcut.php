@@ -25,14 +25,15 @@ class PlgSystemShortcut extends CMSPlugin
 	 * @var    JApplicationCms
 	 * @since  4.1
 	 */
-    protected $app;
+	protected $app;
 
-    /**
+	/**
 	 * Base path for keyboard shortcut
 	 *
+	 * @var    string
 	 * @since  4.1
 	 */
-    protected $_basePath = 'media/plg_system_shortcut';
+	protected $_basePath = 'media/plg_system_shortcut';
 	public function onBeforeCompileHead()
 	{
 		if ($this->app->isClient('administrator'))
