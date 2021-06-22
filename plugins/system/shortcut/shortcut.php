@@ -19,9 +19,20 @@ use Joomla\CMS\Language\Text;
  */
 class PlgSystemShortcut extends CMSPlugin
 {
-	protected $app;
+	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  4.1
+	 */
+    protected $app;
 
-	protected $_basePath = 'media/plg_system_shortcut';
+    /**
+	 * Base path for keyboard shortcut
+	 *
+	 * @since  4.1
+	 */
+    protected $_basePath = 'media/plg_system_shortcut';
 	public function onBeforeCompileHead()
 	{
 		if ($this->app->isClient('administrator'))
