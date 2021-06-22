@@ -5,6 +5,7 @@
   padding: 0;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
+  border-left: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
   box-shadow: 0 -1px 0 0  $border-color;
   input {
