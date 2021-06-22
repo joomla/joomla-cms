@@ -209,9 +209,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'xml' => 'string',
 
 		'datetime' => 'string',
+		'tosql' => 'string',
+		'tostring' => 'string',
 
 		'enum' => '',
 		'set' => '',
+
+		'object' => 'object',
+		'array' => 'array',
 	];
 
 	/**
@@ -2251,24 +2256,22 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			return static::$_defaultValuesProperty[$typeLower];
 		}
-
-		if (empty($value) && class_exists($typeLower) && is_a($typeLower, "Joomla\CMS\Table\TablePropertyInterface", true))
+		
+		if (isset(static::$_typesVeluesProperty[$typeLower]))
 		{
-			return new $typeLower($value);
-		}
+			$typeLower = static::$_typesVeluesProperty[$typeLower];
+			settype($value, $typeLower);
 
-		if (is_scalar($value) && $typeLower == 'tosql')
-		{
 			return $value;
 		}
 
-		if (is_scalar($value) && $typeLower == 'string')
+		if (class_exists($type) && is_a($type, "Joomla\CMS\Table\TablePropertyInterface", true))
 		{
-			return (string) $value;
+			return new $type($value);
 		}
 
 		// Conditions for DateTime types
-		if (($type == 'datetime' || in_array($typeLower, ['tosql','string'])) && $value instanceof DateTimeInterface)
+		if (($type == 'datetime' || in_array($typeLower, ['tosql'])) && $value instanceof DateTimeInterface)
 		{
 			if (!$value instanceof \Joomla\CMS\Date\Date)
 			{
@@ -2282,11 +2285,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		if (is_object($value) && in_array($typeLower, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
 			return $value->toSql();
-		}
-
-		if (in_array($typeLower, ['tostring','string']) && method_exists($value, '__toString'))
-		{
-			return $value->__toString();
 		}
 
 		if ($type == 'DateTime' || is_a($type, 'Joomla\CMS\Date\Date', true))
@@ -2319,12 +2317,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			$value = date_format($value, 'U');
 
 			return $value;
-		}
-
-		if (isset(static::$_typesVeluesProperty[$typeLower]))
-		{
-			$typeLower = static::$_typesVeluesProperty[$typeLower];
-			settype($value, $typeLower);
 		}
 
 		return $value;
