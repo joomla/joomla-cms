@@ -9,17 +9,12 @@
       class="media-loader"
     />
     <div class="media-view-icons">
-      <a
-        href="#"
+      <input
+        type="checkbox"
         class="media-toolbar-icon media-toolbar-select-all"
         :aria-label="translate('COM_MEDIA_SELECT_ALL')"
-        @click.stop.prevent="toggleSelectAll()"
-      >
-        <span
-          :class="toggleSelectAllBtnIcon"
-          aria-hidden="true"
+        @change="toggleSelectAll"
         />
-      </a>
     </div>
     <media-breadcrumb />
     <div
@@ -101,9 +96,6 @@ export default {
     toggleListViewBtnIcon() {
       return (this.isGridView) ? 'icon-list' : 'icon-th';
     },
-    toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square';
-    },
     isLoading() {
       return this.$store.state.isLoading;
     },
@@ -112,11 +104,7 @@ export default {
     },
     isGridView() {
       return (this.$store.state.listView === 'grid');
-    },
-    allItemsSelected() {
-      // eslint-disable-next-line max-len
-      return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
-    },
+    }
   },
   methods: {
     toggleInfoBar() {
@@ -143,8 +131,8 @@ export default {
         this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
       }
     },
-    toggleSelectAll() {
-      if (this.allItemsSelected) {
+    toggleSelectAll(event) {
+      if (!event.target.checked) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
         // eslint-disable-next-line max-len
