@@ -525,7 +525,7 @@ class MediaHelper
 			$sizes = static::$responsiveSizes;
 		}
 
-		$pattern = '/src="([^"]+)"/';
+		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
 
 		// Get initial images and remove duplicates
 		preg_match_all($pattern, $initContent, $initImages);

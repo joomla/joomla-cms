@@ -322,7 +322,6 @@ class Image
 	 * @param   mixed    $imageSizes      string or array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
-	 * @param   string   $destFolder      destination images folder. null generates a responsive or thumbs folder in the image folder
 	 *
 	 * @return  array
 	 *
