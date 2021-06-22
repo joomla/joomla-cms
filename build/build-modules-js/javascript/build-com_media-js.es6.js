@@ -122,8 +122,10 @@ module.exports.mediaManager = async () => {
 module.exports.watchMediaManager = async () => {
   // eslint-disable-next-line no-console
   console.log('Watching Media Manager js+vue files...');
+  // eslint-disable-next-line no-console
+  console.log('=========');
 
-  await rollup.watch({
+  const watcher = rollup.watch({
     input: resolve(inputJS),
     plugins: [
       VuePlugin({
@@ -174,5 +176,14 @@ module.exports.watchMediaManager = async () => {
         file: 'media/com_media/js/media-manager.min.js',
       },
     ],
+  });
+
+  watcher.on('event', (event) => {
+    if (event.code === 'BUNDLE_END') {
+      // eslint-disable-next-line no-console
+      console.log(`File ${event.output[0]} updated ✅
+File ${event.output[1]} updated ✅
+=========`);
+    }
   });
 };
