@@ -163,7 +163,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @since  4.0.0
 	 */
 	protected static $_typesVeluesProperty = [
-		//'This type SQL' => 'This type PHP'
+		// 'This type SQL' => 'This type PHP'
 		'bool' => 'bool',
 		'boolean' => 'bool',
 
@@ -285,7 +285,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->_db = $db ?? Factory::getDbo();
 
 		// Initialise the table properties.
-		foreach ((new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop)// [0=>(name,class)... ]
+		foreach ((new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop)
 		{
 			if ('_' == substr($prop->name, 0, 1))
 			{
@@ -308,17 +308,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 			$this->{$prop->name} = static::TypeConvert('', $type);
 		}
-//if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
+
 		// Convert types otherwise default value
 		foreach ($this->getFields() as $name => $field)
 		{
-			// Use type property if it is not already present.
-			if (isset($this->_propertyTypes[$field->Field]))
+			if (!\in_array($name, $this->_tbl_keys) && (strpos($name, '_') !== 0))
 			{
-				$field->TypeProperty = $this->_propertyTypes[$field->Field]; 
+				$this->$name = static::TypeConvert($field->Default, $field->TypeProperty, $this->_tz);
 			}
-
-			$this->$name = static::TypeConvert($field->Default, $field->TypeProperty, $this->_tz);
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
@@ -378,7 +375,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 			foreach ($fields as $field)
 			{
-				$field->TypeProperty = static::getTypeProperty($field->Type);
+				// Use type property if it is not already present.
+				$field->TypeProperty = $this->_propertyTypes[$field->Field] ?? static::getTypeProperty($field->Type);
 			}
 
 			$cache = $fields;
