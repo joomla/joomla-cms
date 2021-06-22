@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $default_view = 'groups';
+	protected $default_view = 'cookies';
 
 	/**
 	 * Method to display a view.

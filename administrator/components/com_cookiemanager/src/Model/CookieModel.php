@@ -47,7 +47,7 @@ class GroupModel extends AdminModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
 	{
-		$name = 'group';
+		$name = 'cookie';
 		$prefix = 'Table';
 
 		if ($table = $this->_createTable($name, $prefix, $options))
@@ -70,24 +70,10 @@ class GroupModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the id.
-		$id = $this->getState('group.id');
 
 		// Get the form.
-		if ($id === 1)
-		{
-				$form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
-		}
+		// $form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
 
-		elseif ($id === 2)
-		{
-			$form = $this->loadForm('com_cookiemanager.settings', 'settings', array('control' => 'jform', 'load_data' => $loadData));
-		}
-
-		else
-		{
-			$form = $this->loadForm('com_cookiemanager.information', 'information', array('control' => 'jform', 'load_data' => $loadData));
-		}
 
 		if (empty($form))
 		{
@@ -108,14 +94,14 @@ class GroupModel extends AdminModel
 	{
 		// Check the session for previously entered form data.
 		$app = Factory::getApplication();
-		$data = $app->getUserState('com_cookiemanager.edit.group.data', array());
+		$data = $app->getUserState('com_cookiemanager.edit.cookie.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
 
-		$this->preprocessData('com_cookiemanager.group', $data);
+		$this->preprocessData('com_cookiemanager.cookie', $data);
 
 		return $data;
 	}
