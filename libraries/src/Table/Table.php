@@ -2184,10 +2184,11 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Get list properties name and their types 
+	 * Get list properties name and their types
 	 * @return array
 	 */
-	public function getTypesProperties() {
+	public function getTypesProperties()
+	{
 		return $this->_propertyTypes;
 	}
 
