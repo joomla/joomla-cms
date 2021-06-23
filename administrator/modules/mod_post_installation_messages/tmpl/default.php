@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-if ($hideLinks || count($messages) < 1)
+if ($hideLinks || $messagesCount < 1)
 {
 	return;
 }
@@ -26,7 +26,7 @@ if ($hideLinks || count($messages) < 1)
 		<div class="header-item-icon">
 			<div class="w-auto">
 				<span class="icon-bell icon-fw" aria-hidden="true"></span>
-				<small class="header-item-count"><?php echo count($messages); ?></small>
+				<small class="header-item-count"><?php echo $messagesCount; ?></small>
 			</div>
 		</div>
 		<div class="header-item-text">
