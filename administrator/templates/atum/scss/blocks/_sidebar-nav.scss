@@ -4,7 +4,6 @@
   padding: 1rem 2rem;
 
   li {
-    margin-bottom: .5rem;
     font-size: .9rem;
     font-weight: $font-weight-bold;
 
@@ -13,6 +12,8 @@
     }
 
     a {
+      display: block;
+      padding: .25rem;
       font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
       text-decoration: none;
@@ -29,9 +30,11 @@
       }
     }
 
-    &:hover, &.active {
+    &.item:hover, &.active {
+      background-color: var(--atum-bg-dark-60);
+
       a {
-        color: var(--atum-link-color);
+        color: var(--atum-text-light);
       }
     }
   }

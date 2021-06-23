@@ -104,7 +104,7 @@ if ($privacyLink)
 			'modalWidth'  => '800',
 			'bodyHeight'  => '500',
 			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 		]
 	);
 }
