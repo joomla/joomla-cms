@@ -180,39 +180,38 @@
         background: $white;
       }
 
-      > .mm-toggler-component__wrapper,
-      > .mm-toggler-url__wrapper {
+      > .mm-toggler-component__wrapper a,
+      > .mm-toggler-url__wrapper a {
+        position: relative;
+      }
 
-        a {
-          position: relative;
+      > .mm-toggler-component__wrapper > a::after,
+      > .mm-toggler-component__wrapper > button::before,
+      > .mm-toggler-url__wrapper > a::after,
+      > .mm-toggler-url__wrapper > button::before {
+
+        @include media-breakpoint-up(md) {
+          position: absolute;
+          right: 50%;
+          bottom: 0;
+          left: 50%;
+          display: block;
+          height: 2px;
+          margin: auto;
+          content: "";
+          background: transparent;
+          opacity: .2;
+          transition: all .2s ease, background-color .2s ease;
         }
+      }
 
-        > a::after,
-        > button::before {
-
-          @include media-breakpoint-up(md) {
-            position: absolute;
-            right: 50%;
-            bottom: 0;
-            left: 50%;
-            display: block;
-            height: 2px;
-            margin: auto;
-            content: "";
-            background: transparent;
-            opacity: .2;
-            transition: all .2s ease, background-color .2s ease;
-          }
-        }
-
-        > a:hover::after,
-        > button:hover::before,
-        &.active > a::after,
-        &.active > button::before {
-          right: 0;
-          left: 0;
-          background: $white;
-        }
+      > a:hover::after,
+      > button:hover::before,
+      &.active > a::after,
+      &.active > button::before {
+        right: 0;
+        left: 0;
+        background: $white;
       }
 
       > button.mm-toggler-link:hover::before,
