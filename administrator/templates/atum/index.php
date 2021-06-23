@@ -155,11 +155,10 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
-			<div id="subhead" class="subhead mb-3">
-				<div id="container-collapse" class="container-collapse"></div>
+			<div id="subhead-container" class="subhead mb-3">
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="modules" name="toolbar" style="none" />

@@ -95,7 +95,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 		<?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
 		<?php if ($clientIdField) : ?>
 		<div class="js-stools-container-selector">
-			<div class="sr-only">
+			<div class="visually-hidden">
 				<?php echo $clientIdField->label; ?>
 			</div>
 			<div class="js-stools-field-selector js-stools-client_id">
