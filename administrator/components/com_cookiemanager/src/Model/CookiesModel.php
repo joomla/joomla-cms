@@ -134,23 +134,23 @@ class CookiesModel extends ListModel
 			// Filter by categories
 			$categoryId = $this->getState('filter.category_id', array());
 
-			if (!is_array($categoryId))
-			{
-				$categoryId = $categoryId ? array($categoryId) : array();
-			}
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
 
 			// Filter by published state
 			$published = (string) $this->getState('filter.published');
 
-			if (is_numeric($published))
-			{
-				$query->where($db->quoteName('a.published') . ' = :published');
-				$query->bind(':published', $published, ParameterType::INTEGER);
-			}
-			elseif ($published === '')
-			{
-				$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
-			}
+		if (is_numeric($published))
+		{
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $published, ParameterType::INTEGER);
+		}
+		elseif ($published === '')
+		{
+			$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
+		}
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');

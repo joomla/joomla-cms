@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-    if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
 		}
@@ -109,20 +109,20 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-    $user  = Factory::getApplication()->getIdentity();
-    $canDo = ContentHelper::getActions('com_cookiemanager', 'category', $this->state->get('filter.category_id'));
+		$user  = Factory::getApplication()->getIdentity();
+		$canDo = ContentHelper::getActions('com_cookiemanager', 'category', $this->state->get('filter.category_id'));
 
-    // Get the toolbar object instance
-    $toolbar = Toolbar::getInstance('toolbar');
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
-    ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_COOKIES'));
+		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_COOKIES'));
 
 		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_cookiemanager', 'core.create')) > 0)
 		{
 			$toolbar->addNew('cookie.add');
 		}
 
-	if (($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))))
+		if (($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -153,12 +153,12 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-    if ($user->authorise('core.admin', 'com_cookiemanager'))
-    {
-      $toolbar->preferences('com_cookiemanager');
-    }
+		if ($user->authorise('core.admin', 'com_cookiemanager'))
+		{
+			$toolbar->preferences('com_cookiemanager');
+		}
 
-    $toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES');
+		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES');
 
 	}
 }
