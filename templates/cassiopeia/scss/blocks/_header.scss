@@ -185,6 +185,19 @@
         position: relative;
       }
 
+      > .mm-toggler-component__wrapper,
+      > .mm-toggler-url__wrapper {
+
+        > a:hover::after,
+        > button:hover::before,
+        &.active > a::after,
+        &.active > button::before {
+          right: 0;
+          left: 0;
+          background: $white;
+        }
+      }
+
       > .mm-toggler-component__wrapper > a::after,
       > .mm-toggler-component__wrapper > button::before,
       > .mm-toggler-url__wrapper > a::after,
@@ -205,30 +218,8 @@
         }
       }
 
-      > a:hover::after,
-      > button:hover::before,
-      &.active > a::after,
-      &.active > button::before {
-        right: 0;
-        left: 0;
-        background: $white;
-      }
-
-      > button.mm-toggler-link:hover::before,
+      button.mm-toggler-link:hover::before,
       &.active > button.mm-toggler-link::before {
-        right: 0;
-        left: .5em;
-
-        [dir="rtl"] & {
-          right: .5em;
-          left: 0;
-        }
-      }
-
-      > .mm-toggler-component__wrapper > button.mm-toggler-link:hover::before,
-      > .mm-toggler-component__wrapper &.active > button.mm-toggler-link::before,
-      > .mm-toggler-url__wrapper > button.mm-toggler-link:hover::before,
-      > .mm-toggler-url__wrapper &.active > button.mm-toggler-link::before {
         right: 0;
         left: .5em;
 
@@ -255,8 +246,8 @@
       }
     }
 
-    .metismenu > li.level-1 > .mm-toggler-url__wrapper,
-    .metismenu > li.level-1 > .mm-toggler-component__wrapper {
+  .metismenu > li.level-1 > .mm-toggler-url__wrapper,
+  .metismenu > li.level-1 > .mm-toggler-component__wrapper {
 
       > a:hover,
       > button:hover {
@@ -270,8 +261,8 @@
     li.level-2 {
 
       .mm-toggler {
-        height: 1.5em;
-        color: $gray-900;
+      height: 1.5em;
+      color: $gray-900;
       }
     }
   }
