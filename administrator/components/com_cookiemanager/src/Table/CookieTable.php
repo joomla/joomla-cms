@@ -31,7 +31,7 @@ class CookieTable extends Table
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-		protected $_supportNullValue = true;
+	protected $_supportNullValue = true;
 
 	/**
 	 * Constructor
