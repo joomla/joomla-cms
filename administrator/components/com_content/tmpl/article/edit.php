@@ -104,6 +104,15 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
+		<?php // Do not show the publishing options if the edit form is configured not to. ?>
+		<?php if ($params->get('show_imported_modules', 1) == 1) : ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_CONTENT_FIELDSET_MODULES')); ?>
+			<fieldset id="fieldset-modules" class="options-form">
+				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_MODULES'); ?></legend>
+			</fieldset>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php endif; ?>
+
 		<?php if ($params->get('show_article_options', 1) == 1) : ?>
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php endif; ?>
