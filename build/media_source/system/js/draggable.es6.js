@@ -120,7 +120,18 @@ if (container) {
     mirrorContainer: container,
   })
     .on('drag', (el) => {
-      dragElementIndex = parseInt(el.querySelector('[name="order[]"]').dataset.order, 10) - 1;
+      let rowSelector;
+      const groupId = el.dataset.draggableGroup;
+
+      if (groupId) {
+        rowSelector = `tr[data-draggable-group="${groupId}"]`;
+      } else {
+        rowSelector = 'tr';
+      }
+
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+
+      dragElementIndex = rowElements.indexOf(el);
     })
     .on('cloned', () => {
 
@@ -128,25 +139,25 @@ if (container) {
     .on('drop', (el) => {
       let orderSelector;
       let inputSelector;
+      let rowSelector;
 
       const groupId = el.dataset.draggableGroup;
+
       if (groupId) {
+        rowSelector = `tr[data-draggable-group="${groupId}"]`;
         orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
         inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
       } else {
+        rowSelector = 'tr';
         orderSelector = '[name="order[]"]';
         inputSelector = '[name="cid[]"]';
       }
 
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
       const rows = [].slice.call(container.querySelectorAll(orderSelector));
       const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
 
-      for (let i = 0, l = rows.length - 1; l > i; i += 1) {
-        if (rows[i].dataset.order === el.querySelector('[name="order[]"]').dataset.order) {
-          dropElementIndex = i;
-          break;
-        }
-      }
+      dropElementIndex = rowElements.indexOf(el);
 
       if (url) {
         // Detach task field if exists
