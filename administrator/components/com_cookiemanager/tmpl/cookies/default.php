@@ -67,7 +67,7 @@ $saveOrder = $listOrder == 'a.id';
 								</th>
 							</tr>
 						</thead>
-						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :
