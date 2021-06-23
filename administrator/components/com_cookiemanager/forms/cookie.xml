@@ -60,13 +60,25 @@
 
 		<field
 			name="cookies_name"
-			type="textarea"
+			type="subform"
 			label="COM_COOKIEMANAGER_COOKIES_NAME_LABEL"
-			description="COM_COOKIEMANAGER_COOKIES_NAME_DESCRIPTION"
-			rows="3"
+			multiple="true"
 			required="true"
-			hint="COM_COOKIEMANAGER_COOKIES_NAME_HINT"
-		/>
+			layout="joomla.form.field.subform.repeatable-table"
+			>
+			<form>
+				<field
+					name="cookie"
+					type="text"
+					label="COM_COOKIEMANAGER_COOKIE_NAME_LABEL"
+					description="COM_COOKIEMANAGER_COOKIES_NAME_DESC"
+					required="true"
+					filter="text"
+					size="40"
+					hint="COM_COOKIEMANAGER_COOKIES_NAME_HINT"
+				/>
+			</form>
+		</field>
 
 		<field
 			name="created_by"
