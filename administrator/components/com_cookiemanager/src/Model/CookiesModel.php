@@ -12,13 +12,9 @@ namespace Joomla\Component\Cookiemanager\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\ParameterType;
 
@@ -115,11 +111,27 @@ class CookiesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		// Select the required fields from the table.
-		$query->select('id, title, alias, cookies_name, catid, published, created, created_by, modified, modified_by')
-			->from('#__cookiemanager_cookies AS a');
+			$query->select(
+				$db->quoteName(
+					explode(
+						', ',
+						$this->getState(
+							'list.select',
+							'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.created, a.created_by'
+						)
+					)
+				)
+			);
+			$query->from($db->quoteName('#__cookiemanager_cookies', 'a'));
 
-			// Filter by categories and by level
+			// Join over the categories.
+			$query->select($db->quoteName('c.title', 'category_title'))
+				->join(
+					'LEFT',
+					$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+				);
+
+			// Filter by categories
 			$categoryId = $this->getState('filter.category_id', array());
 
 			if (!is_array($categoryId))
