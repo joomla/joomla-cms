@@ -70,10 +70,8 @@ class CookieModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-
 		// Get the form.
-		// $form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
-
+		$form = $this->loadForm('com_cookiemanager.cookie', 'cookie', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{

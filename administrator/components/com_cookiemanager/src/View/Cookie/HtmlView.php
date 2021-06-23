@@ -93,19 +93,20 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_cookiemanager');
+		$isNew      = ($this->item->id == 0);
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_PAGE_EDIT_GROUP'), 'pencil-alt');
+		ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIES_NEW') : Text::_('COM_COOKIEMANAGER_COOKIES_EDIT'), 'pencil-alt');
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->apply('group.apply');
-			$toolbar->save('group.save');
+			$toolbar->apply('cookie.apply');
+			$toolbar->save('cookie.save');
 		}
 
-		$toolbar->cancel('group.cancel', 'JTOOLBAR_CLOSE');
+		$toolbar->cancel('cookie.cancel', 'JTOOLBAR_CLOSE');
 
 		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}

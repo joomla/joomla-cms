@@ -48,9 +48,9 @@ class CookiesModel extends ListModel
 				'cookies_name', 'a.cookies_name',
 				'catid', 'a.catid', 'category_id', 'category_title',
 				'published', 'a.published',
-				'created_on', 'a.created_on',
+				'created', 'a.created_on',
 				'created_by', 'a.created_by',
-				'modified_on', 'a.modified_on',
+				'modified', 'a.modified_on',
 				'modified_by', 'a.modified_by',
 			);
 		}
@@ -116,7 +116,7 @@ class CookiesModel extends ListModel
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select('id, title, alias, cookies_name, catid, published, created_on, created_by, modified_on, modified_by')
+		$query->select('id, title, alias, cookies_name, catid, published, created, created_by, modified, modified_by')
 			->from('#__cookiemanager_cookies AS a');
 
 			// Filter by categories and by level
