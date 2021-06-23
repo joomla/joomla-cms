@@ -48,7 +48,7 @@
           box-shadow: 0 0 .5em hsla(0, 0%, 0%, .1);
         }
 
-        > span,
+        > span
         > a,
         > button {
           overflow: hidden;
@@ -61,6 +61,20 @@
         > button:focus {
           outline: 1px dotted $gray-400;
           outline-offset: 2px;
+        }
+
+        > .mm-toggler-component__wrapper,
+        > .mm-toggler-url__wrapper {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          overflow: visible;
+
+          > a:focus,
+          > button:focus {
+            outline: 1px dotted $gray-400;
+            outline-offset: 2px;
+          }
         }
 
         &.active > a,
@@ -220,6 +234,26 @@
           width: auto;
           height: 1px;
           border-bottom: 1px solid $gray-400;
+        }
+      }
+    }
+  }
+
+  .metismenu > .metismenu-item {
+    > .mm-toggler-component__wrapper,
+    > .mm-toggler-url__wrapper {
+      a {
+        color: #fff;
+      }
+    }
+  }
+
+  .metismenu .metismenu-item {
+    .mm-toggler-component__wrapper,
+    .mm-toggler-url__wrapper {
+      a {
+        &:hover {
+          text-decoration: underline;
         }
       }
     }
