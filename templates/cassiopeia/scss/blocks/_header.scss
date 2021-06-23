@@ -258,26 +258,24 @@
       }
     }
 
-    .metismenu > li.level-1 {
 
-      > .mm-toggler-url__wrapper,
-      > .mm-toggler-component__wrapper {
+  .metismenu > li.level-1 > .mm-toggler-url__wrapper,
+  .metismenu > li.level-1 > .mm-toggler-component__wrapper {
 
-        > a:hover,
-        > button:hover {
+      > a:hover,
+      > button:hover {
 
-          @include media-breakpoint-up(md) {
-            text-decoration: none;
-          }
+        @include media-breakpoint-up(md) {
+          text-decoration: none;
         }
       }
+    }
 
-      li.level-2 {
+    li.level-2 {
 
-        .mm-toggler {
-          height: 1.5em;
-          color: $gray-900;
-        }
+      .mm-toggler {
+        height: 1.5em;
+        color: $gray-900;
       }
     }
   }
