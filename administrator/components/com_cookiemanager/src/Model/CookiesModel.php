@@ -112,16 +112,11 @@ class CookiesModel extends ListModel
 		$query = $db->getQuery(true);
 
 			$query->select(
-				$db->quoteName(
-					explode(
-						', ',
-						$this->getState(
-							'list.select',
-							'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.created, a.created_by'
-						)
+					$this->getState(
+						'list.select',
+						'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.created, a.created_by'
 					)
-				)
-			);
+				);
 			$query->from($db->quoteName('#__cookiemanager_cookies', 'a'));
 
 			// Join over the categories.
