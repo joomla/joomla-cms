@@ -15,18 +15,21 @@ For some of these operations some conventions were established, to simplify and 
 
 ## Javascript
 There are three options here:
-- Modern Javascript files should have an extension `.es6.js`.
+- Modern Javascript files must have an extension `.es6.js`.
   This allows the ESLint to check the style code, Joomla is using the AirBnB preset https://github.com/airbnb/javascript
   Also it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files.
   Production code WILL NOT have the `.es6` part part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
 
-- Web Component Javascript files should have an extension `.w-c.es6.js`.
+- Web Component Javascript files must have an extension `.w-c.es6.js`.
   This allows the ESLint to check the code and it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the css (assuming that the appropriate scss file exists) and injected into the js file into a placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
   Production code WILL NOT have the `.w-c.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
 
-- Legacy Javascript files should have an extension `.es5.js`.
+- Legacy Javascript files must have an extension `.es5.js`.
   This instructs ESLint to skip checking this file
   Also it instructs the tools to create a minified version (production code WILL NOT have the `.es5` part)
+	
+- Javascript files with only an extension `.js`
+  These files will be ignored by the build tools.
 
 ## SCSS
 - SCSS files starting with `_` will not become entry points for SCSS.
