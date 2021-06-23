@@ -255,8 +255,8 @@
       }
     }
 
-  .metismenu > li.level-1 > .mm-toggler-url__wrapper,
-  .metismenu > li.level-1 > .mm-toggler-component__wrapper {
+    .metismenu > li.level-1 > .mm-toggler-url__wrapper,
+    .metismenu > li.level-1 > .mm-toggler-component__wrapper {
 
       > a:hover,
       > button:hover {
@@ -270,8 +270,8 @@
     li.level-2 {
 
       .mm-toggler {
-      height: 1.5em;
-      color: $gray-900;
+        height: 1.5em;
+        color: $gray-900;
       }
     }
   }
