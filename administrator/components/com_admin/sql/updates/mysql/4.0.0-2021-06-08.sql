@@ -1,10 +1,15 @@
-CREATE TABLE IF NOT EXISTS `#__cookiemanager_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `title` varchar(64) NOT NULL,
-  `params` varchar(1024) NOT NULL DEFAULT ''
+CREATE TABLE IF NOT EXISTS `#__cookiemanager_cookies` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `cookies_name` varchar(400),
+  `catid` int NOT NULL DEFAULT 0,
+  `published` tinyint NOT NULL DEFAULT 0,
+  `created_on` datetime NOT NULL,
+  `created_by` int unsigned NOT NULL DEFAULT 0,
+  `modified_on` datetime NOT NULL,
+  `modified_by` int unsigned NOT NULL DEFAULT 0,
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
-
-INSERT INTO `#__cookiemanager_groups` (`id`, `title`, `params`) VALUES
-(1, 'Cookie Consent Banner', '{}'),
-(2, 'Cookie Settings Banner', '{}'),
-(3, 'Cookie Consent Information', '{}');
