@@ -38,6 +38,6 @@ final class Php73
             return \PHP_INT_SIZE === 4 ? $ns : (int) $ns;
         }
 
-        return array($s, (int) $ns);
+        return [$s, (int) $ns];
     }
 }

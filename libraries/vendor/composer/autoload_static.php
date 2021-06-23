@@ -23,12 +23,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
-        'e277be14c90068cf94faed2c43dbe6d8' => __DIR__ . '/..' . '/symfony/polyfill-php71/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
     );
 
@@ -39,11 +36,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php73\\' => 23,
-            'Symfony\\Polyfill\\Php71\\' => 23,
-            'Symfony\\Polyfill\\Php56\\' => 23,
-            'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
@@ -85,25 +78,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src',
         ),
-        'Symfony\\Polyfill\\Util\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
-        ),
         'Symfony\\Polyfill\\Php73\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
-        ),
-        'Symfony\\Polyfill\\Php71\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php71',
-        ),
-        'Symfony\\Polyfill\\Php56\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
-        ),
-        'Symfony\\Polyfill\\Php55\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php55',
         ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
@@ -244,6 +221,11 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Data\\DataObject' => __DIR__ . '/..' . '/joomla/data/src/DataObject.php',
         'Joomla\\Data\\DataSet' => __DIR__ . '/..' . '/joomla/data/src/DataSet.php',
         'Joomla\\Data\\DumpableInterface' => __DIR__ . '/..' . '/joomla/data/src/DumpableInterface.php',
+        'Joomla\\Data\\Tests\\DataObjectTest' => __DIR__ . '/..' . '/joomla/data/Tests/DataObjectTest.php',
+        'Joomla\\Data\\Tests\\DataSetTest' => __DIR__ . '/..' . '/joomla/data/Tests/DataSetTest.php',
+        'Joomla\\Data\\Tests\\Stubs\\Buran' => __DIR__ . '/..' . '/joomla/data/Tests/Stubs/Buran.php',
+        'Joomla\\Data\\Tests\\Stubs\\Capitaliser' => __DIR__ . '/..' . '/joomla/data/Tests/Stubs/Capitaliser.php',
+        'Joomla\\Data\\Tests\\Stubs\\Vostok' => __DIR__ . '/..' . '/joomla/data/Tests/Stubs/Vostok.php',
         'Joomla\\Event\\AbstractEvent' => __DIR__ . '/..' . '/joomla/event/src/AbstractEvent.php',
         'Joomla\\Event\\DelegatingDispatcher' => __DIR__ . '/..' . '/joomla/event/src/DelegatingDispatcher.php',
         'Joomla\\Event\\Dispatcher' => __DIR__ . '/..' . '/joomla/event/src/Dispatcher.php',
@@ -305,6 +287,16 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
         'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
         'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
+        'Joomla\\Session\\Tests\\Command\\CreateSessionTableCommandTest' => __DIR__ . '/..' . '/joomla/session/tests/Command/CreateSessionTableCommandTest.php',
+        'Joomla\\Session\\Tests\\DatabaseManager' => __DIR__ . '/..' . '/joomla/session/tests/DatabaseManager.php',
+        'Joomla\\Session\\Tests\\Handler\\ApcuHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/ApcuHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\DatabaseHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/DatabaseHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\FilesystemHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/FilesystemHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\MemcachedHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/MemcachedHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\NativeStorageTest' => __DIR__ . '/..' . '/joomla/session/tests/Storage/NativeStorageTest.php',
+        'Joomla\\Session\\Tests\\Handler\\RedisHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/RedisHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\WincacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/WincacheHandlerTest.php',
+        'Joomla\\Session\\Tests\\SessionTest' => __DIR__ . '/..' . '/joomla/session/tests/SessionTest.php',
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
         'Joomla\\String\\String' => __DIR__ . '/..' . '/joomla/string/src/String.php',
@@ -333,6 +325,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
+        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/DummyTest.php',
+        'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+        'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
         'ReCaptcha\\ReCaptcha' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/ReCaptcha.php',
         'ReCaptcha\\RequestMethod' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod.php',
         'ReCaptcha\\RequestMethod\\Curl' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Curl.php',
@@ -387,14 +382,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
         'Symfony\\Polyfill\\Ctype\\Ctype' => __DIR__ . '/..' . '/symfony/polyfill-ctype/Ctype.php',
-        'Symfony\\Polyfill\\Php55\\Php55' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55.php',
-        'Symfony\\Polyfill\\Php55\\Php55ArrayColumn' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55ArrayColumn.php',
-        'Symfony\\Polyfill\\Php56\\Php56' => __DIR__ . '/..' . '/symfony/polyfill-php56/Php56.php',
-        'Symfony\\Polyfill\\Php71\\Php71' => __DIR__ . '/..' . '/symfony/polyfill-php71/Php71.php',
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
-        'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
-        'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
-        'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
         'TYPO3\\PharStreamWrapper\\Assertable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Assertable.php',
         'TYPO3\\PharStreamWrapper\\Behavior' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Behavior.php',
         'TYPO3\\PharStreamWrapper\\Collectable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Collectable.php',
