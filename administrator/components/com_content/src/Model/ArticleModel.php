@@ -499,6 +499,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$app->setUserState("com_content.articletext", $form->getValue("articletext"));
 		$app->setUserState("com_content.images", json_encode($form->getValue("images")));
 
+		echo htmlspecialchars(MediaHelper::addSrcsetToContent($app->getUserState("com_content.articletext")));
+
 		// Object uses for checking edit state permission of article
 		$record = new \stdClass;
 

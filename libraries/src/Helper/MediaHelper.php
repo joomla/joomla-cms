@@ -562,4 +562,27 @@ class MediaHelper
 			}
 		}
 	}
+
+	/**
+	 * Method to add srcset attributes to images of a content
+	 *
+	 * @param   string  $content  The content to which srcset attributes must be inserted
+	 * @param   mixed   $sizes    String or array of strings. Example: $sizes = array('1200x800','800x600');
+	 *
+	 * @return  string  Content with srcset attributes inserted
+	 *
+	 * @since   4.1.0
+	 */
+	public static function addSrcsetToContent($content, $sizes = null)
+	{
+		// Use default if sizes are not provided
+		if (is_null($sizes))
+		{
+			$sizes = static::$responsiveSizes;
+		}
+
+		$srcset = "Test";
+
+		return preg_replace('/(<img\b[^><]*) \/>/i', '$1 srcset="'. $srcset .'">', $content);
+	}
 }
