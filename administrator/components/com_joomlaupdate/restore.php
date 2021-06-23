@@ -60,7 +60,7 @@ if (function_exists('setlocale'))
 }
 
 // fnmatch not available on non-POSIX systems
-// Thanks to soywiz@php.net for this usefull alternative function [http://gr2.php.net/fnmatch]
+// Thanks to soywiz@php.net for this useful alternative function [http://gr2.php.net/fnmatch]
 if (!function_exists('fnmatch'))
 {
 	function fnmatch($pattern, $string)
@@ -3111,7 +3111,7 @@ class AKText extends AKAbstractObject
 		'BTN_SITEFE'                      => 'Visit your site\'s frontend',
 		'BTN_SITEBE'                      => 'Visit your site\'s backend',
 		'WARNINGS'                        => 'Extraction Warnings',
-		'ERROR_OCCURED'                   => 'An error occurred',
+		'ERROR_OCCURRED'                  => 'An error occurred',
 		'STEALTH_MODE'                    => 'Stealth mode',
 		'STEALTH_URL'                     => 'HTML file to show to web visitors',
 		'ERR_NOT_A_JPS_FILE'              => 'The file is not a JPA archive',
@@ -5292,7 +5292,7 @@ if (!defined('KICKSTART'))
 		switch ($task)
 		{
 			case 'ping':
-				// ping task - realy does nothing!
+				// ping task - really does nothing!
 				$timer = AKFactory::getTimer();
 				$timer->enforce_min_exec_time();
 				break;

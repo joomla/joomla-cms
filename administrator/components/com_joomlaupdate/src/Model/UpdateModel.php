@@ -715,6 +715,9 @@ ENDDATA;
 			return false;
 		}
 
+		// Reinitialise the installer's extensions table's properties.
+		$installer->extension->getFields(true);
+
 		// Start Joomla! 1.6.
 		ob_start();
 		ob_implicit_flush(false);
