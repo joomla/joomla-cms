@@ -548,13 +548,16 @@ class CategoryModel extends AdminModel
 
 		if (isset($data['params']['image']))
 		{
-			$initImage = explode("#", $app->getUserState("com_categories.image"))[0]; // Initial version
-			$finalImage = explode('#', $data['params']['image'])[0]; // Final version
+			// Initial version
+			$initImage = explode("#", $app->getUserState("com_categories.image"))[0];
+
+			// Final version
+			$finalImage = explode('#', $data['params']['image'])[0];
 
 			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 		}
 
-		if(isset($data['description']))
+		if (isset($data['description']))
 		{
 			$initDescription = $app->getUserState("com_categories.description");
 			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);

@@ -404,13 +404,16 @@ class BannerModel extends AdminModel
 
 		if (isset($data['params']['imageurl']))
 		{
-			$initImage = explode("#", $app->getUserState("com_banners.imageurl"))[0]; // Initial version
-			$finalImage = explode('#', $data['params']['imageurl'])[0]; // Final version
+			// Initial version
+			$initImage = explode("#", $app->getUserState("com_banners.imageurl"))[0];
+
+			// Final version
+			$finalImage = explode('#', $data['params']['imageurl'])[0];
 
 			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 		}
 
-		if(isset($data['description']))
+		if (isset($data['description']))
 		{
 			$initDescription = $app->getUserState("com_banners.description");
 			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);

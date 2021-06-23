@@ -486,20 +486,20 @@ class MediaHelper
 	public static function generateResponsiveFormImages($initImage, $finalImage, $sizes = null)
 	{
 		// Use default if sizes are not provided
-		if(is_null($sizes))
+		if (is_null($sizes))
 		{
 			$sizes = static::$responsiveSizes;
 		}
 
 		// Remove previously generated images if original is changed
-		if($initImage !== "" && $initImage !== $finalImage)
+		if ($initImage !== "" && $initImage !== $finalImage)
 		{
 			$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
 			$imgObj->deleteMultipleSizes();
 		}
 
 		// Generate new responsive images if file exists
-		if(is_file(JPATH_ROOT . '/' . $finalImage))
+		if (is_file(JPATH_ROOT . '/' . $finalImage))
 		{
 			$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
 			$imgObj->createMultipleSizes($sizes);
@@ -520,7 +520,7 @@ class MediaHelper
 	public static function generateResponsiveContentImages($initContent, $finalContent, $sizes = null)
 	{
 		// Use default if sizes are not provided
-		if(is_null($sizes))
+		if (is_null($sizes))
 		{
 			$sizes = static::$responsiveSizes;
 		}
@@ -535,20 +535,20 @@ class MediaHelper
 		preg_match_all($pattern, $finalContent, $finalImages);
 		$finalImages = array_unique(array_pop($finalImages));
 
-		foreach($initImages as $initImage)
+		foreach ($initImages as $initImage)
 		{
 			// Remove previously generated images if original is changed
-			if(!in_array($initImage, $finalImages))
+			if (!in_array($initImage, $finalImages))
 			{
 				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
 				$imgObj->deleteMultipleSizes();
 			}
 		}
 
-		foreach($finalImages as $finalImage)
+		foreach ($finalImages as $finalImage)
 		{
 			// Generate new responsive images if file exists
-			if(is_file(JPATH_ROOT . '/' . $finalImage))
+			if (is_file(JPATH_ROOT . '/' . $finalImage))
 			{
 				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
 				$imgObj->createMultipleSizes($sizes);

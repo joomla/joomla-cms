@@ -406,12 +406,12 @@ class Image
 		// Get path to the responsive images
 		$imagesPath = implode("/", array_slice($image, 0, count($image) - 1)) . ($thumbs ? '/thumbs' : '/responsive');
 
-		if($imageFiles = scandir($imagesPath))
+		if ($imageFiles = scandir($imagesPath))
 		{
 			foreach ($imageFiles as $imageFile)
 			{
 				// Find responsive versions of image and delete them
-				if(preg_replace('/_[^_][0-9]+x[0-9]+[^.]*/', '', $imageFile) === end($image))
+				if (preg_replace('/_[^_][0-9]+x[0-9]+[^.]*/', '', $imageFile) === end($image))
 				{
 					unlink($imagesPath . '/' . $imageFile);
 				}

@@ -697,7 +697,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
 
-
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
@@ -713,12 +712,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Get initial images
 			$initImages = (array) json_decode($app->getUserState("com_content.images"));
 
-			foreach($data['images'] as $key => $image)
+			foreach ($data['images'] as $key => $image)
 			{
-				if($key === 'image_intro' || $key === 'image_fulltext')
+				if ($key === 'image_intro' || $key === 'image_fulltext')
 				{
-					$initImage = explode("#", $initImages[$key])[0]; // Initial version
-					$finalImage = explode('#', $image)[0]; // Final version
+					// Initial version
+					$initImage = explode("#", $initImages[$key])[0];
+
+					// Final version
+					$finalImage = explode('#', $image)[0];
 
 					MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 				}
@@ -728,7 +730,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['images'] = (string) $registry;
 		}
 
-		if(isset($data['articletext']))
+		if (isset($data['articletext']))
 		{
 			$initArticletext = $app->getUserState("com_content.articletext");
 			MediaHelper::generateResponsiveContentImages($initArticletext, $data['articletext']);

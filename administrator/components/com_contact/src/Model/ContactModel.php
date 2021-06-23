@@ -307,13 +307,16 @@ class ContactModel extends AdminModel
 
 		if (isset($data['image']))
 		{
-			$initImage = explode("#", $app->getUserState("com_contact.image"))[0]; // Initial version
-			$finalImage = explode('#', $data['image'])[0]; // Final version
+			// Initial version
+			$initImage = explode("#", $app->getUserState("com_contact.image"))[0];
+
+			// Final version
+			$finalImage = explode('#', $data['image'])[0];
 
 			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
 		}
 
-		if(isset($data['misc']))
+		if (isset($data['misc']))
 		{
 			$initDescription = $app->getUserState("com_contact.misc");
 			MediaHelper::generateResponsiveContentImages($initDescription, $data['misc']);
