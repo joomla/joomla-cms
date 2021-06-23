@@ -154,9 +154,6 @@ final class SiteApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				$document->setMetaData('rights', $this->get('MetaRights'));
@@ -182,6 +179,18 @@ final class SiteApplication extends CMSApplication
 				}
 
 				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
+
+				$task = $this->input->getCmd('task', null);
+
+				// If the site is offline and the current identity doesn't have permission to access the site when offline and is not trying to login.
+				if ($this->get('offline') && !$this->getIdentity()->authorise('core.login.offline') && $task !== 'user.login')
+				{
+					$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+					$this->set('themeFile', 'offline.php');
+					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
+
+					return;
+				}
 
 				break;
 
@@ -775,13 +784,6 @@ final class SiteApplication extends CMSApplication
 				if ($file === 'offline' && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'index.php');
-				}
-
-				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
-				{
-					$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
-					$this->set('themeFile', 'offline.php');
-					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
 
 				if (!is_dir(JPATH_THEMES . '/' . $template->template) && !$this->get('offline'))
