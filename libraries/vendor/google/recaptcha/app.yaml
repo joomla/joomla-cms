@@ -1,8 +1,0 @@
-runtime: php
-env: flex
-
-skip_files:
-- tests
-
-runtime_config:
-  document_root: examples
