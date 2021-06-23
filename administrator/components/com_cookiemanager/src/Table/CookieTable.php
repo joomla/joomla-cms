@@ -43,7 +43,7 @@ class CookieTable extends Table
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__cookiemanager_groups', 'id', $db);
+		parent::__construct('#__cookiemanager_cookies', 'id', $db);
 	}
 
 	/**

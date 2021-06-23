@@ -44,6 +44,14 @@ class CookiesModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
+				'alias', 'a.alias',
+				'cookies_name', 'a.cookies_name',
+				'catid', 'a.catid', 'category_id', 'category_title',
+				'published', 'a.published',
+				'created_on', 'a.created_on',
+				'created_by', 'a.created_by',
+				'modified_on', 'a.modified_on',
+				'modified_by', 'a.modified_by',
 			);
 		}
 
@@ -88,6 +96,8 @@ class CookiesModel extends ListModel
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . serialize($this->getState('filter.category_id'));
 
 		return parent::getStoreId($id);
 	}
@@ -106,8 +116,29 @@ class CookiesModel extends ListModel
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select('id, title')
-			->from('#__cookiemanager_groups AS a');
+		$query->select('id, title, alias, cookies_name, catid, published, created_on, created_by, modified_on, modified_by')
+			->from('#__cookiemanager_cookies AS a');
+
+			// Filter by categories and by level
+			$categoryId = $this->getState('filter.category_id', array());
+
+			if (!is_array($categoryId))
+			{
+				$categoryId = $categoryId ? array($categoryId) : array();
+			}
+
+			// Filter by published state
+			$published = (string) $this->getState('filter.published');
+
+			if (is_numeric($published))
+			{
+				$query->where($db->quoteName('a.published') . ' = :published');
+				$query->bind(':published', $published, ParameterType::INTEGER);
+			}
+			elseif ($published === '')
+			{
+				$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
+			}
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
