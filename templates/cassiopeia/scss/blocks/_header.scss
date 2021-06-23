@@ -225,18 +225,16 @@
         }
       }
 
-      > .mm-toggler-component__wrapper,
-      > .mm-toggler-url__wrapper {
+      > .mm-toggler-component__wrapper > button.mm-toggler-link:hover::before,
+      > .mm-toggler-component__wrapper &.active > button.mm-toggler-link::before,
+      > .mm-toggler-url__wrapper > button.mm-toggler-link:hover::before,
+      > .mm-toggler-url__wrapper &.active > button.mm-toggler-link::before {
+        right: 0;
+        left: .5em;
 
-        > button.mm-toggler-link:hover::before,
-        &.active > button.mm-toggler-link::before {
-          right: 0;
-          left: .5em;
-
-          [dir="rtl"] & {
-            right: .5em;
-            left: 0;
-          }
+        [dir="rtl"] & {
+          right: .5em;
+          left: 0;
         }
       }
     }
