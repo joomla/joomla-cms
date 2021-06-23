@@ -13,7 +13,8 @@
         type="checkbox"
         class="media-toolbar-icon media-toolbar-select-all"
         :aria-label="translate('COM_MEDIA_SELECT_ALL')"
-        @change="toggleSelectAll"
+        @click.stop.prevent="toggleSelectAll"
+        ref="mediaToolbarSelectAll"
         />
     </div>
     <media-breadcrumb />
@@ -105,7 +106,11 @@ export default {
     },
     isGridView() {
       return (this.$store.state.listView === 'grid');
-    }
+    },
+    allItemsSelected() {
+      // eslint-disable-next-line max-len
+      return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
+    },
   },
   methods: {
     toggleInfoBar() {
@@ -132,8 +137,8 @@ export default {
         this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
       }
     },
-    toggleSelectAll(event) {
-      if (!event.target.checked) {
+    toggleSelectAll() {
+      if (this.allItemsSelected) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
         // eslint-disable-next-line max-len
@@ -147,5 +152,12 @@ export default {
       this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
     },
   },
+  watch: {
+    '$store.state.selectedItems'() {
+      if (!this.allItemsSelected) {
+        this.$refs.mediaToolbarSelectAll.checked = false;
+      }
+    }
+  }
 };
 </script>
