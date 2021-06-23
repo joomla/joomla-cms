@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__cookiemanager_cookies` (
   `cookies_name` varchar(400),
   `catid` int NOT NULL DEFAULT 0,
   `published` tinyint NOT NULL DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
   `created_by` int unsigned NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL,

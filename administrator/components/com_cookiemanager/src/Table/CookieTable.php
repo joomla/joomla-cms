@@ -52,7 +52,7 @@ class CookieTable extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function store($updateNulls = true)
 	{
@@ -107,7 +107,7 @@ class CookieTable extends Table
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     \JTable::check
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{

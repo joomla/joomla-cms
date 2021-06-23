@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * @subpackage  com_cookiemanager
  *
- * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $saveOrder = $listOrder == 'a.id';
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="contactList">
+					<table class="table" id="cookieList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_COOKIEMANAGER_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -67,7 +67,7 @@ $saveOrder = $listOrder == 'a.id';
 								</th>
 							</tr>
 						</thead>
-						<tbody  class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :

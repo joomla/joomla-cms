@@ -22,7 +22,6 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -50,6 +49,13 @@
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
+		/>
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			content_type="com_cookiemanager.cookie"
 		/>
 
 		<field

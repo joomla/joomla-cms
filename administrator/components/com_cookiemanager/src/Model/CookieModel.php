@@ -78,6 +78,25 @@ class CookieModel extends AdminModel
 			return false;
 		}
 
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data))
+		{
+			// Disable fields for display.
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('published', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -102,5 +121,48 @@ class CookieModel extends AdminModel
 		$this->preprocessData('com_cookiemanager.cookie', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @param   \Joomla\CMS\Table\Table  $table  The Table object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareTable($table)
+	{
+		$date = Factory::getDate()->toSql();
+
+		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+
+		$table->generateAlias();
+
+		if (empty($table->id))
+		{
+			// Set the values
+			$table->created = $date;
+
+			// Set ordering to the last item if not set
+			if (empty($table->ordering))
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__cookiemanager_cookies'));
+				$db->setQuery($query);
+				$max = $db->loadResult();
+
+				$table->ordering = $max + 1;
+			}
+		}
+		else
+		{
+			// Set the values
+			$table->modified = $date;
+			$table->modified_by = Factory::getUser()->id;
+		}
 	}
 }
