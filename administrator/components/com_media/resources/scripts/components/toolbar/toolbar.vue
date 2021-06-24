@@ -13,7 +13,7 @@
         type="checkbox"
         class="media-toolbar-icon media-toolbar-select-all"
         :aria-label="translate('COM_MEDIA_SELECT_ALL')"
-        @click.stop.prevent="toggleSelectAll()"
+        @click.stop="toggleSelectAll"
         ref="mediaToolbarSelectAll"
         />
     </div>
