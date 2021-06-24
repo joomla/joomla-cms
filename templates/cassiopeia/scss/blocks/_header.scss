@@ -243,6 +243,7 @@
 
       > ul {
         min-width: 12rem;
+        max-width: 90vw;
       }
     }
 
@@ -261,7 +262,7 @@
     li.level-2 {
 
       .mm-toggler {
-        height: 1.5em;
+        min-height: 1.5em;
         color: $gray-900;
       }
     }
