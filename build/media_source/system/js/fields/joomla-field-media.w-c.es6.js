@@ -14,7 +14,7 @@
       this.clearValue = this.clearValue.bind(this);
       this.modalClose = this.modalClose.bind(this);
       this.setValue = this.setValue.bind(this);
-      this.updatePreview = this.updatePreview.bind(this);
+      this.updateState = this.updateState.bind(this);
     }
 
     static get observedAttributes() {
@@ -108,7 +108,7 @@
         this.buttonClearEl.addEventListener('click', this.clearValue);
       }
 
-      this.updatePreview();
+      this.updateState();
     }
 
     disconnectedCallback() {
@@ -151,7 +151,7 @@
 
     setValue(value) {
       this.inputElement.value = value;
-      this.updatePreview();
+      this.updateState();
 
       // trigger change event both on the input and on the custom element
       this.inputElement.dispatchEvent(new Event('change'));
@@ -165,10 +165,16 @@
       this.setValue('');
     }
 
-    updatePreview() {
+    updateState() {
+      // Hide the clear button when no value is set
+      this.buttonClearEl.style.display = this.inputElement.value ? '' : 'none';
+
       if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
         return;
       }
+
+      // Hide the clear button when no value is set
+      this.buttonClearEl.style.display = this.inputElement.value ? '' : 'none';
 
       // Reset preview
       if (this.preview) {
