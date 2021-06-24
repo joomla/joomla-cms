@@ -24,8 +24,13 @@ $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.id';
+$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
+// if ($saveOrder && !empty($this->items))
+// {
+// 	$saveOrderingUrl = 'index.php?option=com_cookiemanager&task=cookies.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+// 	HTMLHelper::_('draggablelist.draggable');
+// }
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_cookiemanager'); ?>" method="post" name="adminForm" id="adminForm">
@@ -67,18 +72,17 @@ $saveOrder = $listOrder == 'a.id';
 								</th>
 							</tr>
 						</thead>
-						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>
+						<tbody class="js-draggable" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :
 							$canCreate  = $user->authorise('core.create',     'com_cookiemanager.category.' . $item->catid);
 							$canEdit    = $user->authorise('core.edit',       'com_cookiemanager.category.' . $item->catid);
-							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn = $user->authorise('core.edit.own',   'com_cookiemanager.category.' . $item->catid) && $item->created_by == $userId;
-							$canChange  = $user->authorise('core.edit.state', 'com_cookiemanager.category.' . $item->catid) && $canCheckin;
+							$canChange  = $user->authorise('core.edit.state', 'com_cookiemanager.category.' . $item->catid);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
+							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>

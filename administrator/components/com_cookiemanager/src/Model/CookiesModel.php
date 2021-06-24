@@ -134,6 +134,23 @@ class CookiesModel extends ListModel
 			$categoryId = $categoryId ? array($categoryId) : array();
 		}
 
+		if (count($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryTable = Table::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+		}
+
 			// Filter by published state
 			$published = (string) $this->getState('filter.published');
 
@@ -157,7 +174,7 @@ class CookiesModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'a.id');
+		$orderCol  = $this->state->get('list.ordering', 'a.ordering');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));

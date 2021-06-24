@@ -171,7 +171,7 @@ class CookieTable extends Table
 			$this->alias = $this->title;
 		}
 
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
