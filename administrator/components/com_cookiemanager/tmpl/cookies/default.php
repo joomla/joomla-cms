@@ -26,11 +26,6 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
-// if ($saveOrder && !empty($this->items))
-// {
-// 	$saveOrderingUrl = 'index.php?option=com_cookiemanager&task=cookies.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-// 	HTMLHelper::_('draggablelist.draggable');
-// }
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_cookiemanager'); ?>" method="post" name="adminForm" id="adminForm">
@@ -72,7 +67,7 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 								</th>
 							</tr>
 						</thead>
-						<tbody class="js-draggable" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>
+						<tbody class="js-draggable" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"><?php endif; ?>
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :

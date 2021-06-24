@@ -66,7 +66,7 @@ class CookiesModel extends ListModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'asc')
+	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . 'filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
