@@ -830,7 +830,7 @@ class ImageTest extends UnitTestCase
 
 		$this->instance->loadFile($this->testFile);
 
-		$this->instance->generateMultipleSizes('800*600');
+		$this->instance->generateMultipleSizes(['800*600']);
 	}
 
 	/**
@@ -846,7 +846,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->generateMultipleSizes('800x600');
+		$images = $this->instance->generateMultipleSizes(['800x600']);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
@@ -858,7 +858,7 @@ class ImageTest extends UnitTestCase
 			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$images = $this->instance->generateMultipleSizes('800x600', Image::CROP);
+		$images = $this->instance->generateMultipleSizes(['800x600'], Image::CROP);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
@@ -870,7 +870,7 @@ class ImageTest extends UnitTestCase
 			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$images = $this->instance->generateMultipleSizes('800x600', Image::CROP_RESIZE);
+		$images = $this->instance->generateMultipleSizes(['800x600'], Image::CROP_RESIZE);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
@@ -896,7 +896,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->expectException(\LogicException::class);
 
-		$this->instance->createMultipleSizes('800x600');
+		$this->instance->createMultipleSizes(['800x600']);
 	}
 
 	/**
@@ -912,7 +912,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->createMultipleSizes('800x600', Image::CROP);
+		$images = $this->instance->createMultipleSizes(['800x600'], Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$a = Image::getImageFileProperties($this->testFile);
@@ -959,7 +959,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->createMultipleSizes('800x600', Image::CROP);
+		$images = $this->instance->createMultipleSizes(['800x600'], Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$this->instance->deleteMultipleSizes();
