@@ -202,6 +202,16 @@
         }
       }
     }
+/*
+    @include media-breakpoint-down(md) {
+
+      &.mod-menu .metismenu-item>span,
+      &.mod-menu .metismenu-item>a,
+      &.mod-menu .metismenu-item>button {
+        text-align: left;
+        white-space: break-spaces;
+      }
+    }*/
   }
 
   .sidebar-right,
@@ -210,6 +220,13 @@
       .mm-collapse {
         position: relative;
         background-color: hsla(0, 0%, 0%, .03);
+      }
+
+      .metismenu-item>span,
+      .metismenu-item>a,
+      .metismenu-item>button {
+        text-align: left;
+        white-space: break-spaces;
       }
 
       li.parent {
