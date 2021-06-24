@@ -234,8 +234,8 @@ if ($saveOrder && !empty($this->items))
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
 											<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>"
-											href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>"
-											aria-describedby="tip-archive<?php echo $i; ?>">
+												href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>"
+												aria-describedby="tip-archive<?php echo $i; ?>">
 												<?php echo $item->count_archived; ?>
 											</a>
 											<div role="tooltip" id="tip-archive<?php echo $i; ?>">
