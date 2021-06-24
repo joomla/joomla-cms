@@ -44,6 +44,7 @@ class CookiesModel extends ListModel
 				'cookies_name', 'a.cookies_name',
 				'catid', 'a.catid', 'category_id', 'category_title',
 				'published', 'a.published',
+				'ordering', 'a.ordering',
 				'created', 'a.created_on',
 				'created_by', 'a.created_by',
 				'modified', 'a.modified_on',
@@ -114,7 +115,7 @@ class CookiesModel extends ListModel
 			$query->select(
 				$this->getState(
 					'list.select',
-					'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.created, a.created_by'
+					'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.ordering, a.created, a.created_by'
 				)
 			);
 			$query->from($db->quoteName('#__cookiemanager_cookies', 'a'));
@@ -183,8 +184,7 @@ class CookiesModel extends ListModel
 	}
 
 	/**
-	 * Method to get a list of cookie manager groups.
-	 * Overridden to add a check for access levels.
+	 * Method to get a list of cookies.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *

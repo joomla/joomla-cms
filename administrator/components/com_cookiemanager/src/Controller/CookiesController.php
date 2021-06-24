@@ -31,7 +31,7 @@ class CookiesController extends AdminController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Cookies', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Cookie', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
