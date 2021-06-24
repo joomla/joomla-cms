@@ -44,7 +44,7 @@ class PlgSystemShortcut extends CMSPlugin
 			{
 				$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
 			}
-			
+
 			Factory::getDocument()->addScriptOptions('system_shortcut', $shortcut);
 			$wa->useScript('shortcut');
 

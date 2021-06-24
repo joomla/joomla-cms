@@ -25,7 +25,7 @@ class Shortcut {
           { actionButton: 'meta+alt+n', selector: 'joomla-toolbar-button button.button-new' },
           { actionButton: 'meta+alt+w', selector: 'joomla-toolbar-button button.button-save' },
           { actionButton: 'meta+shift+alt+w', selector: 'joomla-toolbar-button button.button-save-new' },
-          { actionButton: 'meta+alt+h', selector: 'joomla-toolbar-button button.button-help' },
+          { actionButton: 'meta+alt+x', selector: 'joomla-toolbar-button button.button-help' },
           { actionButton: 'meta+alt+q', selector: 'joomla-toolbar-button button.button-cancel' },
           { actionButton: 'meta+shift+alt+c', selector: 'joomla-toolbar-button button.button-copy' }];
 
@@ -43,7 +43,7 @@ class Shortcut {
         // On Press ALT + S
           const ch = e.key.toLowerCase();
           const list = [{ c: 'joomla-toolbar-button button.button-save-copy' },
-            { h: 'joomla-toolbar-button button.button-help' },
+            { x: 'joomla-toolbar-button button.button-help' },
             { q: 'joomla-toolbar-button button.button-cancel' },
             { s: 'joomla-toolbar-button button.button-apply' },
             { n: 'joomla-toolbar-button button.button-new' },
