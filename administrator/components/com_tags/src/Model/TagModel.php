@@ -261,22 +261,11 @@ class TagModel extends AdminModel
 
 			if (isset($data['images']) && is_array($data['images']))
 			{
-				// Get initial images
 				$initImages = (array) json_decode($app->getUserState("com_tags.images"));
 
-				foreach ($data['images'] as $key => $image)
-				{
-					if ($key === 'image_intro' || $key === 'image_fulltext')
-					{
-						// Initial version
-						$initImage = explode("#", $initImages[$key])[0];
-
-						// Final version
-						$finalImage = explode('#', $image)[0];
-
-						MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-					}
-				}
+				MediaHelper::generateResponsiveFormImages(
+					$initImages, $data['images'], ['image_intro', 'image_fulltext']
+				);
 
 				$registry = new Registry($data['images']);
 				$data['images'] = (string) $registry;
@@ -284,8 +273,9 @@ class TagModel extends AdminModel
 
 			if (isset($data['description']))
 			{
-				$initDescription = $app->getUserState("com_tags.description");
-				MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
+				MediaHelper::generateResponsiveContentImages(
+					$app->getUserState("com_tags.description"), $data['description']
+				);
 			}
 
 			// Alter the title for save as copy

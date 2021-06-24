@@ -410,19 +410,16 @@ class BannerModel extends AdminModel
 
 		if (isset($data['params']['imageurl']))
 		{
-			// Initial version
-			$initImage = explode("#", $app->getUserState("com_banners.imageurl"))[0];
-
-			// Final version
-			$finalImage = explode('#', $data['params']['imageurl'])[0];
-
-			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
+			MediaHelper::generateResponsiveFormImages(
+				['imageurl' => $app->getUserState("com_banners.imageurl")], $data['params'], ['imageurl']
+			);
 		}
 
 		if (isset($data['description']))
 		{
-			$initDescription = $app->getUserState("com_banners.description");
-			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
+			MediaHelper::generateResponsiveContentImages(
+				$app->getUserState("com_banners.description"), $data['description']
+			);
 		}
 
 		// Save New Category

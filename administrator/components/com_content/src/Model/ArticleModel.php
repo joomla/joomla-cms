@@ -706,22 +706,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			// Get initial images
 			$initImages = (array) json_decode($app->getUserState("com_content.images"));
 
-			foreach ($data['images'] as $key => $image)
-			{
-				if ($key === 'image_intro' || $key === 'image_fulltext')
-				{
-					// Initial version
-					$initImage = explode("#", $initImages[$key])[0];
-
-					// Final version
-					$finalImage = explode('#', $image)[0];
-
-					MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-				}
-			}
+			MediaHelper::generateResponsiveFormImages(
+				$initImages, $data['images'], ['image_intro', 'image_fulltext']
+			);
 
 			$registry = new Registry($data['images']);
 			$data['images'] = (string) $registry;
@@ -729,8 +718,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['articletext']))
 		{
-			$initArticletext = $app->getUserState("com_content.articletext");
-			MediaHelper::generateResponsiveContentImages($initArticletext, $data['articletext']);
+			MediaHelper::generateResponsiveContentImages(
+				$app->getUserState("com_content.articletext"), $data['articletext']
+			);
 		}
 
 		$this->workflowBeforeSave();

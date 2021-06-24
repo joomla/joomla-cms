@@ -203,22 +203,11 @@ class NewsfeedModel extends AdminModel
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			// Get initial images
 			$initImages = (array) json_decode($app->getUserState("com_newsfeeds.images"));
 
-			foreach ($data['images'] as $key => $image)
-			{
-				if ($key === 'image_first' || $key === 'image_second')
-				{
-					// Initial version
-					$initImage = explode("#", $initImages[$key])[0];
-
-					// Final version
-					$finalImage = explode('#', $image)[0];
-
-					MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-				}
-			}
+			MediaHelper::generateResponsiveFormImages(
+				$initImages, $data['images'], ['image_first', 'image_second']
+			);
 
 			$registry = new Registry($data['images']);
 			$data['images'] = (string) $registry;
@@ -226,8 +215,9 @@ class NewsfeedModel extends AdminModel
 
 		if (isset($data['description']))
 		{
-			$initArticletext = $app->getUserState("com_newsfeeds.description");
-			MediaHelper::generateResponsiveContentImages($initArticletext, $data['description']);
+			MediaHelper::generateResponsiveContentImages(
+				$app->getUserState("com_newsfeeds.description"), $data['description']
+			);
 		}
 
 		// Save New Category

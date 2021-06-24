@@ -545,19 +545,16 @@ class CategoryModel extends AdminModel
 
 		if (isset($data['params']['image']))
 		{
-			// Initial version
-			$initImage = explode("#", $app->getUserState("com_categories.image"))[0];
-
-			// Final version
-			$finalImage = explode('#', $data['params']['image'])[0];
-
-			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
+			MediaHelper::generateResponsiveFormImages(
+				['image' => $app->getUserState("com_categories.image")], $data['params'], ['image']
+			);
 		}
 
 		if (isset($data['description']))
 		{
-			$initDescription = $app->getUserState("com_categories.description");
-			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
+			MediaHelper::generateResponsiveContentImages(
+				$app->getUserState("com_categories.description"), $data['description']
+			);
 		}
 
 		// Load the row if saving an existing category.
