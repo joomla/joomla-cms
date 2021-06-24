@@ -58,6 +58,12 @@ class Shortcut {
       }
 
       window.addEventListener('DOMContentLoaded', (event) => {
+        const shortcuts = Joomla.getOptions('joomla.shortcut');
+        console.log('');
+        if (shortcuts) {
+          Object.keys(shortcuts)
+          .map((shortcut) => Joomla.addShortcut(shortcuts[shortcut], undefined, true, undefined));
+        }
         document.addEventListener(
           'keydown',
           (e) => {
