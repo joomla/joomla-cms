@@ -246,8 +246,8 @@ if ($saveOrder && !empty($this->items))
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
 											<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>"
-											href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>"
-											aria-describedby="tip-trash<?php echo $i; ?>">
+												href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>"
+												aria-describedby="tip-trash<?php echo $i; ?>">
 												<?php echo $item->count_trashed; ?>
 											</a>
 											<div role="tooltip" id="tip-trash<?php echo $i; ?>">
