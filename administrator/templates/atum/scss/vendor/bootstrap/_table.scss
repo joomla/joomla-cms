@@ -90,7 +90,7 @@
       top: calc(43px + 16px + .5rem); // min-height + padding + margin-bottom
       box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
 
-      @media (max-width: 575.98px) {
+      @include media-breakpoint-down(sm) {
         top: 0;
       }
     }
