@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Text;
 
@@ -36,16 +37,48 @@ class PlgSystemShortcut extends CMSPlugin
 	protected $_basePath = 'media/plg_system_shortcut';
 	public function onBeforeCompileHead()
 	{
+		$shortcut = array(
+			'button_apply' => array(
+			  'keyEvent' => 'meta+alt+s',
+			  'selector' => 'joomla-toolbar-button button.button-apply'
+			),
+			'button_new' => array(
+			  'keyEvent' => 'meta+alt+n',
+			  'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'button_save' => array(
+			  'keyEvent' => 'meta+alt+w',
+			  'selector' => 'joomla-toolbar-button button.button-save'
+			),
+			'button_saveNew' => array(
+			  'keyEvent' => 'meta+shift+alt+w',
+			  'selector' => 'joomla-toolbar-button button.button-save-new'
+		),
+		'button_help' => array(
+			  'keyEvent' => 'meta+alt+x',
+			  'selector' => 'joomla-toolbar-button button.button-help'
+		),
+		'button_cancel' => array(
+			  'keyEvent' => 'meta+alt+q',
+			  'selector' => 'joomla-toolbar-button button.button-cancel'
+		),
+		'button_copy' => array(
+			  'keyEvent' => 'meta+shift+alt+c',
+			  'selector' => 'joomla-toolbar-button button.button-button-copy'
+		)
+
+		  );
+
 		if ($this->app->isClient('administrator'))
 		{
 			$wa = $this->app->getDocument()->getWebAssetManager();
+			Factory::getDocument()->addScriptOptions('system-shortcut', $shortcut);
 
 			if (!$wa->assetExists('script', 'shortcut'))
 			{
 				$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
 			}
 
-			Factory::getDocument()->addScriptOptions('system_shortcut', $shortcut);
 			$wa->useScript('shortcut');
 
 			return true;
