@@ -117,7 +117,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="badge bg-danger" tabindex="0">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
 										</span>
-										<div role="tooltip" id="tip<?php echo $i; ?>">
+										<div role="tooltip" id="tip-missing<?php echo $i; ?>">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
 										</div>
 										<?php endif; ?>
