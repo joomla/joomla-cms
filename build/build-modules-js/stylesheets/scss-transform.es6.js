@@ -4,15 +4,19 @@ const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass');
+const { promisify } = require('../utils/promisify.es6.js');
+const { render } = require('sass-embedded');
+
+const renderPromise = promisify(render);
 
 module.exports.compile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
   let compiled;
+
   try {
-    compiled = Sass.renderSync({ file });
+    compiled = await renderPromise({ file });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
