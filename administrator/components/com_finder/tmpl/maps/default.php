@@ -140,7 +140,7 @@ $wa->useScript('com_finder.maps');
 									aria-describedby="tip-unpublish<?php echo $i; ?>">
 									<?php echo (int) $item->count_unpublished; ?>
 								</a>
-								<div role="tooltip" id="tip-enabled<?php echo $i; ?>">
+								<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
 									<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>
 								</div>
 							<?php else : ?>
