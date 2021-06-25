@@ -612,6 +612,18 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="show_imported_modules"
+				type="list"
+				label="COM_CONTENT_SHOW_IMPORTED_MODULES"
+				useglobal="true"
+				default=""
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
 
 		<fieldset name="basic-limited" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
