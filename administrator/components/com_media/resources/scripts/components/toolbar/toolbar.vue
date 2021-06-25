@@ -10,12 +10,12 @@
     />
     <div class="media-view-icons">
       <input
+        ref="mediaToolbarSelectAll"
         type="checkbox"
         class="media-toolbar-icon media-toolbar-select-all"
         :aria-label="translate('COM_MEDIA_SELECT_ALL')"
         @click.stop="toggleSelectAll"
-        ref="mediaToolbarSelectAll"
-        />
+      >
     </div>
     <media-breadcrumb />
     <div
@@ -112,6 +112,14 @@ export default {
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.selectedItems'() {
+      if (!this.allItemsSelected) {
+        this.$refs.mediaToolbarSelectAll.checked = false;
+      }
+    },
+  },
   methods: {
     toggleInfoBar() {
       if (this.$store.state.showInfoBar) {
@@ -152,12 +160,5 @@ export default {
       this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
     },
   },
-  watch: {
-    '$store.state.selectedItems'() {
-      if (!this.allItemsSelected) {
-        this.$refs.mediaToolbarSelectAll.checked = false;
-      }
-    }
-  }
 };
 </script>
