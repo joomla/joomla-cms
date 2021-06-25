@@ -32,6 +32,7 @@
       >{{ translate('COM_MEDIA_SEARCH') }}</label>
       <input
         id="media_search"
+        class="form-control"
         type="text"
         :placeholder="translate('COM_MEDIA_SEARCH')"
         @input="changeSearch"

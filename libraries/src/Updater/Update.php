@@ -369,8 +369,8 @@ class Update extends CMSObject
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
-							$minumumVersion = $supportedDbs->$dbType;
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+							$minimumVersion = $supportedDbs->$dbType;
+							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 						}
 					}
 					else

@@ -95,6 +95,9 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -110,33 +113,41 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass
-	. $hasClass;
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	. ($pageclass ? ' ' . $pageclass : '')
+	. $hasClass
+	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
-		<div class="grid-child">
-			<div class="navbar-brand">
-				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
+	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+
+		<?php if ($this->countModules('topbar')) : ?>
+			<div class="container-topbar">
+			<jdoc:include type="modules" name="topbar" style="none" />
 			</div>
-		</div>
+		<?php endif; ?>
+
+		<?php if ($this->countModules('below-top')) : ?>
+			<div class="grid-child container-below-top">
+				<jdoc:include type="modules" name="below-top" style="none" />
+			</div>
+		<?php endif; ?>
+
+		<?php if ($this->params->get('brand', 1)) : ?>
+			<div class="grid-child">
+				<div class="navbar-brand">
+					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>
-					<nav class="navbar navbar-expand-md">
-						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
-						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-							<span class="icon-menu" aria-hidden="true"></span>
-						</button>
-						<div class="collapse navbar-collapse" id="navbar">
-							<jdoc:include type="modules" name="menu" style="none" />
-						</div>
-					</nav>
+					<jdoc:include type="modules" name="menu" style="none" />
 				<?php endif; ?>
 				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
@@ -216,6 +227,5 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
 </body>
 </html>

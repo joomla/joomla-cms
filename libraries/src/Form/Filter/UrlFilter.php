@@ -80,7 +80,7 @@ class UrlFilter implements FormFilterInterface
 		// If relative URLS are allowed we assume that URLs without protocols are internal.
 		elseif (!$protocol && $element['relative'])
 		{
-			$host = Uri::getInstance('SERVER')->gethost();
+			$host = Uri::getInstance('SERVER')->getHost();
 
 			// If it starts with the host string, just prepend the protocol.
 			if (substr($value, 0) === $host)

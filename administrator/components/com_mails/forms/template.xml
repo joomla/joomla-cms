@@ -5,51 +5,26 @@
 			name="template_id"
 			type="hidden"
 		/>
-
 		<field
 			name="language"
 			type="hidden"
 		/>
-
 		<field
 			name="subject"
 			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
 			size="40"
 		/>
-
-		<field
-			name="subject_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_SUBJECT_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 		<field
 			name="body"
-			type="editor"
+			type="textarea"
 			label="COM_MAILS_FIELD_BODY_LABEL"
 			editor="none"
 			buttons="false"
-			class="inputbox"
+			rows="20"
+			class="form-control"
 			filter="JComponentHelper::filterText"
 		/>
-
-		<field
-			name="body_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_BODY_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 		<field
 			name="htmlbody"
 			type="editor"
@@ -58,17 +33,6 @@
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 		/>
-
-		<field
-			name="htmlbody_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_HTMLBODY_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 	</fieldset>
 	<field
 		name="attachments"
@@ -81,7 +45,9 @@
 			<field
 				name="file"
 				type="filelist"
+				hide_default="true"
 				label="COM_MAILS_FIELD_FILE_LABEL"
+				validate="options"
 			/>
 			<field
 				name="name"
@@ -236,6 +202,7 @@
 				filter="raw"
 				autocomplete="off"
 				size="30"
+				lock="true"
 			/>
 
 			<field

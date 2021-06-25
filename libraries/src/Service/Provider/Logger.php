@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Service provider for the application's PSR-3 logger dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Logger implements ServiceProviderInterface
 {
@@ -30,7 +30,7 @@ class Logger implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

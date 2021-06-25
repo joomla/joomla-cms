@@ -42,7 +42,7 @@ use Joomla\Session\Validator\ForwardedValidator;
 /**
  * Service provider for the application's session dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Session implements ServiceProviderInterface
 {
@@ -53,7 +53,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -214,7 +214,19 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
-				return $this->buildSession(new RuntimeStorage, $app, $container->get(DispatcherInterface::class), $options);
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
+				return $this->buildSession(
+					new RuntimeStorage,
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
 			},
 			true
 		);
@@ -301,7 +313,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  SessionInterface
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	private function buildSession(
 		StorageInterface $storage,
@@ -332,7 +344,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
 	{

@@ -36,49 +36,41 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" aria-label="<?php echo Text::_('COM_CONTACT_FORM_TITLE_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" aria-label="<?php echo Text::_('COM_CONTACT_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
+	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_CONTACT_NEW_CONTACT') : Text::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-6">
-								<?php echo $this->form->renderField('user_id'); ?>
-								<?php echo $this->form->renderField('image'); ?>
-								<?php echo $this->form->renderField('con_position'); ?>
-								<?php echo $this->form->renderField('email_to'); ?>
-								<?php echo $this->form->renderField('address'); ?>
-								<?php echo $this->form->renderField('suburb'); ?>
-								<?php echo $this->form->renderField('state'); ?>
-								<?php echo $this->form->renderField('postcode'); ?>
-								<?php echo $this->form->renderField('country'); ?>
-							</div>
-							<div class="col-md-6">
-								<?php echo $this->form->renderField('telephone'); ?>
-								<?php echo $this->form->renderField('mobile'); ?>
-								<?php echo $this->form->renderField('fax'); ?>
-								<?php echo $this->form->renderField('webpage'); ?>
-								<?php echo $this->form->renderField('sortname1'); ?>
-								<?php echo $this->form->renderField('sortname2'); ?>
-								<?php echo $this->form->renderField('sortname3'); ?>
-							</div>
-						</div>
+				<div class="row">
+					<div class="col-md-6">
+						<?php echo $this->form->renderField('user_id'); ?>
+						<?php echo $this->form->renderField('image'); ?>
+						<?php echo $this->form->renderField('con_position'); ?>
+						<?php echo $this->form->renderField('email_to'); ?>
+						<?php echo $this->form->renderField('address'); ?>
+						<?php echo $this->form->renderField('suburb'); ?>
+						<?php echo $this->form->renderField('state'); ?>
+						<?php echo $this->form->renderField('postcode'); ?>
+						<?php echo $this->form->renderField('country'); ?>
+					</div>
+					<div class="col-md-6">
+						<?php echo $this->form->renderField('telephone'); ?>
+						<?php echo $this->form->renderField('mobile'); ?>
+						<?php echo $this->form->renderField('fax'); ?>
+						<?php echo $this->form->renderField('webpage'); ?>
+						<?php echo $this->form->renderField('sortname1'); ?>
+						<?php echo $this->form->renderField('sortname2'); ?>
+						<?php echo $this->form->renderField('sortname3'); ?>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

@@ -122,6 +122,7 @@
 			required="true"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
 			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>

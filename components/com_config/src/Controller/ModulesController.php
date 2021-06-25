@@ -45,7 +45,6 @@ class ModulesController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 	}
 

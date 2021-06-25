@@ -60,17 +60,17 @@
     color: var(--success);
   }
 
-  &.first {
+  &.first:not(.last) {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  &.last {
+  &.last:not(.first) {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
-  &:not(.first):not(.last) {
+  &:not(.first):not(.last):not(:only-of-type) {
     border-radius: 0;
   }
 }

@@ -312,11 +312,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
-
-			if (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags')
-			{
-				$this->params->set('page_subheading', $menu->title);
-			}
 		}
 
 		$this->setDocumentTitle($title);
@@ -345,7 +340,7 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($v)
 				{
-					$this->document->setMetadata($k, $v);
+					$this->document->setMetaData($k, $v);
 				}
 			}
 		}

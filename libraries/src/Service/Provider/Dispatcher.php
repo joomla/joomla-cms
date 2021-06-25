@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherInterface as EventDispatcherInterface;
 /**
  * Service provider for the application's event dispatcher dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Dispatcher implements ServiceProviderInterface
 {
@@ -30,7 +30,7 @@ class Dispatcher implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $isSingleTag = count($this->item) === 1;
+$htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 
 <div class="com-tags-tag tag-category">
@@ -24,9 +25,9 @@ $isSingleTag = count($this->item) === 1;
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
-		<h2>
+		<<?php echo $htag; ?>>
 			<?php echo HTMLHelper::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
-		</h2>
+		</<?php echo $htag; ?>>
 	<?php endif; ?>
 
 	<?php // We only show a tag description if there is a single tag. ?>

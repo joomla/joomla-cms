@@ -26,6 +26,15 @@ Joomla = window.Joomla || {};
       }
     });
 
+    Array.from(document.querySelectorAll('.js-filter'))
+      .forEach((button) => {
+        button.addEventListener('click', (event) => {
+          const btn = event.currentTarget;
+          Array.from(document.querySelectorAll(`.${btn.dataset.id}`))
+            .map((el) => el.click());
+        });
+      });
+
     // Expand/collapse
     const expandAccordion = document.getElementById('expandAccordion');
     if (expandAccordion) {
@@ -33,12 +42,12 @@ Joomla = window.Joomla || {};
         event.preventDefault();
         let elements;
 
-        if (event.target.innerText === Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL')) {
-          event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_HIDE_ALL');
+        if (event.target.innerText === Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL')) {
+          event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_HIDE_ALL');
 
           elements = [].slice.call(document.querySelectorAll('.accordion-button.collapsed'));
         } else {
-          event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL');
+          event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL');
 
           elements = [].slice.call(document.querySelectorAll('.accordion-button:not(.collapsed)'));
         }
