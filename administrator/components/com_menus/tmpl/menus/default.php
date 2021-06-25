@@ -128,18 +128,15 @@ $wa->useScript('com_menus.admin-menus');
 											aria-describedby="tip-publish<?php echo $i; ?>">
 											<?php echo $item->count_published; ?>
 										</a>
-										<div role="tooltip" id="tip-publish<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
-										</div>
 										<?php else : ?>
 										<span class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>" tabindex="0"
 											aria-describedby="tip-publish<?php echo $i; ?>">
 											<?php echo $item->count_published; ?>
 										</span>
-										<div role="tooltip" id="tip-publish<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
-										</div>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
@@ -148,18 +145,15 @@ $wa->useScript('com_menus.admin-menus');
 											aria-describedby="tip-unpublish<?php echo $i; ?>">
 											<?php echo $item->count_unpublished; ?>
 										</a>
-										<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
-										</div>
 										<?php else : ?>
 										<span class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>" tabindex="0"
 											aria-describedby="tip-unpublish<?php echo $i; ?>">
 											<?php echo $item->count_unpublished; ?>
 										</span>
-										<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
-										</div>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
@@ -168,18 +162,15 @@ $wa->useScript('com_menus.admin-menus');
 											aria-describedby="tip-trash<?php echo $i; ?>">
 											<?php echo $item->count_trashed; ?>
 										</a>
-										<div role="tooltip" id="tip-trash<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
-										</div>
 									<?php else : ?>
 										<span class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>" tabindex="0"
 											aria-describedby="tip-trash<?php echo $i; ?>">
 											<?php echo $item->count_trashed; ?>
 										</span>
-										<div role="tooltip" id="tip-trash<?php echo $i; ?>">
-											<?php echo Text::_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
-										</div>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-trash<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center d-none d-lg-table-cell itemnumber">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
