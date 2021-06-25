@@ -173,9 +173,6 @@
         return;
       }
 
-      // Hide the clear button when no value is set
-      this.buttonClearEl.style.display = this.inputElement.value ? '' : 'none';
-
       // Reset preview
       if (this.preview) {
         const { value } = this.inputElement;
