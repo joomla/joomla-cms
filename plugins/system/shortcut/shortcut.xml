@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+  <name>plg_system_shortcut</name>
+  <author>KUMAR SHIVAM</author>
+  <creationDate>Jun 2021</creationDate>
+  <license>MIT</license>
+  <authorEmail>krshivam2505@gmail.com</authorEmail>
+  <authorUrl>www.joomla.org</authorUrl>
+  <version>1.0.0</version>
+  <description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
+  <media destination="plg_system_shortcut" folder="media">
+    <folder>js</folder>
+  </media>
+  <files>
+    <filename plugin="shortcut">shortcut.php</filename>
+    <filename>index.html</filename>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.ini</language>
+    <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
+        <field type="text" name="shortcut_button_new" default="alt + n" label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_DESC" />
+		<field type="text" name="shortcut_button_apply" default="alt + s" label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_DESC" />
+		<field type="text" name="shortcut_button_save" default="alt + w" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_DESC" />
+		<field type="text" name="shortcut_button_saveNew" default="alt + n" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_DESC" />
+		<field type="text" name="shortcut_button_help" default="alt + h" label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_DESC" />
+		<field type="text" name="shortcut_button_cancel" default="alt + q" label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_DESC" />
+		<field type="text" name="shortcut_button_copy" default="alt + shift + c" label="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_DESC" />
+      </fieldset>
+    </fields>
+  </config>
+</extension>
