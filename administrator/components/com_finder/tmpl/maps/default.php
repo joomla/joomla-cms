@@ -126,9 +126,9 @@ $wa->useScript('com_finder.maps');
 									aria-describedby="tip-publish<?php echo $i; ?>">
 									<?php echo (int) $item->count_published; ?>
 								</a>
-							<div role="tooltip" id="tip-enabled<?php echo $i; ?>">
-								<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
-							</div>
+								<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>
