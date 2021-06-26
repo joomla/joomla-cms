@@ -1168,3 +1168,6 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
 (6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+(0, 'com_cookiemanager', 'component', 'com_cookiemanager', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '', 0, NULL, 0, 0);

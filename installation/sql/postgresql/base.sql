@@ -1189,3 +1189,6 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
 
 SELECT setval('#__workflow_transitions_id_seq', 8, false);
+
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '', 0, NULL, 0, 0);
