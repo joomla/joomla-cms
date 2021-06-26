@@ -271,14 +271,14 @@
       "uri": "system/fields/joomla-field-media.min.css"
     },
     {
-      "name": "webcomponent.image-select",
+      "name": "webcomponent.media-select",
       "type": "style",
-      "uri": "system/fields/joomla-image-select.min.css"
+      "uri": "system/fields/joomla-media-select.min.css"
     },
     {
-      "name": "webcomponent.image-select-legacy",
+      "name": "webcomponent.media-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-image-select-es5.min.js",
+      "uri": "system/fields/joomla-media-select-es5.min.js",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -288,14 +288,14 @@
       ]
     },
     {
-      "name": "webcomponent.image-select",
+      "name": "webcomponent.media-select",
       "type": "script",
-      "uri": "system/fields/joomla-image-select.min.js",
+      "uri": "system/fields/joomla-media-select.min.js",
       "attributes": {
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.image-select-legacy"
+        "webcomponent.media-select-legacy"
       ]
     },
     {
