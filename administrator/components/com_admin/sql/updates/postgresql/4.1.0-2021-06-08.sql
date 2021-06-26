@@ -22,5 +22,5 @@ CREATE INDEX "#__cookiemanager_cookies_idx_state" on "#__cookiemanager_cookies" 
 CREATE INDEX "#__cookiemanager_cookies_idx_catid" on "#__cookiemanager_cookies" ("catid");
 CREATE INDEX "#__cookiemanager_cookies_idx_createdby" on "#__cookiemanager_cookies" ("created_by");
 
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(0, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '', 0, NULL, 0, 0);
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
+(0, 'com_cookiemanager', 'component', 'com_cookiemanager', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '', 0, 0);

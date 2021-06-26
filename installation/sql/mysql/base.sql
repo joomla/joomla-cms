@@ -179,7 +179,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', ''),
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', ''),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', ''),
-(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '');
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', ''),
+(0, 'com_cookiemanager', 'component', 'com_cookiemanager', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '');
 
 -- Libraries
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`) VALUES
@@ -1168,6 +1169,3 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
 (6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
-
-INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(0, 'com_cookiemanager', 'component', 'com_cookiemanager', '', 1, 1, 1, 0, 1, '', '{"policylink":"","position":"bottom"}', '', 0, NULL, 0, 0);
