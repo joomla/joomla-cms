@@ -3,7 +3,7 @@
 --
 
 CREATE TABLE IF NOT EXISTS "#__cookiemanager_cookies" (
-  "id" serial NOT NULL PRIMARY KEY,
+  "id" serial NOT NULL,
   "title" varchar(255) NOT NULL,
   "alias" varchar(400) NOT NULL,
   "cookie_name" varchar(255) NOT NULL,
@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS "#__cookiemanager_cookies" (
   "created" timestamp without time zone NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone NOT NULL,
-  "modified_by" integer DEFAULT 0 NOT NULL
+  "modified_by" integer DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
 );
 CREATE INDEX "#__cookiemanager_cookies_idx_state" on "#__cookiemanager_cookies" ("published");
 CREATE INDEX "#__cookiemanager_cookies_idx_catid" on "#__cookiemanager_cookies" ("catid");
