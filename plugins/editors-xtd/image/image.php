@@ -64,9 +64,9 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
 			$doc->getWebAssetManager()
-				->useScript('webcomponent.image-select')
+				->useScript('webcomponent.media-select')
 				->useScript('webcomponent.field-media')
-				->useStyle('webcomponent.image-select');
+				->useStyle('webcomponent.media-select');
 
 			$doc->addScriptOptions('xtdImageModal', [
 				$name . '_ImageModal',
@@ -81,6 +81,14 @@ class PlgButtonImage extends CMSPlugin
 			Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
+			Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_CONTROLS_LABEL');
+			Text::script('JFIELD_MEDIA_CONTROLS_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+			Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
+			Text::script('JFIELD_MEDIA_UNSUPPORTED');
+
 
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&author=' . $author;
 

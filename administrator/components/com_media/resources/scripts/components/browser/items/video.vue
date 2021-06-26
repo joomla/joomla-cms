@@ -7,7 +7,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="icon-file-alt" />
+          <span class="fas fa-file-video" />
         </div>
       </div>
     </div>
@@ -47,28 +47,6 @@
         class="media-browser-actions-list"
       >
         <ul>
-          <li>
-            <button
-              ref="actionPreview"
-              type="button"
-              class="action-preview"
-              :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
-              :title="translate('COM_MEDIA_ACTION_PREVIEW')"
-              @keyup.enter="openPreview()"
-              @keyup.space="openPreview()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionDelete.focus()"
-              @keyup.down="$refs.actionDownload.focus()"
-            >
-              <span
-                class="image-browser-action icon-search-plus"
-                aria-hidden="true"
-                @click.stop="openPreview()"
-              />
-            </button>
-          </li>
           <li>
             <button
               ref="actionDownload"
