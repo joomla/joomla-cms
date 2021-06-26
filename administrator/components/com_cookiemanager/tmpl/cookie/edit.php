@@ -30,10 +30,19 @@ HTMLHelper::_('behavior.keepalive');
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_COOKIEMANAGER_COOKIES')); ?>
 		<div class="row">
-			<div class="col-lg-8">
-				<?php echo $this->form->renderField('cookies_name'); ?>
+			<div class="col-lg-9">
+				<?php echo $this->form->renderField('cookie_name'); ?>
+				<?php echo $this->form->renderField('cookie_desc'); ?>
+				<div class="row">
+					<div class="col-md-6">
+						<?php echo $this->form->renderField('exp_period'); ?>
+					</div>
+					<div class="col-md-6">
+						<?php echo $this->form->renderField('exp_value'); ?>
+					</div>
+				</div>
 			</div>
-			<div class="col-lg-4">
+			<div class="col-lg-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
@@ -51,7 +60,7 @@ HTMLHelper::_('behavior.keepalive');
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		
+
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 

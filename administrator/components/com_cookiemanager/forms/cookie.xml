@@ -38,7 +38,6 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
-
 		</field>
 
 		<field
@@ -59,26 +58,47 @@
 		/>
 
 		<field
-			name="cookies_name"
-			type="subform"
-			label="COM_COOKIEMANAGER_COOKIES_NAME_LABEL"
-			multiple="true"
+			name="cookie_name"
+			type="text"
+			label="COM_COOKIEMANAGER_COOKIE_NAME_LABEL"
 			required="true"
-			layout="joomla.form.field.subform.repeatable-table"
+			hint="COM_COOKIEMANAGER_COOKIE_NAME_HINT"
+		/>
+
+		<field
+			name="cookie_desc"
+			type="textarea"
+			label="COM_COOKIEMANAGER_COOKIE_DESC_LABEL"
+			required="true"
+			hint="COM_COOKIEMANAGER_COOKIE_DESC_HINT"
+		/>
+
+		<field
+			name="exp_period"
+			type="list"
+			label="COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_LABEL"
+			required="true"
 			>
-			<form>
-				<field
-					name="cookie"
-					type="text"
-					label="COM_COOKIEMANAGER_COOKIE_NAME_LABEL"
-					description="COM_COOKIEMANAGER_COOKIES_NAME_DESC"
-					required="true"
-					filter="text"
-					size="40"
-					hint="COM_COOKIEMANAGER_COOKIES_NAME_HINT"
-				/>
-			</form>
+			<option value="-1">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_FOREVER</option>
+			<option value="0">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_SESSION</option>
+			<option value="seconds">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_SECONDS</option>
+			<option value="minutes">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_MINUTES</option>
+			<option value="hours">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_HOURS</option>
+			<option value="days">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_DAYS</option>
+			<option value="weeks">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_WEEKS</option>
+			<option value="months">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_MONTHS</option>
+			<option value="years">COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_YEARS</option>
 		</field>
+
+		<field
+			name="exp_value"
+			type="text"
+			label="COM_COOKIEMANAGER_COOKIE_EXP_VALUE_LABEL"
+			required="true"
+			filter="integer"
+			showon="exp_period:seconds,minutes,hours,days,weeks,months,years"
+			default="0"
+		/>
 
 		<field
 			name="created_by"

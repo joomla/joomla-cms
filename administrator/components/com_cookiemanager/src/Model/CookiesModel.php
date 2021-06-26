@@ -41,7 +41,10 @@ class CookiesModel extends ListModel
 				'id', 'a.id',
 				'title', 'a.title',
 				'alias', 'a.alias',
-				'cookies_name', 'a.cookies_name',
+				'cookie_name', 'a.cookie_name',
+				'cookie_desc', 'a.cookie_desc',
+				'exp_period', 'a.exp_period',
+				'exp_value', 'a.exp_value',
 				'catid', 'a.catid', 'category_id', 'category_title',
 				'published', 'a.published',
 				'ordering', 'a.ordering',
@@ -115,7 +118,7 @@ class CookiesModel extends ListModel
 			$query->select(
 				$this->getState(
 					'list.select',
-					'a.id, a.title, a.alias, a.cookies_name, a.catid, a.published, a.ordering, a.created, a.created_by'
+					'a.id, a.title, a.alias, a.cookie_name, a.cookie_desc, a.exp_period, a.exp_value, a.catid, a.published, a.ordering, a.created, a.created_by'
 				)
 			);
 			$query->from($db->quoteName('#__cookiemanager_cookies', 'a'));

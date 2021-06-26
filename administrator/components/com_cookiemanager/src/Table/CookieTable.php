@@ -34,14 +34,6 @@ class CookieTable extends Table
 	protected $_supportNullValue = true;
 
 	/**
-	 * Ensure the params in json encoded in the bind method
-	 *
-	 * @var    array
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected $_jsonEncode = array('cookies_name');
-
-	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
