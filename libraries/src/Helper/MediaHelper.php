@@ -484,14 +484,13 @@ class MediaHelper
 	 *
 	 * @param   array  $initImages   images before submission
 	 * @param   array  $finalImages  images during submission
-	 * @param   array  $imageKeys    keys of images in array to be generated
 	 * @param   array  $sizes        array of strings. Example: $sizes = array('1200x800','800x600');
 	 *
 	 * @return  array  generated images
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateResponsiveFormImages($initImages, $finalImages, $imageKeys, $sizes = null)
+	public static function generateResponsiveFormImages($initImages, $finalImages, $sizes = null)
 	{
 		// Use default if sizes are not provided
 		if (is_null($sizes))
@@ -501,11 +500,11 @@ class MediaHelper
 
 		$imagesGenerated = [];
 
-		foreach ($imageKeys as $key)
+		foreach ($finalImages as $key => $finalImage)
 		{
 			// Get image names, currently they are: imgName#joomlaImage://imgPath
 			$initImage = explode("#", $initImages[$key])[0];
-			$finalImage = explode("#", $finalImages[$key])[0];
+			$finalImage = explode("#", $finalImage)[0];
 
 			// Remove previously generated images if original is changed
 			if ($initImage !== "" && $initImage !== $finalImage)

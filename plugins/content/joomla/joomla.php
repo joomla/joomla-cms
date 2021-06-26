@@ -22,6 +22,7 @@ use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 /**
  * Example Content Plugin
@@ -63,6 +64,57 @@ class PlgContentJoomla extends CMSPlugin
 		if ($context === 'com_menus.item')
 		{
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+		}
+		setcookie("context", $context);
+
+		// Get form images depending on context
+		$formImages = null;
+
+		switch ($context)
+		{
+			case "com_content.article":
+			case "com_tags.tag":
+				$formImages = array($data['images']['image_intro'], $data['images']['image_fulltext']);
+				break;
+			case "com_banners.banner":
+				$formImages = array($data['params']['imageurl']);
+				break;
+			case "com_categories.category":
+				$formImages = array($data['params']['image']);
+				break;
+			case "com_contact.contact":
+				$formImages = array($data['image']);
+				break;
+			case "com_newsfeeds.newsfeed":
+				$formImages = array($data['images']['image_first'], $data['images']['image_second']);
+				break;
+		}
+
+		// Get content images depending on context
+		$content = null;
+
+		if ($context === 'com_content.article')
+		{
+			$content = $data['articletext'];
+		}
+		else if ($context === 'com_contact.contact')
+		{
+			$content = $data['misc'];
+		}
+		else
+		{
+			$content = $data['description'];
+		}
+
+		// Generate responsive form and content images
+		if (!is_null($formImages))
+		{
+			MediaHelper::generateResponsiveFormImages([], $formImages);
+		}
+
+		if (!is_null($content))
+		{
+			MediaHelper::generateResponsiveContentImages("", $content);
 		}
 
 		// Check we are handling the frontend edit form.

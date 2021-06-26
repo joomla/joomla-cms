@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -495,10 +494,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
-		// Get initial article text and images then set them in user state
-		$app->setUserState("com_content.articletext", $form->getValue("articletext"));
-		$app->setUserState("com_content.images", json_encode($form->getValue("images")));
-
 		// Object uses for checking edit state permission of article
 		$record = new \stdClass;
 
@@ -706,21 +701,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$initImages = (array) json_decode($app->getUserState("com_content.images"));
-
-			MediaHelper::generateResponsiveFormImages(
-				$initImages, $data['images'], ['image_intro', 'image_fulltext']
-			);
-
 			$registry = new Registry($data['images']);
 			$data['images'] = (string) $registry;
-		}
-
-		if (isset($data['articletext']))
-		{
-			MediaHelper::generateResponsiveContentImages(
-				$app->getUserState("com_content.articletext"), $data['articletext']
-			);
 		}
 
 		$this->workflowBeforeSave();
