@@ -76,7 +76,13 @@ Factory::getDocument()->getWebAssetManager()
 	->usePreset('choicesjs')
 	->useScript('webcomponent.field-fancy-select');
 
-$clientId = Factory::getApplication()->input->get('client_id');
+$app = Factory::getApplication();
+$clientId = $app->input->getBool('client_id', 0);
+
+$modalUrl = 'index.php?option=com_modules&view=module&layout=preview_positions&id=1&client_id=' . $clientId;
+
+// &tmpl=component doesn't redirect if the user isn't logged into backend hence we are adding it conditionally
+$modalUrl = $app->isClient('site') ? 'administrator/' . $modalUrl : $modalUrl . '&tmpl=component';
 
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>>
@@ -95,7 +101,7 @@ echo HTMLHelper::_(
 	'Modal_position',
 	array(
 		'title'       => Text::_('COM_MODULES_MODULE_SELECT_POSITION'),
-		'url'         => 'index.php?option=com_modules&view=module&layout=preview_positions&tmpl=component&id=1&client_id=' . $clientId,
+		'url'         => $modalUrl,
 		'bodyHeight'  => 70,
 		'modalWidth'  => 95,
 		'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
