@@ -2854,6 +2854,7 @@ class JoomlaInstallerScript
 			'/components/com_contact/helpers/association.php',
 			'/components/com_contact/helpers/category.php',
 			'/components/com_contact/helpers/legacyrouter.php',
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/components/com_contact/models/categories.php',
 			'/components/com_contact/models/category.php',
 			'/components/com_contact/models/contact.php',
