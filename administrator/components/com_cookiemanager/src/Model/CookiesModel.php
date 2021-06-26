@@ -118,7 +118,8 @@ class CookiesModel extends ListModel
 			$query->select(
 				$this->getState(
 					'list.select',
-					'a.id, a.title, a.alias, a.cookie_name, a.cookie_desc, a.exp_period, a.exp_value, a.catid, a.published, a.ordering, a.created, a.created_by'
+					'a.id, a.title, a.alias, a.cookie_name, a.cookie_desc, a.exp_period, ' .
+					'a.exp_value, a.catid, a.published, a.ordering, a.created, a.created_by'
 				)
 			);
 			$query->from($db->quoteName('#__cookiemanager_cookies', 'a'));
