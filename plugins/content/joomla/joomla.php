@@ -82,14 +82,18 @@ class PlgContentJoomla extends CMSPlugin
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
 		}
 
-		// Generate responsive form and content images
-		if ($formImages = $this->_getFormImages($context, (array) $data))
+		$item = clone $table;
+
+		$item->load($table->id);
+
+		// Get initial versions of content and form images
+		if ($formImages = $this->_getFormImages($context, (array) $item))
 		{
-			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+			$this->initFormImages = $formImages;
 		}
-		if ($content = $this->_getContent($context, (array) $data))
+		if ($content = $this->_getContent($context, (array) $item))
 		{
-			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+			$this->initContent = $content;
 		}
 
 		// Check we are handling the frontend edit form.
@@ -97,10 +101,6 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			return true;
 		}
-
-		$item = clone $table;
-
-		$item->load($table->id);
 
 		if ($item->published != -2 && $data['published'] == -2)
 		{
@@ -132,6 +132,17 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
+		// Generate responsive form and content images
+		if ($formImages = $this->_getFormImages($context, (array) $article))
+		{
+			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+			$this->app->enqueueMessage(json_encode((array) $article));
+		}
+		if ($content = $this->_getContent($context, (array) $article))
+		{
+			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+		}
+
 		// Check we are handling the frontend edit form.
 		if ($context !== 'com_content.form')
 		{
@@ -188,29 +199,6 @@ class PlgContentJoomla extends CMSPlugin
 					->createModel('Message', 'Administrator');
 				$model_message->save($message);
 			}
-		}
-	}
-
-	/**
-	 * Runs on content preparation
-	 *
-	 * @param   string  $context  The context for the data
-	 * @param   object  $data     An object containing the data for the form.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.1.0
-	 */
-	public function onContentPrepareData($context, $data)
-	{
-		// Get initial versions of content and form images
-		if ($formImages = $this->_getFormImages($context, (array) $data))
-		{
-			$this->initFormImages = $formImages;
-		}
-		if ($content = $this->_getContent($context, (array) $data))
-		{
-			$this->initContent = $content;
 		}
 	}
 
