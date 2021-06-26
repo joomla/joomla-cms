@@ -2854,7 +2854,6 @@ class JoomlaInstallerScript
 			'/components/com_contact/helpers/association.php',
 			'/components/com_contact/helpers/category.php',
 			'/components/com_contact/helpers/legacyrouter.php',
-			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/components/com_contact/models/categories.php',
 			'/components/com_contact/models/category.php',
 			'/components/com_contact/models/contact.php',
@@ -5860,6 +5859,9 @@ class JoomlaInstallerScript
 			'/media/com_fields/js/admin-field-edit-modal.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
+			// 4.0 from RC 2 to RC 3
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
+
 		);
 
 		$folders = array(
