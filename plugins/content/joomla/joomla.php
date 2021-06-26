@@ -48,6 +48,22 @@ class PlgContentJoomla extends CMSPlugin
 	protected $db;
 
 	/**
+	 * Initial version of form images
+	 *
+	 * @var    array
+	 * @since  4.1.0
+	 */
+	protected $initFormImages;
+
+	/**
+	 * Initial version of content
+	 *
+	 * @var    string
+	 * @since  4.1.0
+	 */
+	protected $initContent;
+
+	/**
 	 * The save event.
 	 *
 	 * @param   string   $context  The context
@@ -65,56 +81,15 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
 		}
-		setcookie("context", $context);
-
-		// Get form images depending on context
-		$formImages = null;
-
-		switch ($context)
-		{
-			case "com_content.article":
-			case "com_tags.tag":
-				$formImages = array($data['images']['image_intro'], $data['images']['image_fulltext']);
-				break;
-			case "com_banners.banner":
-				$formImages = array($data['params']['imageurl']);
-				break;
-			case "com_categories.category":
-				$formImages = array($data['params']['image']);
-				break;
-			case "com_contact.contact":
-				$formImages = array($data['image']);
-				break;
-			case "com_newsfeeds.newsfeed":
-				$formImages = array($data['images']['image_first'], $data['images']['image_second']);
-				break;
-		}
-
-		// Get content images depending on context
-		$content = null;
-
-		if ($context === 'com_content.article')
-		{
-			$content = $data['articletext'];
-		}
-		else if ($context === 'com_contact.contact')
-		{
-			$content = $data['misc'];
-		}
-		else
-		{
-			$content = $data['description'];
-		}
 
 		// Generate responsive form and content images
-		if (!is_null($formImages))
+		if ($formImages = $this->_getFormImages($context, (array) $data))
 		{
-			MediaHelper::generateResponsiveFormImages([], $formImages);
+			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
 		}
-
-		if (!is_null($content))
+		if ($content = $this->_getContent($context, (array) $data))
 		{
-			MediaHelper::generateResponsiveContentImages("", $content);
+			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
 		}
 
 		// Check we are handling the frontend edit form.
@@ -213,6 +188,91 @@ class PlgContentJoomla extends CMSPlugin
 					->createModel('Message', 'Administrator');
 				$model_message->save($message);
 			}
+		}
+	}
+
+	/**
+	 * Runs on content preparation
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.1.0
+	 */
+	public function onContentPrepareData($context, $data)
+	{
+		// Get initial versions of content and form images
+		if ($formImages = $this->_getFormImages($context, (array) $data))
+		{
+			$this->initFormImages = $formImages;
+		}
+		if ($content = $this->_getContent($context, (array) $data))
+		{
+			$this->initContent = $content;
+		}
+	}
+
+	/**
+	 * Returns form images from data with specific context
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   array   $data     The validated data
+	 *
+	 * @return  mixed   Array of form images or false if they don't exist
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getFormImages($context, $data)
+	{
+		// Get form images depending on context
+		switch ($context)
+		{
+			case "com_content.article":
+			case "com_tags.tag":
+				return array(
+					'image_intro' => $data['images']['image_intro'], 'image_fulltext' => $data['images']['image_fulltext']
+				);
+			case "com_banners.banner":
+				return array('image' => $data['params']['imageurl']);
+			case "com_categories.category":
+				return array('image' => $data['params']['image']);
+			case "com_contact.contact":
+				return array('image' => $data['image']);
+			case "com_newsfeeds.newsfeed":
+				return array(
+					'image_first' => $data['images']['image_first'], 'image_second' => $data['images']['image_second']
+				);
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Returns content from data with specific context
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   array   $data     The validated data
+	 *
+	 * @return  mixed   Content as string or false if it doesn't exist
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getContent($context, $data)
+	{
+		// Get content depending on context
+		if ($context === 'com_content.article')
+		{
+			return $data['articletext'];
+		}
+		else if ($context === 'com_contact.contact')
+		{
+			return $data['misc'];
+		}
+		else
+		{
+			return $data['description'] ?? false;
 		}
 	}
 
