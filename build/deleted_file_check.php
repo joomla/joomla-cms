@@ -65,10 +65,10 @@ $previousReleaseExclude = [
 	$options['from'] . '/administrator/components/com_search',
 	$options['from'] . '/components/com_search',
 	$options['from'] . '/images/sampledata',
+	$options['from'] . '/installation',
 	$options['from'] . '/modules/mod_search',
-	$options['from'] . '/plugins/search',
 	$options['from'] . '/plugins/fields/repeatable',
-	$options['from'] . '/installation'
+	$options['from'] . '/plugins/search',
 ];
 
 /**
@@ -154,9 +154,10 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 $filesToKeep = [
 	"'/administrator/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
-	"'/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",
@@ -169,10 +170,9 @@ $filesToKeep = [
 	"'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+	"'/language/en-GB/en-GB.com_search.ini',",
 	"'/language/en-GB/en-GB.mod_search.ini',",
 	"'/language/en-GB/en-GB.mod_search.sys.ini',",
 ];
