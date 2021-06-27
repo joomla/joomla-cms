@@ -213,7 +213,6 @@ const insertAsOther = (media, editor, fieldClass, type) => {
       let outputText;
       const currentModal = fieldClass.closest('.modal-content');
       attribs = currentModal.querySelector('joomla-field-mediamore');
-      debugger;
       if (attribs) {
         const embedable = attribs.getAttribute('embed-it');
         if (embedable && embedable === 'true') {
@@ -233,14 +232,11 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
   </video>`;
           }
-
+        } else if (Joomla.editors.instances[editor].getSelection() !== '') {
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
         } else {
-          if (Joomla.editors.instances[editor].getSelection() !== '') {
-            outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
-          } else {
-            const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
-            outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
-          }
+          const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
         }
       }
 
@@ -332,7 +328,7 @@ Joomla.getImage = Joomla.getMedia;
  * - is-lazy: The value for the lazyloading (calculated, defaults to 'true') {string}
  * - alt-value: The value for the alt text (calculated, defaults to '') {string}
  */
-export class JoomlaFieldMediaOptions extends HTMLElement {
+class JoomlaFieldMediaOptions extends HTMLElement {
   get type() { return this.getAttribute('type'); }
 
   get parentId() { return this.getAttribute('parent-id'); }
