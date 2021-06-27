@@ -72,5 +72,9 @@
   option {
     color: var(--atum-text-dark);
     background-color: $white;
+
+    &:disabled {
+      background-color: var(--atum-bg-dark-10);
+    }
   }
 }
