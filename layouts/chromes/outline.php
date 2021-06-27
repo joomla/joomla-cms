@@ -21,7 +21,7 @@ $app->getDocument()
 $module = $displayData['module'];
 
 // Place Modules Button
-$showModuleButton = $app->input->getBool('pm') && ($app->getName() == 'site');
+$showPlaceModuleButton = $app->input->getBool('pm') && ($app->getName() == 'site');
 
 // Attributes of Select Position Tag for Placing Modules
 $menuId = $app->getMenu()->getActive();
@@ -29,7 +29,7 @@ $action = isset($menuId->id) ? 'href="administrator/index.php?option=com_modules
 $tag = "a";
 
 // True for Backend Edit Module Position's Modal Iframe
-if ($showModuleButton && $app->input->getBool('edit'))
+if ($showPlaceModuleButton && $app->input->getBool('edit'))
 {
 	$tag = "button";
 	$action = 'data-position="' . $module->position . '"';
@@ -40,10 +40,7 @@ if ($showModuleButton && $app->input->getBool('edit'))
 		<div class="mod-preview-position">
 			<?php echo Text::sprintf('JGLOBAL_PREVIEW_POSITION', $module->position); ?>
 		</div>
-		<div class="mod-preview-style">
-			<?php echo Text::sprintf('JGLOBAL_PREVIEW_STYLE', $module->style); ?>
-		</div>
-		<?php if ($showModuleButton): ?>
+		<?php if ($showPlaceModuleButton): ?>
 			<div class="mod-preview-position">
 				<<?php echo $tag; ?> class="btn btn-sm btn-info jmod-position-select" <?php echo $action; ?>>
 					<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE'); ?>
@@ -51,6 +48,10 @@ if ($showModuleButton && $app->input->getBool('edit'))
 						<?php echo Text::sprintf('JGLOBAL_PREVIEW_PLACE_MODULE_POSITION', $module->position); ?>
 					</span>
 				</<?php echo $tag; ?>>
+			</div>
+		<?php else: ?>
+			<div class="mod-preview-style">
+				<?php echo Text::sprintf('JGLOBAL_PREVIEW_STYLE', $module->style); ?>
 			</div>
 		<?php endif; ?>
 	</div>
