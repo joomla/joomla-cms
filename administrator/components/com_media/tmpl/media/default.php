@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
 $params = ComponentHelper::getParams('com_media');
+$input  = Factory::getApplication()->input;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -25,7 +26,7 @@ $wa->useScript('keepalive')
 // Populate the language
 $this->loadTemplate('texts');
 
-$tmpl = Factory::getApplication()->input->getCmd('tmpl');
+$tmpl = $input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
 if ($tmpl === 'component')
@@ -35,14 +36,16 @@ if ($tmpl === 'component')
 	echo '</div>';
 }
 
+$imgOnly = $input->getBool('images_only', false) ? '&images_only=1' : '';
+
 // Populate the media config
 $config = array(
-	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json',
+	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $imgOnly,
 	'csrfToken'           => Session::getFormToken(),
 	'filePath'            => $params->get('file_path', 'images'),
 	'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
-	'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
+	'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $imgOnly,
 	'imagesExtensions'    => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,ico')),
 	'audioExtensions'     => explode(',', $params->get('audio_extensions', 'mp3')),
 	'videoExtensions'     => explode(',', $params->get('video_extensions', 'mp4')),
