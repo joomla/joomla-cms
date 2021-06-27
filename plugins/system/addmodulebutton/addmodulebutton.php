@@ -58,21 +58,25 @@ class PlgSystemAddModuleButton extends CMSPlugin
 		$showAddModuleBtn 	= $canCreateModules && !$this->app->input->getBool('tp') && !$placeModules;
 
 		// Display Warning message when user is not logged in or does not have permissions
+		if ($placeModules)
+		{
+			if ($editPosition && !$canEditModules)
+			{
+				$this->app->enqueueMessage(Text::sprintf('PLG_SYSTEM_ADD_MODULE_BUTTON_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
+
+				return;
+			}
+			elseif (!$canCreateModules)
+			{
+				$this->app->enqueueMessage(Text::sprintf('PLG_SYSTEM_ADD_MODULE_BUTTON_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
+
+				return;
+			}
+		}
+
+		// Display the Add Module Button
 		if ($showAddModuleBtn)
 		{
-			if (!$canCreateModules)
-			{
-				$this->app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
-
-				return;
-			}
-			elseif ($editPosition && !$canEditModules)
-			{
-				$this->app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
-
-				return;
-			}
-
 			// Add Script Options to pass the Button label Language Constant
 			$this->app->getDocument()->addScriptOptions('js-addModuleBtn', Text::_('PLG_SYSTEM_ADD_MODULE_BUTTON_LABEL'));
 
