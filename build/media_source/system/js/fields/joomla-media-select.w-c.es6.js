@@ -447,24 +447,26 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       <div><small class="form-text">${this.embedcheckdesctext}</small></div>
     </div>
   </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="${this.parentId}-controls-check">
-      <label class="form-check-label" for="${this.parentId}-controls-check">${this.controlstext}</label>
-      <div><small class="form-text">${this.controlsdesctext}</small></div>
-    </div>
-  </div>
-  <div style="display: ${this.type === 'audio' ? 'none' : 'block'}">
-    <div class="form-group">
-      <div class="input-group">
-        <label class="input-group-text" for="${this.parentId}-width">${this.widthtext}</label>
-        <input class="form-control" type="text" id="${this.parentId}-width" value="800"/>
+  <div class="toggable-parts" style="display: none">
+    <div class="form-group" style="display: ${this.type === 'document' ? 'none' : 'block'}">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="${this.parentId}-controls-check">
+        <label class="form-check-label" for="${this.parentId}-controls-check">${this.controlstext}</label>
+        <div><small class="form-text">${this.controlsdesctext}</small></div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="input-group">
-        <label class="input-group-text" for="${this.parentId}-height">${this.heighttext}</label>
-        <input class="form-control" type="text" id="${this.parentId}-height" value="600"/>
+    <div style="display: ${this.type === 'audio' ? 'none' : 'block'}">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="input-group-text" for="${this.parentId}-width">${this.widthtext}</label>
+          <input class="form-control" type="text" id="${this.parentId}-width" value="800"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="input-group-text" for="${this.parentId}-height">${this.heighttext}</label>
+          <input class="form-control" type="text" id="${this.parentId}-height" value="600"/>
+        </div>
       </div>
     </div>
   </div>
@@ -533,6 +535,15 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
   embedInputFn(e) {
     this.setAttribute('embed-it', !!e.target.checked);
+    const toggable = this.querySelector('.toggable-parts');
+
+    if (toggable) {
+      if (toggable.style.display !== 'block') {
+        toggable.style.display = 'block';
+      } else {
+        toggable.style.display = 'none';
+      }
+    }
   }
 
   controlsInputFn(e) {
