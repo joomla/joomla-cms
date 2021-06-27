@@ -61,21 +61,12 @@ if (container) {
         } else {
           rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
         }
-
-        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
-        result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
-
-      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
-      result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
     } else {
       // Element is moved up
 
       rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
       rows[dropIndex].value = rows[dropIndex + 1].value;
-
-      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
-      result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
 
       for (i = dropIndex + 1; i <= dragIndex; i += 1) {
         if (direction === 'asc') {
@@ -83,10 +74,12 @@ if (container) {
         } else {
           rows[i].value = parseInt(rows[i].value, 10) - 1;
         }
-
-        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
-        result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
+    }
+
+    for (i = 0; i < rows.length - 1; i += 1) {
+      result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
+      result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
     }
 
     return result;
