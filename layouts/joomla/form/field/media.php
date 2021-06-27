@@ -102,7 +102,7 @@ if ($showPreview)
 
 // The url for the modal
 $url = ($readonly ? ''
-	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&images_only=1&asset='
 		. $asset . '&author=' . $authorId)
 	. '&fieldid={field-media-id}&path=' . $folder);
 

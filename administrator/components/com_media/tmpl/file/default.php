@@ -25,26 +25,28 @@ $wa->useScript('keepalive')
 	->useStyle('com_media.mediamanager');
 
 $params = ComponentHelper::getParams('com_media');
+$input  = Factory::getApplication()->input;
 
 /** @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;
 
-$tmpl = Factory::getApplication()->input->getCmd('tmpl');
+$tmpl = $input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
-if ($tmpl == 'component')
-{
+if ($tmpl == 'component') {
 	echo '<div class="subhead noshadow">';
 	echo Toolbar::getInstance('toolbar')->render();
 	echo '</div>';
 }
 
+$imgOnly = $input->getBool('images_only', false) ? '&images_only=1' : '';
+
 // Populate the media config
 $config = [
-	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json',
+	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json' . $imgOnly,
 	'csrfToken'          => Session::getFormToken(),
 	'uploadPath'         => $this->file->path,
-	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
+	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . $imgOnly,
 	'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,ico')),
 	'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3')),
 	'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4')),
@@ -58,11 +60,12 @@ $this->document->addScriptOptions('com_media', $config);
 $this->useCoreUI = true;
 ?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
-<?php $fieldSets = $form->getFieldsets(); ?>
-<?php if ($fieldSets) : ?>
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
-	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-	<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
-	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-<?php endif; ?>
+	<?php $fieldSets = $form->getFieldsets(); ?>
+	<?php if ($fieldSets) : ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+	<?php endif; ?>
+	<input type="hidden" name="images_only" value="<?php echo $imgOnly ? 1 : 0; ?>">
 </form>

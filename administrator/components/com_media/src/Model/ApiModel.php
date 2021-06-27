@@ -529,6 +529,8 @@ class ApiModel extends BaseDatabaseModel
 			return false;
 		}
 
+		$imagesOnly = Factory::getApplication()->input->getBool('images_only', false);
+
 		// Initialize the allowed extensions
 		if ($this->allowedExtensions === null)
 		{
@@ -542,39 +544,43 @@ class ApiModel extends BaseDatabaseModel
 					)
 				)
 			);
-			$audio = array_map(
-				'trim',
-				explode(
-					',',
-					ComponentHelper::getParams('com_media')->get(
-						'audio_extensions',
-						'mp3'
+
+			if (!$imagesOnly)
+			{
+				$audio = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'audio_extensions',
+							'mp3'
+						)
 					)
-				)
-			);
-			$video= array_map(
-				'trim',
-				explode(
-					',',
-					ComponentHelper::getParams('com_media')->get(
-						'video_extensions',
-						'mp4'
+				);
+				$video = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'video_extensions',
+							'mp4'
+						)
 					)
-				)
-			);
-			$docs = array_map(
-				'trim',
-				explode(
-					',',
-					ComponentHelper::getParams('com_media')->get(
-						'doc_extensions',
-						'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
+				);
+				$docs = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'doc_extensions',
+							'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
+						)
 					)
-				)
-			);
+				);
+			}
 
 			// Get the setting from the params
-			$this->allowedExtensions = array_merge($images, $audio, $video, $docs);
+			$this->allowedExtensions = $imagesOnly ? $images : array_merge($images, $audio, $video, $docs);
 		}
 
 		// Extract the extension
