@@ -182,7 +182,7 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
+      this.$nextTick(() => this.$refs.actionDownload.focus());
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
