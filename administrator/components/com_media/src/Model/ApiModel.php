@@ -532,49 +532,49 @@ class ApiModel extends BaseDatabaseModel
 		// Initialize the allowed extensions
 		if ($this->allowedExtensions === null)
 		{
-			// Get the setting from the params
-			$this->allowedExtensions = array_merge(
-				array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'image_extensions',
-							'bmp,gif,ico,jpg,jpeg,png'
-						)
+			$images = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'image_extensions',
+						'bmp,gif,ico,jpg,jpeg,png'
 					)
-				),
-				array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'audio_extensions',
-							'mp3'
-						)
-					)
-				),
-				array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'video_extensions',
-							'mp4'
-						)
-					)
-				),
-				array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'doc_extensions',
-							'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
-						)
-					)
-				),
+				)
 			);
+			$audio = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'audio_extensions',
+						'mp3'
+					)
+				)
+			);
+			$video= array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'video_extensions',
+						'mp4'
+					)
+				)
+			);
+			$docs = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'doc_extensions',
+						'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
+					)
+				)
+			);
+
+			// Get the setting from the params
+			$this->allowedExtensions = array_merge($images, $audio, $video, $docs);
 		}
 
 		// Extract the extension
