@@ -88,7 +88,7 @@ class PlgButtonImage extends CMSPlugin
 			Text::script('JFIELD_MEDIA_WIDTH_LABEL');
 			Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
 			Text::script('JFIELD_MEDIA_UNSUPPORTED');
-
+			Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
 
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&author=' . $author;
 

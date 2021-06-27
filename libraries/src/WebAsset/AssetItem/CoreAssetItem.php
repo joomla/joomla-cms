@@ -43,6 +43,7 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
 				'rootFull' => Uri::root(),
 				'base' => Uri::base(true),
 				'baseFull' => Uri::base(),
+				'mediaVersion' => $doc->getMediaVersion(),
 			]
 		);
 

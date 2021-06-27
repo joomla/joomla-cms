@@ -24,7 +24,7 @@ Joomla.selectedMediaFile = {};
  * Event Listener that updates the Joomla.selectedMediaFile
  * to the selected file in the media manager
  */
-document.addEventListener('onMediaFileSelected', (e) => {
+document.addEventListener('onMediaFileSelected', async (e) => {
   Joomla.selectedMediaFile = e.detail;
   const currentModal = Joomla.Modal.getCurrent();
   const container = currentModal.querySelector('.modal-body');
@@ -193,12 +193,12 @@ const insertAsImage = async (media, editor, fieldClass) => {
   }
 };
 
-const insertAsAudio = (media, editor, fieldClass) => {
+const insertAsOther = (media, editor, fieldClass, type) => {
   if (media.url) {
     if (/local-/.test(media.adapter)) {
-      const { root, rootFull } = Joomla.getOptions('system.paths');
+      const { rootFull } = Joomla.getOptions('system.paths');
       // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = `${root}/${media.url.split(rootFull)[1]}`;
+      Joomla.selectedMediaFile.url = `${media.url.split(rootFull)[1]}`;
     } else {
       Joomla.selectedMediaFile.url = media.url;
     }
@@ -213,87 +213,34 @@ const insertAsAudio = (media, editor, fieldClass) => {
       let outputText;
       const currentModal = fieldClass.closest('.modal-content');
       attribs = currentModal.querySelector('joomla-field-mediamore');
+      debugger;
       if (attribs) {
-        if (attribs.getAttribute('embed-it') === 'true') {
-          const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
-          outputText = `<audio ${controls} src="${Joomla.selectedMediaFile.url}"></audio>`;
+        const embedable = attribs.getAttribute('embed-it');
+        if (embedable && embedable === 'true') {
+          if (type === 'audio') {
+            const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
+            outputText = `<audio ${controls} src="${Joomla.selectedMediaFile.url}"></audio>`;
+          }
+          if (type === 'document') {
+            // @todo use ${Joomla.selectedMediaFile.filetype} in type
+            outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
+  ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
+  </object>`;
+          }
+          if (type === 'video') {
+            const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
+            outputText = `<video ${controls} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
+  <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
+  </video>`;
+          }
+
         } else {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
-        }
-      }
-
-      if (attribs) {
-        attribs.parentNode.removeChild(attribs);
-      }
-
-      Joomla.editors.instances[editor].replaceSelection(outputText);
-    }
-  }
-};
-
-const insertAsVideo = (media, editor, fieldClass) => {
-  if (/local-/.test(media.adapter)) {
-    const { root, rootFull } = Joomla.getOptions('system.paths');
-    // eslint-disable-next-line prefer-destructuring
-    Joomla.selectedMediaFile.url = `${root}/${media.url.split(rootFull)[1]}`;
-  } else {
-    Joomla.selectedMediaFile.url = media.url;
-  }
-  if (Joomla.selectedMediaFile.url) {
-    let attribs;
-    // Available Only inside an editor
-    if (!isElement(editor)) {
-      let outputText;
-      const currentModal = fieldClass.closest('.modal-content');
-      attribs = currentModal.querySelector('joomla-field-mediamore');
-      if (attribs) {
-        if (attribs.getAttribute('embed-it') === 'true') {
-          const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
-          outputText = `<video ${controls} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
-<source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
-</video>`;
-        } else {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
-        }
-      }
-
-      if (attribs) {
-        attribs.parentNode.removeChild(attribs);
-      }
-
-      Joomla.editors.instances[editor].replaceSelection(outputText);
-    }
-  }
-};
-
-const insertAsDocument = (media, editor, fieldClass) => {
-  if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const { root, rootFull } = Joomla.getOptions('system.paths');
-      // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = `${root}/${media.url.split(rootFull)[1]}`;
-    } else {
-      Joomla.selectedMediaFile.url = media.url;
-    }
-  } else {
-    Joomla.selectedMediaFile.url = false;
-  }
-
-  let attribs;
-  if (Joomla.selectedMediaFile.url) {
-    // Available Only inside an editor
-    if (!isElement(editor)) {
-      let outputText;
-      const currentModal = fieldClass.closest('.modal-content');
-      attribs = currentModal.querySelector('joomla-field-mediamore');
-      if (attribs) {
-        if (attribs.getAttribute('embed-it') === 'true') {
-          // @todo use ${Joomla.selectedMediaFile.filetype} in type
-          outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
-${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
-</object>`;
-        } else {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
+          if (Joomla.editors.instances[editor].getSelection() !== '') {
+            outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
+          } else {
+            const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
+            outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
+          }
         }
       }
 
@@ -320,15 +267,15 @@ const execTransform = async (resp, editor, fieldClass) => {
     }
 
     if (['mp3'].includes(media.extension.toLowerCase())) {
-      return insertAsAudio(media, editor, fieldClass);
-    }
-
-    if (['mp4'].includes(media.extension.toLowerCase())) {
-      return insertAsVideo(media, editor, fieldClass);
+      return insertAsOther(media, editor, fieldClass, 'audio');
     }
 
     if (['doc', 'docx', 'pdf'].includes(media.extension.toLowerCase())) {
-      return insertAsDocument(media, editor, fieldClass);
+      return insertAsOther(media, editor, fieldClass, 'document');
+    }
+
+    if (['mp4'].includes(media.extension.toLowerCase())) {
+      return insertAsOther(media, editor, fieldClass, 'video');
     }
     return '';
   }
@@ -385,7 +332,7 @@ Joomla.getImage = Joomla.getMedia;
  * - is-lazy: The value for the lazyloading (calculated, defaults to 'true') {string}
  * - alt-value: The value for the alt text (calculated, defaults to '') {string}
  */
-class JoomlaFieldMediaOptions extends HTMLElement {
+export class JoomlaFieldMediaOptions extends HTMLElement {
   get type() { return this.getAttribute('type'); }
 
   get parentId() { return this.getAttribute('parent-id'); }

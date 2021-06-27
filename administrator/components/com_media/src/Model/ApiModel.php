@@ -539,8 +539,8 @@ class ApiModel extends BaseDatabaseModel
 					explode(
 						',',
 						ComponentHelper::getParams('com_media')->get(
-						'image_extensions',
-						'bmp,csv,doc,gif,ico,jpg,jpeg'
+							'image_extensions',
+							'bmp,gif,ico,jpg,jpeg,png'
 						)
 					)
 				),
@@ -570,7 +570,7 @@ class ApiModel extends BaseDatabaseModel
 						',',
 						ComponentHelper::getParams('com_media')->get(
 							'doc_extensions',
-							'odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
+							'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
 						)
 					)
 				),
