@@ -70,7 +70,8 @@ export default {
         return;
       }
 
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
+      // @todo remove the hardcoded extensions here
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension
