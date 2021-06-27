@@ -124,7 +124,7 @@ class MediaListCest
 		$I->wantToTest('that it shows the joomla default media files and folders.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
-		// $I->seeElement(MediaListPage::$items);
+		$I->seeElement(MediaListPage::$items);
 		$I->seeContents($this->contents['root']);
 	}
 
