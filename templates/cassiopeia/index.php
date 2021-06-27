@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -36,25 +35,9 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Frontend Module Placement Variables
-$canCreateModules 	= ContentHelper::getActions('com_modules')->get('core.create');
-$canEditModules 	= ContentHelper::getActions('com_modules')->get('core.edit');
-$placeModules		= $app->input->getBool('pm');
-$showAddModuleBtn 	= $canCreateModules && !$app->input->getBool('tp') && !$placeModules;
-$showAllPositions 	= $placeModules && ($canEditModules || $canCreateModules);
-
-// Display Warning message when user is not logged in or does not have permissions
-if ($placeModules)
-{
-	if (!$canCreateModules)
-	{
-		$app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_CREATE_MODULE_PERMISSIONS_WARNING'), 'warning');
-	}
-	elseif ($app->input->getBool('edit') && !$canEditModules)
-	{
-		$app->enqueueMessage(Text::sprintf('TPL_CASSIOPEIA_EDIT_MODULE_PERMISSIONS_WARNING'), 'warning');
-	}
-}
+// Display inactive positions for Place Module View
+$modulesPermissions = ContentHelper::getActions('com_modules');
+$showAllPositions = $app->input->getBool('pm') && ($modulesPermissions->get('core.edit') || $modulesPermissions->get('core.create'));
 
 // Template path
 $templatePath = 'templates/' . $this->template;
@@ -211,14 +194,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<main>
 		<jdoc:include type="component" />
 		</main>
-		<?php if ($showAddModuleBtn): ?>
-		<form method="get">
-			<input name="pm" type="hidden" value="1">
-			<button type="submit" class="btn jmodadd">
-			<?php echo Text::_('TPL_CASSIOPEIA_ADD_MODULE'); ?>
-			</button>
-		</form>
-		<?php endif; ?>
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
