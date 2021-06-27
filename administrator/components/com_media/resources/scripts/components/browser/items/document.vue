@@ -49,6 +49,28 @@
         <ul>
           <li>
             <button
+              ref="actionPreview"
+              type="button"
+              class="action-preview"
+              :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
+              :title="translate('COM_MEDIA_ACTION_PREVIEW')"
+              @keyup.enter="openPreview()"
+              @keyup.space="openPreview()"
+              @focus="focused(true)"
+              @blur="focused(false)"
+              @keyup.esc="hideActions()"
+              @keyup.up="$refs.actionDelete.focus()"
+              @keyup.down="$refs.actionDownload.focus()"
+            >
+              <span
+                class="image-browser-action icon-search-plus"
+                aria-hidden="true"
+                @click.stop="openPreview()"
+              />
+            </button>
+          </li>
+          <li>
+            <button
               ref="actionDownload"
               type="button"
               class="action-download"
@@ -157,7 +179,7 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      // this.$store.dispatch('getFullContents', this.item);
+      this.$store.dispatch('getFullContents', this.item);
     },
     /* Preview an item */
     download() {
@@ -182,7 +204,7 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDownload.focus());
+      this.$nextTick(() => this.$refs.actionPreview.focus());
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
