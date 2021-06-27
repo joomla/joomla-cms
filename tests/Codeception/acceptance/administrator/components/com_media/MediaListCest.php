@@ -90,7 +90,7 @@ class MediaListCest
 		$I->deleteDirectory('images/' . $this->testDirectory);
 
 		// Clear localstorage before every test
-		// $I->executeJS('window.sessionStorage.removeItem("' . MediaListPage::$storageKey . '");');
+		$I->executeJS('window.sessionStorage.removeItem("' . MediaListPage::$storageKey . '");');
 	}
 
 	/**
