@@ -31,7 +31,7 @@ class FinderHelper
 	/**
 	 * The finder plugin id.
 	 *
-	 * @var int
+	 * @var integer
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $pluginId;
