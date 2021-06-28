@@ -72,8 +72,6 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   embed-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL')}"
   download-check-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL')}"
   download-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL')}"
-  controls-label="${Joomla.Text._('JFIELD_MEDIA_CONTROLS_LABEL')}"
-  controls-desc-label="${Joomla.Text._('JFIELD_MEDIA_CONTROLS_DESC_LABEL')}"
   width-label="${Joomla.Text._('JFIELD_MEDIA_WIDTH_LABEL')}"
   height-label="${Joomla.Text._('JFIELD_MEDIA_HEIGHT_LABEL')}"
 ></joomla-field-mediamore>
@@ -219,8 +217,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         const embedable = attribs.getAttribute('embed-it');
         if (embedable && embedable === 'true') {
           if (type === 'audio') {
-            const controls = attribs.getAttribute('with-controls') === 'true' ? 'controls="true"' : '';
-            outputText = `<audio ${controls} src="${Joomla.selectedMediaFile.url}"></audio>`;
+            outputText = `<audio controls src="${Joomla.selectedMediaFile.url}"></audio>`;
           }
           if (type === 'document') {
             // @todo use ${Joomla.selectedMediaFile.filetype} in type
@@ -229,8 +226,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   </object>`;
           }
           if (type === 'video') {
-            const controls = attribs.getAttribute('with-controls') === 'true' ? 'controls="true"' : '';
-            outputText = `<video ${controls} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
+            outputText = `<video controls width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
   </video>`;
           }
@@ -359,10 +355,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
   get summarytext() { return this.getAttribute('summary-label'); }
 
-  get controlstext() { return this.getAttribute('controls-label'); }
-
-  get controlsdesctext() { return this.getAttribute('controls-desc-label'); }
-
   get widthtext() { return this.getAttribute('width-label'); }
 
   get heighttext() { return this.getAttribute('height-label'); }
@@ -463,13 +455,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     </div>
   </div>
   <div class="toggable-parts" style="display: none">
-    <div class="form-group" style="display: ${this.type === 'document' ? 'none' : 'block'}">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="${this.parentId}-controls-check">
-        <label class="form-check-label" for="${this.parentId}-controls-check">${this.controlstext}</label>
-        <div><small class="form-text">${this.controlsdesctext}</small></div>
-      </div>
-    </div>
     <div style="display: ${this.type === 'audio' ? 'none' : 'block'}">
       <div class="form-group">
         <div class="input-group">
@@ -492,11 +477,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.embedCheck = [].slice.call(this.querySelectorAll('.form-check-input.radio'));
       this.embedCheck.map((el) => el.addEventListener('input', this.embedInputFn));
       this.setAttribute('embed-it', false);
-
-      this.controlsInputFn = this.controlsInputFn.bind(this);
-      this.controlsCheck = this.querySelector(`#${this.parentId}-controls-check`);
-      this.controlsCheck.addEventListener('input', this.controlsInputFn);
-      this.setAttribute('with-controls', !!this.controlsCheck.checked);
       this.widthInputFn = this.widthInputFn.bind(this);
       this.width = this.querySelector(`#${this.parentId}-width`);
       this.width.addEventListener('input', this.widthInputFn);
@@ -520,7 +500,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
     if (['audio', 'video', 'document'].includes(this.type)) {
       this.embedCheck.map((el) => el.removeEventListener('input', this.embedInputFn));
-      this.controlsCheck.removeEventListener('input', this.controlsInputFn);
       this.width.removeEventListener('input', this.widthInputFn);
       this.height.removeEventListener('input', this.heightInputFn);
     }
@@ -564,10 +543,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
         toggable.style.display = 'none';
       }
     }
-  }
-
-  controlsInputFn(e) {
-    this.setAttribute('with-controls', !!e.target.checked);
   }
 
   widthInputFn(e) {
