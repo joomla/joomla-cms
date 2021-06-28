@@ -553,7 +553,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   embedInputFn(e) {
     const value = e.target.value;
     this.setAttribute('embed-it', value === '0' ? false : true);
-    console.log(value)
     const toggable = this.querySelector('.toggable-parts');
 
     if (toggable) {
