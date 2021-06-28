@@ -540,7 +540,7 @@ class ApiModel extends BaseDatabaseModel
 					',',
 					ComponentHelper::getParams('com_media')->get(
 						'image_extensions',
-						'bmp,gif,ico,jpg,jpeg,png'
+						'bmp,gif,jpg,jpeg,png,webp'
 					)
 				)
 			);
@@ -553,7 +553,7 @@ class ApiModel extends BaseDatabaseModel
 						',',
 						ComponentHelper::getParams('com_media')->get(
 							'audio_extensions',
-							'mp3'
+							'mp3,m4a,mp4a,ogg'
 						)
 					)
 				);
@@ -563,7 +563,7 @@ class ApiModel extends BaseDatabaseModel
 						',',
 						ComponentHelper::getParams('com_media')->get(
 							'video_extensions',
-							'mp4'
+							'mp4,mp4v,mpeg,mov,webm'
 						)
 					)
 				);
@@ -573,7 +573,7 @@ class ApiModel extends BaseDatabaseModel
 						',',
 						ComponentHelper::getParams('com_media')->get(
 							'doc_extensions',
-							'doc,csv,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
+							'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
 						)
 					)
 				);
