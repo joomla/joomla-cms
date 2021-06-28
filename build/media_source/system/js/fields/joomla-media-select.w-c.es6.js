@@ -448,17 +448,17 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 <div class="">
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-1" value="1">
-      <label class="form-check-label" for="${this.parentId}-embed-check-1">
-        ${this.embedchecktext}
-        <div><small class="form-text">${this.embedcheckdesctext}</small></div>
-      </label>
-    </div>
-    <div class="form-check">
       <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-2" value="0" checked>
       <label class="form-check-label" for="${this.parentId}-embed-check-2">
         ${this.downloadchecktext}
         <div><small class="form-text">${this.downloadcheckdesctext}</small></div>
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-1" value="1">
+      <label class="form-check-label" for="${this.parentId}-embed-check-1">
+        ${this.embedchecktext}
+        <div><small class="form-text">${this.embedcheckdesctext}</small></div>
       </label>
     </div>
   </div>
