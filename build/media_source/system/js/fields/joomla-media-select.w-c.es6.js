@@ -519,7 +519,10 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     }
 
     if (['audio', 'video', 'document'].includes(this.type)) {
-      this.embedCheck.removeEventListener('input', this.embedInputFn);
+      this.embedCheck.map((el) => el.removeEventListener('input', this.embedInputFn));
+      this.controlsCheck.removeEventListener('input', this.controlsInputFn);
+      this.width.removeEventListener('input', this.widthInputFn);
+      this.height.removeEventListener('input', this.heightInputFn);
     }
 
     this.innerHTML = '';
