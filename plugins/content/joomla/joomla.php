@@ -91,6 +91,7 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			$this->initFormImages = $formImages;
 		}
+
 		if ($content = $this->_getContent($context, (array) $item))
 		{
 			$this->initContent = $content;
@@ -136,8 +137,8 @@ class PlgContentJoomla extends CMSPlugin
 		if ($formImages = $this->_getFormImages($context, (array) $article))
 		{
 			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
-			$this->app->enqueueMessage(json_encode((array) $article));
 		}
+
 		if ($content = $this->_getContent($context, (array) $article))
 		{
 			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
@@ -214,6 +215,10 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _getFormImages($context, $data)
 	{
+		// Convert string images to array
+		$data['images'] = (array) json_decode($data['images']);
+		$data['params'] = (array) json_decode($data['params']);
+
 		// Get form images depending on context
 		switch ($context)
 		{
@@ -252,12 +257,14 @@ class PlgContentJoomla extends CMSPlugin
 		// Get content depending on context
 		if ($context === 'com_content.article')
 		{
-			return $data['articletext'];
+			return $data['introtext'];
 		}
-		else if ($context === 'com_contact.contact')
+
+		elseif ($context === 'com_contact.contact')
 		{
 			return $data['misc'];
 		}
+
 		else
 		{
 			return $data['description'] ?? false;
