@@ -95,7 +95,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_DESC"
 			size="50"
-			default="mp4,mp4v,mpeg,mov"
+			default="mp4,mp4v,mpeg,mov,webm"
 		/>
 
 		<field
@@ -121,7 +121,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
-			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			showon="restrict_uploads:1"
 		/>
 
