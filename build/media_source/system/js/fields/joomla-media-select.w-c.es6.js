@@ -448,14 +448,14 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 <div class="">
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-2" value="0" checked>
+      <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-2" value="0" checked>
       <label class="form-check-label" for="${this.parentId}-embed-check-2">
         ${this.downloadchecktext}
         <div><small class="form-text">${this.downloadcheckdesctext}</small></div>
       </label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-1" value="1">
+      <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-1" value="1">
       <label class="form-check-label" for="${this.parentId}-embed-check-1">
         ${this.embedchecktext}
         <div><small class="form-text">${this.embedcheckdesctext}</small></div>
@@ -489,7 +489,7 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 </details>`;
 
       this.embedInputFn = this.embedInputFn.bind(this);
-      this.embedCheck = [].slice.call(this.querySelectorAll('.form-check-input'));
+      this.embedCheck = [].slice.call(this.querySelectorAll('.form-check-input.radio'));
       this.embedCheck.map((el) => el.addEventListener('input', this.embedInputFn));
       this.setAttribute('embed-it', false);
 
