@@ -493,7 +493,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.embedCheck.map((el) => el.addEventListener('input', this.embedInputFn));
       this.setAttribute('embed-it', false);
 
-
       this.controlsInputFn = this.controlsInputFn.bind(this);
       this.controlsCheck = this.querySelector(`#${this.parentId}-controls-check`);
       this.controlsCheck.addEventListener('input', this.controlsInputFn);
@@ -551,8 +550,8 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   }
 
   embedInputFn(e) {
-    const value = e.target.value;
-    this.setAttribute('embed-it', value === '0' ? false : true);
+    const { value } = e.target;
+    this.setAttribute('embed-it', value !== '0');
     const toggable = this.querySelector('.toggable-parts');
 
     if (toggable) {
