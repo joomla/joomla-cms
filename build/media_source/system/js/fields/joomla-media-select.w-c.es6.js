@@ -219,7 +219,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         const embedable = attribs.getAttribute('embed-it');
         if (embedable && embedable === 'true') {
           if (type === 'audio') {
-            const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
+            const controls = attribs.getAttribute('with-controls') === 'true' ? 'controls="true"' : '';
             outputText = `<audio ${controls} src="${Joomla.selectedMediaFile.url}"></audio>`;
           }
           if (type === 'document') {
@@ -229,7 +229,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   </object>`;
           }
           if (type === 'video') {
-            const controls = attribs.getAttribute('with-controls') ? 'controls="true"' : '';
+            const controls = attribs.getAttribute('with-controls') === 'true' ? 'controls="true"' : '';
             outputText = `<video ${controls} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
   </video>`;
