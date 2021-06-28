@@ -22,6 +22,7 @@ use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 /**
  * Example Content Plugin
@@ -47,6 +48,22 @@ class PlgContentJoomla extends CMSPlugin
 	protected $db;
 
 	/**
+	 * Initial version of form images
+	 *
+	 * @var    array
+	 * @since  4.1.0
+	 */
+	protected $initFormImages;
+
+	/**
+	 * Initial version of content
+	 *
+	 * @var    string
+	 * @since  4.1.0
+	 */
+	protected $initContent;
+
+	/**
 	 * The save event.
 	 *
 	 * @param   string   $context  The context
@@ -65,15 +82,26 @@ class PlgContentJoomla extends CMSPlugin
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
 		}
 
+		$item = clone $table;
+
+		$item->load($table->id);
+
+		// Get initial versions of content and form images
+		if ($formImages = $this->_getFormImages($context, (array) $item))
+		{
+			$this->initFormImages = $formImages;
+		}
+
+		if ($content = $this->_getContent($context, (array) $item))
+		{
+			$this->initContent = $content;
+		}
+
 		// Check we are handling the frontend edit form.
 		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
 		{
 			return true;
 		}
-
-		$item = clone $table;
-
-		$item->load($table->id);
 
 		if ($item->published != -2 && $data['published'] == -2)
 		{
@@ -105,6 +133,17 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
+		// Generate responsive form and content images
+		if ($formImages = $this->_getFormImages($context, (array) $article))
+		{
+			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+		}
+
+		if ($content = $this->_getContent($context, (array) $article))
+		{
+			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+		}
+
 		// Check we are handling the frontend edit form.
 		if ($context !== 'com_content.form')
 		{
@@ -161,6 +200,74 @@ class PlgContentJoomla extends CMSPlugin
 					->createModel('Message', 'Administrator');
 				$model_message->save($message);
 			}
+		}
+	}
+
+	/**
+	 * Returns form images from data with specific context
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   array   $data     The validated data
+	 *
+	 * @return  mixed   Array of form images or false if they don't exist
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getFormImages($context, $data)
+	{
+		// Convert string images to array
+		$data['images'] = (array) json_decode($data['images']);
+		$data['params'] = (array) json_decode($data['params']);
+
+		// Get form images depending on context
+		switch ($context)
+		{
+			case "com_content.article":
+			case "com_tags.tag":
+				return array(
+					'image_intro' => $data['images']['image_intro'], 'image_fulltext' => $data['images']['image_fulltext']
+				);
+			case "com_banners.banner":
+				return array('image' => $data['params']['imageurl']);
+			case "com_categories.category":
+				return array('image' => $data['params']['image']);
+			case "com_contact.contact":
+				return array('image' => $data['image']);
+			case "com_newsfeeds.newsfeed":
+				return array(
+					'image_first' => $data['images']['image_first'], 'image_second' => $data['images']['image_second']
+				);
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Returns content from data with specific context
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   array   $data     The validated data
+	 *
+	 * @return  mixed   Content as string or false if it doesn't exist
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getContent($context, $data)
+	{
+		// Get content depending on context
+		if ($context === 'com_content.article')
+		{
+			return $data['introtext'];
+		}
+
+		elseif ($context === 'com_contact.contact')
+		{
+			return $data['misc'];
+		}
+
+		else
+		{
+			return $data['description'] ?? false;
 		}
 	}
 

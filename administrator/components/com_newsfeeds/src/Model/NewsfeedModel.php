@@ -120,10 +120,6 @@ class NewsfeedModel extends AdminModel
 			return false;
 		}
 
-		// Get initial description and images then set them in user state
-		$app->setUserState("com_newsfeeds.description", $form->getValue("description"));
-		$app->setUserState("com_newsfeeds.images", json_encode($form->getValue("images")));
-
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -199,35 +195,6 @@ class NewsfeedModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
-		}
-
-		if (isset($data['images']) && is_array($data['images']))
-		{
-			// Get initial images
-			$initImages = (array) json_decode($app->getUserState("com_newsfeeds.images"));
-
-			foreach ($data['images'] as $key => $image)
-			{
-				if ($key === 'image_first' || $key === 'image_second')
-				{
-					// Initial version
-					$initImage = explode("#", $initImages[$key])[0];
-
-					// Final version
-					$finalImage = explode('#', $image)[0];
-
-					MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-				}
-			}
-
-			$registry = new Registry($data['images']);
-			$data['images'] = (string) $registry;
-		}
-
-		if (isset($data['description']))
-		{
-			$initArticletext = $app->getUserState("com_newsfeeds.description");
-			MediaHelper::generateResponsiveContentImages($initArticletext, $data['description']);
 		}
 
 		// Save New Category

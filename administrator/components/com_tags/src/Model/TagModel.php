@@ -180,10 +180,6 @@ class TagModel extends AdminModel
 			return false;
 		}
 
-		// Get initial description and images then set them in user state
-		$app->setUserState("com_tags.description", $form->getValue("description"));
-		$app->setUserState("com_tags.images", json_encode($form->getValue("images")));
-
 		$user = Factory::getUser();
 
 		if (!$user->authorise('core.edit.state', 'com_tags' . $app->input->get('id')))
@@ -257,35 +253,6 @@ class TagModel extends AdminModel
 			if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
 			{
 				$table->setLocation($data['parent_id'], 'last-child');
-			}
-
-			if (isset($data['images']) && is_array($data['images']))
-			{
-				// Get initial images
-				$initImages = (array) json_decode($app->getUserState("com_tags.images"));
-
-				foreach ($data['images'] as $key => $image)
-				{
-					if ($key === 'image_intro' || $key === 'image_fulltext')
-					{
-						// Initial version
-						$initImage = explode("#", $initImages[$key])[0];
-
-						// Final version
-						$finalImage = explode('#', $image)[0];
-
-						MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-					}
-				}
-
-				$registry = new Registry($data['images']);
-				$data['images'] = (string) $registry;
-			}
-
-			if (isset($data['description']))
-			{
-				$initDescription = $app->getUserState("com_tags.description");
-				MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
 			}
 
 			// Alter the title for save as copy

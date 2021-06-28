@@ -185,10 +185,6 @@ class ContactModel extends AdminModel
 			return false;
 		}
 
-		// Get initial content and image then set them in user state
-		$app->setUserState("com_contact.misc", $form->getValue("misc"));
-		$app->setUserState("com_contact.image", $form->getValue("image"));
-
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -309,23 +305,6 @@ class ContactModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
-		}
-
-		if (isset($data['image']))
-		{
-			// Initial version
-			$initImage = explode("#", $app->getUserState("com_contact.image"))[0];
-
-			// Final version
-			$finalImage = explode('#', $data['image'])[0];
-
-			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-		}
-
-		if (isset($data['misc']))
-		{
-			$initDescription = $app->getUserState("com_contact.misc");
-			MediaHelper::generateResponsiveContentImages($initDescription, $data['misc']);
 		}
 
 		// Save New Category

@@ -269,10 +269,6 @@ class CategoryModel extends AdminModel
 			return false;
 		}
 
-		// Get initial description and image then set them in user state
-		$app->setUserState("com_categories.description", $form->getValue("description"));
-		$app->setUserState("com_categories.image", $form->getValue("params")->image);
-
 		// Modify the form based on Edit State access controls.
 		if (empty($data['extension']))
 		{
@@ -542,23 +538,6 @@ class CategoryModel extends AdminModel
 
 		// Include the plugins for the save events.
 		PluginHelper::importPlugin($this->events_map['save']);
-
-		if (isset($data['params']['image']))
-		{
-			// Initial version
-			$initImage = explode("#", $app->getUserState("com_categories.image"))[0];
-
-			// Final version
-			$finalImage = explode('#', $data['params']['image'])[0];
-
-			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-		}
-
-		if (isset($data['description']))
-		{
-			$initDescription = $app->getUserState("com_categories.description");
-			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
-		}
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)

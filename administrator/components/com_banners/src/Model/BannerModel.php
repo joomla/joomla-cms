@@ -195,10 +195,6 @@ class BannerModel extends AdminModel
 			return false;
 		}
 
-		// Get initial description and image then set them in user state
-		$app->setUserState("com_banners.description", $form->getValue("description"));
-		$app->setUserState("com_banners.imageurl", $form->getValue("params")->imageurl);
-
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -406,23 +402,6 @@ class BannerModel extends AdminModel
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
 			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
-		}
-
-		if (isset($data['params']['imageurl']))
-		{
-			// Initial version
-			$initImage = explode("#", $app->getUserState("com_banners.imageurl"))[0];
-
-			// Final version
-			$finalImage = explode('#', $data['params']['imageurl'])[0];
-
-			MediaHelper::generateResponsiveFormImages($initImage, $finalImage);
-		}
-
-		if (isset($data['description']))
-		{
-			$initDescription = $app->getUserState("com_banners.description");
-			MediaHelper::generateResponsiveContentImages($initDescription, $data['description']);
 		}
 
 		// Save New Category

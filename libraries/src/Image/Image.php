@@ -251,7 +251,7 @@ class Image
 	 * Method to generate different sized versions of current image. It allows creation by resizing or
 	 * cropping the original image.
 	 *
-	 * @param   mixed    $imageSizes      String or array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
 	 * @return  array
@@ -268,14 +268,8 @@ class Image
 			throw new \LogicException('No valid image was loaded.');
 		}
 
-		// Accept a single size string as parameter
-		if (!\is_array($imageSizes))
-		{
-			$imageSizes = [$imageSizes];
-		}
-
 		// Process images
-		$generated = [];
+		$imagesGenerated = [];
 
 		if (!empty($imageSizes))
 		{
@@ -308,18 +302,18 @@ class Image
 				}
 
 				// Store the image in the results array
-				$generated[] = $image;
+				$imagesGenerated[] = $image;
 			}
 		}
 
-		return $generated;
+		return $imagesGenerated;
 	}
 
 	/**
 	 * Method to create different sized versions of current image and save them to disk. It allows creation
 	 * by resizing or cropping the original image.
 	 *
-	 * @param   mixed    $imageSizes      string or array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
 	 *
@@ -388,7 +382,7 @@ class Image
 	 *
 	 * @param   boolean  $thumbs  true to delete thumbs, false to delete responsive images
 	 *
-	 * @return  void
+	 * @return  array
 	 *
 	 * @since   4.1.0
 	 * @throws  \LogicException
@@ -406,17 +400,22 @@ class Image
 		// Get path to the responsive images
 		$imagesPath = implode("/", array_slice($image, 0, count($image) - 1)) . ($thumbs ? '/thumbs' : '/responsive');
 
+		$imagesDeleted = [];
+
 		if ($imageFiles = scandir($imagesPath))
 		{
 			foreach ($imageFiles as $imageFile)
 			{
-				// Find responsive versions of image and delete them
+				// Match sizes part of image: images/joomla_800x600.png - _800x600, then remove it: images/joomla.png
 				if (preg_replace('/_[^_][0-9]+x[0-9]+[^.]*/', '', $imageFile) === end($image))
 				{
 					unlink($imagesPath . '/' . $imageFile);
+					$imagesDeleted[] = $imageFile;
 				}
 			}
 		}
+
+		return $imagesDeleted;
 	}
 
 	/**
