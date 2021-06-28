@@ -286,7 +286,6 @@ class PlgSystemRedirect extends JPlugin
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
 				// Should we always count the redirect hits? 
-
 				if ($params->get('alwaysCount', 0))
 				{
 					$redirect->hits++;
