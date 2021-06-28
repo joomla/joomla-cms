@@ -56,7 +56,7 @@
 			size="50"
 			default="bmp,gif,jpg,jpeg,png,ico,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
 			showon="restrict_uploads:1"
-			/>
+		/>
 
 		<field
 			name="check_mime"
