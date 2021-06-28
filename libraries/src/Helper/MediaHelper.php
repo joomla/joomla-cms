@@ -599,7 +599,7 @@ class MediaHelper
 			$sizes = static::$responsiveSizes;
 		}
 
-		$srcset = "test";
+		$srcset = "";
 
 		// Match all between <img and /> then insert srcset: <img src="" /> - <img src="" srcset="">
 		return preg_replace('/(<img\b[^><]*)\/>/i', '$1 srcset="'. $srcset .'">', $content);

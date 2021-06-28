@@ -82,8 +82,11 @@ class PlgContentJoomla extends CMSPlugin
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
 		}
 
-		$item = clone $table;
+		// Add srcset attribute to content images
+		$contentKey = $this->_getContentKey($context);
+		$table->{$contentKey} = MediaHelper::addSrcset($table->{$contentKey});
 
+		$item = clone $table;
 		$item->load($table->id);
 
 		// Get initial versions of content and form images
@@ -92,7 +95,7 @@ class PlgContentJoomla extends CMSPlugin
 			$this->initFormImages = $formImages;
 		}
 
-		if ($content = $this->_getContent($context, (array) $item))
+		if ($content = $item->{$contentKey})
 		{
 			$this->initContent = $content;
 		}
@@ -139,7 +142,7 @@ class PlgContentJoomla extends CMSPlugin
 			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
 		}
 
-		if ($content = $this->_getContent($context, (array) $article))
+		if ($content = $article->{$this->_getContentKey($context)})
 		{
 			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
 		}
@@ -200,74 +203,6 @@ class PlgContentJoomla extends CMSPlugin
 					->createModel('Message', 'Administrator');
 				$model_message->save($message);
 			}
-		}
-	}
-
-	/**
-	 * Returns form images from data with specific context
-	 *
-	 * @param   string  $context  The context for the data
-	 * @param   array   $data     The validated data
-	 *
-	 * @return  mixed   Array of form images or false if they don't exist
-	 *
-	 * @since   4.1.0
-	 */
-	private function _getFormImages($context, $data)
-	{
-		// Convert string images to array
-		$data['images'] = (array) json_decode($data['images']);
-		$data['params'] = (array) json_decode($data['params']);
-
-		// Get form images depending on context
-		switch ($context)
-		{
-			case "com_content.article":
-			case "com_tags.tag":
-				return array(
-					'image_intro' => $data['images']['image_intro'], 'image_fulltext' => $data['images']['image_fulltext']
-				);
-			case "com_banners.banner":
-				return array('image' => $data['params']['imageurl']);
-			case "com_categories.category":
-				return array('image' => $data['params']['image']);
-			case "com_contact.contact":
-				return array('image' => $data['image']);
-			case "com_newsfeeds.newsfeed":
-				return array(
-					'image_first' => $data['images']['image_first'], 'image_second' => $data['images']['image_second']
-				);
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Returns content from data with specific context
-	 *
-	 * @param   string  $context  The context for the data
-	 * @param   array   $data     The validated data
-	 *
-	 * @return  mixed   Content as string or false if it doesn't exist
-	 *
-	 * @since   4.1.0
-	 */
-	private function _getContent($context, $data)
-	{
-		// Get content depending on context
-		if ($context === 'com_content.article')
-		{
-			return $data['introtext'];
-		}
-
-		elseif ($context === 'com_contact.contact')
-		{
-			return $data['misc'];
-		}
-
-		else
-		{
-			return $data['description'] ?? false;
 		}
 	}
 
@@ -335,6 +270,61 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns form images from data with specific context
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   array   $data     The validated data
+	 *
+	 * @return  mixed   Array of form images or false if they don't exist
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getFormImages($context, $data)
+	{
+		// Convert string images to array
+		$data['images'] = (array) json_decode($data['images']);
+		$data['params'] = (array) json_decode($data['params']);
+
+		// Get form images depending on context
+		switch ($context)
+		{
+			case "com_content.article":
+			case "com_tags.tag":
+				return array(
+					'image_intro' => $data['images']['image_intro'], 'image_fulltext' => $data['images']['image_fulltext']
+				);
+			case "com_banners.banner":
+				return array('image' => $data['params']['imageurl']);
+			case "com_categories.category":
+				return array('image' => $data['params']['image']);
+			case "com_contact.contact":
+				return array('image' => $data['image']);
+			case "com_newsfeeds.newsfeed":
+				return array(
+					'image_first' => $data['images']['image_first'], 'image_second' => $data['images']['image_second']
+				);
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Returns content key in form object for specific context
+	 *
+	 * @param   string  $context  The context
+	 *
+	 * @return  string  Content key
+	 *
+	 * @since   4.1.0
+	 */
+	private function _getContentKey($context)
+	{
+		return $context === 'com_content.article' ? 'introtext' : (
+			$context === 'com_contact.contact' ? 'misc' : 'description'
+		);
 	}
 
 	/**
