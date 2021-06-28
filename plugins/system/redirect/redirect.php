@@ -285,6 +285,21 @@ class PlgSystemRedirect extends JPlugin
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
+				// Should we always count the redirect hits? 
+
+				if($params->get('alwaysCount', 0)) {
+					$redirect->hits++;
+
+					try
+					{
+						$db->updateObject('#__redirect_links', $redirect, 'id');
+					}
+					catch (Exception $e)
+					{
+						JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+					}
+				}
+
 				$app->redirect($destination, (int) $redirect->header);
 			}
 
