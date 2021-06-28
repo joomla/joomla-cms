@@ -287,7 +287,8 @@ class PlgSystemRedirect extends JPlugin
 
 				// Should we always count the redirect hits? 
 
-				if ($params->get('alwaysCount', 0)) {
+				if ($params->get('alwaysCount', 0))
+				{
 					$redirect->hits++;
 
 					try
