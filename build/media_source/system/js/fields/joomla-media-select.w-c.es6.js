@@ -70,6 +70,8 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
   embed-check-label="${Joomla.Text._('JFIELD_MEDIA_EMBED_CHECK_LABEL')}"
   embed-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL')}"
+  download-check-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL')}"
+  download-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL')}"
   controls-label="${Joomla.Text._('JFIELD_MEDIA_CONTROLS_LABEL')}"
   controls-desc-label="${Joomla.Text._('JFIELD_MEDIA_CONTROLS_DESC_LABEL')}"
   width-label="${Joomla.Text._('JFIELD_MEDIA_WIDTH_LABEL')}"
@@ -345,6 +347,10 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
   get embedcheckdesctext() { return this.getAttribute('embed-check-desc-label'); }
 
+  get downloadchecktext() { return this.getAttribute('download-check-label'); }
+
+  get downloadcheckdesctext() { return this.getAttribute('download-check-desc-label'); }
+
   get classestext() { return this.getAttribute('classes-label'); }
 
   get figclassestext() { return this.getAttribute('figure-classes-label'); }
@@ -442,9 +448,18 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 <div class="">
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="${this.parentId}-embed-check">
-      <label class="form-check-label" for="${this.parentId}-embed-check">${this.embedchecktext}</label>
-      <div><small class="form-text">${this.embedcheckdesctext}</small></div>
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-1" value="1">
+      <label class="form-check-label" for="${this.parentId}-embed-check-1">
+        ${this.embedchecktext}
+        <div><small class="form-text">${this.embedcheckdesctext}</small></div>
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="${this.parentId}-embed-check-2" value="0" checked>
+      <label class="form-check-label" for="${this.parentId}-embed-check-2">
+        ${this.downloadchecktext}
+        <div><small class="form-text">${this.downloadcheckdesctext}</small></div>
+      </label>
     </div>
   </div>
   <div class="toggable-parts" style="display: none">
@@ -474,9 +489,11 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 </details>`;
 
       this.embedInputFn = this.embedInputFn.bind(this);
-      this.embedCheck = this.querySelector(`#${this.parentId}-embed-check`);
-      this.embedCheck.addEventListener('input', this.embedInputFn);
-      this.setAttribute('embed-it', !!this.embedCheck.checked);
+      this.embedCheck = [].slice.call(this.querySelectorAll('.form-check-input'));
+      this.embedCheck.map((el) => el.addEventListener('input', this.embedInputFn));
+      this.setAttribute('embed-it', false);
+
+
       this.controlsInputFn = this.controlsInputFn.bind(this);
       this.controlsCheck = this.querySelector(`#${this.parentId}-controls-check`);
       this.controlsCheck.addEventListener('input', this.controlsInputFn);
@@ -534,7 +551,9 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   }
 
   embedInputFn(e) {
-    this.setAttribute('embed-it', !!e.target.checked);
+    const value = e.target.value;
+    this.setAttribute('embed-it', value === '0' ? false : true);
+    console.log(value)
     const toggable = this.querySelector('.toggable-parts');
 
     if (toggable) {
