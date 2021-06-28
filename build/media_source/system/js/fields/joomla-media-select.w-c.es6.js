@@ -45,7 +45,7 @@ document.addEventListener('onMediaFileSelected', async (e) => {
 
   if (Joomla.selectedMediaFile.path) {
     let type;
-    if (['png', 'jpg', 'jpeg', 'bpm', 'gif', 'webp'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'image';
     } else if (['mp3'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'audio';
@@ -260,7 +260,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 const execTransform = async (resp, editor, fieldClass) => {
   if (resp.success === true) {
     const media = resp.data[0];
-    if (Joomla.selectedMediaFile.extension && ['png', 'jpg', 'jpeg', 'bpm', 'gif', 'webp'].includes(media.extension.toLowerCase())) {
+    if (Joomla.selectedMediaFile.extension && ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(media.extension.toLowerCase())) {
       return insertAsImage(media, editor, fieldClass);
     }
 
