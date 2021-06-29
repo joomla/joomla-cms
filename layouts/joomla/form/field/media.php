@@ -38,6 +38,7 @@ extract($displayData);
  * @var  integer  $size            The size text
  * @var  string   $value           The value text
  * @var  string   $src             The path and filename of the image
+ * @var  array    $mediaTypes      The supported media types for the Media Manager
  * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -101,9 +102,10 @@ if ($showPreview)
 }
 
 // The url for the modal
+//mediatypes=0,1,2
 $url = ($readonly ? ''
-	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&images_only=1&asset='
-		. $asset . '&author=' . $authorId)
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&mediatypes=' . $mediaTypes
+		. '&asset='. $asset . '&author=' . $authorId)
 	. '&fieldid={field-media-id}&path=' . $folder);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders

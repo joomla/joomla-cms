@@ -36,16 +36,16 @@ if ($tmpl === 'component')
 	echo '</div>';
 }
 
-$imgOnly = $input->getBool('images_only', false) ? '&images_only=1' : '';
+$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0');
 
 // Populate the media config
 $config = array(
-	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $imgOnly,
+	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
 	'csrfToken'           => Session::getFormToken(),
 	'filePath'            => $params->get('file_path', 'images'),
 	'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
-	'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $imgOnly,
+	'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
 	'imagesExtensions'    => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
 	'audioExtensions'     => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
 	'videoExtensions'     => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
