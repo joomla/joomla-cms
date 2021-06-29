@@ -86,6 +86,7 @@ class PlgButtonImage extends CMSPlugin
 			Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL');
 			Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
 			Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+			Text::script('JFIELD_MEDIA_TITLE_LABEL');
 			Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
 			Text::script('JFIELD_MEDIA_UNSUPPORTED');
 			Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
