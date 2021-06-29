@@ -537,6 +537,12 @@ class ApiModel extends BaseDatabaseModel
 			$types      = [];
 			$extensions = [];
 
+			// Default to showing all supported formats
+			if (count($mediaTypes) === 0)
+			{
+				$mediaTypes = ['0', '1', '2', '3'];
+			}
+
 			array_map(function ($mediaType) use (&$types) {
 				switch ($mediaType)
 				{
