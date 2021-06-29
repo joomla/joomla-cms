@@ -39,14 +39,14 @@ if ($tmpl == 'component') {
 	echo '</div>';
 }
 
-$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0');
+$mediaTypes = $input->getString('mediatypes', '0');
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
+	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json' . '&mediatypes=' . $mediaTypes,
 	'csrfToken'          => Session::getFormToken(),
 	'uploadPath'         => $this->file->path,
-	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . $mediaTypes,
+	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . '&mediatypes=' . $mediaTypes,
 	'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
 	'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
 	'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
