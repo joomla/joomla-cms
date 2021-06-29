@@ -741,7 +741,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnActionInMenuOf('powered_by.png', MediaListPage::$editAction);
-		$I->seeInCurrentUrl(MediaFilePage::$url . '&path=local-images:/powered_by.png');
+		$I->seeInCurrentUrl(MediaFilePage::$url . '&mediatypes=0,1,2,3&path=local-images:/powered_by.png');
 	}
 
 	/**
