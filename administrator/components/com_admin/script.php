@@ -7076,6 +7076,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/ozdemirburak/iris/src',
 			'/libraries/vendor/ozdemirburak/iris',
 			'/libraries/vendor/ozdemirburak',
+			'/libraries/vendor/bin',
 			'/components/com_menus/src/Controller',
 			'/components/com_csp/src/Controller',
 			'/components/com_csp/src',
