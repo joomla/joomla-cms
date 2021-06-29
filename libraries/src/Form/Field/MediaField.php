@@ -338,26 +338,28 @@ class MediaField extends FormField
 		$types      = [];
 
 		// Cleanup the media types
-		array_map(function ($mediaType) use (&$types) {
-			switch ($mediaType)
-			{
-				case 'images':
-					$types[] = '0';
-					break;
-				case 'audios':
-					$types[] = '1';
-					break;
-				case 'videos':
-					$types[] = '2';
-					break;
-				case 'documents':
-					$types[] = '3';
-					break;
-				default:
-					break;
-			}
-		},
-		$mediaTypes);
+		array_map(
+			function ($mediaType) use (&$types) {
+				switch ($mediaType)
+				{
+					case 'images':
+						$types[] = '0';
+						break;
+					case 'audios':
+						$types[] = '1';
+						break;
+					case 'videos':
+						$types[] = '2';
+						break;
+					case 'documents':
+						$types[] = '3';
+						break;
+					default:
+						break;
+				}
+			},
+			$mediaTypes
+		);
 
 		sort($types);
 
