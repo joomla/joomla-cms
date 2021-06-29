@@ -11,7 +11,8 @@
       "type": "style",
       "uri": "template.min.css",
       "dependencies": [
-        "fontawesome"
+        "fontawesome",
+        "template.global-variables"
       ]
     },
     {
@@ -20,14 +21,18 @@
       "type": "style",
       "uri": "template-rtl.min.css",
       "dependencies": [
-        "fontawesome"
+        "fontawesome",
+        "template.global-variables"
       ]
     },
     {
       "name": "template.offline",
       "description": "The css file to be used when the site is offline and offline.php is being used.",
       "type": "style",
-      "uri": "offline.css"
+      "uri": "offline.css",
+      "dependencies": [
+        "template.global-variables"
+      ]
     },
     {
       "name": "template.active.language",
