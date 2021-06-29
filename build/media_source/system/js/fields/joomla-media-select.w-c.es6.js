@@ -411,6 +411,7 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
       this.lazyInputFn = this.lazyInputFn.bind(this);
       this.altCheckFn = this.altCheckFn.bind(this);
+      this.inputFn = this.inputFn.bind(this);
 
       // Add event listeners
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
@@ -419,7 +420,7 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.altCheck.addEventListener('input', this.altCheckFn);
       [].slice.call(this.querySelectorAll('input[type="text"]'))
         .map((el) => {
-          el.addEventListener('input', this.embedInputFn);
+          el.addEventListener('input', this.inputFn);
           const { is } = el.dataset;
           if (is) {
             this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
