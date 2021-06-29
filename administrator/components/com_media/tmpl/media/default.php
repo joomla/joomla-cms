@@ -36,7 +36,7 @@ if ($tmpl === 'component')
 	echo '</div>';
 }
 
-$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0');
+$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
 
 // Populate the media config
 $config = array(
