@@ -270,7 +270,6 @@ const TinyMCEBuilder = (container, options) => {
     const value = val || JSON.parse(box.getAttribute('data-value')) || [];
     let item;
     let name;
-    let $btn;
 
     for (let i = 0, l = value.length; i < l; i += 1) {
       name = value[i];
@@ -429,8 +428,6 @@ const TinyMCEBuilder = (container, options) => {
     });
   });
 };
-
-TinyMCEBuilder;
 
 const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
   : (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
