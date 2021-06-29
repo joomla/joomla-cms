@@ -31,7 +31,7 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
-const { mediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
+const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
@@ -119,7 +119,7 @@ if (Program.compileJs) {
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watching();
+  watching(Program.args[0]);
 }
 
 // Gzip js/css files
@@ -140,7 +140,7 @@ if (Program.comMedia) {
 
 // Watch & Compile the media manager
 if (Program.watchComMedia) {
-  mediaManager(true);
+  watchMediaManager(true);
 }
 
 // Update the .js/.css versions
