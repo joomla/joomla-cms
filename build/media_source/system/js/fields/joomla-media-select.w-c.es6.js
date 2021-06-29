@@ -26,6 +26,7 @@ Joomla.selectedMediaFile = {};
  */
 document.addEventListener('onMediaFileSelected', async (e) => {
   Joomla.selectedMediaFile = e.detail;
+  console.log(Joomla.selectedMediaFile)
   const currentModal = Joomla.Modal.getCurrent();
   const container = currentModal.querySelector('.modal-body');
 
@@ -72,6 +73,7 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   embed-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL')}"
   download-check-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL')}"
   download-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL')}"
+  title-label="${Joomla.Text._('JFIELD_MEDIA_TITLE_LABEL')}"
   width-label="${Joomla.Text._('JFIELD_MEDIA_WIDTH_LABEL')}"
   height-label="${Joomla.Text._('JFIELD_MEDIA_HEIGHT_LABEL')}"
 ></joomla-field-mediamore>
@@ -221,14 +223,15 @@ const insertAsOther = (media, editor, fieldClass, type) => {
           }
           if (type === 'document') {
             // @todo use ${Joomla.selectedMediaFile.filetype} in type
-            outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
+            const title = attribs.getAttribute('title');
+            outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" ${title ? `title="${title}"` : ''} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
-  </object>`;
+</object>`;
           }
           if (type === 'video') {
             outputText = `<video controls width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
-  </video>`;
+</video>`;
           }
         } else if (Joomla.editors.instances[editor].getSelection() !== '') {
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
@@ -296,7 +299,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
     return;
   }
 
-  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`;
+  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${data.path}&mediatypes=0,1,2,3&${Joomla.getOptions('csrf.token')}=1&format=json`;
   fetch(
     url,
     {
@@ -359,6 +362,8 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
   get heighttext() { return this.getAttribute('height-label'); }
 
+  get titletext() { return this.getAttribute('title-label'); }
+
   connectedCallback() {
     if (this.type === 'image') {
       this.innerHTML = `
@@ -368,7 +373,7 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   <div class="form-group">
     <div class="input-group">
       <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-alt" />
+      <input class="form-control" type="text" id="${this.parentId}-alt" data-is="alt-value" />
     </div>
   </div>
   <div class="form-group">
@@ -387,52 +392,45 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   <div class="form-group">
     <div class="input-group">
       <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-classes" />
+      <input class="form-control" type="text" id="${this.parentId}-classes" data-is="img-classes"/>
     </div>
   </div>
   <div class="form-group">
     <div class="input-group">
       <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-figclasses" />
+      <input class="form-control" type="text" id="${this.parentId}-figclasses" data-is="fig-classes"/>
     </div>
   </div>
   <div class="form-group">
     <div class="input-group">
       <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-figcaption" />
+      <input class="form-control" type="text" id="${this.parentId}-figcaption" data-is="fig-caption"/>
     </div>
   </div>
 </div>
 </details>`;
 
       this.lazyInputFn = this.lazyInputFn.bind(this);
-      this.altInputFn = this.altInputFn.bind(this);
       this.altCheckFn = this.altCheckFn.bind(this);
-      this.imgClassesFn = this.imgClassesFn.bind(this);
-      this.figclassesFn = this.figclassesFn.bind(this);
-      this.figcaptionFn = this.figcaptionFn.bind(this);
 
       // Add event listeners
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
       this.lazyInput.addEventListener('change', this.lazyInputFn);
-      this.altInput = this.querySelector(`#${this.parentId}-alt`);
-      this.altInput.addEventListener('input', this.altInputFn);
       this.altCheck = this.querySelector(`#${this.parentId}-alt-check`);
       this.altCheck.addEventListener('input', this.altCheckFn);
-      this.imgClasses = this.querySelector(`#${this.parentId}-classes`);
-      this.imgClasses.addEventListener('input', this.imgClassesFn);
-      this.figClasses = this.querySelector(`#${this.parentId}-figclasses`);
-      this.figClasses.addEventListener('input', this.figclassesFn);
-      this.figCaption = this.querySelector(`#${this.parentId}-figcaption`);
-      this.figCaption.addEventListener('input', this.figcaptionFn);
+      [].slice.call(this.querySelectorAll('input[type="text"]'))
+        .map((el) => {
+          el.addEventListener('input', this.embedInputFn);
+          const { is } = el.dataset;
+          if (is) {
+            this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
+          }
+          return el;
+        });
 
       // Set initial values
       this.setAttribute('is-lazy', !!this.lazyInput.checked);
-      this.setAttribute('alt-value', '');
       this.setAttribute('alt-check', false);
-      this.setAttribute('img-classes', '');
-      this.setAttribute('fig-classes', '');
-      this.setAttribute('fig-caption', '');
     } else if (['audio', 'video', 'document'].includes(this.type)) {
       this.innerHTML = `
 <details open>
@@ -459,49 +457,58 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       <div class="form-group">
         <div class="input-group">
           <label class="input-group-text" for="${this.parentId}-width">${this.widthtext}</label>
-          <input class="form-control" type="text" id="${this.parentId}-width" value="800"/>
+          <input class="form-control" type="text" id="${this.parentId}-width" value="800" data-is="width"/>
         </div>
       </div>
       <div class="form-group">
         <div class="input-group">
           <label class="input-group-text" for="${this.parentId}-height">${this.heighttext}</label>
-          <input class="form-control" type="text" id="${this.parentId}-height" value="600"/>
+          <input class="form-control" type="text" id="${this.parentId}-height" value="600" data-is="height"/>
         </div>
       </div>
+      <div style="display: ${this.type === 'document' ? 'block' : 'none'}">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="input-group-text" for="${this.parentId}-title">${this.titletext}</label>
+            <input class="form-control" type="text" id="${this.parentId}-title" value="" data-is="title"/>
+          </div>
+        </div>
     </div>
   </div>
 </div>
 </details>`;
 
       this.embedInputFn = this.embedInputFn.bind(this);
-      this.embedCheck = [].slice.call(this.querySelectorAll('.form-check-input.radio'));
-      this.embedCheck.map((el) => el.addEventListener('input', this.embedInputFn));
+      this.inputFn = this.inputFn.bind(this);
+
+      [].slice.call(this.querySelectorAll('.form-check-input.radio'))
+        .map((el) => el.addEventListener('input', this.embedInputFn));
       this.setAttribute('embed-it', false);
-      this.widthInputFn = this.widthInputFn.bind(this);
-      this.width = this.querySelector(`#${this.parentId}-width`);
-      this.width.addEventListener('input', this.widthInputFn);
-      this.setAttribute('width', this.width.value);
-      this.heightInputFn = this.heightInputFn.bind(this);
-      this.height = this.querySelector(`#${this.parentId}-height`);
-      this.height.addEventListener('input', this.heightInputFn);
-      this.setAttribute('height', this.height.value);
+
+      [].slice.call(this.querySelectorAll('input[type="text"]'))
+        .map((el) => {
+          el.addEventListener('input', this.inputFn);
+          const { is } = el.dataset;
+          if (is) {
+            this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
+          }
+          return el;
+        });
     }
   }
 
   disconnectedCallback() {
     if (this.type === 'image') {
       this.lazyInput.removeEventListener('input', this.lazyInputFn);
-      this.altInput.removeEventListener('input', this.altInputFn);
+      this.altInput.removeEventListener('input', this.inputFn);
       this.altCheck.removeEventListener('input', this.altCheckFn);
-      this.imgClasses.removeEventListener('input', this.imgClassesFn);
-      this.figClasses.removeEventListener('input', this.figclassesFn);
-      this.figCaption.removeEventListener('input', this.figcaptionFn);
     }
 
     if (['audio', 'video', 'document'].includes(this.type)) {
-      this.embedCheck.map((el) => el.removeEventListener('input', this.embedInputFn));
-      this.width.removeEventListener('input', this.widthInputFn);
-      this.height.removeEventListener('input', this.heightInputFn);
+      [].slice.call(this.querySelectorAll('.form-check-input.radio'))
+        .map((el) => el.removeEventListener('input', this.embedInputFn));
+      [].slice.call(this.querySelectorAll('input[type="text"]'))
+        .map((el) => el.removeEventListener('input', this.embedInputFn));
     }
 
     this.innerHTML = '';
@@ -511,24 +518,15 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     this.setAttribute('is-lazy', !!e.target.checked);
   }
 
-  altInputFn(e) {
-    this.setAttribute('alt-value', e.target.value.replace(/"/g, '&quot;'));
-  }
-
   altCheckFn(e) {
     this.setAttribute('alt-check', !!e.target.checked);
   }
 
-  imgClassesFn(e) {
-    this.setAttribute('img-classes', e.target.value);
-  }
-
-  figclassesFn(e) {
-    this.setAttribute('fig-classes', e.target.value);
-  }
-
-  figcaptionFn(e) {
-    this.setAttribute('fig-caption', e.target.value);
+  inputFn(e) {
+    const { is } = e.target.dataset;
+    if (is) {
+      this.setAttribute(is, e.target.value.replace(/"/g, '&quot;'));
+    }
   }
 
   embedInputFn(e) {
@@ -543,14 +541,6 @@ class JoomlaFieldMediaOptions extends HTMLElement {
         toggable.style.display = 'none';
       }
     }
-  }
-
-  widthInputFn(e) {
-    this.setAttribute('width', e.target.value);
-  }
-
-  heightInputFn(e) {
-    this.setAttribute('height', e.target.value);
   }
 }
 
