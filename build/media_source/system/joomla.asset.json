@@ -53,6 +53,12 @@
       "description": "A dummy asset to allow to extensions to use it as dependency to active template"
     },
     {
+      "name": "template.global-variables",
+      "type": "style",
+      "uri": "system/global-variables.css",
+      "description": "Joomla default CSS variables which can be used in templates for default styling."
+    },
+    {
       "name": "template.active",
       "type": "script",
       "uri": "",
