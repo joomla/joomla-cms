@@ -513,13 +513,20 @@ abstract class FinderIndexer
 		// Get the database object.
 		$db = $this->db;
 
+		$query = clone $this->addTokensToDbQueryTemplate;
+
+		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
+		$tokens = is_array($tokens) ? $tokens : array($tokens);
+
 		// Count the number of token values.
 		$values = 0;
 
-		if (($tokens instanceof FinderIndexerToken) === false)
+		// Break into chunks of no more than 1000 items
+		$chunks = array_chunk($tokens, 128);
+
+		foreach ($chunks as $tokens)
 		{
-			// Cloning a new query template is twice as fast as calling the clear function
-			$query = clone $this->addTokensToDbQueryTemplate;
+			$query->clear('values');
 
 			// Iterate through the tokens to create SQL value sets.
 			foreach ($tokens as $token)
@@ -533,37 +540,16 @@ abstract class FinderIndexer
 					. (int) $context . ', '
 					. $db->quote($token->language)
 				);
-				$values++;
-
-				if ($values > 0 && ($values % 128) == 0)
-				{
-					$db->setQuery($query)->execute();
-					$query->clear('values');
-
-					// Check if we're approaching the memory limit of the token table.
-					if ($values > static::$state->options->get('memory_table_limit', 10000))
-					{
-						$this->toggleTables(false);
-					}
-				}
+				++$values;
 			}
-		}
-		else
-		{
-			$query = clone $this->addTokensToDbQueryTemplate;
-
-			$query->values(
-				$db->quote($tokens->term) . ', '
-				. $db->quote($tokens->stem) . ', '
-				. (int) $tokens->common . ', '
-				. (int) $tokens->phrase . ', '
-				. $db->escape((float) $tokens->weight) . ', '
-				. (int) $context . ', '
-				. $db->quote($tokens->language)
-			);
-			++$values;
 
 			$db->setQuery($query)->execute();
+
+			// Check if we're approaching the memory limit of the token table.
+			if ($values > static::$state->options->get('memory_table_limit', 10000))
+			{
+				$this->toggleTables(false);
+			}
 		}
 
 		return $values;
