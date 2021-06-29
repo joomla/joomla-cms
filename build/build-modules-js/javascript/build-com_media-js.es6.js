@@ -118,3 +118,72 @@ module.exports.mediaManager = async () => {
   minifyJs('media/com_media/js/media-manager.js');
   return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
+
+module.exports.watchMediaManager = async () => {
+  // eslint-disable-next-line no-console
+  console.log('Watching Media Manager js+vue files...');
+  // eslint-disable-next-line no-console
+  console.log('=========');
+
+  const watcher = rollup.watch({
+    input: resolve(inputJS),
+    plugins: [
+      VuePlugin({
+        target: 'browser',
+        css: false,
+        compileTemplate: true,
+        template: {
+          isProduction: true,
+        },
+      }),
+      nodeResolve(),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      babel({
+        exclude: 'node_modules/core-js/**',
+        babelHelpers: 'bundled',
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                browsers: [
+                  '> 1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
+              },
+              loose: true,
+              bugfixes: false,
+              ignoreBrowserslistConfig: true,
+            },
+          ],
+        ],
+      }),
+    ],
+    output: [
+      {
+        format: 'es',
+        sourcemap: false,
+        file: 'media/com_media/js/media-manager.js',
+      },
+      {
+        format: 'es',
+        sourcemap: false,
+        file: 'media/com_media/js/media-manager.min.js',
+      },
+    ],
+  });
+
+  watcher.on('event', (event) => {
+    if (event.code === 'BUNDLE_END') {
+      // eslint-disable-next-line no-console
+      console.log(`File ${event.output[0]} updated ✅
+File ${event.output[1]} updated ✅
+=========`);
+    }
+  });
+};
