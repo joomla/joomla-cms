@@ -39,14 +39,14 @@ if ($tmpl == 'component') {
 	echo '</div>';
 }
 
-$imgOnly = $input->getBool('images_only', false) ? '&images_only=1' : '';
+$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0');
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json' . $imgOnly,
+	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
 	'csrfToken'          => Session::getFormToken(),
 	'uploadPath'         => $this->file->path,
-	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . $imgOnly,
+	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . $mediaTypes,
 	'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
 	'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
 	'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
@@ -67,5 +67,5 @@ $this->useCoreUI = true;
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
-	<input type="hidden" name="images_only" value="<?php echo $imgOnly ? 1 : 0; ?>">
+	<input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
 </form>

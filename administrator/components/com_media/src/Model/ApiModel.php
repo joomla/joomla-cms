@@ -529,11 +529,33 @@ class ApiModel extends BaseDatabaseModel
 			return false;
 		}
 
-		$imagesOnly = Factory::getApplication()->input->getBool('images_only', false);
-
 		// Initialize the allowed extensions
 		if ($this->allowedExtensions === null)
 		{
+			// Get options from the input or fallback to images only
+			$mediaTypes = explode(',', Factory::getApplication()->input->getString('mediatypes', '0'));
+			$types      = [];
+			$extensions = [];
+
+			array_map(function ($mediaType) use (&$types) {
+				switch ($mediaType) {
+					case '0':
+						$types[] = 'images';
+						break;
+					case '1':
+						$types[] = 'audios';
+						break;
+					case '2':
+						$types[] = 'videos';
+						break;
+					case '3':
+						$types[] = 'documents';
+						break;
+					default:
+						break;
+				}
+			}, $mediaTypes);
+
 			$images = array_map(
 				'trim',
 				explode(
@@ -545,42 +567,45 @@ class ApiModel extends BaseDatabaseModel
 				)
 			);
 
-			if (!$imagesOnly)
-			{
-				$audio = array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'audio_extensions',
-							'mp3,m4a,mp4a,ogg'
-						)
+			$audios = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'audio_extensions',
+						'mp3,m4a,mp4a,ogg'
 					)
-				);
-				$video = array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'video_extensions',
-							'mp4,mp4v,mpeg,mov,webm'
-						)
+				)
+			);
+			$videos = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'video_extensions',
+						'mp4,mp4v,mpeg,mov,webm'
 					)
-				);
-				$docs = array_map(
-					'trim',
-					explode(
-						',',
-						ComponentHelper::getParams('com_media')->get(
-							'doc_extensions',
-							'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
-						)
+				)
+			);
+			$documents = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'doc_extensions',
+						'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
 					)
-				);
+				)
+			);
+
+			foreach ($types as $type) {
+				if (in_array($type, ['images', 'audios', 'videos', 'documents']))
+				{
+					$extensions = array_merge($extensions, ${$type});
+				}
 			}
 
-			// Get the setting from the params
-			$this->allowedExtensions = $imagesOnly ? $images : array_merge($images, $audio, $video, $docs);
+			$this->allowedExtensions = $extensions;
 		}
 
 		// Extract the extension

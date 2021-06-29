@@ -104,6 +104,15 @@ class MediaField extends FormField
 	protected $previewHeight;
 
 	/**
+	 * Comma separated types of files for Media Manager
+	 * Possible values: images,audios,videos,documents
+	 *
+	 * @var    string
+	 * @since  __VERSION_DEPLOY__
+	 */
+	protected $types;
+
+	/**
 	 * Layout to render
 	 *
 	 * @var    string
@@ -141,6 +150,7 @@ class MediaField extends FormField
 			case 'directory':
 			case 'previewWidth':
 			case 'previewHeight':
+			case 'types':
 				return $this->$name;
 		}
 
@@ -168,6 +178,7 @@ class MediaField extends FormField
 			case 'height':
 			case 'preview':
 			case 'directory':
+			case 'types':
 				$this->$name = (string) $value;
 				break;
 
@@ -212,6 +223,7 @@ class MediaField extends FormField
 			$this->directory     = (string) $this->element['directory'];
 			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+			$this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 		}
 
 		return $result;
@@ -322,6 +334,31 @@ class MediaField extends FormField
 			$this->folder = '';
 		}
 
+		$mediaTypes = array_map('trim', explode(',', $this->types));
+		$types      = [];
+
+		//Cleanup the media types
+		array_map(function ($mediaType) use (&$types) {
+			switch ($mediaType) {
+				case 'images':
+					$types[] = '0';
+					break;
+				case 'audios':
+					$types[] = '1';
+					break;
+				case 'videos':
+					$types[] = '2';
+					break;
+				case 'documents':
+					$types[] = '3';
+					break;
+				default:
+					break;
+			}
+		}, $mediaTypes);
+
+		sort($types);
+
 		$extraData = array(
 			'asset'         => $asset,
 			'authorField'   => $this->authorField,
@@ -331,6 +368,7 @@ class MediaField extends FormField
 			'preview'       => $this->preview,
 			'previewHeight' => $this->previewHeight,
 			'previewWidth'  => $this->previewWidth,
+			'mediaTypes'    => implode(',', $types),
 		);
 
 		return array_merge($data, $extraData);
