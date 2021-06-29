@@ -37,10 +37,9 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Check if the user is authorized to do this.
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
-			&& !$user->authorise('module.edit.frontend', 'com_modules'))
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 

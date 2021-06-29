@@ -382,16 +382,16 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by field
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $fieldName                   name of field that is used for grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   null    $fieldNameToKeep             field name to keep
+	 * @param   array   $list             list of items
+	 * @param   string  $fieldName        name of field that is used for grouping
+	 * @param   string  $direction        ordering direction
+	 * @param   null    $fieldNameToKeep  field name to keep
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
+	public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
 	{
 		$grouped = array();
 
@@ -424,7 +424,7 @@ abstract class ModArticlesCategoryHelper
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		return $grouped;
 	}
@@ -432,17 +432,17 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by date
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $type                        type of grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   string  $month_year_format           date format to use
-	 * @param   string  $field                       date field to group by
+	 * @param   array   $list             list of items
+	 * @param   string  $type             type of grouping
+	 * @param   string  $direction        ordering direction
+	 * @param   string  $monthYearFormat  date format to use
+	 * @param   string  $field            date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
+	public static function groupByDate($list, $type = 'year', $direction = 'ksort', $monthYearFormat = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -487,14 +487,14 @@ abstract class ModArticlesCategoryHelper
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		if ($type === 'month_year')
 		{
 			foreach ($grouped as $group => $items)
 			{
 				$date                      = new JDate($group);
-				$formatted_group           = $date->format($month_year_format);
+				$formatted_group           = $date->format($monthYearFormat);
 				$grouped[$formatted_group] = $items;
 
 				unset($grouped[$group]);

@@ -59,20 +59,20 @@ abstract class JHtmlGrid
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string  $title          The link title
-	 * @param   string  $order          The order field for the column
-	 * @param   string  $direction      The current direction
-	 * @param   string  $selected       The selected ordering
-	 * @param   string  $task           An optional task override
-	 * @param   string  $new_direction  An optional direction for the new column
-	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form           An optional form selector
+	 * @param   string  $title         The link title
+	 * @param   string  $order         The order field for the column
+	 * @param   string  $direction     The current direction
+	 * @param   string  $selected      The selected ordering
+	 * @param   string  $task          An optional task override
+	 * @param   string  $newDirection  An optional direction for the new column
+	 * @param   string  $tip           An optional text shown as tooltip title instead of $title
+	 * @param   string  $form          An optional form selector
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
 	{
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.popover');
@@ -83,7 +83,7 @@ abstract class JHtmlGrid
 
 		if ($order != $selected)
 		{
-			$direction = $new_direction;
+			$direction = $newDirection;
 		}
 		else
 		{
@@ -232,17 +232,17 @@ abstract class JHtmlGrid
 	 * Method to create a select list of states for filtering
 	 * By default the filter shows only published and unpublished items
 	 *
-	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The JText string for published
-	 * @param   string  $unpublished   The JText string for Unpublished
-	 * @param   string  $archived      The JText string for Archived
-	 * @param   string  $trashed       The JText string for Trashed
+	 * @param   string  $filterState  The initial filter state
+	 * @param   string  $published    The JText string for published
+	 * @param   string  $unpublished  The JText string for Unpublished
+	 * @param   string  $archived     The JText string for Archived
+	 * @param   string  $trashed      The JText string for Trashed
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
+	public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 
@@ -262,7 +262,7 @@ abstract class JHtmlGrid
 			'filter_state',
 			array(
 				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
-				'list.select' => $filter_state,
+				'list.select' => $filterState,
 				'option.key' => null,
 			)
 		);

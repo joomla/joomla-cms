@@ -583,7 +583,7 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.

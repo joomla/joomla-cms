@@ -21,14 +21,14 @@ class PrivacyModelRequest extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function cleanCache($group = 'com_privacy', $client_id = 1)
+	protected function cleanCache($group = 'com_privacy', $clientId = 1)
 	{
 		parent::cleanCache('com_privacy', 1);
 	}

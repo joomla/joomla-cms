@@ -20,16 +20,16 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to get the user ids the authenticating user is blocking.
 	 *
-	 * @param   boolean  $stringify_ids  Provide this option to have ids returned as strings instead.
-	 * @param   integer  $cursor         Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
-	 * 									 is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
-	 * 									 is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringifyIds  Provide this option to have ids returned as strings instead.
+	 * @param   integer  $cursor        Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 *                                  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 *                                  is provided, a value of -1 will be assumed, which is the first "page."
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getBlocking($stringify_ids = null, $cursor = null)
+	public function getBlocking($stringifyIds = null, $cursor = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('blocks', 'ids');
@@ -37,13 +37,13 @@ class JTwitterBlock extends JTwitterObject
 		$data = array();
 
 		// Check if stringify_ids is specified
-		if (!is_null($stringify_ids))
+		if (!is_null($stringifyIds))
 		{
-			$data['stringify_ids'] = $stringify_ids;
+			$data['stringify_ids'] = $stringifyIds;
 		}
 
 		// Check if cursor is specified
-		if (!is_null($stringify_ids))
+		if (!is_null($stringifyIds))
 		{
 			$data['cursor'] = $cursor;
 		}
@@ -58,17 +58,17 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to block the specified user from following the authenticating user.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 *                                variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function block($user, $entities = null, $skip_status = null)
+	public function block($user, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('blocks', 'create');
@@ -95,9 +95,9 @@ class JTwitterBlock extends JTwitterObject
 		}
 
 		// Check if skip_statuses is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Set the API path
@@ -110,17 +110,17 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to unblock the specified user from following the authenticating user.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 *                                variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function unblock($user, $entities = null, $skip_status = null)
+	public function unblock($user, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('blocks', 'destroy');
@@ -147,9 +147,9 @@ class JTwitterBlock extends JTwitterObject
 		}
 
 		// Check if skip_statuses is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Set the API path

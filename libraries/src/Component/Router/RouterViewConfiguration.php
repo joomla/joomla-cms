@@ -140,14 +140,14 @@ class RouterViewConfiguration
 	/**
 	 * Set the parent view of this view
 	 *
-	 * @param   RouterViewconfiguration  $parent      Parent view object
-	 * @param   string                   $parent_key  Key of the parent view in this context
+	 * @param   RouterViewconfiguration  $parent     Parent view object
+	 * @param   string                   $parentKey  Key of the parent view in this context
 	 *
 	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
-	public function setParent(RouterViewconfiguration $parent, $parent_key = false)
+	public function setParent(RouterViewconfiguration $parent, $parentKey = false)
 	{
 		if ($this->parent)
 		{
@@ -171,11 +171,11 @@ class RouterViewConfiguration
 		$this->path   = $parent->path;
 		$this->path[] = $this->name;
 
-		$this->parent_key = $parent_key;
+		$this->parent_key = $parentKey;
 
-		if ($parent_key)
+		if ($parentKey)
 		{
-			$parent->child_keys[] = $parent_key;
+			$parent->child_keys[] = $parentKey;
 		}
 
 		return $this;

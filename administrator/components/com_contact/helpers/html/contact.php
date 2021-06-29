@@ -101,7 +101,7 @@ abstract class JHtmlContact
 	 *
 	 * @since   1.6
 	 */
-	public static function featured($value = 0, $i, $canChange = true)
+	public static function featured($value = 0, $i = 0, $canChange = true)
 	{
 
 		// Array of image, task, title, action

@@ -256,6 +256,17 @@ class ModulesControllerModule extends JControllerForm
 		$jinput   = $app->input;
 		$clientId = $jinput->getValue('client_id');
 		$position = $jinput->getValue('position');
+		$moduleId = $jinput->getValue('module_id');
+
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.create', 'com_modules')
+			&& !JFactory::getUser()->authorise('core.edit.state', 'com_modules')
+			&& ($moduleId && !JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
+		{
+			$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+			echo new JResponseJson;
+			$app->close();
+		}
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

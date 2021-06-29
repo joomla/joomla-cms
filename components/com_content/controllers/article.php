@@ -425,6 +425,12 @@ class ContentControllerArticle extends JControllerForm
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($url))
+			{
+				$url = JRoute::_('index.php');
+			}
+
 			if ($model->storeVote($id, $user_rating))
 			{
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));

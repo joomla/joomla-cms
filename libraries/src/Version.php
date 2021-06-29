@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 20;
+	const PATCH_VERSION = 28;
 
 	/**
 	 * Extra release version info.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '20-dev';
+	const DEV_LEVEL = '28-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '2-June-2020';
+	const RELDATE = '24-May-2021';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:55';
+	const RELTIME = '11:29';
 
 	/**
 	 * Release timezone.
@@ -253,34 +253,34 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string  $suffix      String to append to resulting user agent.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	public function getUserAgent($suffix = null, $mask = false, $addVersion = true)
 	{
-		if ($component === null)
+		if ($suffix === null)
 		{
-			$component = 'Framework';
+			$suffix = 'Framework';
 		}
 
-		if ($add_version)
+		if ($addVersion)
 		{
-			$component .= '/' . self::RELEASE;
+			$suffix .= '/' . self::RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
 		if ($mask)
 		{
-			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($suffix ? ' ' . $suffix : '');
 		}
 		else
 		{
-			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($suffix ? ' ' . $suffix : '');
 		}
 	}
 

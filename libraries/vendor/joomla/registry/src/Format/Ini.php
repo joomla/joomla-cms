@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,7 @@ class Ini extends AbstractRegistryFormat
 
 		$variables = get_object_vars($object);
 
-		$last = count($variables);
+		$last = \count($variables);
 
 		// Assume that the first element is in section
 		$inSection = true;
@@ -71,7 +71,7 @@ class Ini extends AbstractRegistryFormat
 		foreach ($variables as $key => $value)
 		{
 			// If the value is an object then we need to put it in a local section.
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				// Add an empty line if previous string wasn't in a section
 				if (!$inSection)
@@ -85,7 +85,7 @@ class Ini extends AbstractRegistryFormat
 				// Add the properties for this section.
 				foreach (get_object_vars($value) as $k => $v)
 				{
-					if (is_array($v) && $supportArrayValues)
+					if (\is_array($v) && $supportArrayValues)
 					{
 						$assoc = ArrayHelper::isAssociative($v);
 
@@ -102,12 +102,12 @@ class Ini extends AbstractRegistryFormat
 				}
 
 				// Add empty line after section if it is not the last one
-				if (0 !== --$last)
+				if (--$last !== 0)
 				{
 					$local[] = '';
 				}
 			}
-			elseif (is_array($value) && $supportArrayValues)
+			elseif (\is_array($value) && $supportArrayValues)
 			{
 				$assoc = ArrayHelper::isAssociative($value);
 
@@ -175,13 +175,14 @@ class Ini extends AbstractRegistryFormat
 
 			if ($options['processSections'])
 			{
-				$length = strlen($line);
+				$length = \strlen($line);
 
 				// If we are processing sections and the line is a section add the object and continue.
 				if ($line[0] === '[' && ($line[$length - 1] === ']'))
 				{
 					$section       = substr($line, 1, $length - 2);
 					$obj->$section = new stdClass;
+
 					continue;
 				}
 			}
@@ -198,7 +199,7 @@ class Ini extends AbstractRegistryFormat
 			}
 
 			// Get the key and value for the line.
-			list ($key, $value) = explode('=', $line, 2);
+			list($key, $value) = explode('=', $line, 2);
 
 			// If we have an array item
 			if (substr($key, -1) === ']' && ($openBrace = strpos($key, '[', 1)) !== false)
@@ -231,7 +232,7 @@ class Ini extends AbstractRegistryFormat
 			}
 
 			// If the value is quoted then we assume it is a string.
-			$length = strlen($value);
+			$length = \strlen($value);
 
 			if ($length && ($value[0] === '"') && ($value[$length - 1] === '"'))
 			{
@@ -249,18 +250,18 @@ class Ini extends AbstractRegistryFormat
 					$value = false;
 				}
 				elseif ($value === 'true')
-					// If the value is 'true' assume boolean true.
 				{
+					// If the value is 'true' assume boolean true.
 					$value = true;
 				}
-				elseif ($options['parseBooleanWords'] && in_array(strtolower($value), array('yes', 'no'), true))
-					// If the value is 'yes' or 'no' and option is enabled assume appropriate boolean
+				elseif ($options['parseBooleanWords'] && \in_array(strtolower($value), array('yes', 'no'), true))
 				{
+					// If the value is 'yes' or 'no' and option is enabled assume appropriate boolean
 					$value = (strtolower($value) === 'yes');
 				}
 				elseif (is_numeric($value))
-					// If the value is numeric than it is either a float or int.
 				{
+					// If the value is numeric than it is either a float or int.
 					// If there is a period then we assume a float.
 					if (strpos($value, '.') !== false)
 					{
@@ -343,20 +344,23 @@ class Ini extends AbstractRegistryFormat
 	{
 		$string = '';
 
-		switch (gettype($value))
+		switch (\gettype($value))
 		{
 			case 'integer':
 			case 'double':
 				$string = $value;
+
 				break;
 
 			case 'boolean':
 				$string = $value ? 'true' : 'false';
+
 				break;
 
 			case 'string':
 				// Sanitize any CRLF characters..
 				$string = '"' . str_replace(array("\r\n", "\n"), '\\n', $value) . '"';
+
 				break;
 		}
 

@@ -185,6 +185,32 @@ class MenusModelMenu extends JModelForm
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!JFactory::getUser()->authorise('core.admin', 'com_menus'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -343,14 +369,14 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');

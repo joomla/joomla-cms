@@ -219,6 +219,9 @@ class ActionlogsHelper
 
 		foreach ($messageData as $key => $value)
 		{
+			// Escape any markup in the values to prevent XSS attacks
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
 			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
@@ -243,12 +246,13 @@ class ActionlogsHelper
 	 * @param   string   $contentType
 	 * @param   integer  $id
 	 * @param   string   $urlVar
+	 * @param   JObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id', $object = null)
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -263,7 +267,7 @@ class ActionlogsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
-				return $cName::getContentTypeLink($contentType, $id);
+				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
 		}
 

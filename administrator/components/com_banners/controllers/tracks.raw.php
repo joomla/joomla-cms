@@ -53,6 +53,9 @@ class BannersControllerTracks extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
+		// Check for request forgeries.
+		$this->checkToken('GET');
+
 		// Get the document object.
 		$vName = 'tracks';
 

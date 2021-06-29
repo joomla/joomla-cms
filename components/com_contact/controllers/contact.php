@@ -187,15 +187,15 @@ class ContactControllerContact extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array     $data                  The data to send in the email.
-	 * @param   stdClass  $contact               The user information to send the email to
-	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array     $data               The data to send in the email.
+	 * @param   stdClass  $contact            The user information to send the email to
+	 * @param   boolean   $emailCopyToSender  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $emailCopyToSender)
 	{
 		$app = JFactory::getApplication();
 
@@ -248,7 +248,7 @@ class ContactControllerContact extends JControllerForm
 		// If we are supposed to copy the sender, do so.
 
 		// Check whether email copy function activated
-		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		if ($emailCopyToSender == true && !empty($data['contact_email_copy']))
 		{
 			$copytext    = JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 			$copytext    .= "\r\n\r\n" . $body;

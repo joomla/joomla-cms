@@ -3,10 +3,10 @@
 	version="3.9"
 	client="installation">
 	<name>French (France)</name>
-	<version>3.9.17</version>
+	<version>3.9.23</version>
 	<creationDate>2020-03-24</creationDate>
 	<author>Joomla.fr</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>fr-FR.ini</filename>

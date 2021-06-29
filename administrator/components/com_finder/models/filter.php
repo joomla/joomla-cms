@@ -35,16 +35,16 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Custom clean cache method.
 	 *
-	 * @param   string   $group      The component name. [optional]
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The component name. [optional]
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $client_id = 1)
+	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group, $client_id);
+		parent::cleanCache($group, $clientId);
 	}
 
 	/**

@@ -20,17 +20,17 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method to get up to 100 users worth of extended information, specified by either ID, screen name, or combination of the two.
 	 *
-	 * @param   string   $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   string   $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a variety of
-	 * 								   metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   string   $screenName  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   string   $id          A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a variety of
+	 * 								  metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getUsersLookup($screen_name = null, $id = null, $entities = null)
+	public function getUsersLookup($screenName = null, $id = null, $entities = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('users', 'lookup');
@@ -41,12 +41,12 @@ class JTwitterUsers extends JTwitterObject
 			$data['user_id'] = $id;
 		}
 
-		if ($screen_name)
+		if ($screenName)
 		{
-			$data['screen_name'] = $screen_name;
+			$data['screen_name'] = $screenName;
 		}
 
-		if ($id == null && $screen_name == null)
+		if ($id == null && $screenName == null)
 		{
 			// We don't have a valid entry
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
@@ -194,16 +194,16 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method to get an array of users that the specified user can contribute to.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     Set to true to return IDs as strings, false to return as integers.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getContributees($user, $entities = null, $skip_status = null)
+	public function getContributees($user, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('users', 'contributees');
@@ -233,9 +233,9 @@ class JTwitterUsers extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.
@@ -245,16 +245,16 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method to get an array of users who can contribute to the specified account.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     Set to true to return IDs as strings, false to return as integers.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getContributors($user, $entities = null, $skip_status = null)
+	public function getContributors($user, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('users', 'contributors');
@@ -284,9 +284,9 @@ class JTwitterUsers extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.

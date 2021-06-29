@@ -20,18 +20,18 @@ class JTwitterDirectmessages extends JTwitterObject
 	/**
 	 * Method to get the most recent direct messages sent to the authenticating user.
 	 *
-	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer  $count        Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
-	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   integer  $sinceId     Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $maxId       Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $count       Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
+	 * @param   boolean  $entities    When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                                about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getDirectMessages($since_id = 0, $max_id =  0, $count = 20, $entities = null, $skip_status = null)
+	public function getDirectMessages($sinceId = 0, $maxId =  0, $count = 20, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('direct_messages');
@@ -40,15 +40,15 @@ class JTwitterDirectmessages extends JTwitterObject
 		$path = '/direct_messages.json';
 
 		// Check if since_id is specified.
-		if ($since_id)
+		if ($sinceId)
 		{
-			$data['since_id'] = $since_id;
+			$data['since_id'] = $sinceId;
 		}
 
 		// Check if max_id is specified.
-		if ($max_id)
+		if ($maxId)
 		{
-			$data['max_id'] = $max_id;
+			$data['max_id'] = $maxId;
 		}
 
 		// Check if count is specified.
@@ -64,9 +64,9 @@ class JTwitterDirectmessages extends JTwitterObject
 		}
 
 		// Check if skip_status is specified.
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.
@@ -76,8 +76,8 @@ class JTwitterDirectmessages extends JTwitterObject
 	/**
 	 * Method to get the most recent direct messages sent by the authenticating user.
 	 *
-	 * @param   integer  $since_id  Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $max_id    Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $sinceId   Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $maxId     Returns results with an ID less than (that is, older than) or equal to the specified ID.
 	 * @param   integer  $count     Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
 	 * @param   integer  $page      Specifies the page of results to retrieve.
 	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
@@ -87,7 +87,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @since   3.1.4
 	 */
-	public function getSentDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = null)
+	public function getSentDirectMessages($sinceId = 0, $maxId =  0, $count = 20, $page = 0, $entities = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('direct_messages', 'sent');
@@ -96,15 +96,15 @@ class JTwitterDirectmessages extends JTwitterObject
 		$path = '/direct_messages/sent.json';
 
 		// Check if since_id is specified.
-		if ($since_id)
+		if ($sinceId)
 		{
-			$data['since_id'] = $since_id;
+			$data['since_id'] = $sinceId;
 		}
 
 		// Check if max_id is specified.
-		if ($max_id)
+		if ($maxId)
 		{
-			$data['max_id'] = $max_id;
+			$data['max_id'] = $maxId;
 		}
 
 		// Check if count is specified.
