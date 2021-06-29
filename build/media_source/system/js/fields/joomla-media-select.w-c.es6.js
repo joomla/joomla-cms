@@ -26,7 +26,6 @@ Joomla.selectedMediaFile = {};
  */
 document.addEventListener('onMediaFileSelected', async (e) => {
   Joomla.selectedMediaFile = e.detail;
-  console.log(Joomla.selectedMediaFile)
   const currentModal = Joomla.Modal.getCurrent();
   const container = currentModal.querySelector('.modal-body');
 
