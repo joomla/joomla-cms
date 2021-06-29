@@ -337,9 +337,10 @@ class MediaField extends FormField
 		$mediaTypes = array_map('trim', explode(',', $this->types));
 		$types      = [];
 
-		//Cleanup the media types
+		// Cleanup the media types
 		array_map(function ($mediaType) use (&$types) {
-			switch ($mediaType) {
+			switch ($mediaType)
+			{
 				case 'images':
 					$types[] = '0';
 					break;
@@ -355,7 +356,8 @@ class MediaField extends FormField
 				default:
 					break;
 			}
-		}, $mediaTypes);
+		},
+		$mediaTypes);
 
 		sort($types);
 

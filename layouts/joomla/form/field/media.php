@@ -102,7 +102,6 @@ if ($showPreview)
 }
 
 // The url for the modal
-//mediatypes=0,1,2
 $url = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&mediatypes=' . $mediaTypes
 		. '&asset='. $asset . '&author=' . $authorId)

@@ -538,7 +538,8 @@ class ApiModel extends BaseDatabaseModel
 			$extensions = [];
 
 			array_map(function ($mediaType) use (&$types) {
-				switch ($mediaType) {
+				switch ($mediaType)
+				{
 					case '0':
 						$types[] = 'images';
 						break;
@@ -554,7 +555,8 @@ class ApiModel extends BaseDatabaseModel
 					default:
 						break;
 				}
-			}, $mediaTypes);
+			},
+			$mediaTypes);
 
 			$images = array_map(
 				'trim',
