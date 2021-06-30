@@ -84,7 +84,10 @@ class PlgContentJoomla extends CMSPlugin
 
 		$item = clone $table;
 
-		$item->load($table->id);
+		if (method_exists($item, 'load'))
+		{
+			$item->load($table->id);
+		}
 
 		// Get initial versions of content and form images
 		if ($formImages = $this->_getFormImages($context, (array) $item))
