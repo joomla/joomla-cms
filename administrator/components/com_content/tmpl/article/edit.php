@@ -21,6 +21,30 @@ use Joomla\Registry\Registry;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
+
+$wa
+	->useScript('com_content.admin-article-edit-modal');
+
+// Set up the bootstrap modal that will be used for all module editors
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'moduleEditModal',
+	array(
+		'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+		'backdrop'    => 'static',
+		'keyboard'    => false,
+		'closeButton' => false,
+		'bodyHeight'  => '70',
+		'modalWidth'  => '80',
+		'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
+				. Text::_('JSAVE') . '</button>'
+				. '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
+				. Text::_('JAPPLY') . '</button>',
+	)
+);
+
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
 	->useScript('form.validate')
@@ -155,7 +179,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									class="btn btn-link module-edit-link"
 									title="<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>"
 									id="title-<?php echo $module->id; ?>"
-									data-module-id="ad">
+									data-module-id="<?php echo $module->id; ?>">
 									<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>
 								</button>
 							</td>
