@@ -150,6 +150,16 @@ export default {
       } else {
         // eslint-disable-next-line max-len
         this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+        window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
       }
     },
     isGridSize(size) {
