@@ -30,7 +30,7 @@ echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'moduleEditModal',
 	array(
-		'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+		'title'       => Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_EDIT'),
 		'backdrop'    => 'static',
 		'keyboard'    => false,
 		'closeButton' => false,
