@@ -20,6 +20,11 @@ if (!Joomla) {
  */
 Joomla.selectedMediaFile = {};
 
+const supportedExtensions = Joomla.getOptions('media-picker', {});
+if (!Object.keys(supportedExtensions).length) {
+  throw new Error('No supported extensions provided');
+}
+
 /**
  * Event Listener that updates the Joomla.selectedMediaFile
  * to the selected file in the media manager
@@ -43,21 +48,24 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     return;
   }
 
+  const {
+    images, audios, videos, documents,
+  } = supportedExtensions;
+
   if (Joomla.selectedMediaFile.path) {
     let type;
-    if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'image';
-    } else if (['mp3'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'audio';
-    } else if (['mp4'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'video';
-    } else if (['doc', 'docx', 'pdf'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'document';
+    if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+      type = 'images';
+    } else if (audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+      type = 'audios';
+    } else if (videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+      type = 'videos';
+    } else if (documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+      type = 'documents';
     }
 
     if (type) {
-      container.insertAdjacentHTML('afterbegin', `
-<joomla-field-mediamore
+      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore
   parent-id="${currentModal.id}"
   type="${type}"
   summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
@@ -189,7 +197,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
         }
       }
       editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
-      fieldClass.updatePreview();
+      fieldClass.updatePreview(Joomla.selectedMediaFile.url);
     }
   }
 };
@@ -217,17 +225,17 @@ const insertAsOther = (media, editor, fieldClass, type) => {
       if (attribs) {
         const embedable = attribs.getAttribute('embed-it');
         if (embedable && embedable === 'true') {
-          if (type === 'audio') {
+          if (type === 'audios') {
             outputText = `<audio controls src="${Joomla.selectedMediaFile.url}"></audio>`;
           }
-          if (type === 'document') {
+          if (type === 'documents') {
             // @todo use ${Joomla.selectedMediaFile.filetype} in type
             const title = attribs.getAttribute('title');
             outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" ${title ? `title="${title}"` : ''} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
 </object>`;
           }
-          if (type === 'video') {
+          if (type === 'videos') {
             outputText = `<video controls width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
 </video>`;
@@ -245,9 +253,14 @@ const insertAsOther = (media, editor, fieldClass, type) => {
       }
 
       Joomla.editors.instances[editor].replaceSelection(outputText);
+    } else {
+      editor.value = Joomla.selectedMediaFile.url;
+      fieldClass.givenType = type;
+      fieldClass.updatePreview();
     }
   }
 };
+
 /**
  * Method to append the image in an editor or a field
  *
@@ -258,28 +271,30 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 const execTransform = async (resp, editor, fieldClass) => {
   if (resp.success === true) {
     const media = resp.data[0];
-    if (Joomla.selectedMediaFile.extension && ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(media.extension.toLowerCase())) {
+    const {
+      images, audios, videos, documents,
+    } = supportedExtensions;
+
+    if (Joomla.selectedMediaFile.extension && images.includes(media.extension.toLowerCase())) {
       return insertAsImage(media, editor, fieldClass);
     }
 
-    if (['mp3'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'audio');
+    if (Joomla.selectedMediaFile.extension && audios.includes(media.extension.toLowerCase())) {
+      return insertAsOther(media, editor, fieldClass, 'audios');
     }
 
-    if (['doc', 'docx', 'pdf'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'document');
+    if (Joomla.selectedMediaFile.extension && documents.includes(media.extension.toLowerCase())) {
+      return insertAsOther(media, editor, fieldClass, 'documents');
     }
 
-    if (['mp4'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'video');
+    if (Joomla.selectedMediaFile.extension && videos.includes(media.extension.toLowerCase())) {
+      return insertAsOther(media, editor, fieldClass, 'videos');
     }
-    return '';
   }
-  return '';
 };
 
 /**
- * Method that resolves the real url for the selected image
+ * Method that resolves the real url for the selected media file
  *
  * @param data        {object}         The data for the detail
  * @param editor      {string|object}  The data for the detail
@@ -364,9 +379,8 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   get titletext() { return this.getAttribute('title-label'); }
 
   connectedCallback() {
-    if (this.type === 'image') {
-      this.innerHTML = `
-<details open>
+    if (this.type === 'images') {
+      this.innerHTML = `<details open>
 <summary>${this.summarytext}</summary>
 <div class="">
   <div class="form-group">
@@ -431,9 +445,8 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       // Set initial values
       this.setAttribute('is-lazy', !!this.lazyInput.checked);
       this.setAttribute('alt-check', false);
-    } else if (['audio', 'video', 'document'].includes(this.type)) {
-      this.innerHTML = `
-<details open>
+    } else if (['audios', 'videos', 'documents'].includes(this.type)) {
+      this.innerHTML = `<details open>
 <summary>${this.summarytext}</summary>
 <div class="">
   <div class="form-group">
@@ -453,7 +466,7 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     </div>
   </div>
   <div class="toggable-parts" style="display: none">
-    <div style="display: ${this.type === 'audio' ? 'none' : 'block'}">
+    <div style="display: ${this.type === 'audios' ? 'none' : 'block'}">
       <div class="form-group">
         <div class="input-group">
           <label class="input-group-text" for="${this.parentId}-width">${this.widthtext}</label>

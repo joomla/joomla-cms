@@ -538,31 +538,31 @@ class ApiModel extends BaseDatabaseModel
 			$extensions = [];
 
 			// Default to showing all supported formats
-			if (count($mediaTypes) === 0)
-			{
+			if (count($mediaTypes) === 0) {
 				$mediaTypes = ['0', '1', '2', '3'];
 			}
 
-			array_map(function ($mediaType) use (&$types) {
-				switch ($mediaType)
-				{
-					case '0':
-						$types[] = 'images';
-						break;
-					case '1':
-						$types[] = 'audios';
-						break;
-					case '2':
-						$types[] = 'videos';
-						break;
-					case '3':
-						$types[] = 'documents';
-						break;
-					default:
-						break;
-				}
-			},
-			$mediaTypes);
+			array_map(
+				function ($mediaType) use (&$types) {
+					switch ($mediaType) {
+						case '0':
+							$types[] = 'images';
+							break;
+						case '1':
+							$types[] = 'audios';
+							break;
+						case '2':
+							$types[] = 'videos';
+							break;
+						case '3':
+							$types[] = 'documents';
+							break;
+						default:
+							break;
+					}
+				},
+				$mediaTypes
+			);
 
 			$images = array_map(
 				'trim',
@@ -574,7 +574,6 @@ class ApiModel extends BaseDatabaseModel
 					)
 				)
 			);
-
 			$audios = array_map(
 				'trim',
 				explode(
@@ -607,12 +606,12 @@ class ApiModel extends BaseDatabaseModel
 			);
 
 			foreach ($types as $type) {
-				if (in_array($type, ['images', 'audios', 'videos', 'documents']))
-				{
+				if (in_array($type, ['images', 'audios', 'videos', 'documents'])) {
 					$extensions = array_merge($extensions, ${$type});
 				}
 			}
 
+			// Make them an array
 			$this->allowedExtensions = $extensions;
 		}
 

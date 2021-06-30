@@ -139,8 +139,7 @@ class MediaField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
-		{
+		switch ($name) {
 			case 'authorField':
 			case 'asset':
 			case 'link':
@@ -169,8 +168,7 @@ class MediaField extends FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name)
-		{
+		switch ($name) {
 			case 'authorField':
 			case 'asset':
 			case 'link':
@@ -210,8 +208,7 @@ class MediaField extends FormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result === true)
-		{
+		if ($result === true) {
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
@@ -239,8 +236,7 @@ class MediaField extends FormField
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
-		{
+		if (empty($this->layout)) {
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
@@ -259,14 +255,12 @@ class MediaField extends FormField
 
 		$asset = $this->asset;
 
-		if ($asset === '')
-		{
+		if ($asset === '') {
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
 		// Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
-		if ($this->value && strpos($this->value, '#') !== false)
-		{
+		if ($this->value && strpos($this->value, '#') !== false) {
 			$uri     = new Uri(explode('#', $this->value)[1]);
 			$adapter = $uri->getHost();
 			$path    = $uri->getPath();
@@ -274,20 +268,16 @@ class MediaField extends FormField
 			// Remove filename from stored path to get the path to the folder which file is stored
 			$pos = strrpos($path, '/');
 
-			if ($pos !== false)
-			{
+			if ($pos !== false) {
 				$path = substr($path, 0, $pos);
 			}
 
-			if ($path === '')
-			{
+			if ($path === '') {
 				$path = '/';
 			}
 
 			$this->folder = $adapter . ':' . $path;
-		}
-		elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
-		{
+		} elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value)) {
 			/**
 			 * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg . We need to validate and make sure
 			 * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
@@ -298,14 +288,11 @@ class MediaField extends FormField
 			// Remove filename from $paths array
 			array_pop($paths);
 
-			if (MediaHelper::isValidLocalDirectory($paths[0]))
-			{
+			if (MediaHelper::isValidLocalDirectory($paths[0])) {
 				$adapterName  = array_shift($paths);
 				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
-		}
-		elseif ($this->directory && is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
-		{
+		} elseif ($this->directory && is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory)) {
 			/**
 			 * This is the case where a folder is configured in directory attribute of the form field. The directory needs
 			 * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
@@ -315,44 +302,87 @@ class MediaField extends FormField
 			$path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
 			$paths = explode('/', $path);
 
-			if (MediaHelper::isValidLocalDirectory($paths[0]))
-			{
+			if (MediaHelper::isValidLocalDirectory($paths[0])) {
 				$adapterName  = array_shift($paths);
 				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
-		}
-		elseif ($this->directory && strpos(':', $this->directory))
-		{
+		} elseif ($this->directory && strpos(':', $this->directory)) {
 			/**
 			 * Directory contains adapter information and path, for example via programming or directly defined in xml
 			 * via directory attribute
 			 */
 			$this->folder = $this->directory;
-		}
-		else
-		{
+		} else {
 			$this->folder = '';
 		}
 
-		$mediaTypes = array_map('trim', explode(',', $this->types));
-		$types      = [];
+		$mediaTypes   = array_map('trim', explode(',', $this->types));
+		$types        = [];
+		$imagesExt    = $imagesExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'image_extensions',
+					'bmp,gif,jpg,jpeg,png,webp'
+				)
+			)
+		);
+		$audiosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'audio_extensions',
+					'mp3,m4a,mp4a,ogg'
+				)
+			)
+		);
+		$videosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'video_extensions',
+					'mp4,mp4v,mpeg,mov,webm'
+				)
+			)
+		);
+		$documentsExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'doc_extensions',
+					'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+				)
+			)
+		);
+
+		$imagesAllowedExt    = [];
+		$audiosAllowedExt    = [];
+		$videosAllowedExt    = [];
+		$documentsAllowedExt = [];
 
 		// Cleanup the media types
 		array_map(
-			function ($mediaType) use (&$types) {
-				switch ($mediaType)
-				{
+			function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
+				switch ($mediaType) {
 					case 'images':
 						$types[] = '0';
+						$imagesAllowedExt = $imagesExt;
 						break;
 					case 'audios':
 						$types[] = '1';
+						$audiosAllowedExt = $audiosExt;
 						break;
 					case 'videos':
 						$types[] = '2';
+						$videosAllowedExt = $videosExt;
 						break;
 					case 'documents':
 						$types[] = '3';
+						$documentsAllowedExt = $documentsExt;
 						break;
 					default:
 						break;
@@ -364,15 +394,23 @@ class MediaField extends FormField
 		sort($types);
 
 		$extraData = array(
-			'asset'         => $asset,
-			'authorField'   => $this->authorField,
-			'authorId'      => $this->form->getValue($this->authorField),
-			'folder'        => $this->folder,
-			'link'          => $this->link,
-			'preview'       => $this->preview,
-			'previewHeight' => $this->previewHeight,
-			'previewWidth'  => $this->previewWidth,
-			'mediaTypes'    => implode(',', $types),
+			'asset'               => $asset,
+			'authorField'         => $this->authorField,
+			'authorId'            => $this->form->getValue($this->authorField),
+			'folder'              => $this->folder,
+			'link'                => $this->link,
+			'preview'             => $this->preview,
+			'previewHeight'       => $this->previewHeight,
+			'previewWidth'        => $this->previewWidth,
+			'mediaTypes'          => implode(',', $types),
+			'imagesExt'           => $imagesExt,
+			'audiosExt'           => $audiosExt,
+			'videosExt'           => $videosExt,
+			'documentsExt'        => $documentsExt,
+			'imagesAllowedExt'    => $imagesAllowedExt,
+			'audiosAllowedExt'    => $audiosAllowedExt,
+			'videosAllowedExt'    => $videosAllowedExt,
+			'documentsAllowedExt' => $documentsAllowedExt,
 		);
 
 		return array_merge($data, $extraData);
