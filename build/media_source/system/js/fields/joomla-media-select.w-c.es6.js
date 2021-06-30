@@ -21,7 +21,6 @@ if (!Joomla) {
 Joomla.selectedMediaFile = {};
 
 const supportedExtensions = Joomla.getOptions('media-picker', {});
-console.log({mediaSelect:supportedExtensions })
 if (!Object.keys(supportedExtensions).length) {
   throw new Error('Joomla API is not properly initiated');
 }
@@ -49,15 +48,19 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     return;
   }
 
+  const {
+    images, audios, videos, documents,
+  } = supportedExtensions;
+
   if (Joomla.selectedMediaFile.path) {
     let type;
-    if (supportedExtensions.images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
-    } else if (supportedExtensions.audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'audios';
-    } else if (supportedExtensions.videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'videos';
-    } else if (supportedExtensions.documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'documents';
     }
 
@@ -195,7 +198,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
         }
       }
       editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
-      fieldClass.updatePreview();
+      fieldClass.updatePreview(Joomla.selectedMediaFile.url);
     }
   }
 };
@@ -325,7 +328,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
 });
 
 // For B/C purposes
-// Joomla.getImage = Joomla.getMedia;
+Joomla.getImage = Joomla.getMedia;
 
 /**
  * A simple Custom Element for adding alt text and controlling

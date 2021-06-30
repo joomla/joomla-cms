@@ -12,9 +12,8 @@ if (!Joomla) {
  * @param {*} path
  * @returns {string}
  */
-const getExtension = (path) => {
-  return path.split(/[#?]/)[0].split('.').pop().trim();
-}
+const getExtension = (path) => path.split(/[#?]/)[0].split('.').pop().trim();
+
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
     super();
@@ -120,7 +119,6 @@ class JoomlaFieldMedia extends HTMLElement {
 
     this.supportedExtensions = Joomla.getOptions('media-picker', {});
 
-    console.log({mediaField:this.supportedExtensions })
     if (!Object.keys(this.supportedExtensions).length) {
       throw new Error('Joomla API is not properly initiated');
     }
@@ -182,14 +180,15 @@ class JoomlaFieldMedia extends HTMLElement {
     this.setValue('');
   }
 
-  updatePreview() {
+  updatePreview(withValue) {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
     }
 
     // Reset preview
     if (this.preview) {
-      const { value } = this.inputElement;
+      let { value } = this.inputElement;
+      if (withValue) value = withValue;
       const { supportedExtensions } = this;
       if (!value) {
         this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
@@ -208,14 +207,14 @@ class JoomlaFieldMedia extends HTMLElement {
           images: () => {
             if (supportedExtensions.images.includes(ext)) {
               previewElement = new Image();
-              previewElement.src = /\/\//.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('alt', '');
             }
           },
           audios: () => {
             if (supportedExtensions.audios.includes(ext)) {
               previewElement = document.createElement('audio');
-              previewElement.src = /\/\//.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('controls', '');
             }
           },
@@ -223,7 +222,7 @@ class JoomlaFieldMedia extends HTMLElement {
             if (supportedExtensions.videos.includes(ext)) {
               previewElement = document.createElement('video');
               const previewElementSource = document.createElement('source');
-              previewElementSource.src = /\/\//.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElementSource.type = `video/${ext}`;
               previewElement.setAttribute('controls', '');
               previewElement.setAttribute('width', this.previewWidth);
@@ -234,7 +233,7 @@ class JoomlaFieldMedia extends HTMLElement {
           documents: () => {
             if (supportedExtensions.documents.includes(ext)) {
               previewElement = document.createElement('object');
-              previewElement.data = /\/\//.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.type = `application/${ext}`;
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
