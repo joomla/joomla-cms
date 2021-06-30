@@ -37,6 +37,10 @@
                 }
             ],
             "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
+            "support": {
+                "issues": "https://github.com/dbrumann/polyfill-unserialize/issues",
+                "source": "https://github.com/dbrumann/polyfill-unserialize/tree/v2.0.0"
+            },
             "install-path": "../brumann/polyfill-unserialize"
         },
         {
@@ -85,6 +89,11 @@
                 "recaptcha",
                 "spam"
             ],
+            "support": {
+                "forum": "https://groups.google.com/forum/#!forum/recaptcha",
+                "issues": "https://github.com/google/recaptcha/issues",
+                "source": "https://github.com/google/recaptcha"
+            },
             "install-path": "../google/recaptcha"
         },
         {
@@ -130,6 +139,10 @@
                 "hashing",
                 "password"
             ],
+            "support": {
+                "issues": "https://github.com/ircmaxell/password_compat/issues",
+                "source": "https://github.com/ircmaxell/password_compat/tree/v1.0"
+            },
             "install-path": "../ircmaxell/password-compat"
         },
         {
@@ -189,6 +202,10 @@
                 "framework",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/application/issues",
+                "source": "https://github.com/joomla-framework/application/tree/1.9.2"
+            },
             "install-path": "../joomla/application"
         },
         {
@@ -298,6 +315,10 @@
                 "framework",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/compat/issues",
+                "source": "https://github.com/joomla-framework/compat/tree/1.2.0"
+            },
             "install-path": "../joomla/compat"
         },
         {
@@ -350,6 +371,10 @@
                 "framework",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/data/issues",
+                "source": "https://github.com/joomla-framework/data/tree/1.2.0"
+            },
             "install-path": "../joomla/data"
         },
         {
@@ -405,6 +430,10 @@
                 "ioc",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/di/issues",
+                "source": "https://github.com/joomla-framework/di/tree/master"
+            },
             "install-path": "../joomla/di"
         },
         {
@@ -453,6 +482,10 @@
                 "framework",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/event/issues",
+                "source": "https://github.com/joomla-framework/event/tree/1.3.0"
+            },
             "install-path": "../joomla/event"
         },
         {
@@ -506,6 +539,20 @@
                 "filesystem",
                 "framework",
                 "joomla"
+            ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/filesystem/issues",
+                "source": "https://github.com/joomla-framework/filesystem/tree/1.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
             ],
             "install-path": "../joomla/filesystem"
         },
@@ -625,6 +672,10 @@
                 "image",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/image/issues",
+                "source": "https://github.com/joomla-framework/image/tree/1.5.1"
+            },
             "funding": [
                 {
                     "url": "https://community.joomla.org/sponsorship-campaigns.html",
@@ -685,6 +736,10 @@
                 "input",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/input/issues",
+                "source": "https://github.com/joomla-framework/input/tree/1.4.0"
+            },
             "install-path": "../joomla/input"
         },
         {
@@ -739,6 +794,10 @@
                 "joomla",
                 "ldap"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/ldap/issues",
+                "source": "https://github.com/joomla-framework/ldap/tree/1.5.0"
+            },
             "install-path": "../joomla/ldap"
         },
         {
@@ -795,6 +854,10 @@
                 "joomla",
                 "registry"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/registry/issues",
+                "source": "https://github.com/joomla-framework/registry/tree/1.6.3"
+            },
             "install-path": "../joomla/registry"
         },
         {
@@ -937,6 +1000,20 @@
                 "joomla",
                 "string"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/string/issues",
+                "source": "https://github.com/joomla-framework/string/tree/1.4.5"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "install-path": "../joomla/string"
         },
         {
@@ -986,6 +1063,10 @@
                 "joomla",
                 "uri"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/uri/issues",
+                "source": "https://github.com/joomla-framework/uri/tree/1.2.0"
+            },
             "install-path": "../joomla/uri"
         },
         {
@@ -1077,7 +1158,7 @@
                 "lessify"
             ],
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "lessc.inc.php"
@@ -1156,6 +1237,11 @@
                 "pseudorandom",
                 "random"
             ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/random_compat/issues",
+                "source": "https://github.com/paragonie/random_compat"
+            },
             "install-path": "../paragonie/random_compat"
         },
         {
@@ -1241,6 +1327,10 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
+            "support": {
+                "issues": "https://github.com/paragonie/sodium_compat/issues",
+                "source": "https://github.com/paragonie/sodium_compat/tree/master"
+            },
             "install-path": "../paragonie/sodium_compat"
         },
         {
@@ -1286,8 +1376,9 @@
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
             "time": "2021-05-17T16:00:43+00:00",
+            "default-branch": true,
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "class.phpmailer.php",
@@ -1372,6 +1463,10 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
             "install-path": "../psr/container"
         },
         {
@@ -1482,6 +1577,10 @@
                 "feeds",
                 "rss"
             ],
+            "support": {
+                "issues": "https://github.com/simplepie/simplepie/issues",
+                "source": "https://github.com/simplepie/simplepie/tree/1.3.1"
+            },
             "install-path": "../simplepie/simplepie"
         },
         {
@@ -2014,6 +2113,9 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v2.8.52"
+            },
             "install-path": "../symfony/yaml"
         },
         {
@@ -2045,7 +2147,7 @@
             },
             "time": "2020-11-11T14:34:18+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "TYPO3\\PharStreamWrapper\\": "src/"
