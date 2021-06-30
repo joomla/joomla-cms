@@ -394,7 +394,7 @@ class ApiModel extends BaseDatabaseModel
 		$object->path      = $path;
 
 		PluginHelper::importPlugin('content');
-		
+
 		// Also include the filesystem plugins, perhaps they support batch processing too
  		PluginHelper::importPlugin('media-action');
 
@@ -533,17 +533,34 @@ class ApiModel extends BaseDatabaseModel
 		if ($this->allowedExtensions === null)
 		{
 			// Get the setting from the params
-			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
-				'upload_extensions',
-				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			$allowedImages = ComponentHelper::getParams('com_media')->get(
+				'image_extensions',
+				'bmp,csv,doc,gif,ico,jpg,jpeg'
+			);
+			$allowedAudio = ComponentHelper::getParams('com_media')->get(
+				'audio_extensions',
+				'mp3'
+			);
+			$allowedVideo = ComponentHelper::getParams('com_media')->get(
+				'video_extensions',
+				'mp4'
+			);
+			$allowedDocuments = ComponentHelper::getParams('com_media')->get(
+				'doc_extensions',
+				'odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls'
 			);
 
 			// Make them an array
-			$this->allowedExtensions = explode(',', $this->allowedExtensions);
+			$this->allowedExtensions = array_merge(
+				explode(',', $allowedImages),
+				explode(',', $allowedAudio),
+				explode(',', $allowedVideo),
+				explode(',', $allowedDocuments)
+			);
 		}
 
 		// Extract the extension
-		$extension = substr($path, strrpos($path, '.') + 1);
+		$extension = strtolower(substr($path, strrpos($path, '.') + 1));
 
 		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);

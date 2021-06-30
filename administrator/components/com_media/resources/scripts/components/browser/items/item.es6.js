@@ -3,6 +3,8 @@ import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
+import Audio from './audio.vue';
+import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
 import { api } from '../../../app/Api.es6';
 
@@ -18,20 +20,28 @@ export default {
          * Return the correct item type component
          */
     itemType() {
-      const imageExtensions = api.imagesExtensions;
-      const videoExtensions = ['mp4'];
-
       // Render directory items
       if (this.item.type === 'dir') return Directory;
 
       // Render image items
-      if (this.item.extension && imageExtensions.includes(this.item.extension.toLowerCase())) {
+      if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
         return Image;
       }
 
       // Render video items
-      if (this.item.extension && !videoExtensions.includes(this.item.extension.toLowerCase())) {
+      if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
         return Video;
+      }
+
+      // Render audio items
+      if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
+        return Audio;
+      }
+
+      // Render document items
+      if (this.item.extension
+        && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
+        return Doc;
       }
 
       // Default to file type
@@ -39,9 +49,9 @@ export default {
     },
 
     /**
-         * Get the styles for the media browser item
-         * @returns {{}}
-         */
+     * Get the styles for the media browser item
+     * @returns {{}}
+     */
     styles() {
       return {
         width: `calc(${this.$store.state.gridSize}% - 20px)`,

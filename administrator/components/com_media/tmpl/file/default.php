@@ -41,13 +41,16 @@ if ($tmpl == 'component')
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'              => Uri::base() . 'index.php?option=com_media&format=json',
-	'csrfToken'               => Session::getFormToken(),
-	'uploadPath'              => $this->file->path,
-	'editViewUrl'             => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
-	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
-	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'contents'                => $this->file->content,
+	'apiBaseUrl'         => Uri::base() . 'index.php?option=com_media&format=json',
+	'csrfToken'          => Session::getFormToken(),
+	'uploadPath'         => $this->file->path,
+	'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
+	'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,ico')),
+	'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3')),
+	'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4')),
+	'documentExtensions' => explode(',', $params->get('document_extensions', 'odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')),
+	'maxUploadSizeMb'    => $params->get('upload_maxsize', 10),
+	'contents'           => $this->file->content,
 ];
 
 $this->document->addScriptOptions('com_media', $config);

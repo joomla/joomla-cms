@@ -4,15 +4,6 @@
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 		<field
-			name="upload_extensions"
-			type="text"
-			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
-			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
-		/>
-
-		<field
 			name="upload_maxsize"
 			type="number"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
@@ -75,7 +66,37 @@
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,gif,jpg,jpeg,png"
+			default="bmp,gif,jpg,jpeg,png,ico"
+			showon="restrict_uploads:1"
+		/>
+
+		<field
+			name="audio_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_DESC"
+			size="50"
+			default="mp3"
+			showon="restrict_uploads:1"
+		/>
+
+		<field
+			name="video_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_DESC"
+			size="50"
+			default="mp4"
+			showon="restrict_uploads:1"
+		/>
+
+		<field
+			name="doc_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_DESC"
+			size="50"
+			default="odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
 			showon="restrict_uploads:1"
 		/>
 
