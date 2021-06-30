@@ -84,10 +84,15 @@ class PlgContentJoomla extends CMSPlugin
 
 		// Add srcset attribute to content images
 		$contentKey = $this->_getContentKey($context);
-		$table->{$contentKey} = MediaHelper::addSrcset($table->{$contentKey});
+		$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
+		// $this->app->enqueueMessage(MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}));
 
 		$item = clone $table;
-		$item->load($table->id);
+
+		if (method_exists($item, 'load'))
+		{
+			$item->load($table->id);
+		}
 
 		// Get initial versions of content and form images
 		if ($formImages = $this->_getFormImages($context, (array) $item))
@@ -136,15 +141,15 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
-		// Generate responsive form and content images
+		// Generate responsive images for form and content
 		if ($formImages = $this->_getFormImages($context, (array) $article))
 		{
-			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+			MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
 		}
 
 		if ($content = $article->{$this->_getContentKey($context)})
 		{
-			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+			MediaHelper::generateContentResponsiveImages($this->initContent, $content);
 		}
 
 		// Check we are handling the frontend edit form.

@@ -490,7 +490,7 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateResponsiveFormImages($initImages, $finalImages, $sizes = null)
+	public static function generateFormResponsiveImages($initImages, $finalImages, $sizes = null)
 	{
 		// Use default if sizes are not provided
 		if (is_null($sizes))
@@ -536,7 +536,7 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateResponsiveContentImages($initContent, $finalContent, $sizes = null)
+	public static function generateContentResponsiveImages($initContent, $finalContent, $sizes = null)
 	{
 		// Use default if sizes are not provided
 		if (is_null($sizes))
@@ -547,13 +547,9 @@ class MediaHelper
 		// Get src of img tag: <img src="images/joomla.png" /> - images/joomla.png
 		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
 
-		// Get initial and final images from content
-		preg_match_all($pattern, $initContent, $initImages);
-		preg_match_all($pattern, $finalContent, $finalImages);
-
-		// Remove duplicates
-		$initImages = array_unique(array_pop($initImages));
-		$finalImages = array_unique(array_pop($finalImages));
+		// Get initial and final images from content and remove duplicates
+		$initImages = preg_match_all($pattern, $initContent, $matched) ? array_unique($matched[1]) : [];
+		$finalImages = preg_match_all($pattern, $finalContent, $matched) ? array_unique($matched[1]) : [];
 
 		foreach ($initImages as $initImage)
 		{
@@ -582,7 +578,7 @@ class MediaHelper
 	}
 
 	/**
-	 * Method to add srcset attributes to images of content
+	 * Method to add srcset and sizes attributes to img tags of content
 	 *
 	 * @param   string  $content  content to which srcset attributes must be inserted
 	 * @param   array   $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
@@ -591,7 +587,7 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function addSrcset($content, $sizes = null)
+	public static function addContentSrcsetAndSizes($content, $sizes = null)
 	{
 		// Use default if sizes are not provided
 		if (is_null($sizes))
@@ -599,9 +595,56 @@ class MediaHelper
 			$sizes = static::$responsiveSizes;
 		}
 
-		$srcset = "";
+		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
+		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
 
-		// Match all between <img and /> then insert srcset: <img src="" /> - <img src="" srcset="">
-		return preg_replace('/(<img\b[^><]*)\/>/i', '$1 srcset="'. $srcset .'">', $content);
+		// Generate srcset and sizes for all images
+		$resultContent = "";
+
+		foreach ($images as $image)
+		{
+			$imgObj = new Image(JPATH_ROOT . '/' . $image);
+
+			if ($responsiveImages = $imgObj->generateMultipleSizes($sizes))
+			{
+				// Get image info
+				$imgPath       = $imgObj->getPath();
+				$pathInfo      = pathinfo($imgPath);
+				$filename      = $pathInfo['filename'];
+				$fileExtension = $pathInfo['extension'] ?? '';
+
+				// Get path to the responsive images folder
+				$imageArr = explode('/', $image);
+				$destFolder = implode('/', array_replace($imageArr, [count($imageArr) - 1 => 'responsive']));
+
+				// Generate sizes and srcset attributes
+				$sizesAttr = sprintf('(max-width: %1$dpx) 100vw, %1$dpx', $imgObj->getWidth());
+				$srcsetAttr = "";
+
+				foreach ($responsiveImages as $key => $responsiveImage)
+				{
+					// Get image properties
+					$imageWidth  = $responsiveImage->getWidth();
+					$imageHeight = $responsiveImage->getHeight();
+
+					// Generate image name
+					$imageFileName = $filename . '_' . $imageWidth . 'x' . $imageHeight . '.' . $fileExtension;
+
+					// Insert srcset value for current responsive image
+					$srcsetAttr .= sprintf(
+						'%s %dw%s ', $destFolder . '/' . $imageFileName, $imageWidth, $key !== count($responsiveImages) - 1 ? ',' : ''
+					);
+				}
+
+
+				$resultContent = preg_replace(
+					'/(<img[^>]*src *=*["\']' . preg_quote($image, '/') . '[^"\']*.*) \/>/',
+					'$1 srcset="' . $srcsetAttr . '" sizes="' . $sizesAttr . '" />',
+					$content
+				);
+			}
+		}
+
+		return $resultContent;
 	}
 }
