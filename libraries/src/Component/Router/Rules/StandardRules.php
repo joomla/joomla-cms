@@ -213,7 +213,8 @@ class StandardRules implements RulesInterface
 
 				return;
 			}
-			elseif (isset($query[$view->key]) && $item->query[$view->key] === (int) $query[$view->key])
+
+			if (isset($query[$view->key]) && $item->query[$view->key] === (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 
