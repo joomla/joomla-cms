@@ -139,7 +139,8 @@ class MediaField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name) {
+		switch ($name)
+		{
 			case 'authorField':
 			case 'asset':
 			case 'link':
@@ -168,7 +169,8 @@ class MediaField extends FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name) {
+		switch ($name)
+		{
 			case 'authorField':
 			case 'asset':
 			case 'link':
