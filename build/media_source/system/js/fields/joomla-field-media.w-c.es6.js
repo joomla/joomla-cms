@@ -185,7 +185,6 @@ class JoomlaFieldMedia extends HTMLElement {
       return;
     }
 
-
     // Reset preview
     if (this.preview) {
       let { value } = this.inputElement;

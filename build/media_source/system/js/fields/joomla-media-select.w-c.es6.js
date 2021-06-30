@@ -290,7 +290,9 @@ const execTransform = async (resp, editor, fieldClass) => {
     if (Joomla.selectedMediaFile.extension && videos.includes(media.extension.toLowerCase())) {
       return insertAsOther(media, editor, fieldClass, 'videos');
     }
+    return '';
   }
+  return '';
 };
 
 /**
