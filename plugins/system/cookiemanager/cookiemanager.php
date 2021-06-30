@@ -31,6 +31,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+		// protected $db;
 
 	/**
 	 * Load the language file on instantiation.
@@ -39,6 +40,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
+
 
 
 	/**
@@ -83,15 +85,40 @@ class PlgSystemCookiemanager extends CMSPlugin
 		//
 			echo $modal;
 
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['title','description']))
-				->from($db->quoteName('#__categories'))
-				->where($db->quoteName('extension').' = '. $db->quote('com_cookiemanager'));
+// 			$db    = Factory::getDbo();
+// 			$query = $db->getQuery(true)
+// 				->select($db->quoteName(['id','title','description']))
+// 				->from($db->quoteName('#__categories'))
+// 				->where($db->quoteName('extension').' = '. $db->quote('com_cookiemanager'));
+//
+// 			$db->setQuery($query);
+// 			$cat = 	 $db->loadObjectList();
+// print_r($cat);
 
-			$db->setQuery($query);
-			$cat = 	 $db->loadObjectList();
-print_r($cat[0]->{'description'});
+	$db    = Factory::getDbo();
+$query=$db->getQuery(true)
+->select($db->quoteName(['c.id','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
+ ->from($db->quoteName('#__categories', 'c'))
+	->join(
+		'INNER',
+		$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+	);
+
+
+
+	$db->setQuery($query);
+				$cat = 	 $db->loadObjectList();
+	// print_r($cat);
+	$body='<table><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
+	foreach ($cat as $key => $value) {
+		$body.='<tr>'
+		.'<td>'.$value->cookie_name.'</td>'
+		.'<td>'.$value->cookie_desc.'</td>'
+		.'<td>'.$value->exp_value.' '.$value->exp_period.'</td>'
+		.'</tr>';
+	}
+	$body.='</table>';
+// $body='<div class="row"><div class="col-3">xcjzgvug</div><div class="col-9">mcxbzjgv</div></div>';
 
 			$modal2=HTMLHelper::_(
 					'bootstrap.renderModal',
@@ -102,16 +129,22 @@ print_r($cat[0]->{'description'});
 						. Text::_('COM_COOKIEMANAGER_REVOKE_BUTTON_TEXT') . '</button>',
 
 					],
-
+					$body
 				);
 				echo $modal2;
+				echo '<button style="display:hidden;" data-bs-toggle="modal" data-bs-target="#exampleModal">cxgh</button>';
 			}
+
+
 
 }
 
 
 
 ?>
+
+
+
 <script>
 window.addEventListener('load', (event) => {
 	var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
