@@ -46,13 +46,13 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   if (Joomla.selectedMediaFile.path) {
     let type;
     if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'image';
+      type = 'images';
     } else if (['mp3'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'audio';
+      type = 'audios';
     } else if (['mp4'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'video';
+      type = 'videos';
     } else if (['doc', 'docx', 'pdf'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
-      type = 'document';
+      type = 'documents';
     }
 
     if (type) {
@@ -217,17 +217,17 @@ const insertAsOther = (media, editor, fieldClass, type) => {
       if (attribs) {
         const embedable = attribs.getAttribute('embed-it');
         if (embedable && embedable === 'true') {
-          if (type === 'audio') {
+          if (type === 'audios') {
             outputText = `<audio controls src="${Joomla.selectedMediaFile.url}"></audio>`;
           }
-          if (type === 'document') {
+          if (type === 'documents') {
             // @todo use ${Joomla.selectedMediaFile.filetype} in type
             const title = attribs.getAttribute('title');
             outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" ${title ? `title="${title}"` : ''} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
 </object>`;
           }
-          if (type === 'video') {
+          if (type === 'videos') {
             outputText = `<video controls width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
 </video>`;
@@ -245,6 +245,10 @@ const insertAsOther = (media, editor, fieldClass, type) => {
       }
 
       Joomla.editors.instances[editor].replaceSelection(outputText);
+    } else {
+      editor.value = Joomla.selectedMediaFile.url;
+      fieldClass.givenType = type;
+      fieldClass.updatePreview();
     }
   }
 };
@@ -263,15 +267,15 @@ const execTransform = async (resp, editor, fieldClass) => {
     }
 
     if (['mp3'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'audio');
+      return insertAsOther(media, editor, fieldClass, 'audios');
     }
 
     if (['doc', 'docx', 'pdf'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'document');
+      return insertAsOther(media, editor, fieldClass, 'documents');
     }
 
     if (['mp4'].includes(media.extension.toLowerCase())) {
-      return insertAsOther(media, editor, fieldClass, 'video');
+      return insertAsOther(media, editor, fieldClass, 'videos');
     }
     return '';
   }

@@ -574,7 +574,6 @@ class ApiModel extends BaseDatabaseModel
 					)
 				)
 			);
-
 			$audios = array_map(
 				'trim',
 				explode(

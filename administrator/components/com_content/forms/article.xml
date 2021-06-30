@@ -736,6 +736,7 @@
 				name="image_intro"
 				type="media"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
+				types="images,audios,videos,documents"
 			/>
 
 			<field

@@ -39,6 +39,10 @@ extract($displayData);
  * @var  string   $value           The value text
  * @var  string   $src             The path and filename of the image
  * @var  array    $mediaTypes      The supported media types for the Media Manager
+ * @var  array    $imagesExt       The supported extensions for images
+ * @var  array    $audiosExt       The supported extensions for audios
+ * @var  array    $videosExt       The supported extensions for videos
+ * @var  array    $documentsExt    The supported extensions for documents
  * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -169,6 +173,7 @@ $wam->useStyle('webcomponent.field-media')
 		preview-container=".field-media-preview"
 		preview-width="<?php echo $previewWidth; ?>"
 		preview-height="<?php echo $previewHeight; ?>"
+		supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesExt,'audios' => $audiosExt, 'videos' => $videosExt, 'documents' => $documentsExt])); ?>"
 >
 	<?php echo $modalHTML; ?>
 	<?php if ($showPreview) : ?>
