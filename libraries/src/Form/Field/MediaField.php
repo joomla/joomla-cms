@@ -336,67 +336,72 @@ class MediaField extends FormField
 
 		$mediaTypes   = array_map('trim', explode(',', $this->types));
 		$types        = [];
-		$imagesExt    = [];
-		$audiosExt    = [];
-		$videosExt    = [];
-		$documentsExt = [];
+		$imagesExt    = $imagesExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'image_extensions',
+					'bmp,gif,jpg,jpeg,png,webp'
+				)
+			)
+		);
+		$audiosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'audio_extensions',
+					'mp3,m4a,mp4a,ogg'
+				)
+			)
+		);
+		$videosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'video_extensions',
+					'mp4,mp4v,mpeg,mov,webm'
+				)
+			)
+		);
+		$documentsExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'doc_extensions',
+					'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+				)
+			)
+		);
+
+		$imagesAllowedExt    = [];
+		$audiosAllowedExt    = [];
+		$videosAllowedExt    = [];
+		$documentsAllowedExt = [];
 
 		// Cleanup the media types
 		array_map(
-			function ($mediaType) use (&$types, &$imagesExt, &$audiosExt, &$videosExt, &$documentsExt) {
+			function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
 				switch ($mediaType)
 				{
 					case 'images':
 						$types[] = '0';
-						$imagesExt = array_map(
-							'trim',
-							explode(
-								',',
-								ComponentHelper::getParams('com_media')->get(
-									'image_extensions',
-									'bmp,gif,jpg,jpeg,png,webp'
-								)
-							)
-						);
+						$imagesAllowedExt = $imagesExt;
 						break;
 					case 'audios':
 						$types[] = '1';
-						$audiosExt = array_map(
-							'trim',
-							explode(
-								',',
-								ComponentHelper::getParams('com_media')->get(
-									'audio_extensions',
-									'mp3,m4a,mp4a,ogg'
-								)
-							)
-						);
+						$audiosAllowedExt = $audiosExt;
 						break;
 					case 'videos':
 						$types[] = '2';
-						$videosExt = array_map(
-							'trim',
-							explode(
-								',',
-								ComponentHelper::getParams('com_media')->get(
-									'video_extensions',
-									'mp4,mp4v,mpeg,mov,webm'
-								)
-							)
-						);
+						$videosAllowedExt = $videosExt;
 						break;
 					case 'documents':
 						$types[] = '3';
-						$documentsExt = array_map(
-							'trim',
-							explode(
-								',',
-								ComponentHelper::getParams('com_media')->get(
-									'doc_extensions',
-									'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
-								)
-							)
-						);
+						$documentsAllowedExt = $documentsExt;
 						break;
 					default:
 						break;
@@ -408,19 +413,23 @@ class MediaField extends FormField
 		sort($types);
 
 		$extraData = array(
-			'asset'         => $asset,
-			'authorField'   => $this->authorField,
-			'authorId'      => $this->form->getValue($this->authorField),
-			'folder'        => $this->folder,
-			'link'          => $this->link,
-			'preview'       => $this->preview,
-			'previewHeight' => $this->previewHeight,
-			'previewWidth'  => $this->previewWidth,
-			'mediaTypes'    => implode(',', $types),
-			'imagesExt'    => $imagesExt,
-			'audiosExt'    => $audiosExt,
-			'videosExt'    => $videosExt,
-			'documentsExt' => $documentsExt,
+			'asset'               => $asset,
+			'authorField'         => $this->authorField,
+			'authorId'            => $this->form->getValue($this->authorField),
+			'folder'              => $this->folder,
+			'link'                => $this->link,
+			'preview'             => $this->preview,
+			'previewHeight'       => $this->previewHeight,
+			'previewWidth'        => $this->previewWidth,
+			'mediaTypes'          => implode(',', $types),
+			'imagesExt'           => $imagesExt,
+			'audiosExt'           => $audiosExt,
+			'videosExt'           => $videosExt,
+			'documentsExt'        => $documentsExt,
+			'imagesAllowedExt'    => $imagesAllowedExt,
+			'audiosAllowedExt'    => $audiosAllowedExt,
+			'videosAllowedExt'    => $videosAllowedExt,
+			'documentsAllowedExt' => $documentsAllowedExt,
 		);
 
 		return array_merge($data, $extraData);

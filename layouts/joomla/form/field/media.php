@@ -108,12 +108,13 @@ if ($showPreview)
 // The url for the modal
 $url = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&mediatypes=' . $mediaTypes
-		. '&asset='. $asset . '&author=' . $authorId)
+		. '&asset=' . $asset . '&author=' . $authorId)
 	. '&fieldid={field-media-id}&path=' . $folder);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
-$wam = Factory::getDocument()->getWebAssetManager();
+$doc = Factory::getDocument();
+$wam = $doc->getWebAssetManager();
 
 $wam->useScript('webcomponent.media-select');
 
@@ -138,23 +139,34 @@ Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 
-$modalHTML = HTMLHelper::_('bootstrap.renderModal',
-		'imageModal_' . $id,
-		array(
-				'url'         => $url,
-				'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
-				'closeButton' => true,
-				'height'      => '100%',
-				'width'       => '100%',
-				'modalWidth'  => '80',
-				'bodyHeight'  => '60',
-				'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
-						. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-		)
+$modalHTML = HTMLHelper::_(
+	'bootstrap.renderModal',
+	'imageModal_' . $id,
+	[
+		'url'         => $url,
+		'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
+		'closeButton' => true,
+		'height'      => '100%',
+		'width'       => '100%',
+		'modalWidth'  => '80',
+		'bodyHeight'  => '60',
+		'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
+			. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+	]
 );
 
 $wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
+
+if (count($doc->getScriptOptions('media-picker')) === 0)
+{
+	$doc->addScriptOptions('media-picker', [
+		'images'    => $imagesExt,
+		'audios'    => $audiosExt,
+		'videos'    => $videosExt,
+		'documents' => $documentsExt,
+	]);
+}
 
 ?>
 <joomla-field-media class="field-media-wrapper"
@@ -173,7 +185,7 @@ $wam->useStyle('webcomponent.field-media')
 		preview-container=".field-media-preview"
 		preview-width="<?php echo $previewWidth; ?>"
 		preview-height="<?php echo $previewHeight; ?>"
-		supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesExt,'audios' => $audiosExt, 'videos' => $videosExt, 'documents' => $documentsExt])); ?>"
+		supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt,'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>"
 >
 	<?php echo $modalHTML; ?>
 	<?php if ($showPreview) : ?>

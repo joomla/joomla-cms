@@ -6,6 +6,15 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initiated');
 }
 
+/**
+ * Extract the extensions
+ *
+ * @param {*} path
+ * @returns {string}
+ */
+const getExtension = (path) => {
+  return path.split(/[#?]/)[0].split('.').pop().trim();
+}
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
     super();
@@ -109,13 +118,11 @@ class JoomlaFieldMedia extends HTMLElement {
       this.buttonClearEl.addEventListener('click', this.clearValue);
     }
 
-    const supportedExtensionsRaw = this.getAttribute('supported-extensions');
+    this.supportedExtensions = Joomla.getOptions('media-picker', {});
 
-    try {
-      this.supportedExtensions = JSON.parse(supportedExtensionsRaw);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+    console.log({mediaField:this.supportedExtensions })
+    if (!Object.keys(this.supportedExtensions).length) {
+      throw new Error('Joomla API is not properly initiated');
     }
 
     this.updatePreview();
@@ -148,7 +155,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
   async modalClose() {
     try {
-      await Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this);
+      await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
     } catch (err) {
       Joomla.renderMessages({
         error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
@@ -175,10 +182,6 @@ class JoomlaFieldMedia extends HTMLElement {
     this.setValue('');
   }
 
-  static getExtension(path) {
-    return path.split(/[#?]/)[0].split('.').pop().trim();
-  }
-
   updatePreview() {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
@@ -193,7 +196,7 @@ class JoomlaFieldMedia extends HTMLElement {
       } else {
         let type;
         this.previewElement.innerHTML = '';
-        const ext = this.getExtension(value);
+        const ext = getExtension(value);
 
         if (supportedExtensions.images.includes(ext)) type = 'images';
         if (supportedExtensions.audios.includes(ext)) type = 'audios';
@@ -240,10 +243,12 @@ class JoomlaFieldMedia extends HTMLElement {
         };
 
         // @todo more checks
-        if (this.givenType) {
+        if (this.givenType && ['images', 'audios', 'videos', 'documents'].includes(this.givenType)) {
           mediaType[this.givenType]();
-        } else {
+        } else if (type && ['images', 'audios', 'videos', 'documents'].includes(type)) {
           mediaType[type]();
+        } else {
+          return;
         }
 
         this.previewElement.style.width = this.previewWidth;

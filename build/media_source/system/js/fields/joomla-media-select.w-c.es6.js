@@ -20,6 +20,12 @@ if (!Joomla) {
  */
 Joomla.selectedMediaFile = {};
 
+const supportedExtensions = Joomla.getOptions('media-picker', {});
+console.log({mediaSelect:supportedExtensions })
+if (!Object.keys(supportedExtensions).length) {
+  throw new Error('Joomla API is not properly initiated');
+}
+
 /**
  * Event Listener that updates the Joomla.selectedMediaFile
  * to the selected file in the media manager
@@ -45,13 +51,13 @@ document.addEventListener('onMediaFileSelected', async (e) => {
 
   if (Joomla.selectedMediaFile.path) {
     let type;
-    if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    if (supportedExtensions.images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
-    } else if (['mp3'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (supportedExtensions.audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'audios';
-    } else if (['mp4'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (supportedExtensions.videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'videos';
-    } else if (['doc', 'docx', 'pdf'].includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (supportedExtensions.documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'documents';
     }
 
@@ -252,6 +258,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
     }
   }
 };
+
 /**
  * Method to append the image in an editor or a field
  *
@@ -283,7 +290,7 @@ const execTransform = async (resp, editor, fieldClass) => {
 };
 
 /**
- * Method that resolves the real url for the selected image
+ * Method that resolves the real url for the selected media file
  *
  * @param data        {object}         The data for the detail
  * @param editor      {string|object}  The data for the detail
@@ -318,7 +325,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
 });
 
 // For B/C purposes
-Joomla.getImage = Joomla.getMedia;
+// Joomla.getImage = Joomla.getMedia;
 
 /**
  * A simple Custom Element for adding alt text and controlling

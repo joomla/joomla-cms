@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
@@ -71,6 +72,58 @@ class PlgButtonImage extends CMSPlugin
 			$doc->addScriptOptions('xtdImageModal', [
 				$name . '_ImageModal',
 			]);
+
+
+			if (count($doc->getScriptOptions('media-picker')) === 0)
+			{
+				$imagesExt    = $imagesExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'image_extensions',
+							'bmp,gif,jpg,jpeg,png,webp'
+						)
+					)
+				);
+				$audiosExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'audio_extensions',
+							'mp3,m4a,mp4a,ogg'
+						)
+					)
+				);
+				$videosExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'video_extensions',
+							'mp4,mp4v,mpeg,mov,webm'
+						)
+					)
+				);
+				$documentsExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'doc_extensions',
+							'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+						)
+					)
+				);
+
+				$doc->addScriptOptions('media-picker', [
+					'images' => $imagesExt,
+					'audios' => $audiosExt,
+					'videos' => $videosExt,
+					'documents' => $documentsExt
+				]);
+			}
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_LABEL');
