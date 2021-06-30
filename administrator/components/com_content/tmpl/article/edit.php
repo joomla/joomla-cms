@@ -22,8 +22,7 @@ use Joomla\Registry\Registry;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 
-$wa
-	->useScript('com_content.admin-article-edit-modal');
+$wa->useScript('com_content.admin-article-edit-modal');
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
