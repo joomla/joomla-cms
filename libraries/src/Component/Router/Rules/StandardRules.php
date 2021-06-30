@@ -11,6 +11,7 @@ namespace Joomla\CMS\Component\Router\Rules;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Menu\MenuItem;
 
 /**
  * Rule for the standard handling of component routing
@@ -197,9 +198,6 @@ class StandardRules implements RulesInterface
 			return;
 		}
 
-		// Get menu item layout
-		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
-
 		// Get all views for this component
 		$views = $this->router->getViews();
 
@@ -211,16 +209,11 @@ class StandardRules implements RulesInterface
 			if (!$view->key)
 			{
 				unset($query['view']);
-
-				if (isset($query['layout']) && $mLayout === $query['layout'])
-				{
-					unset($query['layout']);
-				}
+				$this->cleanupQuery($query, $item);
 
 				return;
 			}
-
-			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			elseif (isset($query[$view->key]) && $item->query[$view->key] === (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 
@@ -232,11 +225,7 @@ class StandardRules implements RulesInterface
 				}
 
 				unset($query['view']);
-
-				if (isset($query['layout']) && $mLayout === $query['layout'])
-				{
-					unset($query['layout']);
-				}
+				$this->cleanupQuery($query, $item);
 
 				return;
 			}
@@ -308,11 +297,38 @@ class StandardRules implements RulesInterface
 		if ($found)
 		{
 			unset($query[$views[$query['view']]->key], $query['view']);
+			$this->cleanupQuery($query, $item);
+		}
+	}
 
-			if (isset($query['layout']) && $mLayout === $query['layout'])
+	/**
+	 * Strips $query of unneeded parameters
+	 *
+	 * @param   array    $query   The query to clean
+	 * @param   MenuItem $item    The menu item corresponding to the query
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
+	private function cleanupQuery(array &$query, MenuItem $item)
+	{
+		foreach ($query as $key => $value)
+		{
+			 /*
+			 ** These keys are either needed by other build rules or
+			 ** handled exceptionally
+			 */
+			// ? should the 'view' key be included?
+			if ($key === 'option' || $key === 'Itemid' || $key === 'view')
 			{
-				unset($query['layout']);
+				continue;
+			}
+			elseif (isset($item->query[$key]) && $item->query[$key] === $value)
+			{
+				unset($query[$key]);
 			}
 		}
 	}
+
 }
