@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
-$icon = "icon-sort";
+$icon = 'icon-sort';
 $sort = '';
 $caption = '';
 $selected = '';
@@ -21,7 +21,8 @@ $id = '';
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
 	$sort = $data->direction === 'asc' ? 'descending' : 'ascending';
-	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
+	$heading = !empty($data->title) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING');
+	$caption = Text::sprintf('JGRID_HEADING_CAPTION_' . $data->direction, $heading);
 	$selected = ' selected';
 	$id = 'id="sorted"';
 endif;
