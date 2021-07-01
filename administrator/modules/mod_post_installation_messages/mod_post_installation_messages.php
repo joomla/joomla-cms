@@ -18,11 +18,11 @@ try
 	/** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
 	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
 		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
-	$messages      = $messagesModel->getItems();
+	$messagesCount = $messagesModel->getItemsCount();
 }
 catch (RuntimeException $e)
 {
-	$messages = [];
+	$messagesCount = 0;
 
 	// Still render the error message from the Exception object
 	$app->enqueueMessage($e->getMessage(), 'error');

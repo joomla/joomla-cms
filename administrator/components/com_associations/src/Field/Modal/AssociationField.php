@@ -98,7 +98,7 @@ class AssociationField extends FormField
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 			)
 		);
 

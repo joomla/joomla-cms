@@ -586,6 +586,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -656,15 +662,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		// Don't allow to change the users if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			if (isset($data['created_by']))
-			{
-				unset($data['created_by']);
-			}
-		}
-
 		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
 		{
 			if (isset($data['rules']))

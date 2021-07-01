@@ -560,7 +560,7 @@ class JoomlaInstallerScript
 	 * Delete files that should not exist
 	 *
 	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
 	 *
 	 * @return  array
 	 */
@@ -1460,7 +1460,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/controllers/file.json.php',
 			'/administrator/components/com_media/controllers/file.php',
 			'/administrator/components/com_media/controllers/folder.php',
-			'/administrator/components/com_media/helpers/media.php',
 			'/administrator/components/com_media/layouts/toolbar/deletemedia.php',
 			'/administrator/components/com_media/layouts/toolbar/newfolder.php',
 			'/administrator/components/com_media/layouts/toolbar/uploadmedia.php',
@@ -3874,9 +3873,11 @@ class JoomlaInstallerScript
 			'/libraries/vendor/leafo/lessphp/lessify',
 			'/libraries/vendor/leafo/lessphp/lessify.inc.php',
 			'/libraries/vendor/leafo/lessphp/plessc',
+			'/libraries/vendor/paragonie/random_compat/LICENSE',
 			'/libraries/vendor/paragonie/random_compat/lib/byte_safe_strings.php',
 			'/libraries/vendor/paragonie/random_compat/lib/cast_to_int.php',
 			'/libraries/vendor/paragonie/random_compat/lib/error_polyfill.php',
+			'/libraries/vendor/paragonie/random_compat/lib/random.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_com_dotnet.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_dev_urandom.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_libsodium.php',
@@ -5423,6 +5424,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/HsTrait.php',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/HslTrait.php',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/RgbTrait.php',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc',
 			'/libraries/vendor/psr/http-factory/.pullapprove.yml',
 			'/libraries/vendor/spomky-labs/cbor-php/.php_cs.dist',
 			'/libraries/vendor/spomky-labs/cbor-php/CODE_OF_CONDUCT.md',
@@ -5843,6 +5846,19 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/tools/mixins/_margin.scss',
 			'/templates/cassiopeia/scss/tools/mixins/_visually-hidden.scss',
 			'/templates/system/js/error-locales.js',
+			// 4.0 from RC 1 to RC 2
+			'/administrator/components/com_fields/tmpl/field/modal.php',
+			'/administrator/templates/atum/scss/pages/_com_admin.scss',
+			'/administrator/templates/atum/scss/pages/_com_finder.scss',
+			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
+			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
+			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
+			'/media/com_fields/js/admin-field-edit-modal-es5.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js.gz',
+			'/media/com_fields/js/admin-field-edit-modal.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
 		);
 
 		$folders = array(
@@ -6167,6 +6183,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/simplepie/simplepie',
 			'/libraries/vendor/simplepie',
 			'/libraries/vendor/phpmailer/phpmailer/extras',
+			'/libraries/vendor/paragonie/random_compat/lib',
 			'/libraries/vendor/leafo/lessphp',
 			'/libraries/vendor/leafo',
 			'/libraries/vendor/joomla/session/Joomla/Session/Storage',
@@ -6797,7 +6814,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/views/images',
 			'/administrator/components/com_media/views',
 			'/administrator/components/com_media/models',
-			'/administrator/components/com_media/helpers',
 			'/administrator/components/com_media/controllers',
 			'/administrator/components/com_login/views/login/tmpl',
 			'/administrator/components/com_login/views/login',
@@ -7051,6 +7067,8 @@ class JoomlaInstallerScript
 			'/media/vendor/punycode/js',
 			'/media/templates/atum/js',
 			'/media/templates/atum',
+			'/libraries/vendor/paragonie/random_compat/dist',
+			'/libraries/vendor/paragonie/random_compat',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits',
 			'/libraries/vendor/ozdemirburak/iris/src/Helpers',
 			'/libraries/vendor/ozdemirburak/iris/src/Exceptions',
