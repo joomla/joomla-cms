@@ -58,7 +58,7 @@ class ApiRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function createCRUDRoutes($baseName, $controller, $defaults = [], $publicGets = false)
+	public function createCRUDRoutes(string $baseName, string $controller, array $defaults = [], bool $publicGets = false) : void
 	{
 		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 
@@ -78,12 +78,12 @@ class ApiRouter extends Router
 	 *
 	 * @param   string  $method  Request method to match. One of GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE or PATCH
 	 *
-	 * @return  array   An array containing the controller and the matched variables.
+	 * @return  array  An array containing the controller and the matched variables.
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function parseApiRoute($method = 'GET')
+	public function parseApiRoute(string $method = 'GET') : array
 	{
 		$method = strtoupper($method);
 
@@ -136,7 +136,7 @@ class ApiRouter extends Router
 	 *
 	 * @since 4.0.0
 	 */
-	public function getRoutePath()
+	public function getRoutePath() : string
 	{
 		// Get the path from the route and remove and leading or trailing slash.
 		$uri  = Uri::getInstance();
@@ -160,9 +160,7 @@ class ApiRouter extends Router
 		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
 		// Transform the route
-		$path = $this->removeIndexPhpFromPath($path);
-
-		return $path;
+		return $this->removeIndexPhpFromPath($path);
 	}
 
 	/**
@@ -198,11 +196,11 @@ class ApiRouter extends Router
 	/**
 	 * Extract routes matching current route from all known routes.
 	 *
-	 * @return \Joomla\Router\Route[]
+	 * @return Route[]
 	 *
 	 * @since 4.0.0
 	 */
-	public function getMatchingRoutes()
+	public function getMatchingRoutes(): array
 	{
 		$routePath = $this->getRoutePath();
 

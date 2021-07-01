@@ -97,7 +97,7 @@ class Router
 	 * @since   1.5
 	 * @throws  \RuntimeException
 	 */
-	public static function getInstance($client, $options = array())
+	public static function getInstance(string $client, array $options = array()) : Router
 	{
 		if (empty(self::$instances[$client]))
 		{
@@ -135,7 +135,7 @@ class Router
 	 * @since   1.5
 	 * @throws  \Exception
 	 */
-	public function parse(&$uri, $setVars = false)
+	public function parse(Uri &$uri, bool $setVars = false) : array
 	{
 		// Do the preprocess stage of the URL parse process
 		$this->processParseRules($uri, self::PROCESS_BEFORE);
@@ -172,7 +172,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function build($url)
+	public function build(string $url) : Uri
 	{
 		$key = md5(serialize($url));
 
@@ -215,7 +215,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function setVar($key, $value, $create = true)
+	public function setVar($key, $value, bool $create = true) : void
 	{
 		if ($create || \array_key_exists($key, $this->vars))
 		{
@@ -233,7 +233,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function setVars($vars = array(), $merge = true)
+	public function setVars(array $vars = array(), bool $merge = true) : void
 	{
 		if ($merge)
 		{
@@ -254,7 +254,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function getVar($key)
+	public function getVar(string $key)
 	{
 		$result = null;
 
@@ -273,7 +273,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function getVars()
+	public function getVars() : array
 	{
 		return $this->vars;
 	}
@@ -291,7 +291,7 @@ class Router
 	 *
 	 * @since   1.5
 	 */
-	public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
+	public function attachBuildRule(callable $callback, string $stage = self::PROCESS_DURING) : void
 	{
 		if (!\array_key_exists('build' . $stage, $this->rules))
 		{
