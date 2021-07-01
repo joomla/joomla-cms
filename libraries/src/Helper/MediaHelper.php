@@ -599,7 +599,7 @@ class MediaHelper
 		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
 
 		// Generate srcset and sizes for all images
-		$resultContent = "";
+		$resultContent = $content;
 
 		foreach ($images as $image)
 		{
@@ -638,9 +638,9 @@ class MediaHelper
 
 
 				$resultContent = preg_replace(
-					'/(<img[^>]*src *=*["\']' . preg_quote($image, '/') . '[^"\']*.*) \/>/',
+					'/(<img [^>]+' . preg_quote($image, '/') . '.*?) \/>/',
 					'$1 srcset="' . $srcsetAttr . '" sizes="' . $sizesAttr . '" />',
-					$content
+					$resultContent
 				);
 			}
 		}

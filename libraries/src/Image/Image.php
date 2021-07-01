@@ -286,23 +286,27 @@ class Image
 				$imageWidth  = $size[0];
 				$imageHeight = $size[1];
 
-				switch ($creationMethod)
+				// Make sure size is smaller than original
+				if($imageWidth <= $this->getWidth())
 				{
-					case self::CROP:
-						$image = $this->crop($imageWidth, $imageHeight, null, null, true);
-						break;
+					switch ($creationMethod)
+					{
+						case self::CROP:
+							$image = $this->crop($imageWidth, $imageHeight, null, null, true);
+							break;
 
-					case self::CROP_RESIZE:
-						$image = $this->cropResize($imageWidth, $imageHeight, true);
-						break;
+						case self::CROP_RESIZE:
+							$image = $this->cropResize($imageWidth, $imageHeight, true);
+							break;
 
-					default:
-						$image = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
-						break;
+						default:
+							$image = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
+							break;
+					}
+
+					// Store the image in the results array
+					$imagesGenerated[] = $image;
 				}
-
-				// Store the image in the results array
-				$imagesGenerated[] = $image;
 			}
 		}
 

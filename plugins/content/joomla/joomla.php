@@ -85,7 +85,6 @@ class PlgContentJoomla extends CMSPlugin
 		// Add srcset attribute to content images
 		$contentKey = $this->_getContentKey($context);
 		$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
-		// $this->app->enqueueMessage(MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}));
 
 		$item = clone $table;
 
