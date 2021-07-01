@@ -1,0 +1,8 @@
+.preview {
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  height: 32px;
+  position: fixed;
+  z-index: 1000;
+}

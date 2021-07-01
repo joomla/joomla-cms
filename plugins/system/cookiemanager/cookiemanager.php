@@ -31,20 +31,17 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
-		// protected $db;
 
 	/**
-	 * Load the language file on instantiation.
+	 * Database object
 	 *
-	 * @var    boolean
+	 * @var    DatabaseDriver
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $autoloadLanguage = true;
-
-
+	 protected $db;
 
 	/**
-	 * After Render Event.
+	 * Before Render Event.
 	 *
 	 * @return   void
 	 *
@@ -58,97 +55,78 @@ class PlgSystemCookiemanager extends CMSPlugin
 			return;
 		}
 
-			$lang = Factory::getLanguage();
-			$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
+		$lang = Factory::getLanguage();
+		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
 
-			$params = ComponentHelper::getParams('com_cookiemanager');
-			$p=$params->get('policylink');
-			$s = $this->app->getMenu();
-			$m=$s->getItem($p);
-// $m = $sitemenu->getItems($p);
-		$modal=HTMLHelper::_(
-				'bootstrap.renderModal',
-				'exampleModal',
-				[
-					'title' => 	Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
-					'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+		$params = ComponentHelper::getParams('com_cookiemanager');
+		$sitemenu = $this->app->getMenu();
+		$menuitem = $sitemenu->getItem($params->get('policylink'));
+
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
+			->registerAndUseStyle('cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+
+		$cookieBanner = HTMLHelper::_(
+			'bootstrap.renderModal',
+			'cookieBanner',
+			[
+					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
+					'footer' => '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_REVOKE_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#preferences">'
+					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
 
 				],
-				$body= Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION').'<br><br><a '.
-							' href="'.$m->link.'">'.Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY').'</a>'
-			);
-		//
-			echo $modal;
+			$body = Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '<br><br><a '
+							. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a>'
+		);
 
-// 			$db    = Factory::getDbo();
-// 			$query = $db->getQuery(true)
-// 				->select($db->quoteName(['id','title','description']))
-// 				->from($db->quoteName('#__categories'))
-// 				->where($db->quoteName('extension').' = '. $db->quote('com_cookiemanager'));
-//
-// 			$db->setQuery($query);
-// 			$cat = 	 $db->loadObjectList();
-// print_r($cat);
+			echo $cookieBanner;
 
-	$db    = Factory::getDbo();
-$query=$db->getQuery(true)
-->select($db->quoteName(['c.id','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
- ->from($db->quoteName('#__categories', 'c'))
-	->join(
-		'INNER',
-		$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
-	);
+			$db = $this->db;
+			$query = $db->getQuery(true)
+				->select($db->quoteName(['c.id','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
+				->from($db->quoteName('#__categories', 'c'))
+				->join(
+					'RIGHT',
+					$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+				);
 
+			$db->setQuery($query);
+			$cookies = $db->loadObjectList();
 
+		$body = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
 
-	$db->setQuery($query);
-				$cat = 	 $db->loadObjectList();
-	// print_r($cat);
-	$body='<table><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
-	foreach ($cat as $key => $value) {
-		$body.='<tr>'
-		.'<td>'.$value->cookie_name.'</td>'
-		.'<td>'.$value->cookie_desc.'</td>'
-		.'<td>'.$value->exp_value.' '.$value->exp_period.'</td>'
-		.'</tr>';
-	}
-	$body.='</table>';
-// $body='<div class="row"><div class="col-3">xcjzgvug</div><div class="col-9">mcxbzjgv</div></div>';
+		foreach ($cookies as $key => $value)
+		{
+			$body .= '<tr>'
+			. '<td>' . $value->cookie_name . '</td>'
+			. '<td>' . $value->cookie_desc . '</td>'
+			. '<td>' . $value->exp_value . ' ' . $value->exp_period . '</td>'
+			. '</tr>';
+		}
 
-			$modal2=HTMLHelper::_(
-					'bootstrap.renderModal',
-					'preferences',
-					[
-						'title' => 	Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT'),
-						'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-						. Text::_('COM_COOKIEMANAGER_REVOKE_BUTTON_TEXT') . '</button>',
+		$body .= '</table>';
+
+			$preferences = HTMLHelper::_(
+				'bootstrap.renderModal',
+				'preferences',
+				[
+						'title' => Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT'),
+						'footer' => '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+						. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
+						. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+						. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
 
 					],
-					$body
-				);
-				echo $modal2;
-				echo '<button style="display:hidden;" data-bs-toggle="modal" data-bs-target="#exampleModal">cxgh</button>';
-			}
+				$body
+			);
 
+				echo $preferences;
 
+				echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
+	}
 }
-
-
-
-?>
-
-
-
-<script>
-window.addEventListener('load', (event) => {
-	var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
-myModal.show()
-
-});
-</script>
