@@ -310,7 +310,7 @@ class StandardRules implements RulesInterface
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function cleanupQuery(array &$query, MenuItem $item)
 	{
@@ -320,7 +320,6 @@ class StandardRules implements RulesInterface
 			 ** These keys are either needed by other build rules or
 			 ** handled exceptionally
 			 */
-			// ? should the 'view' key be included?
 			if ($key === 'option' || $key === 'Itemid' || $key === 'view')
 			{
 				continue;
@@ -331,5 +330,4 @@ class StandardRules implements RulesInterface
 			}
 		}
 	}
-
 }
