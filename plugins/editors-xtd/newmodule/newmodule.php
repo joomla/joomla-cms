@@ -51,7 +51,7 @@ class PlgButtonNewModule extends CMSPlugin
 			|| $user->authorise('core.edit', 'com_modules')
 			|| $user->authorise('core.edit.own', 'com_modules'))
 		{
-			$link = 'index.php?option=com_modules&amp;view=select&amp;layout=modal&amp;editor='
+			$link = 'index.php?option=com_modules&amp;view=select&amp;layout=modal&amp;tmpl=component&amp;editor='
 					. $name . '&amp;' . Session::getFormToken() . '=1';
 			$button = new CMSObject;
 			$button->modal   = true;
@@ -68,6 +68,8 @@ class PlgButtonNewModule extends CMSPlugin
 				'width'      => '800px',
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
+				'applyCallback' => 'Joomla.iframeButtonClick({iframeSelector: \'#jform_articletext_' . $button->name . '_modal\', buttonSelector: \'#applyBtn\'})',
+				'applyText'     => Text::_('JAPPLY'),
 			];
 
 			return $button;
