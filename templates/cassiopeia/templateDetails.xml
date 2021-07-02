@@ -129,7 +129,7 @@
 					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 				</field>
 
-                <field
+				<field
 					name="breakPointTemplate"
 					type="list"
 					default="lg"
@@ -143,7 +143,7 @@
 					<option value="sm">TPL_CASSIOPEIA_SM</option>
 				</field>
 
-                <field
+				<field
 					name="breakPointGrid"
 					type="list"
 					default="lg"

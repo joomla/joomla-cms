@@ -118,8 +118,8 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($pageclass ? ' ' . $pageclass : '')
-    . ($breakPointTemplate ? ' break-tmpl-' . $breakPointTemplate : '')
-    . ($breakPointGrid ? ' break-grid-' . $breakPointGrid : '')
+	. ($breakPointTemplate ? ' break-tmpl-' . $breakPointTemplate : '')
+	. ($breakPointGrid ? ' break-grid-' . $breakPointGrid : '')
 	. $hasClass
 	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
