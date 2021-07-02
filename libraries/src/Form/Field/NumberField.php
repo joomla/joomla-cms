@@ -58,6 +58,22 @@ class NumberField extends FormField
 	protected $step = 0;
 
 	/**
+	 * Input addon before
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $addonBefore;
+
+	/**
+	 * Input addon after
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $addonAfter;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -89,6 +105,8 @@ class NumberField extends FormField
 			case 'max':
 			case 'min':
 			case 'step':
+			case 'addonBefore':
+			case 'addonAfter':
 				return $this->$name;
 		}
 
@@ -109,10 +127,18 @@ class NumberField extends FormField
 	{
 		switch ($name)
 		{
-			case 'step':
-			case 'min':
 			case 'max':
+			case 'min':
+			case 'step':
 				$this->$name = (float) $value;
+				break;
+
+			case 'addonBefore':
+				$this->addonBefore = (string) $value;
+				break;
+
+			case 'addonAfter':
+				$this->addonAfter = (string) $value;
 				break;
 
 			default:
@@ -141,9 +167,12 @@ class NumberField extends FormField
 		if ($return)
 		{
 			// It is better not to force any default limits if none is specified
-			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : null;
 			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : null;
+			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : null;
 			$this->step = isset($this->element['step']) ? (float) $this->element['step'] : 1;
+
+			$this->addonBefore = (string) $this->element['addonBefore'];
+			$this->addonAfter  = (string) $this->element['addonAfter'];
 		}
 
 		return $return;
@@ -210,10 +239,12 @@ class NumberField extends FormField
 
 		// Initialize some field attributes.
 		$extraData = array(
-			'max'   => $this->max,
 			'min'   => $this->min,
+			'max'   => $this->max,
 			'step'  => $this->step,
 			'value' => $this->value,
+			'addonBefore' => $this->addonBefore,
+			'addonAfter'  => $this->addonAfter,
 		);
 
 		return array_merge($data, $extraData);
