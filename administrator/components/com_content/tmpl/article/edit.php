@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 
-$wa->useScript('com_content.admin-article-edit-modal');
+$wa->useScript('com_content.admin-article-edit');
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
@@ -138,17 +138,20 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" class="w-20">
+							<th scope="col" class="w-10">
 								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_ID'); ?>
 							</th>
 							<th scope="col">
 								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TITLE'); ?>
 							</th>
-							<th scope="col">
+							<th scope="col" class="w-10">
 								<?php echo Text::_('JPUBLISHED'); ?>
 							</th>
-							<th scope="col">
+							<th scope="col" class="w-15">
 								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_EDIT'); ?>
+							</th>
+							<th scope="col" class="w-15">
+								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_REMOVE'); ?>
 							</th>
 						</tr>
 					</thead>
@@ -180,6 +183,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									id="title-<?php echo $module->id; ?>"
 									data-module-id="<?php echo $module->id; ?>">
 									<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>
+								</button>
+							</td>
+							<td id="status-<?php echo $module->id; ?>">
+								<button type="button"
+									class="btn btn-link module-remove-link"
+									data-module-id="<?php echo $module->id; ?>">
+									<?php echo Text::_('COM_CONTENT_REMOVE_MODULE'); ?>
 								</button>
 							</td>
 						</tr>
