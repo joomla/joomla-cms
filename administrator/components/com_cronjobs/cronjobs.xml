@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>Cronjobs</name>
+	<creationDate>July 2021</creationDate>
+	<author>Ditsuke</author>
+	<license>GPL v3</license>
+	<version>0.0.0</version>
+	<description>
+		COM_CRONJOBS_XML_DESCRIPTION
+	</description>
+	<namespace path="src">Joomla\Component\Cronjobs</namespace>
+	<administration>
+		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
+	</administration>
+</extension>
