@@ -129,6 +129,34 @@
 					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 				</field>
 
+                <field
+					name="breakPointTemplate"
+					type="list"
+					default="lg"
+					label="TPL_CASSIOPEIA_BP_TEMPLATE_LABEL"
+					description="TPL_CASSIOPEIA_BP_TEMPLATE_DESCRIPTION"
+					>
+					<option value="xxl">TPL_CASSIOPEIA_XXL</option>
+					<option value="xl">TPL_CASSIOPEIA_XL</option>
+					<option value="lg">TPL_CASSIOPEIA_LG</option>
+					<option value="md">TPL_CASSIOPEIA_MD</option>
+					<option value="sm">TPL_CASSIOPEIA_SM</option>
+				</field>
+
+                <field
+					name="breakPointGrid"
+					type="list"
+					default="lg"
+					label="TPL_CASSIOPEIA_BP_GRID_LABEL"
+					description="TPL_CASSIOPEIA_BP_GRID_DESCRIPTION"
+					>
+					<option value="xxl">TPL_CASSIOPEIA_XXL</option>
+					<option value="xl">TPL_CASSIOPEIA_XL</option>
+					<option value="lg">TPL_CASSIOPEIA_LG</option>
+					<option value="md">TPL_CASSIOPEIA_MD</option>
+					<option value="sm">TPL_CASSIOPEIA_SM</option>
+				</field>
+
 				<field
 					name="stickyHeader"
 					type="radio"

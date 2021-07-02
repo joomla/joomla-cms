@@ -45,15 +45,50 @@
   position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2) 0;
   }
+}
 
-  @include media-breakpoint-down(md) {
+@mixin grid-child {
+  .container-top-a,
+  .container-top-b,
+  .container-bottom-a,
+  .container-bottom-b {
     flex-direction: column;
 
     > * {
       flex: 0 1 auto;
     }
+  }
+}
+
+.break-grid-xxl {
+  @include media-breakpoint-down(xxl) {
+    @include grid-child;
+  }
+}
+
+.break-grid-xl {
+  @include media-breakpoint-down(xl) {
+    @include grid-child;
+  }
+}
+
+.break-grid-lg {
+  @include media-breakpoint-down(lg) {
+    @include grid-child;
+  }
+}
+
+.break-grid-md {
+  @include media-breakpoint-down(md) {
+    @include grid-child;
+  }
+}
+
+.break-grid-sm {
+  @include media-breakpoint-down(sm) {
+    @include grid-child;
   }
 }
 

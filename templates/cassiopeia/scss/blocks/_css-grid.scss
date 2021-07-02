@@ -21,6 +21,7 @@
     > [class*=" container-"] {
       width: 100%;
       max-width: none;
+      column-gap: $cassiopeia-grid-gutter;
     }
 
     &:not(.has-sidebar-left) .container-component {
@@ -35,7 +36,7 @@
       grid-column: full-start / full-end;
     }
 
-    @include media-breakpoint-up(md) {
+    @mixin template-grid {
       grid-template-areas: ". head head head head ."
         ". banner banner banner banner ."
         ". top-a top-a top-a top-a ."
@@ -45,6 +46,36 @@
         ". bot-b bot-b bot-b bot-b ."
         ". footer footer footer footer ."
         ". debug debug debug debug .";
+    }
+
+    &.break-tmpl-xxl {
+      @include media-breakpoint-up(xxl) {
+        @include template-grid;
+      }
+    }
+
+    &.break-tmpl-xl {
+      @include media-breakpoint-up(xl) {
+        @include template-grid;
+      }
+    }
+
+    &.break-tmpl-lg {
+      @include media-breakpoint-up(lg) {
+        @include template-grid;
+      }
+    }
+
+    &.break-tmpl-md {
+      @include media-breakpoint-up(md) {
+        @include template-grid;
+      }
+    }
+
+    &.break-tmpl-sm {
+      @include media-breakpoint-up(sm) {
+        @include template-grid;
+      }
     }
 
     &.wrapper-fluid {
