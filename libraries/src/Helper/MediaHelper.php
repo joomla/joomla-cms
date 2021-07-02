@@ -13,6 +13,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -25,14 +26,6 @@ use Joomla\Registry\Registry;
  */
 class MediaHelper
 {
-	/**
-	 * Default sizes for responsive images
-	 *
-	 * @var    array
-	 * @since  4.1
-	 */
-	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
-
 	/**
 	 * Checks if the file is an image
 	 *
@@ -492,25 +485,19 @@ class MediaHelper
 	 */
 	public static function generateFormResponsiveImages($initImages, $finalImages, $sizes = null)
 	{
-		// Use default if sizes are not provided
-		if (is_null($sizes))
-		{
-			$sizes = static::$responsiveSizes;
-		}
-
 		$imagesGenerated = [];
 
 		foreach ($finalImages as $key => $finalImage)
 		{
 			// Get image names, currently they are: imgName#joomlaImage://imgPath
-			$initImage = explode("#", $initImages[$key])[0];
-			$finalImage = explode("#", $finalImage)[0];
+			$initImage = HTMLHelper::cleanImageURL($finalImage)->url;
+			$finalImage = HTMLHelper::cleanImageURL($initImages[$key])->url;
 
 			// Remove previously generated images if original is changed
 			if ($initImage !== "" && $initImage !== $finalImage)
 			{
 				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
-				$imgObj->deleteMultipleSizes();
+				$imgObj->deleteMultipleSizes($sizes);
 			}
 
 			// Generate new responsive images if file exists
@@ -538,12 +525,6 @@ class MediaHelper
 	 */
 	public static function generateContentResponsiveImages($initContent, $finalContent, $sizes = null)
 	{
-		// Use default if sizes are not provided
-		if (is_null($sizes))
-		{
-			$sizes = static::$responsiveSizes;
-		}
-
 		// Get src of img tag: <img src="images/joomla.png" /> - images/joomla.png
 		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
 
@@ -557,7 +538,7 @@ class MediaHelper
 			if (!in_array($initImage, $finalImages))
 			{
 				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
-				$imgObj->deleteMultipleSizes();
+				$imgObj->deleteMultipleSizes($sizes);
 			}
 		}
 
@@ -578,6 +559,56 @@ class MediaHelper
 	}
 
 	/**
+	 * Method to generate a srcset attribute for an image
+	 *
+	 * @param   string  $imgSource  image source. Example: images/joomla_black.png
+	 * @param   array   $sizes      array of strings. Example: $sizes = array('1200x800','800x600');
+	 *
+	 * @return  mixed   generated srcset attribute or false if not generated
+	 *
+	 * @since   4.1.0
+	 */
+	public static function generateSrcset($imgSource, $sizes = null)
+	{
+		$imgObj = new Image(JPATH_ROOT . '/' . $imgSource);
+
+		$srcset = "";
+
+		if ($images = $imgObj->generateMultipleSizes($sizes))
+		{
+			// Iterate through responsive images and generate srcset
+			foreach ($images as $key => $image)
+			{
+				// Get source from path: PATH/images/joomla_800x600.jpg - images/joomla_800x600.jpg
+				$imageSource = explode('/', $image->getPath(), 2)[1];
+
+				// Insert srcset value for current responsive image: (img_name img_size, ...)
+				$srcset .= sprintf(
+					'%s %dw%s ', $imageSource, $image->getWidth(), $key !== count($images) - 1 ? ',' : ''
+				);
+			}
+		}
+
+		return !empty($srcset) ? $srcset : false;
+	}
+
+	/**
+	 * Method to generate a sizes attribute for an image
+	 *
+	 * @param   string  $imgSource  image source. Example: images/joomla_black.png
+	 *
+	 * @return  string  generated sizes attribute or false if not generated
+	 *
+	 * @since   4.1.0
+	 */
+	public static function generateSizes($imgSource)
+	{
+		$imgObj = new Image(JPATH_ROOT . '/' . $imgSource);
+
+		return sprintf('(max-width: %1$dpx) 100vw, %1$dpx', $imgObj->getWidth());
+	}
+
+	/**
 	 * Method to add srcset and sizes attributes to img tags of content
 	 *
 	 * @param   string  $content  content to which srcset attributes must be inserted
@@ -589,62 +620,23 @@ class MediaHelper
 	 */
 	public static function addContentSrcsetAndSizes($content, $sizes = null)
 	{
-		// Use default if sizes are not provided
-		if (is_null($sizes))
-		{
-			$sizes = static::$responsiveSizes;
-		}
-
 		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
 		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
 
 		// Generate srcset and sizes for all images
-		$resultContent = $content;
-
 		foreach ($images as $image)
 		{
-			$imgObj = new Image(JPATH_ROOT . '/' . $image);
-
-			if ($responsiveImages = $imgObj->generateMultipleSizes($sizes))
+			if ($srcset = static::generateSrcset($image, $sizes))
 			{
-				// Get image info
-				$imgPath       = $imgObj->getPath();
-				$pathInfo      = pathinfo($imgPath);
-				$filename      = $pathInfo['filename'];
-				$fileExtension = $pathInfo['extension'] ?? '';
-
-				// Get path to the responsive images folder
-				$imageArr = explode('/', $image);
-				$destFolder = implode('/', array_replace($imageArr, [count($imageArr) - 1 => 'responsive']));
-
-				// Generate sizes and srcset attributes
-				$sizesAttr = sprintf('(max-width: %1$dpx) 100vw, %1$dpx', $imgObj->getWidth());
-				$srcsetAttr = "";
-
-				foreach ($responsiveImages as $key => $responsiveImage)
-				{
-					// Get image properties
-					$imageWidth  = $responsiveImage->getWidth();
-					$imageHeight = $responsiveImage->getHeight();
-
-					// Generate image name
-					$imageFileName = $filename . '_' . $imageWidth . 'x' . $imageHeight . '.' . $fileExtension;
-
-					// Insert srcset value for current responsive image
-					$srcsetAttr .= sprintf(
-						'%s %dw%s ', $destFolder . '/' . $imageFileName, $imageWidth, $key !== count($responsiveImages) - 1 ? ',' : ''
-					);
-				}
-
-
-				$resultContent = preg_replace(
+				// Match all between <img and /> then insert srcset and sizes: <img src="" /> - <img src="" srcset="" sizes="">
+				$content = preg_replace(
 					'/(<img [^>]+' . preg_quote($image, '/') . '.*?) \/>/',
-					'$1 srcset="' . $srcsetAttr . '" sizes="' . $sizesAttr . '" />',
-					$resultContent
+					'$1 srcset="' . $srcset . '" sizes="' . static::generateSizes($image) . '" />',
+					$content
 				);
 			}
 		}
 
-		return $resultContent;
+		return $content;
 	}
 }

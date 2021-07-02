@@ -13,6 +13,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 ?>
 <div class="mod-banners bannergroup">
@@ -38,6 +40,10 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 				<?php $alt = $item->params->get('alt'); ?>
 				<?php $alt = $alt ?: $item->name; ?>
 				<?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
+				<?php
+					$img = HTMLHelper::cleanImageURL($imageurl);
+					$srcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+				?>
 				<?php if ($item->clickurl) : ?>
 					<?php // Wrap the banner in a link ?>
 					<?php $target = $params->get('target', 1); ?>
@@ -51,6 +57,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php elseif ($target == 2) : ?>
@@ -65,6 +72,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php else : ?>
@@ -77,6 +85,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php endif; ?>
@@ -87,6 +96,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 						alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+						<?php echo $srcsetSizes ?>
 					>
 				<?php endif; ?>
 			<?php endif; ?>

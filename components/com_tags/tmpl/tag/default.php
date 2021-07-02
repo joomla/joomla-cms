@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $isSingleTag = count($this->item) === 1;
@@ -36,7 +37,12 @@ $htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
 				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_QUOTES, 'UTF-8'); ?>"
-					alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_QUOTES, 'UTF-8'); ?>">
+					alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_QUOTES, 'UTF-8'); ?>"
+					<?php
+						$img = HTMLHelper::cleanImageURL($images->image_fulltext);
+						echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+					?>
+				>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>

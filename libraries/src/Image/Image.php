@@ -97,6 +97,14 @@ class Image
 	protected $generateBestQuality = true;
 
 	/**
+	 * Default sizes for responsive images
+	 *
+	 * @var    array
+	 * @since  4.1
+	 */
+	protected $responsiveSizes = array('800x600', '600x400', '400x200');
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -253,14 +261,15 @@ class Image
 	 *
 	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
 	 *
-	 * @return  array
+	 * @return  array    generated images
 	 *
 	 * @since   2.5.0
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE)
+	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -268,11 +277,31 @@ class Image
 			throw new \LogicException('No valid image was loaded.');
 		}
 
+		// Create a responsive or thumbs directory in the current image folder
+		$destFolder = \dirname($this->getPath()) . ($thumbs ? '/thumbs' : '/responsive');
+
+		// Check destination
+		if (!is_dir($destFolder) && (!is_dir(\dirname($destFolder)) || !@mkdir($destFolder)))
+		{
+			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $destFolder);
+		}
+
+		// Use default if sizes is not provided
+		if (is_null($imageSizes))
+		{
+			$imageSizes = $this->responsiveSizes;
+		}
+
 		// Process images
 		$imagesGenerated = [];
 
 		if (!empty($imageSizes))
 		{
+			// Get current image filename and extension.
+			$pathInfo      = pathinfo($this->getPath());
+			$filename      = $pathInfo['filename'];
+			$fileExtension = $pathInfo['extension'] ?? '';
+
 			foreach ($imageSizes as $imageSize)
 			{
 				// Desired image size
@@ -304,7 +333,10 @@ class Image
 							break;
 					}
 
-					// Store the image in the results array
+					// Return Image object with image path to ease further manipulation
+					$image->path = sprintf(
+						'%s/%s_%dx%d.%s', $destFolder, $filename, $image->getWidth(), $image->getHeight(), $fileExtension
+					);
 					$imagesGenerated[] = $image;
 				}
 			}
@@ -321,11 +353,10 @@ class Image
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
 	 *
-	 * @return  array
+	 * @return  array    created images
 	 *
 	 * @since   2.5.0
 	 * @throws  \LogicException
-	 * @throws  \InvalidArgumentException
 	 */
 	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
@@ -335,13 +366,10 @@ class Image
 			throw new \LogicException('No valid image was loaded.');
 		}
 
-		// We create a responsive or thumbs folder in the current image folder
-		$destFolder = \dirname($this->getPath()) . ($thumbs ? '/thumbs' : '/responsive');
-
-		// Check destination
-		if (!is_dir($destFolder) && (!is_dir(\dirname($destFolder)) || !@mkdir($destFolder)))
+		// Use default if sizes is not provided
+		if (is_null($imageSizes))
 		{
-			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $destFolder);
+			$imageSizes = $this->responsiveSizes;
 		}
 
 		// Process images
@@ -352,27 +380,11 @@ class Image
 			// Parent image properties
 			$imgProperties = static::getImageFileProperties($this->getPath());
 
-			// Get image filename and extension.
-			$pathInfo      = pathinfo($this->getPath());
-			$filename      = $pathInfo['filename'];
-			$fileExtension = $pathInfo['extension'] ?? '';
-
 			foreach ($images as $image)
 			{
-				// Get image properties
-				$imageWidth  = $image->getWidth();
-				$imageHeight = $image->getHeight();
-
-				// Generate image name
-				$imageFileName = $filename . '_' . $imageWidth . 'x' . $imageHeight . '.' . $fileExtension;
-
-				// Save image file to disk
-				$imageFileName = $destFolder . '/' . $imageFileName;
-
-				if ($image->toFile($imageFileName, $imgProperties->type))
+				if ($image->toFile($image->getPath(), $imgProperties->type))
 				{
 					// Return Image object with image path to ease further manipulation
-					$image->path = $imageFileName;
 					$imagesCreated[] = $image;
 				}
 			}
@@ -384,14 +396,15 @@ class Image
 	/**
 	 * Method to delete different sized versions of current image from disk.
 	 *
-	 * @param   boolean  $thumbs  true to delete thumbs, false to delete responsive images
+	 * @param   array    $imageSizes  array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   boolean  $thumbs      true to delete thumbs, false to delete responsive images
 	 *
-	 * @return  array
+	 * @return  array    sources of deleted images.
 	 *
 	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
-	public function deleteMultipleSizes($thumbs = false)
+	public function deleteMultipleSizes($imageSizes, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -399,22 +412,23 @@ class Image
 			throw new \LogicException('No valid image was loaded.');
 		}
 
-		$image = explode("/", $this->getPath());
+		// Use default if sizes is not provided
+		if (is_null($imageSizes))
+		{
+			$imageSizes = $this->responsiveSizes;
+		}
 
-		// Get path to the responsive images
-		$imagesPath = implode("/", array_slice($image, 0, count($image) - 1)) . ($thumbs ? '/thumbs' : '/responsive');
-
+		// Process images and delete them
 		$imagesDeleted = [];
 
-		if ($imageFiles = scandir($imagesPath))
+		if ($images = $this->generateMultipleSizes($imageSizes))
 		{
-			foreach ($imageFiles as $imageFile)
+			foreach ($images as $image)
 			{
-				// Match sizes part of image: images/joomla_800x600.png - _800x600, then remove it: images/joomla.png
-				if (preg_replace('/_[^_][0-9]+x[0-9]+[^.]*/', '', $imageFile) === end($image))
+				if(unlink($image->getPath()))
 				{
-					unlink($imagesPath . '/' . $imageFile);
-					$imagesDeleted[] = $imageFile;
+					// Return Image object with image path to ease further manipulation
+					$imagesDeleted[] = $image;
 				}
 			}
 		}

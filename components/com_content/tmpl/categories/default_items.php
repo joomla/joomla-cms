@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
@@ -43,7 +44,12 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>
-					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>">
+					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"
+						<?php
+							$img = HTMLHelper::cleanImageURL($item->getParams()->get('image'));
+							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+						?>
+					>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 					<?php if ($item->description) : ?>

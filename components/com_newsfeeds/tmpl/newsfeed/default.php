@@ -14,6 +14,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Helper\MediaHelper;
 
 ?>
 
@@ -61,6 +62,10 @@ use Joomla\CMS\Layout\FileLayout;
 		<!-- Show Images from Component -->
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
+			<?php
+				$imgFirst = HTMLHelper::cleanImageURL($images->image_first);
+				$firstSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgFirst->url), MediaHelper::generateSizes($imgFirst->url));
+			?>
 			<?php $alt = empty($images->image_first_alt) && empty($images->image_first_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -70,12 +75,18 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php if ($images->image_first_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+					src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>
+					<?php $firstSrcsetSizes ?>
+				>
 			</div>
 		<?php endif; ?>
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
+			<?php
+				$imgSecond = HTMLHelper::cleanImageURL($images->image_second);
+				$secondSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgSecond->url), MediaHelper::generateSizes($imgSecond->url));
+			?>
 			<?php $alt = empty($images->image_second_alt) && empty($images->image_second_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -84,7 +95,9 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+					src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>
+					<?php $secondSrcsetSizes ?>
+				>
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->

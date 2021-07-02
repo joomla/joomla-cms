@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Helper\MediaHelper;
 
 $app = Factory::getApplication();
 
@@ -55,7 +56,12 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
+				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>
+					<?php
+						$img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image'));
+						echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+					?>
+				>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>

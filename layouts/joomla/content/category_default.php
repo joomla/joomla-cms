@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
@@ -74,7 +75,12 @@ $tagsData = $category->tags->itemTags;
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
+					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
+						<?php
+							$img = HTMLHelper::cleanImageURL($category->getParams()->get('image'));
+							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+						?>
+					>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>
 				<?php if ($params->get('show_description') && $category->description) : ?>
