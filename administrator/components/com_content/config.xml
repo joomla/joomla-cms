@@ -957,7 +957,6 @@
 			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			showon="orderby_sec:rdate,date"
 			default="published"
 			validate="options"
 			>
