@@ -55,7 +55,7 @@
         linkElement.addEventListener('click', (_ref) => {
           const { target } = _ref;
           const moduleId = target.getAttribute('data-module-id');
-          editorText = Joomla.editors.instances.jform_articletext.getValue();
+          let editorText = Joomla.editors.instances.jform_articletext.getValue();
           editorText = editorText.replace(`loadmodules ${moduleId}`, '');
           Joomla.editors.instances.jform_articletext.setValue(editorText);
         });
