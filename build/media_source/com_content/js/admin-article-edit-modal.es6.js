@@ -7,9 +7,8 @@
 
   /**
     * Javascript to display the modal when user clicks on the
-    * module edit button. The modal is initialized by the id
-    * of the module found using data-module-id attribute of
-    * the button.
+    * module edit button and to remove the imported module from
+    * the article.
     * */
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -50,14 +49,18 @@
       });
     }
 
+    // Remove the module
     if (removeModBtnElements.length) {
       removeModBtnElements.forEach((linkElement) => {
         linkElement.addEventListener('click', (_ref) => {
           const { target } = _ref;
           const moduleId = target.getAttribute('data-module-id');
-          editorText = Joomla.editors.instances.jform_articletext.getValue();
-          editorText = editorText.replace(`loadmodules ${moduleId}`, '');
+          let editorText = Joomla.editors.instances.jform_articletext.getValue();
+          editorText = editorText.replace(`{loadmoduleid ${moduleId}}`, '');
           Joomla.editors.instances.jform_articletext.setValue(editorText);
+
+          // Save the form and reload
+          document.querySelectorAll('.button-apply')[0].click();
         });
       });
     }
