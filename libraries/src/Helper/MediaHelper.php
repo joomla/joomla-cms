@@ -35,7 +35,7 @@ class MediaHelper
 	 */
 	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -127,7 +127,7 @@ class MediaHelper
 		{
 			$allowedMime = $params->get(
 				'upload_mime',
-				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+				'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
 					'application/pdf,application/powerpoint,text/plain,application/x-zip'
 			);
 
