@@ -4,8 +4,11 @@
  * @subpackage  dispatcher
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
+use Composer\CaBundle\CaBundle;
+
 defined('FOF_INCLUDED') or die;
 
 /**
@@ -81,7 +84,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => __DIR__ . '/cacert.pem',
+					'cafile'        => CaBundle::getBundledCaBundlePath(),
 					'verify_depth'  => 5,
 				)
 			);
@@ -99,7 +102,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => __DIR__ . '/cacert.pem',
+					'cafile'        => CaBundle::getBundledCaBundlePath(),
 					'verify_depth'  => 5,
 				)
 			);

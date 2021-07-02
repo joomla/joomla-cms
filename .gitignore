@@ -80,6 +80,8 @@ Desktop.ini
 /libraries/vendor/brumann/polyfill-unserialize/phpunit.xml.dist
 /libraries/vendor/brumann/polyfill-unserialize/README.md
 /libraries/vendor/brumann/polyfill-unserialize/tests
+/libraries/vendor/composer/ca-bundle/README.md
+/libraries/vendor/composer/ca-bundle/composer.json
 /libraries/vendor/google/recaptcha/examples
 /libraries/vendor/google/recaptcha/tests
 /libraries/vendor/google/recaptcha/.gitignore

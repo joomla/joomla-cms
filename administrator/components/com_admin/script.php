@@ -2051,6 +2051,9 @@ class JoomlaInstallerScript
 			'/libraries/vendor/leafo/lessphp/phpunit.xml.dist',
 			'/libraries/vendor/leafo/lessphp/ruleset.xml',
 
+			// Joomla! __DEPLOY_VERSION__
+			'/libraries/joomla/http/transport/cacert.pem',
+			'/libraries/fof/download/adapter/cacert.pem',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

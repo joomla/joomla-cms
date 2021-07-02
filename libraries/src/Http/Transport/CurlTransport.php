@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
+use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -90,7 +91,7 @@ class CurlTransport implements TransportInterface
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
 
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', __DIR__ . '/cacert.pem');
+		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', CaBundle::getBundledCaBundlePath());
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
