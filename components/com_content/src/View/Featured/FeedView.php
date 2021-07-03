@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class FeedView extends AbstractView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = Route::_(RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			$description = '';
 			$obj = json_decode($row->images);
@@ -77,7 +77,7 @@ class FeedView extends AbstractView
 			// Load individual item creator class
 			$item           = new FeedItem;
 			$item->title    = $title;
-			$item->link     = $link;
+			$item->link     = Route::_($link);
 			$item->date     = $row->publish_up;
 			$item->category = array();
 
@@ -107,7 +107,8 @@ class FeedView extends AbstractView
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $item->link . '" rel="noopener">'
+				$link = Route::_($link, true, $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE, true);
+				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
 					. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 

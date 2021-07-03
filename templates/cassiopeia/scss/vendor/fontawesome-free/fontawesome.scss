@@ -1,5 +1,6 @@
 // Override the font path
 $fa-font-path: "../../../../../media/vendor/fontawesome-free/webfonts" !default;
+$fa-font-display: block !default;
 
 // Font Awesome 5 Free
 @import "../../../../../media/vendor/fontawesome-free/scss/fontawesome";
@@ -10,4 +11,4 @@ $fa-font-path: "../../../../../media/vendor/fontawesome-free/webfonts" !default;
 @import "../../../../../media/vendor/fontawesome-free/scss/brands";
 
 // B/C for Icomoon
-@import "../../../../../build/media_source/system/scss/icomoon";
+@import "../../../../../media/system/scss/icomoon";

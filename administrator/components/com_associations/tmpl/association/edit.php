@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ $options = [
 						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 					</div>
 					<div class="langtarget">
-						<div class="sr-only">
+						<div class="visually-hidden">
 							<?php echo $this->form->getLabel('itemlanguage'); ?>
 						</div>
 						<?php echo $this->form->getInput('itemlanguage'); ?>

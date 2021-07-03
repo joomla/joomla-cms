@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,17 +53,17 @@ if ($currentPage >= $step)
 
 
 <?php if (!empty($pages)) : ?>
-	<nav role="navigation" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+	<nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
 		<div class="pagination pagination-toolbar text-center">
 
 			<?php if ($showLimitBox) : ?>
-				<div class="limit float-right">
+				<div class="limit float-end">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 				</div>
 			<?php endif; ?>
 
 			<?php if ($showPagesLinks) : ?>
-				<ul class="pagination ml-auto mb-4 mr-0">
+				<ul class="pagination ms-auto mb-4 me-0">
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 					<?php foreach ($pages['pages'] as $k => $page) : ?>

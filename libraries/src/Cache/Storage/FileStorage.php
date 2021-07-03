@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -513,7 +513,7 @@ class FileStorage extends CacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -569,7 +569,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
+		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -593,7 +593,7 @@ class FileStorage extends CacheStorage
 			return $this->_root;
 		}
 
-		// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 		$path = preg_replace('#[/\\\\]+#', $ds, $path);
 
 		return $path;
@@ -624,7 +624,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -714,7 +714,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ extract($displayData);
 
 ?>
 <div class="setoptions-form-wrapper">
-<?php foreach ($form->getGroup(null) as $field) : ?>
+<?php foreach ($form->getFieldset('basic') as $field) : ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

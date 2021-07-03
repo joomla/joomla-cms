@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.webauthn
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,8 +57,14 @@ $defaultDisplayData = [
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
+if ($displayData['allow_add'] === false)
+{
+	$error = Text::_('PLG_SYSTEM_WEBAUTHN_CANNOT_ADD_FOR_A_USER');
+	$allow_add = false;
+}
+
 // Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
-if ((function_exists('gmp_intval') === false) && (function_exists('bccomp') === false))
+if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false)
 {
 	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
 	$allow_add = false;
@@ -92,7 +98,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 	<?php endif; ?>
 
 	<table class="table table-striped">
-		<thead class="thead-dark">
+		<thead class="table-dark">
 		<tr>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
@@ -132,7 +138,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 			<button
 				type="button"
 				id="plg_system_webauthn-manage-add"
-				class="btn btn-success btn-block"
+				class="btn btn-success w-100"
 				data-random-id="<?php echo $randomId; ?>">
 				<span class="icon-plus" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>

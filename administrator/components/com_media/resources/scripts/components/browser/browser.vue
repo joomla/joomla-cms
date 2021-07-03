@@ -20,7 +20,7 @@
         v-if="listView === 'table'"
         class="table media-browser-table"
       >
-        <caption class="sr-only">
+        <caption class="visually-hidden">
           {{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}
         </caption>
         <thead class="media-browser-table-head">
@@ -61,11 +61,13 @@
             </th>
           </tr>
         </thead>
-        <media-browser-item-row
-          v-for="item in items"
-          :key="item.path"
-          :item="item"
-        />
+        <tbody>
+          <media-browser-item-row
+            v-for="item in items"
+            :key="item.path"
+            :item="item"
+          />
+        </tbody>
       </table>
       <div
         v-else-if="listView === 'grid'"

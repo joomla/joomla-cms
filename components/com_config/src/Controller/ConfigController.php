@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,14 +42,13 @@ class ConfigController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 	}
 
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

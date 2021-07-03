@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('languages.publish')->listCheck(true);
 			$childBar->unpublish('languages.unpublish')->listCheck(true);
 
-			if (!$this->state->get('filter.published') == -2)
+			if ($this->state->get('filter.published') != -2)
 			{
 				$childBar->trash('languages.trash')->listCheck(true);
 			}

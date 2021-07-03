@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class FeedFactory
 			}
 
 			// Set the value to the XMLReader parser
-			if (!$reader->xml($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+			if (!$reader->XML($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 			{
 				throw new \RuntimeException('Unable to parse the feed.');
 			}
@@ -134,7 +134,7 @@ class FeedFactory
 	 *
 	 * @return array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getParsers()
 	{

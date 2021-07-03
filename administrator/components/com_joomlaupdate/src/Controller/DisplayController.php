@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -46,17 +45,15 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
-
 			// Get the model for the view.
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
+			/** @var ?\Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
 			$warningsModel = $this->app->bootComponent('com_installer')
 				->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 
-			if (is_object($warningsModel))
+			if ($warningsModel !== null)
 			{
 				$view->setModel($warningsModel, false);
 			}

@@ -78,7 +78,7 @@ class PasswordStrength {
 }
 
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -104,9 +104,9 @@ class PasswordStrength {
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
     if (score === 100) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
     } else {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
     }
     meter.value = score;
 

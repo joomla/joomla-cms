@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $htmlAttributes
  */
 
-$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
+$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ms-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">

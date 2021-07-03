@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,9 @@
  * min-term-length="1"   The minimum length a search value should be before choices are searched.
  * placeholder=""        The value of the inputs placeholder.
  * search-placeholder="" The value of the search inputs placeholder.
+ *
+ * data-max-results="30" The maximum amount of search results to be displayed.
+ * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
@@ -123,7 +126,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchPlaceholderValue: this.searchPlaceholder,
       removeItemButton: true,
       searchFloor: this.minTermLength,
-      searchResultLimit: 10,
+      searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
+      renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
@@ -141,7 +145,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
-      // The choices.js always auto-hightlight first element
+      // The choices.js always auto-highlights the first element
       // in the dropdown that not allow to add a custom Term.
       //
       // This workaround can be removed when choices.js

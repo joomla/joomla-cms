@@ -32,10 +32,12 @@ $switcher-height: 28px;
 }
 
 .switcher input:checked + label {
+  z-index: 0;
   opacity: 1;
 }
 
 .switcher input:not(:checked) + label {
+  z-index: 3;
   opacity: 0;
 }
 
@@ -99,11 +101,4 @@ $switcher-height: 28px;
 
 .switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
   left: ($switcher-width / 2) - 1;
-}
-
-.switcher__legend {
-  padding: 5px 0;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  font-weight: 400;
 }

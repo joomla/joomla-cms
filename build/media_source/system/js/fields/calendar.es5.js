@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -234,13 +234,11 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -531,8 +529,6 @@
 
 		this.table = table;
 		table.className = 'table';
-		table.cellSpacing = 0;
-		table.cellPadding = 0;
 		table.style.marginBottom = 0;
 
 		this.dropdownElement = div;
@@ -544,7 +540,7 @@
 
 		div.className = 'js-calendar';
 		div.style.position = "absolute";
-		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
+		div.style.boxShadow = "0 0 70px 0 rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
 		div.classList.add('hidden');
@@ -590,9 +586,9 @@
 				cell.calendar = cal;
 				cell.navtype = navtype;
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
-					cell.innerHTML = "<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>";
+					cell.innerHTML = Joomla.sanitizeHtml("<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>");
 				} else {
-					cell.innerHTML = cs ? "<div unselectable='on'" + classes + ">" + text + "</div>" : text;
+					cell.innerHTML = cs ? Joomla.sanitizeHtml("<div unselectable='on'" + classes + ">" + text + "</div>") : Joomla.sanitizeHtml(text);
 					if (!cs && classes) {
 						cell.className = classes;
 					}
@@ -621,7 +617,7 @@
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
 			cell.className = "day-name wn";
-			cell.innerHTML = JoomlaCalLocale.wk;
+			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.wk);
 		}
 		for (var i = 7; i > 0; --i) {
 			cell = createElement("td", row);
@@ -648,7 +644,7 @@
 				cell.classList.add("weekend");
 			}
 
-			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
+			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.shortDays[(i + fdow) % 7]);
 			cell = cell.nextSibling;
 		}
 
@@ -781,9 +777,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				if (self.inputField.onchange) {
-					self.inputField.onchange();
-				}
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -877,7 +871,7 @@
 			var cell = row.firstChild;
 			if (this.params.weekNumbers) {
 				cell.className = "day wn";
-				cell.innerHTML = date.getLocalWeekNumber(this.params.dateType); //date.convertNumbers();
+				cell.innerHTML = Joomla.sanitizeHtml(date.getLocalWeekNumber(this.params.dateType)); //date.convertNumbers();
 				cell = cell.nextSibling;
 			}
 
@@ -910,7 +904,7 @@
 					cell.style.cursor = "pointer";
 				}
 				cell.disabled = false;
-				cell.innerHTML = this.params.debug ? iday : Date.convertNumbers(iday);          // translated day number for each cell
+				cell.innerHTML = this.params.debug ? Joomla.sanitizeHtml(iday) : Joomla.sanitizeHtml(Date.convertNumbers(iday));          // translated day number for each cell
 				if (!cell.disabled) {
 					cell.caldate = new Date(date);
 					if (current_month && iday === mday) {
@@ -1141,12 +1135,12 @@
 	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
-		 *  @deprecated 4.0
+		 *  @deprecated 4.0.0
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
-		 *  @deprecated 4.0
+		 *  @deprecated 4.0.0
 		 */
 		Calendar.setup = function(obj) {
 

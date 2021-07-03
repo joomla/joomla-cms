@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -74,7 +74,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
       elements.forEach((element) => {
         element.addEventListener('click', ({ target }) => {
-          const inputElement = target.querySelector('input');
+          const inputElement = document.querySelector(`#${target.getAttribute('for')}`);
           if (inputElement) {
             rotate(parseInt(inputElement.value, 10));
           }

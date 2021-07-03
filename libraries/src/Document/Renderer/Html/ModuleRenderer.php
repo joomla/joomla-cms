@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class ModuleRenderer extends DocumentRenderer
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 
-			return ModuleHelper::ModuleCache($module, $params, $cacheparams);
+			return ModuleHelper::moduleCache($module, $params, $cacheparams);
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);

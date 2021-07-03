@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ abstract class InstallerAdapter
 	 * Installer used with this adapter
 	 *
 	 * @var    Installer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $parent = null;
 
@@ -627,7 +627,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  Installer
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getParent()
 	{

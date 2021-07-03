@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Joomla\CMS\Form\Field;
  * Form Field class for the Joomla Platform.
  * Supports a URL text field
  *
- * @link   http://www.w3.org/TR/html-markup/input.url.html#input.url
+ * @link   https://html.spec.whatwg.org/multipage/input.html#url-state-(type=url)
  * @see    \Joomla\CMS\Form\Rule\UrlRule for validation of full urls
  * @since  1.7.0
  */

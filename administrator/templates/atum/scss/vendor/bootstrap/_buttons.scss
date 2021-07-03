@@ -4,12 +4,23 @@
   transition: none;
 }
 
+@include media-breakpoint-down(sm) {
+  .btn {
+    margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
+  }
+}
+
 .btn-primary {
   color: var(--atum-text-light);
-  background-color: var(--atum-link-color);
-  border-color: var(--atum-link-color);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
 
-  @include hover-focus-active {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: var(--atum-bg-dark-70);
     border-color: var(--atum-bg-dark-90);
   }
@@ -23,7 +34,8 @@
 }
 
 .btn-secondary {
-  background-color: var(--atum-bg-dark-50);
+  background-color: var(--atum-bg-dark-60);
+  border-color: var(--atum-bg-dark-60);
 }
 
 .input-group-text {

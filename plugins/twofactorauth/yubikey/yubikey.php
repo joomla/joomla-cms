@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,14 +86,14 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 	 * Shows the configuration page for this two factor authentication method.
 	 *
 	 * @param   object        $otpConfig  The two factor auth configuration object
-	 * @param   integer|null  $user_id    The numeric user ID of the user whose form we'll display
+	 * @param   integer|null  $userId     The numeric user ID of the user whose form we'll display
 	 *
 	 * @return  array
 	 *
 	 * @see     UsersModelUser::getOtpConfig
 	 * @since   3.2
 	 */
-	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
+	public function onUserTwofactorShowConfiguration($otpConfig, $userId = null)
 	{
 		if ($otpConfig->method === $this->methodName)
 		{
@@ -190,9 +190,9 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
-				'yubikey' => $yubikey
+				'yubikey' => $yubikey,
 			),
-			'otep'    => array()
+			'otep'    => array(),
 		);
 
 		return $otpConfig;

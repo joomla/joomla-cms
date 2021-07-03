@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -67,7 +68,7 @@ class PlgUserJoomla extends CMSPlugin
 			// After returning from error, $data is an array but populated
 			if (!$data)
 			{
-				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+				$data = Factory::getApplication()->input->get('jform', array(), 'array');
 			}
 
 			if (is_array($data))
@@ -106,20 +107,23 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$db     = $this->db;
-		$userid = (int) $user['id'];
+		$userId = (int) $user['id'];
 
-		// Only execute this query if using the database session handler
-		if ($this->app->get('session_handler', 'database') === 'database')
+		// Only execute this if the session metadata is tracked
+		if ($this->app->get('session_metadata', true))
 		{
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('userid') . ' = :userid')
-				->bind(':userid', $userid, ParameterType::INTEGER);
-
+			// Fetch all session IDs for the user account so they can be destroyed
 			try
 			{
-				$db->setQuery($query)->execute();
+				$sessionIds = $this->getSessionIds($userId);
+
+				/** @var SessionManager $sessionManager */
+				$sessionManager = Factory::getContainer()->get('session.manager');
+
+				if (!$sessionManager->destroySessions($sessionIds))
+				{
+					return;
+				}
 			}
 			catch (ExecutionFailureException $e)
 			{
@@ -127,14 +131,14 @@ class PlgUserJoomla extends CMSPlugin
 			}
 		}
 
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__messages'))
-			->where($db->quoteName('user_id_from') . ' = :userid')
-			->bind(':userid', $userid, ParameterType::INTEGER);
-
 		try
 		{
-			$db->setQuery($query)->execute();
+			$this->db->setQuery(
+				$this->db->getQuery(true)
+					->delete($this->db->quoteName('#__messages'))
+					->where($this->db->quoteName('user_id_from') . ' = :userId')
+					->bind(':userId', $userId, ParameterType::INTEGER)
+			)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -209,7 +213,7 @@ class PlgUserJoomla extends CMSPlugin
 			'url' => Uri::root(),
 			'username' => $user['username'],
 			'password' => $user['password_clear'],
-			'email' => $user['email']
+			'email' => $user['email'],
 		];
 
 		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
@@ -365,8 +369,10 @@ class PlgUserJoomla extends CMSPlugin
 		$my      = Factory::getUser();
 		$session = Factory::getSession();
 
+		$userid = (int) $user['id'];
+
 		// Make sure we're a valid user first
-		if ($user['id'] == 0 && !$my->get('tmp_user'))
+		if ($user['id'] === 0 && !$my->get('tmp_user'))
 		{
 			return true;
 		}
@@ -374,7 +380,7 @@ class PlgUserJoomla extends CMSPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
+		if ($my->id == $userid && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -388,20 +394,20 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
-
-			if (!$sharedSessions)
-			{
-				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			}
-
 			try
 			{
-				$this->db->setQuery($query)->execute();
+				$clientId = $sharedSessions ? null : (int) $options['clientid'];
+				$sessionIds = $this->getSessionIds($userid, $clientId);
 			}
-			catch (RuntimeException $e)
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
+
+			/** @var SessionManager $sessionManager */
+			$sessionManager = Factory::getContainer()->get('session.manager');
+
+			if (!$sessionManager->destroySessions($sessionIds))
 			{
 				return false;
 			}
@@ -472,5 +478,40 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return $instance;
+	}
+
+	/**
+	 * Fetch all session IDs for the user account
+	 *
+	 * @param  int   $userId The User id
+	 * @param  int|null  $clientId The client id
+	 *
+	 * @return array
+	 */
+	private function getSessionIds(int $userId, $clientId = null): array
+	{
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('session_id'))
+			->from($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = :userid')
+			->bind(':userid', $userId, ParameterType::INTEGER);
+
+		if ($clientId !== null)
+		{
+			$query->where($this->db->quoteName('client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
+		}
+
+		$sessionIds = $this->db->setQuery($query)->loadColumn();
+
+		foreach ($sessionIds as &$sessionId)
+		{
+			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			{
+				$sessionId = stream_get_contents($sessionId);
+			}
+		}
+
+		return $sessionIds;
 	}
 }

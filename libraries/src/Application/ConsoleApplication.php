@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,6 +107,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		?OutputInterface $output = null
 	)
 	{
+		// Close the application if it is not executed from the command line.
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
+		{
+			$this->close();
+		}
+
 		// Set up a Input object for Controllers etc to use
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = $language;
@@ -237,7 +243,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
-		if (!key_exists($type, $this->messages))
+		if (!array_key_exists($type, $this->messages))
 		{
 			$this->messages[$type] = [];
 		}

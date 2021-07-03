@@ -33,20 +33,22 @@ joomla-tab {
     display: flex;
     flex-flow: wrap;
     padding: 0;
-    margin: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-radius: 0;
-    border-image: none;
+    border-bottom: 1px solid var(--atum-bg-dark-10);
+
+    li + li {
+      margin-left: 1px;
+    }
 
     a[role=tab] {
       position: relative;
       box-sizing: border-box;
       display: block;
-      padding: .5rem 1rem;
-      color: var(--atum-link-color);
+      padding: .6rem 1rem;
+      color: var(--primary);
       text-decoration: none;
-      border: 0 solid var(--bluegray);
+      border: 0;
       border-top: 0;
       border-right: 0;
       border-bottom: 0;
@@ -54,53 +56,40 @@ joomla-tab {
 
       &[active],
       &:hover {
-        margin: -1px;
-        background-color: $white;
-        background-image: none;
-        border: 1px solid var(--bluegray);
-        border-bottom: solid 1px #fff;
+        border: 0;
         border-radius: 0;
         box-shadow: none;
+
         &::after {
           position: absolute;
-          top: -1px;
           right: 0;
+          bottom: -1px;
           left: 0;
-          height: 4px;
+          height: 3px;
           content: "";
-          background-color: var(--atum-contrast);
+          background-color: var(--atum-link-color);
           opacity: .8;
         }
       }
 
       &[active] {
         font-weight: $font-weight-bold;
+        background: var(--atum-bg-dark-3);
       }
     }
   }
 
   > section {
+    --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
     background-color: $white;
-    border: 1px solid var(--bluegray);
-    border-radius: 0;
+    border: 0;
+    border-radius: .25rem;
     box-shadow: none;
-
-    [dir=ltr] & {
-      margin-left: -1px;
-    }
-
-    [dir=rtl] & {
-      margin-right: -1px;
-    }
 
     &[active] {
       display: block;
-    }
-
-    .tab-pane {
-      margin: 0;
     }
   }
 
@@ -122,7 +111,7 @@ joomla-tab {
       border-radius: 0;
       box-shadow: none;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         flex: 0 0 100%;
         max-width: 100%;
       }
@@ -136,16 +125,17 @@ joomla-tab {
       position: relative;
       display: block;
       padding: .75em 1em;
+      margin: -1px 0;
       color: var(--atum-special-color);
       text-decoration: none;
-      border: 0;
+      border-top: 1px solid transparent;
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
 
       &[active],
       &:hover {
         color: var(--atum-text-light);
-        background-color: var(--atum-link-color);
+        background-color: var(--atum-bg-dark-60);
         background-image: none;
         border-right: 0;
         box-shadow: none;
@@ -157,6 +147,10 @@ joomla-tab {
           width: 5px;
           height: auto;
           background-color: var(--atum-bg-dark);
+        }
+
+        .text-muted {
+          color: var(--atum-text-light) !important;
         }
       }
     }
@@ -173,7 +167,7 @@ joomla-tab {
     > ul {
       flex-direction: column;
       white-space: normal;
-      background-color: var(--atum-link-color);
+      background-color: var(--atum-bg-dark-60);
       border-radius: 0;
       box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
     }
@@ -254,7 +248,7 @@ joomla-tab {
     #permissions-sliders section[active] {
       padding: 0 !important;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         [dir=ltr] & .respTable {
           text-align: right;
         }
@@ -303,5 +297,10 @@ joomla-tab {
         }
       }
     }
+  }
+
+  .main-card-columns > * > & {
+    height: 100%;
+    border-left: 1px solid var(--atum-bg-dark-10);
   }
 }

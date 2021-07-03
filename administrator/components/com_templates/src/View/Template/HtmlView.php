@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,8 +173,16 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif (in_array($ext, $imageTypes))
 		{
-			$this->image = $this->get('Image');
-			$this->type  = 'image';
+			try
+			{
+				$this->image = $this->get('Image');
+				$this->type  = 'image';
+			}
+			catch (\RuntimeException $exception)
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
+				$this->type = 'home';
+			}
 		}
 		elseif (in_array($ext, $fontTypes))
 		{
@@ -247,13 +255,13 @@ class HtmlView extends BaseHtmlView
 			// Add a Crop and Resize button
 			elseif ($this->type === 'image')
 			{
-				ToolbarHelper::custom('template.cropImage', 'icon-crop', 'icon-arrows-alt', 'COM_TEMPLATES_BUTTON_CROP', false);
+				ToolbarHelper::custom('template.cropImage', 'icon-crop', '', 'COM_TEMPLATES_BUTTON_CROP', false);
 				ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type === 'archive')
 			{
-				ToolbarHelper::custom('template.extractArchive', 'chevron-down', 'chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				ToolbarHelper::custom('template.extractArchive', 'chevron-down', '', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 			// Add a copy template button
 			elseif ($this->type === 'home')
@@ -296,7 +304,7 @@ class HtmlView extends BaseHtmlView
 
 		if (count($this->updatedList) !== 0 && $this->pluginState)
 		{
-			ToolbarHelper::custom('template.deleteOverrideHistory', 'times', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
+			ToolbarHelper::custom('template.deleteOverrideHistory', 'times', '', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
 		if ($this->type === 'home')

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,8 +80,8 @@ $attributes = array(
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 
-$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
-$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
+$addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
+$addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';
 ?>
 
 <?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ PHP;
 	 * @param string $name    The application name for the menu
 	 * @param array  $options An array of options to initialise the menu with
 	 *
-	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  An AbstractMenu object or null if not set.
+	 * @throws   \BadMethodCallException  Exception thrown as CLI Application has no menu.
 	 *
 	 * @since   4.0.0
 	 */

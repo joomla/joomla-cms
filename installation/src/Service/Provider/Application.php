@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Application service provider
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Application implements ServiceProviderInterface
 {
@@ -32,7 +32,7 @@ class Application implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

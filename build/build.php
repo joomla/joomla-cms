@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,6 +73,43 @@ function clean_checkout(string $dir)
 
 	echo "Cleaning vendors.\n";
 
+	system('find libraries/vendor -name CODE_OF_CONDUCT.md | xargs rm -rf -');
+	system('find libraries/vendor -name CONDUCT.md | xargs rm -rf -');
+	system('find libraries/vendor -name docker-compose.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpunit.xml | xargs rm -rf -');
+	system('find libraries/vendor -name README.md | xargs rm -rf -');
+	system('find libraries/vendor -name readme.md | xargs rm -rf -');
+	system('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
+	system('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
+	system('find libraries/vendor -name .travis.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .gitignore | xargs rm -rf -');
+	system('find libraries/vendor -name .gitmodules | xargs rm -rf -');
+	system('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
+	system('find libraries/vendor -name CONTRIBUTING.md | xargs rm -rf -');
+	system('find libraries/vendor -name CHANGES.md | xargs rm -rf -');
+	system('find libraries/vendor -name CHANGELOG.md | xargs rm -rf -');
+	system('find libraries/vendor -name SECURITY.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm-baseline.md | xargs rm -rf -');
+	system('find libraries/vendor -name psalm-baseline.xml | xargs rm -rf -');
+	system('find libraries/vendor -name .yamllint | xargs rm -rf -');
+	system('find libraries/vendor -name .remarkrc | xargs rm -rf -');
+	system('find libraries/vendor -name .editorconfig | xargs rm -rf -');
+	system('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
+	system('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
+	system('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
+	system('find libraries/vendor -name build.xml | xargs rm -rf -');
+	system('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
+	system('find libraries/vendor -name phpbench.json | xargs rm -rf -');
+	system('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .doctrine-project.json | xargs rm -rf -');
+	system('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
+	system('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
+	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
+	system('rm -rf libraries/vendor/bin');
+
 	// defuse/php-encryption
 	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
 
@@ -91,6 +128,8 @@ function clean_checkout(string $dir)
 
 	// testing sampledata
 	system('rm -rf plugins/sampledata/testing');
+	system('rm -rf images/sampledata/parks');
+	system('rm -rf images/sampledata/fruitshop');
 
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
@@ -103,7 +142,6 @@ function clean_checkout(string $dir)
 	// phpmailer/phpmailer
 	system('rm -rf libraries/vendor/phpmailer/phpmailer/language');
 	system('rm -rf libraries/vendor/phpmailer/phpmailer/get_oauth_token.php');
-	system('rm -rf libraries/vendor/phpmailer/phpmailer/SECURITY.md');
 
 	// psr/log
 	system('rm -rf libraries/vendor/psr/log/Psr/Log/Test');
@@ -121,7 +159,6 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
 
 	// zendframework/zend-diactoros
-	system('rm -rf libraries/vendor/zendframework/zend-diactoros/CONDUCT.md');
 	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
 
 	echo "Cleanup complete.\n";
@@ -226,6 +263,15 @@ if ($gzipReturnCode !== 0)
 	exit(1);
 }
 
+// Create version entries of the static assets in their respective joomla.asset.json
+system('npm run versioning', $verReturnCode);
+
+if ($verReturnCode !== 0)
+{
+	echo "`npm run versioning` did not complete as expected.\n";
+	exit(1);
+}
+
 // Clean the checkout of extra resources
 clean_checkout($fullpath);
 
@@ -248,6 +294,13 @@ require_once $fullpath . '/libraries/src/Version.php';
 $version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 $release     = Version::PATCH_VERSION;
 $fullVersion = (new Version)->getShortVersion();
+
+$previousRelease = Version::PATCH_VERSION - 1;
+
+if ($previousRelease < 0)
+{
+	$previousRelease = false;
+}
 
 chdir($tmp);
 system('mkdir diffdocs');
@@ -293,39 +346,27 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
-	'.babelrc',
 	'.drone.yml',
 	'.editorconfig',
-	'.eslintignore',
-	'.eslintrc',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs.dist',
-	'.travis.yml',
 	'CODE_OF_CONDUCT.md',
-	'Gemfile',
-	'Gemfile.lock',
 	'README.md',
-	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
-	'build.js',
 	'build.xml',
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
 	'crowdin.yml',
-	'drone-package.json',
 	'package-lock.json',
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
-	'scss-lint.yml',
 	'selenium.log',
 	'tests',
-	'travisci-phpunit.xml',
 	// Media Manager Node Assets
 	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
@@ -386,7 +427,11 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		$fileName   = substr($file, 2);
+		if (substr($file, 0, 1) === 'R') {
+			$fileName   = substr($file, strrpos($file, "\t") + 1);
+		} else {
+			$fileName   = substr($file, 2);
+		}
 		$folderPath = explode('/', $fileName);
 		$baseFolderName = $folderPath[0];
 
@@ -608,5 +653,50 @@ foreach ($checksums as $packageName => $packageHashes)
 }
 
 file_put_contents('checksums.txt', $checksumsContent);
+
+echo "Generating github_release.txt file\n";
+
+$githubContent = array();
+$githubText = '';
+$releaseText = array(
+	'FULL' => 'New Joomla! Installations ',
+	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
+	'UPGRADE' => 'Update from Joomla! 3.10 ',
+);
+$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
+
+foreach ($checksums as $packageName => $packageHashes)
+{
+	$type = '';
+	if (strpos($packageName, 'Full_Package') !== false)
+	{
+		$type = 'FULL';
+	} elseif (strpos($packageName, 'Patch_Package') !== false) {
+		if (strpos($packageName, '.x_to') !== false) {
+			$type = 'MINOR';
+		} else {
+			$type = 'POINT';
+		}
+	} elseif (strpos($packageName, 'Update_Package') !== false) {
+		$type = 'UPGRADE';
+	}
+
+	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
+}
+
+foreach($releaseText as $type => $text)
+{
+	if (empty($githubContent[$type])) {
+		continue;
+	}
+
+	$githubText .= $text;
+	$githubText .= implode(" | ", $githubContent[$type]);
+
+	$githubText .= "\n";
+}
+
+file_put_contents('github_release.txt', $githubText);
 
 echo "Build of version $fullVersion complete!\n";

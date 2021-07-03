@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ use Joomla\Session\Storage\NativeStorage;
 /**
  * Service provider for the application's session dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JoomlaStorage extends NativeStorage
 {
@@ -26,7 +26,7 @@ class JoomlaStorage extends NativeStorage
 	 * Internal data store for the session data
 	 *
 	 * @var    Registry
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	private $data;
 
@@ -34,7 +34,7 @@ class JoomlaStorage extends NativeStorage
 	 * Force cookies to be SSL only
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	private $forceSSL = false;
 
@@ -42,7 +42,7 @@ class JoomlaStorage extends NativeStorage
 	 * Input object
 	 *
 	 * @var    Input
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	private $input;
 
@@ -53,7 +53,7 @@ class JoomlaStorage extends NativeStorage
 	 * @param   \SessionHandlerInterface  $handler  Session save handler
 	 * @param   array                     $options  Session options
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
 	{
@@ -84,7 +84,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function all(): array
 	{
@@ -96,7 +96,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function clear(): void
 	{
@@ -125,7 +125,7 @@ class JoomlaStorage extends NativeStorage
 	 * @return  void
 	 *
 	 * @see     session_write_close()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function close(): void
 	{
@@ -143,7 +143,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  mixed  Value of a variable
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function get(string $name, $default)
 	{
@@ -162,7 +162,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  boolean  True if the variable exists
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function has(string $name): bool
 	{
@@ -181,7 +181,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  mixed  The value from session or NULL if not set
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function remove(string $name)
 	{
@@ -205,7 +205,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  mixed  Old value of a variable.
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function set(string $name, $value = null)
 	{
@@ -226,7 +226,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function setCookieParams(): void
 	{
@@ -265,7 +265,7 @@ class JoomlaStorage extends NativeStorage
 	 * @return  $this
 	 *
 	 * @see     http://php.net/session.configuration
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function setOptions(array $options): NativeStorage
 	{
@@ -282,7 +282,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function start(): void
 	{

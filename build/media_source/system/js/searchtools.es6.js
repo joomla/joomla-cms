@@ -8,7 +8,7 @@ Joomla = window.Joomla || {};
    *
    * @param {HTMLElement}  element  The element that initiates the call
    * @returns {void}
-   * @since   4.0
+   * @since   4.0.0
    */
   Joomla.resetFilters = (element) => {
     const { form } = element;
@@ -222,13 +222,19 @@ Joomla = window.Joomla || {};
     }
 
     checkFilter(element) {
-      const option = element.querySelector('option:checked');
-      if (option) {
-        if (option.value !== '') {
-          this.activeFilter(element, this);
-        } else {
-          this.deactiveFilter(element, this);
+      if (element.tagName.toLowerCase() === 'select') {
+        const option = element.querySelector('option:checked');
+        if (option) {
+          if (option.value !== '') {
+            this.activeFilter(element, this);
+          } else {
+            this.deactiveFilter(element, this);
+          }
         }
+      } else if (element.value !== '') {
+        this.activeFilter(element, this);
+      } else {
+        this.deactiveFilter(element, this);
       }
     }
 
@@ -280,8 +286,7 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const el = cont.mainContainer;
-      const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      const els = [].slice.call(this.getFilterFields());
       let activeFilterCount = 0;
 
       els.forEach((item) => {
@@ -317,17 +322,22 @@ Joomla = window.Joomla || {};
 
       // Add all active filters to the table caption for screen-readers
       const filteredByCaption = document.getElementById('filteredBy');
+      const isHidden = Object.prototype.hasOwnProperty.call(element.attributes, 'type') && element.attributes.type.value === 'hidden';
 
       // The caption won't exist if no items match the filters so check for the element first
-      if (filteredByCaption) {
+      if (filteredByCaption && !isHidden) {
         let captionContent = '';
 
-        if (element.multiple === true) {
-          const selectedOptions = element.querySelectorAll('option:checked');
-          const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
-          captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+        if (element.tagName.toLowerCase() === 'select') {
+          if (element.multiple === true) {
+            const selectedOptions = element.querySelectorAll('option:checked');
+            const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
+            captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+          } else {
+            captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          }
         } else {
-          captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          captionContent = `${element.labels[0].textContent} - ${element.value}`;
         }
 
         filteredByCaption.textContent += captionContent;
@@ -430,7 +440,7 @@ Joomla = window.Joomla || {};
         this.orderField.setAttribute('name', self.options.orderFieldName);
         this.orderField.setAttribute('value', `${self.activeOrder} ${this.activeDirection}`);
 
-        this.theForm.innerHTML += this.orderField.outerHTML;
+        this.theForm.append(this.orderField);
       }
 
       // Add missing columns to the order select
@@ -457,7 +467,7 @@ Joomla = window.Joomla || {};
               }
 
               // Append the option and repopulate the chosen field
-              this.orderFieldName.innerHTML += $option;
+              this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
             }
           }
         });

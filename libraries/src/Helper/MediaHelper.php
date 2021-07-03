@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Media helper class
@@ -132,7 +134,7 @@ class MediaHelper
 			// Get the mime type configuration
 			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
-			// Mime should be available and in the whitelist
+			// Mime should be available and in the allowed list
 			return !empty($mime) && \in_array($mime, $allowedMime);
 		}
 
@@ -143,14 +145,15 @@ class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array   $file                File information
+	 * @param   string  $component           The option name for the component storing the parameters
+	 * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
 	{
 		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams($component);
@@ -184,8 +187,14 @@ class MediaHelper
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
 			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
 		);
+
+		// Remove allowed executables from array
+		if (count($allowedExecutables))
+		{
+			$executable = array_diff($executable, $allowedExecutables);
+		}
 
 		$check = array_intersect($filetypes, $executable);
 
@@ -198,12 +207,7 @@ class MediaHelper
 
 		$filetype = array_pop($filetypes);
 
-		$allowable = $params->get(
-			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
-		);
-		$allowable = array_map('trim', explode(',', $allowable));
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
@@ -224,9 +228,9 @@ class MediaHelper
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = array_map('trim', explode(',', $params->get('image_extensions')));
+			$allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
 
-			if (\in_array($filetype, $images))
+			if (\in_array($filetype, $allowedExtensions))
 			{
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
@@ -421,5 +425,43 @@ class MediaHelper
 			default:
 				return $val;
 		}
+	}
+
+	/**
+	 * Method to check if the given directory is a directory configured in FileSystem - Local plugin
+	 *
+	 * @param   string  $directory
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isValidLocalDirectory($directory)
+	{
+		$plugin = PluginHelper::getPlugin('filesystem', 'local');
+
+		if ($plugin)
+		{
+			$params = new Registry($plugin->params);
+
+			$directories = $params->get('directories', '[{"directory": "images"}]');
+
+			// Do a check if default settings are not saved by user
+			// If not initialize them manually
+			if (is_string($directories))
+			{
+				$directories = json_decode($directories);
+			}
+
+			foreach ($directories as $directoryEntity)
+			{
+				if ($directoryEntity->directory === $directory)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

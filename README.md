@@ -1,11 +1,11 @@
-Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
 ====================
 
 Build Status
 ---------------------
-| Drone-CI | AppVeyor |
-| ------------- | ------------- |
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
+| Drone-CI      | AppVeyor      | PHP           |  Node         | npm           |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V12.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v6.13.4-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
@@ -73,6 +73,6 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+* (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

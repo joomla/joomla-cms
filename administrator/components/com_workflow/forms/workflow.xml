@@ -36,7 +36,7 @@
 			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			validate="options"
 			>

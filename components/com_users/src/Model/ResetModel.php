@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
 /**
- * Rest model class for Users.
+ * Reset model class for Users.
  *
  * @since  1.5
  */
@@ -414,7 +414,7 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}

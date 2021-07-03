@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ $input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id .
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
-$labelClass = (!$showLabel ? 'sr-only ' : '') . 'finder';
+$labelClass = (!$showLabel ? 'visually-hidden ' : '') . 'finder';
 $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', Text::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 $output = '';
@@ -32,9 +32,7 @@ if ($params->get('show_button', 0))
 	$output .= $label;
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
-	$output .= '<span class="input-group-append">';
 	$output .= '<button class="btn btn-primary" type="submit"><span class="icon-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
-	$output .= '</span>';
 	$output .= '</div>';
 }
 else
@@ -43,12 +41,11 @@ else
 	$output .= $input;
 }
 
+Text::script('MOD_FINDER_SEARCH_VALUE', true);
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_finder');
-$wa->useScript('com_finder.finder');
-
-Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
 /*
  * This segment of code sets up the autocompleter.
@@ -58,6 +55,9 @@ if ($params->get('show_autosuggest', 1))
 	$wa->usePreset('awesomplete');
 	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
+
+$wa->useScript('com_finder.finder');
+
 ?>
 
 <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">

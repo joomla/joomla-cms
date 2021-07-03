@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
@@ -17,9 +17,10 @@
     });
   }
 
-  // @Todo make vanilla, when modals are custom elements
-  window.jQuery('.modal').on('hidden.bs.modal', () => {
-    setTimeout(() => { window.parent.location.reload(); }, 1000);
+  Array.from(document.querySelectorAll('.modal')).forEach((modalEl) => {
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      setTimeout(() => { window.parent.location.reload(); }, 1000);
+    });
   });
 })(Joomla);
 

@@ -1,16 +1,20 @@
-(() => {
+((customElements, Joomla) => {
   class JoomlaFieldUser extends HTMLElement {
     constructor() {
       super();
 
       this.onUserSelect = '';
       this.onchangeStr = '';
+
+      // Bind events
       this.buttonClick = this.buttonClick.bind(this);
       this.iframeLoad = this.iframeLoad.bind(this);
+      this.modalClose = this.modalClose.bind(this);
+      this.setValue = this.setValue.bind(this);
     }
 
     static get observedAttributes() {
-      return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
+      return ['url', 'modal', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
     }
 
     get url() { return this.getAttribute('url'); }
@@ -49,13 +53,12 @@
       this.inputName = this.querySelector(this.inputNameClass);
       this.buttonSelect = this.querySelector(this.buttonSelectClass);
 
-      // Bind events
-      this.modalClose = this.modalClose.bind(this);
-      this.setValue = this.setValue.bind(this);
-
       // Bootstrap modal init
-      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
-        Joomla.Bootstrap.initModal(this.modal);
+      if (this.modal
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && !window.bootstrap.Modal.getInstance(this.modal)) {
+        Joomla.initialiseModal(this.modal, { isJoomla: true });
       }
 
       if (this.buttonSelect) {
@@ -136,10 +139,14 @@
     setValue(value, name) {
       this.input.setAttribute('value', value);
       this.inputName.setAttribute('value', name || value);
-      // trigger change event
+      // trigger change event both on the input and on the custom element
       this.input.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value, name },
+        bubbles: true,
+      }));
     }
   }
 
   customElements.define('joomla-field-user', JoomlaFieldUser);
-})();
+})(customElements, Joomla);

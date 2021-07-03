@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
  .js-calendar {
@@ -23,6 +23,7 @@
 }
 /* The main calendar widget.  DIV containing a table. */
 div.calendar-container table th, .calendar-container table td {
+	box-shadow: none;
 	padding: 8px 0;
 	line-height: 1.1em;
 	text-align: center;

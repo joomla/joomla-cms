@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -92,10 +93,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$data = (array) $data;
 
-		// Make workflows translateable
+		// Make workflows translatable
 		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+		$component = Factory::getApplication()->bootComponent('com_content');
+
+		if (!$component instanceof WorkflowServiceInterface
+			|| !$component->isWorkflowActive('com_content.article'))
+		{
+			$form->removeField('workflow_id', 'params');
+
+			return;
+		}
 
 		$query = $db->getQuery(true);
 

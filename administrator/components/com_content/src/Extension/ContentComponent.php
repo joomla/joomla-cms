@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -193,6 +193,22 @@ class ContentComponent extends MVCComponent implements
 		);
 
 		return $contexts;
+	}
+
+	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string
+	{
+		$context = $this->getWorkflowContexts();
+
+		return array_key_first($context);
 	}
 
 	/**

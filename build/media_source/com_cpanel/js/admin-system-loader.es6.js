@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document, Joomla) => {
@@ -36,10 +36,10 @@
               } else if (response.data) {
                 const elem = document.createElement('span');
 
-                elem.classList.add('float-right');
+                elem.classList.add('float-end');
                 elem.classList.add('badge');
-                elem.classList.add('badge-warning');
-                elem.innerHTML = response.data;
+                elem.classList.add('bg-warning', 'text-dark');
+                elem.innerHTML = Joomla.sanitizeHtml(response.data);
 
                 element.parentNode.replaceChild(elem, element);
               } else {

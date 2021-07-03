@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class CollectionAdapter extends UpdateAdapter
 	/**
 	 * Used to control if an item has a child or not
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	protected $pop_parent = 0;
@@ -66,7 +66,7 @@ class CollectionAdapter extends UpdateAdapter
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */

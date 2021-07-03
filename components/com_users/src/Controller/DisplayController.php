@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class DisplayController extends BaseController
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
-	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
+	 *                                     for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *

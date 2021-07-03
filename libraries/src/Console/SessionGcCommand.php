@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\Console\Command\AbstractCommand;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -63,12 +64,12 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 		{
 			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or it is not supported on your platform.');
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		$symfonyStyle->success('Garbage collection completed.');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

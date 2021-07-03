@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ $n         = count($this->items);
 		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="com-tags-tags__filter btn-group">
-					<label class="filter-search-lbl sr-only" for="filter-search">
+					<label class="filter-search-lbl visually-hidden" for="filter-search">
 						<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
 					</label>
 					<input
@@ -63,15 +63,13 @@ $n         = count($this->items);
 						class="inputbox" onchange="document.adminForm.submit();"
 						placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
 					>
-					<span class="input-group-append">
-						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-						<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
-					</span>
+					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+					<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
 				</div>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
-				<div class="btn-group float-right">
-					<label for="limit" class="sr-only">
+				<div class="btn-group float-end">
+					<label for="limit" class="visually-hidden">
 						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 					</label>
 					<?php echo $this->pagination->getLimitBox(); ?>
@@ -85,7 +83,7 @@ $n         = count($this->items);
 
 	<?php if ($this->items == false || $n === 0) : ?>
 		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
 		</div>
 	<?php else : ?>
@@ -108,13 +106,13 @@ $n         = count($this->items);
 					<span class="tag-body">
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+							<div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
 								<img
 									<?php if ($images->image_intro_caption) : ?>
-										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption, ENT_QUOTES, 'UTF-8') . '"'; ?>
 									<?php endif; ?>
-									src="<?php echo $images->image_intro; ?>"
-									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+									src="<?php echo htmlspecialchars($images->image_intro, ENT_QUOTES, 'UTF-8'); ?>"
+									alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>">
 							</div>
 						<?php endif; ?>
 					</span>
@@ -128,7 +126,7 @@ $n         = count($this->items);
 							</span>
 						<?php endif; ?>
 						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-							<span class="list-hits badge badge-info">
+							<span class="list-hits badge bg-info">
 								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 							</span>
 						<?php endif; ?>
@@ -148,7 +146,7 @@ $n         = count($this->items);
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-tags__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter float-right pt-3 pr-2">
+					<p class="counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

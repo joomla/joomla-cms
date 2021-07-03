@@ -33,7 +33,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -45,7 +45,7 @@
 				label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -57,7 +57,7 @@
 				label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JYES</option>
@@ -70,7 +70,7 @@
 				label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -82,7 +82,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -92,6 +92,7 @@
 				name="description_length"
 				type="number"
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
+				filter="integer"
 				default=""
 				size="5"
 				useglobal="true"
@@ -102,7 +103,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -114,7 +115,7 @@
 				label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JSHOW</option>
@@ -128,7 +129,7 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				validate="options"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -139,7 +140,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				validate="options"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -151,7 +152,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				validate="options"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -181,7 +182,7 @@
 				description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JYES</option>
@@ -193,7 +194,7 @@
 				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JYES</option>
@@ -205,7 +206,7 @@
 				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="1">JYES</option>
@@ -242,7 +243,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				validate="options"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

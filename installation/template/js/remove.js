@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Init on dom content loaded event
@@ -42,11 +42,22 @@ if (document.getElementById('removeInstallationFolder')) {
 					perform: true,
 					token: true,
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-					onSuccess: function () {
-						const customInstallation = document.getElementById('customInstallation');
-						customInstallation.parentNode.removeChild(customInstallation);
-						const removeInstallationTab = document.getElementById('removeInstallationTab');
-						removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+					onSuccess: function (response) {
+            const successresponse = JSON.parse(response);
+            if (successresponse.error === true) {
+              if (successresponse.messages) {
+                Joomla.renderMessages(successresponse.messages, '#system-message-container');
+                Joomla.loadOptions({'csrf.token': successresponse.token});
+              } else {
+                // Stuff went wrong. No error messages. Just panic bail!
+                Joomla.renderMessages('Unknown error deleting the installation folder.', '#system-message-container');
+              }
+            } else {
+              const customInstallation = document.getElementById('customInstallation');
+              customInstallation.parentNode.removeChild(customInstallation);
+              const removeInstallationTab = document.getElementById('removeInstallationTab');
+              removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+            }
 					},
 					onError: function (xhr) {
             Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
@@ -98,6 +109,7 @@ if (document.getElementById('defaultLanguagesButton')) {
           if (successresponse.messages) {
             Joomla.renderMessages(successresponse.messages, '#system-message-container');
           }
+          Joomla.loadOptions({'csrf.token': successresponse.token});
         },
         onError(xhr) {
           Joomla.renderMessages({ error: [xhr] }, '#system-message-container');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,7 @@ use Joomla\CMS\Language\Text;
 				<div class="controls">
 					<div class="input-group">
 						<input class="form-control" type="text" name="new_name" id="new_name" required>
-						<span class="input-group-append">
-							<span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
-						</span>
+						<span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
 					</div>
 				</div>
 			</div>

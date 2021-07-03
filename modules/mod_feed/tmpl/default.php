@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ else
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
-		// Feed description
+		// Feed title
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
@@ -80,7 +80,7 @@ else
 		// Feed date
 		if ($params->get('rssdate', 1)) : ?>
 			<h3>
-			<?php echo HtmlHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+			<?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 			</h3>
 		<?php endif;
 		// Feed description
@@ -118,7 +118,7 @@ else
 
 					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
-							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+							<?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 						</div>
 					<?php endif; ?>
 

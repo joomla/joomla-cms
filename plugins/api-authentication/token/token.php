@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Apiauthentication.token
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		if (empty($authHeader) && \PHP_SAPI === 'apache2handler'
 			&& function_exists('apache_request_headers') && apache_request_headers() !== false)
 		{
-			$apacheHeaders = array_change_key_case(\apache_request_headers(), CASE_LOWER);
+			$apacheHeaders = array_change_key_case(apache_request_headers(), CASE_LOWER);
 
 			if (array_key_exists('authorization', $apacheHeaders))
 			{

@@ -15,14 +15,10 @@
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
-    <a
-      href="#"
+    <span
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      @click.stop="toggleSelect()"
-      @focus="focused(true)"
-      @blur="focused(false)"
     />
     <div
       class="media-browser-actions"
@@ -239,10 +235,6 @@ export default {
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
-    },
-    /* Toggle the item selection */
-    toggleSelect() {
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
     },
     /* Open modal for share url */
     openShareUrlModal() {

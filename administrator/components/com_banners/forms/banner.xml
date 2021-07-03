@@ -4,7 +4,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
@@ -43,7 +43,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			validate="options"
@@ -131,6 +131,7 @@
 			name="created_by"
 			type="user"
 			label="COM_BANNERS_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -159,6 +160,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field

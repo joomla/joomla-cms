@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,9 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
 <div class="mod-banners bannergroup">
 <?php if ($headerText) : ?>
-	<?php echo $headerText; ?>
+	<div class="bannerheader">
+		<?php echo $headerText; ?>
+	</div>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>
@@ -87,23 +89,6 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
 					>
 				<?php endif; ?>
-			<?php elseif (BannerHelper::isFlash($imageurl)) : ?>
-				<object
-					classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
-					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
-					<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
-					<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
-				>
-					<param name="movie" value="<?php echo $imageurl; ?>" />
-					<embed
-						src="<?php echo $imageurl; ?>"
-						loop="false"
-						pluginspage="http://www.macromedia.com/go/get/flashplayer"
-						type="application/x-shockwave-flash"
-						<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
-						<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
-					/>
-				</object>
 			<?php endif; ?>
 		<?php endif; ?>
 	</div>

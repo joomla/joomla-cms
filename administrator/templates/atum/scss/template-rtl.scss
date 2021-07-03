@@ -1,4 +1,5 @@
 @import "template";
+@import "vendor/bootstrap/bootstrap-rtl";
 
 // Global
 dl,
@@ -7,11 +8,7 @@ ul {
   padding-right: 0;
 }
 
-.close {
-  float: left;
-}
-
-.dropdown-menu-right {
+.dropdown-menu-end {
 
   &::after {
     right: auto;
@@ -30,16 +27,6 @@ ul {
 
 // Header
 .header {
-  .page-title {
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      margin-right: 0;
-      margin-left: 15px;
-    }
-  }
-
   .logo svg,
   .logo img {
     margin-right: .8rem;
@@ -52,14 +39,6 @@ ul {
   left: auto;
   margin-right: -7.5px;
   margin-left: 0;
-}
-
-.menu-toggle-icon::before {
-  content: "\f054";
-
-  .closed & {
-    content: "\f053";
-  }
 }
 
 // Status
@@ -79,18 +58,15 @@ ul {
 
 // com_cpanel
 .com_cpanel {
-
   .card {
-
     .list-group {
-
       > .published {
-        border-right: 5px solid theme-color("success");
+        border-right: 5px solid var(--success);
         border-left: 0;
       }
 
       > .unpublished {
-        border-right: 5px solid theme-color("danger");
+        border-right: 5px solid var(--danger);
         border-left: 0;
       }
     }
@@ -107,31 +83,6 @@ ul {
       }
     }
   }
-
-  .module-actions {
-    right: auto;
-    left: 0;
-  }
-}
-
-.ml-auto {
-  margin-right: auto !important;
-  margin-left: 0 !important;
-}
-
-.mr-auto {
-  margin-right: 0 !important;
-  margin-left: auto !important;
-}
-
-.ml-2 {
-  margin-right: .5rem;
-  margin-left: 0 !important;
-}
-
-.mr-2 {
-  margin-right: 0 !important;
-  margin-left: .5rem;
 }
 
 .field-calendar {
@@ -146,32 +97,10 @@ ul {
   float: none;
 }
 
-// Bootstrap overrides
-.text-left {
-  text-align: right !important;
-}
-
-.text-right {
-  text-align: left !important;
-}
-
 // System panel
 .menu-quicktask,
 .menu-badge {
   float: left;
-}
-
-// Modal header override
-.modal-header .close {
-  margin-right: 0 !important;
-  margin-left: -15px;
-  border-right: 1px solid var(--border);
-  border-left: 0 !important;
-
-  span {
-    position: relative;
-    left: 6px;
-  }
 }
 
 // Redirect urls fields
@@ -187,6 +116,13 @@ ul {
   direction: ltr;
 }
 
+// skipto
+.skip-to {
+  [role="separator"] {
+    text-align: right !important;
+  }
+}
+
 // SearchTools rounded corners
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
@@ -194,8 +130,8 @@ ul {
 .input-group > .input-group-append:not(:last-child) > .input-group-text,
 .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
 .input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
-  @include border-left-radius($border-radius);
-  @include border-right-radius(0);
+  @include border-start-radius($border-radius);
+  @include border-end-radius(0);
 }
 
 .input-group > .input-group-append > .btn,
@@ -204,31 +140,31 @@ ul {
 .input-group > .input-group-prepend:not(:first-child) > .input-group-text,
 .input-group > .input-group-prepend:first-child > .btn:not(:first-child),
 .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-  @include border-left-radius($border-radius);
-  @include border-right-radius(0);
+  @include border-start-radius($border-radius);
+  @include border-end-radius(0);
 }
 
 .input-group > .form-control:not(:last-child),
-.input-group > .custom-select:not(:last-child) {
-  @include border-left-radius(0);
-  @include border-right-radius($border-radius);
+.input-group > .form-select:not(:last-child) {
+  @include border-start-radius(0);
+  @include border-end-radius($border-radius);
 }
 
 .btn-group > .btn:first-child:not(.dropdown-toggle) {
-  @include border-right-radius($border-radius);
+  @include border-end-radius($border-radius);
 }
 
 .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
 .btn-group > .btn-group:not(:last-child) > .btn {
-  @include border-left-radius(0);
+  @include border-start-radius(0);
   margin-left: -1px;
 }
 
 .btn-group > .btn:last-child:not(.dropdown-toggle) {
-  @include border-left-radius($border-radius);
+  @include border-start-radius($border-radius);
 }
 
 .btn-group > .btn:not(:first-child),
 .btn-group > .btn-group:not(:first-child) {
-  @include border-right-radius(0);
+  @include border-end-radius(0);
 }

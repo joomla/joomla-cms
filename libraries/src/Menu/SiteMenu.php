@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -203,7 +203,7 @@ class SiteMenu extends AbstractMenu
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -251,7 +251,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
+				$values[]     = $this->user->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -261,7 +261,7 @@ class SiteMenu extends AbstractMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}

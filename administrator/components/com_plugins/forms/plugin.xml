@@ -20,7 +20,7 @@
 			name="enabled"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			validate="options"

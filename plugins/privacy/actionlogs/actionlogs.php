@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,13 +41,14 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
 		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
 		$db     = $this->db;
+		$userId = (int) $user->id;
 
 		$query = $db->getQuery(true)
 			->select(['a.*', $db->quoteName('u.name')])
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('a.user_id') . ' = :id')
-			->bind(':id', $user->id, ParameterType::INTEGER);
+			->bind(':id', $userId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 /**
  * HTML error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  * @todo   Change this renderer to use JDocumentHtml instead of JDocumentError, the latter is only used for B/C at this time
  */
 class HtmlRenderer extends AbstractRenderer
@@ -26,7 +26,7 @@ class HtmlRenderer extends AbstractRenderer
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'error';
 
@@ -37,7 +37,7 @@ class HtmlRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{
@@ -73,7 +73,8 @@ class HtmlRenderer extends AbstractRenderer
 				'directory'        => JPATH_THEMES,
 				'debug'            => JDEBUG,
 				'csp_nonce'        => $app->get('csp_nonce'),
-				'templateInherits' => $template->parent
+				'templateInherits' => $template->parent,
+				'params'           => $template->params,
 			]
 		);
 	}

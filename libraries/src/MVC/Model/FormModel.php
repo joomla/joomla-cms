@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -139,7 +139,15 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
+				if ($table->getError() === false)
+				{
+					// There was no error returned, but false indicates that the row did not exist in the db, so probably previously deleted.
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+				}
+				else
+				{
+					$this->setError($table->getError());
+				}
 
 				return false;
 			}

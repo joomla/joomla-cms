@@ -43,8 +43,8 @@
 		<field
 			name="articletext"
 			type="editor"
-			label="CONTENT_TEXT_LABEL"
-			description="CONTENT_TEXT_DESC"
+			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
+			hiddenLabel="true"
 			buttons="true"
 			filter="JComponentHelper::filterText"
 			asset_id="com_content"
@@ -54,9 +54,10 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -359,10 +360,10 @@
 					filter="unset"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+					<option value="index, follow"></option>
+					<option value="noindex, follow"></option>
+					<option value="index, nofollow"></option>
+					<option value="noindex, nofollow"></option>
 				</field>
 
 				<field

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class ApiRouter extends Router
 	{
 		$method = strtoupper($method);
 
-		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"];
+		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH"];
 
 		if (!\in_array($method, $validMethods))
 		{
@@ -95,7 +95,51 @@ class ApiRouter extends Router
 		}
 
 		// Get the path from the route and remove and leading or trailing slash.
-		$uri = Uri::getInstance();
+		$routePath = $this->getRoutePath();
+
+		$query = Uri::getInstance()->getQuery(true);
+
+		// Iterate through all of the known routes looking for a match.
+		foreach ($this->routes as $route)
+		{
+			if (\in_array($method, $route->getMethods()))
+			{
+				if (preg_match($route->getRegex(), ltrim($routePath, '/'), $matches))
+				{
+					// If we have gotten this far then we have a positive match.
+					$vars = $route->getDefaults();
+
+					foreach ($route->getRouteVariables() as $i => $var)
+					{
+						$vars[$var] = $matches[$i + 1];
+					}
+
+					$controller = preg_split("/[.]+/", $route->getController());
+					$vars       = array_merge($vars, $query);
+
+					return [
+						'controller' => $controller[0],
+						'task'       => $controller[1],
+						'vars'       => $vars
+					];
+				}
+			}
+		}
+
+		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $routePath));
+	}
+
+	/**
+	 * Get the path from the route and remove and leading or trailing slash.
+	 *
+	 * @return string
+	 *
+	 * @since 4.0.0
+	 */
+	public function getRoutePath()
+	{
+		// Get the path from the route and remove and leading or trailing slash.
+		$uri  = Uri::getInstance();
 		$path = urldecode($uri->getPath());
 
 		/**
@@ -118,42 +162,13 @@ class ApiRouter extends Router
 		// Transform the route
 		$path = $this->removeIndexPhpFromPath($path);
 
-		$query = Uri::getInstance()->getQuery(true);
-
-		// Iterate through all of the known routes looking for a match.
-		foreach ($this->routes as $route)
-		{
-			if (\in_array($method, $route->getMethods()))
-			{
-				if (preg_match($route->getRegex(), ltrim($path, '/'), $matches))
-				{
-					// If we have gotten this far then we have a positive match.
-					$vars = $route->getDefaults();
-
-					foreach ($route->getRouteVariables() as $i => $var)
-					{
-						$vars[$var] = $matches[$i + 1];
-					}
-
-					$controller = preg_split("/[.]+/", $route->getController());
-					$vars       = array_merge($vars, $query);
-
-					return [
-						'controller' => $controller[0],
-						'task'       => $controller[1],
-						'vars'       => $vars
-					];
-				}
-			}
-		}
-
-		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $path));
+		return $path;
 	}
 
 	/**
 	 * Removes the index.php from the route's path.
 	 *
-	 * @param   string  $path
+	 * @param   string  $path  The path
 	 *
 	 * @return  string
 	 *
@@ -178,5 +193,24 @@ class ApiRouter extends Router
 
 		// Remove the "index.php/" part of the route and return the result.
 		return substr($path, 10);
+	}
+
+	/**
+	 * Extract routes matching current route from all known routes.
+	 *
+	 * @return \Joomla\Router\Route[]
+	 *
+	 * @since 4.0.0
+	 */
+	public function getMatchingRoutes()
+	{
+		$routePath = $this->getRoutePath();
+
+		// Extract routes matching $routePath from all known routes.
+		return array_filter($this->routes,
+			function ($route) use ($routePath) {
+				return preg_match($route->getRegex(), ltrim($routePath, '/'), $matches) === 1;
+			}
+		);
 	}
 }

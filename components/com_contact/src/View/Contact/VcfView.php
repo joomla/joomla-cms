@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class VcfView extends AbstractView
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
 
-		// "Lastname, Firstname Midlename" format support
+		// "Lastname, Firstname Middlename" format support
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 

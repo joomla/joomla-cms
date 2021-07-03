@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgWebservicesContent extends CMSPlugin
 	public function onBeforeApiRoute(&$router)
 	{
 		$router->createCRUDRoutes(
-			'v1/content/article',
+			'v1/content/articles',
 			'articles',
 			['component' => 'com_content']
 		);
@@ -106,14 +106,14 @@ class PlgWebservicesContent extends CMSPlugin
 		$defaults    = [
 			'component'  => 'com_contenthistory',
 			'type_alias' => 'com_content.article',
-			'type_id'    => 1
+			'type_id'    => 1,
 		];
 		$getDefaults = array_merge(['public' => false], $defaults);
 
 		$routes = [
-			new Route(['GET'], 'v1/content/article/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PATCH'], 'v1/content/article/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
-			new Route(['DELETE'], 'v1/content/article/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+			new Route(['GET'], 'v1/content/articles/:id/contenthistory', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PATCH'], 'v1/content/articles/:id/contenthistory/keep', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/content/articles/:id/contenthistory', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 
 		$router->addRoutes($routes);

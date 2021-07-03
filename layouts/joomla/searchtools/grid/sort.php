@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ $id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
-	$sort = $data->direction === 'asc' ? 'ascending' : 'descending';
+	$sort = $data->direction === 'asc' ? 'descending' : 'ascending';
 	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
 	$selected = ' selected';
 	$id = 'id="sorted"';
@@ -38,9 +38,9 @@ endif;
 	<?php // The following statement has been concatenated purposely to remove whitespace. ?>
 	<?php // Please leave as is. ?>
 	<?php if (!empty($data->title)) : ?><span><?php echo Text::_($data->title); ?></span><?php endif; ?><span
-		class="ml-1 <?php echo $icon; ?>"
+		class="ms-1 <?php echo $icon; ?>"
 		aria-hidden="true"></span>
-	<span class="sr-only">
+	<span class="visually-hidden">
 		<?php echo Text::_('JGLOBAL_SORT_BY'); ?>
 		<?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
 	</span>

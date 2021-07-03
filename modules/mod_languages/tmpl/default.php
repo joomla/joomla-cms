@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 <?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars_decode(htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'), ENT_NOQUOTES); ?>">
-	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
+	<select class="inputbox form-select" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
@@ -32,19 +32,19 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	</select>
 	</form>
 <?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
-					<span class="caret"></span>
+				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="lang-block dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active) : ?>
 				<li>
@@ -70,7 +70,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>
@@ -95,7 +95,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 				<?php else : ?>
-					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
+					<span class="badge bg-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
