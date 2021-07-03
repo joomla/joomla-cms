@@ -126,11 +126,13 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 			$db->setQuery($query);
 			$cookies = $db->loadObjectList();
-		$body = '';
+
+			$body = '';
 
 		foreach ($category as $key1 => $value1)
 		{
-			$body .= $value1->title . '<br>' . $value1->description . '<br>';
+			$body .= '<a data-bs-toggle="collapse" href="#' . $value1->alias . '" >' . $value1->title . '</a><br>';
+			$body .= '<div class="collapse" id="' . $value1->alias . '">' . $value1->description . '<br>';
 			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
 
 			foreach ($cookies as $key => $value)
@@ -160,7 +162,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			}
 
 			$table .= '</table>';
-			$body .= $table;
+			$body .= $table . '</div>';
 		}
 
 			$this->preferences = HTMLHelper::_(
