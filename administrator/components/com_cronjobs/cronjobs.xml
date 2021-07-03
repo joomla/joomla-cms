@@ -9,6 +9,20 @@
 		COM_CRONJOBS_XML_DESCRIPTION
 	</description>
 	<namespace path="src">Joomla\Component\Cronjobs</namespace>
+
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/mysql/install.sql</file>
+			<file drive="postgresql" charset="utf8">sql/postgresql/install.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/mysql/uninstall.sql</file>
+			<file drive="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
+		</sql>
+	</uninstall>
+
 	<administration>
 		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
 	</administration>
