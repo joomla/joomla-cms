@@ -96,7 +96,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key => $value)
 		{
-			$body .= '<br><label for="' . $value->alias . '"><input class="form-check-input" id="' . $value->alias . '" type=checkbox>' . $value->title . '</label>';
+			$body .= '<br><label class="m-2" for="' . $value->alias . '"><input class="form-check-input" id="' . $value->alias . '" type=checkbox>' . $value->title . '</label>';
 		}
 
 		$this->cookieBanner = HTMLHelper::_(
@@ -105,7 +105,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			[
 					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
 					'footer' => '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
-					. Text::_('COM_COOKIEMANAGER_REVOKE_BUTTON_TEXT') . '</button>'
+					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
@@ -117,7 +117,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 			$db = $this->db;
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['c.id','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
+				->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
 				->from($db->quoteName('#__categories', 'c'))
 				->join(
 					'RIGHT',
@@ -131,6 +131,17 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($cookies as $key => $value)
 		{
+			if ($value->exp_period == -1)
+			{
+				$value->exp_period = "Forever";
+				$value->exp_value = "";
+			}
+			elseif ($value->exp_period == 0)
+			{
+					$value->exp_period = "Session";
+					$value->exp_value = "";
+			}
+
 			$body .= '<tr>'
 			. '<td>' . $value->cookie_name . '</td>'
 			. '<td>' . $value->cookie_desc . '</td>'
