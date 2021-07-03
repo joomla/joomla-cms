@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    if: (github.event_name == 'schedule' && github.repository == 'joomla/joomla-cms') || (github.event_name != 'schedule')
 
     runs-on: ubuntu-latest
 
