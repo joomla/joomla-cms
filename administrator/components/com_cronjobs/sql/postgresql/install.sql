@@ -11,7 +11,7 @@ $$;
 DO
 $$
     BEGIN
-        CREATE TYPE trigger_type AS ENUM ('pseudoCron', 'cron', 'visit_count');
+        CREATE TYPE trigger_type AS ENUM ('pseudo_cron', 'cron', 'visit_count');
     EXCEPTION
         WHEN duplicate_object THEN null;
     END
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "#__cronjobs"
     "job_id"         INT GENERATED ALWAYS AS IDENTITY,
     "name"           varchar(255) NOT NULL,
     "type"           job_type,
-    "trigger"        trigger_type NOT NULL DEFAULT 'pseudoCron',
+    "trigger"        trigger_type NOT NULL DEFAULT 'pseudo_cron',
     "enabled"        boolean      NOT NULL DEFAULT false,
     "last_exit_code" int          NOT NULL DEFAULT 0,
     "last_execution" timestamp    NOT NULL,

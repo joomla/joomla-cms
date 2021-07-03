@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__cronjobs`
     -- Job type. Can execute a script or plugin routine
     `type`           ENUM ('script', 'plugin')                  NOT NULL DEFAULT 'script',
     -- Trigger type, default to PseudoCron (compatible everywhere).
-    `trigger`        ENUM ('pseudoCron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudoCron' COMMENT 'Defines how job is triggered',
+    `trigger`        ENUM ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
     `enabled`        BOOL                                       NOT NULL DEFAULT FALSE,
     `last_exit_code` INT(11)                                    NOT NULL DEFAULT 0 COMMENT 'Exit code when job was last run',
     `last_execution` DATETIME                                   NOT NULL COMMENT 'Timestamp of when job was last run',
