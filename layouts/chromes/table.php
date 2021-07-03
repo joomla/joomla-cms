@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
+$chromeClass = trim("moduletable " . htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . ' ' . $displayData['attribs']['class']);
 ?>
 <table
-	class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . ' '. $displayData['attribs']['class']; ?>">
+	class="<?php echo $chromeClass; ?>">
 	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
