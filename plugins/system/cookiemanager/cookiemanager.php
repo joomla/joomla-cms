@@ -33,6 +33,22 @@ class PlgSystemCookiemanager extends CMSPlugin
 	protected $app;
 
 	/**
+	 * For cookie banner
+	 *
+	 * @var    CookieBanner
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $cookieBanner;
+
+	/**
+	 * For preferences banner
+	 *
+	 * @var    Preferences
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $preferences;
+
+	/**
 	 * Database object
 	 *
 	 * @var    DatabaseDriver
@@ -41,19 +57,23 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 protected $db;
 
 	/**
-	 * Before Render Event.
+	 * Add assets for the modal.
 	 *
 	 * @return   void
 	 *
 	 * @since		 __DEPLOY_VERSION__
 	 */
-	public function onBeforeRender()
+	public function onBeforeCompileHead()
 	{
 
 		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
+
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
+			->registerAndUseStyle('cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
 
 		$lang = Factory::getLanguage();
 		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
@@ -62,11 +82,24 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$sitemenu = $this->app->getMenu();
 		$menuitem = $sitemenu->getItem($params->get('policylink'));
 
-		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript('cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
-			->registerAndUseStyle('cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(['id','title','alias','description']))
+				->from($db->quoteName('#__categories'))
+				->where($db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'));
 
-		$cookieBanner = HTMLHelper::_(
+			$db->setQuery($query);
+			$category = $db->loadObjectList();
+
+			$body = Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '<br><br><a '
+							. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a>';
+
+		foreach ($category as $key => $value)
+		{
+			$body .= '<br><label for="' . $value->alias . '"><input class="form-check-input" id="' . $value->alias . '" type=checkbox>' . $value->title . '</label>';
+		}
+
+		$this->cookieBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'cookieBanner',
 			[
@@ -79,11 +112,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
 
 				],
-			$body = Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '<br><br><a '
-							. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a>'
+			$body
 		);
-
-			echo $cookieBanner;
 
 			$db = $this->db;
 			$query = $db->getQuery(true)
@@ -110,7 +140,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$body .= '</table>';
 
-			$preferences = HTMLHelper::_(
+			$this->preferences = HTMLHelper::_(
 				'bootstrap.renderModal',
 				'preferences',
 				[
@@ -124,9 +154,21 @@ class PlgSystemCookiemanager extends CMSPlugin
 				$body
 			);
 
-				echo $preferences;
+	}
 
-				echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
+	/**
+	 * Echo the modal and button.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterRespond()
+	{
+		echo $this->cookieBanner;
+		echo $this->preferences;
+		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
 	}
+
 }
