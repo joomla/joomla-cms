@@ -105,7 +105,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				[
 					$db->quoteName('default') . ' = 1',
 					$db->quoteName('published') . ' = 1',
-					$db->quoteName('extension') . ' = ' . $db->quote('com_content.article')
+					$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 				]
 			);
 
