@@ -1,0 +1,29 @@
+name: Cron to update Mozilla CaCert files in the Joomla Core
+
+on:
+  push:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # Runs on the first day of every month at 03:00
+    - cron:  '0 3 1 * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download the latest cacert file
+        uses: wei/wget@v1
+        with:
+          args: -O libraries/src/Http/Transport/cacert.pem https://curl.se/ca/cacert.pem
+
+      - name: Copy the cacert file to the FOF repo
+        run: cp "libraries/src/Http/Transport/cacert.pem" "libraries/fof/download/adapter/cacert.pem"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated update of Mozilla CaCert
+          branch: ${{ github.head_ref }}
