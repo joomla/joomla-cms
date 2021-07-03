@@ -14,6 +14,7 @@
   <files>
     <filename plugin="shortcut">shortcut.php</filename>
     <filename>index.html</filename>
+	<folder>fields</folder>
   </files>
   <languages>
     <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.ini</language>
@@ -21,14 +22,39 @@
   </languages>
   <config>
     <fields name="params">
-      <fieldset name="basic">
-        <field type="text" name="shortcut_button_new" default="alt + n" label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_DESC" />
-		<field type="text" name="shortcut_button_apply" default="alt + s" label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_DESC" />
-		<field type="text" name="shortcut_button_save" default="alt + w" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_DESC" />
-		<field type="text" name="shortcut_button_saveNew" default="alt + n" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_DESC" />
-		<field type="text" name="shortcut_button_help" default="alt + h" label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_DESC" />
-		<field type="text" name="shortcut_button_cancel" default="alt + q" label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_DESC" />
-		<field type="text" name="shortcut_button_copy" default="alt + shift + c" label="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_LBL" description="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_DESC" />
+      <fieldset name="buttons" label="PLG_SYSTEM_SHORTCUT_BUTTONS_LBL" addfieldpath="/plugins/system/shortcut/fields">
+        <field name="new_keySelect" type="keyselect" default="ALT + N" class="new" label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" />
+        <field type="hidden" name="new_keyEvent" default="n" />
+        <field name="apply_keySelect" type="keyselect" default="ALT + S" class="apply" label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL" />
+        <field type="hidden" name="apply_keyEvent" default="s" />
+        <field name="save_keySelect" type="keyselect" default="ALT + W" class="save" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL" />
+        <field type="hidden" name="save_keyEvent" default="w" />
+        <field name="saveNew_keySelect" type="keyselect" default="SHIFT + ALT + N" class="saveNew" label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" />
+        <field type="hidden" name="saveNew_keyEvent" default="n" />
+        <field name="help_keySelect" type="keyselect" default="ALT + X" class="help" label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL" />
+        <field type="hidden" name="help_keyEvent" default="x" />
+        <field name="cancel_keySelect" type="keyselect" default="ALT + Q" class="cancel" label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL" />
+        <field type="hidden" name="cancel_keyEvent" default="q" />
+        <field name="copy_keySelect" type="keyselect" default="SHIFT + ALT + C" class="copy" label="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_LBL" />
+        <field type="hidden" name="copy_keyEvent" default="c" />
+      </fieldset>
+      <fieldset name="editor" label="PLG_SYSTEM_SHORTCUT_EDITOR_LBL" addfieldpath="/plugins/system/shortcut/fields">
+        <field name="article_keySelect" type="keyselect" default="CTRL + ALT + A" class="article" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_ARTICLE_LBL" />
+        <field type="hidden" name="article_keyEvent" default="a" />
+        <field name="contact_keySelect" type="keyselect" default="CTRL + ALT + C" class="contact" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_CONTACT_LBL" />
+        <field type="hidden" name="contact_keyEvent" default="c" />
+        <field name="fields_keySelect" type="keyselect" default="CTRL + ALT + F" class="fields" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_FIELDS_LBL" />
+        <field type="hidden" name="fields_keyEvent" default="f" />
+        <field name="image_keySelect" type="keyselect" default="CTRL + ALT + I" class="image" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_IMAGE_LBL" />
+        <field type="hidden" name="image_keyEvent" default="i" />
+        <field name="menu_keySelect" type="keyselect" default="CTRL + ALT + M" class="menu" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MENU_LBL" />
+        <field type="hidden" name="menu_keyEvent" default="m" />
+        <field name="module_keySelect" type="keyselect" default="CTRL + SHIFT + ALT + M" class="module" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MODULE_LBL" />
+        <field type="hidden" name="module_keyEvent" default="m" />
+        <field name="pagebreak_keySelect" type="keyselect" default="CTRL + ALT + P" class="pagebreak" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_PAGEBREAK_LBL" />
+        <field type="hidden" name="pagebreak_keyEvent" default="p" />
+        <field name="readmore_keySelect" type="keyselect" default="CTRL + ALT + R" class="readmore" label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_READMORE_LBL" />
+        <field type="hidden" name="readmore_keyEvent" default="r" />
       </fieldset>
     </fields>
   </config>
