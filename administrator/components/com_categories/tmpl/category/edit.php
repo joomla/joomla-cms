@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -32,10 +32,12 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
 
-$c = Factory::getApplication()->bootComponent('com_content');
+$c = Factory::getApplication()->bootComponent($this->state->get('category.extension'));
+
+$wcontext = $c->getCategoryWorkflowContext($this->state->get('category.section'));
 
 if (!$c instanceof WorkflowServiceInterface
-	|| !$c->isWorkflowActive('com_content.article'))
+	|| !$c->isWorkflowActive($wcontext))
 {
 	$this->ignore_fieldsets[] = 'workflow';
 }
