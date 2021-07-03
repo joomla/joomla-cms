@@ -126,30 +126,42 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 			$db->setQuery($query);
 			$cookies = $db->loadObjectList();
+		$body = '';
 
-		$body = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
-
-		foreach ($cookies as $key => $value)
+		foreach ($category as $key1 => $value1)
 		{
-			if ($value->exp_period == -1)
+			$body .= $value1->title . '<br>' . $value1->description . '<br>';
+			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
+
+			foreach ($cookies as $key => $value)
 			{
-				$value->exp_period = "Forever";
-				$value->exp_value = "";
-			}
-			elseif ($value->exp_period == 0)
-			{
-					$value->exp_period = "Session";
-					$value->exp_value = "";
+				if (!empty($value))
+				{
+					if ($value1->id == $value->id)
+					{
+						if ($value->exp_period == -1)
+						{
+							$value->exp_period = "Forever";
+							$value->exp_value = "";
+						}
+						elseif ($value->exp_period == 0)
+						{
+							$value->exp_period = "Session";
+							$value->exp_value = "";
+						}
+
+						$table .= '<tr>'
+						. '<td>' . $value->cookie_name . '</td>'
+						. '<td>' . $value->cookie_desc . '</td>'
+						. '<td>' . $value->exp_value . ' ' . $value->exp_period . '</td>'
+						. '</tr>';
+					}
+				}
 			}
 
-			$body .= '<tr>'
-			. '<td>' . $value->cookie_name . '</td>'
-			. '<td>' . $value->cookie_desc . '</td>'
-			. '<td>' . $value->exp_value . ' ' . $value->exp_period . '</td>'
-			. '</tr>';
+			$table .= '</table>';
+			$body .= $table;
 		}
-
-		$body .= '</table>';
 
 			$this->preferences = HTMLHelper::_(
 				'bootstrap.renderModal',
