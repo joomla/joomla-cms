@@ -8,7 +8,7 @@
 			default="0"
 			class="readonly"
 			readonly="true"
-			/>
+		/>
 
 		<field
 			name="title"
@@ -16,7 +16,7 @@
 			label="COM_COOKIEMANAGER_FIELD_TITLE_LABEL"
 			size="40"
 			required="true"
-			/>
+		/>
 
 		<field
 			name="alias"
@@ -24,7 +24,7 @@
 			label="JFIELD_ALIAS_LABEL"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			/>
+		/>
 
 		<field
 			name="published"
@@ -48,14 +48,14 @@
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
-			/>
+		/>
 
 		<field
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
 			content_type="com_cookiemanager.cookie"
-			/>
+		/>
 
 		<field
 			name="cookie_name"
@@ -63,7 +63,7 @@
 			label="COM_COOKIEMANAGER_COOKIE_NAME_LABEL"
 			required="true"
 			hint="COM_COOKIEMANAGER_COOKIE_NAME_HINT"
-			/>
+		/>
 
 		<field
 			name="cookie_desc"
@@ -71,7 +71,7 @@
 			label="COM_COOKIEMANAGER_COOKIE_DESC_LABEL"
 			required="true"
 			hint="COM_COOKIEMANAGER_COOKIE_DESC_HINT"
-			/>
+		/>
 
 		<field
 			name="exp_period"
@@ -98,14 +98,14 @@
 			filter="integer"
 			showon="exp_period:seconds,minutes,hours,days,weeks,months,years"
 			default="0"
-			/>
+		/>
 
 		<field
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 			validate="UserId"
-			/>
+		/>
 
 		<field
 			name="created"
@@ -115,7 +115,7 @@
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
-			/>
+		/>
 
 		<field
 			name="modified"
@@ -127,7 +127,7 @@
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
-			/>
+		/>
 
 		<field
 			name="modified_by"
@@ -137,6 +137,6 @@
 			readonly="true"
 			filter="unset"
 			validate="UserId"
-			/>
+		/>
 	</fieldset>
 </form>

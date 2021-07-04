@@ -8,7 +8,7 @@
 			name="policylink"
 			type="menuitem"
 			label="COM_COOKIEMANAGER_POLICY_LINK_LABEL"
-			/>
+		/>
 
 		<field
 			name="position"
@@ -36,6 +36,6 @@
 			filter="rules"
 			component="com_cookiemanager"
 			section="component"
-			/>
+		/>
 	</fieldset>
 </config>
