@@ -124,12 +124,6 @@ class HtmlView extends BaseHtmlView
 			return parent::display($tpl);
 		}
 
-		if (!$this->shouldDisplayPreUpdateCheck())
-		{
-			$this->setLayout('emptystate');
-
-			return parent::display($tpl);
-		}
 
 		if ($this->showUploadAndUpdate)
 		{
@@ -139,6 +133,13 @@ class HtmlView extends BaseHtmlView
 
 			$this->warnings = $this->get('Items', 'warnings');
 		}
+		elseif (!$this->shouldDisplayPreUpdateCheck())
+		{
+			$this->setLayout('emptystate');
+
+			return parent::display($tpl);
+		}
+		// elseif ()
 		else
 		{
 			// Don't trick us by calling forbidden layouts (like upload when not Super User)
