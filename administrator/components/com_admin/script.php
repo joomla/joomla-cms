@@ -5860,7 +5860,9 @@ class JoomlaInstallerScript
 			'/media/com_fields/js/admin-field-edit-modal.min.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
 			// 4.0 from RC 3 to RC 4
-			'/language/en-GB/com_messages.ini',
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
+      '/language/en-GB/com_messages.ini',
+			'/libraries/src/Http/Transport/cacert.pem',
 		);
 
 		$folders = array(
@@ -7078,6 +7080,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/ozdemirburak/iris/src',
 			'/libraries/vendor/ozdemirburak/iris',
 			'/libraries/vendor/ozdemirburak',
+			'/libraries/vendor/bin',
 			'/components/com_menus/src/Controller',
 			'/components/com_csp/src/Controller',
 			'/components/com_csp/src',
