@@ -10,4 +10,14 @@
     const Banner = new bootstrap.Modal(document.getElementById('cookieBanner'));
     Banner.show();
   });
+
+  document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {
+    item.addEventListener('click', () => {
+      if (item.innerText === Joomla.Text._('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT')) {
+        item.innerText = Joomla.Text._('COM_COOKIEMANAGER_PREFERENCES_LESS_BUTTON_TEXT');
+      } else {
+        item.innerText = Joomla.Text._('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT');
+      }
+    });
+  });
 })(document);

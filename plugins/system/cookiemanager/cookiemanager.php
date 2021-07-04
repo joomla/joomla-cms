@@ -78,7 +78,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$lang = Factory::getLanguage();
 		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
 
-		Text::script('COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_SESSION');
+		Text::script('COM_COOKIEMANAGER_PREFERENCES_LESS_BUTTON_TEXT');
+		Text::script('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT');
 
 		$params = ComponentHelper::getParams('com_cookiemanager');
 		$sitemenu = $this->app->getMenu();
@@ -89,21 +90,22 @@ class PlgSystemCookiemanager extends CMSPlugin
 				->select($db->quoteName(['id','title','alias','description']))
 				->from($db->quoteName('#__categories'))
 				->where([
-
 					$db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'),
-					 $db->quoteName('published') . ' =  1',
+					$db->quoteName('published') . ' =  1',
 					]
 				);
 
 			$db->setQuery($query);
 			$category = $db->loadObjectList();
 
-			$body = Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '<br><br><a '
-							. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a>';
+			$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
+			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
+			$bannerBody .= '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5>';
 
 		foreach ($category as $key => $value)
 		{
-			$body .= '<br><div class="form-check form-check-inline"><label class="form-check-label" for="ch' . $value->alias . '">' . $value->title . '</label><span class="form-check-inline form-switch"><input class="form-check-input" id="ch' . $value->alias . '" type=checkbox></span></div>';
+			$bannerBody .= '<p class="form-check form-check-inline"><label for="ch' . $value->alias . '">' . $value->title . '<span class="ms-2 form-check-inline form-switch"><input class="form-check-input" id="ch'
+			. $value->alias . '" type=checkbox></span></label></p>';
 		}
 
 		$this->cookieBanner = HTMLHelper::_(
@@ -114,12 +116,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 					'footer' => '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
-					. Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT') . '</button>'
+					. Text::_('COM_COOKIEMANAGER_MORE_DETAILS') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
 
 				],
-			$body
+			$bannerBody
 		);
 
 			$db = $this->db;
@@ -134,21 +136,22 @@ class PlgSystemCookiemanager extends CMSPlugin
 			$db->setQuery($query);
 			$cookies = $db->loadObjectList();
 
-			$body = '';
+			$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
+			$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
 
-		foreach ($category as $key1 => $value1)
+		foreach ($category as $catKey => $catValue)
 		{
-			$body .= '<h4>' . $value1->title . '<span class="form-check-inline form-switch float-end">' .
-			'<input class="form-check-input " type="checkbox" id="ch' . $value1->alias . '"></span></h4><br>' . $value1->description;
+			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
+			'<input class="form-check-input " type="checkbox" id="ch' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
-			$body .= '<a data-bs-toggle="collapse" href="#' . $value1->alias . '" >More</a><div class="collapse" id="' . $value1->alias . '"><br>';
+			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" >' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
 			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
 
 			foreach ($cookies as $key => $value)
 			{
 				if (!empty($value))
 				{
-					if ($value1->id == $value->id)
+					if ($catValue->id == $value->id)
 					{
 						if ($value->exp_period == -1)
 						{
@@ -171,21 +174,21 @@ class PlgSystemCookiemanager extends CMSPlugin
 			}
 
 			$table .= '</table>';
-			$body .= $table . '</div>';
+			$prefBody .= $table . '</div>';
 		}
 
 			$this->preferences = HTMLHelper::_(
 				'bootstrap.renderModal',
 				'preferences',
 				[
-						'title' => Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT'),
+						'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
 						'footer' => '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
 						. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
 						. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
 						. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
 
 					],
-				$body
+				$prefBody
 			);
 
 	}
