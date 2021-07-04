@@ -8,14 +8,14 @@
 			name="policylink"
 			type="menuitem"
 			label="COM_COOKIEMANAGER_POLICY_LINK_LABEL"
-		/>
+			/>
 
 		<field
 			name="position"
 			type="list"
 			label="COM_COOKIEMANAGER_POSITION_BUTTON_LABEL"
 			default="bottom"
-		>
+			>
 		<option value="bottom">Bottom</option>
 		<option value="left">Left</option>
 		<option value="right">Right</option>
@@ -36,6 +36,6 @@
 			filter="rules"
 			component="com_cookiemanager"
 			section="component"
-		/>
+			/>
 	</fieldset>
 </config>

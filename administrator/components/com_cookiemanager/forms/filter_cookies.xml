@@ -7,7 +7,7 @@
   			label="COM_COOKIEMANAGER_FILTER_SEARCH_LABEL"
   			description="COM_COOKIEMANAGER_FILTER_SEARCH_DESC"
   			hint="JSEARCH_FILTER"
-  		/>
+			/>
 
   		<field
   			name="published"
@@ -18,17 +18,17 @@
   			<option value="">JOPTION_SELECT_PUBLISHED</option>
   		</field>
 
-  		<field
-        	name="category_id"
-  			type="category"
-  			label="JCATEGORY"
-        	multiple="true"
-  			extension="com_cookiemanager"
-  			layout="joomla.form.field.list-fancy-select"
-  			hint="JOPTION_SELECT_CATEGORY"
-  			onchange="this.form.submit();"
-  			published="0,1,2"
-  		/>
+		<field
+			name="category_id"
+			type="category"
+			label="JCATEGORY"
+			multiple="true"
+			extension="com_cookiemanager"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
+			onchange="this.form.submit();"
+			published="0,1,2"
+			/>
 	</fields>
 
 	<fields name="list">
@@ -59,6 +59,6 @@
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
-		/>
+			/>
 	</fields>
 </form>
