@@ -5861,7 +5861,8 @@ class JoomlaInstallerScript
 			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
 			// 4.0 from RC 3 to RC 4
 			'/components/com_contact/layouts/joomla/form/renderfield.php',
-			'/libraries/src/Http/Transport/cacert.pem'
+			'/language/en-GB/com_messages.ini',
+			'/libraries/src/Http/Transport/cacert.pem',
 		);
 
 		$folders = array(
