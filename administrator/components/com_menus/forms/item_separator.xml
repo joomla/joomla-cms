@@ -13,6 +13,13 @@
 			/>
 
 			<field
+				name="menu_icon"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_LABEL"
+				validate="CssIdentifier"
+			/>
+
+			<field
 				name="menu_image"
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
