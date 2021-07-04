@@ -42,12 +42,21 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 <div id="joomlaupdate-wrapper" class="main-card mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 	<?php if (true) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
+		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'pre-update-check', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
+			<?php echo $this->loadTemplate('preupdatecheck'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php endif; ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'online-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 	<?php endif; ?>
 
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
 
-			<?php if (true || !isset($this->updateInfo['object']->downloadurl->_data)
+			<?php if (true || (!isset($this->updateInfo['object']->downloadurl->_data)
+				&& !$this->updateInfo['hasUpdate'])) : ?>
+				<?php // If we have no download URL and this is also not a new update at all ?>
+				<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
 				<?php // If we have no download URL or our PHP version or our DB type is not supported then we can't reinstall or update ?>
@@ -65,4 +74,19 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
+
+	<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
+	<?php if ($this->showUploadAndUpdate) : ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'upload-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
+		<?php echo $this->loadTemplate('upload'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+	<?php endif; ?>
+
+	<div id="download-message" class="hidden">
+		<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
+		<div class="joomlaupdate_spinner"></div>
+	</div>
+	<div id="loading"></div>
 </div>

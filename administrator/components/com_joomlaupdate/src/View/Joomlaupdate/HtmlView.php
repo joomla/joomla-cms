@@ -323,6 +323,7 @@ class HtmlView extends BaseHtmlView
 	{
 		return isset($this->updateInfo['object']->downloadurl->_data)
 			&& $this->getModel()->isDatabaseTypeSupported()
-			&& $this->getModel()->isPhpVersionSupported();
+			&& $this->getModel()->isPhpVersionSupported()
+			&& !empty($this->updateInfo['hasUpdate']);
 	}
 }

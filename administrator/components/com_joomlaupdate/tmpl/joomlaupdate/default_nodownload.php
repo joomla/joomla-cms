@@ -20,7 +20,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 		<?php echo Text::_('COM_JOOMLAUPDATE_SYSTEM_CHECK'); ?>
 	</legend>
 	<div>
-	<?php if ( !$this->getModel()->isDatabaseTypeSupported()) : ?>
+	<?php if (true || !$this->getModel()->isDatabaseTypeSupported()) : ?>
 		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED'); ?>
 		</p>
@@ -28,7 +28,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED_DESC', '&#x200E;' . $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
-	<?php if (!$this->getModel()->isPhpVersionSupported()) : ?>
+	<?php if (true || !$this->getModel()->isPhpVersionSupported()) : ?>
 		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED'); ?>
 		</p>
@@ -36,7 +36,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED_DESC', '&#x200E;' . $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
-	<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest'] && $this->getModel()->isPhpVersionSupported() && $this->getModel()->isDatabaseTypeSupported()) : ?>
+	<?php if (true || !isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest'] && $this->getModel()->isPhpVersionSupported() && $this->getModel()->isDatabaseTypeSupported()) : ?>
 		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL'); ?>
 		</p>
