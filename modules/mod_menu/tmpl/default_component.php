@@ -41,7 +41,7 @@ if ($item->id == $active_id)
 
 $linktype = $item->title;
 
-if ($item->menu_image || $item->anchor_icon )
+if ($item->menu_image || $item->menu_icon )
 {
 	if ($item->menu_image)
 	{
@@ -66,12 +66,12 @@ if ($item->menu_image || $item->anchor_icon )
 		if ($itemParams->get('menu_text', 1))
 		{
 			// If the link text is to be displayed, the icon is added with aria-hidden
-			$linktype = '<span class="' . $item->anchor_icon . '" aria-hidden="true"></span>' . $item->title;
+			$linktype = '<span class="p-2 ' . $item->menu_icon . '" aria-hidden="true"></span>' . $item->title;
 		}
 		else
 		{
 			// If the icon itself is the link, it needs a visually hidden text
-			$linktype = '<span class="' . $item->anchor_icon . '" ></span><span class="visually-hidden">' . $item->title . '</span>';
+			$linktype = '<span class="p-2 ' . $item->menu_icon . '" ></span><span class="visually-hidden">' . $item->title . '</span>';
 		}
 	}
 }
