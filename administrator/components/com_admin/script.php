@@ -5859,6 +5859,8 @@ class JoomlaInstallerScript
 			'/media/com_fields/js/admin-field-edit-modal.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
+			// 4.0 from RC 3 to RC 4
+			'/language/en-GB/com_messages.ini',
 		);
 
 		$folders = array(
