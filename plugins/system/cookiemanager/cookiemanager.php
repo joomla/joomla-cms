@@ -96,8 +96,9 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key => $value)
 		{
-			$body .= '<br><label class="m-2" for="' . $value->alias . '"><input class="form-check-input" id="' . $value->alias . '" type=checkbox>' . $value->title . '</label>';
+			$body .= '<br><div class="form-check form-check-inline"><label class="form-check-label" for="ch' . $value->alias . '">'.$value->title.'</label><span class="form-check-inline form-switch"><input class="form-check-input" id="ch' . $value->alias . '" type=checkbox></span></div>';
 		}
+
 
 		$this->cookieBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
@@ -131,8 +132,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key1 => $value1)
 		{
-			$body .= '<a data-bs-toggle="collapse" href="#' . $value1->alias . '" >' . $value1->title . '</a><br>';
-			$body .= '<div class="collapse" id="' . $value1->alias . '">' . $value1->description . '<br>';
+			$body .= '<h4>' . $value1->title . '<span class="form-check-inline form-switch float-end">'.
+			'<input class="form-check-input " type="checkbox" id="ch'.$value1->alias.'"></span></h4><br>'.$value1->description;
+
+
+			$body .= '<a data-bs-toggle="collapse" href="#' . $value1->alias . '" >More</a><div class="collapse" id="' . $value1->alias . '"><br>';
 			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
 
 			foreach ($cookies as $key => $value)
@@ -190,6 +194,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
 		echo $this->cookieBanner;
 		echo $this->preferences;
 		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
