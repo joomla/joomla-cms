@@ -77,6 +77,7 @@ class BannersModel extends ListModel
 				$db->quoteName('a.type'),
 				$db->quoteName('a.name'),
 				$db->quoteName('a.clickurl'),
+				$db->quoteName('a.sticky'),
 				$db->quoteName('a.cid'),
 				$db->quoteName('a.description'),
 				$db->quoteName('a.params'),
