@@ -1,4 +1,13 @@
 <?php
+/**
+ * Implements the main component class
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_cronjobs
+ *
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 namespace Joomla\Component\Cronjobs\Administrator\Extension;
 
@@ -24,13 +33,13 @@ class CronjobsComponent extends MVCComponent implements BootableExtensionInterfa
 	 * If required, some initial set up can be done from services of the container, eg.
 	 * registering HTML services.
 	 *
-	 * @param   ContainerInterface  $container  The container
+	 * @param ContainerInterface $container The container
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function boot(ContainerInterface $container) : void
+	public function boot(ContainerInterface $container): void
 	{
 		// Pass
 	}
