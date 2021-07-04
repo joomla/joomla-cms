@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-	<name>com_cronjob</name>
+	<name>com_cronjobs</name>
 	<creationDate>July 2021</creationDate>
 	<author>Joomla! Project</author>
 	<license>GPL v3</license>
@@ -19,7 +19,7 @@
 	<uninstall> <!-- Runs on uninstall -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/mysql/uninstall.sql</file>
-			<file drive="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
+			<file driver="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
 		</sql>
 	</uninstall>
 
