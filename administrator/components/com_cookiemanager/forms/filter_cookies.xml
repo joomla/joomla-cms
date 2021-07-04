@@ -22,6 +22,7 @@
         name="category_id"
   			type="category"
   			label="JCATEGORY"
+        multiple="true"
   			extension="com_cookiemanager"
   			layout="joomla.form.field.list-fancy-select"
   			hint="JOPTION_SELECT_CATEGORY"
