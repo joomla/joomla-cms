@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-	<name>Cronjobs</name>
+	<name>com_cronjob</name>
 	<creationDate>July 2021</creationDate>
-	<author>Ditsuke</author>
+	<author>Joomla! Project</author>
 	<license>GPL v3</license>
 	<version>0.0.0</version>
 	<description>
@@ -25,5 +25,12 @@
 
 	<administration>
 		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_cronjobs.ini</language>
+			<language tag="en-GB">language/en-GB/com_cronjobs.sys.ini</language>
+		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_CRONJOBS_DASHBOARD_TITLE" icon="icon-list">cronjobs</dashboard>
+	</dashboards>
 </extension>
