@@ -72,11 +72,13 @@ class PlgSystemCookiemanager extends CMSPlugin
 		}
 
 		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript('cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
-			->registerAndUseStyle('cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+			->registerAndUseScript('plg_system_cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
+			->registerAndUseStyle('plg_system_cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
 
 		$lang = Factory::getLanguage();
 		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
+
+		Text::script('COM_COOKIEMANAGER_COOKIE_EXP_PERIOD_SESSION');
 
 		$params = ComponentHelper::getParams('com_cookiemanager');
 		$sitemenu = $this->app->getMenu();
@@ -86,7 +88,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id','title','alias','description']))
 				->from($db->quoteName('#__categories'))
-				->where($db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'));
+				->where([
+
+					$db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'),
+					 $db->quoteName('published') . ' =  1',
+					]
+				);
 
 			$db->setQuery($query);
 			$category = $db->loadObjectList();
@@ -96,9 +103,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key => $value)
 		{
-			$body .= '<br><div class="form-check form-check-inline"><label class="form-check-label" for="ch' . $value->alias . '">'.$value->title.'</label><span class="form-check-inline form-switch"><input class="form-check-input" id="ch' . $value->alias . '" type=checkbox></span></div>';
+			$body .= '<br><div class="form-check form-check-inline"><label class="form-check-label" for="ch' . $value->alias . '">' . $value->title . '</label><span class="form-check-inline form-switch"><input class="form-check-input" id="ch' . $value->alias . '" type=checkbox></span></div>';
 		}
-
 
 		$this->cookieBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
@@ -107,7 +113,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
 					'footer' => '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_PREFERENCE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
@@ -122,7 +128,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 				->from($db->quoteName('#__categories', 'c'))
 				->join(
 					'RIGHT',
-					$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+					$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
 				);
 
 			$db->setQuery($query);
@@ -132,9 +138,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key1 => $value1)
 		{
-			$body .= '<h4>' . $value1->title . '<span class="form-check-inline form-switch float-end">'.
-			'<input class="form-check-input " type="checkbox" id="ch'.$value1->alias.'"></span></h4><br>'.$value1->description;
-
+			$body .= '<h4>' . $value1->title . '<span class="form-check-inline form-switch float-end">' .
+			'<input class="form-check-input " type="checkbox" id="ch' . $value1->alias . '"></span></h4><br>' . $value1->description;
 
 			$body .= '<a data-bs-toggle="collapse" href="#' . $value1->alias . '" >More</a><div class="collapse" id="' . $value1->alias . '"><br>';
 			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
