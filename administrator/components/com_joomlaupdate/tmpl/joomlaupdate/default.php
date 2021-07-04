@@ -52,11 +52,6 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
 
-		<?php if ($this->selfUpdate) : ?>
-			<?php // If we have a self update notice to install it first! ?>
-			<?php Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
-			<?php echo $this->loadTemplate('updatemefirst'); ?>
-		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
 				&& !$this->updateInfo['hasUpdate'])) : ?>
 				<?php // If we have no download URL and this is also not a new update at all ?>
@@ -73,7 +68,6 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 				<?php // Ok let's show the update template ?>
 				<?php echo $this->loadTemplate('update'); ?>
 			<?php endif; ?>
-		<?php endif; ?>
 
 		<input type="hidden" name="task" value="update.download">
 		<input type="hidden" name="option" value="com_joomlaupdate">

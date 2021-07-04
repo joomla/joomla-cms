@@ -71,6 +71,33 @@ class HtmlView extends BaseHtmlView
 	public $state;
 
 	/**
+	 * Flag if the update component itself has to be updated
+	 *
+	 * @var boolean  True when update is available otherwise false
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $selfUpdateAvailable = false;
+
+	/**
+	 * Flag if we're in the upload form
+	 *
+	 * @var boolean  True when upload form should be visible otherwise false
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $showUploadAndUpdate = false;
+
+	/**
+	 * Warnings for the upload update
+	 *
+	 * @var array  An array of warnings which could prevent the upload update
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $warnings = [];
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -81,6 +108,43 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		$this->updateInfo         = $this->get('UpdateInformation');
+		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
+
+		// Only Super Users have access to the Update & Install for obvious security reasons
+		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin') && $this->getLayout() === 'upload';
+
+		$this->addToolbar();
+
+		// There is an update for the updater itself. So we have to update it first
+		if ($this->selfUpdateAvailable)
+		{
+			$this->setLayout('selfupdate');
+
+			return parent::display($tpl);
+		}
+
+		if (!$this->shouldDisplayPreUpdateCheck())
+		{
+			$this->setLayout('emptystate');
+
+			return parent::display($tpl);
+		}
+
+		if ($this->showUploadAndUpdate)
+		{
+			$language = Factory::getLanguage();
+			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
+			$this->warnings = $this->get('Items', 'warnings');
+		}
+		else
+		{
+			// Don't trick us by calling forbidden layouts (like upload when not Super User)
+			$this->setLayout('default');
+		}
+
 		// Get data from the model.
 		$this->state = $this->get('State');
 
@@ -88,27 +152,11 @@ class HtmlView extends BaseHtmlView
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel();
 
-		// Assign view variables.
-		$this->updateInfo         = $model->getUpdateInformation();
-
 		// Get results of pre update check evaluations
-		$this->phpOptions             = $model->getPhpOptions();
-		$this->phpSettings            = $model->getPhpSettings();
-		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+		$this->phpOptions             = $this->get('PhpOptions');
+		$this->phpSettings            = $this->get('PhpSettings');
+		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
 		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
-
-		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
-		ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
-
-		// Add toolbar buttons.
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::preferences('com_joomlaupdate');
-		}
-
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		if (!is_null($this->updateInfo['object']))
 		{
@@ -151,29 +199,48 @@ class HtmlView extends BaseHtmlView
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
-		$this->warnings = array();
-		/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
-		$warningsModel = $this->getModel('warnings');
-
-		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
-		{
-			$language = Factory::getLanguage();
-			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
-
-			$this->warnings = $warningsModel->getItems();
-		}
-
 		$this->selfUpdate = $this->checkForSelfUpdate();
-
-		// Only Super Users have access to the Update & Install for obvious security reasons
-		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin');
 
 		// Remove temporary files
 		$model->removePackageFiles();
 
 		// Render the view.
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function addToolbar()
+	{
+		// Set the toolbar information.
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
+
+		if ($this->showUploadAndUpdate)
+		{
+			$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+			ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
+
+			ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'), 'joomla install');
+		}
+		elseif (!$this->selfUpdateAvailable)
+		{
+			ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+		}
+
+		// Add toolbar buttons.
+		if (Factory::getUser()->authorise('core.admin'))
+		{
+			ToolbarHelper::preferences('com_joomlaupdate');
+		}
+
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 	}
 
 	/**
