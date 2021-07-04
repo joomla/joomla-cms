@@ -356,6 +356,11 @@ class JAdminCssMenu
 			{
 				continue;
 			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
 				parse_str($item->link, $query);

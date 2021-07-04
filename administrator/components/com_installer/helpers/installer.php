@@ -25,11 +25,14 @@ class InstallerHelper
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_INSTALL'),
-			'index.php?option=com_installer',
-			$vName == 'install'
-		);
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('COM_INSTALLER_SUBMENU_INSTALL'),
+				'index.php?option=com_installer&view=install',
+				$vName == 'install'
+			);
+		}
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_UPDATE'),
 			'index.php?option=com_installer&view=update',
@@ -55,11 +58,16 @@ class InstallerHelper
 			'index.php?option=com_installer&view=warnings',
 			$vName == 'warnings'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
-			'index.php?option=com_installer&view=languages',
-			$vName == 'languages'
-		);
+
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
+				'index.php?option=com_installer&view=languages',
+				$vName == 'languages'
+			);
+		}
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_UPDATESITES'),
 			'index.php?option=com_installer&view=updatesites',
