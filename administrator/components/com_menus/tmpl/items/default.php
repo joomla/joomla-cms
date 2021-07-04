@@ -62,7 +62,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" class="w-1 text-center">
+							<th scope="col" style="min-width:100px" class="w-1 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="title">

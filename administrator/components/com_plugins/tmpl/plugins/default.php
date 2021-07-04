@@ -52,7 +52,7 @@ if ($saveOrder)
 						<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
-						<th scope="col" class="w-1 text-center">
+						<th scope="col" style="min-width:100px" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">

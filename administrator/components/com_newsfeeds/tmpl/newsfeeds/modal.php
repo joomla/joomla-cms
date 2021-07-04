@@ -46,7 +46,7 @@ $multilang = Multilanguage::isEnabled();
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="w-1 text-center">
+						<th scope="col" style="min-width:100px" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">

@@ -80,7 +80,7 @@ if (count($this->filterForm->getField('context')->options) > 1)
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" style="min-width:100px" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">

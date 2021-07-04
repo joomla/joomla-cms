@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" style="min-width:100px" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">

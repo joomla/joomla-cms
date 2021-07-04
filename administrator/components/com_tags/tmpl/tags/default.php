@@ -82,7 +82,7 @@ if ($saveOrder && !empty($this->items))
 						<th scope="col" class="w-1 d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
-						<th scope="col" class="w-1 text-center">
+						<th scope="col" style="min-width:100px" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col">

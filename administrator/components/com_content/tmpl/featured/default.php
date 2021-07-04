@@ -130,7 +130,7 @@ $assoc = Associations::isEnabled();
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" style="min-width:100px" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="min-width:100px">

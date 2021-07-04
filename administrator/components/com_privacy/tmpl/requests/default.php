@@ -50,7 +50,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
-						<th scope="col" class="w-5 text-center">
+						<th scope="col" style="min-width:100px" class="w-5 text-center">
 							<?php echo Text::_('JSTATUS'); ?>
 						</th>
 						<th scope="col">

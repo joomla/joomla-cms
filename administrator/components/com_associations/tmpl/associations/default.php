@@ -61,7 +61,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 						<thead>
 							<tr>
 								<?php if (!empty($this->typeSupports['state'])) : ?>
-									<th scope="col" class="w-1 text-center">
+									<th scope="col" style="min-width:100px" class="w-1 text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
