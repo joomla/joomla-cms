@@ -99,14 +99,16 @@ class PlgSystemCookiemanager extends CMSPlugin
 			$category = $db->loadObjectList();
 
 			$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
-			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
-			$bannerBody .= '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5>';
+			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
+			. '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5><ul>';
 
 		foreach ($category as $key => $value)
 		{
-			$bannerBody .= '<p class="form-check form-check-inline"><label for="ch' . $value->alias . '">' . $value->title . '<span class="ms-2 form-check-inline form-switch"><input class="form-check-input" id="ch'
-			. $value->alias . '" type=checkbox></span></label></p>';
+			$bannerBody .= '<li class="cookie_cat form-check form-check-inline"><label for="banner_cat_' . $value->alias . '">' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" id="banner_cat_'
+			. $value->alias . '" type=checkbox></span></label></li>';
 		}
+
+		$bannerBody .= '</ul>';
 
 		$this->cookieBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
@@ -142,10 +144,10 @@ class PlgSystemCookiemanager extends CMSPlugin
 		foreach ($category as $catKey => $catValue)
 		{
 			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
-			'<input class="form-check-input " type="checkbox" id="ch' . $catValue->alias . '"></span></h4>' . $catValue->description;
+			'<input class="form-check-input " type="checkbox" id="cat_' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
 			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" >' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
-			$table = '<table class="table"><th>Cookie Name</th><th>Description</th><th>Expiration</th>';
+			$table = '<table class="table"><thead><tr><th scope="col">Cookie Name</th><th scope="col">Description</th><th scope="col">Expiration</th></tr></thead><tbody>';
 
 			foreach ($cookies as $key => $value)
 			{
@@ -173,7 +175,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 				}
 			}
 
-			$table .= '</table>';
+			$table .= '</tbody></table>';
 			$prefBody .= $table . '</div>';
 		}
 
