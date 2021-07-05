@@ -142,15 +142,19 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
-		// Generate responsive images for form and content
-		if ($formImages = $this->_getFormImages($context, (array) $article))
+		// Check if context not includes com_media - com_media.file or com_media.folder
+		if (explode('.', $context)[0] !== 'com_media')
 		{
-			MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
-		}
+			// Generate responsive images for form and content
+			if ($formImages = $this->_getFormImages($context, (array) $article))
+			{
+				MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+			}
 
-		if ($content = $article->{$this->_getContentKey($context)})
-		{
-			MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+			if ($content = $article->{$this->_getContentKey($context)})
+			{
+				MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+			}
 		}
 
 		// Check we are handling the frontend edit form.
