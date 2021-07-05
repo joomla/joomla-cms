@@ -58,10 +58,15 @@ Joomla = window.Joomla || {};
     }
 
     // Trigger (re-) install (including checkbox confirm if we update)
-    if (installButton && installButton.getAttribute('href') == '#' && (!updateCheck || updateCheck.checked))
+    if (installButton && installButton.getAttribute('href') == '#')
     {
       installButton.addEventListener('click', (e) => {
         e.preventDefault();
+
+        if (updateCheck && !updateCheck.checked)
+        {
+          return;
+        }
 
         const task = document.querySelector('[name=task]', form);
 
