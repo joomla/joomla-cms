@@ -1331,6 +1331,10 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
+
+			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			$decode->description = '';
+
 			$this->translateExtensionName($extension);
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1348,7 +1352,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getNonCorePlugins($folderFilter = array())
 	{
@@ -1387,6 +1391,10 @@ ENDDATA;
 		foreach ($rows as $plugin)
 		{
 			$decode = json_decode($plugin->manifest_cache);
+
+			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			$decode->description = '';
+
 			$this->translateExtensionName($plugin);
 			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($plugin->manifest_cache);
