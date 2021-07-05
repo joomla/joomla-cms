@@ -375,7 +375,7 @@ class Image
 		// Process images
 		$imagesCreated = [];
 
-		if ($images = $this->generateMultipleSizes($imageSizes, $creationMethod))
+		if ($images = $this->generateMultipleSizes($imageSizes, $creationMethod, $thumbs))
 		{
 			// Parent image properties
 			$imgProperties = static::getImageFileProperties($this->getPath());
