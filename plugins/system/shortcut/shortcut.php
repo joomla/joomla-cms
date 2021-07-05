@@ -36,9 +36,11 @@ class PlgSystemShortcut extends CMSPlugin
 	 * @since  4.1
 	 */
 	protected $_basePath = 'media/plg_system_shortcut';
-	
-	public function onBeforeCompileHead(){
-		if ($this->app->isClient('administrator')){
+
+	public function onBeforeCompileHead()
+	{
+		if ($this->app->isClient('administrator'))
+		{
 			$joomla_shortcut_keys = array(
 				'new' => array(
 				  'keyEvent' => $this->params->get('new_keyEvent', 'n'),
@@ -151,12 +153,17 @@ class PlgSystemShortcut extends CMSPlugin
 			$editor = $config->get('editor', 'tinymce');
 			Factory::getDocument()->addScriptOptions('editor', $editor);
 			Factory::getDocument()->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
-			if (!$wa->assetExists('script', 'shortcut')){
+
+			if (!$wa->assetExists('script', 'shortcut'))
+			{
 				$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
 			}
+
 			$wa->useScript('shortcut');
+
 			return true;
 		}
+
 		return true;
 	}
 }

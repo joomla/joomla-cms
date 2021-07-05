@@ -139,7 +139,7 @@ class JoomlaShortcuts {
 				  insertReadmore(element);
 			  }else{
 				  const bootstrapModals = Joomla.getOptions('bootstrap.modal');
-				  for (var eModal in bootstrapModals){
+				  for (let eModal in bootstrapModals){
 					  if(eModal.includes(selectorArr[1])){
 						  const modalElement = document.getElementById(eModal.replace("#", ""));
 						  if(modalElement){
@@ -162,7 +162,7 @@ class JoomlaShortcuts {
 	}
   
 	handleKeyPressEvent(e) {
-	  for (var action in this.options){
+	  for (let action in this.options){
 		// check for meta+shift+alt+ctrl key
 		let keyEvent = this.options[action].keyEvent;
 		let altKey = this.options[action].hasAlt;
