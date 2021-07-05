@@ -172,6 +172,10 @@ class HtmlView extends BaseHtmlView
 		// @TODO show message on normal update
 		if ($this->showUploadAndUpdate || in_array($this->getLayout(), ['preupdatecheck', 'update']))
 		{
+			$language = Factory::getLanguage();
+			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}
 

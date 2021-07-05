@@ -86,7 +86,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'cancel' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -108,7 +108,10 @@ $updatePossible = true;
 
 		<div class="tab-content w-100">
 			<div class="tab-pane fade show active table-responsive" id="joomlaupdate-precheck-required-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-required-tab">
-				<table class="table" id="preupdatecheck">
+				<h3>
+					<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
+				</h3>
+				<table class="table table-striped" id="preupdatecheck">
 					<caption class="visually-hidden">
 						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
 					</caption>
@@ -144,7 +147,10 @@ $updatePossible = true;
 				</table>
 			</div>
 			<div class="tab-pane fade show table-responsive" id="joomlaupdate-precheck-recommended-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-recommended-tab">
-				<table class="table" id="preupdatecheckphp">
+				<h3>
+					<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
+				</h3>
+				<table class="table table-striped" id="preupdatecheckphp">
 					<caption>
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
 					</caption>
@@ -273,7 +279,16 @@ $updatePossible = true;
 	</div>
 
 	<?php if ($updatePossible) : ?>
-	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" class="d-flex mb-5">
+
+	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" class="d-flex flex-sm-column mb-5">
+
+		<div class="form-check d-flex justify-content-center mb-3">
+			<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
+			<label class="form-check-label" for="joomlaupdate-confirm-backup">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
+			</label>
+		</div>
+
 		<button class="btn btn-lg btn-warning disabled submitupdate mx-auto" type="submit" disabled>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 		</button>
