@@ -102,7 +102,7 @@ $updatePossible = true;
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'cancel' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-clock p-1 bg-white ms-2 text-info"></span>
 			</button>
 		</div>
 
@@ -282,7 +282,7 @@ $updatePossible = true;
 
 	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" class="d-flex flex-sm-column mb-5">
 
-		<div class="form-check d-flex justify-content-center mb-3">
+		<div class="form-check d-flex justify-content-center mb-3" id="preupdatecheckbox">
 			<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
 			<label class="form-check-label" for="joomlaupdate-confirm-backup">
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>

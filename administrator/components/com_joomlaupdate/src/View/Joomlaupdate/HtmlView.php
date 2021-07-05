@@ -119,6 +119,29 @@ class HtmlView extends BaseHtmlView
 	{
 		$this->updateInfo          = $this->get('UpdateInformation');
 		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
+		// Get data from the model.
+
+		// Load useful classes.
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		$model = $this->getModel();
+
+		// Get results of pre update check evaluations
+		$this->phpOptions             = $this->get('PhpOptions');
+		$this->phpSettings            = $this->get('PhpSettings');
+		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
+		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+
+		// Set to true if a required PHP option is not ok
+		$isCritical = false;
+
+		foreach ($this->phpOptions as $option)
+		{
+			if (!$option->state)
+			{
+				$isCritical = true;
+				break;
+			}
+		}
 
 		$this->state = $this->get('State');
 
@@ -164,7 +187,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 		// Here we have now two options: preupdatecheck or update
-		elseif ($this->getLayout() != 'update')
+		elseif ($this->getLayout() != 'update' || $isCritical)
 		{
 			$this->setLayout('preupdatecheck');
 		}
@@ -178,18 +201,6 @@ class HtmlView extends BaseHtmlView
 
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}
-
-		// Get data from the model.
-
-		// Load useful classes.
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-		$model = $this->getModel();
-
-		// Get results of pre update check evaluations
-		$this->phpOptions             = $this->get('PhpOptions');
-		$this->phpSettings            = $this->get('PhpSettings');
-		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
 
 		$params = ComponentHelper::getParams('com_joomlaupdate');
 
