@@ -46,12 +46,23 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     const uploadButton = document.getElementById('uploadButton');
     const downloadMsg = document.getElementById('downloadMessage');
+    const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
 
     if (uploadButton) {
       uploadButton.addEventListener('click', () => {
         if (downloadMsg) {
           downloadMsg.classList.remove('hidden');
         }
+      });
+    }
+
+    // Trigger (re-) install
+    if (installButton && installButton.href == '#')
+    {
+      installButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        alert('test');
       });
     }
   });
