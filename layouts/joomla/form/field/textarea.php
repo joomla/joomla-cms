@@ -17,6 +17,9 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
+ * @var   int	     $rows	          rows attribute for the field.
+ * @var   int	     $cols	          cols attribute for the field.
+ * @var   int      $maxlength	      maxlength attribute for the field.
  * @var   string   $autocomplete    Autocomplete attribute for the field.
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   string   $class           Classes for the input.
@@ -65,8 +68,8 @@ if ($charcounter)
 }
 
 $attributes = array(
-	$columns ?: '',
-	$rows ?: '',
+	$columns ? (is_numeric($columns) ? ' cols="' . $columns . '"' : $columns) : '',
+	$rows	? (is_numeric($rows) ? ' rows="' . $rows . '"' : $rows) : '',
 	!empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control' . $charcounter . '"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -78,7 +81,7 @@ $attributes = array(
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? 'maxlength="' . $maxlength . '"' : '',
+	$maxlength ? (is_numeric($maxlength) ? ' maxlength="' . $maxlength . '"' : $maxlength) : '',
 	!empty($counterlabel) ? $counterlabel : '',
 	$dataAttribute,
 );
