@@ -113,6 +113,7 @@
 					type="list"
 					default="colors_standard"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					validate="options"
 					>
 					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
 					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
