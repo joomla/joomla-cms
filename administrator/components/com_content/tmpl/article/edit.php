@@ -128,7 +128,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php endif; ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_imported_modules', 1) == 1 && \count($this->item->importedModules)): ?>
+		<?php if ($params->get('show_imported_modules', 1) == 1 && !empty($this->item->importedModules)): ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_CONTENT_FIELDSET_MODULES')); ?>
 			<fieldset id="fieldset-modules" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_MODULES'); ?></legend>
