@@ -253,6 +253,7 @@ class Image
 	 *
 	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
 	 *
 	 * @return  array
 	 *
@@ -387,7 +388,7 @@ class Image
 	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
-	public function deleteMultipleSizes($imageSizes = null, $thumbs = false)
+	public function deleteMultipleSizes($thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
