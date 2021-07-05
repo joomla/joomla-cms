@@ -187,13 +187,7 @@ class HtmlView extends BaseHtmlView
 		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
 		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
 
-		if (!is_null($this->updateInfo['object']))
-		{
-			// Show the message if an update is found.
-
-		}
-
-		$params                 = ComponentHelper::getParams('com_joomlaupdate');
+		$params = ComponentHelper::getParams('com_joomlaupdate');
 
 		switch ($params->get('updatesource', 'default'))
 		{
