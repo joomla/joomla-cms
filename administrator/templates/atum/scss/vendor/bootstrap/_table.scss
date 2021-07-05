@@ -16,7 +16,7 @@
       }
 
       @include media-breakpoint-down(md) {
-        white-space: normal;
+        white-space: nowrap;
       }
     }
 
