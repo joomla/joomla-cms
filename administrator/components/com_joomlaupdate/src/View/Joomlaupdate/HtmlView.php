@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JObject
 	 * @since  4.0.0
 	 */
-	public $state;
+	protected $state;
 
 	/**
 	 * Flag if the update component itself has to be updated
@@ -98,6 +98,15 @@ class HtmlView extends BaseHtmlView
 	protected $warnings = [];
 
 	/**
+	 * A special prefix used for the emptystate layout variable
+	 *
+	 * @var string  The prefix
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $messagePrefix = '';
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -108,8 +117,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->updateInfo         = $this->get('UpdateInformation');
+		$this->updateInfo          = $this->get('UpdateInformation');
 		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
+
+		$this->state = $this->get('State');
+
+		$hasUpdate = !empty($this->updateInfo['hasUpdate']);
+		$hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin') && $this->getLayout() === 'upload';
@@ -120,12 +134,9 @@ class HtmlView extends BaseHtmlView
 		if ($this->selfUpdateAvailable)
 		{
 			$this->setLayout('selfupdate');
-
-			return parent::display($tpl);
 		}
-
-
-		if ($this->showUploadAndUpdate)
+		// User requests the manual update and is an admin
+		elseif ($this->showUploadAndUpdate)
 		{
 			$language = Factory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
@@ -133,21 +144,45 @@ class HtmlView extends BaseHtmlView
 
 			$this->warnings = $this->get('Items', 'warnings');
 		}
-		elseif (!$this->shouldDisplayPreUpdateCheck())
+		// We have an update but no download URL, so server could be not available
+		// We also don't give explicit database/php errors, because therefore we have the update check
+		// @TODO move DB methods to a get(...) call
+		elseif ($hasUpdate && !$hasDownload && $this->getModel()->isDatabaseTypeSupported() && $this->getModel()->isPhpVersionSupported())
 		{
-			$this->setLayout('emptystate');
-
-			return parent::display($tpl);
+			// @TODO not compatible with update
 		}
-		// elseif ()
+		elseif (true || !$hasDownload || !$hasUpdate)
+		{
+			// Could be that we have a download file but no update, so we offer an re-install
+			if ($hasDownload)
+			{
+				// We can reinstall if we have an URL but no update
+				$this->setLayout('reinstall');
+			}
+			// No download available
+			else
+			{
+				if ($hasUpdate)
+				{
+					$this->messagePrefix = '_NODOWNLOAD';
+				}
+
+				$this->setLayout('noupdate');
+			}
+		}
 		else
 		{
 			// Don't trick us by calling forbidden layouts (like upload when not Super User)
 			$this->setLayout('default');
 		}
 
+		// @TODO show message on normal update
+		if ($this->showUploadAndUpdate)
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
+		}
+
 		// Get data from the model.
-		$this->state = $this->get('State');
 
 		// Load useful classes.
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
@@ -162,7 +197,7 @@ class HtmlView extends BaseHtmlView
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
-			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
+
 		}
 
 		$params                 = ComponentHelper::getParams('com_joomlaupdate');
@@ -199,8 +234,6 @@ class HtmlView extends BaseHtmlView
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
-
-		$this->selfUpdate = $this->checkForSelfUpdate();
 
 		// Remove temporary files
 		$model->removePackageFiles();
@@ -323,8 +356,6 @@ class HtmlView extends BaseHtmlView
 	public function shouldDisplayPreUpdateCheck()
 	{
 		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& $this->getModel()->isDatabaseTypeSupported()
-			&& $this->getModel()->isPhpVersionSupported()
 			&& !empty($this->updateInfo['hasUpdate']);
 	}
 }

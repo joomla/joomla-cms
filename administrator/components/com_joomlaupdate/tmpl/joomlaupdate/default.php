@@ -47,7 +47,7 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
 
-			<?php if (true || !isset($this->updateInfo['object']->downloadurl->_data)
+			<?php if (!isset($this->updateInfo['object']->downloadurl->_data)
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
 				<?php // If we have no download URL or our PHP version or our DB type is not supported then we can't reinstall or update ?>
