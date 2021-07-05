@@ -144,14 +144,7 @@ class HtmlView extends BaseHtmlView
 
 			$this->warnings = $this->get('Items', 'warnings');
 		}
-		// We have an update but no download URL, so server could be not available
-		// We also don't give explicit database/php errors, because therefore we have the update check
-		// @TODO move DB methods to a get(...) call
-		elseif ($hasUpdate && !$hasDownload && $this->getModel()->isDatabaseTypeSupported() && $this->getModel()->isPhpVersionSupported())
-		{
-			// @TODO not compatible with update
-		}
-		elseif (true || !$hasDownload || !$hasUpdate)
+		elseif (!$hasDownload || !$hasUpdate)
 		{
 			// Could be that we have a download file but no update, so we offer an re-install
 			if ($hasDownload)
