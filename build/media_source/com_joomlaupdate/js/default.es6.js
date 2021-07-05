@@ -62,7 +62,7 @@ Joomla = window.Joomla || {};
       installButton.addEventListener('click', (e) => {
         e.preventDefault();
 
-        const task = querySelector('[name=task]', form);
+        const task = document.querySelector('[name=task]', form);
 
         if (task)
         {
