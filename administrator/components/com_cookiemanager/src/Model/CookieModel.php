@@ -136,8 +136,6 @@ class CookieModel extends AdminModel
 	{
 		$date = Factory::getDate()->toSql();
 
-		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-
 		$table->generateAlias();
 
 		if (empty($table->id))
