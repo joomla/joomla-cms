@@ -316,7 +316,7 @@ class Image
 				$imageHeight = $size[1];
 
 				// Make sure size is smaller than original
-				if($imageWidth <= $this->getWidth())
+				if ($imageWidth <= $this->getWidth())
 				{
 					switch ($creationMethod)
 					{
@@ -425,7 +425,7 @@ class Image
 		{
 			foreach ($images as $image)
 			{
-				if(unlink($image->getPath()))
+				if (unlink($image->getPath()))
 				{
 					// Return Image object with image path to ease further manipulation
 					$imagesDeleted[] = $image;
