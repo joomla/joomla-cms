@@ -2022,6 +2022,8 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/en-GB.plg_content_pagebreak.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_content_pagenavigation.ini',
 			'/administrator/language/en-GB/en-GB.plg_content_pagenavigation.sys.ini',
+			'/administrator/language/en-GB/en-GB.plg_content_responsiveimages.ini',
+			'/administrator/language/en-GB/en-GB.plg_content_responsiveimages.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_content_vote.ini',
 			'/administrator/language/en-GB/en-GB.plg_content_vote.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_editors-xtd_article.ini',
