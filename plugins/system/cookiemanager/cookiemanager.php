@@ -93,7 +93,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 					$db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'),
 					$db->quoteName('published') . ' =  1',
 					]
-				);
+				)
+				->order($db->quoteName('lft'));
 
 			$db->setQuery($query);
 			$category = $db->loadObjectList();
@@ -133,7 +134,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 				->join(
 					'RIGHT',
 					$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
-				);
+				)
+				->order($db->quoteName('lft'));
 
 			$db->setQuery($query);
 			$cookies = $db->loadObjectList();
