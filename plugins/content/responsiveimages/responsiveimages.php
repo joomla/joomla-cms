@@ -56,6 +56,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 		{
 			// Add srcset attribute to content images
 			$contentKey = $this->_getContentKey($context);
+			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
 
 			$item = clone $table;
 			$item->load($table->id);
@@ -94,12 +95,12 @@ class PlgContentResponsiveImages extends CMSPlugin
 			// Generate responsive images for form and content
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
-				MediaHelper::generateResponsiveFormImages($this->initFormImages, $formImages);
+				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
 			}
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				MediaHelper::generateResponsiveContentImages($this->initContent, $content);
+				MediaHelper::generateContentResponsiveImages($this->initContent, $content);
 			}
 		}
 	}
