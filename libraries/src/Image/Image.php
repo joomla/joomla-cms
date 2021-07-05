@@ -269,7 +269,7 @@ class Image
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function generateMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -358,7 +358,7 @@ class Image
 	 * @since   2.5.0
 	 * @throws  \LogicException
 	 */
-	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function createMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())

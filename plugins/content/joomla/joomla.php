@@ -82,26 +82,25 @@ class PlgContentJoomla extends CMSPlugin
 			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
 		}
 
-		// Add srcset attribute to content images
-		$contentKey = $this->_getContentKey($context);
-		$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
-
-		$item = clone $table;
-
-		if (method_exists($item, 'load'))
+		// Check if context not includes com_media - com_media.file or com_media.folder
+		if (explode('.', $context)[0] !== 'com_media')
 		{
+			// Add srcset attribute to content images
+			$contentKey = $this->_getContentKey($context);
+
+			$item = clone $table;
 			$item->load($table->id);
-		}
 
-		// Get initial versions of content and form images
-		if ($formImages = $this->_getFormImages($context, (array) $item))
-		{
-			$this->initFormImages = $formImages;
-		}
+			// Get initial versions of content and form images
+			if ($formImages = $this->_getFormImages($context, (array) $item))
+			{
+				$this->initFormImages = $formImages;
+			}
 
-		if ($content = $item->{$contentKey})
-		{
-			$this->initContent = $content;
+			if ($content = $item->{$contentKey})
+			{
+				$this->initContent = $content;
+			}
 		}
 
 		// Check we are handling the frontend edit form.
@@ -109,6 +108,9 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			return true;
 		}
+
+		$item = clone $table;
+		$item->load($table->id);
 
 		if ($item->published != -2 && $data['published'] == -2)
 		{
@@ -140,15 +142,19 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
-		// Generate responsive images for form and content
-		if ($formImages = $this->_getFormImages($context, (array) $article))
+		// Check if context not includes com_media - com_media.file or com_media.folder
+		if (explode('.', $context)[0] !== 'com_media')
 		{
-			MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
-		}
+			// Generate responsive images for form and content
+			if ($formImages = $this->_getFormImages($context, (array) $article))
+			{
+				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
+			}
 
-		if ($content = $article->{$this->_getContentKey($context)})
-		{
-			MediaHelper::generateContentResponsiveImages($this->initContent, $content);
+			if ($content = $article->{$this->_getContentKey($context)})
+			{
+				MediaHelper::generateContentResponsiveImages($this->initContent, $content);
+			}
 		}
 
 		// Check we are handling the frontend edit form.
