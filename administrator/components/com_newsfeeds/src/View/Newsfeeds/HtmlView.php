@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('newsfeeds.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
