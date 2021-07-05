@@ -135,7 +135,7 @@
 					label="TPL_CASSIOPEIA_BP_TEMPLATE_LABEL"
 					description="TPL_CASSIOPEIA_BP_TEMPLATE_DESCRIPTION"
 					default="lg"
-                    validate="options"
+					validate="options"
 					>
 					<option value="xxl">TPL_CASSIOPEIA_BP_XXL</option>
 					<option value="xl">TPL_CASSIOPEIA_BP_XL</option>
@@ -150,7 +150,7 @@
 					label="TPL_CASSIOPEIA_BP_GRID_LABEL"
 					description="TPL_CASSIOPEIA_BP_GRID_DESCRIPTION"
 					default="lg"
-                    validate="options"
+					validate="options"
 					>
 					<option value="xxl">TPL_CASSIOPEIA_BP_XXL</option>
 					<option value="xl">TPL_CASSIOPEIA_BP_XL</option>
