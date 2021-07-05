@@ -163,14 +163,14 @@ class HtmlView extends BaseHtmlView
 				$this->setLayout('noupdate');
 			}
 		}
-		else
+		// Here we have now two options: preupdatecheck or update
+		elseif ($this->getLayout() != 'update')
 		{
-			// Don't trick us by calling forbidden layouts (like upload when not Super User)
-			$this->setLayout('default');
+			$this->setLayout('preupdatecheck');
 		}
 
 		// @TODO show message on normal update
-		if ($this->showUploadAndUpdate)
+		if ($this->showUploadAndUpdate || in_array($this->getLayout(), ['preupdatecheck', 'update']))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}

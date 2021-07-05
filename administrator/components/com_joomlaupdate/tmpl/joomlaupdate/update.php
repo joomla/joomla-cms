@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\WebAsset\WebAssetManager;
-use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 /** @var HtmlView $this */
 
@@ -23,70 +23,43 @@ $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
 	->useScript('bootstrap.popover');
 
-Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
-Text::script('JYES');
-Text::script('JNO');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
+$uploadLink = 'index.php?option=com_joomlaupdate&layout=upload';
 
-$latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
-?>
+$displayData = [
+	'textPrefix' => 'COM_JOOMLAUPDATE_UPDATE',
+	'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
+	'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+	'icon'       => 'icon-loop joomlaupdate',
+	'createURL'  => '#'
+];
 
-<div id="joomlaupdate-wrapper" class="main-card mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
-	<?php if (true) : ?>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
-		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'pre-update-check', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
-			<?php echo $this->loadTemplate('preupdatecheck'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'online-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
-	<?php endif; ?>
+if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get('infourl')->_data)) :
+	$displayData['content'] .= '<br>' . HTMLHelper::_('link',
+		$this->updateInfo['object']->get('infourl')->_data,
+		Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
+		[
+				'target' => '_blank',
+				'rel'    => 'noopener noreferrer',
+				'title'  => isset($this->updateInfo['object']->get('infourl')->title) ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title) : ''
+			]
+	);
+endif;
 
-	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
+// Confirm backup and check
+$displayData['content'] .= '<div class="form-check d-flex justify-content-center">
+		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
+		<label class="form-check-label" for="joomlaupdate-confirm-backup">
+		' . Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP') . '
+		</label>
+	</div>';
 
-			<?php if (true || (!isset($this->updateInfo['object']->downloadurl->_data)
-				&& !$this->updateInfo['hasUpdate'])) : ?>
-				<?php // If we have no download URL and this is also not a new update at all ?>
-				<?php echo $this->loadTemplate('noupdate'); ?>
-			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)
-				|| !$this->getModel()->isDatabaseTypeSupported()
-				|| !$this->getModel()->isPhpVersionSupported()) : ?>
-				<?php // If we have no download URL or our PHP version or our DB type is not supported then we can't reinstall or update ?>
-				<?php echo $this->loadTemplate('nodownload'); ?>
-			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
-				<?php // If we have no update but we have a downloadurl then we can reinstall the core ?>
-				<?php echo $this->loadTemplate('reinstall'); ?>
-			<?php else : ?>
-				<?php // Ok let's show the update template ?>
-				<?php echo $this->loadTemplate('update'); ?>
-			<?php endif; ?>
+if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
+	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
+endif;
 
-		<input type="hidden" name="task" value="update.download">
-		<input type="hidden" name="option" value="com_joomlaupdate">
+echo '<div id="joomlaupdate-wrapper">';
 
-		<?php echo HTMLHelper::_('form.token'); ?>
-	</form>
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);
 
-	<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
-	<?php if ($this->showUploadAndUpdate) : ?>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'upload-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
-		<?php echo $this->loadTemplate('upload'); ?>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-	<?php endif; ?>
-
-	<div id="download-message" class="hidden">
-		<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
-		<div class="joomlaupdate_spinner"></div>
-	</div>
-	<div id="loading"></div>
-</div>
+echo '</div>';

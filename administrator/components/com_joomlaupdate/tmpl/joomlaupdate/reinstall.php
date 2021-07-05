@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_joomlaupdate
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -46,8 +46,7 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 	);
 endif;
 
-if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate'))
-:
+if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
 	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
 endif;
 
