@@ -269,7 +269,7 @@ class Image
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function generateMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -316,7 +316,7 @@ class Image
 				$imageHeight = $size[1];
 
 				// Make sure size is smaller than original
-				if($imageWidth <= $this->getWidth())
+				if ($imageWidth <= $this->getWidth())
 				{
 					switch ($creationMethod)
 					{
@@ -358,7 +358,7 @@ class Image
 	 * @since   2.5.0
 	 * @throws  \LogicException
 	 */
-	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function createMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -425,7 +425,7 @@ class Image
 		{
 			foreach ($images as $image)
 			{
-				if(unlink($image->getPath()))
+				if (unlink($image->getPath()))
 				{
 					// Return Image object with image path to ease further manipulation
 					$imagesDeleted[] = $image;
