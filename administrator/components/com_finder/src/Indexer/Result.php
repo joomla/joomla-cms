@@ -60,6 +60,14 @@ class Result implements \Serializable
 	protected $taxonomy = array();
 
 	/**
+	 * The image object
+	 *
+	 * @var \stdClass
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $image;
+
+	/**
 	 * The content URL.
 	 *
 	 * @var    string
@@ -362,6 +370,36 @@ class Result implements \Serializable
 	}
 
 	/**
+	 * Add the image to the item.
+	 *
+	 * @param   string       $url     The path to the image file
+	 * @param   string|null  $alt     The alt text. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function setImage($url, ?string $alt)
+	{
+		$image         = new \stdClass;
+		$image->url    = $url;
+		$image->alt    = $alt ? (string) $alt : '';
+		$this->image   = $image;
+	}
+
+	/**
+	 * Get the item's image.
+	 *
+	 * @return \stdClass
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getImage()
+	{
+		return $this->image;
+	}
+
+	/**
 	 * Method to get the taxonomy maps for an item.
 	 *
 	 * @param   string  $branch  The taxonomy branch to get. [optional]
@@ -506,6 +544,7 @@ class Result implements \Serializable
 			$this->state,
 			$taxonomy,
 			$this->title,
+			$this->image,
 			$this->type_id,
 			$this->url
 			]
@@ -541,6 +580,7 @@ class Result implements \Serializable
 			$this->state,
 			$this->taxonomy,
 			$this->title,
+			$this->image,
 			$this->type_id,
 			$this->url
 		) = unserialize($serialized);
