@@ -19,15 +19,28 @@ $uploadLink = 'index.php?option=com_joomlaupdate&layout=upload';
 
 $displayData = [
 	'textPrefix' => 'COM_JOOMLAUPDATE_REINSTALL',
+	'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
 	'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
-	'icon'       => 'icon-cancel joomlaupdate',
+	'icon'       => 'icon-loop joomlaupdate',
 	'createURL'  => 'index.php?option=com_joomlaupdate&layout=reinstall'
 ];
 
+if (isset($this->updateInfo['object']->get('infourl')->_data)) :
+	$displayData['content'] .= '<br>' . HTMLHelper::_('link',
+		$this->updateInfo['object']->get('infourl')->_data,
+		Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
+		[
+				'target' => '_blank',
+				'rel'    => 'noopener noreferrer',
+				'title'  => isset($this->updateInfo['object']->get('infourl')->title) ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title) : ''
+			]
+	);
+endif;
+
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate'))
-{
+:
 	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
-}
+endif;
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
