@@ -10,11 +10,10 @@
     const Banner = new bootstrap.Modal(document.getElementById('cookieBanner'));
     Banner.show();
 
-    document.getElementById('banner_cat_necessary').setAttribute('checked',true);
-    document.getElementById('banner_cat_necessary').setAttribute('disabled',true);
-    
-    document.getElementById('cat_necessary').setAttribute('checked',true);
-    document.getElementById('cat_necessary').setAttribute('disabled',true);
+    document.getElementById('banner_cat_necessary').setAttribute('checked', true);
+    document.getElementById('banner_cat_necessary').setAttribute('disabled', true);
+    document.getElementById('cat_necessary').setAttribute('checked', true);
+    document.getElementById('cat_necessary').setAttribute('disabled', true);
   });
 
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {
