@@ -48,6 +48,8 @@ Joomla = window.Joomla || {};
     const downloadMsg = document.getElementById('downloadMessage');
     const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
     const updateCheck = document.getElementById('joomlaupdate-confirm-backup');
+    const form = updateCheck.closest('form');
+    const task = document.querySelector('[name=task]', form);
 
     if (uploadButton) {
       uploadButton.addEventListener('click', () => {
@@ -58,7 +60,7 @@ Joomla = window.Joomla || {};
     }
 
     // Trigger (re-) install (including checkbox confirm if we update)
-    if (installButton && installButton.getAttribute('href') == '#')
+    if (installButton && installButton.getAttribute('href') == '#' && task)
     {
       installButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -68,12 +70,7 @@ Joomla = window.Joomla || {};
           return;
         }
 
-        const task = document.querySelector('[name=task]', form);
-
-        if (task)
-        {
-            task.value = 'update.download';
-        }
+        task.value = 'update.download';
 
         form.submit();
       });
