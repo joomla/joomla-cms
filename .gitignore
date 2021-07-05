@@ -110,6 +110,8 @@ Desktop.ini
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/joomla/*/ruleset.xml
+/libraries/vendor/joomla/session/Joomla/Session/.drone.jsonnet
+/libraries/vendor/joomla/session/Joomla/Session/.drone.yml
 /libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
@@ -158,6 +160,9 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
 /libraries/vendor/phpmailer/phpmailer/test
+/libraries/vendor/phpmailer/phpmailer/SECURITY.md
+/libraries/vendor/phpmailer/phpmailer/.github
+/libraries/vendor/phpmailer/phpmailer/.gitattributes
 /libraries/vendor/phpmailer/phpmailer/.gitignore
 /libraries/vendor/phpmailer/phpmailer/.scrutinizer.yml
 /libraries/vendor/phpmailer/phpmailer/.travis.yml

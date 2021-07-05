@@ -428,6 +428,19 @@
 		label="CONFIG_PROXY_SETTINGS_LABEL">
 
 		<field
+			name="behind_loadbalancer"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="proxy_enable"
 			type="radio"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
@@ -1193,6 +1206,19 @@
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
 
+		</field>
+
+		<field
+			name="block_floc"
+			type="radio"
+			label="COM_CONFIG_FIELD_FLOC_BLOCKER_LABEL"
+			description="COM_CONFIG_FIELD_FLOC_BLOCKER_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

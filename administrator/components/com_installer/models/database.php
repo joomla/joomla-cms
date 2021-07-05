@@ -287,7 +287,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 
 		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
-			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
+			. ' (' . $db->quoteName('converted') . ' tinyint NOT NULL DEFAULT 0'
 			. ') ENGINE=InnoDB';
 
 		if ($db->hasUTF8mb4Support())

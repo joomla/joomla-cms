@@ -234,13 +234,11 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -798,9 +796,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				if (self.inputField.onchange) {
-					self.inputField.onchange();
-				}
+				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -963,13 +959,13 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24) 
-			{ 
-				hoursEl.value = (hrs == "00") ? "12" : hrs; 
-			} 
-			else 
-			{ 
-				hoursEl.value = hrs; 
+			if (!this.params.time24)
+			{
+				hoursEl.value = (hrs == "00") ? "12" : hrs;
+			}
+			else
+			{
+				hoursEl.value = hrs;
 			}
 
 			/* remove the selected class  for the minutes*/

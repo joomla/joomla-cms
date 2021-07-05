@@ -67,7 +67,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here).
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html).
 * Post questions at [our forums](https://forum.joomla.org).
-* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
+* [Joomla Resources Directory](https://community.joomla.org/service-providers-directory/) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 ---------------------
@@ -86,6 +86,6 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

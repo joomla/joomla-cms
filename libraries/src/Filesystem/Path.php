@@ -341,4 +341,49 @@ class Path
 		// Could not find the file in the set of paths
 		return false;
 	}
+
+	/**
+	 * Resolves /./, /../ and multiple / in a string and returns the resulting absolute path, inspired by Flysystem
+	 * Removes trailing slashes
+	 *
+	 * @param   string  $path  A path to resolve
+	 *
+	 * @return  string  The resolved path
+	 *
+	 * @since   3.9.25
+	 */
+	public static function resolve($path)
+	{
+		$path = static::clean($path);
+
+		// Save start character for absolute path
+		$startCharacter = ($path[0] === DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+
+		$parts = array();
+
+		foreach (explode(DIRECTORY_SEPARATOR, $path) as $part)
+		{
+			switch ($part)
+			{
+				case '':
+				case '.':
+					break;
+
+				case '..':
+					if (empty($parts))
+					{
+						throw new \Exception('Path is outside of the defined root');
+					}
+
+					array_pop($parts);
+					break;
+
+				default:
+					$parts[] = $part;
+					break;
+			}
+		}
+
+		return $startCharacter . implode(DIRECTORY_SEPARATOR, $parts);
+	}
 }

@@ -1,4 +1,4 @@
-ALTER TABLE `#__extensions` ADD COLUMN `package_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Parent package ID for extensions installed as a package.' AFTER `extension_id`;
+ALTER TABLE `#__extensions` ADD COLUMN `package_id` int NOT NULL DEFAULT 0 COMMENT 'Parent package ID for extensions installed as a package.' AFTER `extension_id`;
 
 UPDATE `#__extensions` AS `e1`
 INNER JOIN (SELECT `extension_id` FROM `#__extensions` WHERE `type` = 'package' AND `element` = 'pkg_en-GB') AS `e2`
