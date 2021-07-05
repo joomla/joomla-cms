@@ -17,9 +17,9 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   int      $rows            rows attribute for the field.
- * @var   int      $cols            cols attribute for the field.
- * @var   int      $maxlength       maxlength attribute for the field.
+ * @var   integer  $rows            rows attribute for the field.
+ * @var   integer  $cols            cols attribute for the field.
+ * @var   integer  $maxlength       maxlength attribute for the field.
  * @var   string   $autocomplete    Autocomplete attribute for the field.
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   string   $class           Classes for the input.
