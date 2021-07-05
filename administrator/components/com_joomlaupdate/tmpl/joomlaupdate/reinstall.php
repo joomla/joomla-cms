@@ -15,6 +15,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var HtmlView $this */
+
+/** @var WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_joomlaupdate.default')
+	->useScript('bootstrap.popover');
+
 $uploadLink = 'index.php?option=com_joomlaupdate&layout=upload';
 
 $displayData = [

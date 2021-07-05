@@ -57,12 +57,19 @@ Joomla = window.Joomla || {};
     }
 
     // Trigger (re-) install
-    if (installButton && installButton.href == '#')
+    if (installButton && installButton.getAttribute('href') == '#')
     {
       installButton.addEventListener('click', (e) => {
         e.preventDefault();
 
-        alert('test');
+        const task = querySelector('[name=task]', form);
+
+        if (task)
+        {
+            task.value = 'update.download';
+        }
+
+        form.submit();
       });
     }
   });
