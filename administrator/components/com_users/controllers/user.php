@@ -85,4 +85,54 @@ class UsersControllerUser extends JControllerForm
 	{
 		return;
 	}
+
+	/**
+	 * Method to activate a user.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function activate()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$data  = $this->input->post->get('jform', array(), 'array');
+
+		if (empty($data['id']))
+		{
+			JError::raiseWarning(500, JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			/*
+			 *	Know if we call this for activate the user and send an email notification
+			 *	Or for only send an email notification
+			 *	In both case we active the user on table, but we show a different message
+			 */
+			$model = $this->getModel();
+			$table = $model->getTable();
+			$table->load($data['id']);
+			$actived = $table->activation;
+
+			// Change the state of the records.
+			if (!$model->activate($data['id']))
+			{
+				JError::raiseWarning(500, $model->getError());
+			}
+			// Active the user and send an email notification
+			elseif (!empty($actived))
+			{
+				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
+			}
+			// Resend the email notification
+			else
+			{
+				$this->setMessage(JText::sprintf('COM_USERS_USER_NOTIFIED', $data['name']));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_users&view=users');
+	}
 }
