@@ -404,7 +404,7 @@ class Image
 	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
-	public function deleteMultipleSizes($imageSizes, $thumbs = false)
+	public function deleteMultipleSizes($imageSizes = null, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
