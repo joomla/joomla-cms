@@ -56,7 +56,7 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="text-center">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="text-center">
@@ -100,7 +100,7 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'cookies.', $canChange, 'cb'); ?>
 								</td>
-								<th scope="row" class="text-center has-context">
+								<th scope="row" class="has-context">
 									<div>
 										<?php if ($canEdit || $canEditOwn) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=cookie.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
