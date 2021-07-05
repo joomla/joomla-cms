@@ -34,7 +34,7 @@ $displayData = [
 	'createURL'  => '#'
 ];
 
-if (isset($this->updateInfo['object']->get('infourl')->_data)) :
+if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get('infourl')->_data)) :
 	$displayData['content'] .= '<br>' . HTMLHelper::_('link',
 		$this->updateInfo['object']->get('infourl')->_data,
 		Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),

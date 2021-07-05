@@ -31,7 +31,7 @@ if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_jooml
 	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_($displayData['textPrefix'] . '_EMPTYSTATE_APPEND')) . '</div>';
 }
 
-if (isset($this->updateInfo['object']->get('infourl')->_data)) :
+if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get('infourl')->_data)) :
 	$displayData['content'] .= '<br>' . HTMLHelper::_('link',
 		$this->updateInfo['object']->get('infourl')->_data,
 		Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
