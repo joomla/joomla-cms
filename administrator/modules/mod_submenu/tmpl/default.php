@@ -26,11 +26,11 @@ use Joomla\CMS\Router\Route;
 					}
 					elseif (substr($child->img, 0, 6) === 'image:')
 					{
-						$iconImage = '<img src="' . substr($child->img, 6) . '" aria-hidden="true">';
+						$iconImage = '<img class="icon-" src="' . substr($child->img, 6) . '" aria-hidden="true">';
 					}
 					elseif (!empty($child->img))
 					{
-						$iconImage = '<img src="' . $child->img . '" aria-hidden="true">';
+						$iconImage = '<img class="icon-" src="' . $child->img . '" aria-hidden="true">';
 					}
 					elseif ($child->icon)
 					{
