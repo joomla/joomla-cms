@@ -315,7 +315,7 @@ class Image
 				$imageWidth  = $size[0];
 				$imageHeight = $size[1];
 
-				// Make sure size is smaller than original
+				// Make sure responsive size is smaller than original
 				if ($imageWidth <= $this->getWidth())
 				{
 					switch ($creationMethod)
