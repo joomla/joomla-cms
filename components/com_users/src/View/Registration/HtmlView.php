@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The template file to include
 	 *
-	 * @return  mixed
+	 * @return  void
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
