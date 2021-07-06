@@ -686,8 +686,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	{
 		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -780,21 +778,38 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable = $this->getTable();
+
+			if (Factory::getApplication()->isClient('site'))
+			{
+				$id = $input->getInt('a_id');
+
+				// For frontend, alias is not entered, we set it to empty to have Alias generated base on title of article
+				$data['alias'] = '';
+			}
+			else
+			{
+				$id = $input->getInt('id');
+			}
+
+			$origTable->load($id);
 
 			if ($data['title'] == $origTable->title)
 			{
+				// If user did not change title before press Save as Copy in frontend, set Alias to original article
+				// alias to have the system generates Title and Alias automatically for the creating article
+				if (Factory::getApplication()->isClient('site'))
+				{
+					$data['alias'] = $origTable->alias;
+				}
+
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif ($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 		}
 

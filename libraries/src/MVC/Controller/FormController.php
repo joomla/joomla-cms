@@ -749,7 +749,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
+				$recordId = $model->getState($model->getName() . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 				$model->checkout($recordId);
