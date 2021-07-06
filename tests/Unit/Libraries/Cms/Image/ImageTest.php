@@ -812,7 +812,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->expectException(\LogicException::class);
 
-		$this->instance->generateMultipleSizes(['800x600']);
+		$this->instance->generateMultipleSizes(['400x200']);
 	}
 
 	/**
@@ -830,7 +830,7 @@ class ImageTest extends UnitTestCase
 
 		$this->instance->loadFile($this->testFile);
 
-		$this->instance->generateMultipleSizes(['800*600']);
+		$this->instance->generateMultipleSizes(['400*200']);
 	}
 
 	/**
@@ -846,35 +846,35 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->generateMultipleSizes(['800x600']);
+		$images = $this->instance->generateMultipleSizes(['400x200']);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
-			800,
+			400,
 			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$images = $this->instance->generateMultipleSizes(['800x600'], Image::CROP);
+		$images = $this->instance->generateMultipleSizes(['400x200'], Image::CROP);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
-			600,
+			200,
 			imagesy(TestHelper::getValue($images[0], 'handle'))
 		);
 		$this->assertEquals(
-			800,
+			400,
 			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 
-		$images = $this->instance->generateMultipleSizes(['800x600'], Image::CROP_RESIZE);
+		$images = $this->instance->generateMultipleSizes(['400x200'], Image::CROP_RESIZE);
 
 		// Verify that the resized image is the correct size.
 		$this->assertEquals(
-			600,
+			200,
 			imagesy(TestHelper::getValue($images[0], 'handle'))
 		);
 		$this->assertEquals(
-			800,
+			400,
 			imagesx(TestHelper::getValue($images[0], 'handle'))
 		);
 	}
@@ -892,7 +892,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->expectException(\LogicException::class);
 
-		$this->instance->createMultipleSizes(['800x600']);
+		$this->instance->createMultipleSizes(['400x200']);
 	}
 
 	/**
@@ -908,15 +908,15 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->createMultipleSizes(['800x600'], Image::CROP);
+		$images = $this->instance->createMultipleSizes(['400x200'], Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$a = Image::getImageFileProperties($this->testFile);
 		$b = Image::getImageFileProperties($outFileGif);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertEquals(800, $b->width);
-		$this->assertEquals(600, $b->height);
+		$this->assertEquals(400, $b->width);
+		$this->assertEquals(200, $b->height);
 		$this->assertEquals($a->bits, $b->bits);
 		$this->assertEquals($a->channels, $b->channels);
 		$this->assertEquals($a->mime, $b->mime);
@@ -955,7 +955,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->instance->loadFile($this->testFile);
 
-		$images = $this->instance->createMultipleSizes(['800x600'], Image::CROP);
+		$images = $this->instance->createMultipleSizes(['400x200'], Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
 		$this->instance->deleteMultipleSizes();
