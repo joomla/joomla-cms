@@ -19,7 +19,7 @@ class JFormFieldKeyselect extends JFormField
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.5
+	 * @since  4.1
 	 */
 	protected $app;
 
