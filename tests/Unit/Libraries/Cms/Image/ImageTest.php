@@ -958,7 +958,7 @@ class ImageTest extends UnitTestCase
 		$images = $this->instance->createMultipleSizes(['400x200'], Image::CROP);
 		$outFileGif = TestHelper::getValue($images[0], 'path');
 
-		$this->instance->deleteMultipleSizes();
+		$this->instance->deleteMultipleSizes(['400x200'], Image::CROP);
 
 		// Assert that the file is deleted
 		$this->assertEquals(false, is_file($outFileGif));
