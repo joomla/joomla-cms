@@ -105,7 +105,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key => $value)
 		{
-			$bannerBody .= '<li class="cookie_cat form-check form-check-inline"><label for="banner_cat_' . $value->alias . '">' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" id="banner_cat_'
+			$bannerBody .= '<li class="cookie-cat form-check form-check-inline"><label for="banner_cat_' . $value->alias . '">' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" id="banner_cat_'
 			. $value->alias . '" type=checkbox></span></label></li>';
 		}
 
