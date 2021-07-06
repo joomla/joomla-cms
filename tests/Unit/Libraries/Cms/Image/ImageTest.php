@@ -849,9 +849,9 @@ class ImageTest extends UnitTestCase
 		$images = $this->instance->generateMultipleSizes(['400x200']);
 
 		// Verify that the resized image is the correct size.
-		$this->assertEquals(
-			400,
-			imagesx(TestHelper::getValue($images[0], 'handle'))
+		$this->assertTrue(
+			imagesx(TestHelper::getValue($images[0], 'handle')) === 400 ||
+			imagesy(TestHelper::getValue($images[0], 'handle')) === 200
 		);
 
 		$images = $this->instance->generateMultipleSizes(['400x200'], Image::CROP);
