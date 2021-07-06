@@ -102,7 +102,7 @@ $updatePossible = true;
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-clock p-1 bg-white ms-2 text-info"></span>
+				<span class="fa fa-hourglass fa-spin p-1 bg-white ms-2 text-info"></span>
 			</button>
 		</div>
 
@@ -187,11 +187,50 @@ $updatePossible = true;
 				</table>
 			</div>
 			<div class="tab-pane fade show" id="joomlaupdate-precheck-extensions-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-extensions-tab">
+				<h3>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+				</h3>
+				<div id="preupdateCheckWarning" class="hidden">
+					<div class="alert alert-warning">
+						<h4 class="alert-heading">
+							<?php echo Text::_('WARNING'); ?>
+						</h4>
+						<div class="alert-message">
+							<div class="preupdateCheckIncomplete">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="preupdateconfirmation" class="hidden">
+					<div class="alert alert-info">
+						<h4 class="alert-heading">
+							<?php echo Text::_('INFO'); ?>
+						</h4>
+						<div class="alert-message">
+							<div class="preupdateCheckComplete">
+								<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="preupdateCheckCompleteProblems" class="hidden">
+					<div class="alert alert-danger">
+						<h4 class="alert-heading">
+							<?php echo Text::_('WARNING'); ?>
+						</h4>
+						<div class="alert-message">
+							<div class="preupdateCheckComplete">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			<?php if (!empty($this->nonCoreExtensions)) : ?>
 				<div class="w-100 table-responsive">
-					<h3>
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-					</h3>
 					<?php foreach ($compatibilityTypes as $compatibilityType => $compatibilityData) : ?>
 						<?php $compatibilityDisplayClass = $compatibilityData['class']; ?>
 						<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
@@ -282,11 +321,13 @@ $updatePossible = true;
 
 	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" class="d-flex flex-sm-column mb-5">
 
-		<div class="form-check d-flex justify-content-center mb-3" id="preupdatecheckbox">
-			<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
-			<label class="form-check-label" for="joomlaupdate-confirm-backup">
-				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
-			</label>
+		<div id="preupdatecheckbox">
+			<div class="form-check d-flex justify-content-center mb-3">
+				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
+				<label class="form-check-label" for="joomlaupdate-confirm-backup">
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
+				</label>
+			</div>
 		</div>
 
 		<button class="btn btn-lg btn-warning disabled submitupdate mx-auto" type="submit" disabled>
