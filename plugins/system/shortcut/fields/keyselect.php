@@ -12,10 +12,17 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-jimport('joomla.form.formfield');
 
 class JFormFieldKeyselect extends JFormField
 {
+	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.5
+	 */
+	protected $app;
+
 	protected $type = 'Keyselect';
 
 	public function getInput()

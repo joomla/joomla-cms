@@ -12,10 +12,17 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-jimport('joomla.form.formfield');
 
 class JFormFieldRestoredefaults extends JFormField
 {
+    /**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  4.1
+	 */
+    protected $app;
+
 	protected $type = 'Restoredefaults';
 
 	public function getInput()
