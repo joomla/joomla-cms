@@ -396,11 +396,11 @@ class Image
 	/**
 	 * Method to delete different sized versions of current image from disk.
 	 *
-	 * @param   array    $imageSizes  array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
-	 * @param   boolean  $thumbs      true to delete thumbs, false to delete responsive images
+	 * @param   boolean  $thumbs          true to delete thumbs, false to delete responsive images
 	 *
-	 * @return  array    deleted images.
+	 * @return  array    deleted images
 	 *
 	 * @since   4.1.0
 	 * @throws  \LogicException
