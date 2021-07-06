@@ -131,7 +131,7 @@
 				</field>
 
 				<field
-					name="breakPointTemplate"
+					name="breakpointTemplate"
 					type="list"
 					label="TPL_CASSIOPEIA_BP_TEMPLATE_LABEL"
 					description="TPL_CASSIOPEIA_BP_TEMPLATE_DESCRIPTION"
@@ -146,7 +146,7 @@
 				</field>
 
 				<field
-					name="breakPointGrid"
+					name="breakpointGrid"
 					type="list"
 					label="TPL_CASSIOPEIA_BP_GRID_LABEL"
 					description="TPL_CASSIOPEIA_BP_GRID_DESCRIPTION"

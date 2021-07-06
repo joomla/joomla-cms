@@ -32,8 +32,8 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
-$breakPointTemplate = $this->params->get('breakPointTemplate', 'lg');
-$breakPointGrid     = $this->params->get('breakPointGrid', 'lg');
+$breakpointTemplate = $this->params->get('breakpointTemplate', 'lg');
+$breakpointGrid     = $this->params->get('breakpointGrid', 'lg');
 
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
@@ -118,8 +118,8 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($pageclass ? ' ' . $pageclass : '')
-	. ($breakPointTemplate ? ' break-tmpl-' . $breakPointTemplate : '')
-	. ($breakPointGrid ? ' break-grid-' . $breakPointGrid : '')
+	. ($breakpointTemplate ? ' break-tmpl-' . $breakpointTemplate : '')
+	. ($breakpointGrid ? ' break-grid-' . $breakpointGrid : '')
 	. $hasClass
 	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
