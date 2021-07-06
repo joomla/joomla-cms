@@ -74,11 +74,6 @@ td .form-control {
   }
 }
 
-.form-check {
-  padding-top: 5px;
-  margin-bottom: 0;
-}
-
 .modal label {
   width: 100%;
 }
@@ -91,10 +86,6 @@ td .form-control {
 
 .valid {
   border-color: var(--success);
-}
-
-.form-control-feedback {
-  display: block;
 }
 
 [aria-grabbed="true"] {

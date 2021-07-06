@@ -15,32 +15,9 @@ legend {
   font-weight: $font-weight-normal;
 }
 
-.checkboxes {
-  padding-top: 5px;
-
-  .checkbox input {
-    position: static;
-    margin-left: 0;
-  }
-}
-
 .form-check {
   padding-top: 5px;
   margin-bottom: 0;
-}
-
-.modal label {
-  width: 100%;
-}
-
-// Validation
-.invalid {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
-.valid {
-  border-color: var(--success);
 }
 
 .form-control-feedback {
