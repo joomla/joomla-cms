@@ -66,12 +66,12 @@ class RulesField extends FormField
 	protected $assetField;
 
 	/**
-	 * The parent class of the field
+	 * The control class of the field
 	 *
 	 * @var  string
 	 * @since 4.0.0
 	 */
-	protected $parentclass;
+	protected $controlclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
