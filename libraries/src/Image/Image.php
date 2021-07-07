@@ -315,7 +315,7 @@ class Image
 				$imageWidth  = $size[0];
 				$imageHeight = $size[1];
 
-				// Make sure size is smaller than original
+				// Make sure responsive size is smaller than original
 				if ($imageWidth <= $this->getWidth())
 				{
 					switch ($creationMethod)
@@ -396,15 +396,16 @@ class Image
 	/**
 	 * Method to delete different sized versions of current image from disk.
 	 *
-	 * @param   array    $imageSizes  array of strings. Example: $imageSizes = array('1200x800','800x600');
-	 * @param   boolean  $thumbs      true to delete thumbs, false to delete responsive images
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to delete thumbs, false to delete responsive images
 	 *
-	 * @return  array    sources of deleted images.
+	 * @return  array    deleted images
 	 *
 	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
-	public function deleteMultipleSizes($imageSizes, $thumbs = false)
+	public function deleteMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -421,7 +422,7 @@ class Image
 		// Process images and delete them
 		$imagesDeleted = [];
 
-		if ($images = $this->generateMultipleSizes($imageSizes))
+		if ($images = $this->generateMultipleSizes($imageSizes, $creationMethod, $thumbs))
 		{
 			foreach ($images as $image)
 			{
