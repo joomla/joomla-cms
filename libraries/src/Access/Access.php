@@ -924,6 +924,8 @@ class Access
 					);
 				}
 
+				$query->group($recursive ? 'b.id' : 'a.id');
+
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
 				$result = $db->loadColumn();
