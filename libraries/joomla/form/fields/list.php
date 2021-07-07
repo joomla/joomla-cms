@@ -26,6 +26,14 @@ class JFormFieldList extends JFormField
 	protected $type = 'List';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.list';
+
+	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
 	 *
@@ -35,67 +43,16 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if (empty($this->layout))
 		{
-			$attr .= ' disabled="disabled"';
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		$data = $this->getLayoutData();
 
-		// Get the field options.
-		$options = (array) $this->getOptions();
+		$data['options'] = (array) $this->getOptions();
 
-		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
-			{
-				if (!count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
-			}
-		}
-		else
-		// Create a regular list passing the arguments in an array.
-		{
-			$listoptions = array();
-			$listoptions['option.key'] = 'value';
-			$listoptions['option.text'] = 'text';
-			$listoptions['list.select'] = $this->value;
-			$listoptions['id'] = $this->id;
-			$listoptions['list.translate'] = false;
-			$listoptions['option.attr'] = 'optionattr';
-			$listoptions['list.attr'] = trim($attr);
-
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
-		}
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($data);
 	}
 
 	/**
