@@ -151,7 +151,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			'<input class="form-check-input " type="checkbox" id="cat_' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
 			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" >' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
-			$table = '<table class="table"><thead><tr><th scope="col">Cookie Name</th><th scope="col">Description</th><th scope="col">Expiration</th></tr></thead><tbody>';
+			$table = '<table class="table"><thead><tr><th scope="col">'. Text::_('COM_COOKIEMANAGER_TABLE_HEAD_COOKIENAME') . '</th><th scope="col">'. Text::_('COM_COOKIEMANAGER_TABLE_HEAD_DESCRIPTION') . '</th><th scope="col">'. Text::_('COM_COOKIEMANAGER_TABLE_HEAD_EXPIRATION') . '</th></tr></thead><tbody>';
 
 			foreach ($cookies as $key => $value)
 			{
