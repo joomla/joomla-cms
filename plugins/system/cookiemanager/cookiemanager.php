@@ -185,19 +185,19 @@ class PlgSystemCookiemanager extends CMSPlugin
 			$prefBody .= $table . '</div>';
 		}
 
-			$this->preferences = HTMLHelper::_(
-				'bootstrap.renderModal',
-				'preferences',
-				[
-						'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
-						'footer' => '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
-						. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
-						. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
-						. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
+		$this->preferences = HTMLHelper::_(
+			'bootstrap.renderModal',
+			'preferences',
+			[
+				'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
+				'footer' => '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
+					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
+			],
+			$prefBody
+		);
 
-					],
-				$prefBody
-			);
 
 	}
 
