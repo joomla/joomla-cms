@@ -190,7 +190,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function finalize($result)
 	{
-		$num  = count($result);
+		$num = count($result);
 
 		if ($num != 0)
 		{
