@@ -39,44 +39,36 @@ class ArticlesController extends ApiController
 	protected $default_view = 'articles';
 
 	/**
-	 * Article list view amended to add filtering of data
+	 * Query filter parameters => model state mappings
 	 *
-	 * @return  static  A BaseController object to support chaining.
-	 *
-	 * @since   4.0.0
+	 * @var  array
 	 */
-	public function displayList()
-	{
-		$apiFilterInfo = $this->input->get('filter', [], 'array');
-		$filter        = InputFilter::getInstance();
-
-		if (array_key_exists('author', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.author_id', $filter->clean($apiFilterInfo['author'], 'INT'));
-		}
-
-		if (array_key_exists('category', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.category_id', $filter->clean($apiFilterInfo['category'], 'INT'));
-		}
-
-		if (array_key_exists('search', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
-		}
-
-		if (array_key_exists('state', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
-		}
-
-		if (array_key_exists('language', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
-		}
-
-		return parent::displayList();
-	}
+	protected $queryFilterModelStateMap = [
+		'access' => [
+			'name' => 'filter.access',
+			'type' => 'INT'
+		],
+		'author_id' => [
+			'name' => 'filter.author_id',
+			'type' => 'INT'
+		],
+		'category_id' => [
+			'name' => 'filter.category_id',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
 
 	/**
 	 * Method to allow extended classes to manipulate the data to be saved for an extension.

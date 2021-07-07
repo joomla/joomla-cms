@@ -35,4 +35,36 @@ class BannersController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'banners';
+
+	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'category_id' => [
+			'name' => 'filter.category_id',
+			'type' => 'INT'
+		],
+		'client_id' => [
+			'name' => 'filter.client_id',
+			'type' => 'INT'
+		],
+		'level' => [
+			'name' => 'filter.level',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
 }

@@ -35,4 +35,32 @@ class TagsController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'tags';
+
+	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'access' => [
+			'name' => 'filter.access',
+			'type' => 'INT'
+		],
+		'level' => [
+			'name' => 'filter.level',
+			'type' => 'INT'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'language' => [
+			'name' => 'filter.language',
+			'type' => 'STRING'
+		],
+	];
 }
