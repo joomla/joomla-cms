@@ -37,6 +37,8 @@
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 1rem;
 
+  overflow-x: auto;
+
   @include media-breakpoint-up(sm) {
     --span-2: span 2;
     --span-3: span 2;
@@ -51,14 +53,20 @@
     --span-4: span 4;
     --span-5: span 4;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem 2rem;
   }
 
   @include media-breakpoint-up(lg) {
     --span-5: span 5;
 
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include media-breakpoint-up(xl) {
+    --span-5: span 5;
+
+    grid-template-columns: repeat(3, 1fr);
   }
 
   > * {
