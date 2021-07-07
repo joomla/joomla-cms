@@ -17,7 +17,7 @@ Factory::getApplication()->getDocument()
 	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
 
 $module = $displayData['module'];
-$chromeClass = trim("mod-preview " . $displayData['attribs']['class']);
+$chromeClass = trim('mod-preview ' . $displayData['attribs']['class']);
 ?>
 <div class="<?php echo $chromeClass; ?>">
 	<div class="mod-preview-info">
