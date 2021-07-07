@@ -2,11 +2,11 @@
 /**
  * Declares the MVC View for CronjobsModel.
  *
- * @package         Joomla.Administrator
- * @subpackage      com_cronjobs
+ * @package    Joomla.Administrator
+ * @subpackage com_cronjobs
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GPL v3
+ * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license   GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\View\Cronjobs;
@@ -31,14 +31,14 @@ use Joomla\CMS\Language\Text;
  * @package    Joomla.Administrator
  * @subpackage com_cronjobs
  *
- * @since      __DEPLOY_VERSION__
+ * @since __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $items;
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  Pagination
+	 * @var   Pagination
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $pagination;
@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var   JObject
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $state;
@@ -62,23 +62,23 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @var   \JForm
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $filterForm;
 
 	/**
 	 * The active search filters
 	 *
-	 * @var    array
-	 * @since  4.0.0
+	 * @var   array
+	 * @since 4.0.0
 	 */
 	public $activeFilters;
 
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
@@ -86,20 +86,20 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed   A string if successful, otherwise an Error object.
+	 * @return mixed   A string if successful, otherwise an Error object.
 	 */
 
 
 	/**
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return void
 	 *
-	 * @throws  Exception
+	 * @throws Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
 	{
@@ -135,11 +135,11 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void
+	 * @return void
 	 *
-	 * @throws  Exception
+	 * @throws Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function addToolbar(): void
 	{
@@ -148,14 +148,13 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getApplication()->getIdentity();
 
 		/*
-		 * Get the toolbar object instance
-		 * !! TODO : Replace usage with ToolbarFactoryInterface
-		 */
+		* Get the toolbar object instance
+		* !! TODO : Replace usage with ToolbarFactoryInterface
+		*/
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		// TODO : 'cronjobs' icon
 		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'tags');
-
 
 		if ($canDo->get('core.create'))
 		{
@@ -181,9 +180,9 @@ class HtmlView extends BaseHtmlView
 			}
 
 			/*
-			 * TODO: Remove this
-			 * This is probably unneeded
-			 */
+			* TODO: Remove this
+			* This is probably unneeded
+			*/
 			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
 			{
 				$childBar->trash('cronjobs.trash')->listCheck(true);

@@ -4,11 +4,11 @@
  * TODO: Implement query filters in $GetListQuery()
  * TODO: Complete $config['filter_fields']
  *
- * @package         Joomla.Administrator
- * @subpackage      com_cronjobs
+ * @package    Joomla.Administrator
+ * @subpackage com_cronjobs
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GPL v3
+ * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license   GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\Model;
@@ -34,11 +34,11 @@ class CronjobsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   array                    $config  An optional associative array of configuration settings.
 	 *
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   MVCFactoryInterface|null $factory The factory.
 	 *
-	 * @throws  Exception
+	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
@@ -48,23 +48,23 @@ class CronjobsModel extends ListModel
 		{
 			// ! TODO: Doesn't set everything yet
 			$config['filter_fields'] = array(
-				'job_id',
-				'a.job_id',
+			'job_id',
+			'a.job_id',
 
-				'name',
-				'a.name',
+			'name',
+			'a.name',
 
-				'type',
-				'a.type',
+			'type',
+			'a.type',
 
-				'trigger',
-				'a.trigger',
+			'trigger',
+			'a.trigger',
 
-				'execution_interval',
-				'a.execution_interval',
+			'execution_interval',
+			'a.execution_interval',
 
-				'enabled',
-				'a.enabled'
+			'enabled',
+			'a.enabled'
 			);
 		}
 
@@ -74,9 +74,9 @@ class CronjobsModel extends ListModel
 	/**
 	 * Method to get an array of data items.
 	 *
-	 * @return  mixed  An array of data items on success, false on failure.
+	 * @return mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -90,11 +90,11 @@ class CronjobsModel extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
-	 * @return  string  A store id.
+	 * @return string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = ''): string
 	{
@@ -108,13 +108,12 @@ class CronjobsModel extends ListModel
 
 	/**
 	 * Method to create a query for a list of items.
+	 * ! No filters at the moment ⚠
+	 * @return QueryInterface
 	 *
-	 * @return  QueryInterface
-	 *
-	 * @throws  Exception
+	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	// ⚠ No filters at the moment ⚠
 	protected function getListQuery(): QueryInterface
 	{
 		// Create a new query object.

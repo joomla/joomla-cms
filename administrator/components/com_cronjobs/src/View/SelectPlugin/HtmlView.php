@@ -2,17 +2,17 @@
 /**
  * Declares the MVC View for SelectPluginModel.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cronjobs
+ * @package    Joomla.Administrator
+ * @subpackage com_cronjobs
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license	    GPL v3
+ * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license   GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\View\SelectPlugin;
 
 // Restrict direct access
-\defined('_JEXEC_') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var   \JForm
 	 * @since __DEPLOY__VERSION__
 	 */
 	protected $form;
@@ -38,7 +38,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var   object
 	 * @since __DEPLOY__VERSION__
 	 */
 	protected $item;
@@ -46,16 +46,16 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \JObject
 	 * @since __DEPLOY__VERSION__
 	 */
 	protected $state;
 
 
 	/**
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
