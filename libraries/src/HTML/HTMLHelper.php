@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -373,19 +374,17 @@ abstract class HTMLHelper
 	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
 	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
 	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   boolean  $debugMode      Flag if debug mode is enabled to include uncompressed files.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     Browser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug, $debugMode = false)
 	{
-		// Set debug flag
-		$debugMode = false;
-
 		// Detect debug mode
-		if ($detectDebug && JDEBUG)
+		if ($detectDebug && (JDEBUG || $debugMode))
 		{
 			$debugMode = true;
 		}
@@ -785,8 +784,9 @@ abstract class HTMLHelper
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
+		$options['debugMode']     = $options['debugMode'] ?? false;
 
-		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug'], $options['debugMode']);
 
 		// If only path is required
 		if ($options['pathOnly'])
@@ -837,8 +837,9 @@ abstract class HTMLHelper
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
+		$options['debugMode']     = $options['debugMode'] ?? false;
 
-		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug'], $options['debugMode']);
 
 		// If only path is required
 		if ($options['pathOnly'])
