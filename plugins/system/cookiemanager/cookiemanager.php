@@ -131,21 +131,21 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		HTMLHelper::_('bootstrap.collapse');
 
-			$db = $this->db;
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
-				->from($db->quoteName('#__categories', 'c'))
-				->join(
-					'RIGHT',
-					$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
-				)
-				->order($db->quoteName('lft'));
+		$db = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
+			->from($db->quoteName('#__categories', 'c'))
+			->join(
+				'RIGHT',
+				$db->quoteName('#__cookiemanager_cookies', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
+			)
+			->order($db->quoteName('lft'));
 
-			$db->setQuery($query);
-			$cookies = $db->loadObjectList();
+		$db->setQuery($query);
+		$cookies = $db->loadObjectList();
 
-			$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
-			$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
+		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
+		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
 
 		foreach ($category as $catKey => $catValue)
 		{
