@@ -122,7 +122,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 		// Remove responsive versions if file is an image
 		if ($context === "com_media.file" && MediaHelper::isImage($article->path))
 		{
-			$imgObj = new Image(JPATH_ROOT . '/images' . $article->path);
+			// $imgObj = new Image(JPATH_ROOT . '/images' . $article->path);
 			// $imgObj->deleteMultipleSizes();
 		}
 	}
