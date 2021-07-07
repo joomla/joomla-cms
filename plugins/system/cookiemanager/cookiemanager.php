@@ -59,9 +59,9 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Add assets for the modal.
 	 *
-	 * @return   void
+	 * @return	void
 	 *
-	 * @since		 __DEPLOY_VERSION__
+	 * @since	__DEPLOY_VERSION__
 	 */
 	public function onBeforeCompileHead()
 	{
@@ -126,6 +126,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 				],
 			$bannerBody
 		);
+
+		HTMLHelper::_('bootstrap.collapse');
 
 			$db = $this->db;
 			$query = $db->getQuery(true)
