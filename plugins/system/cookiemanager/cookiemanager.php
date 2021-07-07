@@ -86,23 +86,24 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$sitemenu = $this->app->getMenu();
 		$menuitem = $sitemenu->getItem($params->get('policylink'));
 
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['id','title','alias','description']))
-				->from($db->quoteName('#__categories'))
-				->where([
-					$db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'),
-					$db->quoteName('published') . ' =  1',
-					]
-				)
-				->order($db->quoteName('lft'));
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id','title','alias','description']))
+			->from($db->quoteName('#__categories'))
+			->where([
+				$db->quoteName('extension') . ' = ' . $db->quote('com_cookiemanager'),
+				$db->quoteName('published') . ' =  1',
+				]
+			)
+			->order($db->quoteName('lft'));
 
-			$db->setQuery($query);
-			$category = $db->loadObjectList();
+		$db->setQuery($query);
+		$category = $db->loadObjectList();
 
-			$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
+		$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
 			. '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5><ul>';
+
 
 		foreach ($category as $key => $value)
 		{
