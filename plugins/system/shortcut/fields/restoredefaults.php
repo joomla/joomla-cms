@@ -15,13 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 class JFormFieldRestoredefaults extends JFormField
 {
-    /**
-	 * Application object.
-	 *
-	 * @var    JApplicationCms
-	 * @since  4.1
-	 */
-    protected $app;
+	protected $app;
 
 	protected $type = 'Restoredefaults';
 

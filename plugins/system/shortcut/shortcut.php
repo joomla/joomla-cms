@@ -151,8 +151,9 @@ class PlgSystemShortcut extends CMSPlugin
 			$wa = $this->app->getDocument()->getWebAssetManager();
 			$config = $this->app->getConfig();
 			$editor = $config->get('editor', 'tinymce');
-			Factory::getDocument()->addScriptOptions('editor', $editor);
-			Factory::getDocument()->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
+			$document = Factory::getDocument();
+			$document->addScriptOptions('editor', $editor);
+			$document->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
 
 			if (!$wa->assetExists('script', 'shortcut'))
 			{
