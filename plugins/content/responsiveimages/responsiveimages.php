@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -102,6 +104,26 @@ class PlgContentResponsiveImages extends CMSPlugin
 			{
 				MediaHelper::generateContentResponsiveImages($this->initContent, $content);
 			}
+		}
+	}
+
+	/**
+	 * Event that handles deletion of responsive images once original one gets deleted
+	 *
+	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
+	 * @param   object  $article  A JTableContent object.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function onContentBeforeDelete($context, $article): void
+	{
+		// Remove responsive versions if file is an image
+		if($context === "com_media.file" && MediaHelper::isImage($article->path))
+		{
+			$imgObj = new Image(JPATH_ROOT . '/images' . $article->path);
+			$imgObj->deleteMultipleSizes();
 		}
 	}
 
