@@ -906,38 +906,6 @@ class LanguageAdapter extends InstallerAdapter
 			$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
 		}
 
-		// Try to load a language string from the installation language var. Will be removed in 4.0.
-		if ($contentLanguageNativeTitle === $contentLanguageTitle)
-		{
-			$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/langmetadata.xml';
-
-			if (!is_file($manifestfile))
-			{
-				$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/' . $tag . '.xml';
-			}
-
-			if (file_exists($manifestfile))
-			{
-				$installationLanguage = new Language($tag);
-				$installationLanguage->load('', JPATH_INSTALLATION);
-
-				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
-				{
-					// Make sure it will not use the en-GB fallback.
-					$defaultLanguage = new Language('en-GB');
-					$defaultLanguage->load('', JPATH_INSTALLATION);
-
-					$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-					$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-					if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
-					{
-						$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-					}
-				}
-			}
-		}
-
 		// Prepare language data for store.
 		$languageData = array(
 			'lang_id'      => 0,
