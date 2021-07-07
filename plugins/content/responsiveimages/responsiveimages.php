@@ -37,7 +37,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	protected $initContent;
 
 	/**
-	 * Event that stores initial versions of images and inserts srcset and sizes 
+	 * Event that stores initial versions of images and inserts srcset and sizes
 	 * attributes into content img tags
 	 *
 	 * @param   string   $context  The context
