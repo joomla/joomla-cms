@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filesystem;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Crypt\Crypt;
 
 if (!\defined('JPATH_ROOT'))
@@ -162,34 +163,22 @@ class Path
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   1.7.0
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public static function check($path)
 	{
 		if (strpos($path, '..') !== false)
 		{
-			// Don't translate
-			throw new \Exception(
-				sprintf(
-					'%s() - Use of relative paths not permitted',
-					__METHOD__
-				),
-				20
-			);
+			// Don't translate.
+			throw new Exception('Use of relative paths not permitted', 20);
 		}
 
 		$path = self::clean($path);
 
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
-			throw new \Exception(
-				sprintf(
-					'%1$s() - Snooping out of bounds @ %2$s',
-					__METHOD__,
-					$path
-				),
-				20
-			);
+			// Don't translate.
+			throw new Exception('Snooping out of bounds', 20);
 		}
 
 		return $path;
@@ -210,13 +199,8 @@ class Path
 	{
 		if (!\is_string($path) && !empty($path))
 		{
-			throw new \UnexpectedValueException(
-				sprintf(
-					'%s() - $path is not a string',
-					__METHOD__
-				),
-				20
-			);
+			// Don't translate.
+			throw new \UnexpectedValueException('Path is not a string', 20);
 		}
 
 		$path = trim($path);
@@ -368,7 +352,7 @@ class Path
 				case '..':
 					if (empty($parts))
 					{
-						throw new \Exception('Path is outside of the defined root');
+						throw new Exception('Path is outside of the defined root');
 					}
 
 					array_pop($parts);
