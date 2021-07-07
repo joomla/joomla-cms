@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="content" method="upgrade">
+	<name>plg_content_adaptiveimage</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_CONTENT_ADAPTIVEIMAGE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="adaptiveimage">adaptiveimage.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_adaptiveimage.ini</language>
+		<language tag="en-GB">en-GB.plg_content_adaptiveimage.sys.ini</language>
+	</languages>
+</extension>
