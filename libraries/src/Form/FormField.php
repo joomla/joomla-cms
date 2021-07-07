@@ -717,12 +717,14 @@ abstract class FormField
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
+		$layoutExists = $this->checkLayoutExists($this->layout);
+
+		if ($layoutExists instanceof FileLayout)
 		{
-			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+			return $layoutExists->render($this->getLayoutData());
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->fieldname));
 	}
 
 	/**
@@ -1077,5 +1079,28 @@ abstract class FormField
 	protected function isDebugEnabled()
 	{
 		return $this->getAttribute('debug', 'false') === 'true';
+	}
+
+	/**
+	 * Check if the layout exists
+	 *
+	 * @param   string  $layoutId  Id to load
+	 *
+	 * @return  FileLayout|void  Return null if layout don't exists
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkLayoutExists($layoutId = 'default')
+	{
+		$renderer = $this->getRenderer($layoutId);
+
+		$layoutFileExists = $renderer->checkLayoutExists();
+
+		if ($layoutFileExists)
+		{
+			return $renderer;
+		}
+
+		return;
 	}
 }

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Layout\FileLayout;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -45,12 +47,14 @@ class JFormFieldRadio extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
+		$layoutExists = $this->checkLayoutExists($this->layout);
+
+		if ($layoutExists instanceof FileLayout)
 		{
-			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+			return $layoutExists->render($this->getLayoutData());
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->fieldname));
 	}
 
 	/**
