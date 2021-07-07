@@ -10,12 +10,20 @@
 defined('_JEXEC') or die;
 
 /**
- * Cancel Controller for global configuration components
+ * Cancel Controller for global configuration
  *
  * @since  3.2
  */
 class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 {
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
 	/**
 	 * Method to cancel global configuration component.
 	 *
@@ -31,6 +39,19 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 
 		$this->redirect = 'index.php?option=' . $this->component;
 
-		parent::execute();
+		$returnUri = $this->input->get('return', null, 'base64');
+
+		if (!empty($returnUri))
+		{
+			$this->redirect = base64_decode($returnUri);
+
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($this->redirect))
+			{
+				$this->redirect = JUri::base();
+			}
+		}
+
+		$this->app->redirect($this->redirect);
 	}
 }
