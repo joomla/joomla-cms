@@ -408,11 +408,11 @@ class ApiModel extends BaseDatabaseModel
 		}
 
 		// Remove responsive versions if file is an image
-		if($type === "file" && MediaHelper::isImage($object->path))
-		{
-			$imgObj = new Image(JPATH_ROOT . '/images' . $object->path);
-			$imgObj->deleteMultipleSizes();
-		}
+		// if($type === "file" && MediaHelper::isImage($object->path))
+		// {
+		// 	$imgObj = new Image(JPATH_ROOT . '/images' . $object->path);
+		// 	$imgObj->deleteMultipleSizes();
+		// }
 
 		$this->getAdapter($object->adapter)->delete($object->path);
 
