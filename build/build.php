@@ -131,11 +131,6 @@ function clean_checkout(string $dir)
 	system('rm -rf images/sampledata/parks');
 	system('rm -rf images/sampledata/fruitshop');
 
-	// paragonie/random_compat
-	system('rm -rf libraries/vendor/paragonie/random_compat/other');
-	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');
-	system('rm -rf libraries/vendor/paragonie/random_compat/psalm-autoload.php');
-
 	// paragonie/sodium_compat
 	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
 
@@ -150,16 +145,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/*/Resources/doc');
 	system('rm -rf libraries/vendor/symfony/*/Tests');
 	system('rm -rf libraries/vendor/symfony/console/Resources');
-	system('rm -rf libraries/vendor/symfony/debug/Resources');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/LegacyTestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListenerTrait.php');
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
-
-	// zendframework/zend-diactoros
-	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
 
 	echo "Cleanup complete.\n";
 
@@ -376,9 +364,6 @@ $doNotPackage = array(
 	// Media Manager Node Assets
 	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
-	// Remove the testing sample data from all packages
-	'installation/sql/mysql/sample_testing.sql',
-	'installation/sql/postgresql/sample_testing.sql',
 );
 
 /*
