@@ -173,8 +173,7 @@ class Path
 				sprintf(
 					'%s() - Use of relative paths not permitted',
 					__METHOD__
-				),
-				20
+				)
 			);
 		}
 
@@ -187,8 +186,7 @@ class Path
 					'%1$s() - Snooping out of bounds @ %2$s',
 					__METHOD__,
 					$path
-				),
-				20
+				)
 			);
 		}
 
@@ -214,8 +212,7 @@ class Path
 				sprintf(
 					'%s() - $path is not a string',
 					__METHOD__
-				),
-				20
+				)
 			);
 		}
 
