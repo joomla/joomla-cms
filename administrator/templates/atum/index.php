@@ -35,7 +35,7 @@ $sidebarState = $input->cookie->get('atumSidebarState', '');
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
 $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
+$a11y_font      = $app->getIdentity()->getParam('a11y_font', 100);
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -87,7 +87,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo (int)$a11y_font != 100 ? ' class="a11y_font_'.(int)$a11y_font.'"' : ''; ?>>
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />

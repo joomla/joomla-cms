@@ -2,10 +2,10 @@
 
 html {
   height: 100%;
-
-  &.a11y_font {
-    font-size: 18px;
-  }
+  &.a11y_font_80 {font-size: 80%;}
+  &.a11y_font_90 {font-size: 90%;}
+  &.a11y_font_110 {font-size: 110%;}
+  &.a11y_font_125 {font-size: 125%;}
 }
 
 body {
