@@ -86,7 +86,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$sitemenu = $this->app->getMenu();
 		$menuitem = $sitemenu->getItem($params->get('policylink'));
 
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id','title','alias','description']))
 			->from($db->quoteName('#__categories'))
