@@ -66,7 +66,14 @@ class JSessionStorageMemcache extends JSessionStorage
 
 			if (!headers_sent())
 			{
-				ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+				$path = $serverConf['host'];
+
+				if ($serverConf['port'] > 0)
+				{
+					$path .= ':' . $serverConf['port'];
+				}
+
+				ini_set('session.save_path', $path);
 				ini_set('session.save_handler', 'memcache');
 			}
 		}
