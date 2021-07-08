@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+
+		<!-- Search Box -->
+		<field
+				name="search"
+				type="text"
+				inputmode="search"
+				label="COM_CRONJOBS_FILTER_SEARCH_LABEL"
+				description="COM_TAGS_FILTER_SEARCH"
+				hint="JSEARCH_FILTER"
+		/>
+		<!-- Might want to change either this or db -->
+		<field
+				name="enabled"
+				type="status"
+				label="JSTATUS"
+				onchange="this.form.submit();"
+		>
+			<!-- TODO: ADD ENABLED, DISABLED OPTIONS -->
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<!-- Filter by access level -->
+		<field
+				name="access"
+				type="accesslevel"
+				label="JGRID_HEADING_ACCESS"
+				onchange="this.form.submit();"
+		>
+			<option value="">JOPTION_SELECT_ACCESS</option>
+		</field>
+		<!-- Filter by cronjob type-->
+		<field
+				name="type"
+				type="list"
+				label="COM_CRONJOBS_HEADING_JOB_TYPE"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_CRONJOBS_SELECT_TYPE</option>
+			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
+			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
+		</field>
+	</fields>
+
+	<!--THE SORT_BY LIST -->
+	<fields name="list">
+		<!-- TODO: Options for relevant cronjob properties -->
+		<field
+				name="fullordering"
+				type="list"
+				label="JGLOBAL_SORT_BY"
+				onchange="this.form.submit();"
+				default="a.name DESC"
+				validate="options"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.id ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.enabled ASC">JSTATUS_ASC</option>
+			<option value="a.enabled DESC">JSTATUS_DESC</option>
+			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
+			<!-- These might have to go -->
+			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+		</field>
+		<field
+				name="limit"
+				type="limitbox"
+				label="JGLOBAL_LIST_LIMIT"
+				default="25"
+				onchange="this.form.submit();"
+		/>
+	</fields>
+</form>
