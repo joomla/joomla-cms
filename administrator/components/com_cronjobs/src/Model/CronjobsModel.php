@@ -4,11 +4,11 @@
  * TODO: Implement query filters in $GetListQuery()
  * TODO: Complete $config['filter_fields']
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
+ * @package       Joomla.Administrator
+ * @subpackage    com_cronjobs
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license   GPL v3
+ * @license       GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\Model;
@@ -34,9 +34,9 @@ class CronjobsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                    $config  An optional associative array of configuration settings.
+	 * @param   array                     $config   An optional associative array of configuration settings.
 	 *
-	 * @param   MVCFactoryInterface|null $factory The factory.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
@@ -46,26 +46,45 @@ class CronjobsModel extends ListModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			// ! TODO: Doesn't set everything yet
-			$config['filter_fields'] = array(
-			'job_id',
-			'a.job_id',
+			// TODO : Works right? Need to implement filtering to check.
+			$config['filter_fields']
+				= array(
+					'job_id',
+					'a.job_id',
 
-			'name',
-			'a.name',
+					'name',
+					'a.name',
 
-			'type',
-			'a.type',
+					'type',
+					'a.type',
 
-			'trigger',
-			'a.trigger',
+					'trigger',
+					'a.trigger',
 
-			'execution_interval',
-			'a.execution_interval',
+					'execution_interval',
+					'a.execution_interval',
 
-			'enabled',
-			'a.enabled'
-			);
+					'enabled',
+					'a.enabled',
+
+					'last_exit_code',
+					'a.last_exit_code',
+
+					'last_execution',
+					'a.last_execution',
+
+					'next_execution',
+					'a.next_execution',
+
+					'times_executed',
+					'a.times_executed',
+
+					'times_failed',
+					'a.times_failed',
+
+					'note',
+					'a.note'
+				);
 		}
 
 		parent::__construct($config, $factory);
@@ -74,7 +93,7 @@ class CronjobsModel extends ListModel
 	/**
 	 * Method to get an array of data items.
 	 *
-	 * @return mixed  An array of data items on success, false on failure.
+	 * @return array|boolean  An array of data items on success, false on failure.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -90,7 +109,7 @@ class CronjobsModel extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string $id A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return string  A store id.
 	 *
@@ -109,6 +128,7 @@ class CronjobsModel extends ListModel
 	/**
 	 * Method to create a query for a list of items.
 	 * ! No filters at the moment ⚠
+	 *
 	 * @return QueryInterface
 	 *
 	 * @throws Exception
@@ -129,11 +149,12 @@ class CronjobsModel extends ListModel
 				'a.job_id, a.name, a.type, a.trigger, a.execution_interval, a.enabled, a.last_exit_code' .
 				', a.next_execution, a.times_executed, a.times_failed'
 			)
+			// ? Does 'list.select' exist ?
 		);
 
 		$query->from($db->quoteName('#__cronjobs', 'a'));
 
-		// TODO : Implement filters here
+		// TODO : Implement filters and sorting here
 
 		return $query;
 	}

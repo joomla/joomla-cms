@@ -1,4 +1,4 @@
-<?php /** @noinspection SpellCheckingInspection */
+<?php
 /**
  * @package         Joomla.Administrator
  * @subpackage      com_cronjobs
@@ -22,7 +22,8 @@ HTMLHelper::_('behavior.multiselect');
 try
 {
 	$app = Factory::getApplication();
-} catch (Exception $e)
+}
+catch (Exception $e)
 {
 	die('Failed to get app');
 }
@@ -53,7 +54,9 @@ if ($saveOrder && !empty($this->items))
 		?>
 
 		<!-- If no cronjobs -->
-		<?php if (empty($this->items)): ?>
+		<?php if (empty($this->items))
+		:
+			?>
 			<!-- No cronjobs -->
 			<div class="alert alert-info">
 				<span class="icon-info-circle" aria-hidden="true"></span><span
@@ -63,7 +66,9 @@ if ($saveOrder && !empty($this->items))
 		<?php endif; ?>
 
 		<!-- If there are cronjobs, we start with the table -->
-		<?php if (!empty($this->items)): ?>
+		<?php if (!empty($this->items))
+		:
+			?>
 			<!-- Cronjobs table starts here -->
 			<table class="table" id="categoryList">
 
@@ -109,10 +114,14 @@ if ($saveOrder && !empty($this->items))
 				</thead>
 
 				<!-- Table body begins -->
-				<tbody <?php if ($saveOrder): ?>
+				<tbody <?php if ($saveOrder)
+				:
+					?>
 					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-				endif; ?>>
-				<?php foreach ($this->items as $i => $item):
+					   endif; ?>>
+				<?php
+				foreach ($this->items as $i => $item)
+				:
 					// TODO : Check if $user->authorise() calls work as they should
 					$orderKey = $item->job_id;
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
@@ -125,25 +134,28 @@ if ($saveOrder && !empty($this->items))
 						data-draggable-group="<?php echo $item->job_id; ?>">
 						<!-- Item Checkbox -->
 						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->job_id, false, 'cid', 'cb', $item->name); ?>
+											<?php echo HTMLHelper::_('grid.id', $i, $item->job_id, false, 'cid', 'cb', $item->name); ?>
 						</td>
 						<!-- Draggable handle -->
 						<td class="text-center d-none d-md-table-cell">
-							<?php
-							$iconClass = '';
+											<?php
+											$iconClass = '';
 
-							if (!$canChange)
-							{
-								$iconClass = ' inactive';
-							} elseif (!$saveOrder)
-							{
-								$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-							}
-							?>
+											if (!$canChange)
+											{
+												$iconClass = ' inactive';
+											}
+											elseif (!$saveOrder)
+											{
+															$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+											}
+											?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
 									<span class="icon-ellipsis-v"></span>
 								</span>
-							<?php if ($canChange && $saveOrder): ?>
+							<?php if ($canChange && $saveOrder)
+							:
+								?>
 								<input type="text" class="hidden" name="order[]" size="5"
 									   value="<?php echo $orderKey + 1; ?>">
 							<?php endif; ?>
@@ -155,19 +167,29 @@ if ($saveOrder && !empty($this->items))
 						<!-- Item name, edit link, and note (TODO: should it be moved?) -->
 						<th scope="row">
 							<?php
-							if ($canEdit): ?>
+							if ($canEdit)
+							:
+								?>
 								<a href="<?php echo Route::_('index.php?option=com_tags&task=cronjob.edit&id=' . $item->job_id); ?>"
 								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
 									<?php echo $this->escape($item->name); ?></a>
-							<?php else: ?>
+							<?php else
+
+							:
+								?>
 								<?php echo $this->escape($item->name); ?>
 							<?php endif; ?>
 
 							<?php
-							if (empty($item->note)): ?>
+							if (empty($item->note))
+							:
+								?>
 								<!-- TODO: Remove or modify 'note' section -->
 								<?php echo 'No note :)'; ?>
-							<?php else: ?>
+							<?php else
+
+							:
+								?>
 								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', 'Alias', $this->escape($item->note)); ?>
 							<?php endif; ?>
 						</th>
@@ -176,7 +198,9 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->type); ?>
 						</td>
 						<!-- TODO: What should be done about Multilang? Is it needed here? -->
-						<?php if (Multilanguage::isEnabled()): ?>
+						<?php if (Multilanguage::isEnabled())
+						:
+							?>
 							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
@@ -189,7 +213,7 @@ if ($saveOrder && !empty($this->items))
 							</span>
 						</td>
 						<td class="d-none d-md-table-cell">
-							<?php echo (int)$item->job_id; ?>
+							<?php echo (int) $item->job_id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -201,10 +225,10 @@ if ($saveOrder && !empty($this->items))
 
 			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_tags')
-					&& $user->authorise('core.edit', 'com_tags')
-					&& $user->authorise('core.edit.state', 'com_tags'))
-				:
-				?>
+	&& $user->authorise('core.edit', 'com_tags')
+	&& $user->authorise('core.edit.state', 'com_tags'))
+	:
+	?>
 				<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'collapseModal',
@@ -213,7 +237,7 @@ if ($saveOrder && !empty($this->items))
 							'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
-			); ?>
+				); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 
