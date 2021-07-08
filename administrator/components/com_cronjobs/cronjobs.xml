@@ -22,6 +22,12 @@
 			<file driver="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
 		</sql>
 	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+			<schemapath type="postgresql">sql/updates/postgresql</schemapath>
+		</schemas>
+	</update>
 
 	<administration>
 		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
