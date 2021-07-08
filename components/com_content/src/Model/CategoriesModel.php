@@ -96,7 +96,7 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * Redefine the function an add some properties to make the styling more easy
+	 * Redefine the function and add some properties to make the styling easier
 	 *
 	 * @param   bool  $recursive  True if you want to return children recursively.
 	 *
