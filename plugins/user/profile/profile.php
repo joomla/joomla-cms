@@ -280,7 +280,7 @@ class PlgUserProfile extends JPlugin
 		}
 
 		$tosArticle = $this->params->get('register_tos_article');
-		$tosEnabled = $this->params->get('register-require_tos', 0);
+		$tosEnabled = $this->params->get('register-require_tos', 0) == 2;
 
 		// We need to be in the registration form and field needs to be enabled
 		if ($name !== 'com_users.registration' || !$tosEnabled)
@@ -389,7 +389,7 @@ class PlgUserProfile extends JPlugin
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');
 		$tosArticle = $this->params->get('register_tos_article');
-		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosEnabled = $this->params->get('register-require_tos', 0) == 2;
 
 		// Check that the tos is checked.
 		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
