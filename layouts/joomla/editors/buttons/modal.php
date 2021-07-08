@@ -28,18 +28,12 @@ $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') .
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 $options  = is_array($button->get('options')) ? $button->get('options') : array();
 
-$footer = '';
+$confirm = '';
 
 if (is_array($button->get('options')) && isset($options['confirmText']) && isset($options['confirmCallback']))
 {
-	$footer = '<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="' . $options['confirmCallback'] . '">'
+	$confirm = '<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="' . $options['confirmCallback'] . '">'
 		. $options['confirmText'] . ' </button>';
-}
-
-if (is_array($button->get('options')) && isset($options['applyText']) && isset($options['applyCallback']))
-{
-	$footer .= '<button type="button" class="btn btn-success" onclick="' . $options['applyCallback'] . '">'
-		. $options['applyText'] . ' </button>';
 }
 
 if (null !== $button->get('id'))
@@ -63,7 +57,7 @@ echo HTMLHelper::_(
 		'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
 		'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
-		'footer' => $footer . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 	)
 );
