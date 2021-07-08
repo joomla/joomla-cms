@@ -71,7 +71,7 @@ if ($item->menu_image || $item->menu_icon )
 		else
 		{
 			// If the icon itself is the link, it needs a visually hidden text
-			$linktype = '<span class="p-2 ' . $item->menu_icon . '" ></span><span class="visually-hidden">' . $item->title . '</span>';
+			$linktype = '<span class="p-2 ' . $item->menu_icon . '"></span><span class="visually-hidden">' . $item->title . '</span>';
 		}
 	}
 }
