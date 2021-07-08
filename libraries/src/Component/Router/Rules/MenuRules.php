@@ -116,44 +116,35 @@ class MenuRules implements RulesInterface
 		{
 			foreach ($needles as $view => $ids)
 			{
-				$viewLayout = $view . $layout;
+				$viewLayouts = array();
 
-				if ($layout && isset($this->lookup[$language][$viewLayout]))
+				if ($layout)
 				{
-					if (is_bool($ids))
-					{
-						$query['Itemid'] = $this->lookup[$language][$viewLayout];
-
-						return;
-					}
-
-					foreach ($ids as $id => $segment)
-					{
-						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
-						{
-							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
-
-							return;
-						}
-					}
+					$viewLayouts[] = $view . $layout;
 				}
 
-				if (isset($this->lookup[$language][$view]))
+				$viewLayouts[] = $view;
+				$viewLayouts[] = $view . ':default';
+
+				foreach ($viewLayouts as $viewLayout)
 				{
-					if (is_bool($ids))
+					if (isset($this->lookup[$language][$viewLayout]))
 					{
-						$query['Itemid'] = $this->lookup[$language][$view];
-
-						return;
-					}
-
-					foreach ($ids as $id => $segment)
-					{
-						if (isset($this->lookup[$language][$view][(int) $id]))
+						if (is_bool($ids))
 						{
-							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
-
+							$query['Itemid'] = $this->lookup[$language][$viewLayout];
+	
 							return;
+						}
+
+						foreach ($ids as $id => $segment)
+						{
+							if (isset($this->lookup[$language][$viewLayout][(int) $id]))
+							{
+								$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
+
+								return;
+							}
 						}
 					}
 				}
@@ -210,12 +201,7 @@ class MenuRules implements RulesInterface
 				{
 					$view = $item->query['view'];
 
-					$layout = '';
-
-					if (isset($item->query['layout']))
-					{
-						$layout = ':' . $item->query['layout'];
-					}
+					$layout = isset($item->query['layout']) && $item->query['layout'] !== 'default' ? ':' . $item->query['layout'] : '';
 
 					if ($views[$view]->key)
 					{
@@ -243,7 +229,12 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
+
+							// Also if it specifies layout, then also add it as last choice fallback
+							if ($layout)
+							{
+								$this->lookup[$language][$view . ':default'][$item->query[$views[$view]->key]] = $item->id;
+							}
 						}
 					}
 					else
@@ -256,7 +247,12 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
+
+							// Also if it specifies layout, then also add it as last choice fallback
+							if ($layout)
+							{
+								$this->lookup[$language][$view . ':default'] = $item->id;
+							}
 						}
 					}
 				}
