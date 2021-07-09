@@ -9,11 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
  *
@@ -151,7 +147,7 @@ class PlgSystemShortcut extends CMSPlugin
 			$wa = $this->app->getDocument()->getWebAssetManager();
 			$config = $this->app->getConfig();
 			$editor = $config->get('editor', 'tinymce');
-			$document = Factory::getDocument();
+			$document = $this->app->getDocument();
 			$document->addScriptOptions('editor', $editor);
 			$document->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
 

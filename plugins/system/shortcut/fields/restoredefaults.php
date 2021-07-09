@@ -10,18 +10,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 
-class JFormFieldRestoredefaults extends JFormField
+class JFormFieldRestoredefaults extends FormField
 {
-	protected $app;
-
 	protected $type = 'Restoredefaults';
 
 	public function getInput()
 	{
 		$return = '';
+		/** @var $app CMSWebApplicationInterface */
 		$app = Factory::getApplication();
 		$wa = $app->getDocument()->getWebAssetManager();
 
@@ -32,7 +32,7 @@ class JFormFieldRestoredefaults extends JFormField
 
 		$wa->useScript('restoredefaults');
 
-		$return .= '<button class="restoreDefaultsBtn btn btn-secondary" type="button" data-class="' . $this->class . '">' . JText::_('PLG_SYSTEM_SHORTCUT_BUTTON_RESET_LBL') . '</button>';
+		$return .= '<button class="restoreDefaultsBtn btn btn-secondary" type="button" data-class="' . $this->class . '">' . Text::_('PLG_SYSTEM_SHORTCUT_BUTTON_RESET_LBL') . '</button>';
 
 		return $return;
 	}

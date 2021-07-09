@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 
-
-class JFormFieldKeyselect extends JFormField
+class JFormFieldKeyselect extends FormField
 {
 	protected $type = 'Keyselect';
 
@@ -22,18 +23,19 @@ class JFormFieldKeyselect extends JFormField
 	{
 		HTMLHelper::_('bootstrap.modal');
 
+		/** @var $app CMSWebApplicationInterface */
 		$app = Factory::getApplication();
 		$wa = $app->getDocument()->getWebAssetManager();
 
 		if (!$wa->assetExists('script', 'keyselectmodal'))
 		{
-			$document = Factory::getDocument();
-			$document->addScriptOptions('set_shorcut_text', JText::_("PLG_SYSTEM_SHORTCUT_SET_SHORTCUT"));
-			$document->addScriptOptions('current_combination_text', JText::_("PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION"));
-			$document->addScriptOptions('new_combination_text', JText::_("PLG_SYSTEM_SHORTCUT_NEW_COMBINATION"));
-			$document->addScriptOptions('cancel_button_text', JText::_("PLG_SYSTEM_SHORTCUT_CANCEL"));
-			$document->addScriptOptions('save_button_text', JText::_("PLG_SYSTEM_SHORTCUT_SAVE_CHANGES"));
-			$wa->registerScript('keyselectmodal', 'media/plg_system_shortcut/js/keyselect.js', [], ['defer' => true , 'type' => 'module']);
+			$document = $app->getDocument();
+			$document->addScriptOptions('set_shorcut_text', Text::_("PLG_SYSTEM_SHORTCUT_SET_SHORTCUT"));
+			$document->addScriptOptions('current_combination_text', Text::_("PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION"));
+			$document->addScriptOptions('new_combination_text', Text::_("PLG_SYSTEM_SHORTCUT_NEW_COMBINATION"));
+			$document->addScriptOptions('cancel_button_text', Text::_("PLG_SYSTEM_SHORTCUT_CANCEL"));
+			$document->addScriptOptions('save_button_text', Text::_("PLG_SYSTEM_SHORTCUT_SAVE_CHANGES"));
+			$wa->registerScript('keyselectmodal', 'media/plg_system_shortcut/js/keyselect.js', [], ['defer' => true, 'type' => 'module']);
 		}
 
 		$wa->useScript('keyselectmodal');
