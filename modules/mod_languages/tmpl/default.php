@@ -57,7 +57,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 					</a>
 				</li>
 			<?php elseif ($params->get('show_active', 1)) : ?>
-			<?php $base = Uri::getInstance(); ?>
+				<?php $base = Uri::getInstance(); ?>
 				<li class="lang-active">
 					<a aria-current="true" role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 						<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
