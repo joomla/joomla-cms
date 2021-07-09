@@ -19,18 +19,27 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+
 				<field
-					name="example"
+					name="custom_sizes"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_FIELD_EXAMPLE_LABEL"
-					description="PLG_CONTENT_RESPONSIVEIMAGES_FIELD_EXAMPLE_DESC"
-					default="1"
+					label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_LABEL"
+					default="0"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="custom_size_options"
+					type="text"
+					default="1200x800, 800x600, 600x400"
+					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTIONS_LABEL"
+					showon="custom_sizes:1"
+				/>
+
 			</fieldset>
 		</fields>
 	</config>

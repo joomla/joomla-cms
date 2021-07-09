@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\MediaHelper;
-use Joomla\CMS\Image\Image;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -39,6 +37,14 @@ class PlgContentResponsiveImages extends CMSPlugin
 	protected $initContent;
 
 	/**
+	 * Custom size options
+	 *
+	 * @var    array
+	 * @since  4.1.0
+	 */
+	protected $sizeOptions;
+
+	/**
 	 * Event that stores initial versions of images and inserts srcset and sizes
 	 * attributes into content img tags
 	 *
@@ -56,9 +62,15 @@ class PlgContentResponsiveImages extends CMSPlugin
 		// Check type of table object
 		if ($table instanceof Table)
 		{
+			// Check if custom size options are specified
+			if ($this->params->get('custom_size_options'))
+			{
+				$this->sizeOptions = explode(",", htmlspecialchars($this->params->get('custom_size_options')));
+			}
+
 			// Add srcset attribute to content images
 			$contentKey = $this->_getContentKey($context);
-			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
+			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}, $this->sizeOptions);
 
 			$item = clone $table;
 			$item->load($table->id);
@@ -97,12 +109,12 @@ class PlgContentResponsiveImages extends CMSPlugin
 			// Generate responsive images for form and content
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
-				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
+				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages, $this->sizeOptions);
 			}
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				MediaHelper::generateContentResponsiveImages($this->initContent, $content);
+				MediaHelper::generateContentResponsiveImages($this->initContent, $content, $this->sizeOptions);
 			}
 		}
 	}
