@@ -2,7 +2,7 @@
 /**
  * Declares the CronjobsModel MVC Model.
  * TODO: Implement query filters in $GetListQuery()
- * TODO: Complete $config['filter_fields']
+ * ~~TODO: Complete $config['filter_fields']~~
  *
  * @package       Joomla.Administrator
  * @subpackage    com_cronjobs
@@ -46,44 +46,56 @@ class CronjobsModel extends ListModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			// TODO : Works right? Need to implement filtering to check.
+			/*
+			 * TODO : Works right? Need to implement filtering to check.
+			 * TODO: Might want to remove unnecessary fields
+			*/
 			$config['filter_fields']
 				= array(
-					'job_id',
-					'a.job_id',
+				'id',
+				'a.id',
 
-					'name',
-					'a.name',
+				'asset_id',
+				'a.asset_id',
 
-					'type',
-					'a.type',
+				'title',
+				'a.title',
 
-					'trigger',
-					'a.trigger',
+				'type',
+				'a.type',
 
-					'execution_interval',
-					'a.execution_interval',
+				'trigger',
+				'a.trigger',
 
-					'enabled',
-					'a.enabled',
+				'execution_interval',
+				'a.execution_interval',
 
-					'last_exit_code',
-					'a.last_exit_code',
+				'enabled',
+				'a.enabled',
 
-					'last_execution',
-					'a.last_execution',
+				'last_exit_code',
+				'a.last_exit_code',
 
-					'next_execution',
-					'a.next_execution',
+				'last_execution',
+				'a.last_execution',
 
-					'times_executed',
-					'a.times_executed',
+				'next_execution',
+				'a.next_execution',
 
-					'times_failed',
-					'a.times_failed',
+				'times_executed',
+				'a.times_executed',
 
-					'note',
-					'a.note'
+				'times_failed',
+				'a.times_failed',
+
+				'note',
+				'a.note',
+
+				'created',
+				'a.created',
+
+				'created_by',
+				'a.created_by'
 				);
 		}
 
@@ -108,6 +120,9 @@ class CronjobsModel extends ListModel
 	 * This is necessary because the model is used by the component and
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
+	 *
+	 * ? What does this do internally ?
+	 * TODO:
 	 *
 	 * @param   string  $id  A prefix for the store id.
 	 *
@@ -141,13 +156,15 @@ class CronjobsModel extends ListModel
 		$query = $db->getQuery(true);
 		$user = Factory::getApplication()->getIdentity();
 
-		// Select the required fields from the table.
-		// TODO : Should add a "created_by" column to `#__cronjobs`
+		/*
+		 * Select the required fields from the table.
+		 * ? Do we need all these defaults ?
+		 */
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.job_id, a.name, a.type, a.trigger, a.execution_interval, a.enabled, a.last_exit_code' .
-				', a.next_execution, a.times_executed, a.times_failed'
+				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_interval, a.state, a.last_exit_code' .
+				', a.last_execution, a.next_execution, a.times_executed, a.times_failed'
 			)
 			// ? Does 'list.select' exist ?
 		);
