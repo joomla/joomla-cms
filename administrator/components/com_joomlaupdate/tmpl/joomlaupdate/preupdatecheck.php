@@ -30,6 +30,16 @@ Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIO
 	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up"></span>', true))
 	->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
+
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
 		'class' => 'info',
@@ -228,7 +238,7 @@ $updatePossible = true;
 			<?php if (!empty($this->nonCoreExtensions)) : ?>
 				<div class="w-100">
 					<?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
-					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?>">
+					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?>" id="compatibilityTable<?php echo (int) $data['group']; ?>">
 						<h3 class="text-<?php echo $data['class']; ?>">
 							<?php if ($data['group'] > 0) : ?>
 								<?php /*<div class="compatibilitytoggle" data-state="closed">

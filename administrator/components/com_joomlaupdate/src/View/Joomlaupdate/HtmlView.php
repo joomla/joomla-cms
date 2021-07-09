@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		$this->phpOptions             = $this->get('PhpOptions');
 		$this->phpSettings            = $this->get('PhpSettings');
 		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
 
 		// Set to true if a required PHP option is not ok
 		$isCritical = false;
