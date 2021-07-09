@@ -72,7 +72,7 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 		</label>
 
-		<input class="form-control" type="file" id="install_package" name="install_package" accept=".zip,application/zip" onchange="Joomla.installpackageChange()">
+		<input class="form-control" type="file" id="install_package" name="install_package" accept=".zip,application/zip">
 		<?php $maxSizeBytes = Utility::getMaxUploadSize(); ?>
 		<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
 		<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
@@ -83,7 +83,7 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 		</div>
 	</div>
 
-	<button id="uploadButton" class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+	<button id="uploadButton" class="btn btn-primary" type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 
 	<input type="hidden" name="task" value="update.upload">
 	<input type="hidden" name="option" value="com_joomlaupdate">

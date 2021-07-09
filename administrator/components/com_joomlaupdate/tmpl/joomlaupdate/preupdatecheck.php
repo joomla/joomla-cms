@@ -228,6 +228,7 @@ $updatePossible = true;
 			<?php if (!empty($this->nonCoreExtensions)) : ?>
 				<div class="w-100">
 					<?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
+					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?>">
 						<h3 class="text-<?php echo $data['class']; ?>">
 							<?php if ($data['group'] > 0) : ?>
 								<?php /*<div class="compatibilitytoggle" data-state="closed">
@@ -295,6 +296,7 @@ $updatePossible = true;
 								</tbody>
 							</table>
 						</div>
+					</div>
 					<?php endforeach; ?>
 				</div>
 			<?php else: ?>
