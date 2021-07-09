@@ -270,6 +270,7 @@ class ExtensionHelper
 		// Core plugin extensions - system
 		array('plugin', 'accessibility', 'system', 0),
 		array('plugin', 'actionlogs', 'system', 0),
+		array('plugin', 'addmodulebutton', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
 		array('plugin', 'fields', 'system', 0),
