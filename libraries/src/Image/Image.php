@@ -97,14 +97,6 @@ class Image
 	protected $generateBestQuality = true;
 
 	/**
-	 * Default sizes for responsive images
-	 *
-	 * @var    array
-	 * @since  4.1
-	 */
-	protected $responsiveSizes = array('800x600', '600x400', '400x200');
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -269,7 +261,7 @@ class Image
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function generateMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -284,12 +276,6 @@ class Image
 		if (!is_dir($destFolder) && (!is_dir(\dirname($destFolder)) || !@mkdir($destFolder)))
 		{
 			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $destFolder);
-		}
-
-		// Use default if sizes is not provided
-		if (is_null($imageSizes))
-		{
-			$imageSizes = $this->responsiveSizes;
 		}
 
 		// Process images
@@ -358,18 +344,12 @@ class Image
 	 * @since   2.5.0
 	 * @throws  \LogicException
 	 */
-	public function createMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
 			throw new \LogicException('No valid image was loaded.');
-		}
-
-		// Use default if sizes is not provided
-		if (is_null($imageSizes))
-		{
-			$imageSizes = $this->responsiveSizes;
 		}
 
 		// Process images
@@ -405,18 +385,12 @@ class Image
 	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
-	public function deleteMultipleSizes($imageSizes = null, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	public function deleteMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
 			throw new \LogicException('No valid image was loaded.');
-		}
-
-		// Use default if sizes is not provided
-		if (is_null($imageSizes))
-		{
-			$imageSizes = $this->responsiveSizes;
 		}
 
 		// Process images and delete them

@@ -47,7 +47,9 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"
 						<?php
 							$img = HTMLHelper::cleanImageURL($item->getParams()->get('image'));
-							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+							$img_sizes = $this->category->getParams()->get('image_sizes');
+							$img_size_options = $this->category->getParams()->get('image_size_options');
+							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
 						?>
 					>
 				<?php endif; ?>

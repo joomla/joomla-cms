@@ -38,7 +38,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>"
 					<?php
 						$img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image'));
-						echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+						$img_sizes = $this->category->getParams()->get('image_sizes');
+						$img_size_options = $this->category->getParams()->get('image_size_options');
+						echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
 					?>
 				>
 			<?php endif; ?>

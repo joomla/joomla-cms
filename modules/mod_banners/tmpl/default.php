@@ -32,6 +32,8 @@ use Joomla\CMS\Helper\MediaHelper;
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
 		<?php else : ?>
 			<?php $imageurl = $item->params->get('imageurl'); ?>
+			<?php $imageurl_sizes = $item->params->get('imageurl_sizes'); ?>
+			<?php $imageurl_size_options = $item->params->get('imageurl_size_options'); ?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
@@ -42,7 +44,7 @@ use Joomla\CMS\Helper\MediaHelper;
 				<?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
 				<?php
 					$img = HTMLHelper::cleanImageURL($imageurl);
-					$srcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+					$srcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($imageurl_sizes, $imageurl_size_options)), MediaHelper::generateSizes($img->url));
 				?>
 				<?php if ($item->clickurl) : ?>
 					<?php // Wrap the banner in a link ?>

@@ -40,7 +40,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_QUOTES, 'UTF-8'); ?>"
 				<?php
 					$img = HTMLHelper::cleanImageURL($images->image_fulltext);
-					echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+					echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_fulltext_sizes, $images->image_fulltext_size_options)), MediaHelper::generateSizes($img->url));
 				?>
 				>
 			<?php endif; ?>

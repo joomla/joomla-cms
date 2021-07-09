@@ -36,7 +36,7 @@
 					name="custom_size_options"
 					type="text"
 					default="1200x800, 800x600, 600x400"
-					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTIONS_LABEL"
+					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTIONS_DESC"
 					showon="custom_sizes:1"
 				/>
 

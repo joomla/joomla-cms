@@ -64,7 +64,7 @@ use Joomla\CMS\Helper\MediaHelper;
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<?php
 				$imgFirst = HTMLHelper::cleanImageURL($images->image_first);
-				$firstSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgFirst->url), MediaHelper::generateSizes($imgFirst->url));
+				$firstSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgFirst->url, MediaHelper::getSizes($images->image_first_sizes, $images->image_first_size_options)), MediaHelper::generateSizes($imgFirst->url));
 			?>
 			<?php $alt = empty($images->image_first_alt) && empty($images->image_first_alt_empty)
 				? ''
@@ -85,7 +85,7 @@ use Joomla\CMS\Helper\MediaHelper;
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<?php
 				$imgSecond = HTMLHelper::cleanImageURL($images->image_second);
-				$secondSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgSecond->url), MediaHelper::generateSizes($imgSecond->url));
+				$secondSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgSecond->url, MediaHelper::getSizes($images->image_second_sizes, $images->image_second_size_options)), MediaHelper::generateSizes($imgSecond->url));
 			?>
 			<?php $alt = empty($images->image_second_alt) && empty($images->image_second_alt_empty)
 				? ''

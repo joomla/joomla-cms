@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Table\Table;
@@ -37,14 +38,6 @@ class PlgContentResponsiveImages extends CMSPlugin
 	protected $initContent;
 
 	/**
-	 * Custom size options
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	protected $sizeOptions;
-
-	/**
 	 * Event that stores initial versions of images and inserts srcset and sizes
 	 * attributes into content img tags
 	 *
@@ -63,14 +56,14 @@ class PlgContentResponsiveImages extends CMSPlugin
 		if ($table instanceof Table)
 		{
 			// Check if custom size options are specified
-			if ($this->params->get('custom_size_options'))
+			if ($this->params->get('custom_sizes') && $this->params->get('custom_size_options'))
 			{
-				$this->sizeOptions = explode(",", htmlspecialchars($this->params->get('custom_size_options')));
+				$this->responsiveSizes = explode(",", htmlspecialchars($this->params->get('custom_size_options')));
 			}
 
 			// Add srcset attribute to content images
 			$contentKey = $this->_getContentKey($context);
-			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}, $this->sizeOptions);
+			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}, $this->responsiveSizes);
 
 			$item = clone $table;
 			$item->load($table->id);
@@ -109,12 +102,12 @@ class PlgContentResponsiveImages extends CMSPlugin
 			// Generate responsive images for form and content
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
-				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages, $this->sizeOptions);
+				MediaHelper::generateFormResponsiveImages($this->initFormImages, $formImages);
 			}
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				MediaHelper::generateContentResponsiveImages($this->initContent, $content, $this->sizeOptions);
+				MediaHelper::generateContentResponsiveImages($this->initContent, $content, $this->responsiveSizes);
 			}
 		}
 	}
@@ -151,7 +144,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 */
 	private function _getFormImages($context, $data)
 	{
-		// Convert string images to array
+		// Convert string data to array
 		$data['images'] = (array) json_decode($data['images']);
 		$data['params'] = (array) json_decode($data['params']);
 
@@ -161,17 +154,46 @@ class PlgContentResponsiveImages extends CMSPlugin
 			case "com_content.article":
 			case "com_tags.tag":
 				return array(
-					'image_intro' => $data['images']['image_intro'], 'image_fulltext' => $data['images']['image_fulltext']
+					'image_intro' => (object) [
+						'name'  => $data['images']['image_intro'], 
+						'sizes' => MediaHelper::getSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options'])
+					], 
+					'image_fulltext' => (object) [
+						'name'  => $data['images']['image_fulltext'], 
+						'sizes' => MediaHelper::getSizes($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options'])
+					], 
 				);
 			case "com_banners.banner":
-				return array('image' => $data['params']['imageurl']);
+				return array(
+					'image' => (object) [
+						'name'  => $data['params']['imageurl'],
+						'sizes' => MediaHelper::getSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options'])
+					]
+				);
 			case "com_categories.category":
-				return array('image' => $data['params']['image']);
+				return array(
+					'image' => (object) [
+						'name'  => $data['params']['image'],
+						'sizes' => MediaHelper::getSizes($data['params']['image_sizes'], $data['params']['image_size_options'])
+					]
+				);
 			case "com_contact.contact":
-				return array('image' => $data['image']);
+				return array(
+					'image' => (object) [
+						'name'  => $data['image'],
+						'sizes' => MediaHelper::getSizes($data['image_sizes'], $data['image_size_options'])
+					]
+				);
 			case "com_newsfeeds.newsfeed":
 				return array(
-					'image_first' => $data['images']['image_first'], 'image_second' => $data['images']['image_second']
+					'image_first' => (object) [
+						'name'  => $data['images']['image_first'], 
+						'sizes' => MediaHelper::getSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options'])
+					], 
+					'image_second' => (object) [
+						'name'  => $data['images']['image_second'], 
+						'sizes' => MediaHelper::getSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options'])
+					], 
 				);
 			default:
 				return false;

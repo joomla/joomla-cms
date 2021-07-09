@@ -27,6 +27,14 @@ use Joomla\Registry\Registry;
 class MediaHelper
 {
 	/**
+	 * Responsive image size options
+	 *
+	 * @var    array
+	 * @since  4.1.0
+	 */
+	static $responsiveSizes = array('800x600', '600x400', '400x200');
+
+	/**
 	 * Checks if the file is an image
 	 *
 	 * @param   string  $fileName  The filename
@@ -477,34 +485,37 @@ class MediaHelper
 	 *
 	 * @param   array  $initImages   images before submission
 	 * @param   array  $finalImages  images during submission
-	 * @param   array  $sizes        array of strings. Example: $sizes = array('1200x800','800x600');
 	 *
 	 * @return  array  generated images
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateFormResponsiveImages($initImages, $finalImages, $sizes = null)
+	public static function generateFormResponsiveImages($initImages, $finalImages)
 	{
 		$imagesGenerated = [];
 
 		foreach ($finalImages as $key => $finalImage)
 		{
-			// Get image names, currently they are: imgName#joomlaImage://imgPath
-			$initImage = HTMLHelper::cleanImageURL($finalImage)->url;
-			$finalImage = HTMLHelper::cleanImageURL($initImages[$key])->url;
+			// Get initial version of image
+			$initImage = $initImages[$key];
+
+			// Get image names (currently they are: imgName#joomlaImage://imgPath)
+			$initImage->name   = HTMLHelper::cleanImageURL($initImage->name)->url;
+			$finalImage->name  = HTMLHelper::cleanImageURL($finalImage->name)->url;
 
 			// Remove previously generated images if original is changed
-			if ($initImage !== "" && $initImage !== $finalImage)
+			if ($initImage !== $finalImage && is_file(JPATH_ROOT . '/' . $initImage->name))
 			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
-				$imgObj->deleteMultipleSizes($sizes);
+				$imgObj = new Image(JPATH_ROOT . '/' . $initImage->name);
+				$imgObj->deleteMultipleSizes($initImage->sizes);
 			}
 
 			// Generate new responsive images if file exists
-			if (is_file(JPATH_ROOT . '/' . $finalImage))
+			if (is_file(JPATH_ROOT . '/' . $finalImage->name))
 			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
-				$imgObj->createMultipleSizes($sizes);
+				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage->name);
+				$imgObj->createMultipleSizes($finalImage->sizes);
+
 				$imagesGenerated[] = $finalImage;
 			}
 		}
@@ -638,5 +649,20 @@ class MediaHelper
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Returns form images from data with specific context
+	 *
+	 * @param   int     $isCustom  1 if sizes are custom
+	 * @param   string  $sizes     Responsive sizes as string
+	 *
+	 * @return  array   Array of responsive image sizes
+	 *
+	 * @since   4.1.0
+	 */
+	public static function getSizes($isCustom, $sizes)
+	{
+		return $isCustom ? explode(",", htmlspecialchars($sizes)) : static::$responsiveSizes;
 	}
 }

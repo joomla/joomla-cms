@@ -116,7 +116,7 @@ $n         = count($this->items);
 									alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>">
 									<?php
 										$img = HTMLHelper::cleanImageURL($images->image_intro);
-										echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+										echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_intro_sizes, $images->image_intro_size_options)), MediaHelper::generateSizes($img->url));
 									?>
 							</div>
 						<?php endif; ?>

@@ -97,7 +97,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
 							<?php
 								$img = HTMLHelper::cleanImageURL($images->image_intro);
-								echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+								echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_intro_sizes, $images->image_intro_size_options)), MediaHelper::generateSizes($img->url));
 							?>
 					</a>
 				<?php endif; ?>

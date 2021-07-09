@@ -78,7 +78,9 @@ $tagsData = $category->tags->itemTags;
 					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
 						<?php
 							$img = HTMLHelper::cleanImageURL($category->getParams()->get('image'));
-							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url), MediaHelper::generateSizes($img->url));
+							$img_sizes = $category->getParams()->get('image_sizes');
+							$img_size_options = $category->getParams()->get('image_size_options');
+							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
 						?>
 					>
 				<?php endif; ?>
