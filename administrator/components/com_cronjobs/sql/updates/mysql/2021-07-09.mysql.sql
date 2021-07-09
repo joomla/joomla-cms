@@ -1,3 +1,8 @@
+-- ⚠ This update causes data loss.
+
+DROP TABLE IF EXISTS `#__cronjobs_scripts`;
+DROP TABLE IF EXISTS `#__cronjobs`;
+
 -- Table Structure `#__cronjobs` [Main] --
 
 CREATE TABLE IF NOT EXISTS `#__cronjobs`
@@ -10,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `#__cronjobs`
     -- Trigger type, default to PseudoCron (compatible everywhere).
     `trigger`            ENUM ('pseudo_cron', 'cron', 'visit_count') NOT NULL        DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
     `execution_interval` INT                                         NOT NULL COMMENT 'Configured time between executions, in seconds',
-    `state`              TINYINT                                     NOT NULL        DEFAULT FALSE,
+    `state`              TINYINT                                     NOT NULL        DEFAULT '0',
     `last_exit_code`     INT(11)                                     NOT NULL        DEFAULT '0' COMMENT 'Exit code when job was last run',
     `last_execution`     DATETIME                                    NOT NULL COMMENT 'Timestamp of last run',
     `next_execution`     DATETIME                                    NOT NULL COMMENT 'Timestamp of next (planned) run, referred for execution on trigger',
@@ -39,4 +44,3 @@ CREATE TABLE IF NOT EXISTS `#__cronjobs_scripts`
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
     DEFAULT COLLATE = utf8mb4_unicode_ci;
-

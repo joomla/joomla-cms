@@ -1,3 +1,8 @@
+-- ⚠ This update causes data loss.
+
+DROP TABLE IF EXISTS "#__cronjobs_scripts";
+DROP TABLE IF EXISTS "#__cronjobs";
+
 ------- Create required enumerated types with exception handling ----------
 DO
 $$
@@ -49,3 +54,4 @@ CREATE TABLE IF NOT EXISTS "#__cronjobs_scripts"
     "file"      VARCHAR(128) NOT NULL
 );
 ---------------------------------------------------
+
