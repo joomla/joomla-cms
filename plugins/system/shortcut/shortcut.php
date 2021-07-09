@@ -7,11 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\CMS\Application\CMSApplicationInterface;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 /**
- * Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
+ * Joomla! Plugin Class for Shortcut plugin.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -21,7 +23,7 @@ class PlgSystemShortcut extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  4.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -29,14 +31,22 @@ class PlgSystemShortcut extends CMSPlugin
 	 * Base path for keyboard shortcut
 	 *
 	 * @var    string
-	 * @since  4.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_basePath = 'media/plg_system_shortcut';
 
+	/**
+	 * Add a shortcut keys for Shortcut
+	 *
+	 * @return  string
+	 * 
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function onBeforeCompileHead()
 	{
-		if ($this->app->isClient('administrator'))
-		{
+		if (!$this->app->isClient('administrator')) {
+			return true;
+		  }
 			$joomla_shortcut_keys = array(
 				'new' => array(
 				  'keyEvent' => $this->params->get('new_keyEvent', 'n'),
@@ -160,7 +170,4 @@ class PlgSystemShortcut extends CMSPlugin
 
 			return true;
 		}
-
-		return true;
-	}
 }

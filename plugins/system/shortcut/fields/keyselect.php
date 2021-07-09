@@ -7,18 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\CMS\Application\CMSApplication;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
-
-
+/**
+ * KeySelect in Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class JFormFieldKeyselect extends FormField
 {
+	/**
+	 * The Form Field type
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $type = 'Keyselect';
 
+	/**
+	 * Method to get the input
+	 *
+	 * @return  string
+	 * 
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function getInput()
 	{
 		HTMLHelper::_('bootstrap.modal');

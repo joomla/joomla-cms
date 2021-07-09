@@ -7,23 +7,41 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\CMS\Application\CMSApplication;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
-
-
+/**
+ * Restore Defaults in Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class JFormFieldRestoredefaults extends FormField
 {
+	/**
+	 * The Form Field type
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $type = 'Restoredefaults';
 
+    /**
+	 * Method to get the input
+	 *
+	 * @return  string
+	 * 
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function getInput()
 	{
-		$return = '';
 		/** @var $app CMSWebApplicationInterface */
-		$app = Factory::getApplication();
-		$wa = $app->getDocument()->getWebAssetManager();
+		$app    = Factory::getApplication();
+		$wa     = $app->getDocument()->getWebAssetManager();
+		$return = '';
 
 		if (!$wa->assetExists('script', 'restoredefaults'))
 		{
