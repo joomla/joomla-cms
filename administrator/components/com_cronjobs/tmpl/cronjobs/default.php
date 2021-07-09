@@ -123,18 +123,18 @@ if ($saveOrder && !empty($this->items))
 				foreach ($this->items as $i => $item)
 				:
 					// TODO : Check if $user->authorise() calls work as they should
-					$orderKey = $item->job_id;
+					$orderKey = $item->id;
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
 					$canEdit = $user->authorise('core.edit', 'com_cronjobs');
 					$canChange = $user->authorise('core.edit.state', 'com_cronjobs'); ?>
 
 					<!-- Row begins -->
 					<tr class="row<?php echo $i % 2; ?>"
-						data-item-id="<?php echo $item->job_id; ?>"
-						data-draggable-group="<?php echo $item->job_id; ?>">
+						data-item-id="<?php echo $item->id; ?>"
+						data-draggable-group="<?php echo $item->id; ?>">
 						<!-- Item Checkbox -->
 						<td class="text-center">
-											<?php echo HTMLHelper::_('grid.id', $i, $item->job_id, false, 'cid', 'cb', $item->name); ?>
+											<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 						</td>
 						<!-- Draggable handle -->
 						<td class="text-center d-none d-md-table-cell">
@@ -162,7 +162,7 @@ if ($saveOrder && !empty($this->items))
 						</td>
 						<!-- Enabled status -->
 						<td class="text-center">
-							<?php echo HTMLHelper::_('jgrid.published', $item->enabled, $i, 'cronjobs.', $canChange); ?>
+							<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'cronjobs.', $canChange); ?>
 						</td>
 						<!-- Item name, edit link, and note (TODO: should it be moved?) -->
 						<th scope="row">
@@ -170,14 +170,14 @@ if ($saveOrder && !empty($this->items))
 							if ($canEdit)
 							:
 								?>
-								<a href="<?php echo Route::_('index.php?option=com_tags&task=cronjob.edit&id=' . $item->job_id); ?>"
-								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
-									<?php echo $this->escape($item->name); ?></a>
+								<a href="<?php echo Route::_('index.php?option=com_tags&task=cronjob.edit&id=' . $item->id); ?>"
+								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+									<?php echo $this->escape($item->title); ?></a>
 							<?php else
 
 							:
 								?>
-								<?php echo $this->escape($item->name); ?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
 							<?php
@@ -213,7 +213,7 @@ if ($saveOrder && !empty($this->items))
 							</span>
 						</td>
 						<td class="d-none d-md-table-cell">
-							<?php echo (int) $item->job_id; ?>
+							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
