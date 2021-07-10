@@ -98,6 +98,29 @@
       }
     },
     {
+      "name": "com_modules.admin-modules-preview_positions.es5",
+      "type": "script",
+      "uri": "com_modules/admin-modules-preview_positions-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-modules-preview_positions",
+      "type": "script",
+      "uri": "com_modules/admin-modules-preview_positions.min.js",
+      "dependencies": [
+        "com_modules.admin-modules-preview_positions.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_modules.admin-select-modal.es5",
       "type": "script",
       "uri": "com_modules/admin-select-modal-es5.min.js",

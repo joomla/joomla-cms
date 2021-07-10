@@ -132,7 +132,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id . '&client_id=' . $clientId); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>

@@ -15,6 +15,7 @@ use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -100,7 +101,7 @@ abstract class ModuleHelper
 
 		if (\count($result) === 0)
 		{
-			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			if ($input->getBool('pm') || ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')))
 			{
 				$result[0] = static::createDummyModule();
 				$result[0]->title = $position;
@@ -208,7 +209,7 @@ abstract class ModuleHelper
 		}
 
 		// Dynamically add outline style
-		if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if (($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) || ($app->input->getBool('pm') && ContentHelper::getActions('com_modules')->get('core.create')))
 		{
 			$attribs['style'] .= ' outline';
 		}

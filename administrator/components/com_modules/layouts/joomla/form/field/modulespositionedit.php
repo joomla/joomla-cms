@@ -76,13 +76,38 @@ Factory::getDocument()->getWebAssetManager()
 	->usePreset('choicesjs')
 	->useScript('webcomponent.field-fancy-select');
 
-?>
-<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
-			'id'          => $id,
-			'list.select' => $value,
-			'list.attr'   => implode(' ', $selectAttr),
-		)
-	);
-?></joomla-field-fancy-select>
+$app = Factory::getApplication();
+$clientId = $app->input->getBool('client_id', 0);
 
+$modalUrl = 'index.php?option=com_modules&view=module&layout=preview_positions&id=1&client_id=' . $clientId;
+
+// &tmpl=component doesn't redirect if the user isn't logged into backend hence we are adding it conditionally
+$modalUrl = $app->isClient('site') ? 'administrator/' . $modalUrl : $modalUrl . '&tmpl=component';
+
+?>
+<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>>
+<?php
+echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
+		'id'          => $id,
+		'list.select' => $value,
+		'list.attr'   => implode(' ', $selectAttr),
+	)
+);
+?>
+</joomla-field-fancy-select>
+<?php
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'Modal_position',
+	array(
+		'title'       => Text::_('COM_MODULES_MODULE_SELECT_POSITION'),
+		'url'         => $modalUrl,
+		'bodyHeight'  => 70,
+		'modalWidth'  => 95,
+		'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+	)
+);
+?>
+<button data-bs-toggle="modal" type="button" data-bs-target="#Modal_position" class="btn btn-primary mt-1 w-100">
+<?php echo Text::_('COM_MODULES_MODULE_SELECT_POSITION_BUTTON'); ?>
+</button>

@@ -69,6 +69,38 @@ class ModuleController extends FormController
 	}
 
 	/**
+	 * Set Position and Menu ID in State for the New Module in Frontend Module Placement.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function selectPosition()
+	{
+		$app = $this->app;
+
+		// Get the Menu ID and Position.
+		$menuId = $this->input->getInt('menu', 0);
+		$position = $this->input->get('position');
+
+		if (empty($position))
+		{
+			$redirectUrl = $this->input->server->getString('HTTP_REFERER');
+
+			$this->setRedirect(Route::_($redirectUrl, false));
+
+			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_POSITION'), 'warning');
+		}
+
+		$app->setUserState('com_modules.add.module.menu_id', $menuId);
+		$app->setUserState('com_modules.add.module.position', $position);
+
+		// Select Position is only used in the Frontend Module Placement so we pass client_id as 0
+		$redirectUrl = 'index.php?option=com_modules&view=select&client_id=0';
+		$this->setRedirect(Route::_($redirectUrl, false));
+	}
+
+	/**
 	 * Override parent cancel method to reset the add module state.
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
@@ -82,7 +114,9 @@ class ModuleController extends FormController
 		$result = parent::cancel();
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
+		$this->app->setUserState('com_modules.add.module.menu_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.position', null);
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
 		{
@@ -205,7 +239,9 @@ class ModuleController extends FormController
 				break;
 		}
 
+		$this->app->setUserState('com_modules.add.module.menu_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.position', null);
 	}
 
 	/**

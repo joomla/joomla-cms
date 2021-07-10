@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -33,6 +34,10 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
+
+// Display inactive positions for Place Module View
+$modulesPermissions = ContentHelper::getActions('com_modules');
+$showAllPositions = $app->input->getBool('pm') && ($modulesPermissions->get('core.edit') || $modulesPermissions->get('core.create'));
 
 // Template path
 $templatePath = 'templates/' . $this->template;
@@ -79,12 +84,12 @@ else
 
 $hasClass = '';
 
-if ($this->countModules('sidebar-left', true))
+if ($this->countModules('sidebar-left', true) || $showAllPositions)
 {
 	$hasClass .= ' has-sidebar-left';
 }
 
-if ($this->countModules('sidebar-right', true))
+if ($this->countModules('sidebar-right', true) || $showAllPositions)
 {
 	$hasClass .= ' has-sidebar-right';
 }
@@ -119,19 +124,19 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>">
 	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
-		<?php if ($this->countModules('topbar')) : ?>
+		<?php if ($this->countModules('topbar') || $showAllPositions) : ?>
 			<div class="container-topbar">
 			<jdoc:include type="modules" name="topbar" style="none" />
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->countModules('below-top')) : ?>
+		<?php if ($this->countModules('below-top') || $showAllPositions) : ?>
 			<div class="grid-child container-below-top">
 				<jdoc:include type="modules" name="below-top" style="none" />
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('brand', 1)) : ?>
+		<?php if ($this->params->get('brand', 1) || $showAllPositions) : ?>
 			<div class="grid-child">
 				<div class="navbar-brand">
 					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
@@ -144,7 +149,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
+		<?php if ($this->countModules('menu', true) || $this->countModules('search', true) || $showAllPositions) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>
 					<jdoc:include type="modules" name="menu" style="none" />
@@ -158,25 +163,25 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php endif; ?>
 	</header>
 
-	<?php if ($this->countModules('banner', true)) : ?>
+	<?php if ($this->countModules('banner', true) || $showAllPositions) : ?>
 		<div class="container-banner full-width">
 			<jdoc:include type="modules" name="banner" style="none" />
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-a', true)) : ?>
+	<?php if ($this->countModules('top-a', true) || $showAllPositions) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-b', true)) : ?>
+	<?php if ($this->countModules('top-b', true) || $showAllPositions) : ?>
 	<div class="grid-child container-top-b">
 		<jdoc:include type="modules" name="top-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left', true)) : ?>
+	<?php if ($this->countModules('sidebar-left', true) || $showAllPositions) : ?>
 	<div class="grid-child container-sidebar-left">
 		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
@@ -192,25 +197,25 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
-	<?php if ($this->countModules('sidebar-right', true)) : ?>
+	<?php if ($this->countModules('sidebar-right', true) || $showAllPositions) : ?>
 	<div class="grid-child container-sidebar-right">
 		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-a', true)) : ?>
+	<?php if ($this->countModules('bottom-a', true) || $showAllPositions) : ?>
 	<div class="grid-child container-bottom-a">
 		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-b', true)) : ?>
+	<?php if ($this->countModules('bottom-b', true) || $showAllPositions) : ?>
 	<div class="grid-child container-bottom-b">
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer', true)) : ?>
+	<?php if ($this->countModules('footer', true) || $showAllPositions) : ?>
 	<footer class="container-footer footer full-width">
 		<div class="grid-child">
 			<jdoc:include type="modules" name="footer" style="none" />

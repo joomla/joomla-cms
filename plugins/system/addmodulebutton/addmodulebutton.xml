@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_addmodulebutton</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_ADD_MODULE_BUTTON_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="addmodulebutton">addmodulebutton.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_addmodulebutton.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_addmodulebutton.sys.ini</language>
+	</languages>
+	<media folder="media" destination="plg_system_addmodulebutton">
+		<folder>js</folder>	
+	</media>
+</extension>

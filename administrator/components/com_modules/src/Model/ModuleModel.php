@@ -548,6 +548,8 @@ class ModuleModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
@@ -572,19 +574,26 @@ class ModuleModel extends AdminModel
 		$this->setState('item.module', $module);
 
 		// Get the form.
-		if ($clientId == 1)
+		if ($app->input->getCMD('layout') == 'preview_positions')
 		{
-			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
-
-			// Display language field to filter admin custom menus per language
-			if (!ModuleHelper::isAdminMultilang())
-			{
-				$form->setFieldAttribute('language', 'type', 'hidden');
-			}
+			$form = $this->loadForm('com_modules.preview_positions', 'preview_positions', array('control' => 'jform', 'load_data' => $loadData), true);
 		}
 		else
 		{
-			$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+			if ($clientId == 1)
+			{
+				$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+				// Display language field to filter admin custom menus per language
+				if (!ModuleHelper::isAdminMultilang())
+				{
+					$form->setFieldAttribute('language', 'type', 'hidden');
+				}
+			}
+			else
+			{
+				$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+			}
 		}
 
 		if (empty($form))
@@ -642,7 +651,17 @@ class ModuleModel extends AdminModel
 				$clientId = $app->input->getInt('client_id', 0);
 				$filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+
+				// Pre-select Module Position set by Frontend Placement if it exists.
+				if ($position = $app->getUserState('com_modules.add.module.position'))
+				{
+					$data->set('position', $position);
+				}
+				else
+				{
+					$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+				}
+
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
 			}
@@ -676,6 +695,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
+		$app = Factory::getApplication();
 		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 		$db = $this->getDbo();
 
@@ -757,8 +777,17 @@ class ModuleModel extends AdminModel
 
 			if (empty($pk))
 			{
-				// If this is a new module, assign to all pages.
-				$assignment = 0;
+				if ($menuId = (int) $app->getUserState('com_modules.add.module.menu_id'))
+				{
+					// If a Menu ID is selected via Frontend Placements then use that.
+					$assignment = 1;
+					$assigned[] = $menuId;
+				}
+				else
+				{
+					// If this is a new module, assign to all pages.
+					$assignment = 0;
+				}
 			}
 			elseif (empty($assigned))
 			{
