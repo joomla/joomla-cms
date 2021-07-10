@@ -2854,6 +2854,7 @@ class JoomlaInstallerScript
 			'/components/com_contact/helpers/association.php',
 			'/components/com_contact/helpers/category.php',
 			'/components/com_contact/helpers/legacyrouter.php',
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/components/com_contact/models/categories.php',
 			'/components/com_contact/models/category.php',
 			'/components/com_contact/models/contact.php',
@@ -3800,6 +3801,7 @@ class JoomlaInstallerScript
 			'/libraries/src/Form/FormWrapper.php',
 			'/libraries/src/Helper/ContentHistoryHelper.php',
 			'/libraries/src/Helper/SearchHelper.php',
+			'/libraries/src/Http/Transport/cacert.pem',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',
 			'/libraries/src/Language/LanguageStemmer.php',
 			'/libraries/src/Language/Stemmer/Porteren.php',
@@ -5860,9 +5862,16 @@ class JoomlaInstallerScript
 			'/media/com_fields/js/admin-field-edit-modal.min.js',
 			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
 			// 4.0 from RC 3 to RC 4
-			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/language/en-GB/com_messages.ini',
-			'/libraries/src/Http/Transport/cacert.pem',
+			'/media/system/css/fields/joomla-image-select.css',
+			'/media/system/css/fields/joomla-image-select.min.css',
+			'/media/system/css/fields/joomla-image-select.min.css.gz',
+			'/media/system/js/fields/joomla-image-select-es5.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js.gz',
+			'/media/system/js/fields/joomla-image-select.js',
+			'/media/system/js/fields/joomla-image-select.min.js',
+			'/media/system/js/fields/joomla-image-select.min.js.gz',
 		);
 
 		$folders = array(
@@ -6460,6 +6469,8 @@ class JoomlaInstallerScript
 			'/components/com_contact/models/rules',
 			'/components/com_contact/models/forms',
 			'/components/com_contact/models',
+			'/components/com_contact/layouts/joomla/form',
+			'/components/com_contact/layouts/joomla',
 			'/components/com_contact/controllers',
 			'/components/com_config/view/templates/tmpl',
 			'/components/com_config/view/templates',
@@ -7054,7 +7065,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			'/api/components/com_installer/src/View/Languages',
 			'/administrator/components/com_finder/src/Indexer/Driver',
-			// 4.0 from Beta 2 to Beta 5
+			// 4.0 from Beta 4 to Beta 5
 			'/plugins/content/imagelazyload',
 			// 4.0 from Beta 5 to Beta 6
 			'/media/system/js/core.es6',
