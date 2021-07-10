@@ -78,10 +78,11 @@ class PlgSystemAddModuleButton extends CMSPlugin
 		if ($showAddModuleBtn)
 		{
 			// Add Script Options to pass the Button label Language Constant
-			$this->app->getDocument()->addScriptOptions('js-addModuleBtn', array(
-				'btnLabel' => Text::_('PLG_SYSTEM_ADD_MODULE_BUTTON_LABEL'),
-				'btnDescription' => Text::_('PLG_SYSTEM_ADD_MODULE_BUTTON_DESCRIPTION')
-			));
+			$config = array(
+				'btnLabel' 			=> Text::_('PLG_SYSTEM_ADD_MODULE_BUTTON_LABEL'),
+				'btnDescription' 	=> Text::_('PLG_SYSTEM_ADD_MODULE_BUTTON_DESCRIPTION')
+			);
+			$this->app->getDocument()->addScriptOptions('js-addModuleBtn', $config);
 
 			// Script for appending the Add Module Button
 			$this->app->getDocument()->getWebAssetManager()
