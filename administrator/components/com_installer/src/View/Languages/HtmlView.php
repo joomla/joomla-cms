@@ -44,6 +44,11 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		// Get data from the model.
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
