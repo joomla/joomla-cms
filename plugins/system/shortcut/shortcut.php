@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Application\CMSApplicationInterface;
-
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 /**
