@@ -147,8 +147,6 @@ class HtmlView extends BaseHtmlView
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin') && $this->getLayout() === 'upload';
 
-		$this->addToolbar();
-
 		// There is an update for the updater itself. So we have to update it first
 		if ($this->selfUpdateAvailable)
 		{
@@ -231,6 +229,8 @@ class HtmlView extends BaseHtmlView
 		// Remove temporary files
 		$this->getModel()->removePackageFiles();
 
+		$this->addToolbar();
+
 		// Render the view.
 		parent::display($tpl);
 	}
@@ -247,7 +247,7 @@ class HtmlView extends BaseHtmlView
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
-		if ($this->showUploadAndUpdate)
+		if ($this->showUploadAndUpdate || $this->getLayout() == 'update')
 		{
 			$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
