@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION">
+	<layout
+		title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE"
+		option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION"
+	>
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY"
+			key="JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY"
 		/>
+
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORY_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
 	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request"
+	<fields
+		name="request"
 		addfieldpath="/administrator/components/com_categories/models/fields"
 	>
-		<fieldset name="request"
+		<fieldset
+			name="request"
 			addfieldpath="/administrator/components/com_contact/models/fields"
 		>
 			<field
@@ -31,7 +37,6 @@
 		</fieldset>
 	</fields>
 
-
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
@@ -42,6 +47,18 @@
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 				class="text"
 			/>
+
+			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
 
 			<field
 				name="show_category_title"
@@ -107,7 +124,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-
 			<field
 				name="show_subcat_desc"
 				type="list"
@@ -134,7 +150,6 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-
 			<field
 				name="spacer2"
 				type="spacer"
@@ -309,7 +324,6 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
 
 			<field
@@ -325,9 +339,11 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
-			addfieldpath="/administrator/components/com_fields/models/fields">
-			
+		<fieldset
+			name="contact"
+			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
+			addfieldpath="/administrator/components/com_fields/models/fields"
+		>
 			<field
 				name="contact_layout"
 				type="componentlayout"
@@ -375,7 +391,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_name"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
@@ -422,7 +438,6 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
 
 			<field
@@ -699,7 +714,6 @@
 		</fieldset>
 		<!-- Form options. -->
 		<fieldset name="Contact_Form" label="COM_CONTACT_MAIL_FIELDSET_LABEL">
-
 			<field
 				name="show_email_form"
 				type="list"
@@ -758,8 +772,7 @@
 			/>
 		</fieldset>
 
-		<fieldset name="integration">
-
+		<fieldset name="integration" label="JGLOBAL_FIELDSET_INTEGRATION">
 			<field
 				name="show_feed_link"
 				type="list"
@@ -771,7 +784,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
 		</fieldset>
 	</fields>
 </metadata>

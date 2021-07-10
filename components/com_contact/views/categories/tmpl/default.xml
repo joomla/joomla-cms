@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_OPTION">
+	<layout
+		title="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_TITLE"
+		option="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_OPTION"
+	>
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORIES"
 		/>
+
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORIES_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -11,8 +15,7 @@
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request"
-		>
+		<fieldset name="request">
 			<field
 				name="id"
 				type="category"
@@ -24,6 +27,7 @@
 			/>
 		</fieldset>
 	</fields>
+
 	<fields name="params">
 		<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
 			<field
@@ -98,6 +102,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
+
 		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field
 				name="spacer1"
@@ -105,6 +110,18 @@
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 				class="text"
 			/>
+
+			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
 
 			<field
 				name="show_category_title"
@@ -399,12 +416,13 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_name"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -476,8 +494,8 @@
 			<field
 				name="show_suburb"
 				type="list"
-				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				useglobal="true"
 				showon="show_info:1"
 				class="chzn-color"
@@ -768,8 +786,7 @@
 			/>
 		</fieldset>
 
-		<fieldset name="integration">
-
+		<fieldset name="integration" label="JGLOBAL_FIELDSET_INTEGRATION">
 			<field
 				name="show_feed_link"
 				type="list"
@@ -781,7 +798,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
 		</fieldset>
 	</fields>
 </metadata>
