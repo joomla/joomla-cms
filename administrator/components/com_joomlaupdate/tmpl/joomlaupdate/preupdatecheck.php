@@ -238,33 +238,31 @@ $updatePossible = true;
 			<?php if (!empty($this->nonCoreExtensions)) : ?>
 				<div class="w-100">
 					<?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
-					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?>" id="compatibilityTable<?php echo (int) $data['group']; ?>">
-						<h3 class="text-<?php echo $data['class']; ?>">
+					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?> compatibilityTable" id="compatibilityTable<?php echo (int) $data['group']; ?>">
+						<h4 class="text-<?php echo $data['class']; ?> d-flex align-items-center">
+							<span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
+							<?php echo Text::_($compatibilityType); ?>
 							<?php if ($data['group'] > 0) : ?>
-								<?php /*<div class="compatibilitytoggle" data-state="closed">
+								<button type="button" class="btn btn-link compatibilitytoggle ms-auto" data-state="closed">
 									<?php echo Text::sprintf(
 										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
 										'<span class="icon-chevron-right"></span>'
 									); ?>
-								</div> */ ?>
+								</button>
 							<?php endif; ?>
-							<span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
-							<?php echo Text::_($compatibilityType); ?>
-						</h3>
+						</h4>
 
 						<div class="compatibilityNotes">
-							<p>
 							<?php echo Text::_($data['notes']); ?>
-							</p>
 						</div>
 						<div class="table-responsive mb-5">
 							<table class="table table-striped">
 								<thead class="row-fluid">
 									<tr>
-										<th class="exname col-md-8">
+										<th class="exname">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 										</th>
-										<th class="extype col-md-4">
+										<th class="extype">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 										</th>
 										<th class="instver hidden">
@@ -283,10 +281,10 @@ $updatePossible = true;
 								<?php if ($data['group'] == 0) : ?>
 									<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 										<tr>
-											<td class="exname col-md-8">
+											<td class="exname">
 												<?php echo $extension->name; ?>
 											</td>
-											<td class="extype col-md-4">
+											<td class="extype">
 												<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 											</td>
 											<td class="instver hidden">
