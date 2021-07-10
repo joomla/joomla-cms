@@ -34,12 +34,14 @@ $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
 
 $c = Factory::getApplication()->bootComponent($this->state->get('category.extension'));
 
-$wcontext = $c->getCategoryWorkflowContext($this->state->get('category.section'));
-
-if (!$c instanceof WorkflowServiceInterface
-	|| !$c->isWorkflowActive($wcontext))
+if ($c instanceof WorkflowServiceInterface)
 {
-	$this->ignore_fieldsets[] = 'workflow';
+	$wcontext = $c->getCategoryWorkflowContext($this->state->get('category.section'));
+
+	if (!$c->isWorkflowActive($wcontext))
+	{
+		$this->ignore_fieldsets[] = 'workflow';
+	}
 }
 
 $this->useCoreUI = true;
