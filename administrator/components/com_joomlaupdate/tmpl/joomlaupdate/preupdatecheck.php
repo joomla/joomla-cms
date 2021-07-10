@@ -324,7 +324,7 @@ $updatePossible = true;
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
 				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
-				<label class="form-check-label" for="joomlaupdate-confirm-backup">
+				<label class="form-check-label" for="noncoreplugins">
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 				</label>
 			</div>
