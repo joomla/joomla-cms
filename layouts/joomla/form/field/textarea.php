@@ -81,7 +81,7 @@ $attributes = array(
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? (is_numeric($maxlength) ? ' maxlength="' . $maxlength . '"' : $maxlength) : '',
+	$maxlength ? (is_numeric($maxlength) ? 'maxlength="' . $maxlength . '"' : $maxlength) : '',
 	!empty($counterlabel) ? $counterlabel : '',
 	$dataAttribute,
 );
