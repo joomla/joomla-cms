@@ -17,9 +17,6 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   integer  $rows            rows attribute for the field.
- * @var   integer  $cols            cols attribute for the field.
- * @var   integer  $maxlength       maxlength attribute for the field.
  * @var   string   $autocomplete    Autocomplete attribute for the field.
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   string   $class           Classes for the input.
@@ -51,6 +48,9 @@ extract($displayData);
  * @var   boolean  $charcounter     Does this field support a character counter?
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   integer  $rows            Rows attribute for the field.
+ * @var   integer  $cols            Cols attribute for the field.
+ * @var   integer  $maxlength       Maxlength attribute for the field.
  */
 
 // Initialize some field attributes.
