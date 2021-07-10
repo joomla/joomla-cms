@@ -68,8 +68,8 @@ if ($charcounter)
 }
 
 $attributes = array(
-	$columns ? (is_numeric($columns) ? ' cols="' . $columns . '"' : $columns) : '',
-	$rows	? (is_numeric($rows) ? ' rows="' . $rows . '"' : $rows) : '',
+	$columns ? (is_numeric($columns) ? 'cols="' . $columns . '"' : $columns) : '',
+	$rows ? (is_numeric($rows) ? 'rows="' . $rows . '"' : $rows) : '',
 	!empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control' . $charcounter . '"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
