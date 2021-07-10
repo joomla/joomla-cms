@@ -202,7 +202,7 @@ class ResetModel extends FormModel
 		$user = User::getInstance($userId);
 
 		// Check for a user and that the tokens match.
-		if (empty($user) || $user->activation !== $token)
+		if (empty($user) || $user->resetToken !== $token)
 		{
 			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -227,7 +227,7 @@ class ResetModel extends FormModel
 
 		// Prepare user data.
 		$data['password']   = $data['password1'];
-		$data['activation'] = '';
+		$data['resetToken'] = '';
 
 		// Update the user object.
 		if (!$user->bind($data))
@@ -294,7 +294,7 @@ class ResetModel extends FormModel
 		// Find the user id for the given token.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['activation', 'id', 'block']))
+			->select($db->quoteName(['activation', 'resetToken', 'lastResetTime', 'id', 'block']))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('username') . ' = :username')
 			->bind(':username', $data['username']);
@@ -319,7 +319,7 @@ class ResetModel extends FormModel
 			return false;
 		}
 
-		if (!$user->activation)
+		if ($user->activation)
 		{
 			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -327,7 +327,7 @@ class ResetModel extends FormModel
 		}
 
 		// Verify the token
-		if (!UserHelper::verifyPassword($data['token'], $user->activation))
+		if (!UserHelper::verifyPassword($data['token'], $user->resetToken))
 		{
 			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -342,9 +342,38 @@ class ResetModel extends FormModel
 			return false;
 		}
 
+		// Check if the token is expired or not
+		$currDate = strtotime(Factory::getDate());
+		$lastResetDate = strtotime($user->lastResetTime);
+
+		// Formulate the Difference between two dates
+		$diff = abs($currDate - $lastResetDate);
+		$years = floor($diff / (365 * 60 * 60 * 24));
+
+		/*
+		To get the month, subtract it with years and
+		divide the resultant date into
+		total seconds in a month (30 * 60 * 60 * 24)
+		*/
+		$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+
+		/*
+		To get the day, subtract it with years and
+		months and divide the resultant date into
+		total seconds in a days (60 * 60 * 24)
+		*/
+		$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+
+		if ($days > 3)
+		{
+			$this->setError(Text::_('COM_USERS_RESET_TOKEN_EXPIRED'));
+
+			return false;
+		}
+
 		// Push the user data into the session.
 		$app = Factory::getApplication();
-		$app->setUserState('com_users.reset.token', $user->activation);
+		$app->setUserState('com_users.reset.token', $user->resetToken);
 		$app->setUserState('com_users.reset.user', $user->id);
 
 		return true;
@@ -459,7 +488,7 @@ class ResetModel extends FormModel
 		$token = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 		$hashedToken = UserHelper::hashPassword($token);
 
-		$user->activation = $hashedToken;
+		$user->resetToken = $hashedToken;
 
 		// Save the user to the database.
 		if (!$user->save(true))
