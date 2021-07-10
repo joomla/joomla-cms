@@ -52,7 +52,7 @@ class JoomlaShortcutModal {
 			document.getElementById("current_hasControl").value = 0;
 			document.getElementById("current_hasShift").value = 0;
 			document.getElementById("current_hasAlt").value = 0;
-			const newKeySelectCombination = new Array();
+			const newKeySelectCombination = [];
 			if(e.ctrlKey){
 				newKeySelectCombination.push("CTRL");
 				document.getElementById("current_hasControl").value = 1;
