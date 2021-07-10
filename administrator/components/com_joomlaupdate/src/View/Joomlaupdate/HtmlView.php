@@ -121,10 +121,6 @@ class HtmlView extends BaseHtmlView
 		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
 		// Get data from the model.
 
-		// Load useful classes.
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-		$model = $this->getModel();
-
 		// Get results of pre update check evaluations
 		$this->phpOptions             = $this->get('PhpOptions');
 		$this->phpSettings            = $this->get('PhpSettings');
@@ -161,10 +157,6 @@ class HtmlView extends BaseHtmlView
 		// User requests the manual update and is an admin
 		elseif ($this->showUploadAndUpdate)
 		{
-			$language = Factory::getLanguage();
-			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
-
 			$this->warnings = $this->get('Items', 'warnings');
 		}
 		elseif (!$hasDownload || !$hasUpdate)
@@ -192,8 +184,7 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout('preupdatecheck');
 		}
 
-		// @TODO show message on normal update
-		if ($this->showUploadAndUpdate || in_array($this->getLayout(), ['preupdatecheck', 'update']))
+		if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload']))
 		{
 			$language = Factory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
@@ -238,7 +229,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Remove temporary files
-		$model->removePackageFiles();
+		$this->getModel()->removePackageFiles();
 
 		// Render the view.
 		parent::display($tpl);
