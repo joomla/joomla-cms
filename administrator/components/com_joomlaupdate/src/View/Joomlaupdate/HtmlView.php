@@ -119,6 +119,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$this->updateInfo          = $this->get('UpdateInformation');
 		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
+
 		// Get data from the model.
 
 		// Get results of pre update check evaluations
@@ -147,8 +148,13 @@ class HtmlView extends BaseHtmlView
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin') && $this->getLayout() === 'upload';
 
+		// Fresh update, show it
+		if ($this->getLayout() == 'complete')
+		{
+			// Complete message, nothing to do here
+		}
 		// There is an update for the updater itself. So we have to update it first
-		if ($this->selfUpdateAvailable)
+		elseif ($this->selfUpdateAvailable)
 		{
 			$this->setLayout('selfupdate');
 		}
@@ -247,7 +253,7 @@ class HtmlView extends BaseHtmlView
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
-		if ($this->showUploadAndUpdate || $this->getLayout() == 'update')
+		if ($this->showUploadAndUpdate || in_array($this->getLayout(), ['update', 'complete']))
 		{
 			$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
