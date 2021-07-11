@@ -14,6 +14,7 @@ namespace Joomla\Component\Cronjobs\Administrator\Table;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -39,7 +40,15 @@ class CronjobTable extends Table
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $created;
+	protected $created;
+
+	/**
+	 * Injected into the 'title' column
+	 *
+	 * @var string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $title;
 
 	/**
 	 * CronjobTable constructor.
@@ -63,4 +72,72 @@ class CronjobTable extends Table
 
 		parent::__construct('#__cronjobs', 'id', $db);
 	}
+
+	/**
+	 * Overloads the parent check function.
+	 * Performs sanity checks on properties to make
+	 * sure they're safe to store in the DB.
+	 *
+	 * @return boolean  True if checks were successful
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function check() : bool
+	{
+		try
+		{
+			parent::check();
+		}
+		catch (Exception $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage());
+
+			return false;
+		}
+
+		$this->title  = htmlspecialchars_decode($this->title, ENT_QUOTES);
+
+		// Set created date if not set.
+		// ? : Might not need since the constructor already sets this
+		if (!(int) $this->created)
+		{
+			$this->created = Factory::getDate()->toSql();
+		}
+
+		// TODO : Add more checks if needed
+
+		return true;
+	}
+
+	/**
+	 * @param   boolean  $updateNulls  True to update fields even if they're null [?]
+	 *
+	 * @return boolean  True if successful [yes?]
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
+	 */
+	public function store($updateNulls = false) : bool
+	{
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getApplication()->getIdentity();
+
+		// Set creation date if not set
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
+
+		// TODO : Should we add modified, modified_by fields? [ ]
+
+		// Set created_by if needed
+		if (empty($this->created_by))
+		{
+			$this->created_by = $userId;
+		}
+
+		return parent::store($updateNulls);
+	}
+
 }
