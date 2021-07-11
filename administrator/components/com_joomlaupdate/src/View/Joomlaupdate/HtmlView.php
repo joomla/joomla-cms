@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->setLayout('selfupdate');
 		}
-		// User requests the manual update and is an admin
+		// User requests the manual update and is a super user
 		elseif ($this->showUploadAndUpdate)
 		{
 			$this->warnings = $this->get('Items', 'warnings');
