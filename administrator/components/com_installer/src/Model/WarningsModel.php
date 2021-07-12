@@ -97,8 +97,8 @@ class WarningsModel extends ListModel
 
 		$messages = [];
 
-		 // 32MB
-		$minMemory = 32 * 1024 * 1024;
+		 // 16MB
+		$minMemory = 16 * 1024 * 1024;
 
 		$file_uploads = ini_get('file_uploads');
 
@@ -138,13 +138,13 @@ class WarningsModel extends ListModel
 
 		if ($memory_limit < $minMemory && $memory_limit != -1)
 		{
-			// 8MB
+			// 16MB
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		}
-		elseif ($memory_limit < ($minMemory * 2) && $memory_limit != -1)
+		elseif ($memory_limit < ($minMemory * 1.5) && $memory_limit != -1)
 		{
-			// 16MB
+			// 24MB
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
 		}
