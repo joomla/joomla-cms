@@ -139,10 +139,10 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif (!$hasDownload || !$hasUpdate)
 		{
-			// Could be that we have a download file but no update, so we offer an re-install
+			// Could be that we have a download file but no update, so we offer a re-install
 			if ($hasDownload)
 			{
-				// We can reinstall if we have an URL but no update
+				// We can reinstall if we have a URL but no update
 				$this->setLayout('reinstall');
 			}
 			// No download available
