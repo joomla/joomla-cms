@@ -183,6 +183,7 @@ steps:
 
   - name: analysis4x
     image: rips/rips-cli:3.2.2
+    failure: ignore
     depends_on: [ api-tests ]
     when:
       repo:
@@ -269,6 +270,6 @@ steps:
 
 ---
 kind: signature
-hmac: 53e23beca546bde246f812a726320210f33d231106cb154a65cc900ecbf7502e
+hmac: d9dd36c1bf3ac28d03a3a2e7593357ed2f5dd87a098be4115fb4c844b9304eab
 
 ...
