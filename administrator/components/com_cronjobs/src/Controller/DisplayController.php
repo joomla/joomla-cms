@@ -1,12 +1,12 @@
 <?php
 /**
- * Declares the default display controller for com_cronjobs
+ * Declares the default controller (DisplayController) for com_cronjobs
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
+ * @package       Joomla.Administrator
+ * @subpackage    com_cronjobs
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @license       GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\Controller;
@@ -16,10 +16,8 @@ namespace Joomla\Component\Cronjobs\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Controller\ControllerInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 
 /**
@@ -27,34 +25,30 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since __DEPLOY_VERSION__
  */
-
 class DisplayController extends BaseController
 {
 	/**
-	 * ! View 'cronjobs' has not been implemented yet
-	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'cronjobs';
 
 	/**
-	 * @param   boolean $cachable  If true, the view output will be cached
-	 * @param   array   $urlparams An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
-	 * @return BaseController|boolean   Returns either this object itself, to support chaining, or false on failure.
+	 * @return BaseController|boolean  Returns either a BaseController object to support chaining, or false on failure
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// ! Untested
 		$layout = $this->input->get('layout', 'default');
-		$id     = $this->input->getInt('id');
+		$id = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($layout == 'edit' && !$this->checkEditId('com_cronjobs.edit.module', $id))
+		if ($layout == 'edit' && !$this->checkEditId('com_cronjobs.edit.cronjob', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			if (!\count($this->app->getMessageQueue()))
@@ -67,6 +61,7 @@ class DisplayController extends BaseController
 			return false;
 		}
 
+		// Let the parent method take over
 		return parent::display($cachable, $urlparams);
 	}
 }
