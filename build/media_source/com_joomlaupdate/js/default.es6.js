@@ -142,7 +142,6 @@ Joomla = window.Joomla || {};
    * Called by document ready, setup below.
    */
   PreUpdateChecker.run = () => {
-
     // eslint-disable-next-line no-undef
     PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins', []);
 
@@ -289,6 +288,7 @@ Joomla = window.Joomla || {};
             // eslint-disable-next-line max-len
             html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
               ? Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+              // eslint-disable-next-line max-len
               : Joomla.sanitizeHtml(extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion);
           }
           break;
