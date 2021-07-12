@@ -102,8 +102,6 @@ class HtmlView extends BaseHtmlView
 		$this->updateInfo          = $this->get('UpdateInformation');
 		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
 
-		// Get data from the model.
-
 		// Get results of pre update check evaluations
 		$this->phpOptions             = $this->get('PhpOptions');
 		$this->phpSettings            = $this->get('PhpSettings');
