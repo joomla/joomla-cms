@@ -157,18 +157,20 @@ Joomla = window.Joomla || {};
 
     // Let the user make an update although there *could* be dangerous plugins in the wild
     const onChangeEvent = () => {
-      const nonCorePluginCheckbox = document.getElementById('noncoreplugins').checked;
-      if (nonCorePluginCheckbox) {
+      const nonCorePluginCheckbox = document.getElementById('noncoreplugins');
+      if (nonCorePluginCheckbox.checked) {
         if (window.confirm(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE'))) {
           [].slice.call(document.querySelectorAll('button.submitupdate')).forEach((el) => {
             el.classList.remove('disabled');
             el.removeAttribute('disabled');
           });
+        } else {
+          nonCorePluginCheckbox.checked = false;
         }
       } else {
         [].slice.call(document.querySelectorAll('button.submitupdate')).forEach((el) => {
           el.classList.add('disabled');
-          el.addAttribute('disabled');
+          el.setAttribute('disabled', '');
         });
       }
     };
