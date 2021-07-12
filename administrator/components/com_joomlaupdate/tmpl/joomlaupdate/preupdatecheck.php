@@ -246,7 +246,7 @@ $updatePossible = true;
 								<button type="button" class="btn btn-link compatibilitytoggle ms-auto" data-state="closed">
 									<?php echo Text::sprintf(
 										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-										'<span class="icon-chevron-right"></span>'
+										'<span class="icon-chevron-right" aria-hidden="true"></span>'
 									); ?>
 								</button>
 							<?php endif; ?>
