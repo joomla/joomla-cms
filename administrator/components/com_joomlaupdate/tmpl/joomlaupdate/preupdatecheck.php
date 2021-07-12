@@ -82,7 +82,7 @@ $updatePossible = true;
 
 <div id="joomlaupdate-wrapper" class="main-card p-3 mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 
-	<h2 class="mt-3 mb-3">
+	<h2 class="my-3">
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 	</h2>
 	<p>
