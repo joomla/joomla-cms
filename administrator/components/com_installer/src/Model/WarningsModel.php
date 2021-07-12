@@ -97,7 +97,7 @@ class WarningsModel extends ListModel
 
 		$messages = [];
 
-		 // 32MB
+		// 32MB
 		$minMemory = 32 * 1024 * 1024;
 
 		$file_uploads = ini_get('file_uploads');
