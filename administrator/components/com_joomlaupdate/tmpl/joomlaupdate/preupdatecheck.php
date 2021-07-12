@@ -61,7 +61,7 @@ $compatibilityTypes = array(
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => array(
 		'class' => 'warning',
-		'icon' => 'exclamation-triangle',
+		'icon'  => 'exclamation-triangle',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES',
 		'group' => 1,
 	),
