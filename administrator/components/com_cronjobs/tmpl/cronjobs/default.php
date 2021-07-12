@@ -55,7 +55,7 @@ if ($saveOrder && !empty($this->items))
 
 		<!-- If no cronjobs -->
 		<?php if (empty($this->items))
-		:
+:
 			?>
 			<!-- No cronjobs -->
 			<div class="alert alert-info">
@@ -67,7 +67,7 @@ if ($saveOrder && !empty($this->items))
 
 		<!-- If there are cronjobs, we start with the table -->
 		<?php if (!empty($this->items))
-		:
+:
 			?>
 			<!-- Cronjobs table starts here -->
 			<table class="table" id="categoryList">
@@ -115,13 +115,13 @@ if ($saveOrder && !empty($this->items))
 
 				<!-- Table body begins -->
 				<tbody <?php if ($saveOrder)
-				:
+	:
 					?>
 					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
 					   endif; ?>>
 				<?php
 				foreach ($this->items as $i => $item)
-				:
+	:
 					// TODO : Check if $user->authorise() calls work as they should
 					$orderKey = $item->id;
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
@@ -142,11 +142,11 @@ if ($saveOrder && !empty($this->items))
 											$iconClass = '';
 
 											if (!$canChange)
-											{
+		{
 												$iconClass = ' inactive';
 											}
 											elseif (!$saveOrder)
-											{
+		{
 															$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 											}
 											?>
@@ -154,7 +154,7 @@ if ($saveOrder && !empty($this->items))
 									<span class="icon-ellipsis-v"></span>
 								</span>
 							<?php if ($canChange && $saveOrder)
-							:
+		:
 								?>
 								<input type="text" class="hidden" name="order[]" size="5"
 									   value="<?php echo $orderKey + 1; ?>">
@@ -168,27 +168,27 @@ if ($saveOrder && !empty($this->items))
 						<th scope="row">
 							<?php
 							if ($canEdit)
-							:
+		:
 								?>
-								<a href="<?php echo Route::_('index.php?option=com_tags&task=cronjob.edit&id=' . $item->id); ?>"
+								<a href="<?php echo Route::_('index.php?option=com_cronjobs&task=cronjob.edit&id=' . $item->id); ?>"
 								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else
 
-							:
+		:
 								?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
 							<?php
 							if (empty($item->note))
-							:
+		:
 								?>
 								<!-- TODO: Remove or modify 'note' section -->
 								<?php echo 'No note :)'; ?>
 							<?php else
 
-							:
+		:
 								?>
 								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', 'Alias', $this->escape($item->note)); ?>
 							<?php endif; ?>
@@ -199,7 +199,7 @@ if ($saveOrder && !empty($this->items))
 						</td>
 						<!-- TODO: What should be done about Multilang? Is it needed here? -->
 						<?php if (Multilanguage::isEnabled())
-						:
+		:
 							?>
 							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
@@ -224,16 +224,16 @@ if ($saveOrder && !empty($this->items))
 			<?php echo $this->pagination->getListFooter(); ?>
 
 			<?php // Load the batch processing form if user is allowed ?>
-			<?php if ($user->authorise('core.create', 'com_tags')
-	&& $user->authorise('core.edit', 'com_tags')
-	&& $user->authorise('core.edit.state', 'com_tags'))
+			<?php if ($user->authorise('core.create', 'com_cronjobs')
+			&& $user->authorise('core.edit', 'com_cronjobs')
+			&& $user->authorise('core.edit.state', 'com_cronjobs'))
 	:
 	?>
 				<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-							'title' => Text::_('COM_TAGS_BATCH_OPTIONS'),
+							'title' => Text::_('com_cronjobs_BATCH_OPTIONS'),
 							'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
