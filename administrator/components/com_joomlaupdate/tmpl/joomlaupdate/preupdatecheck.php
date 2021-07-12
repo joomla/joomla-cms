@@ -101,7 +101,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
