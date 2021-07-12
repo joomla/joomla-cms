@@ -281,18 +281,18 @@ $updatePossible = true;
 								<?php if ($data['group'] == 0) : ?>
 									<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 										<tr>
-											<td class="exname">
+											<th scope="row">
 												<?php echo $extension->name; ?>
 											</td>
-											<td class="extype">
+											<td>
 												<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 											</td>
-											<td class="instver hidden">
+											<td class="hidden">
 												<?php echo $extension->version; ?>
 											</td>
-											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
+											<td id="available-version-<?php echo $extension->extension_id; ?>" class="hidden" />
 											<td
-												class="extension-check upcomp hidden"
+												class="hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"
 												data-extension-current-version="<?php echo $extension->version; ?>"
 											>
