@@ -204,7 +204,7 @@
 
 	<field
 		name="language"
-		type="contentlanguage"
+		type="TAGSlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		>
 		<option value="*">JALL</option>
@@ -284,7 +284,50 @@
 					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 					size="20"
 				/>
+
+				<field
+					name="image_intro_sizes"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="COM_TAGS_FIELD_SIZES_LABEL"
+					default="0"
+					filter="integer"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_intro_size_options"
+					type="subform"
+					description="COM_TAGS_FIELD_SIZES_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
+					showon="image_intro_sizes:1"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="width"
+							type="number"
+							label="COM_TAGS_FIELD_SIZES_WIDTH_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="COM_TAGS_FIELD_SIZES_HEIGHT_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
+
 			<fieldset name="image-fulltext" label="COM_TAGS_PARAMS_IMAGE_FULLTEXT">
 
 				<field
@@ -318,6 +361,48 @@
 					label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 					size="20"
 				/>
+
+				<field
+					name="image_fulltext_sizes"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="COM_TAGS_FIELD_SIZES_LABEL"
+					default="0"
+					filter="integer"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_fulltext_size_options"
+					type="subform"
+					description="COM_TAGS_FIELD_SIZES_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
+					showon="image_fulltext_sizes:1"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="width"
+							type="number"
+							label="COM_TAGS_FIELD_SIZES_WIDTH_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="COM_TAGS_FIELD_SIZES_HEIGHT_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</fieldset>

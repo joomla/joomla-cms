@@ -208,7 +208,7 @@
 		</field>
 
 		<field
-			name="tags"
+			name="CONTACT"
 			type="tag"
 			label="JTAG"
 			class="advancedSelect"
@@ -223,6 +223,48 @@
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			hide_none="1"
 		/>
+
+		<field
+			name="image_sizes"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			label="COM_CONTACT_FIELD_SIZES_LABEL"
+			default="0"
+			filter="integer"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="image_size_options"
+			type="subform"
+			description="COM_CONTACT_FIELD_SIZES_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			icon="list"
+			multiple="true"
+			showon="image_sizes:1"
+		>
+			<form hidden="true" name="list_templates_modal" repeat="true">
+				<field
+					name="width"
+					type="number"
+					label="COM_CONTACT_FIELD_SIZES_WIDTH_LABEL"
+					filter="integer"
+					validate="number"
+					required="true"
+				/>
+
+				<field
+					name="height"
+					type="number"
+					label="COM_CONTACT_FIELD_SIZES_HEIGHT_LABEL"
+					filter="integer"
+					validate="number"
+					required="true"
+				/>
+			</form>
+		</field>
 
 		<field
 			name="con_position"
@@ -354,9 +396,9 @@
 				</field>
 
 				<field
-					name="show_tags"
+					name="show_CONTACT"
 					type="list"
-					label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+					label="COM_CONTACT_FIELD_SHOW_CONTACT_LABEL"
 					useglobal="true"
 					validate="options"
 					>

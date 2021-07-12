@@ -63,7 +63,7 @@
 
 		<field
 			name="language"
-			type="contentlanguage"
+			type="BANNERSlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>
 			<option value="*">JALL</option>
@@ -336,6 +336,48 @@
 				type="text"
 				label="COM_BANNERS_FIELD_ALT_LABEL"
 			/>
+
+			<field
+				name="imageurl_sizes"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="COM_BANNERS_FIELD_SIZES_LABEL"
+				default="0"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="imageurl_size_options"
+				type="subform"
+				description="COM_BANNERS_FIELD_SIZES_DESC"
+				layout="joomla.form.field.subform.repeatable-table"
+				icon="list"
+				multiple="true"
+				showon="imageurl_sizes:1"
+			>
+				<form hidden="true" name="list_templates_modal" repeat="true">
+					<field
+						name="width"
+						type="number"
+						label="COM_BANNERS_FIELD_WIDTH_LABEL"
+						filter="integer"
+						validate="number"
+						required="true"
+					/>
+
+					<field
+						name="height"
+						type="number"
+						label="COM_BANNERS_FIELD_HEIGHT_LABEL"
+						filter="integer"
+						validate="number"
+						required="true"
+					/>
+				</form>
+			</field>
 		</fieldset>
 	</fields>
 

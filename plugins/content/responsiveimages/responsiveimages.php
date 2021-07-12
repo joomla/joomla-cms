@@ -38,6 +38,14 @@ class PlgContentResponsiveImages extends CMSPlugin
 	protected $initContent;
 
 	/**
+	 * Custom image sizes
+	 *
+	 * @var    string
+	 * @since  4.1.0
+	 */
+	protected $customSizes;
+
+	/**
 	 * Event that stores initial versions of images and inserts srcset and sizes
 	 * attributes into content img tags
 	 *
@@ -55,15 +63,11 @@ class PlgContentResponsiveImages extends CMSPlugin
 		// Check type of table object
 		if ($table instanceof Table)
 		{
-			// Check if custom size options are specified
-			if ($this->params->get('custom_sizes') && $this->params->get('custom_size_options'))
-			{
-				$this->responsiveSizes = explode(",", htmlspecialchars($this->params->get('custom_size_options')));
-			}
+			$this->customSizes = MediaHelper::getSizes($this->params->get('custom_sizes'), $this->params->get('custom_size_options'));
+			$contentKey        = $this->_getContentKey($context);
 
 			// Add srcset attribute to content images
-			$contentKey = $this->_getContentKey($context);
-			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}, $this->responsiveSizes);
+			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey}, $this->customSizes);
 
 			$item = clone $table;
 			$item->load($table->id);
@@ -107,28 +111,8 @@ class PlgContentResponsiveImages extends CMSPlugin
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				MediaHelper::generateContentResponsiveImages($this->initContent, $content, $this->responsiveSizes);
+				MediaHelper::generateContentResponsiveImages($this->initContent, $content, $this->customSizes);
 			}
-		}
-	}
-
-	/**
-	 * Event that handles deletion of responsive images once original one gets deleted
-	 *
-	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-	 * @param   object  $article  A JTableContent object.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	public function onContentBeforeDelete($context, $article): void
-	{
-		// Remove responsive versions if file is an image
-		if ($context === "com_media.file" && MediaHelper::isImage($article->path))
-		{
-			// $imgObj = new Image(JPATH_ROOT . '/images' . $article->path);
-			// $imgObj->deleteMultipleSizes();
 		}
 	}
 
@@ -155,13 +139,13 @@ class PlgContentResponsiveImages extends CMSPlugin
 			case "com_tags.tag":
 				return array(
 					'image_intro' => (object) [
-						'name'  => $data['images']['image_intro'], 
+						'name'  => $data['images']['image_intro'],
 						'sizes' => MediaHelper::getSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options'])
-					], 
+					],
 					'image_fulltext' => (object) [
-						'name'  => $data['images']['image_fulltext'], 
+						'name'  => $data['images']['image_fulltext'],
 						'sizes' => MediaHelper::getSizes($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options'])
-					], 
+					],
 				);
 			case "com_banners.banner":
 				return array(
@@ -187,13 +171,13 @@ class PlgContentResponsiveImages extends CMSPlugin
 			case "com_newsfeeds.newsfeed":
 				return array(
 					'image_first' => (object) [
-						'name'  => $data['images']['image_first'], 
+						'name'  => $data['images']['image_first'],
 						'sizes' => MediaHelper::getSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options'])
-					], 
+					],
 					'image_second' => (object) [
-						'name'  => $data['images']['image_second'], 
+						'name'  => $data['images']['image_second'],
 						'sizes' => MediaHelper::getSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options'])
-					], 
+					],
 				);
 			default:
 				return false;

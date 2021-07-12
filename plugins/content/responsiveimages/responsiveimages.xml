@@ -34,11 +34,33 @@
 
 				<field
 					name="custom_size_options"
-					type="text"
-					default="1200x800, 800x600, 600x400"
+					type="subform"
 					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTIONS_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
 					showon="custom_sizes:1"
-				/>
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="width"
+							type="number"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTION_WIDTH_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTION_HEIGHT_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
 
 			</fieldset>
 		</fields>

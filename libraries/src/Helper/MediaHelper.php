@@ -579,7 +579,7 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateSrcset($imgSource, $sizes = null)
+	public static function generateSrcset($imgSource, $sizes)
 	{
 		$imgObj = new Image(JPATH_ROOT . '/' . $imgSource);
 
@@ -629,7 +629,7 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function addContentSrcsetAndSizes($content, $sizes = null)
+	public static function addContentSrcsetAndSizes($content, $sizes)
 	{
 		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
 		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
@@ -652,17 +652,33 @@ class MediaHelper
 	}
 
 	/**
-	 * Returns form images from data with specific context
+	 * Returns responsive image size options depending on parameters
 	 *
-	 * @param   int     $isCustom  1 if sizes are custom
-	 * @param   string  $sizes     Responsive sizes as string
+	 * @param   int       $isCustom     1 if sizes are custom
+	 * @param   stdClass  $sizeOptions  Responsive size options
 	 *
-	 * @return  array   Array of responsive image sizes
+	 * @return  array  Responsive image sizes
 	 *
 	 * @since   4.1.0
 	 */
-	public static function getSizes($isCustom, $sizes)
+	public static function getSizes($isCustom, $sizeOptions = null)
 	{
-		return $isCustom ? explode(",", htmlspecialchars($sizes)) : static::$responsiveSizes;
+		if (!$isCustom)
+		{
+			return static::$responsiveSizes;
+		}
+
+		// Create an array with custom sizes
+		$customSizes = [];
+
+		foreach ((array) $sizeOptions as $option)
+		{
+			if (isset($option->width) && isset($option->height))
+			{
+				$customSizes[] = $option->width . 'x' . $option->height;
+			}
+		}
+
+		return $customSizes;
 	}
 }
