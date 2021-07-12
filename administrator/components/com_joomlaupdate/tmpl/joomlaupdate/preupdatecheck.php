@@ -67,7 +67,7 @@ $compatibilityTypes = array(
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => array(
 		'class' => 'success',
-		'icon' => 'check',
+		'icon'  => 'check',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES',
 		'group' => 3,
 	),
