@@ -639,6 +639,10 @@ class MediaHelper
 		{
 			if ($srcset = static::generateSrcset($image, $sizes))
 			{
+				// Remove previously generated attributes
+				$content = preg_replace('/[' . preg_quote($image, '/') . ']*srcset *= *("?[^"]*" )/', '', $content);
+				$content = preg_replace('/[' . preg_quote($image, '/') . ']*sizes *= *("?[^"]*" )/', '', $content);
+
 				// Match all between <img and /> then insert srcset and sizes: <img src="" /> - <img src="" srcset="" sizes="">
 				$content = preg_replace(
 					'/(<img [^>]+' . preg_quote($image, '/') . '.*?) \/>/',
