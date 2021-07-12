@@ -150,6 +150,16 @@ Joomla = window.Joomla || {};
 
     // If there are no extensions to be checked we can exit here
     if (extensions.length === 0) {
+      if (document.getElementById('preupdatecheckbox') !== null) {
+        document.getElementById('preupdatecheckbox').style.display = 'none';
+      }
+      if (document.getElementById('noncoreplugins') !== null) {
+        document.getElementById('noncoreplugins').checked = true;
+      }
+      [].slice.call(document.querySelectorAll('button.submitupdate')).forEach((el) => {
+        el.classList.remove('disabled');
+        el.removeAttribute('disabled');
+      });
       PreUpdateChecker.cleanup();
       return;
     }
