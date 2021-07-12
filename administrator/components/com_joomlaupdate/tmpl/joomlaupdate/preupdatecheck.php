@@ -252,28 +252,28 @@ $updatePossible = true;
 							<?php endif; ?>
 						</h4>
 
-						<div class="compatibilityNotes">
-							<?php echo Text::_($data['notes']); ?>
-						</div>
 						<div class="table-responsive mb-5">
 							<table class="table table-striped">
+								<caption>
+								<?php echo Text::_($data['notes']); ?>
+								</caption>
 								<thead class="row-fluid">
 									<tr>
-										<th class="exname">
+										<th class="exname" scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 										</th>
-										<th class="extype">
+										<td class="extype">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
-										</th>
-										<th class="instver hidden">
+										</td>
+										<td class="instver hidden">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
-										</th>
-										<th class="upcomp hidden">
+										</td>
+										<td class="upcomp hidden">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
-										</th>
-										<th class="currcomp hidden">
+										</td>
+										<td class="currcomp hidden">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
-										</th>
+										</td>
 									</tr>
 								</thead>
 								<tbody class="row-fluid">
