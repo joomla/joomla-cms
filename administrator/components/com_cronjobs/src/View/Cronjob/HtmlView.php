@@ -120,14 +120,14 @@ class HtmlView extends BaseHtmlView
 			// The cronjob.apply task maps to the save() method in CronjobController
 			ToolbarHelper::apply('cronjob.apply');
 
-			$toolbarButtons[] = ['save', 'module.save'];
+			$toolbarButtons[] = ['save', 'cronjob.save'];
 		}
 		else
 		{
 			if (!$isNew && $canDo->get('core.edit'))
 			{
 				ToolbarHelper::apply('cronjob.apply');
-				$toolbarButtons[] = ['save', 'module.save'];
+				$toolbarButtons[] = ['save', 'cronjob.save'];
 
 				// TODO | ? : Do we need save2new and save2copy? If yes, need to support in the Model,
 				// 			  here and the Controller.
