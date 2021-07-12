@@ -49,7 +49,7 @@ $compatibilityTypes = array(
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => array(
 		'class' => 'danger',
-		'icon' => 'times',
+		'icon'  => 'times',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES',
 		'group' => 2,
 	),
