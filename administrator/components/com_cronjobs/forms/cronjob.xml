@@ -2,13 +2,13 @@
 
 <!-- TODO : Replace all labels with translatable strings-->
 <form>
-	<fieldset name="basic">
-		<!-- Cronjob title -->
-		<field
-				name="title" type="text"
-				label="JGLOBAL_TITLE" size="30"
-		/>
+	<!-- Cronjob title -->
+	<field
+			name="title" type="text"
+			label="JGLOBAL_TITLE" size="30"
+	/>
 
+	<fieldset name="basic">
 		<!-- Job type, Make custom field type for this? -->
 		<field name="type" type="list" validate="options"
 			   label="COM_CRONJOBS_SELECT_TYPE" required="true"
@@ -43,18 +43,18 @@
 	</fieldset>
 
 	<fieldset name="aside">
-	<!-- State field -->
-	<field name="state" type="list" label="JSTATUS"
-		   default="1" class="form-select-color-state"
-		   size="1" validate="options"
-	>
-		<option value="1">JENABLED</option>
-		<option value="0">JDISABLED</option>
-	</field>
-	<!-- Note -->
-	<field name="Note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
-		   maxlength="255"
-	/>
+		<!-- State field -->
+		<field name="state" type="list" label="JSTATUS"
+			   default="1" class="form-select-color-state"
+			   size="1" validate="options"
+		>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+		</field>
+		<!-- Note -->
+		<field name="Note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
+			   maxlength="255"
+		/>
 	</fieldset>
 
 	<!-- Fieldset for execution history	-->

@@ -49,8 +49,8 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 
 <!-- Form begins -->
 <form action="<?php echo Route::_('index.php?option=com_cronjobs&layout=' . $layout . $tmpl . '&id=' . (int)$this->item->id); ?>"
-	  method="post" name="adminForm" id="contact-form"
-	  aria-label="<?php echo Text::_('COM_CONTACT_FORM_TITLE_' . ((int)$this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
+	  method="post" name="adminForm" id="cronjob-form"
+	  aria-label="<?php echo Text::_('COM_CRONJOBS_FORM_TITLE_' . ((int)$this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
 	  class="form-validate">
 
 	<!-- The cronjob title field -->
@@ -120,8 +120,10 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
-
-
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+		<?php echo $this->form->getInput('context'); ?>
+		<input type="hidden" name="task" value="">
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 
 </form>
