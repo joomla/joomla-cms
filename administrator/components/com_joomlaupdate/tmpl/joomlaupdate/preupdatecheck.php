@@ -259,19 +259,19 @@ $updatePossible = true;
 							<table class="table table-striped">
 								<thead class="row-fluid">
 									<tr>
-										<th class="exname">
+										<th scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 										</th>
-										<th class="extype">
+										<th scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 										</th>
-										<th class="instver hidden">
+										<th class="hidden" scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 										</th>
-										<th class="upcomp hidden">
+										<th class="hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
 										</th>
-										<th class="currcomp hidden">
+										<th class="hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
 										</th>
 									</tr>
