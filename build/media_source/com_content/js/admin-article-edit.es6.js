@@ -56,8 +56,9 @@
           const { target } = _ref;
           const moduleId = target.getAttribute('data-module-id');
           let editorText = Joomla.editors.instances.jform_articletext.getValue();
-          editorText = editorText.replace(`loadmodules ${moduleId}`, '');
+          editorText = editorText.replace(`{loadmoduleid ${moduleId}}`, '');
           Joomla.editors.instances.jform_articletext.setValue(editorText);
+          document.querySelector('.button-apply.btn.btn-success').click();
         });
       });
     }
