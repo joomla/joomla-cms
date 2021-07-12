@@ -469,6 +469,36 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		// Expression to search for(id)
+		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
+
+		// Find all instances of loadmoduleid and store it in $matchesmodid
+		preg_match_all($regexmodid, $item->articletext, $matchesmodid, PREG_SET_ORDER);
+		$importedModules = [];
+
+		// If no matches, skip this
+		if ($matchesmodid)
+		{
+			foreach ($matchesmodid as $match)
+			{
+				$importedModules[] = $match[1];
+			}
+
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->select(
+					[
+						$db->quoteName('id'),
+						$db->quoteName('title'),
+						$db->quoteName('published'),
+					]
+				)
+				->from($db->quoteName('#__modules'));
+			$query->where($db->quoteName('id') . 'IN (' . implode(',', $query->bindArray(array_values($importedModules))) . ')');
+
+			$item->importedModules = $db->setQuery($query)->loadObjectList();
+		}
+
 		return $item;
 	}
 
