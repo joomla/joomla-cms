@@ -43,31 +43,31 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
 		'class' => 'info',
-		'icon' => 'hourglass fa-spin',
+		'icon'  => 'hourglass fa-spin',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
 		'group' => 0,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => array(
 		'class' => 'danger',
-		'icon' => 'times',
+		'icon'  => 'times',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES',
 		'group' => 2,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
 		'class' => 'warning',
-		'icon' => 'exclamation-triangle',
+		'icon'  => 'exclamation-triangle',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
 		'group' => 4,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => array(
 		'class' => 'warning',
-		'icon' => 'exclamation-triangle',
+		'icon'  => 'exclamation-triangle',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES',
 		'group' => 1,
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => array(
 		'class' => 'success',
-		'icon' => 'check',
+		'icon'  => 'check',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES',
 		'group' => 3,
 	),
@@ -82,7 +82,7 @@ $updatePossible = true;
 
 <div id="joomlaupdate-wrapper" class="main-card p-3 mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 
-	<h2 class="mt-3 mb-3">
+	<h2 class="my-3">
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 	</h2>
 	<p>
@@ -101,7 +101,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -112,12 +112,12 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-hourglass fa-spin fa-fw py-1 bg-white ms-2 text-info"></span>
+				<span class="fa fa-hourglass fa-spin fa-fw py-1 bg-white ms-2 text-info" aria-hidden="true"></span>
 			</button>
 		</div>
 
@@ -246,7 +246,7 @@ $updatePossible = true;
 								<button type="button" class="btn btn-link compatibilitytoggle ms-auto" data-state="closed">
 									<?php echo Text::sprintf(
 										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-										'<span class="icon-chevron-right"></span>'
+										'<span class="icon-chevron-right" aria-hidden="true"></span>'
 									); ?>
 								</button>
 							<?php endif; ?>
@@ -262,16 +262,16 @@ $updatePossible = true;
 										<th class="exname" scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 										</th>
-										<td class="extype">
+										<th class="extype" scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
-										</td>
-										<td class="instver hidden">
+										</th>
+										<th class="instver hidden" scope="col">
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
-										</td>
-										<td class="upcomp hidden">
+										</th>
+										<th class="currcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
-										</td>
-										<td class="currcomp hidden">
+										</th>
+										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
 										</td>
 									</tr>
@@ -281,7 +281,7 @@ $updatePossible = true;
 								<?php if ($data['group'] == 0) : ?>
 									<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 										<tr>
-											<td class="exname">
+											<th class="exname" scope="row">
 												<?php echo $extension->name; ?>
 											</td>
 											<td class="extype">
@@ -323,7 +323,7 @@ $updatePossible = true;
 
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
-				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
+				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
 				<label class="form-check-label" for="noncoreplugins">
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 				</label>
