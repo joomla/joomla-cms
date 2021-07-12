@@ -112,7 +112,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
