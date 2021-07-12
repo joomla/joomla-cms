@@ -200,6 +200,11 @@ class LocalAdapter implements AdapterInterface
 	{
 		$name = $this->getSafeName($name);
 
+		if (!$name)
+		{
+			throw new \Exception(Text::_('COM_MEDIA_CREATE_NEW_FOLDER_ERROR_MAKESAFE'));
+		}
+
 		$localPath = $this->getLocalPath($path . '/' . $name);
 
 		Folder::create($localPath);
