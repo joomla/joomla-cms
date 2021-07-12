@@ -227,7 +227,7 @@ class HtmlView extends BaseHtmlView
 
 		if (in_array($this->getLayout(), ['update', 'complete']))
 		{
-			$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+			$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 			ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
 
