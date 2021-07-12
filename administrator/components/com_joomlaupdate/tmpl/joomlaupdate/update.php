@@ -40,10 +40,10 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 		$this->updateInfo['object']->get('infourl')->_data,
 		Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
 		[
-				'target' => '_blank',
-				'rel'    => 'noopener noreferrer',
-				'title'  => isset($this->updateInfo['object']->get('infourl')->title) ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title) : ''
-			]
+			'target' => '_blank',
+			'rel'    => 'noopener noreferrer',
+			'title'  => isset($this->updateInfo['object']->get('infourl')->title) ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title) : ''
+		]
 	);
 endif;
 
