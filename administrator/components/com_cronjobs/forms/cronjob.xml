@@ -5,7 +5,8 @@
 	<!-- Cronjob title -->
 	<field
 			name="title" type="text"
-			label="JGLOBAL_TITLE" size="30"
+			label="JGLOBAL_TITLE" size="40" maxlength="100"
+			required="true"
 	/>
 
 	<fieldset name="basic">
