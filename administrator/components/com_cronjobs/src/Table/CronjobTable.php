@@ -40,7 +40,7 @@ class CronjobTable extends Table
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $created;
+	public $created;
 
 	/**
 	 * Injected into the 'title' column
@@ -48,7 +48,7 @@ class CronjobTable extends Table
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $title;
+	public $title;
 
 	/**
 	 * CronjobTable constructor.
