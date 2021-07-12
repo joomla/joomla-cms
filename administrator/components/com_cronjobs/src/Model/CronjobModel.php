@@ -162,12 +162,12 @@ class CronjobModel extends AdminModel
 	/**
 	 * Fetches the data to be injected into the form
 	 *
-	 * @return array  Associative array of form data.
+	 * @return object  Associative array of form data.
 	 *
 	 * @throws Exception
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected function loadFormData(): array
+	protected function loadFormData(): object
 	{
 		/*
 		 * Check session for previously entered form data
@@ -232,6 +232,8 @@ class CronjobModel extends AdminModel
 		{
 			$field = $this->getItem($data['id']);
 		}
+
+		// TODO : Unset fields based on type an trigger selected
 
 		/*
 		 * The parent save() takes care of saving to the main
