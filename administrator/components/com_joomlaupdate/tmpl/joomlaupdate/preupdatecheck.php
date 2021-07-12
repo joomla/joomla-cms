@@ -336,6 +336,11 @@ $updatePossible = true;
 	</form>
 	<?php endif; ?>
 
+	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate&layout=update'); ?>" method="post" name="adminForm" id="adminForm">
+		<input type="hidden" name="task" value="">
+		<?php echo HTMLHelper::_('form.token'); ?>
+	</form>
+
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
 		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
