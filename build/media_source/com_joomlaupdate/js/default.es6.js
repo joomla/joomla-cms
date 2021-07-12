@@ -379,25 +379,26 @@ Joomla = window.Joomla || {};
         if (problemPluginRow) {
           const tableRow = problemPluginRow.closest('tr');
           tableRow.classList.add('error');
-          const pluginTitleTableCell = tableRow.querySelector('td:first-child');
-          pluginTitleTableCell.innerHTML = Joomla.sanitizeHtml(`${pluginTitleTableCell.innerHTML}
-              <span class="label label-warning " >
+          const pluginTitleTableCell = tableRow.querySelector('.exname');
+          pluginTitleTableCell.innerHTML = `${Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML)}
+              <div class="small">
+              <span class="badge bg-warning">
               <span class="icon-warning"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
               </span>
 
-              <span class="label label-important hasPopover"
+              <button type="button" class="btn btn-sm btn-link hasPopover"
               title="${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')} "
               data-bs-content="${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')} "
               >
-              <span class="icon-help"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')}
-              </span>`);
+              </button>
+              </div>`;
           const popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
           if (popoverElement) {
             popoverElement.style.cursor = 'pointer';
             // eslint-disable-next-line no-new
-            new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus click' });
+            new bootstrap.Popover(popoverElement, { placement: 'top', html: true, trigger: 'focus' });
           }
           status = 'danger';
         }
