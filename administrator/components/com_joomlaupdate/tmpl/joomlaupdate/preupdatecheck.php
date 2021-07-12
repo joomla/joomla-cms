@@ -26,14 +26,14 @@ $wa->useScript('core')
 	->useScript('bootstrap.tab');
 
 // Text::script doesn't have a sprintf equivalent so work around this
-Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>', true))
-	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up"></span>', true))
-	->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
+Factory::getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
@@ -223,7 +223,7 @@ $updatePossible = true;
 				</div>
 
 				<div id="preupdateCheckCompleteProblems" class="hidden">
-					<div class="alert alert-danger">
+					<div class="alert alert-warning">
 						<h4 class="alert-heading">
 							<?php echo Text::_('WARNING'); ?>
 						</h4>
@@ -243,10 +243,9 @@ $updatePossible = true;
 							<span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
 							<?php echo Text::_($compatibilityType); ?>
 							<?php if ($data['group'] > 0) : ?>
-								<button type="button" class="btn btn-link compatibilitytoggle ms-auto" data-state="closed">
-									<?php echo Text::sprintf(
-										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
-										'<span class="icon-chevron-right" aria-hidden="true"></span>'
+								<button type="button" class="btn btn-primary btn-sm ms-3 compatibilitytoggle" data-state="closed">
+									<?php echo Text::_(
+										'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'
 									); ?>
 								</button>
 							<?php endif; ?>
