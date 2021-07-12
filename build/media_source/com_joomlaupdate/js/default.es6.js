@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
     } else if (form.install_package.files[0].size > form.max_upload_size.value) {
       alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
     } else if (document.getElementById('joomlaupdate-confirm-backup').checked) {
-     form.submit();
+      form.submit();
     }
   };
 
@@ -54,11 +54,10 @@ Joomla = window.Joomla || {};
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
     }
     if (uploadField) {
-        uploadField.addEventListener('change', Joomla.installpackageChange);
+      uploadField.addEventListener('change', Joomla.installpackageChange);
     }
     // Trigger (re-) install (including checkbox confirm if we update)
-    if (installButton && installButton.getAttribute('href') == '#' && task)
-    {
+    if (installButton && installButton.getAttribute('href') === '#' && task) {
       installButton.addEventListener('click', (e) => {
         e.preventDefault();
         if (updateCheck && !updateCheck.checked) {
@@ -104,14 +103,14 @@ Joomla = window.Joomla || {};
     MISSING_COMPATIBILITY_TAG: 2,
     SERVER_ERROR: 3,
   };
-  
+
   PreUpdateChecker.cleanup = (status) => {
     // Set the icon in the nav-tab
     const infoIcon = document.querySelector('#joomlaupdate-precheck-extensions-tab .fa-hourglass');
-      
+
     let iconColor = 'success';
     let iconClass = 'check';
-      
+
     switch (status) {
       case 'danger':
         iconColor = 'danger';
@@ -121,10 +120,11 @@ Joomla = window.Joomla || {};
         iconColor = 'warning';
         iconClass = 'exclamation-triangle';
         break;
+      default:
     }
     if (infoIcon) {
       infoIcon.classList.remove('icon-hourglass', 'fa-spin', 'text-info');
-      infoIcon.classList.add('icon-' + iconClass, 'text-' + iconColor);
+      infoIcon.classList.add(`icon-${iconClass}`, `text-${iconColor}`);
     }
     // Hide table of addons to load
     const checkedExtensions = document.querySelector('#compatibilityTable0');
@@ -133,7 +133,7 @@ Joomla = window.Joomla || {};
       checkedExtensions.classList.add('hidden');
     }
     if (preupdateCheckWarning) {
-      preupdateCheckWarning.classList.add('hidden');	
+      preupdateCheckWarning.classList.add('hidden');
     }
   };
 
@@ -279,12 +279,12 @@ Joomla = window.Joomla || {};
         case PreUpdateChecker.STATE.COMPATIBLE:
           if (extensionData.compatibilityData.upgradeWarning) {
             // eslint-disable-next-line max-len
-			const compatibleVersion = Joomla.sanitizeHtml(extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion);
+            const compatibleVersion = Joomla.sanitizeHtml(extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion);
             html = `<span class="label label-warning">${compatibleVersion}</span>`;
             // @TODO activate when language strings are correct
-            /*if (compatibilitytypes.querySelector('#updateorangewarning')) {
+            /* if (compatibilitytypes.querySelector('#updateorangewarning')) {
               compatibilitytypes.querySelector('#updateorangewarning').classList.remove('hidden');
-            }*/
+            } */
           } else {
             // eslint-disable-next-line max-len
             html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
@@ -296,9 +296,9 @@ Joomla = window.Joomla || {};
           // No compatible version found -> display error label
           html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
           // @TODO activate when language strings are correct
-          /*if (document.querySelector('#updateyellowwarning')) {
+          /* if (document.querySelector('#updateyellowwarning')) {
             document.querySelector('#updateyellowwarning').classList.remove('hidden');
-          }*/
+          } */
           break;
         case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
           // Could not check compatibility state -> display warning
@@ -370,7 +370,7 @@ Joomla = window.Joomla || {};
     // Have we finished?
     if (!document.querySelector('#compatibilityTable0 tbody td')) {
       document.getElementById('compatibilityTable0').classList.add('hidden');
-	  let status = 'success';
+      let status = 'success';
       PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin) => {
         let problemPluginRow = document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`);
         if (!problemPluginRow) {
@@ -402,15 +402,14 @@ Joomla = window.Joomla || {};
           status = 'danger';
         }
       });
-	  // Updates required
-	  if (document.querySelector('#compatibilityTable2 tbody td')) {
+      // Updates required
+      if (document.querySelector('#compatibilityTable2 tbody td')) {
         status = 'danger';
-      }
-	  else if (status != 'danger' && document.querySelector('#compatibilityTable1 tbody td')) {
+      } else if (status !== 'danger' && document.querySelector('#compatibilityTable1 tbody td')) {
         status = 'warning';
       }
 
-      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status == 'success') {
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
         document.getElementById('preupdatecheckbox').style.display = 'none';
         document.getElementById('noncoreplugins').checked = true;
 
