@@ -55,7 +55,7 @@ $compatibilityTypes = array(
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
 		'class' => 'warning',
-		'icon' => 'exclamation-triangle',
+		'icon'  => 'exclamation-triangle',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
 		'group' => 4,
 	),
