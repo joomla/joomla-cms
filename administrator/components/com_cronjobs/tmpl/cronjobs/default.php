@@ -5,6 +5,8 @@
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @codingStandardsIgnoreStart
  */
 
 defined('_JEXEC') or die;
@@ -22,8 +24,7 @@ HTMLHelper::_('behavior.multiselect');
 try
 {
 	$app = Factory::getApplication();
-}
-catch (Exception $e)
+} catch (Exception $e)
 {
 	die('Failed to get app');
 }
@@ -55,7 +56,7 @@ if ($saveOrder && !empty($this->items))
 
 		<!-- If no cronjobs -->
 		<?php if (empty($this->items))
-:
+			:
 			?>
 			<!-- No cronjobs -->
 			<div class="alert alert-info">
@@ -67,7 +68,7 @@ if ($saveOrder && !empty($this->items))
 
 		<!-- If there are cronjobs, we start with the table -->
 		<?php if (!empty($this->items))
-:
+			:
 			?>
 			<!-- Cronjobs table starts here -->
 			<table class="table" id="categoryList">
@@ -83,7 +84,8 @@ if ($saveOrder && !empty($this->items))
 				<tr>
 					<!-- Select all -->
 					<td class="w-1 text-center">
-						<?php echo HTMLHelper::_('grid.checkall'); // "Select all" checkbox ?>
+						<?php echo HTMLHelper::_('grid.checkall'); // "Select all" checkbox
+						?>
 					</td>
 					<!-- Ordering?-->
 					<th scope="col" class="w-1 d-none d-md-table-cell text-center">
@@ -115,13 +117,10 @@ if ($saveOrder && !empty($this->items))
 
 				<!-- Table body begins -->
 				<tbody <?php if ($saveOrder)
-	:
+					:
 					?>
-					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
-					   endif; ?>>
-				<?php
-				foreach ($this->items as $i => $item)
-	:
+					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php endif; ?>>
+				<?php foreach ($this->items as $i => $item):
 					// TODO : Check if $user->authorise() calls work as they should
 					$orderKey = $item->id;
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
@@ -134,77 +133,64 @@ if ($saveOrder && !empty($this->items))
 						data-draggable-group="<?php echo $item->id; ?>">
 						<!-- Item Checkbox -->
 						<td class="text-center">
-											<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+							<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 						</td>
 						<!-- Draggable handle -->
 						<td class="text-center d-none d-md-table-cell">
-											<?php
-											$iconClass = '';
+							<?php
+							$iconClass = '';
+							if (!$canChange)
+							{
+								$iconClass = ' inactive';
+							} elseif (!$saveOrder)
+							{
+								$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+							} ?>
 
-											if (!$canChange)
-		{
-												$iconClass = ' inactive';
-											}
-											elseif (!$saveOrder)
-		{
-															$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-											}
-											?>
-							<span class="sortable-handler<?php echo $iconClass ?>">
-									<span class="icon-ellipsis-v"></span>
-								</span>
-							<?php if ($canChange && $saveOrder)
-		:
-								?>
+							<span class="sortable-handler <?php echo $iconClass ?>">
+								<span class="icon-ellipsis-v"></span>
+							</span>
+
+							<?php if ($canChange && $saveOrder): ?>
 								<input type="text" class="hidden" name="order[]" size="5"
 									   value="<?php echo $orderKey + 1; ?>">
 							<?php endif; ?>
 						</td>
+
 						<!-- Enabled status -->
 						<td class="text-center">
 							<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'cronjobs.', $canChange); ?>
 						</td>
 						<!-- Item name, edit link, and note (TODO: should it be moved?) -->
 						<th scope="row">
-							<?php
-							if ($canEdit)
-		:
-								?>
-								<a href="<?php echo Route::_('index.php?option=com_cronjobs&task=cronjob.edit&id=' . $item->id); ?>"
-								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
-									<?php echo $this->escape($item->title); ?></a>
-							<?php else
 
-		:
-								?>
+							<?php if ($canEdit): ?>
+								<a href="<?php echo Route::_('index.php?option=com_cronjobs&task=cronjob.edit&id=' . $item->id); ?>"
+								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
+							<?php else: ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
-							<?php
-							if (empty($item->note))
-		:
-								?>
+							<?php if (empty($item->note)): ?>
 								<!-- TODO: Remove or modify 'note' section -->
 								<?php echo 'No note :)'; ?>
-							<?php else
-
-		:
-								?>
+							<?php else: ?>
 								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', 'Alias', $this->escape($item->note)); ?>
 							<?php endif; ?>
 						</th>
+
 						<!-- Item type -->
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->type); ?>
 						</td>
-						<!-- TODO: What should be done about Multilang? Is it needed here? -->
-						<?php if (Multilanguage::isEnabled())
-		:
-							?>
+
+						<!-- TODO: What should be done about Multi-lang? Is it needed here? -->
+						<?php if (Multilanguage::isEnabled()): ?>
 							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 						<?php endif; ?>
+
 						<!-- Cronjob access -->
 						<!-- TODO: Implement access in cronjobs and have a look here -->
 						<td class="small d-none d-md-table-cell text-center">
@@ -212,24 +198,27 @@ if ($saveOrder && !empty($this->items))
 								<?php echo 'Unknown'; ?>
 							</span>
 						</td>
+
 						<td class="d-none d-md-table-cell">
-							<?php echo (int) $item->id; ?>
+							<?php echo (int)$item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
 
-			<?php // Load the pagination. ?>
+			<?php // Load the pagination.
+			?>
 			<?php echo $this->pagination->getListFooter(); ?>
 
-			<?php // Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed
+			?>
+
 			<?php if ($user->authorise('core.create', 'com_cronjobs')
-			&& $user->authorise('core.edit', 'com_cronjobs')
-			&& $user->authorise('core.edit.state', 'com_cronjobs'))
-	:
-	?>
-				<?php echo HTMLHelper::_(
+				&& $user->authorise('core.edit', 'com_cronjobs')
+				&& $user->authorise('core.edit.state', 'com_cronjobs')): ?>
+
+			<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
@@ -237,8 +226,9 @@ if ($saveOrder && !empty($this->items))
 							'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
-				); ?>
-			<?php endif; ?>
+			); ?>
+
+		<?php endif; ?>
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
