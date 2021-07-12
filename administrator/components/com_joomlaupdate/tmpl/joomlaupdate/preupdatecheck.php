@@ -25,7 +25,7 @@ $wa->useScript('core')
 	->useScript('bootstrap.popover')
 	->useScript('bootstrap.tab');
 
-// JText::script doesn't have a sprintf equivalent so work around this
+// Text::script doesn't have a sprintf equivalent so work around this
 Factory::getDocument()->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right"></span>', true))
 	->addScriptOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up"></span>', true))
 	->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
