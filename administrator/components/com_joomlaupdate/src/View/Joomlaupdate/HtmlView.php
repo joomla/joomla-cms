@@ -80,24 +80,6 @@ class HtmlView extends BaseHtmlView
 	protected $selfUpdateAvailable = false;
 
 	/**
-	 * Flag if we're in the upload form
-	 *
-	 * @var boolean  True when upload form should be visible otherwise false
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $showUploadAndUpdate = false;
-
-	/**
-	 * Warnings for the upload update
-	 *
-	 * @var array  An array of warnings which could prevent the upload update
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $warnings = [];
-
-	/**
 	 * A special prefix used for the emptystate layout variable
 	 *
 	 * @var string  The prefix
@@ -118,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$this->updateInfo          = $this->get('UpdateInformation');
-		$this->selfUpdateAvailable = $this->checkForSelfUpdate();
+		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
 
 		// Get data from the model.
 
@@ -145,9 +127,6 @@ class HtmlView extends BaseHtmlView
 		$hasUpdate = !empty($this->updateInfo['hasUpdate']);
 		$hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
-		// Only Super Users have access to the Update & Install for obvious security reasons
-		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin') && $this->getLayout() === 'upload';
-
 		// Fresh update, show it
 		if ($this->getLayout() == 'complete')
 		{
@@ -157,11 +136,6 @@ class HtmlView extends BaseHtmlView
 		elseif ($this->selfUpdateAvailable)
 		{
 			$this->setLayout('selfupdate');
-		}
-		// User requests the manual update and is an admin
-		elseif ($this->showUploadAndUpdate)
-		{
-			$this->warnings = $this->get('Items', 'warnings');
 		}
 		elseif (!$hasDownload || !$hasUpdate)
 		{
@@ -253,7 +227,7 @@ class HtmlView extends BaseHtmlView
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
-		if ($this->showUploadAndUpdate || in_array($this->getLayout(), ['update', 'complete']))
+		if (in_array($this->getLayout(), ['update', 'complete']))
 		{
 			$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
@@ -274,73 +248,6 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
-	}
-
-	/**
-	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
-	 *
-	 * @return  boolean  True if there is an update else false
-	 *
-	 * @since   3.6.3
-	 */
-	private function checkForSelfUpdate()
-	{
-		$db = Factory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
-		$db->setQuery($query);
-
-		try
-		{
-			// Get the component extension ID
-			$joomlaUpdateComponentId = $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			// Something is wrong here!
-			$joomlaUpdateComponentId = 0;
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		// Try the update only if we have an extension id
-		if ($joomlaUpdateComponentId != 0)
-		{
-			// Always force to check for an update!
-			$cache_timeout = 0;
-
-			$updater = Updater::getInstance();
-			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
-
-			// Fetch the update information from the database.
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = :id')
-				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
-			$db->setQuery($query);
-
-			try
-			{
-				$joomlaUpdateComponentObject = $db->loadObject();
-			}
-			catch (\RuntimeException $e)
-			{
-				// Something is wrong here!
-				$joomlaUpdateComponentObject = null;
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-			}
-
-			if (is_null($joomlaUpdateComponentObject))
-			{
-				// No Update great!
-				return false;
-			}
-
-			return true;
-		}
 	}
 
 	/**

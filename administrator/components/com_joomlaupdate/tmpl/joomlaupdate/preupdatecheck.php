@@ -338,7 +338,7 @@ $updatePossible = true;
 
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
-		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&layout=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
+		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
 		</div>
 	<?php endif; ?>
 </div>

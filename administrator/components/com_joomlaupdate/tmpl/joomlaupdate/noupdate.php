@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
-$uploadLink = 'index.php?option=com_joomlaupdate&layout=upload';
+$uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
 $displayData = [
 	'textPrefix' => 'COM_JOOMLAUPDATE' . $this->messagePrefix,

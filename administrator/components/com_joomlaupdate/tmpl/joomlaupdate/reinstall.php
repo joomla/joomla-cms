@@ -23,7 +23,7 @@ $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
 	->useScript('bootstrap.popover');
 
-$uploadLink = 'index.php?option=com_joomlaupdate&layout=upload';
+$uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
 $displayData = [
 	'textPrefix' => 'COM_JOOMLAUPDATE_REINSTALL',
