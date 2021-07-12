@@ -92,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
 
-		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 		ToolbarHelper::link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
