@@ -80,5 +80,15 @@
 
   .j-main-container > & {
     box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
+
+    thead {
+      position: sticky;
+      top: calc(43px + 16px + .5rem); // min-height + padding + margin-bottom
+      box-shadow: 0 2px 10px -8px var(--atum-bg-dark-50);
+
+      @include media-breakpoint-down(sm) {
+        top: 0;
+      }
+    }
   }
 }
