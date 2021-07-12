@@ -101,7 +101,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -112,12 +112,12 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> p-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
+				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-hourglass fa-spin p-1 bg-white ms-2 text-info"></span>
+				<span class="fa fa-hourglass fa-spin fa-fw py-1 bg-white ms-2 text-info"></span>
 			</button>
 		</div>
 
