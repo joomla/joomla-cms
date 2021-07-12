@@ -43,7 +43,7 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
 		'class' => 'info',
-		'icon' => 'hourglass fa-spin',
+		'icon'  => 'hourglass fa-spin',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
 		'group' => 0,
 	),
