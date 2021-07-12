@@ -99,16 +99,15 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			<?php $base = Uri::getInstance(); ?>
 			<li class="lang-active">
 				<a aria-current="true" role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
-
-				<?php if ($params->get('image', 1)) : ?>
-					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+					<?php if ($params->get('image', 1)) : ?>
+						<?php if ($language->image) : ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+						<?php else : ?>
+							<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
+						<?php endif; ?>
 					<?php else : ?>
-						<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
+						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 					<?php endif; ?>
-				<?php else : ?>
-					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
-				<?php endif; ?>
 				</a>
 			</li>
 		<?php endif; ?>
