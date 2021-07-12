@@ -1,18 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<field
-			name="id"
-			type="text"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			default="0"
-			class="readonly"
-			readonly="true"
-	/>
-	<field
-			name="name"
-			type="text"
-			label="JGLOBAL_TITLE"
-			size=""
-	/>
 
+<!-- TODO : Replace all labels with translatable strings-->
+<form>
+	<fieldset name="basic">
+		<!-- Cronjob title -->
+		<field
+				name="title" type="text"
+				label="JGLOBAL_TITLE" size="30"
+		/>
+
+		<!-- Job type, Make custom field type for this? -->
+		<field name="type" type="list" validate="options"
+			   label="COM_CRONJOBS_SELECT_TYPE" required="true"
+		>
+			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
+			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
+		</field>
+
+		<!-- Job trigger, make custom fields? -->
+		<!-- TODO : Can use some JS on the frontend to only display fields relevant to Job type -->
+		<!-- Needs testing -->
+		<field name="trigger" type="list" validate="options"
+			   label="COM_CRONJOBS_SELECT_TRIGGER" required="true"
+		>
+			<option value="pseudo_cron">COM_CRONJOBS_TRIGGER_PSEUDOCRON</option>
+			<option value="cron">COM_CRONJOBS_TRIGGER_CRON</option>
+			<option value="visit_count">COM_CRONJOBS_TRIGGER_XVISITS</option>
+		</field>
+	</fieldset>
+
+	<!-- Options for time based triggers (cron, pseudocron)	-->
+	<fieldset name="cron-options" label="Execution Interval">
+		<!-- Execution interval-->
+		<!-- TODO : Needs some thought to how we're taking these in. -->
+		<field name="interval-hours" type="number"
+			   label="COM_CRONJOBS_LABEL_HOURS" min="0" step="1"
+		/>
+		<!-- TODO : JS and submission validation. Minutes >= 1 if Hours == 0 -->
+		<field name="interval-minutes" type="number"
+			   label="COM_CRONJOBS_LABEL_MINUTES" min="0" step="1"
+		/>
+	</fieldset>
+
+	<fieldset name="aside">
+	<!-- State field -->
+	<field name="state" type="list" label="JSTATUS"
+		   default="1" class="form-select-color-state"
+		   size="1" validate="options"
+	>
+		<option value="1">JENABLED</option>
+		<option value="0">JDISABLED</option>
+	</field>
+	<!-- Note -->
+	<field name="Note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
+		   maxlength="255"
+	/>
+	</fieldset>
+
+	<!-- Fieldset for execution history	-->
+	<fieldset name="exec_hist">
+		<!-- Last exit code -->
+		<field name="last_exit_code" type="number" label="COM_CRONJOBS_LABEL_EXIT_CODE"
+			   default="0" disabled="true" filter="unset"
+		/>
+
+		<!-- Last execution -->
+		<field name="last_execution" type="text"
+			   label="COM_CRONJOBS_LABEL_LAST_EXEC" disabled="true" filter="unset"
+		/>
+
+		<!-- Next execution -->
+		<field name="next_execution" type="text"
+			   label="COM_CRONJOBS_LABEL_NEXT_EXEC" disabled="true" filter="unset"
+		/>
+
+		<!-- Times executed -->
+		<field name="times_executed" type="number"
+			   label="COM_CRONJOBS_LABEL_TIMES_EXEC" disabled="true" filter="unset"
+		/>
+
+		<!-- Times failed -->
+		<field name="times_failed" type="number"
+			   label="COM_CRONJOBS_LABEL_TIMES_FAIL" disabled="true" filter="unset"
+		/>
+	</fieldset>
+
+	<!-- Fieldset for creation details -->
+	<fieldset name="details">
+		<!-- Cronjob ID -->
+		<field
+				name="id" type="text" label="JGLOBAL_FIELD_ID_LABEL"
+				default="0" class="readonly" readonly="true"
+		/>
+
+		<!-- Cronjob asset_id (used by Joomla for per-item access control) -->
+		<field name="asset_id" type="hidden"
+			   filter="unset"
+		/>
+
+		<!-- Creation date -->
+		<field
+				name="created" type="calendar"
+				label="COM_CRONJOBS_FIELD_CREATED_LABEL"
+				size="22" translateformat="true" showtime="true"
+				filter="user_utc"
+		/>
+
+		<!-- Created by -->
+		<field
+				name="created_by" type="user"
+				label="COM_CRONJOBS_FIELD_CREATED_BY_LABEL"
+				validate="UserId"
+		/>
+	</fieldset>
+
+	<field
+			name="rules" type="rules" label="JFIELD_RULES_LABEL"
+			translate_label="false" filter="rules" component="com_cronjobs"
+			section="cronjob" validate="rules"
+	/>
 </form>
