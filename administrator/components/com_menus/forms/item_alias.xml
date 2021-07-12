@@ -44,6 +44,14 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="menu_icon"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
