@@ -17,6 +17,7 @@ use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidRouteExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAcceptableExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAllowedExceptionHandler;
+use Joomla\CMS\Error\JsonApi\OfflineWebsiteExceptionHandler;
 use Joomla\CMS\Error\JsonApi\ResourceNotFoundExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SaveExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SendEmailExceptionHandler;
@@ -55,6 +56,7 @@ class JsonapiRenderer extends JsonRenderer
 		{
 			$errors = new ErrorHandler;
 
+			$errors->registerHandler(new OfflineWebsiteExceptionHandler);
 			$errors->registerHandler(new InvalidRouteExceptionHandler);
 			$errors->registerHandler(new AuthenticationFailedExceptionHandler);
 			$errors->registerHandler(new NotAcceptableExceptionHandler);
