@@ -250,8 +250,6 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * Returns true, if the pre update check should be displayed.
-	 * This logic is not hardcoded in tmpl files, because it is
-	 * used by the Hathor tmpl too.
 	 *
 	 * @return boolean
 	 *
