@@ -31,7 +31,8 @@
     color: var(--atum-bg-dark);
     background: var(--card-bg);
 
-    > [class^="icon-"] {
+    > [class^="icon-"],
+    > img {
       margin-inline-end: .5rem;
     }
   }
