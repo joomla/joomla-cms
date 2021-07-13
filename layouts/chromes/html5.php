@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
+$attribs = $displayData['attribs'];
 
 if ((string) $module->content === '')
 {
@@ -23,7 +24,8 @@ if ((string) $module->content === '')
 
 $moduleTag              = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
 $moduleAttribs          = [];
-$moduleAttribs['class'] = 'moduletable ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
+$moduleAttribs['class'] = trim("moduletable $module->position $attribs[class] "
+	. htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8'));
 $bootstrapSize          = (int) $params->get('bootstrap_size', 0);
 $moduleAttribs['class'] .= $bootstrapSize !== 0 ? ' col-md-' . $bootstrapSize : '';
 $headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
