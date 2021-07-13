@@ -939,7 +939,7 @@ class ImageTest extends UnitTestCase
 	{
 		$this->expectException(\LogicException::class);
 
-		$this->instance->deleteMultipleSizes();
+		$this->instance->deleteMultipleSizes(['400x200']);
 	}
 
 	/**
