@@ -17,6 +17,7 @@
     const modalBtnElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
     const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
     const removeModBtnElements = [].slice.call(document.getElementsByClassName('module-remove-link'));
+    const removePositionBtnElements = [].slice.call(document.getElementsByClassName('position-remove-link'));
 
     if (modalBtnElements.length) {
       modalBtnElements.forEach((linkElement) => {
@@ -57,6 +58,19 @@
           const moduleId = target.getAttribute('data-module-id');
           let editorText = Joomla.editors.instances.jform_articletext.getValue();
           editorText = editorText.replace(`{loadmoduleid ${moduleId}}`, '');
+          Joomla.editors.instances.jform_articletext.setValue(editorText);
+          document.querySelector('.button-apply.btn.btn-success').click();
+        });
+      });
+    }
+
+    if (removePositionBtnElements.length) {
+      removePositionBtnElements.forEach((linkElement) => {
+        linkElement.addEventListener('click', (_ref) => {
+          const { target } = _ref;
+          const positionText = target.getAttribute('data-position');
+          let editorText = Joomla.editors.instances.jform_articletext.getValue();
+          editorText = editorText.replace(positionText, '');
           Joomla.editors.instances.jform_articletext.setValue(editorText);
           document.querySelector('.button-apply.btn.btn-success').click();
         });
