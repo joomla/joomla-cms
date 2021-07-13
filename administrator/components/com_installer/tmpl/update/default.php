@@ -99,16 +99,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']); ?>
-										<span class="badge bg-danger">
-											<span class="hasPopover"
-												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
-											>
-												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
-												</span>
-										</span>
-										<?php endif; ?>
+											<?php $url = 'index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id; ?>
+											<a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo Route::_($url); ?>"><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
+											<?php endif; ?>
 									</th>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
