@@ -86,7 +86,7 @@ class Language extends Table
 		// Verify that the sef field is unique
 		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_SEF'));
 
 			return false;
 		}

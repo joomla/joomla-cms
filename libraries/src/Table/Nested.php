@@ -366,7 +366,7 @@ class Nested extends Table
 			->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
@@ -379,7 +379,7 @@ class Nested extends Table
 			->where('lft > ' . (int) $node->rgt);
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		// Compress the right values.
 		$query->clear()
@@ -388,7 +388,7 @@ class Nested extends Table
 			->where('rgt > ' . (int) $node->rgt);
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		// We are moving the tree relative to a reference node.
 		if ($referenceId)
@@ -451,7 +451,7 @@ class Nested extends Table
 			->where($repositionData->left_where);
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		// Shift right values.
 		$query->clear()
@@ -460,7 +460,7 @@ class Nested extends Table
 			->where($repositionData->right_where);
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		/*
 		 * Calculate the offset between where the node used to be in the tree and
@@ -478,7 +478,7 @@ class Nested extends Table
 			->where('lft < 0');
 		$this->_db->setQuery($query);
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+		$this->_runQuery($query);
 
 		// Set the correct parent id for the moved node if required.
 		if ($node->parent_id != $repositionData->new_parent_id)
@@ -503,7 +503,7 @@ class Nested extends Table
 				->where($this->_tbl_key . ' = ' . (int) $node->$k);
 			$this->_db->setQuery($query);
 
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+			$this->_runQuery($query);
 		}
 
 		// Unlock the table for writing.
@@ -611,21 +611,21 @@ class Nested extends Table
 			$query->clear()
 				->delete($this->_tbl)
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Compress the left values.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - ' . (int) $node->width)
 				->where('lft > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Compress the right values.
 			$query->clear()
 				->update($this->_tbl)
 				->set('rgt = rgt - ' . (int) $node->width)
 				->where('rgt > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 		}
 		// Leave the children and move them up a level.
 		else
@@ -634,7 +634,7 @@ class Nested extends Table
 			$query->clear()
 				->delete($this->_tbl)
 				->where('lft = ' . (int) $node->lft);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Shift all node's children up a level.
 			$query->clear()
@@ -643,28 +643,28 @@ class Nested extends Table
 				->set('rgt = rgt - 1')
 				->set('level = level - 1')
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Adjust all the parent values for direct children of the deleted node.
 			$query->clear()
 				->update($this->_tbl)
 				->set('parent_id = ' . (int) $node->parent_id)
 				->where('parent_id = ' . (int) $node->$k);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Shift all of the left values that are right of the node.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - 2')
 				->where('lft > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 
 			// Shift all of the right values that are right of the node.
 			$query->clear()
 				->update($this->_tbl)
 				->set('rgt = rgt - 2')
 				->where('rgt > ' . (int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query);
 		}
 
 		// Unlock the table for writing.
@@ -833,14 +833,14 @@ class Nested extends Table
 					->update($this->_tbl)
 					->set('lft = lft + 2')
 					->where($repositionData->left_where);
-				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+				$this->_runQuery($query);
 
 				// Create space in the tree at the new location for the new node in right ids.
 				$query->clear()
 					->update($this->_tbl)
 					->set('rgt = rgt + 2')
 					->where($repositionData->right_where);
-				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+				$this->_runQuery($query);
 
 				// Set the object values.
 				$this->parent_id = $repositionData->new_parent_id;
@@ -1597,7 +1597,7 @@ class Nested extends Table
 			->where("$key = c2.newId")
 			->where("$key IN (" . implode(',', $pks) . ")");
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+		$this->_runQuery($query);
 
 		return true;
 	}
@@ -1805,7 +1805,7 @@ class Nested extends Table
 	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
-	protected function _runQuery($query, $errorMessage)
+	protected function _runQuery($query, $errorMessage = '')
 	{
 		// Prepare to catch an exception.
 		try
