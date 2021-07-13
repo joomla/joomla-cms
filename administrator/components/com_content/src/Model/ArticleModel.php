@@ -469,8 +469,30 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		// Expression to search for (positions)
+		$regex = '/{loadposition\s(.*?)}/i';
+
 		// Expression to search for(id)
 		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
+
+		// Find all instances of plugin and put in $matches for loadposition
+		// $matches[0] is full pattern match, $matches[1] is the position
+		preg_match_all($regex, $item->articletext, $matches, PREG_SET_ORDER);
+		$item->importedPositions = [];
+
+		// No matches, skip this
+		if ($matches)
+		{
+			foreach ($matches as $match)
+			{
+				$matcheslist = explode(',', $match[1]);
+
+				$position = trim($matcheslist[0]);
+				$style    = array_key_exists(1, $matcheslist) ? trim($matcheslist[1]) : 'none';
+
+				$item->importedPositions[] = array('name' => $position, 'style' => $style, 'editorText' => $match[0]);
+			}
+		}
 
 		// Find all instances of loadmoduleid and store it in $matchesmodid
 		preg_match_all($regexmodid, $item->articletext, $matchesmodid, PREG_SET_ORDER);
