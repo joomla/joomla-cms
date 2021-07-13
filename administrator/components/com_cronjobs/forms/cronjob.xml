@@ -53,7 +53,7 @@
 			<option value="0">JDISABLED</option>
 		</field>
 		<!-- Note -->
-		<field name="Note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
+		<field name="note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
 			   maxlength="255"
 		/>
 	</fieldset>

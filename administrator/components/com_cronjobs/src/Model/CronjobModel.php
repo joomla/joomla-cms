@@ -190,8 +190,8 @@ class CronjobModel extends AdminModel
 
 			// TODO : Do we need any _priming_ on the $data here?
 			$time = explode(':', $data->get('execution_interval'));
-			$data->set('interval-hours', $time[0]);
-			$data->set('interval-minutes', $time[1]);
+			$data->set('interval-hours', $time[0] ?? 0);
+			$data->set('interval-minutes', $time[1] ?? 0);
 		}
 
 		// ? What would this do here? Is it needed or (just) good practice?
@@ -229,7 +229,7 @@ class CronjobModel extends AdminModel
 	public function save($data): bool
 	{
 		/**
-		 * @var   object  $field  Holds the record we're saving $data to
+		 * @var   object $field Holds the record we're saving $data to
 		 */
 		$field = null;
 
@@ -245,8 +245,8 @@ class CronjobModel extends AdminModel
 		 * TODO : Change execution interval in DB to TIME, change handling below
 		 * TODO : Custom fields and we might not need this ugly handling
 		 */
-		$intervalHours = str_pad($data['interval-hours'] ?? '0', 2);
-		$intervalMinutes = str_pad($data['interval-minutes'] ?? '0', 2);
+		$intervalHours = str_pad($data['interval-hours'] ?? '0', 2, '0', STR_PAD_LEFT);
+		$intervalMinutes = str_pad($data['interval-minutes'] ?? '0', 2, '0', STR_PAD_LEFT);
 		$data['execution_interval'] = "$intervalHours:$intervalMinutes:00";
 
 		// TODO : Unset fields based on type and trigger selected
@@ -255,7 +255,7 @@ class CronjobModel extends AdminModel
 		 * The parent save() takes care of saving to the main
 		 * `#__cronjobs` table
 		 */
-		if (! parent::save($data))
+		if (!parent::save($data))
 		{
 			return false;
 		}
