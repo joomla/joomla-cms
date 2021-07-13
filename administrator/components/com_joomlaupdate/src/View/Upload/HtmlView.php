@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $updateInfo = null;
 
@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var boolean  True when update is available otherwise false
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $selfUpdateAvailable = false;
 
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var array  An array of warnings which could prevent the upload update
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $warnings = [];
 
@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function addToolbar()
 	{

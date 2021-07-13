@@ -177,7 +177,7 @@ class UpdateModel extends BaseDatabaseModel
 	 *
 	 * @return  boolean  True if there is an update else false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCheckForSelfUpdate()
 	{

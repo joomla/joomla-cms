@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var boolean  True when update is available otherwise false
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $selfUpdateAvailable = false;
 
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var string  The prefix
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $messagePrefix = '';
 
@@ -218,7 +218,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function addToolbar()
 	{
