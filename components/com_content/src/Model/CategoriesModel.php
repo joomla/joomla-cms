@@ -39,7 +39,7 @@ class CategoriesModel extends ListModel
 	protected $_extension = 'com_content';
 
 	/**
-	 * Parent category of the current one
+	 * Parent category
 	 *
 	 * @var    CategoryNode|null
 	 */
@@ -100,7 +100,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @param   bool  $recursive  True if you want to return children recursively.
 	 *
-	 * @return  mixed  An array of data items on success, false on failure.
+	 * @return  CategoryNode[]|false  An array of data items on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -110,9 +110,7 @@ class CategoriesModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$app = Factory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
+			$active = Factory::getApplication()->getMenu()->getActive();
 
 			if ($active)
 			{
@@ -144,7 +142,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Get the parent.
 	 *
-	 * @return  object  An array of data items on success, false on failure.
+	 * @return  CategoryNode|null  Parent category on success, null on failure.
 	 *
 	 * @since   1.6
 	 */
