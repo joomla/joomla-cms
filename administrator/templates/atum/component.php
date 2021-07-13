@@ -24,11 +24,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
-		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
-		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
-		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
-		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '--template-bg-light') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '--template-text-dark') . ';
+		--template-text-light: ' . $this->params->get('text-light', '--template-text-light') . ';
+		--template-link-color: ' . $this->params->get('link-color', '--template-link-color') . ';
+		--template-special-color: ' . $this->params->get('special-color', '--template-special-color') . ';
 	}');
 
 // No template.js for modals

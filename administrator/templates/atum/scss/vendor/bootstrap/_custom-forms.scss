@@ -26,8 +26,8 @@
       background-color: var(--white-offset);
 
       &:checked {
-        color: var(--atum-text-light);
-        background-color: var(--atum-bg-dark) !important;
+        color: var(--template-text-light);
+        background-color: var(--template-bg-dark) !important;
       }
     }
   }
@@ -70,7 +70,7 @@
 
   optgroup,
   option {
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background-color: $white;
   }
 }

@@ -2,7 +2,7 @@
 .header {
   z-index: $zindex-header;
   color: $white;
-  background: var(--atum-bg-dark);
+  background: var(--template-bg-dark);
 
   &-inside {
     display: flex;
@@ -24,7 +24,7 @@
     width: $sidebar-width;
     height: 100%;
     padding: 12px 5px;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--template-bg-dark-70);
     transition: all .3s ease-in-out;
 
     &.small {
@@ -80,21 +80,21 @@
   .dropdown-item {
     padding: .82rem .75rem;
     color: $white;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--template-bg-dark-70);
 
     > span {
       margin-inline-end: .5rem;
     }
 
     &:hover {
-      background-color: var(--atum-bg-dark);
+      background-color: var(--template-bg-dark);
     }
   }
 
   .dropdown-header {
     padding: .75rem;
     font-size: inherit;
-    background-color: var(--atum-bg-dark);
+    background-color: var(--template-bg-dark);
   }
 }
 
@@ -125,7 +125,7 @@
   align-items: center;
   line-height: 1rem;
   color: $white;
-  background-color: var(--atum-bg-dark-60);
+  background-color: var(--template-bg-dark-60);
   border-radius: 22px;
   padding-inline-end: 4px;
 
@@ -140,7 +140,7 @@
   }
 
   &:not(.no-link):not(.joomlaversion):hover {
-    background-color: var(--atum-bg-dark-50);
+    background-color: var(--template-bg-dark-50);
   }
 
   &.joomlaversion {
@@ -163,7 +163,7 @@
     height: 28px;
     margin: 4px;
     color: $white;
-    background-color: var(--atum-bg-dark);
+    background-color: var(--template-bg-dark);
     border-radius: 16px;
   }
 
@@ -213,7 +213,7 @@
     width: 100%;
     padding: 10px 0;
     margin: 0;
-    background: var(--atum-bg-dark);
+    background: var(--template-bg-dark);
 
     .#{$jicon-css-prefix}-angle-down,
     .#{$fa-css-prefix}-angle-down {
