@@ -32,7 +32,7 @@ class MediaHelper
 	 * @var    array
 	 * @since  4.1.0
 	 */
-	static $responsiveSizes = array('800x600', '600x400', '400x200');
+	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
 
 	/**
 	 * Checks if the file is an image
