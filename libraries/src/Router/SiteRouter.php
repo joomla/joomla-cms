@@ -473,8 +473,8 @@ class SiteRouter extends Router
 
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$crouter   = $this->getComponentRouter($component);
-		$parts     = $crouter->build($query);
+		$cRouter   = $this->getComponentRouter($component);
+		$parts     = $cRouter->build($query);
 		$tmp       = trim(implode('/', $parts));
 
 		// Build the application route
@@ -536,7 +536,7 @@ class SiteRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function buildFormat(&$router, &$uri)
+	public function buildFormat(SiteRouter &$router, Uri &$uri) : void
 	{
 		$route = $uri->getPath();
 
@@ -559,7 +559,7 @@ class SiteRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function buildRewrite(&$router, &$uri)
+	public function buildRewrite(SiteRouter &$router, Uri &$uri) : void
 	{
 		// Get the path data
 		$route = $uri->getPath();
@@ -578,7 +578,7 @@ class SiteRouter extends Router
 	}
 
 	/**
-	 * Add the basepath to the URI
+	 * Add the base path to the URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
 	 * @param   Uri         &$uri     URI object to process
@@ -587,9 +587,9 @@ class SiteRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function buildBase(&$router, &$uri)
+	public function buildBase(SiteRouter &$router, Uri &$uri) : void
 	{
-		// Add frontend basepath to the uri
+		// Add frontend base path to the uri
 		$uri->setPath(Uri::root(true) . '/' . $uri->getPath());
 	}
 
@@ -602,7 +602,7 @@ class SiteRouter extends Router
 	 *
 	 * @since   3.3
 	 */
-	public function getComponentRouter($component)
+	public function getComponentRouter(string $component): RouterInterface
 	{
 		if (!isset($this->componentRouters[$component]))
 		{
@@ -632,7 +632,7 @@ class SiteRouter extends Router
 	 *
 	 * @since   3.3
 	 */
-	public function setComponentRouter($component, $router)
+	public function setComponentRouter(string $component, object $router) : bool
 	{
 		$reflection = new \ReflectionClass($router);
 

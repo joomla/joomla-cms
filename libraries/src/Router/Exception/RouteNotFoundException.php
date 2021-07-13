@@ -20,9 +20,9 @@ class RouteNotFoundException extends \InvalidArgumentException
 	/**
 	 * Constructor
 	 *
-	 * @param   string      $message   The Exception message to throw.
-	 * @param   integer     $code      The Exception code.
-	 * @param   \Exception  $previous  The previous exception used for the exception chaining.
+	 * @param   string           $message    The Exception message to throw.
+	 * @param   integer          $code       The Exception code.
+	 * @param   \Exception|null  $previous   The previous exception used for the exception chaining.
 	 *
 	 * @since   3.8.0
 	 */

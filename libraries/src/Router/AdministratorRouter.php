@@ -30,7 +30,7 @@ class AdministratorRouter extends Router
 	 *
 	 * @since   1.5
 	 */
-	public function parse(&$uri, $setVars = false)
+	public function parse(Uri &$uri, bool $setVars = false) : array
 	{
 		return array();
 	}
@@ -44,7 +44,7 @@ class AdministratorRouter extends Router
 	 *
 	 * @since   1.5
 	 */
-	public function build($url)
+	public function build(string $url) : Uri
 	{
 		// Create the URI object
 		$uri = parent::build($url);
@@ -52,7 +52,7 @@ class AdministratorRouter extends Router
 		// Get the path data
 		$route = $uri->getPath();
 
-		// Add basepath to the uri
+		// Add base path to the uri
 		$uri->setPath(Uri::root(true) . '/' . basename(JPATH_ADMINISTRATOR) . '/' . $route);
 
 		return $uri;

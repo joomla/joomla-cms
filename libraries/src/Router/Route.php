@@ -54,31 +54,27 @@ class Route
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
 	 *
-	 * @param   string   $url       Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml     Replace & by &amp; for XML compliance.
-	 * @param   integer  $tls       Secure state for the resolved URI. Use Route::TLS_* constants
-	 *                                0: (default) No change, use the protocol currently used in the request
-	 *                                1: Make URI secure using global secure site URI.
-	 *                                2: Make URI unsecure using the global unsecure site URI.
-	 * @param   boolean  $absolute  Return an absolute URL
+	 * @param   string        $url       Absolute or Relative URI to Joomla resource.
+	 * @param   boolean       $xhtml     Replace & by &amp; for XML compliance.
+	 * @param   integer|null  $tls       Secure state for the resolved URI. Use Route::TLS_* constants
+	 *                                      0: (default) No change, use the protocol currently used in the request
+	 *                                      1: Make URI secure using global secure site URI.
+	 *                                      2: Make URI unsecure using the global unsecure site URI.
+	 * @param   boolean       $absolute  Return an absolute URL
 	 *
 	 * @return  string  The translated humanly readable URL.
 	 *
+	 * @throws \Exception
 	 * @since   1.7.0
 	 */
-	public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
+	public static function _(string $url, bool $xhtml = true, ?int $tls = self::TLS_IGNORE, bool $absolute = false) : ?string
 	{
 		try
 		{
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
-				Log::add(
-					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
-					Log::WARNING,
-					'deprecated'
-				);
-
+				Log::add(__METHOD__ . '() called with incompatible variable type on parameter $tls.', Log::WARNING, 'deprecated');
 				$tls = (int) $tls;
 			}
 
@@ -115,13 +111,13 @@ class Route
 	 *
 	 * @return  string  The translated humanly readable URL.
 	 *
-	 * @throws  \RuntimeException
+	 * @throws  \RuntimeException|\Exception
 	 *
 	 * @since   3.9.0
 	 */
-	public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
+	public static function link(string $client, string $url, bool $xhtml = true, int $tls = self::TLS_IGNORE, bool $absolute = false) : string
 	{
-		// If we cannot process this $url exit early.
+		// Exit early if we cannot process this $url.
 		if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
