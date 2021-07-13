@@ -285,15 +285,13 @@ function extractionMethodHandler(target, prefix)
 		// Process the nonCoreCriticalPlugin list
 		if (extensionData.compatibilityData.resultGroup === 3)
 		{
-			// We modify the array so we have to keep the original length here.
-			var nonCoreCriticalPluginsFullLength = PreUpdateChecker.nonCoreCriticalPlugins.length;
-
-			for (var i = 0; i < nonCoreCriticalPluginsFullLength; i++)
+			for (var i = 0; i < PreUpdateChecker.nonCoreCriticalPlugins.length; i++)
 			{
-				if (PreUpdateChecker.nonCoreCriticalPlugins[0].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[0].extension_id == extensionId)
+				if (PreUpdateChecker.nonCoreCriticalPlugins[i].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id == extensionId)
 				{
-					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[0].extension_id).remove();
-					PreUpdateChecker.nonCoreCriticalPlugins.splice(0,1);
+					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id).remove();
+					PreUpdateChecker.nonCoreCriticalPlugins.splice(i,1);
+					i = -1;
 				}
 			}
 		}
