@@ -128,74 +128,123 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php endif; ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_imported_modules', 1) == 1 && !empty($this->item->importedModules)): ?>
+		<?php if ($params->get('show_imported_modules', 1) == 1 && (!empty($this->item->importedModules) || !empty($this->item->importedPositions))): ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_CONTENT_FIELDSET_MODULES')); ?>
 			<fieldset id="fieldset-modules" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_MODULES'); ?></legend>
-				<table class="table" id="modules_assigned">
-					<caption class="visually-hidden">
-						<?php echo Text::_('COM_CONTENT_IMPORTED_MODULES_TABLE_CAPTION'); ?>
-					</caption>
-					<thead>
-						<tr>
-							<th scope="col" class="w-10">
-								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_ID'); ?>
-							</th>
-							<th scope="col">
-								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TITLE'); ?>
-							</th>
-							<th scope="col" class="w-10">
-								<?php echo Text::_('JPUBLISHED'); ?>
-							</th>
-							<th scope="col" class="w-15">
-								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_EDIT'); ?>
-							</th>
-							<th scope="col" class="w-15">
-								<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_REMOVE'); ?>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-					<?php foreach ($this->item->importedModules as $module) : ?>
-						<tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $module->id % 2; ?>">
-							<td id="mod-<?php echo $module->id; ?>">
-								<?php echo $this->escape($module->id); ?>
-							</td>
-							<td id="mod-<?php echo $module->title; ?>">
-								<?php echo $this->escape($module->title); ?>
-							</td>
-							<td id="mod-<?php echo $module->published; ?>">
-								<?php if ($module->published) : ?>
-									<span class="badge bg-success">
-										<?php echo Text::_('JYES'); ?>
-									</span>
-								<?php else : ?>
-									<span class="badge bg-danger">
-										<?php echo Text::_('JNO'); ?>
-									</span>
-								<?php endif; ?>
-							</td>
-							<td id="status-<?php echo $module->id; ?>">
-								<button type="button"
-									data-bs-target="#moduleEditModal"
-									class="btn btn-link module-edit-link"
-									title="<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>"
-									id="title-<?php echo $module->id; ?>"
-									data-module-id="<?php echo $module->id; ?>">
-									<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>
-								</button>
-							</td>
-							<td id="status-<?php echo $module->id; ?>">
-								<button type="button"
-									class="btn btn-link module-remove-link"
-									data-module-id="<?php echo $module->id; ?>">
-									<?php echo Text::_('COM_CONTENT_REMOVE_MODULE'); ?>
-								</button>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
+
+				<?php if (!empty($this->item->importedModules)) : ?>
+					<h3> <?php echo Text::_('COM_CONTENT_FIELDSET_MODULES'); ?> </h3>
+					<table class="table" id="modules_assigned">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_CONTENT_IMPORTED_MODULES_TABLE_CAPTION'); ?>
+						</caption>
+						<thead>
+							<tr>
+								<th scope="col" class="w-10">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_ID'); ?>
+								</th>
+								<th scope="col">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TITLE'); ?>
+								</th>
+								<th scope="col" class="w-10">
+									<?php echo Text::_('JPUBLISHED'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_EDIT'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_REMOVE'); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($this->item->importedModules as $module) : ?>
+							<tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $module->id % 2; ?>">
+								<td id="mod-<?php echo $module->id; ?>">
+									<?php echo $this->escape($module->id); ?>
+								</td>
+								<td id="mod-<?php echo $module->title; ?>">
+									<?php echo $this->escape($module->title); ?>
+								</td>
+								<td id="mod-<?php echo $module->published; ?>">
+									<?php if ($module->published) : ?>
+										<span class="badge bg-success">
+											<?php echo Text::_('JYES'); ?>
+										</span>
+									<?php else : ?>
+										<span class="badge bg-danger">
+											<?php echo Text::_('JNO'); ?>
+										</span>
+									<?php endif; ?>
+								</td>
+								<td id="status-<?php echo $module->id; ?>">
+									<button type="button"
+										data-bs-target="#moduleEditModal"
+										class="btn btn-link module-edit-link"
+										title="<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>"
+										id="title-<?php echo $module->id; ?>"
+										data-module-id="<?php echo $module->id; ?>">
+										<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>
+									</button>
+								</td>
+								<td id="status-<?php echo $module->id; ?>">
+									<button type="button"
+										class="btn btn-link module-remove-link"
+										data-module-id="<?php echo $module->id; ?>">
+										<?php echo Text::_('COM_CONTENT_REMOVE_FROM_ARTICLE'); ?>
+									</button>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+
+					<?php if (!empty($this->item->importedPositions)) : ?>
+						<hr>
+					<?php endif; ?>
+				<?php endif; ?>
+
+				<?php if (!empty($this->item->importedPositions)) : ?>
+					<h3> <?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_POSITION'); ?> </h3>
+					<table class="table" id="positions_assigned">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_CONTENT_IMPORTED_POSITIONS_TABLE_CAPTION'); ?>
+						</caption>
+						<thead>
+							<tr>
+								<th scope="col">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_POSITION_NAME'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_POSITION_STYLE'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_REMOVE'); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($this->item->importedPositions as $position) : ?>
+							<tr>
+								<td>
+									<?php echo $this->escape($position["name"]); ?>
+								</td>
+								<td>
+									<?php echo $this->escape($position["style"]); ?>
+								</td>
+								<td>
+									<button type="button"
+										class="btn btn-link position-remove-link"
+										data-position="<?php echo $position["editorText"]; ?>">
+										<?php echo Text::_('COM_CONTENT_REMOVE_FROM_ARTICLE'); ?>
+									</button>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
