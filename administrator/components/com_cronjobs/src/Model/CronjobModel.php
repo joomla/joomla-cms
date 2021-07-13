@@ -67,6 +67,8 @@ class CronjobModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$input = Factory::getApplication()->getInput();
+
 		// TODO :  Can we need any custom fields [?]
 		Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_cronjobs/src/Field');
 
@@ -87,9 +89,9 @@ class CronjobModel extends AdminModel
 		/*
 		 * TODO : Check if this works as expected
 		 * ? : Is this the right way to check permissions? (In particular, the assetName)
-		 * ? : Are we guaranteed a $data['id'], does this work OK if it's null?
+		 * ? : Are we guaranteed a $data['id'], does this work OK if it's null? A : [NO, IT IS NOT GUARANTEED]
 		 */
-		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $data['id']))
+		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $input->get('id')))
 		{
 			// Disable fields
 			$form->setFieldAttribute('state', 'disabled', 'true');
@@ -167,7 +169,7 @@ class CronjobModel extends AdminModel
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function loadFormData(): object
+	protected function loadFormData()
 	{
 		/*
 		 * Check session for previously entered form data
@@ -187,6 +189,9 @@ class CronjobModel extends AdminModel
 			$data = $this->getItem();
 
 			// TODO : Do we need any _priming_ on the $data here?
+			$time = explode(':', $data->get('execution_interval'));
+			$data->set('interval-hours', $time[0]);
+			$data->set('interval-minutes', $time[1]);
 		}
 
 		// ? What would this do here? Is it needed or (just) good practice?
@@ -228,12 +233,23 @@ class CronjobModel extends AdminModel
 		 */
 		$field = null;
 
+		// ? : Is this the right way? 'id' == 0 with $data for a New item so this wouldn't work.
 		if (isset($data['id']))
 		{
+			// ? : Why aren't we doing anything with the field?
 			$field = $this->getItem($data['id']);
 		}
 
-		// TODO : Unset fields based on type an trigger selected
+		/*
+		 * ! : Due change
+		 * TODO : Change execution interval in DB to TIME, change handling below
+		 * TODO : Custom fields and we might not need this ugly handling
+		 */
+		$intervalHours = str_pad($data['interval-hours'] ?? '0', 2);
+		$intervalMinutes = str_pad($data['interval-minutes'] ?? '0', 2);
+		$data['execution_interval'] = "$intervalHours:$intervalMinutes:00";
+
+		// TODO : Unset fields based on type and trigger selected
 
 		/*
 		 * The parent save() takes care of saving to the main
