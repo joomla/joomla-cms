@@ -1823,7 +1823,7 @@ class PHPMailer
                     //$PHPMAILER_LANG['authenticate'] = 'SMTP-Fehler: Authentifizierung fehlgeschlagen.';
                     //These files are parsed as text and not PHP so as to avoid the possibility of code injection
                     //See https://blog.stevenlevithan.com/archives/match-quoted-string
-                    $matches = [];
+                    $matches = array();
                     if (
                         preg_match(
                             '/^\$PHPMAILER_LANG\[\'([a-z\d_]+)\'\]\s*=\s*(["\'])(.+)*?\2;/',
