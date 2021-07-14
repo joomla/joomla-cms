@@ -160,7 +160,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</thead>
 						<tbody>
 						<?php foreach ($this->item->importedModules as $module) : ?>
-							<tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $module->id % 2; ?>">
+							<tr id="tr-<?php echo $module->id; ?>" class="row<?php echo $module->id % 2; ?>">
 								<td id="mod-<?php echo $module->id; ?>">
 									<?php echo $this->escape($module->id); ?>
 								</td>
