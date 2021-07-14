@@ -285,7 +285,7 @@ function extractionMethodHandler(target, prefix)
 		// Process the nonCoreCriticalPlugin list
 		if (extensionData.compatibilityData.resultGroup === 3)
 		{
-			for (var i = 0; i < PreUpdateChecker.nonCoreCriticalPlugins.length; i++)
+			for (var i = PreUpdateChecker.nonCoreCriticalPlugins.length -1; i >= 0; i--)
 			{
 				if (PreUpdateChecker.nonCoreCriticalPlugins[i].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id == extensionId)
 				{
