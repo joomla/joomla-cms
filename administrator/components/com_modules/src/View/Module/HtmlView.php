@@ -101,13 +101,17 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::apply('module.apply');
 
-			ToolbarHelper::saveGroup(
-				[
-					['save', 'module.save'],
-					['save2new', 'module.save2new']
-				],
-				'btn-success'
-			);
+			// Hide the Save and Close button for com_content Import Module Modal flow.
+			if (!Factory::getApplication()->input->cookie->get('com_modules_importOnSave'))
+			{
+				ToolbarHelper::saveGroup(
+					[
+						['save', 'module.save'],
+						['save2new', 'module.save2new']
+					],
+					'btn-success'
+				);
+			}
 
 			ToolbarHelper::cancel('module.cancel');
 		}
