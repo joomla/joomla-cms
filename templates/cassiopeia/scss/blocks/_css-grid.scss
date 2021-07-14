@@ -21,6 +21,7 @@
     > [class*=" container-"] {
       width: 100%;
       max-width: none;
+      column-gap: $cassiopeia-grid-gutter;
     }
 
     &:not(.has-sidebar-left) .container-component {
