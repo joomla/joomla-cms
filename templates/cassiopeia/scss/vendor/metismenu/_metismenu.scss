@@ -63,20 +63,6 @@
           outline-offset: 2px;
         }
 
-        > .mm-toggler-component__wrapper,
-        > .mm-toggler-url__wrapper {
-          display: flex;
-          align-items: center;
-          height: 100%;
-          overflow: visible;
-
-          > a:focus,
-          > button:focus {
-            outline: 1px dotted $gray-400;
-            outline-offset: 2px;
-          }
-        }
-
         &.active > a,
         &.active > button,
         > a:hover,
@@ -202,16 +188,6 @@
         }
       }
     }
-
-    @include media-breakpoint-down(md) {
-
-      &.mod-menu .metismenu-item>span,
-      &.mod-menu .metismenu-item>a,
-      &.mod-menu .metismenu-item>button {
-        text-align: left;
-        white-space: break-spaces;
-      }
-    }
   }
 
   .sidebar-right,
@@ -220,13 +196,6 @@
       .mm-collapse {
         position: relative;
         background-color: hsla(0, 0%, 0%, .03);
-      }
-
-      .metismenu-item>span,
-      .metismenu-item>a,
-      .metismenu-item>button {
-        text-align: left;
-        white-space: break-spaces;
       }
 
       li.parent {
@@ -251,17 +220,6 @@
           width: auto;
           height: 1px;
           border-bottom: 1px solid $gray-400;
-        }
-      }
-    }
-  }
-
-  .metismenu .metismenu-item {
-    .mm-toggler-component__wrapper,
-    .mm-toggler-url__wrapper {
-      a {
-        &:hover {
-          text-decoration: underline;
         }
       }
     }

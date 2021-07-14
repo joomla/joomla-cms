@@ -1,22 +1,23 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_installer
+ * @subpackage  com_joomlaupdate
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Information:_Warnings',
-	'icon'       => 'icon-puzzle-piece install',
-	'title'      => Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'),
-	'content'    => '',
+	'textPrefix' => 'COM_JOOMLAUPDATE_SELF',
+	'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
+	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
+	'icon'       => 'icon-loop joomlaupdate',
+	'createURL'  => 'index.php?option=com_installer&view=update'
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
