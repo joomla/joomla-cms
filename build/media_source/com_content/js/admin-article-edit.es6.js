@@ -85,10 +85,10 @@
       const currentTime = new Date();
       currentTime.setTime(currentTime.getTime());
       document.cookie = `com_modules_importOnSave=0;expires=${currentTime.toUTCString()}`;
-      const elModuleIframe = document.querySelector('iframe[name="Module"]');
-      const indexOfId = elModuleIframe.src.indexOf('&id=');
+      const iframeURL = document.querySelector('iframe[name="Module"]').contentWindow.location.href;
+      const indexOfId = iframeURL.indexOf('&id=');
       if (indexOfId !== -1) {
-        const modid = elModuleIframe.src.slice(indexOfId + 4, elModuleIframe.src.indexOf('&', indexOfId + 4));
+        const modid = iframeURL.slice(indexOfId + 4, iframeURL.indexOf('&', indexOfId + 4));
         Joomla.editors.instances.jform_articletext.replaceSelection(`{loadmoduleid ${modid}}`);
       }
     });
