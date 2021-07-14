@@ -9,7 +9,7 @@
  * @license   GPL v3
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\View\SelectPlugin;
+namespace Joomla\Component\Cronjobs\Administrator\View\Select;
 
 // Restrict direct access
 \defined('_JEXEC') or die;
@@ -17,8 +17,8 @@ namespace Joomla\Component\Cronjobs\Administrator\View\SelectPlugin;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
- * The MVC View SelectPlugin
- * Should let the user choose a plugin from installed Cronjob supporting ones
+ * The MVC View Select
+ * Should let the user choose from a list of plugin defined Jobs or a CLI job.
  *
  * @package    Joomla.Administrator
  * @subpackage com_cronjobs
