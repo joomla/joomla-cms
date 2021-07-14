@@ -205,7 +205,7 @@
   padding: 3px 6px;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .header-items {
     position: fixed;
     bottom: 0;

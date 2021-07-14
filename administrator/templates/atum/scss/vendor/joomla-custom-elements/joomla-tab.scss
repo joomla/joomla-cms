@@ -111,7 +111,7 @@ joomla-tab {
       border-radius: 0;
       box-shadow: none;
 
-      @include media-breakpoint-down(lg) {
+      @include media-breakpoint-down(xl) {
         flex: 0 0 100%;
         max-width: 100%;
       }
@@ -248,7 +248,7 @@ joomla-tab {
     #permissions-sliders section[active] {
       padding: 0 !important;
 
-      @include media-breakpoint-down(lg) {
+      @include media-breakpoint-down(xl) {
         [dir=ltr] & .respTable {
           text-align: right;
         }
