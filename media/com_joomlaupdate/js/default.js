@@ -285,13 +285,17 @@ function extractionMethodHandler(target, prefix)
 		// Process the nonCoreCriticalPlugin list
 		if (extensionData.compatibilityData.resultGroup === 3)
 		{
-			for (var i = PreUpdateChecker.nonCoreCriticalPlugins.length -1; i >= 0; i--)
+			var pluginInfo;
+
+			for (var i = PreUpdateChecker.nonCoreCriticalPlugins.length - 1; i >= 0; i--)
 			{
-				if (PreUpdateChecker.nonCoreCriticalPlugins[i].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id == extensionId)
-				{
-					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id).remove();
-					PreUpdateChecker.nonCoreCriticalPlugins.splice(i,1);
-				}
+			  pluginInfo = PreUpdateChecker.nonCoreCriticalPlugins[i];
+
+			  if (pluginInfo.package_id == extensionId || pluginInfo.extension_id == extensionId)
+			  {
+				$('#plg_' + pluginInfo.extension_id).remove();
+				PreUpdateChecker.nonCoreCriticalPlugins.splice(i, 1);
+			  }
 			}
 		}
 
