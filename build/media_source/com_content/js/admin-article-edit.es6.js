@@ -6,10 +6,12 @@
   'use strict';
 
   /**
-    * Javascript to display the modal when user clicks on the
+    * Javascript to (1) Display the modal when user clicks on the
     * module edit button. The modal is initialized by the id
     * of the module found using data-module-id attribute of
-    * the button.
+    * the button. (2) Remove imported modules by id or by
+    * position and (3) To delete the importOnSave cookie when
+    * the module modal is clsoed.
     * */
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +20,7 @@
     const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
     const removeModBtnElements = [].slice.call(document.getElementsByClassName('module-remove-link'));
     const removePositionBtnElements = [].slice.call(document.getElementsByClassName('position-remove-link'));
+    const elModuleModal = document.getElementById('jform_articletext_editors-xtd_module_modal');
 
     if (modalBtnElements.length) {
       modalBtnElements.forEach((linkElement) => {
@@ -76,5 +79,18 @@
         });
       });
     }
+
+    // Clears the importOnSave cookie on closing the modal.
+    elModuleModal.addEventListener('hidden.bs.modal', () => {
+      const currentTime = new Date();
+      currentTime.setTime(currentTime.getTime());
+      document.cookie = `com_modules_importOnSave=0;expires=${currentTime.toUTCString()}`;
+      const elModuleIframe = document.querySelector('iframe[name="Module"]');
+      const indexOfId = elModuleIframe.src.indexOf('&id=');
+      if (indexOfId !== -1) {
+        const modid = elModuleIframe.src.slice(indexOfId + 4, elModuleIframe.src.indexOf('&', indexOfId + 4));
+        Joomla.editors.instances.jform_articletext.replaceSelection(`{loadmoduleid ${modid}}`);
+      }
+    });
   });
 })();
