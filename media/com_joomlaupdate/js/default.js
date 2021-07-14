@@ -291,7 +291,6 @@ function extractionMethodHandler(target, prefix)
 				{
 					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[i].extension_id).remove();
 					PreUpdateChecker.nonCoreCriticalPlugins.splice(i,1);
-					i = -1;
 				}
 			}
 		}
