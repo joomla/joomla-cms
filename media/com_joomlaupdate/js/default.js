@@ -325,7 +325,7 @@ function extractionMethodHandler(target, prefix)
 						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
 						+ '</span>'
 
-						+ '<span class="label label-important hasPopover" '
+						+ '<span class="label label-info hasPopover" '
 						+ ' title="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') +'"'
 						+ ' data-content="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')  +'"'
 						+ '>'
