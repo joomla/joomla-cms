@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Get the elements
   const modulesLinks = [].slice.call(document.querySelectorAll('.js-module-insert'));
   const positionsLinks = [].slice.call(document.querySelectorAll('.js-position-insert'));
+  const elNewModule = document.getElementById('importnewmodule');
 
   // Assign listener for click event (for single module id insertion)
   modulesLinks.forEach((element) => {
@@ -47,5 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });
+  });
+
+  // Save a cookie that expires in one hour to notify that the module has to be imported if saved.
+  elNewModule.addEventListener('click', () => {
+    const expirationTime = new Date();
+    expirationTime.setTime(expirationTime.getTime() + (60 * 60 * 1000));
+    document.cookie = `com_modules_importOnSave=1;expires=${expirationTime.toUTCString()}`;
   });
 });
