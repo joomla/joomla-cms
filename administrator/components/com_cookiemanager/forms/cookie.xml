@@ -96,10 +96,10 @@
 			label="COM_COOKIEMANAGER_COOKIE_EXP_VALUE_LABEL"
 			required="true"
 			filter="integer"
-			showon="exp_period:seconds,minutes,hours,days,weeks,months,years"
+			showon="exp_period!:-1,0"
 			default="0"
 		/>
-
+		
 		<field
 			name="created_by"
 			type="user"
