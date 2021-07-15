@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIES_NEW') : Text::_('COM_COOKIEMANAGER_COOKIES_EDIT'), 'pencil-alt');
+		ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIE_NEW') : Text::_('COM_COOKIEMANAGER_COOKIE_EDIT'), 'pencil-alt');
 
 		if ($canDo->get('core.create'))
 		{
