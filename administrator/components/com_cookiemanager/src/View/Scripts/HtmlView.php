@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View class for a list of cookiemanager group.
+ * View class for a list of scripts.
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -79,9 +79,15 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

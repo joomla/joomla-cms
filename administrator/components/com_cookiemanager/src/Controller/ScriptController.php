@@ -8,3 +8,16 @@
  */
 
 namespace Joomla\Component\Cookiemanager\Administrator\Controller;
+
+\defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Controller\FormController;
+
+/**
+ * Controller for a single group to edit
+ *
+ * @since   __DEPLOY_VERSION__
+ */
+class ScriptController extends FormController
+{
+}
