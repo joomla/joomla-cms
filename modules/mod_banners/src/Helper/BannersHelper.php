@@ -14,6 +14,7 @@ namespace Joomla\Module\Banners\Site\Helper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Environment\Browser;
+use Joomla\CMS\Factory;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 use Joomla\Registry\Registry;
 
@@ -35,7 +36,7 @@ class BannersHelper
 	 */
 	public static function getList(Registry $params, BannersModel $model, CMSApplication $app)
 	{
-		$keywords = explode(',', $app->getDocument()->getMetaData('keywords'));
+		$keywords = explode(',', Factory::getDocument()->getMetaData('keywords'));
 		$config   = ComponentHelper::getParams('com_banners');
 
 		$model->setState('filter.client_id', (int) $params->get('cid'));
