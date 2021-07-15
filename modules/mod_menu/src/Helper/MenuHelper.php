@@ -170,7 +170,7 @@ class MenuHelper
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
 					// when the cause of that is found the argument should be removed
 					$item->title          = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
-					$item->menu_icon      = htmlspecialchars($itemParams->get('menu-icon', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->menu_icon      = htmlspecialchars($itemParams->get('menu_icon', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css     = htmlspecialchars($itemParams->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title   = htmlspecialchars($itemParams->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_rel     = htmlspecialchars($itemParams->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
