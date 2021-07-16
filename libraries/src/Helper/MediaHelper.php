@@ -637,9 +637,9 @@ class MediaHelper
 	 *
 	 * @since   4.1.0
 	 */
-	public static function getSizes($isCustom, $sizeOptions = null)
+	public static function getSizes($isCustom, $sizeOptions)
 	{
-		if (!$isCustom)
+		if (!$isCustom || empty($sizeOptions))
 		{
 			return static::$responsiveSizes;
 		}
