@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="4.1" type="plugin" group="system" method="upgrade">
+	<name>Test Job!</name>
+	<author>Joomla! Projects</author>
+	<creationDate>July 2021</creationDate>
+	<license>GPL v3</license>
+	<version>4.1</version>
+	<description>Test jobs for com_cronjobs</description>
+	<files>
+		<filename plugin="testjob">testjob.php</filename>
+	</files>
+</extension>
