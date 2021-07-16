@@ -57,7 +57,7 @@ if ($item->menu_icon)
 }
 elseif ($item->menu_image)
 {
-	// The link is an image, maybe with an own class
+	// The link is an image, maybe with its own class
 	$image_attributes = [];
 
 	if ($item->menu_image_css)
