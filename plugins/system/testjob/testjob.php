@@ -21,6 +21,13 @@ use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
  */
 class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
 {
+	/**
+	 * Autoload the language file
+	 *
+	 * @var boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Returns event subscriptions

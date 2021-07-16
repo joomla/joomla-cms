@@ -9,4 +9,8 @@
 	<files>
 		<filename plugin="testjob">testjob.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_testjob.ini</language>
+		<language tag="en-GB">en-GB.plg_system_testjob.sys.ini</language>
+	</languages>
 </extension>
