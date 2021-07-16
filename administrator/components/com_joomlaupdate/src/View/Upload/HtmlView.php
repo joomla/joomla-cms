@@ -61,6 +61,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Load com_installer's language
+		$language = Factory::getLanguage();
+		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
 		$this->updateInfo = $this->get('UpdateInformation');
 		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
 
@@ -68,11 +73,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->warnings = $this->get('Items', 'warnings');
 		}
-
-		// Load com_installer's language
-		$language = Factory::getLanguage();
-		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
 		$this->addToolbar();
 
