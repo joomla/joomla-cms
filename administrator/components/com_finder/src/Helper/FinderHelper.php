@@ -11,7 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Extension\ExtensionHelper;
 
 /**
  * Helper class for Finder.
@@ -37,23 +37,8 @@ class FinderHelper
 	 */
 	public static function getFinderPluginId()
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
-		$db->setQuery($query);
+		$pluginRecord = ExtensionHelper::getExtensionRecord('finder', 'plugin', null, 'content');
 
-		try
-		{
-			$result = (int) $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		return $result;
+		return $pluginRecord !== null ? $pluginRecord->extension_id : 0;
 	}
 }

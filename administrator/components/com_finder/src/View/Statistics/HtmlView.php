@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -50,6 +50,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 }
