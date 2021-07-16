@@ -7,7 +7,7 @@
    */
 
   /**
-   * Add a keyboard event listener to the Select a Module Type search element.
+   * Add a keyboard event listener to the Select a Job Type search element.
    *
    * IMPORTANT! This script is meant to be loaded deferred. This means that a. it's non-blocking
    * (the browser can load it whenever) and b. it doesn't need an on DOMContentLoaded event handler
@@ -15,12 +15,12 @@
    * whole point of it being deferred.
    *
    * The search box has a keyboard handler that fires every time you press a keyboard button or send
-   * a keypress with a touch / virtual keyboard. We then iterate all module type cards and check if
-   * the plain text (HTML stripped out) representation of the module title or description partially
+   * a keypress with a touch / virtual keyboard. We then iterate all job type cards and check if
+   * the plain text (HTML stripped out) representation of the job title or description partially
    * matches the text you entered in the search box. If it doesn't we add a Bootstrap class to hide
-   * the module.
+   * the job.
    *
-   * This way we limit the displayed modules only to those searched.
+   * This way we limit the displayed jobs only to those searched.
    *
    * This feature follows progressive enhancement. The search box is hidden by default and only
    * displayed when this JavaScript here executes. Furthermore, session storage is only used if it
@@ -32,7 +32,7 @@
    * and accessibility.
    *
    * Finally, the search string is saved into session storage on the assumption that the user is
-   * probably going to be creating multiple instances of the same module, one after another, as is
+   * probably going to be creating multiple instances of the same job, one after another, as is
    * typical when building a new Joomla! site.
    * @codingStandardsIgnoreStart
    */
@@ -53,7 +53,7 @@
 
       if (typeof sessionStorage !== 'undefined') {
         sessionStorage.setItem('Joomla.com_cronjobs.new.search', partialSearch);
-      } // Iterate all the module cards
+      } // Iterate all the job cards
 
 
       elCards.forEach(function (card) {

@@ -27,6 +27,11 @@
       "attributes": {
         "type" : "module"
       }
+    },
+    {
+      "name": "com_cronjobs.admin-plg-job-css",
+      "type": "style",
+      "uri": "com_cronjobs/admin-plg-job.css"
     }
   ]
 }

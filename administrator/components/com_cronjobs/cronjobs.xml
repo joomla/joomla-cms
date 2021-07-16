@@ -30,6 +30,7 @@
 	</update>
 	<media destination="com_cronjobs" folder="media">
 		<folder>js</folder>
+		<folder>css</folder>
 	</media>
 	<administration>
 		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
