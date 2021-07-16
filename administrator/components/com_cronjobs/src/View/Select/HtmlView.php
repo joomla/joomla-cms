@@ -14,6 +14,9 @@ namespace Joomla\Component\Cronjobs\Administrator\View\Select;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -34,6 +37,12 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * @var CMSApplication
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * The model state
 	 *
 	 * @var  \JObject
@@ -51,6 +60,7 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * Will be used for the "CLI" / "Script" type job
+	 * ! : Not in use yet
 	 *
 	 * @var object
 	 * @since version
@@ -67,11 +77,32 @@ class HtmlView extends BaseHtmlView
 
 
 	/**
+	 * HtmlView constructor.
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
+	 *                          charset: the character set to use for display
+	 *                          escape: the name (optional) of the function to use for escaping strings
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
+	 *                          layout: the layout (optional) to use to display the view
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function __construct($config = array())
+	{
+		$this->app = Factory::getApplication();
+		parent::__construct($config);
+	}
+
+	/**
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return void
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
@@ -111,12 +142,11 @@ class HtmlView extends BaseHtmlView
 		 */
 		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'tags');
 
-
 		/*
 		 * Get the toolbar object instance
 		 * TODO : Replace usage with ToolbarFactoryInterface
 		 */
-		$bar = Toolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance();
 
 		// Instantiate a new FileLayout instance and render the layout
 		$layout = new FileLayout('toolbar.cancelselect');
