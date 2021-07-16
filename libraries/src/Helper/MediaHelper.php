@@ -639,9 +639,18 @@ class MediaHelper
 	 */
 	public static function getSizes($isCustom, $sizeOptions)
 	{
-		if (!$isCustom || empty($sizeOptions))
+		if (!$isCustom || ($isCustom && empty($sizeOptions)))
 		{
-			return static::$responsiveSizes;
+			// Get plugin options
+			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
+			$params = new Registry($plugin->params);
+
+			if (!$params->get('custom_sizes'))
+			{
+				return static::$responsiveSizes;
+			}
+
+			$sizeOptions = $params->get('custom_size_options');
 		}
 
 		// Create an array with custom sizes
