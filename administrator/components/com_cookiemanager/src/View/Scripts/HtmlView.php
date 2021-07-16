@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('script.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if (!$this->isEmptyState && $canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_cookiemanager');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES');
+		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_SCRIPTS');
 
 	}
 }

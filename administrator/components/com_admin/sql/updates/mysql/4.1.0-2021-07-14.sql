@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__cookiemanager_scripts` (
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `position` varchar(40) NOT NULL,
   `type` varchar(20) NOT NULL,
-  `code` varchar(400) NOT NULL,
+  `code` text NOT NULL,
   `catid` int NOT NULL DEFAULT 0,
   `published` tinyint NOT NULL DEFAULT 1,
   `ordering` int NOT NULL DEFAULT 0,
