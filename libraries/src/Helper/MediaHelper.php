@@ -478,40 +478,28 @@ class MediaHelper
 	/**
 	 * Method to generate different-sized versions of form images
 	 *
-	 * @param   array  $initImages   images before submission
-	 * @param   array  $finalImages  images during submission
+	 * @param   array  $images  images to have responsive versions
 	 *
-	 * @return  array  generated images
+	 * @return  array  images for which responsive sizes are generated
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateFormResponsiveImages($initImages, $finalImages)
+	public static function generateFormResponsiveImages($images)
 	{
 		$imagesGenerated = [];
 
-		foreach ($finalImages as $key => $finalImage)
+		foreach ($images as $image)
 		{
-			// Get initial version of image
-			$initImage = $initImages[$key];
-
-			// Get image names (currently they are: imgName#joomlaImage://imgPath)
-			$initImage->name   = HTMLHelper::cleanImageURL($initImage->name)->url;
-			$finalImage->name  = HTMLHelper::cleanImageURL($finalImage->name)->url;
-
-			// Remove previously generated images if original is changed
-			if ($initImage !== $finalImage && is_file(JPATH_ROOT . '/' . $initImage->name))
-			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $initImage->name);
-				$imgObj->deleteMultipleSizes($initImage->sizes);
-			}
+			// Get image name (currently they are: imgName#joomlaImage://imgPath)
+			$image->name  = HTMLHelper::cleanImageURL($image->name)->url;
 
 			// Generate new responsive images if file exists
-			if (is_file(JPATH_ROOT . '/' . $finalImage->name))
+			if (is_file(JPATH_ROOT . '/' . $image->name))
 			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage->name);
-				$imgObj->createMultipleSizes($finalImage->sizes);
+				$imgObj = new Image(JPATH_ROOT . '/' . $image->name);
+				$imgObj->createMultipleSizes($image->sizes);
 
-				$imagesGenerated[] = $finalImage;
+				$imagesGenerated[] = $image;
 			}
 		}
 
@@ -521,43 +509,32 @@ class MediaHelper
 	/**
 	 * Method to generate different-sized versions of content images
 	 *
-	 * @param   string  $initContent   content before submission
-	 * @param   string  $finalContent  content during submission
-	 * @param   array   $sizes         array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   string  $content   editor content
+	 * @param   array   $sizes     array of strings. Example: $sizes = array('1200x800','800x600');
 	 *
 	 * @return  array   generated images
 	 *
 	 * @since   4.1.0
 	 */
-	public static function generateContentResponsiveImages($initContent, $finalContent, $sizes = null)
+	public static function generateContentResponsiveImages($content, $sizes)
 	{
 		// Get src of img tag: <img src="images/joomla.png" /> - images/joomla.png
 		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
 
-		// Get initial and final images from content and remove duplicates
-		$initImages = preg_match_all($pattern, $initContent, $matched) ? array_unique($matched[1]) : [];
-		$finalImages = preg_match_all($pattern, $finalContent, $matched) ? array_unique($matched[1]) : [];
-
-		foreach ($initImages as $initImage)
-		{
-			// Remove previously generated images if original is changed
-			if (!in_array($initImage, $finalImages))
-			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
-				$imgObj->deleteMultipleSizes($sizes);
-			}
-		}
+		// Get images from content and remove duplicates
+		$images = preg_match_all($pattern, $content, $matched) ? array_unique($matched[1]) : [];
 
 		$imagesGenerated = [];
 
-		foreach ($finalImages as $finalImage)
+		foreach ($images as $image)
 		{
 			// Generate new responsive images if file exists
-			if (is_file(JPATH_ROOT . '/' . $finalImage))
+			if (is_file(JPATH_ROOT . '/' . $image))
 			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $finalImage);
+				$imgObj = new Image(JPATH_ROOT . '/' . $image);
 				$imgObj->createMultipleSizes($sizes);
-				$imagesGenerated[] = $finalImage;
+
+				$imagesGenerated[] = $image;
 			}
 		}
 
