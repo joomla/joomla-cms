@@ -650,7 +650,7 @@ class MediaHelper
 			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
 			$params = new Registry($plugin->params);
 
-			if(!$params->get('custom_sizes'))
+			if (!$params->get('custom_sizes'))
 			{
 				return static::$responsiveSizes;
 			}
