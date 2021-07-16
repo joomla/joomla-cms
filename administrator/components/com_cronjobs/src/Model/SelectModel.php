@@ -18,8 +18,11 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOptions;
+use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
 use function defined;
 
 /**
@@ -39,36 +42,38 @@ class SelectModel extends ListModel
 	/**
 	 * SelectModel constructor.
 	 *
+	 * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   ?MVCFactoryInterface  $factory  The factory.
+	 *
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct()
+	public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
 	{
 		$this->app = Factory::getApplication();
-		parent::__construct();
+		parent::__construct($config, $factory);
 	}
 
 	/**
 	 *
-	 * @return array  An array of items
+	 * @return CronOption[]  An array of CronOption objects
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function getItems(): array
 	{
-		// TODO : Implement an object for $items
-		$items = [];
-		PluginHelper::importPlugin('job');
-		$this->app->getDispatcher()->dispatch('onCronOptionsList',
-			AbstractEvent::create(
-				'onCronOptionsList',
-				[
-					'eventClass' => 'Joomla\Component\Cronjobs\Administrator\Model\SelectModel',
-					'subject' => &$items
-				]
-			)
+		$options = new CronOptions;
+		$event = AbstractEvent::create(
+			'onCronOptionsList',
+			[
+				'subject' => $options
+			]
 		);
 
-		return $items;
+		// TODO : Implement an object for $items
+		PluginHelper::importPlugin('job');
+		$this->app->getDispatcher()->dispatch('onCronOptionsList', $event);
+
+		return $options->jobs;
 	}
 }
