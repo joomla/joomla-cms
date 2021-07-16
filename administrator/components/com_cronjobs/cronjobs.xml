@@ -28,7 +28,9 @@
 			<schemapath type="postgresql">sql/updates/postgresql</schemapath>
 		</schemas>
 	</update>
-
+	<media destination="com_cronjobs" folder="media">
+		<folder>js</folder>
+	</media>
 	<administration>
 		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
 		<languages folder="admin">

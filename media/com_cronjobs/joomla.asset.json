@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_cronjobs",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL v3",
+  "assets": [
+    {
+      "name": "com_cronjobs.admin-plg-job-search.es5",
+      "type": "script",
+      "uri": "com_cronjobs/admin-plg-job-search-es5.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_cronjobs.admin-plg-job-search",
+      "type": "script",
+      "uri": "com_cronjobs/admin-plg-job-search.js",
+      "dependencies": [
+        "com_cronjobs.admin-plg-job-search.es5"
+      ],
+      "attributes": {
+        "type" : "module"
+      }
+    }
+  ]
+}
