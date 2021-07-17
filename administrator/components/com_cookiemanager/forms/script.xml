@@ -27,6 +27,41 @@
 		/>
 
 		<field
+			name="position"
+			type="list"
+			label="COM_COOKIEMANAGER_FIELD_POSITION_LABEL"
+			default="4"
+			>
+			<option value="1">After begin head</option>
+			<option value="2">Before end head</option>
+			<option value="3">After begin body</option>
+			<option value="4">Before end body</option>
+		</field>
+
+		<field
+			name="type"
+			type="list"
+			label="COM_COOKIEMANAGER_FIELD_TYPE_LABEL"
+			default="1"
+			>
+			<option value="1">Script</option>
+			<option value="2">External script</option>
+			<option value="3">Iframe</option>
+			<option value="4">Embed</option>
+			<option value="5">Object</option>
+			<option value="6">Link</option>
+			<option value="7">Img</option>
+		</field>
+
+		<field
+			name="code"
+			type="textarea"
+			label="COM_COOKIEMANAGER_FIELD_CODE_LABEL"
+			rows="4"
+			filter="JComponentHelper::filterText"
+		/>
+
+		<field
 			name="published"
 			type="list"
 			label="JSTATUS"
@@ -54,7 +89,7 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			content_type="com_cookiemanager.cookie"
+			content_type="com_cookiemanager.script"
 		/>
 	</fieldset>
 </form>
