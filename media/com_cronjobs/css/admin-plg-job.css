@@ -1,9 +1,9 @@
 .new-job {
   display: flex;
   overflow: hidden;
-  color: hsl(var(--hue),30%,40%);
-  background-color: hsl(var(--hue),60%,97%);
-  border: 1px solid hsl(var(--hue),50%,93%);
+  color: hsl(var(--hue), 30%, 40%);
+  background-color: hsl(var(--hue), 60%, 97%);
+  border: 1px solid hsl(var(--hue), 50%, 93%);
   border-radius: .25rem;
 }
 
@@ -19,7 +19,7 @@
   justify-content: center;
   width: 2.5rem;
   font-size: 1.2rem;
-  background: hsl(var(--hue),50%,93%);
+  background: hsl(var(--hue), 50%, 93%);
 }
 
 .new-job-caption {
@@ -46,9 +46,19 @@
 
 .new-job-link span {
   margin-bottom: 10px;
-  color: hsl(var(--hue),30%,40%);
+  color: hsl(var(--hue), 30%, 40%);
 }
 
 .new-job:hover .new-job-link span {
   color: #fff;
+}
+
+.new-jobs .card-columns {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+}
+
+#cli-job .new-job {
+  width: clamp(20em, 25vw, 50em);
+  margin: auto;
+  height: 12em;
 }

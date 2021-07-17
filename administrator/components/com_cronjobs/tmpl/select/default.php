@@ -13,7 +13,6 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -59,9 +58,9 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 </div>
 <!-- Search box and related elements end -->
 
-<div id="new-cronjobs-list">
-	<div class="new-cronjob">
-		<!-- More appropriate classes here -->
+<div id="new-jobs-list">
+	<div class="new-jobs">
+		<!-- Hidden alert div -->
 		<div class="jobs-alert alert alert-info d-none">
 			<span class="icon-info-circle" aria-hidden="true"></span><span
 					class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -70,36 +69,54 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 		<h2 class="pb-3 ms-3" id="comCronjobsSelectTypeHeader">
 			<?php echo Text::_('COM_CRONJOBS_TYPE_CHOOSE'); ?>
 		</h2>
-	</div>
-	
-	<!-- Parent card -->
-	<div class="main-card card-columns p-4" id="comCronjobsSelectResultsContainer">
-		<a href="" class="new-job mb-3 comCronjobsSelectCard">
 
-		</a>
-
-		<!-- Plugin job cards start below -->
-		<?php foreach ($this->items as &$item) : ?>
-			<?php // Prepare variables for the link. ?>
-			<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&plg=' . $item->id . '&type=plugin'; ?>
-			<?php $name = $this->escape($item->title); ?>
-			<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-			<!-- The job card begins -->
-			<a href="<?php echo Route::_($link); ?>" class="new-job mb-3 comCronjobsSelectCard"
-			   data-function="' . $this->escape($function) : ''; ?>"
-			   aria-label="<?php echo Text::sprintf('COM_CRONJOBS_SELECT_PLG_JOB', $name); ?>">
+		<!-- Special card for CLI type Jobs -->
+		<div class="main-card p-4" id="cli-job">
+			<a href="index.php?option=com_cronjobs&task=cronjob.add&type=script"
+			   class="new-job mb-3"
+			   aria-label="<?php echo Text::_('COM_CRONJOBS_SELECT_CLI_JOB') ?>">
 				<div class="new-job-details">
-					<h3 class="new-job-title"><?php echo $name; ?></h3>
+					<h3 class="new-job-title">
+						<?php echo $this->specialItem->title ?>
+					</h3>
 					<p class="card-body new-job-caption p-0">
-						<?php echo $desc; ?>
+						<?php echo $this->specialItem->desc ?>
 					</p>
 				</div>
 				<span class="new-job-link">
 						<span class="icon-plus" aria-hidden="true"></span>
-					</span>
+				</span>
 			</a>
-			<!-- The job card ends here -->
-		<?php endforeach; ?>
+		</div>
+		<!-- Special card ends here -->
+
+		<!-- Parent card -->
+		<div class="main-card card-columns p-4" id="comCronjobsSelectResultsContainer">
+
+			<!-- Plugin job cards start below -->
+			<?php foreach ($this->items as &$item) : ?>
+				<?php // Prepare variables for the link. ?>
+				<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&type=plugin&plg_job=' . $item->id; ?>
+				<?php $name = $this->escape($item->title); ?>
+				<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+				<!-- The job card begins -->
+				<a href="<?php echo Route::_($link); ?>" class="new-job mb-3 comCronjobsSelectCard"
+				   data-function="' . $this->escape($function) : ''; ?>"
+				   aria-label="<?php echo Text::sprintf('COM_CRONJOBS_SELECT_PLG_JOB', $name); ?>">
+					<div class="new-job-details">
+						<h3 class="new-job-title"><?php echo $name; ?></h3>
+						<p class="card-body new-job-caption p-0">
+							<?php echo $desc; ?>
+						</p>
+					</div>
+					<span class="new-job-link">
+						<span class="icon-plus" aria-hidden="true"></span>
+					</span>
+				</a>
+				<!-- The job card ends here -->
+			<?php endforeach; ?>
+		</div>
 	</div>
 </div>
-</div>
+
+
