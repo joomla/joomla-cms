@@ -55,7 +55,7 @@ jobs:
           git config user.email release+translation-bot@joomla.org
           git add .
           git commit -m "Language update"
-          git push
+          git push --force
           
       - name: Create pull request
         env:
