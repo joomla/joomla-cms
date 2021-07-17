@@ -77,7 +77,7 @@ class CategoryModel extends ListModel
 	 * @var		string
 	 */
 	protected $_context = 'com_content.category';
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -159,7 +159,7 @@ class CategoryModel extends ListModel
 			$asset .= '.category.' . $pk;
 		}
 
-		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
+		if (!$user->authorise('core.edit.state', $asset) &&  !$user->authorise('core.edit', $asset))
 		{
 			// Limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
