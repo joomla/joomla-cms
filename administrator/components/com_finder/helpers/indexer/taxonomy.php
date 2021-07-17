@@ -349,6 +349,7 @@ class FinderIndexerTaxonomy
 		$query->clear()
 			->delete($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
+
 		$db->setQuery($query);
 		
 		$db->execute();
