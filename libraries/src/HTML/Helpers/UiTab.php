@@ -62,7 +62,7 @@ abstract class UiTab
 			$breakpoint = 'breakpoint="768"';
 		}
 
-		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" ' . $recall .' ' . $breakpoint . '>';
+		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" ' . $recall . ' ' . $breakpoint . '>';
 	}
 
 	/**
