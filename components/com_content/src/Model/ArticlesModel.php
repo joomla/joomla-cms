@@ -122,7 +122,7 @@ class ArticlesModel extends ListModel
 		$this->setState('params', $params);
 		$user = Factory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
 			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
@@ -131,7 +131,7 @@ class ArticlesModel extends ListModel
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
-		if ((!$params->get('show_noauth')) || (!ComponentHelper::getParams('com_content')->get('show_noauth')))
+		if (!$params->get('show_noauth') || !ComponentHelper::getParams('com_content')->get('show_noauth'))
 		{
 			$this->setState('filter.access', true);
 		}

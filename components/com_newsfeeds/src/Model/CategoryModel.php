@@ -261,7 +261,7 @@ class CategoryModel extends ListModel
 
 		$user = Factory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
+		if (!$user->authorise('core.edit.state', 'com_newsfeeds') && !$user->authorise('core.edit', 'com_newsfeeds'))
 		{
 			// Limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
