@@ -19,7 +19,7 @@
     const modalBtnElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
     const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
     const removeModBtnElements = [].slice.call(document.getElementsByClassName('module-remove-link'));
-    const removePositionBtnElements = [].slice.call(document.getElementsByClassName('position-remove-link'));
+    const removePositionBtnElements = [].slice.call(document.getElementsByClassName('import-remove-link'));
     const elModuleModal = document.getElementById('jform_articletext_editors-xtd_module_modal');
 
     if (modalBtnElements.length) {
@@ -71,9 +71,9 @@
       removePositionBtnElements.forEach((linkElement) => {
         linkElement.addEventListener('click', (_ref) => {
           const { target } = _ref;
-          const positionText = target.getAttribute('data-position');
+          const importText = target.getAttribute('data-importText');
           let editorText = Joomla.editors.instances.jform_articletext.getValue();
-          editorText = editorText.replace(positionText, '');
+          editorText = editorText.replace(importText, '');
           Joomla.editors.instances.jform_articletext.setValue(editorText);
           document.querySelector('.button-apply.btn.btn-success').click();
         });
