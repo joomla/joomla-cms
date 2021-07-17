@@ -54,6 +54,7 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
+        font-weight: $font-weight-bold;
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -69,10 +70,6 @@ joomla-tab {
           opacity: .8;
         }
       }
-
-      &[aria-expanded=true] {
-        font-weight: $font-weight-bold;
-      }
     }
   }
 
@@ -83,6 +80,7 @@ joomla-tab {
     border-top: 0;
     padding: .7rem;
     width: 100%;
+    text-align: start;
 
     &[aria-expanded=true],
     &:hover,
@@ -208,7 +206,7 @@ joomla-tab {
     .col-md-6,
     .col-md-9,
     .col-md-3 {
-      padding: .5rem 0 0 !important;
+      padding: 0 1rem !important;
     }
 
     joomla-tab[view=accordion] {
