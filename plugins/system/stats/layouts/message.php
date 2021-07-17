@@ -23,7 +23,8 @@ extract($displayData);
  */
 ?>
 
-<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog" aria-label="<?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?>">
+<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog" aria-labelledby="alert-stats-heading">
+	<div id="alert-stats-heading" class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
 	<div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
 	<div>
 		<div class="alert-message">
