@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name/>
+	<name>Albanian(sq-AL)</name>
 	<version/>
 	<creationDate/>
 	<author> </author>
@@ -10,9 +10,9 @@
 		<filename/>
 	</files>
 	<metadata>
-		<name/>
-		<nativeName/>
-		<tag/>
+		<name>Albanian(sq-AL)</name>
+		<nativeName>Albanian(sq-AL)</nativeName>
+		<tag>sq-AL</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>

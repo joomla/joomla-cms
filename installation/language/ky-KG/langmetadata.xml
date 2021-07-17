@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Кыргыз тили (Кыргызстан)</name>
+	<version>4.0.0</version>
+	<creationDate>Тогуздун айы 2019</creationDate>
+	<author> </author>
+	<copyright/>
+	<license>GNU Жалпы Коомдук Лицензиясы 2 же андан кийинки нускасы; LICENSE.txt бөлүмүн караңыз.</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Кыргыз тили (ky-KG)</name>
+		<nativeName>Кыргыз тили (Кыргызстан)</nativeName>
+		<tag>ky-KG</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

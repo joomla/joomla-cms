@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile client="installation">
+<metafile client="">
 	<name/>
 	<version/>
 	<creationDate/>
-	<author> </author>
+	<author/>
 	<copyright/>
 	<license/>
 	<files>
@@ -13,7 +13,7 @@
 		<name/>
 		<nativeName/>
 		<tag/>
-		<rtl>0</rtl>
+		<rtl/>
 	</metadata>
 	<params/>
 </metafile>
