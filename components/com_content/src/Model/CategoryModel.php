@@ -44,11 +44,18 @@ class CategoryModel extends ListModel
 	protected $_articles = null;
 
 	/**
-	 * Category left and right of this one
+	 * Category left of this one
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var    CategoryNode|null
 	 */
-	protected $_siblings = null;
+	protected $_leftsibling = null;
+
+	/**
+	 * Category right of this one
+	 *
+	 * @var    CategoryNode|null
+	 */
+	protected $_rightsibling = null;
 
 	/**
 	 * Array of child-categories
@@ -70,21 +77,7 @@ class CategoryModel extends ListModel
 	 * @var		string
 	 */
 	protected $_context = 'com_content.category';
-
-	/**
-	 * The category that applies.
-	 *
-	 * @var	   object
-	 */
-	protected $_category = null;
-
-	/**
-	 * The list of categories.
-	 *
-	 * @var	   array
-	 */
-	protected $_categories = null;
-
+	
 	/**
 	 * Constructor.
 	 *

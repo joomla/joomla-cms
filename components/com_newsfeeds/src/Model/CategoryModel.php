@@ -38,18 +38,18 @@ class CategoryModel extends ListModel
 	protected $_item = null;
 
 	/**
-	 * Array of newsfeeds in the category
+	 * Category left of this one
 	 *
-	 * @var    \stdClass[]
+	 * @var    CategoryNode|null
 	 */
-	protected $_articles = null;
+	protected $_leftsibling = null;
 
 	/**
-	 * Category left and right of this one
+	 * Category rightof this one
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_siblings = null;
+	protected $_rightsibling = null;
 
 	/**
 	 * Array of child-categories
@@ -64,20 +64,6 @@ class CategoryModel extends ListModel
 	 * @var    CategoryNode|null
 	 */
 	protected $_parent = null;
-
-	/**
-	 * The category that applies.
-	 *
-	 * @var    object
-	 */
-	protected $_category = null;
-
-	/**
-	 * The list of other newsfeed categories.
-	 *
-	 * @var    array
-	 */
-	protected $_categories = null;
 
 	/**
 	 * Constructor.
@@ -301,9 +287,7 @@ class CategoryModel extends ListModel
 	{
 		if (!is_object($this->_item))
 		{
-			$app = Factory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
+			$active = Factory::getApplication()->getMenu()->getActive();
 
 			if ($active)
 			{
