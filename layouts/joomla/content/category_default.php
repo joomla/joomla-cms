@@ -41,6 +41,10 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
+$img = HTMLHelper::cleanImageURL($category->getParams()->get('image'));
+$img_sizes = $category->getParams()->get('image_sizes');
+$img_size_options = $category->getParams()->get('image_size_options');
+
 /**
  * This will work for the core components but not necessarily for other components
  * that may have different pluralisation rules.
@@ -76,12 +80,7 @@ $tagsData = $category->tags->itemTags;
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
-						<?php
-							$img = HTMLHelper::cleanImageURL($category->getParams()->get('image'));
-							$img_sizes = $category->getParams()->get('image_sizes');
-							$img_size_options = $category->getParams()->get('image_size_options');
-							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
-						?>
+						<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
 					>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>

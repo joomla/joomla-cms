@@ -39,6 +39,10 @@ use Joomla\CMS\Helper\MediaHelper;
 		<?php $direction = ' redirect-rtl'; ?>
 	<?php endif; ?>
 	<?php $images = json_decode($this->item->images); ?>
+	<?php
+		$imgFirst = HTMLHelper::cleanImageURL($images->image_first);
+		$imgSecond = HTMLHelper::cleanImageURL($images->image_second);
+	?>
 	<div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
 		<?php if ($this->params->get('display_num')) : ?>
 		<h1 class="<?php echo $direction; ?>">
@@ -62,10 +66,7 @@ use Joomla\CMS\Helper\MediaHelper;
 		<!-- Show Images from Component -->
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
-			<?php
-				$imgFirst = HTMLHelper::cleanImageURL($images->image_first);
-				$firstSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgFirst->url, MediaHelper::getSizes($images->image_first_sizes, $images->image_first_size_options)), MediaHelper::generateSizes($imgFirst->url));
-			?>
+			<?php $firstSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgFirst->url, MediaHelper::getSizes($images->image_first_sizes, $images->image_first_size_options)), MediaHelper::generateSizes($imgFirst->url)); ?>
 			<?php $alt = empty($images->image_first_alt) && empty($images->image_first_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -83,10 +84,7 @@ use Joomla\CMS\Helper\MediaHelper;
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<?php
-				$imgSecond = HTMLHelper::cleanImageURL($images->image_second);
-				$secondSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgSecond->url, MediaHelper::getSizes($images->image_second_sizes, $images->image_second_size_options)), MediaHelper::generateSizes($imgSecond->url));
-			?>
+			<?php $secondSrcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($imgSecond->url, MediaHelper::getSizes($images->image_second_sizes, $images->image_second_size_options)), MediaHelper::generateSizes($imgSecond->url)); ?>
 			<?php $alt = empty($images->image_second_alt) && empty($images->image_second_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>

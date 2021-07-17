@@ -63,7 +63,7 @@
 
 		<field
 			name="language"
-			type="BANNERSlanguage"
+			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>
 			<option value="*">JALL</option>

@@ -35,7 +35,7 @@
 				<field
 					name="custom_size_options"
 					type="subform"
-					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTIONS_DESC"
+					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"
 					multiple="true"
@@ -45,7 +45,7 @@
 						<field
 							name="width"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTION_WIDTH_LABEL"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_WIDTH_LABEL"
 							filter="integer"
 							validate="number"
 							required="true"
@@ -54,7 +54,7 @@
 						<field
 							name="height"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZE_OPTION_HEIGHT_LABEL"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_HEIGHT_LABEL"
 							filter="integer"
 							validate="number"
 							required="true"
