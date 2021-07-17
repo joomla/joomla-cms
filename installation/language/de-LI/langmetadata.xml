@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>German (Germany)</name>
+	<version>4.0.0-rc2.1</version>
+	<creationDate/>
+	<author> </author>
+	<copyright>(C) 2008 - 2021 J!German. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>German (DE)</name>
+		<nativeName>German (Germany)</nativeName>
+		<tag>de-DE</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

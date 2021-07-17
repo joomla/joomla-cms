@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Hungarian (hu-HU)</name>
+	<version>4.0.0</version>
+	<creationDate>2019 október</creationDate>
+	<author> </author>
+	<copyright/>
+	<license>GNU Általános Nyilvános Licenc 2-es vagy újabb verzió; lásd LICENSE.txt</license>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>Magyar (hu-HU)</name>
+		<nativeName>Hungarian (hu-HU)</nativeName>
+		<tag>hu-HU</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

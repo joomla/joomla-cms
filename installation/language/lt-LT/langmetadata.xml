@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Lietuvių (lt-LT)</name>
+	<version/>
+	<creationDate/>
+	<author> </author>
+	<copyright/>
+	<license>GNU General Public License versija 2 arba naujesnė; žr. LICENSE.txt</license>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>Lietuvių (lt-LT)</name>
+		<nativeName>Lietuvių (lt-LT)</nativeName>
+		<tag>lt-LT</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

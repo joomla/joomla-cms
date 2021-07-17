@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Persian (fa-IR)</name>
+	<version/>
+	<creationDate>June 2021</creationDate>
+	<author> </author>
+	<copyright/>
+	<license/>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>Persian (fa-IR)</name>
+		<nativeName>Persian (fa-IR)</nativeName>
+		<tag>fa-IR</tag>
+		<rtl>1</rtl>
+	</metadata>
+	<params/>
+</metafile>

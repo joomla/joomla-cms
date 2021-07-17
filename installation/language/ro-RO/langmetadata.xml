@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Română (ro-RO)</name>
+	<version/>
+	<creationDate/>
+	<author> </author>
+	<copyright/>
+	<license>GNU General Public License versiunea 2 sau mai nouă, a se vedea LICENSE.txt</license>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>Româna (ro-RO)</name>
+		<nativeName>Română (ro-RO)</nativeName>
+		<tag>ro-RO</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>
