@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Български (bg-BG)</name>
+	<version>4.0.0</version>
+	<creationDate/>
+	<author> </author>
+	<copyright/>
+	<license>GNU General Public License версия 2 или по-късна; Виж LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Bulgarian (бг-БГ)</name>
+		<nativeName>Български (България)</nativeName>
+		<tag>bg-BG</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

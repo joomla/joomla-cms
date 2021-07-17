@@ -10,10 +10,10 @@
 		<filename/>
 	</files>
 	<metadata>
-		<name/>
+		<name>Hebrew (Israel) עברית</name>
 		<nativeName/>
-		<tag/>
-		<rtl>0</rtl>
+		<tag>he-IL</tag>
+		<rtl>1</rtl>
 	</metadata>
 	<params/>
 </metafile>

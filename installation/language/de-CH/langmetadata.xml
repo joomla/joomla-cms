@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>German (Swiss)</name>
+	<version>4.0.0-rc2.4</version>
+	<creationDate/>
+	<author> </author>
+	<copyright>(C) 2008 - 2021 J!Club. All rights reserved.</copyright>
+	<license>GNU General Public License; see LICENSE.txt</license>
+	<files>
+		<filename/>
+	</files>
+	<metadata>
+		<name>German (CH)</name>
+		<nativeName>German (Swiss)</nativeName>
+		<tag>de-CH</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

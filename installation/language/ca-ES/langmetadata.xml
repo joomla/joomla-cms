@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Catalan (ca-ES)</name>
+	<version>4.0.0</version>
+	<creationDate>October 2019</creationDate>
+	<author> </author>
+	<copyright/>
+	<license>Llicència Pública General de GNU versió 2 o posterior; veure LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Catalan (ca-ES)</name>
+		<nativeName>Català (Espanya)</nativeName>
+		<tag>ca-ES</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

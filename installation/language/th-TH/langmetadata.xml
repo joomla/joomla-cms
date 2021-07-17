@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name/>
+	<name>Thai (th-TH)</name>
 	<version/>
 	<creationDate/>
 	<author> </author>
 	<copyright/>
-	<license/>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename/>
 	</files>
 	<metadata>
-		<name/>
-		<nativeName/>
-		<tag/>
+		<name>Thai (th-TH)</name>
+		<nativeName>Thai (th-TH)</nativeName>
+		<tag>th-TH</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
