@@ -58,7 +58,8 @@ abstract class UiTab
 		$recall = isset($params['recall']) ? 'recall' : '';
 		$breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
-		if (!isset($params['breakpoint']) && $breakpoint === '') {
+		if (!isset($params['breakpoint']) && $breakpoint === '')
+		{
 			$breakpoint = 'breakpoint="768"';
 		}
 
