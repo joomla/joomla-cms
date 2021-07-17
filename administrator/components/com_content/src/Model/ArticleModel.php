@@ -523,7 +523,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				if (isset($mod))
 				{
-					$mod->editorText= $matchmod[0];
+					$mod->editorText = $matchmod[0];
 					$item->importedModuleTypes[] = $mod;
 				}
 			}
