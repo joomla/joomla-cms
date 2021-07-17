@@ -15,6 +15,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -472,6 +473,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Expression to search for (positions)
 		$regex = '/{loadposition\s(.*?)}/i';
 
+		// Expression to search for(modules)
+		$regexmod = '/{loadmodule\s(.*?)}/i';
+
 		// Expression to search for(id)
 		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
@@ -491,6 +495,37 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$style    = array_key_exists(1, $matcheslist) ? trim($matcheslist[1]) : 'none';
 
 				$item->importedPositions[] = array('name' => $position, 'style' => $style, 'editorText' => $match[0]);
+			}
+		}
+
+		// Find all instances of plugin and put in $matchesmod for loadmodule
+		preg_match_all($regexmod, $item->articletext, $matchesmod, PREG_SET_ORDER);
+
+		// If no matches, skip this
+		if ($matchesmod)
+		{
+			foreach ($matchesmod as $matchmod)
+			{
+				$matchesmodlist = explode(',', $matchmod[1]);
+
+				$module = trim($matchesmodlist[0]);
+				$name = array_key_exists(1, $matchesmodlist) ? htmlspecialchars_decode(trim($matchesmodlist[1])) : null;
+				$stylemod = array_key_exists(2, $matchesmodlist) ? trim($matchesmodlist[2]) : 'none';
+
+				$mod = ModuleHelper::getModule($module, $name);
+
+				// If the module without the mod_ isn't found, try it with mod_.
+				// This allows people to enter it either way in the content
+				if (!isset($mod))
+				{
+					$mod  = ModuleHelper::getModule('mod_' . $module, $name);
+				}
+
+				if (isset($mod))
+				{
+					$mod->editorText= $matchmod[0];
+					$item->importedModuleTypes[] = $mod;
+				}
 			}
 		}
 
