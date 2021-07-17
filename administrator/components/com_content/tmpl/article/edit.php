@@ -135,7 +135,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 				<?php if (!empty($this->item->importedModules)) : ?>
 					<h3> <?php echo Text::_('COM_CONTENT_FIELDSET_MODULES'); ?> </h3>
-					<table class="table" id="modules_assigned">
+					<table class="table mb-4" id="modules_assigned">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CONTENT_IMPORTED_MODULES_TABLE_CAPTION'); ?>
 						</caption>
@@ -199,10 +199,67 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+				<?php endif; ?>
 
-					<?php if (!empty($this->item->importedPositions)) : ?>
-						<hr>
-					<?php endif; ?>
+				<?php if (!empty($this->item->importedModuleTypes)) : ?>
+					<h3> <?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TYPES'); ?> </h3>
+					<table class="table mb-4" id="modules_assigned">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_CONTENT_IMPORTED_MODULES_TABLE_CAPTION'); ?>
+						</caption>
+						<thead>
+							<tr>
+								<th scope="col" class="w-10">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_ID'); ?>
+								</th>
+								<th scope="col">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TYPE'); ?>
+								</th>
+								<th scope="col" class="w-20">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_TITLE'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_IMPORTED_MODULE_EDIT'); ?>
+								</th>
+								<th scope="col" class="w-15">
+									<?php echo Text::_('COM_CONTENT_HEADING_REMOVE'); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($this->item->importedModuleTypes as $module) : ?>
+							<tr>
+								<td>
+									<?php echo $this->escape($module->id); ?>
+								</td>
+								<td>
+									<?php echo $this->escape($module->module); ?>
+								</td>
+								<td>
+									<?php echo $this->escape($module->title); ?>
+								</td>
+								<td>
+									<?php if (!empty($module->id)) : ?>
+										<button type="button"
+											data-bs-target="#moduleEditModal"
+											class="btn btn-link module-edit-link"
+											title="<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>"
+											data-module-id="<?php echo $module->id; ?>">
+											<?php echo Text::_('COM_CONTENT_EDIT_MODULE'); ?>
+										</button>
+									<?php endif; ?>
+								</td>
+								<td>
+									<button type="button"
+										class="btn btn-link import-remove-link"
+										data-importText="<?php echo $module->editorText; ?>">
+										<?php echo Text::_('COM_CONTENT_REMOVE_FROM_ARTICLE'); ?>
+									</button>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
 				<?php endif; ?>
 
 				<?php if (!empty($this->item->importedPositions)) : ?>
@@ -235,8 +292,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 								</td>
 								<td>
 									<button type="button"
-										class="btn btn-link position-remove-link"
-										data-position="<?php echo $position["editorText"]; ?>">
+										class="btn btn-link import-remove-link"
+										data-importText="<?php echo $position["editorText"]; ?>">
 										<?php echo Text::_('COM_CONTENT_REMOVE_FROM_ARTICLE'); ?>
 									</button>
 								</td>
