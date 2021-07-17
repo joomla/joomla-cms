@@ -127,6 +127,10 @@ joomla-tab {
         flex: 0 0 100%;
         max-width: 100%;
       }
+
+      button[role=tab] {
+        text-align: start;
+      }
     }
 
     button[role=tab]:last-of-type {
@@ -221,6 +225,7 @@ joomla-tab {
         border: 0;
         border-bottom: 1px solid $gray-300;
         box-shadow: none;
+        text-align: start;
 
         &[aria-expanded=true]::after,
         &:hover::after {

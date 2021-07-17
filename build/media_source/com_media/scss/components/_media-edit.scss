@@ -1,5 +1,5 @@
 .media-form {
-  joomla-tab > section {
+  joomla-tab > joomla-tab-element {
     padding: 0;
 
     &[active] {
@@ -7,7 +7,7 @@
     }
   }
 
-  section {
+  joomla-tab-element {
     grid-template-columns: repeat(4, minmax(240px, 1fr));
 
     > fieldset {
