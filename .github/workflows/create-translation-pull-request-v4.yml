@@ -36,31 +36,26 @@ jobs:
       - name: Syncing directories
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
-          git switch translation
           cd ..
           SYNC_VERION="v4"
-          ls -l
-          ls -l core-translations-main
-          ls -l joomla-cms
 
-          SYNC_PATH="build/media_source/system/js/fields/calendar-locales/"
-          echo ${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
-          ls -l joomla-cms/${SYNC_PATH}
+          # Disabled for the moment
+          #SYNC_PATH="build/media_source/system/js/fields/calendar-locales/"
+          #echo ${SYNC_PATH}
+          #rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
+          #ls -l joomla-cms/${SYNC_PATH}
           
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
           rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
-          ls -l joomla-cms/${SYNC_PATH}
           
       - name: Create commit
         run: |
           git config user.name Translation Bot
           git config user.email release+translation-bot@joomla.org
-          git status
-          git checkout translation
-          git commit -am "Language update"
-          git push --force
+          git add .
+          git commit -m "Language update"
+          git push
           
       - name: Create pull request
         env:
