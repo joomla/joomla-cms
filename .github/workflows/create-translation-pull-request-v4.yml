@@ -24,7 +24,7 @@ jobs:
           git config user.email release+translation-bot@joomla.org
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
-          git checkout --progress --force -B test refs/remotes/origin/test          
+          git checkout --progress --force -B translation refs/remotes/origin/translation          
           git rebase upstream/4.0-dev
 
       - name: Fetch and extract translations
@@ -36,7 +36,7 @@ jobs:
       - name: Syncing directories
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
-          git switch test
+          git switch translation
           cd ..
           SYNC_VERION="v4"
           ls -l
@@ -58,8 +58,7 @@ jobs:
           git config user.name Translation Bot
           git config user.email release+translation-bot@joomla.org
           git status
-          git checkout test
-          git switch test
+          git checkout translation
           git commit -am "Language update"
           git push --force
           
