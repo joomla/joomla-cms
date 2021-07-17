@@ -54,7 +54,6 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
-        font-weight: $font-weight-bold;
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -69,6 +68,10 @@ joomla-tab {
           background-color: var(--template-link-color);
           opacity: .8;
         }
+      }
+
+      &[aria-expanded=true] {
+        font-weight: $font-weight-bold;
       }
     }
   }
