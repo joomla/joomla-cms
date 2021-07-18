@@ -75,6 +75,7 @@ joomla-tab {
       }
 
       &[aria-expanded=true] {
+        background: var(--template-bg-dark-3);
         font-weight: $font-weight-bold;
       }
 
