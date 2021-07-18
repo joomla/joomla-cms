@@ -60,10 +60,8 @@ Joomla.MediaManager.Edit.crop = {
   cropper: {
     destroy() {}
   },
-  Activate(mediaData) {
+  Activate() {
     const image = document.getElementById('image-preview');
-    // Wait for the image to load its data
-    image.src = mediaData;
     // Get all option elements if future need
     const elements = [].slice.call(document.querySelectorAll('.crop-aspect-ratio-option'));
 

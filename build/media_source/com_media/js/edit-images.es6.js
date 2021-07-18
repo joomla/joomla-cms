@@ -15,11 +15,14 @@ if (!options) {
   throw new Error('Initialization error "edit-images.js"');
 }
 
+const extension = options.uploadPath.split('.').pop();
+const fileType = ['jpeg', 'jpg'].includes(extension) ? 'jpeg' : extension;
+
 // Initiate the registry
 Joomla.MediaManager.Edit.original = {
   filename: options.uploadPath.split('/').pop(),
-  extension: options.uploadPath.split('.').pop(),
-  contents: `data:image/${options.uploadPath.split('.').pop()};base64,${options.contents}`,
+  extension: extension,
+  contents: `data:image/${fileType};base64,${options.contents}`,
 };
 Joomla.MediaManager.Edit.history = {};
 Joomla.MediaManager.Edit.current = {};
@@ -51,7 +54,7 @@ const activate = (name, data) => {
   baseContainer.appendChild(previewContainer);
 
   // Activate the first plugin
-  Joomla.MediaManager.Edit[name.toLowerCase()].Activate(data);
+  Joomla.MediaManager.Edit[name.toLowerCase()].Activate(Joomla.MediaManager.Edit.current);
 };
 
 // Reset the image to the initial state
@@ -286,7 +289,6 @@ customElements.whenDefined('joomla-tab').then(() => {
     });
 
     tabContainer.activateTab(index, false);
-    // link.click();
   });
 
   if (links[0]) {
