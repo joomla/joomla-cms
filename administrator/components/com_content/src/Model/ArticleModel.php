@@ -551,7 +551,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					]
 				)
 				->from($db->quoteName('#__modules'));
-			$query->where($db->quoteName('id') . 'IN (' . implode(',', $query->bindArray(array_values($importedModules))) . ')');
+			$query->where($db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($importedModules))) . ')');
 
 			$item->importedModules = $db->setQuery($query)->loadObjectList();
 		}
