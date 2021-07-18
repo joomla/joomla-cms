@@ -473,10 +473,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Expression to search for (positions)
 		$regex = '/{loadposition\s(.*?)}/i';
 
-		// Expression to search for(modules)
+		// Expression to search for (modules)
 		$regexmod = '/{loadmodule\s(.*?)}/i';
 
-		// Expression to search for(id)
+		// Expression to search for (id)
 		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
 		// Find all instances of plugin and put in $matches for loadposition
