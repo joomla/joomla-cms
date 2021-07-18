@@ -36,7 +36,7 @@
       		name="fullordering"
       		type="list"
       		label="JGLOBAL_SORT_BY"
-      		default="a.name ASC"
+      		default="a.title ASC"
       		onchange="this.form.submit();"
       		validate="options"
 			>

@@ -25,7 +25,15 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
-
+$types = array (
+		'1' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT'),
+		'2' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_EXTERNAL_SCRIPT'),
+		'3' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_IFRAME'),
+		'4' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_EMBED'),
+		'5' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_OBJECT'),
+		'6' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_LINK'),
+		'7' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_IMG')
+);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_cookiemanager&view=scripts'); ?>" method="post" name="adminForm" id="adminForm">
@@ -58,6 +66,9 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JCATEGORY', 'a.category_title', $listDirn, $listOrder); ?>
@@ -113,6 +124,9 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 										</span>
 									</div>
 								</th>
+								<td class="text-center">
+									<?php echo $types[$item->type]; ?>
+								</td>
 								<td class="text-center">
 									<?php echo $item->category_title; ?>
 								</td>
