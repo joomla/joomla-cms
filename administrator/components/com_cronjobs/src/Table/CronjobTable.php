@@ -140,4 +140,18 @@ class CronjobTable extends Table
 		return parent::store($updateNulls);
 	}
 
+	/**
+	 * Declares the assetName for the entry as in the `#__assets` table
+	 *
+	 * @return string  The asset name
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function _getAssetName(): string
+	{
+		$k = $this->_tbl_key;
+
+		return 'com_cronjobs.cronjob.' . (int) $this->$k;
+	}
+
 }
