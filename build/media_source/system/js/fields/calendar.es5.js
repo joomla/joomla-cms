@@ -60,46 +60,63 @@
 			debug: false,
 			clicked: false,
 			element: {style: {display: "none"}},
-			writable: true
+			writable: true,
+		};
+
+		// Strings
+		this.strings = {
+			today: 'Today',
+			wk: 'wk',
+			shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+			months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+			AM: 'AM',
+			PM: 'PM',
+			exit: 'Close',
+			clear: 'Clear',
 		};
 
 		var self = this,
 			btn  = this.button,
 			instanceParams = {
 				inputField      : this.inputField,
-				dateType        : JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian',
-				direction       : (document.dir !== undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
-				firstDayOfWeek  : btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
-				dateFormat      : "%Y-%m-%d %H:%M:%S",
-				weekend         : JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6],
-				minYear         : JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900,
-				maxYear         : JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100,
-				minYearTmp      : btn.getAttribute("data-min-year"),
-				maxYearTmp      : btn.getAttribute("data-max-year"),
-				weekendTmp      : btn.getAttribute("data-weekend"),
+				dateType        : btn.dataset.dateType || 'gregorian',
+				direction       : document.dir ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
+				firstDayOfWeek  : btn.dataset.firstday ? parseInt(btn.dataset.firstday, 10) : 0,
+				dateFormat      : btn.dataset.dateFormat || "%Y-%m-%d %H:%M:%S",
+				weekend         : [0,6],
+				minYear         : 1900,
+				maxYear         : 2100,
 				time24          : true,
-				showsOthers     : (parseInt(btn.getAttribute("data-show-others")) === 1) ? true : false,
+				showsOthers     : true,
 				showsTime       : true,
-				weekNumbers     : (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
+				weekNumbers     : true,
 				showsTodayBtn   : true,
-				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
+				compressedHeader: false,
 			};
+console.log(btn.dataset, 'maxYear' in btn.dataset);
 
-		// Keep B/C
-		if (btn.getAttribute("data-dayformat")) {
-			instanceParams.dateFormat = btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S";
+		if ('showOthers' in btn.dataset) {
+			instanceParams.showsOthers = parseInt(btn.dataset.showOthers, 10) === 1;
 		}
 
-		if (btn.getAttribute("data-time-24")) {
-			instanceParams.time24 = parseInt(btn.getAttribute("data-time-24")) === 24 ? true : false;
+		if ('weekNumbers' in btn.dataset) {
+			instanceParams.weekNumbers = parseInt(btn.dataset.weekNumbers, 10) === 1;
 		}
 
-		if (btn.getAttribute("data-show-time")) {
-			instanceParams.showsTime = parseInt(btn.getAttribute("data-show-time")) === 1 ? true : false;
+		if ('onlyMonthsNav' in btn.dataset) {
+			instanceParams.compressedHeader = parseInt(btn.dataset.onlyMonthsNav, 10) === 1;
 		}
 
-		if (btn.getAttribute("data-today-btn")) {
-			instanceParams.showsTodayBtn = parseInt(btn.getAttribute("data-today-btn")) === 1 ? true : false;
+		if ('time24' in btn.dataset) {
+			instanceParams.time24 = parseInt(btn.dataset.time24 , 10) === 24;
+		}
+
+		if ('showTime' in btn.dataset) {
+			instanceParams.showsTime = parseInt(btn.dataset.showTime, 10) === 1;
+		}
+
+		if ('todayBtn' in btn.dataset) {
+			instanceParams.showsTodayBtn = parseInt(btn.dataset.todayBtn, 10) === 1;
 		}
 
 		// Merge the parameters
@@ -108,18 +125,18 @@
 		}
 
 		// Evaluate the min year
-		if (isInt(self.params.minYearTmp)) {
-			self.params.minYear = getBoundary(parseInt(self.params.minYearTmp), self.params.dateType);
+		if (btn.dataset.minYear) {
+			self.params.minYear = getBoundary(parseInt(btn.dataset.minYear, 10), self.params.dateType);
 		}
 		// Evaluate the max year
-		if (isInt(self.params.maxYearTmp)) {
-			self.params.maxYear = getBoundary(parseInt(self.params.maxYearTmp), self.params.dateType);
+		if (btn.dataset.maxYear) {
+			self.params.maxYear = getBoundary(parseInt(btn.dataset.maxYear, 10), self.params.dateType);
 		}
 		// Evaluate the weekend days
-		if (self.params.weekendTmp !== "undefined") {
-			self.params.weekend = self.params.weekendTmp.split(',').map(function(item) { return parseInt(item, 10); });
+		if (btn.dataset.weekend) {
+			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
 		}
-
+console.log(self.params);
 		// Event handler need to define here, to be able access in current context
 		this._dayMouseDown = function(event) {
 			return self._handleDayMouseDown(event);
@@ -617,7 +634,7 @@
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
 			cell.className = "day-name wn";
-			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.wk);
+			cell.textContent = self.strings.wk;
 		}
 		for (var i = 7; i > 0; --i) {
 			cell = createElement("td", row);
@@ -629,7 +646,7 @@
 
 		var fdow = this.params.firstDayOfWeek,
 			cell = this.firstdayname,
-			weekend = JoomlaCalLocale.weekend;
+			weekend = this.params.weekend;
 
 		for (var i = 0; i < 7; ++i) {
 			var realday = (i + fdow) % 7;
@@ -644,7 +661,7 @@
 				cell.classList.add("weekend");
 			}
 
-			cell.innerHTML = Joomla.sanitizeHtml(JoomlaCalLocale.shortDays[(i + fdow) % 7]);
+			cell.textContent = this.strings.shortDays[(i + fdow) % 7];
 			cell = cell.nextSibling;
 		}
 
@@ -731,8 +748,8 @@
 					var part = createElement("select", cell);
 					part.className = "time-ampm";
 					part.style.width = '100%';
-					part.options.add(new Option(JoomlaCalLocale.PM, "pm", pm ? selAttr : '', pm ? selAttr : ''));
-					part.options.add(new Option(JoomlaCalLocale.AM, "am", pm ? '' : selAttr, pm ? '' : selAttr));
+					part.options.add(new Option(self.strings.PM, "pm", pm ? selAttr : '', pm ? selAttr : ''));
+					part.options.add(new Option(self.strings.AM, "am", pm ? '' : selAttr, pm ? '' : selAttr));
 					AP = part;
 
 					// Event listener for the am/pm select
@@ -762,7 +779,7 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_clear = hh(JoomlaCalLocale.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_clear = hh(this.strings.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
 			var cleara = row.querySelector('[data-action="clear"]');
 			cleara.addEventListener("click", function (e) {
@@ -781,7 +798,7 @@
 			});
 
 		if (this.params.showsTodayBtn) {
-			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
+			this._nav_now = hh(this.strings.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
 
 			var todaya = this.wrapper.querySelector('[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -793,7 +810,7 @@
 			});
 		}
 
-		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
+		this._nav_exit = hh(this.strings.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -863,7 +880,7 @@
 
 		var row = this.tbody.firstChild,
 			ar_days = this.ar_days = new Array(),
-			weekend = JoomlaCalLocale.weekend,
+			weekend = this.params.weekend,
 			monthDays = parseInt(date.getLocalWeekDays(this.params.dateType));
 
 		/** Fill the table **/
@@ -968,11 +985,11 @@
 		}
 
 		if (!this.params.compressedHeader) {
-			this._nav_month.getElementsByTagName('span')[0].innerHTML = this.params.debug ? month + ' ' + JoomlaCalLocale.months[month] : JoomlaCalLocale.months[month];
-			this.title.getElementsByTagName('span')[0].innerHTML = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
+			this._nav_month.getElementsByTagName('span')[0].textContent = this.params.debug ? month + ' ' + this.strings.months[month] : this.strings.months[month];
+			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
 		} else {
 			var tmpYear = Date.convertNumbers(year.toString());
-			this._nav_month.getElementsByTagName('span')[0].innerHTML = !this.params.monthBefore  ? JoomlaCalLocale.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + JoomlaCalLocale.months[month] ;
+			this._nav_month.getElementsByTagName('span')[0].textContent = !this.params.monthBefore  ? this.strings.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + this.strings.months[month] ;
 		}
 		this.table.style.visibility = "visible";
 	};
@@ -1085,25 +1102,25 @@
 	JoomlaCalendar.init = function (element, container) {
 
 		// Fall back for translation strings
-		window.JoomlaCalLocale           = window.JoomlaCalLocale ? JoomlaCalLocale : {};
-		JoomlaCalLocale.today            = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
-		JoomlaCalLocale.weekend          = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0, 6];
-		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-		JoomlaCalLocale.wk               = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
-		JoomlaCalLocale.AM               = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
-		JoomlaCalLocale.PM               = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
-		JoomlaCalLocale.am               = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
-		JoomlaCalLocale.pm               = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
-		JoomlaCalLocale.dateType         = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
-		JoomlaCalLocale.time             = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
-		JoomlaCalLocale.days             = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
-		JoomlaCalLocale.shortDays        = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-		JoomlaCalLocale.months           = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		JoomlaCalLocale.shortMonths      = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		JoomlaCalLocale.minYear          = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
-		JoomlaCalLocale.maxYear          = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
-		JoomlaCalLocale.exit             = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
-		JoomlaCalLocale.clear            = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
+		//window.JoomlaCalLocale           = window.JoomlaCalLocale ? JoomlaCalLocale : {};
+		//JoomlaCalLocale.today            = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
+		//JoomlaCalLocale.weekend          = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0, 6];
+		//JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+		//JoomlaCalLocale.wk               = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
+		// JoomlaCalLocale.AM               = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
+		// JoomlaCalLocale.PM               = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
+		// JoomlaCalLocale.am               = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
+		// JoomlaCalLocale.pm               = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
+		//JoomlaCalLocale.dateType         = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
+		//JoomlaCalLocale.time             = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
+		//JoomlaCalLocale.days             = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
+		//JoomlaCalLocale.shortDays        = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+		//JoomlaCalLocale.months           = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		//JoomlaCalLocale.shortMonths      = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		//JoomlaCalLocale.minYear          = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
+		//JoomlaCalLocale.maxYear          = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
+		//JoomlaCalLocale.exit             = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
+		//JoomlaCalLocale.clear            = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 
 		var instance = element._joomlaCalendar;
 		if (!instance) {
