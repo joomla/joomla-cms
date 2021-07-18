@@ -5,28 +5,6 @@
 !(function(window, document){
 	'use strict';
 
-	/** Method to convert numbers to local symbols. */
-	Date.convertNumbers = function(str) {
-		var str = str.toString();
-
-		if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]') {
-			for (var i = 0; i < JoomlaCalLocale.localLangNumbers.length; i++) {
-				str = str.replace(new RegExp(i, 'g'), JoomlaCalLocale.localLangNumbers[i]);
-			}
-		}
-		return str;
-	};
-
-	/** Translates to english numbers a string. */
-	Date.toEnglish = function(str) {
-		str = this.toString();
-		var nums = [0,1,2,3,4,5,6,7,8,9];
-		for (var i = 0; i < 10; i++) {
-			str = str.replace(new RegExp(nums[i], 'g'), i);
-		}
-		return str;
-	};
-
 	var JoomlaCalendar = function (element) {
 
 		// Initialize only if the element exists
@@ -63,16 +41,19 @@
 			writable: true,
 		};
 
-		// Strings
+		// Localisation strings
 		this.strings = {
 			today: 'Today',
 			wk: 'wk',
+			days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 			shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 			months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-			AM: 'AM',
-			PM: 'PM',
+			shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			am: 'am',
+			pm: 'pm',
 			exit: 'Close',
 			clear: 'Clear',
+			localNumbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 		};
 
 		var self = this,
@@ -93,7 +74,6 @@
 				showsTodayBtn   : true,
 				compressedHeader: false,
 			};
-console.log(btn.dataset, 'maxYear' in btn.dataset);
 
 		if ('showOthers' in btn.dataset) {
 			instanceParams.showsOthers = parseInt(btn.dataset.showOthers, 10) === 1;
@@ -136,7 +116,11 @@ console.log(btn.dataset, 'maxYear' in btn.dataset);
 		if (btn.dataset.weekend) {
 			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
 		}
-console.log(self.params);
+
+		if (btn.dataset.localNumbers) {
+			this.strings.localNumbers = btn.dataset.localNumbers.split(',').map(function(item){ return parseInt(item, 10);})
+		}
+
 		// Event handler need to define here, to be able access in current context
 		this._dayMouseDown = function(event) {
 			return self._handleDayMouseDown(event);
@@ -162,11 +146,11 @@ console.log(self.params);
 
 	JoomlaCalendar.prototype.checkInputs = function () {
 		// Get the date from the input
-		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian');
+		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings);
 
 		if (this.inputField.value !== '') {
 			this.date = inputAltValueDate;
-			this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
+			this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 		} else {
 			this.date = new Date();
 		}
@@ -241,15 +225,15 @@ console.log(self.params);
 	/** Method to set the value for the input field */
 	JoomlaCalendar.prototype.callHandler = function () {
 		/** Output the date **/
-		this.inputField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, 'gregorian', false));
+		this.inputField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, 'gregorian', false, this.strings));
 
 		if (this.inputField.getAttribute('data-alt-value') && this.inputField.getAttribute('data-alt-value') !== '0000-00-00 00:00:00') {
-			this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
+			this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 			if (this.params.dateType !== 'gregorian') {
-				this.inputField.setAttribute('data-local-value', this.date.print(this.params.dateFormat, this.params.dateType, true));
+				this.inputField.setAttribute('data-local-value', this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings));
 			}
 		}
-		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
+		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
@@ -714,10 +698,10 @@ console.log(self.params);
 						}
 						if (i < 10 && range_end >= 10) {
 							num = '0' + i;
-							txt = Date.convertNumbers('0') + Date.convertNumbers(i);
+							txt = Date.convertNumbers('0', self.strings.localNumbers) + Date.convertNumbers(i, self.strings.localNumbers);
 						} else {
 							num = '' + i;
-							txt = '' + Date.convertNumbers(i);
+							txt = '' + Date.convertNumbers(i, self.strings.localNumbers);
 						}
 						part.options.add(new Option(txt, num, selAttr, selAttr));
 					}
@@ -742,14 +726,14 @@ console.log(self.params);
 
 				if (t12) {
 					var selAttr = true,
-						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian');
+						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
 					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
 					part.className = "time-ampm";
 					part.style.width = '100%';
-					part.options.add(new Option(self.strings.PM, "pm", pm ? selAttr : '', pm ? selAttr : ''));
-					part.options.add(new Option(self.strings.AM, "am", pm ? '' : selAttr, pm ? '' : selAttr));
+					part.options.add(new Option(self.strings.pm, "pm", pm ? selAttr : '', pm ? selAttr : ''));
+					part.options.add(new Option(self.strings.am, "am", pm ? '' : selAttr, pm ? '' : selAttr));
 					AP = part;
 
 					// Event listener for the am/pm select
@@ -821,15 +805,15 @@ console.log(self.params);
 					}
 					if (typeof self.dateClicked === 'undefined') {
 						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType)
-							.print(self.params.dateFormat, 'gregorian', false));
+						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+							.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					} else {
-						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false));
+						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					}
 				} else {
 					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType);
+				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
 			}
 			self.close();
 		});
@@ -888,7 +872,7 @@ console.log(self.params);
 			var cell = row.firstChild;
 			if (this.params.weekNumbers) {
 				cell.className = "day wn";
-				cell.innerHTML = Joomla.sanitizeHtml(date.getLocalWeekNumber(this.params.dateType)); //date.convertNumbers();
+				cell.textContent = date.getLocalWeekNumber(this.params.dateType);
 				cell = cell.nextSibling;
 			}
 
@@ -921,7 +905,7 @@ console.log(self.params);
 					cell.style.cursor = "pointer";
 				}
 				cell.disabled = false;
-				cell.innerHTML = this.params.debug ? Joomla.sanitizeHtml(iday) : Joomla.sanitizeHtml(Date.convertNumbers(iday));          // translated day number for each cell
+				cell.textContent = this.params.debug ? iday : Date.convertNumbers(iday, this.strings.localNumbers); // translated day number for each cell
 				if (!cell.disabled) {
 					cell.caldate = new Date(date);
 					if (current_month && iday === mday) {
@@ -986,9 +970,9 @@ console.log(self.params);
 
 		if (!this.params.compressedHeader) {
 			this._nav_month.getElementsByTagName('span')[0].textContent = this.params.debug ? month + ' ' + this.strings.months[month] : this.strings.months[month];
-			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
+			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString(), this.strings.localNumbers) : Date.convertNumbers(year.toString(), this.strings.localNumbers);
 		} else {
-			var tmpYear = Date.convertNumbers(year.toString());
+			var tmpYear = Date.convertNumbers(year.toString(), this.strings.localNumbers);
 			this._nav_month.getElementsByTagName('span')[0].textContent = !this.params.monthBefore  ? this.strings.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + this.strings.months[month] ;
 		}
 		this.table.style.visibility = "visible";
@@ -1013,23 +997,23 @@ console.log(self.params);
 
 						if (calObj.params.dateType !== 'gregorian') {
 							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
+							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
 							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
 							date.setFullYear(ndate[0]);
 							date.setMonth(ndate[1]);
 							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
+							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
-								.print(calObj.params.dateFormat, 'gregorian', false));
+							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings)
+								.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 						}
 					} else {
-						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false));
+						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 					}
 				} else {
 					calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType);
+				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
 			}
 
 			self.close();
