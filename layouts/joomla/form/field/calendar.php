@@ -63,6 +63,7 @@ $document = Factory::getApplication()->getDocument();
  * @var   string   $direction       The document direction
  * @var   string   $calendar        The calendar type
  * @var   array    $weekend         The weekends days
+ * @var   array    $localNumbers    The list of numbers
  * @var   integer  $firstday        The first day of the week
  * @var   string   $format          The format of date and time
  */
@@ -113,6 +114,7 @@ $calendarAttrs = [
 	'data-min-year'     => $minYear,
 	'data-max-year'     => $maxYear,
 	'data-date-type'    => strtolower($calendar),
+	'data-local-numbers' => implode(',', $localNumbers),
 ];
 
 $calendarAttrsStr = ArrayHelper::toString($calendarAttrs);

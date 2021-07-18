@@ -1214,4 +1214,18 @@ class Language
 	{
 		return $this->metadata['weekEnd'] ?? '0,6';
 	}
+
+	/**
+	 * Get the list of numbers for this language.
+	 *
+	 * @return  array  The list of numbers for the language
+	 *
+	 * @since   4.0
+	 */
+	public function getLocalNumbers()
+	{
+		$nums = array_map('intval', explode(',', $this->metadata['numbers']));
+
+		return $nums && count($nums) === 10 ? $nums : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+	}
 }
