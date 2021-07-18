@@ -91,6 +91,10 @@ joomla-tab {
       color: var(--template-text-light);
       background-color: var(--template-bg-dark);
     }
+
+    .text-muted {
+      color: var(--white) !important;
+    }
   }
   > joomla-tab-element {
     --gutter-x: 2rem;
@@ -165,10 +169,6 @@ joomla-tab {
           width: 5px;
           height: auto;
           background-color: var(--template-bg-dark);
-        }
-
-        .text-muted {
-          color: var(--template-text-light) !important;
         }
       }
     }
