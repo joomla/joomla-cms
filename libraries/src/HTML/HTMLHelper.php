@@ -1137,7 +1137,7 @@ abstract class HTMLHelper
 		$localesPath = 'system/fields/calendar-locales/en.js';
 
 		// Check for localisation files in next order: [xx-XX, xx]
-		foreach ([$tag, strtolower(substr($tag, 0, -3))] as $cLang)
+		foreach ([$tag, substr($tag, 0, -3)] as $cLang)
 		{
 			if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $cLang . '.js'))
 			{
