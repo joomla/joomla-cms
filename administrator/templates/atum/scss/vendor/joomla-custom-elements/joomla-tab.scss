@@ -68,10 +68,18 @@ joomla-tab {
           background-color: var(--template-link-color);
           opacity: .8;
         }
+
+        .text-muted {
+          color: var(--template-text-light) !important;
+        }
       }
 
       &[aria-expanded=true] {
         font-weight: $font-weight-bold;
+      }
+
+      .text-muted {
+        color: var(--template-text-dark) !important;
       }
     }
   }
@@ -170,6 +178,13 @@ joomla-tab {
           height: auto;
           background-color: var(--template-bg-dark);
         }
+
+        .text-muted {
+          color: var(--template-text-light) !important;
+        }
+      }
+      .text-muted {
+        color: var(--template-text-dark) !important;
       }
     }
 
