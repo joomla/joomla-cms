@@ -16,7 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_COOKIEMANAGER_COOKIES',
 	'formURL'    => 'index.php?option=com_cookiemanager',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage',
-	'icon'       => 'icon-generic cookies',
+	'icon'       => 'icon-cookie cookies',
 ];
 
 $user = Factory::getApplication()->getIdentity();
