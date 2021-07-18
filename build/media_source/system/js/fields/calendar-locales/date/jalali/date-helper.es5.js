@@ -1,3 +1,6 @@
+!(function(Date){
+	'use strict';
+
 /** BEGIN: DATE OBJECT PATCHES **/
 /** Adds the number of days array to the Date object. */
 Date.gregorian_MD = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -365,6 +368,7 @@ Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
 	var i = 0, j = 0;
 	var hr = 0;
 	var min = 0;
+	var sec = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (!a[i])
 			continue;
@@ -459,7 +463,7 @@ Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
  * Based on code from http://farsiweb.info
  */
 
-JalaliDate = {
+var JalaliDate = {
 	g_days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 	j_days_in_month: [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
 };
@@ -636,3 +640,5 @@ Date.prototype.getJalaliDay = function() {
 	day = (day) % 7;
 	return day;
 };
+
+})(Date);
