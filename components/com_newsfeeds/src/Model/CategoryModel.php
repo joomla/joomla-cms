@@ -45,7 +45,7 @@ class CategoryModel extends ListModel
 	protected $_leftsibling = null;
 
 	/**
-	 * Category rightof this one
+	 * Category right of this one
 	 *
 	 * @var    CategoryNode[]|null
 	 */
