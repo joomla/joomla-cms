@@ -518,7 +518,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				// This allows people to enter it either way in the content
 				if (!isset($mod))
 				{
-					$mod  = ModuleHelper::getModule('mod_' . $module, $name);
+					$mod = ModuleHelper::getModule('mod_' . $module, $name);
 				}
 
 				if (isset($mod))
