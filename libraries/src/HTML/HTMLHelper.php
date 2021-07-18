@@ -1128,7 +1128,7 @@ abstract class HTMLHelper
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
@@ -1136,17 +1136,13 @@ abstract class HTMLHelper
 		// Get the appropriate locale file for the current language
 		$localesPath = 'system/fields/calendar-locales/en.js';
 
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+		// Check for localisation files in next order: [xx-XX, xx]
+		foreach ([$tag, strtolower(substr($tag, 0, -3))] as $cLang)
 		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
+			if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $cLang . '.js'))
+			{
+				$localesPath = 'system/fields/calendar-locales/' . $cLang . '.js';
+			}
 		}
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
