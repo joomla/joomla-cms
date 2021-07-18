@@ -32,10 +32,10 @@
 			label="COM_COOKIEMANAGER_FIELD_POSITION_LABEL"
 			default="4"
 			>
-			<option value="1">After begin head</option>
-			<option value="2">Before end head</option>
-			<option value="3">After begin body</option>
-			<option value="4">Before end body</option>
+			<option value="1">COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_HEAD</option>
+			<option value="2">COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_HEAD</option>
+			<option value="3">COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_BODY</option>
+			<option value="4">COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_BODY</option>
 		</field>
 
 		<field
@@ -44,13 +44,13 @@
 			label="COM_COOKIEMANAGER_FIELD_TYPE_LABEL"
 			default="1"
 			>
-			<option value="1">Script</option>
-			<option value="2">External script</option>
-			<option value="3">Iframe</option>
-			<option value="4">Embed</option>
-			<option value="5">Object</option>
-			<option value="6">Link</option>
-			<option value="7">Img</option>
+			<option value="1">COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT</option>
+			<option value="2">COM_COOKIEMANAGER_SCRIPT_TYPE_EXTERNAL_SCRIPT</option>
+			<option value="3">COM_COOKIEMANAGER_SCRIPT_TYPE_IFRAME</option>
+			<option value="4">COM_COOKIEMANAGER_SCRIPT_TYPE_EMBED</option>
+			<option value="5">COM_COOKIEMANAGER_SCRIPT_TYPE_OBJECT</option>
+			<option value="6">COM_COOKIEMANAGER_SCRIPT_TYPE_LINK</option>
+			<option value="7">COM_COOKIEMANAGER_SCRIPT_TYPE_IMG</option>
 		</field>
 
 		<field
