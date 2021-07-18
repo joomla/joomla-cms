@@ -1,5 +1,5 @@
 window.JoomlaCalLocale = {
-	today: "Astăzi"
+	today: "Astăzi",
 	weekend : [0, 6],
 	wk : "săpt.",
 	time : "Ora:",

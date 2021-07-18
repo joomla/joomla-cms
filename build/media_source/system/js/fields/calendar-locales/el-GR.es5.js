@@ -16,4 +16,4 @@ window.JoomlaCalLocale = {
 	maxYear : 2100,
 	exit: "Έξοδος",
 	clear: "Καθαρισμός"
-}?
+};
