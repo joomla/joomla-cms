@@ -246,22 +246,44 @@ Date.gregorianToLocalCal = function(y, m, d) {
 };
 
 /** Method to convert numbers from local symbols to English numbers. */
-Date.numbersToIso = function(str) {
-	var i, nums =[0,1,2,3,4,5,6,7,8,9];
+Date.numbersToIso = function(str, localNumbers) {
+	var i, nums = [0,1,2,3,4,5,6,7,8,9];
 	str = str.toString();
 
-	if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]') {
-		for (i = 0; i < nums.length; i++) {
-			str = str.replace(new RegExp(JoomlaCalLocale.localLangNumbers[i], 'g'), nums[i]);
-		}
+
+	for (i = 0; i < nums.length; i++) {
+		str = str.replace(new RegExp(localNumbers.localLangNumbers[i], 'g'), nums[i]);
+	}
+
+	return str;
+};
+
+/** Method to convert numbers to local symbols. */
+Date.convertNumbers = function(str, localNumbers) {
+	str = str.toString();
+
+	for (var i = 0, l = localNumbers.length; i < l; i++) {
+		str = str.replace(new RegExp(i, 'g'), localNumbers[i]);
+	}
+
+	return str;
+};
+
+/** Translates to english numbers a string. */
+Date.toEnglish = function(str) {
+	str = this.toString();
+	var nums = [0,1,2,3,4,5,6,7,8,9];
+	for (var i = 0; i < 10; i++) {
+		str = str.replace(new RegExp(nums[i], 'g'), i);
 	}
 	return str;
 };
+
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/
 
 /** Prints the date in a string according to the given format. */
-Date.prototype.print = function (str, dateType, translate) {
+Date.prototype.print = function (str, dateType, translate, localStrings) {
 	/** Handle calendar type **/
 	if (typeof dateType !== 'string') str = '';
 	if (!dateType) dateType = 'gregorian';
@@ -286,10 +308,10 @@ Date.prototype.print = function (str, dateType, translate) {
 		ir = 12;
 	var min = this.getMinutes();
 	var sec = this.getSeconds();
-	s["%a"] = JoomlaCalLocale.shortDays[w];                                                     // abbreviated weekday name
-	s["%A"] = JoomlaCalLocale.days[w];                                                          // full weekday name
-	s["%b"] = JoomlaCalLocale.shortMonths[m];                                                   // abbreviated month name
-	s["%B"] = JoomlaCalLocale.months[m];                                                        // full month name
+	s["%a"] = localStrings.shortDays[w];                                                     // abbreviated weekday name
+	s["%A"] = localStrings.days[w];                                                          // full weekday name
+	s["%b"] = localStrings.shortMonths[m];                                                   // abbreviated month name
+	s["%B"] = localStrings.months[m];                                                        // full month name
 	// FIXME: %c : preferred date and time representation for the current locale
 	s["%C"] = 1 + Math.floor(y / 100);                                                          // the century number
 	s["%d"] = (d < 10) ? ("0" + d) : d;                                                         // the day of the month (range 01 to 31)
@@ -304,8 +326,8 @@ Date.prototype.print = function (str, dateType, translate) {
 	s["%m"] = (m < 9) ? ("0" + (1+m)) : (1+m);                                                  // month, range 01 to 12
 	s["%M"] = (min < 10) ? ("0" + min) : min;                                                   // minute, range 00 to 59
 	s["%n"] = "\n";                                                                             // a newline character
-	s["%p"] = pm ? JoomlaCalLocale.PM : JoomlaCalLocale.AM;
-	s["%P"] = pm ? JoomlaCalLocale.pm : JoomlaCalLocale.am;
+	s["%p"] = pm ? localStrings.pm.toUpperCase() : localStrings.am.toUpperCase();
+	s["%P"] = pm ? localStrings.pm : localStrings.am;
 	// FIXME: %r : the time in am/pm notation %I:%M:%S %p
 	// FIXME: %R : the time in 24-hour notation %H:%M
 	s["%s"] = Math.floor(this.getTime() / 1000);
@@ -324,14 +346,15 @@ Date.prototype.print = function (str, dateType, translate) {
 	var re = /%./g;
 
 	var tmpDate = str.replace(re, function (par) { return s[par] || par; });
-	if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]' && translate)
-		tmpDate = Date.convertNumbers(tmpDate);
+	if (translate) {
+		tmpDate = Date.convertNumbers(tmpDate, localStrings.localNumbers);
+	}
 
 	return tmpDate;
 };
 
-Date.parseFieldDate = function(str, fmt, dateType) {
-	str = Date.numbersToIso(str);
+Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
+	str = Date.numbersToIso(str, localStrings.localNumbers);
 
 	var today = new Date();
 	var y = 0;
@@ -364,11 +387,7 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 			case "%b":
 			case "%B":
 				for (j = 0; j < 12; ++j) {
-					if (dateType != 'gregorian') {
-						if (JoomlaCalLocale.months[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
-					} else {
-						if (JoomlaCalLocale.months[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
-					}
+					if (localStrings.months[j].substr(0, a[i].length).toLowerCase() === a[i].toLowerCase()) { m = j; break; }
 				}
 				break;
 
@@ -407,11 +426,7 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 		if (a[i].search(/[a-zA-Z]+/) != -1) {
 			var t = -1;
 			for (j = 0; j < 12; ++j) {
-				if (dateType != 'gregorian') {
-					if (JoomlaCalLocale.months[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
-				} else {
-					if (JoomlaCalLocale.months[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
-				}
+				if (localStrings.months[j].substr(0, a[i].length).toLowerCase() === a[i].toLowerCase()) { t = j; break; }
 			}
 			if (t != -1) {
 				if (m != -1) {
