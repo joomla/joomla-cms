@@ -58,6 +58,7 @@ const activate = (name, data) => {
 Joomla.MediaManager.Edit.Reset = (current) => {
   if (!current || (current && current === 'initial')) {
     Joomla.MediaManager.Edit.current.contents = Joomla.MediaManager.Edit.original.contents;
+    Joomla.MediaManager.Edit.history = {};
   }
 
   // Clear the DOM
@@ -162,7 +163,7 @@ Joomla.submitbutton = (task) => {
       const activeTab = [].slice.call(document.querySelectorAll('joomla-tab-element'))
         .filter((tab) => tab.hasAttribute('active'));
       Joomla.MediaManager.Edit[activeTab[0].id.replace('attrib-', '')].Deactivate();
-      Joomla.MediaManager.Edit[activeTab[0].id.replace('attrib-', '')].Activate();
+      Joomla.MediaManager.Edit[activeTab[0].id.replace('attrib-', '')].Activate(Joomla.MediaManager.Edit.current.contents);
       break;
     case 'save':
       // eslint-disable-next-line func-names
@@ -262,7 +263,7 @@ customElements.whenDefined('joomla-tab').then(() => {
   }
 
   // Couple the tabs with the plugin objects
-  links.forEach((link) => {
+  links.forEach((link, index) => {
     link.addEventListener('joomla.tab.shown', ({ relatedTarget, target }) => {
       const container = document.getElementById('media-manager-edit-container');
       if (relatedTarget) {
@@ -284,11 +285,12 @@ customElements.whenDefined('joomla-tab').then(() => {
       activate(relatedTarget.id.replace('attrib-', ''), data);
     });
 
-    link.click();
+    tabContainer.activateTab(index, false);
+    // link.click();
   });
 
   if (links[0]) {
-    links[0].click();
+    tabContainer.activateTab(0, false);
     activate(links[0].getAttribute('aria-controls').replace('attrib-', ''), Joomla.MediaManager.Edit.original);
   }
 });

@@ -36,13 +36,6 @@ const init = (image) => {
       // Notify the app that a change has been made
       window.dispatchEvent(new Event('mediaManager.history.point'));
     },
-    ready: function() {
-      const values = this.cropper.getImageData();
-      document.getElementById('jform_crop_x').value = Math.round(values.left);
-      document.getElementById('jform_crop_y').value = Math.round(values.top);
-      document.getElementById('jform_crop_width').value = Math.round(values.naturalWidth);
-      document.getElementById('jform_crop_height').value = Math.round(values.naturalHeight);
-    }
   });
 
   document.getElementById('jform_crop_x').addEventListener('change', ({ currentTarget }) => {
@@ -70,19 +63,18 @@ Joomla.MediaManager.Edit.crop = {
   Activate(mediaData) {
     const image = document.getElementById('image-preview');
     // Wait for the image to load its data
-    image.addEventListener('load', () => {
-      // Get all option elements if future need
-      const elements = [].slice.call(document.querySelectorAll('.crop-aspect-ratio-option'));
+    image.src = mediaData;
+    // Get all option elements if future need
+    const elements = [].slice.call(document.querySelectorAll('.crop-aspect-ratio-option'));
 
-      // Set default aspect ratio after numeric check, option has a dummy value
-      const defaultCropFactor = image.naturalWidth / image.naturalHeight;
-      if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) {
-        elements[0].value = defaultCropFactor;
-      }
+    // Set default aspect ratio after numeric check, option has a dummy value
+    const defaultCropFactor = image.naturalWidth / image.naturalHeight;
+    if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) {
+      elements[0].value = defaultCropFactor;
+    }
 
-      init(image);
-      Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
-    });
+    init(image);
+    Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
   },
   Deactivate() {
     Joomla.MediaManager.Edit.crop.cropper.destroy();
