@@ -36,7 +36,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
 
-		<div class="row mt-2">
+		<div class="row mt-2 ms-2">
 			<div class="col-lg-9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
