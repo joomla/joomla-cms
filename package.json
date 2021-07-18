@@ -45,7 +45,7 @@
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "focus-visible": "^5.2.0",
-    "joomla-ui-custom-elements": "git+https://github.com/joomla-projects/custom-elements.git#117f0c6f0e1fcdd71fcdd7cf765babf9311e91dd",
+    "joomla-ui-custom-elements": "git+https://github.com/joomla-projects/custom-elements.git#8a097860ac185e8a9fc6141186917bc780398ccc",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
     "mark.js": "^8.11.1",
