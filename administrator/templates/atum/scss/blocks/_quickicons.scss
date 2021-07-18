@@ -142,7 +142,10 @@
 
 #content .menu-quicktask {
   position: absolute;
-  right: 1.25rem;
+
+  [dir=ltr] & {
+    right: 1.25rem;
+  }
 
   [dir=rtl] & {
     left: 1.25rem;
