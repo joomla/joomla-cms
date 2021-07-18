@@ -12,22 +12,23 @@
 namespace Joomla\Component\Cronjobs\Administrator\View\Select;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
+use JObject;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use function defined;
 
 /**
  * The MVC View Select
  * Should let the user choose from a list of plugin defined Jobs or a CLI job.
- * ! : Untested
  *
  * @package    Joomla.Administrator
  * @subpackage com_cronjobs
@@ -37,7 +38,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var CMSApplication
+	 * @var AdministratorApplication
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $app;
@@ -45,13 +46,13 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  JObject
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
-	 * An array of items [TODO: Implement a 'Job' object or similar]
+	 * An array of items
 	 *
 	 * @var  array
 	 * @since __DEPLOY_VERSION__
@@ -60,7 +61,6 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * Will be used for the "CLI" / "Script" type job
-	 * ! : Not in use yet
 	 *
 	 * @var object
 	 * @since version
@@ -74,7 +74,6 @@ class HtmlView extends BaseHtmlView
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $modalLink;
-
 
 	/**
 	 * HtmlView constructor.
@@ -107,10 +106,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null): void
 	{
-		// ! Untested
-
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
+		$this->specialItem = (object) [
+			'title' => Text::_('COM_CRONJOBS_CLI_JOBS_TITLE'),
+			'desc' => Text::_('COM_CRONJOBS_CLI_JOBS_DESC')
+		];
 		$this->modalLink = '';
 
 		// Check for errors.
@@ -125,16 +126,21 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * Add the page title and toolbar.
-	 * ! : Untested
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
-		$state = $this->get('State');
-		$clientId = (int) $state->get('client_id', 0);
+		$canDo = ContentHelper::getActions('com_cronjobs');
+
+		/*
+		* Get the global Toolbar instance
+		* TODO : Replace usage with ToolbarFactoryInterface. but how?
+		 *       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
+		*/
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		/*
 		 * Add page title
@@ -142,20 +148,20 @@ class HtmlView extends BaseHtmlView
 		 */
 		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'tags');
 
-		/*
-		 * Get the toolbar object instance
-		 * TODO : Replace usage with ToolbarFactoryInterface
-		 */
-		$bar = Toolbar::getInstance();
+		$toolbar->linkButton('cancel')
+			->buttonClass('btn btn-danger')
+			->icon('icon-times')
+			->text(Text::_('JCANCEL'))
+			->url('index.php?option=com_cronjobs');
 
-		// Instantiate a new FileLayout instance and render the layout
-		$layout = new FileLayout('toolbar.cancelselect');
+		// Adds preferences button if user has privileges
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			$toolbar->preferences('com_cronjobs');
+		}
 
-		/*
-		 * ? : What is this doing?
-		 * ! : appendButton seems to want a ToolbarButton object, but we're passing a string?
-		 * TODO : Button object?
-		 */
-		$bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+		// Adds help button
+		$toolbar->help('JHELP_COMPONENTS_CRONJOBS_MANAGER');
+
 	}
 }
