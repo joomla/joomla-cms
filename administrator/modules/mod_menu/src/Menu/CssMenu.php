@@ -343,7 +343,7 @@ class CssMenu
 				parse_str($item->link, $query);
 				$assetName = $query['extension'] ?? 'com_content';
 			}
-			elseif ($item->element === 'com_fields')
+			elseif ($item->element === 'com_fields' || strpos($item->link, 'index.php?option=com_fields&') !== false)
 			{
 				parse_str($item->link, $query);
 
