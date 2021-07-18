@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "Бүгін",
+	today : "Today",
 	weekend : [0, 6],
-	wk : "апта",
-	time : "Уақыт:",
-	days : ["Жексенбі", "Дүйсенбі", "Сейсенбі", "Сәрсенбі", "Бейсенбі", "Жұма", "Сенбі"],
-	shortDays : ["Жекс", "Дүйс", "Сейс", "Сәрс", "Бейс", "Жұма", "Сенбі"],
-	months : ["Қаңтар", "Ақпан", "Наурыз", "Сәуір", "Мамыр", "Маусым", "Шілде", "Тамыз", "Қыркүйек", "Қазан", "Қараша", "Желтоқсан"],
-	shortMonths : ["Қаң", "Ақп", "Нау", "Сәу", "Мам", "Мау", "Шіл", "Там", "Қырк", "Қаз", "Қар", "Жел"],
+	wk : "wk",
+	time : "Time:",
+	days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "Жабу",
-	clear: "Өшіру"
+	exit: "Close",
+	clear: "Clear"
 };

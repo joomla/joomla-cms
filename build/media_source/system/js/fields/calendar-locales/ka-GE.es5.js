@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "დღეს",
+	today : "Today",
 	weekend : [0, 6],
-	wk : "კვ",
-	time : "დრო:",
-	days : ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"],
-	shortDays : ["კვ", "ორშ", "სამშ", "ოთხშ", "ხუთშ", "პარ", "შაბ"],
-	months : ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"],
-	shortMonths : ["იან", "თებ", "მარ", "აპრ", "მაი", "ივნ", "ივლ", "აგვ", "სექ", "ოქტ", "ნოე", "დეკ"],
+	wk : "wk",
+	time : "Time:",
+	days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "დახურვა",
-	clear: "გასუფთავება"
+	exit: "Close",
+	clear: "Clear"
 };

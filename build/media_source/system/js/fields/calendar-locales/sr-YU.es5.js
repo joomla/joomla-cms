@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "Danas",
+	today : "Today",
 	weekend : [0, 6],
-	wk : "ned",
-	time : "Vreme:",
-	days : ["Nedelja", "Ponedeljak", "Utorak", "Sreda", "Četvrtak", "Petak", "Subota"],
-	shortDays : ["Ned", "Pon", "Uto", "Sre", "Čet", "Pet", "Sub"],
-	months : ["Januar", "Fenruar", "Mart", "April", "Maj", "Juni", "Juli", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"],
-	shortMonths : ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Avg", "Sep", "Okt", "Nov", "Dec"],
+	wk : "wk",
+	time : "Time:",
+	days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "Zatvori",
-	clear: "Sačuvaj"
+	exit: "Close",
+	clear: "Clear"
 };

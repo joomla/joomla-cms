@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "Dzisiaj",
+	today : "Today",
 	weekend : [0, 6],
-	wk : "tydz",
-	time : "Godzina:",
-	days : ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
-	shortDays : ["nie.", "pon.", "wt.", "śr.", "czw.", "pt.", "sob."],
-	months : ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
-	shortMonths : ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
+	wk : "wk",
+	time : "Time:",
+	days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "Zamknij",
-	clear: "Wyczyść"
+	exit: "Close",
+	clear: "Clear"
 };

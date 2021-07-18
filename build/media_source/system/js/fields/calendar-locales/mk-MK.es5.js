@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "Денес",
+	today : "Today",
 	weekend : [0, 6],
-	wk : "нед",
-	time : "Време:",
-	days : ["Недела", "Понеделник", "Вторник", "Среда", "Четврток", "Петок", "Сабота"],
-	shortDays : ["Нед", "Пон", "Вто", "Сре", "Чет", "Пет", "Саб"],
-	months : ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"],
-	shortMonths : ["Јан", "Фев", "Мар", "Апр", "Мај", "Јун", "Јул", "Авг", "Сеп", "Окт", "Ное", "Дек"],
+	wk : "wk",
+	time : "Time:",
+	days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "Затвори",
-	clear: "Зачувај"
+	exit: "Close",
+	clear: "Clear"
 };

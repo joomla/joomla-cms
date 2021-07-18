@@ -7,13 +7,13 @@ window.JoomlaCalLocale = {
 	shortDays : ["Ned", "Pon", "Uto", "Str", "Štv", "Pia", "Sob"],
 	months : ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
 	shortMonths : ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
-	AM : "DOPOL.",
-	PM :  "POPOL.",
-	am : "dopol.",
-	pm : "popol.",
+	AM : "DOP.",
+	PM :  "POP.",
+	am : "dop.",
+	pm : "pop.",
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "Zavrieť",
-	clear: "Vymazať"
+	clear: "Vyčistiť"
 };

@@ -1,7 +1,7 @@
 window.JoomlaCalLocale = {
 	today : "Idag",
 	weekend : [0, 6],
-	wk : "vk",
+	wk : "va",
 	time : "Tid:",
 	days : ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"],
 	shortDays : ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"],

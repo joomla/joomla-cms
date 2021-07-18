@@ -1,12 +1,12 @@
 window.JoomlaCalLocale = {
-	today : "Avui",
-	weekend : [0, 6],
-	wk : "Setm",
-	time : "Hora:",
-	days : ["Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte"],
-	shortDays : ["Du", "Dl", "Dm", "Dx", "Dj", "Dv", "Ds"],
-	months : ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"],
-	shortMonths : ["Gen", "Feb", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Des"],
+	avui: "Avui",
+	cap de setmana: [0, 6],
+	wk : "wk",
+	hora : "Hora:",
+	dies : ["Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte"],
+	Dies abreujats : ["dg", "dl", "dt", "dc", "dj", "dv", "ds"],
+	mesos : ["gener", "febrer", "març", "abril", "maig", "juny", "juliol", "agost", "setembre", "octubre", "novembre", "desembre"],
+	Mesos abreujats : ["gn", "fb", "mç", "ab", "mg", "jn", "jl", "ag", "st", "oc", "nv", "ds"],
 	AM : "AM",
 	PM :  "PM",
 	am : "am",
@@ -15,5 +15,5 @@ window.JoomlaCalLocale = {
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "Tancar",
-	clear: "Desar"
+	clear: "Netejar"
 };

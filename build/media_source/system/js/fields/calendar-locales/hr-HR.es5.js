@@ -12,8 +12,8 @@ window.JoomlaCalLocale = {
 	am : "am",
 	pm : "pm",
 	dateType : "gregorian",
-	minYear : 1900,
-	maxYear : 2100,
+	minYear : 1900.,
+	maxYear : 2100.,
 	exit: "Zatvori",
-	clear: "Otkaži"
+	save: "Očisti"
 };
