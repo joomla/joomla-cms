@@ -86,3 +86,7 @@
 .plg_system_webauthn_login_button svg path {
   fill: var(--white);
 }
+
+.badge > span {
+  margin-inline-end: .5rem;
+}
