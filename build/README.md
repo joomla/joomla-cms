@@ -55,7 +55,7 @@ There are three options here:
 
 ## Working efficiently with the Joomla build tools
 
-Usually when cotributing to the project the scope of the contribution should be limited, eg fixing some css bug, a javascript bug or some markup or a bug that involves changes in all these areas. The build tools were created so that you spent less time on compiling assets rather than testing a possible solution. *Embrace the watchers* and let the computer help you succeed faster and safer. There are 2 watcher at the moment: one for the Media Manager (client app based on VueJS) and another one that handles templates and the source (build) folder.
+Usually when contributing to the project the scope of the contribution should be limited, eg fixing some css bug, a javascript bug or some markup or a bug that involves changes in all these areas. The build tools were created so that you spent less time on compiling assets rather than testing a possible solution. *Embrace the watchers* and let the computer help you succeed faster and safer. There are 2 watcher at the moment: one for the Media Manager (client app based on VueJS) and another one that handles templates and the source (build) folder.
 
 Assuming that you are working on the Media Manager you can run in your terminal (already in the root folder of the Joomla repo) `npm run watch:com_media`. This watcher will automatically recomile the app on every save (there is a debounce of 0.3s so if you have autosave will be clever to reduce the tasks).
 

@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				->text('JFEATURE')
 				->task('contacts.featured')
 				->listCheck(true);
-			$childBar->standardButton('circle')
+			$childBar->standardButton('unfeatured')
 				->text('JUNFEATURE')
 				->task('contacts.unfeatured')
 				->listCheck(true);

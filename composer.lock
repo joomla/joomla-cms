@@ -932,21 +932,21 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.0-beta3",
+            "version": "2.0.0-beta4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790"
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/530a04e71ef728d7b571a83b5f16c2fa25a75790",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/3f3a1b42b3942f05c29f1b756d4014d58fed711e",
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "^2.0",
-                "php": "^7.2.5",
+                "php": "^7.2.5|^8.0",
                 "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
@@ -994,7 +994,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-09-11T12:34:36+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/database/issues",
+                "source": "https://github.com/joomla-framework/database/tree/2.0.0-beta4"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-07-13T18:43:12+00:00"
         },
         {
             "name": "joomla/di",

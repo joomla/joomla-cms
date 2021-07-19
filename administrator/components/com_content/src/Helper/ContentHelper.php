@@ -116,6 +116,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				[
 					$db->quoteName('default') . ' = 1',
 					$db->quoteName('published') . ' = 1',
+					$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 				]
 			);
 
@@ -146,6 +147,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 						[
 							$db->quoteName('id') . ' = :workflowId',
 							$db->quoteName('published') . ' = 1',
+							$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 						]
 					)
 					->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
