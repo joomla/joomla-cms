@@ -80,7 +80,7 @@ if ($showPreview)
 
 	if ($cleanValue && file_exists(JPATH_ROOT . '/' . $cleanValue))
 	{
-		$src = Uri::root() . $cleanValue;
+		$src = Uri::root() . $value;
 	}
 	else
 	{
