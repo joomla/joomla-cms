@@ -1106,27 +1106,6 @@
 	 */
 	JoomlaCalendar.init = function (element, container) {
 
-		// Fall back for translation strings
-		//window.JoomlaCalLocale           = window.JoomlaCalLocale ? JoomlaCalLocale : {};
-		//JoomlaCalLocale.today            = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
-		//JoomlaCalLocale.weekend          = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0, 6];
-		//JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-		//JoomlaCalLocale.wk               = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
-		// JoomlaCalLocale.AM               = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
-		// JoomlaCalLocale.PM               = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
-		// JoomlaCalLocale.am               = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
-		// JoomlaCalLocale.pm               = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
-		//JoomlaCalLocale.dateType         = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
-		//JoomlaCalLocale.time             = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
-		//JoomlaCalLocale.days             = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
-		//JoomlaCalLocale.shortDays        = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-		//JoomlaCalLocale.months           = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		//JoomlaCalLocale.shortMonths      = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		//JoomlaCalLocale.minYear          = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
-		//JoomlaCalLocale.maxYear          = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
-		//JoomlaCalLocale.exit             = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
-		//JoomlaCalLocale.clear            = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
-
 		var instance = element._joomlaCalendar;
 		if (!instance) {
 			new JoomlaCalendar(element);
