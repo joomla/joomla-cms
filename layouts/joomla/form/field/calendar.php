@@ -119,6 +119,28 @@ $calendarAttrs = [
 
 $calendarAttrsStr = ArrayHelper::toString($calendarAttrs);
 
+// Add language strings
+$strings = [
+	// Days
+	'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY',
+	// Short days
+	'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT',
+	// Months
+	'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+	// Short months
+	'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
+	'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
+	// Buttons
+	'JCLOSE', 'JCLEAR', 'JLIB_HTML_BEHAVIOR_TODAY',
+	// Miscellaneous
+	'JLIB_HTML_BEHAVIOR_WK', 'JLIB_HTML_BEHAVIOR_AM', 'JLIB_HTML_BEHAVIOR_PM',
+];
+
+foreach ($strings as $c)
+{
+	Text::script($c);
+}
+
 // Redefine locale/helper assets to use correct path, and load calendar assets
 $document->getWebAssetManager()
 	->registerAndUseScript('field.calendar.helper', $helperPath, [], ['defer' => true])

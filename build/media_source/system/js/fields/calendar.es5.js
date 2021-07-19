@@ -22,6 +22,8 @@
 
 		element._joomlaCalendar = this;
 
+		var self = this;
+
 		this.writable   = true;
 		this.hidden     = true;
 		this.params     = {};
@@ -42,22 +44,41 @@
 		};
 
 		// Localisation strings
+		var _t = Joomla.Text._;
 		this.strings = {
-			today: 'Today',
-			wk: 'wk',
-			days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-			shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-			months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-			shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			am: 'am',
-			pm: 'pm',
-			exit: 'Close',
-			clear: 'Clear',
+			today: _t('JLIB_HTML_BEHAVIOR_TODAY', 'Today'),
+			wk: _t('JLIB_HTML_BEHAVIOR_WK', 'wk'),
+			// ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			days: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
+			// ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+			shortDays: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+			// ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+			months: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'],
+			// ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			shortMonths: ['JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',],
+			am: _t('JLIB_HTML_BEHAVIOR_AM', 'am'),
+			pm: _t('JLIB_HTML_BEHAVIOR_PM', 'pm'),
+			exit: _t('JCLOSE', 'Close'),
+			clear: _t('JCLEAR', 'Clear'),
 			localNumbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 		};
 
-		var self = this,
-			btn  = this.button,
+		// Translate lists of Days, Months
+		this.strings.days = this.strings.days.map(function (c){
+			return _t(c);
+		});
+		this.strings.shortDays = this.strings.shortDays.map(function (c){
+			return _t(c);
+		});
+		this.strings.months = this.strings.months.map(function (c){
+			return _t(c);
+		});
+		this.strings.shortMonths = this.strings.shortMonths.map(function (c){
+			return _t(c);
+		});
+
+		var btn = this.button,
 			instanceParams = {
 				inputField      : this.inputField,
 				dateType        : btn.dataset.dateType || 'gregorian',
