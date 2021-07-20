@@ -58,7 +58,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 
 	<!-- The main form card -->
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<!-- The first (and the main) tab in the form -->
 		<?php echo

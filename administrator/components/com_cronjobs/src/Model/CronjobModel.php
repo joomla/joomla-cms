@@ -12,13 +12,18 @@
 namespace Joomla\Component\Cronjobs\Administrator\Model;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use function defined;
 
 /**
  * MVC Model to interact with the Cronjobs DB.
@@ -41,17 +46,45 @@ class CronjobModel extends AdminModel
 	);
 
 	/**
+	 * Prefix used with controller messages
+	 *
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_CRONJOBS';
 
 	/**
+	 * Type alias for content type
+	 *
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_cronjobs.cronjob';
 
+	/**
+	 * The Application object, for convenience
+	 *
+	 * @var AdministratorApplication $app
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+
+	/**
+	 * CronjobModel constructor. Needed just to set $app
+	 *
+	 * @param   array                      $config       An array of configuration options
+	 * @param   MVCFactoryInterface|null   $factory      The factory [?]
+	 * @param   FormFactoryInterface|null  $formFactory  The form factory [?]
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+	{
+		$this->app = Factory::getApplication();
+		parent::__construct($config, $factory, $formFactory);
+	}
 
 	/**
 	 * Fetches the form object associated with this model. By default,
@@ -67,7 +100,6 @@ class CronjobModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$input = Factory::getApplication()->getInput();
 
 		// TODO :  Can we need any custom fields [?]
 		Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_cronjobs/src/Field');
@@ -84,14 +116,18 @@ class CronjobModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getApplication()->getIdentity();
+		$user = $this->app->getIdentity();
+
+		// If new entry, set type (and plg_job, if applicable)
+		if ($this->getState('cronjob.id', 0) === 0 && $this->getState('cronjob.type') !== null)
+		{
+			$form->setValue('type', null, $this->getState('cronjob.type'));
+		}
 
 		/*
-		 * TODO : Check if this works as expected
-		 * ? : Is this the right way to check permissions? (In particular, the assetName)
-		 * ? : Are we guaranteed a $data['id'], does this work OK if it's null? A : [NO, IT IS NOT GUARANTEED]
+		 * TODO : Check if this is working as expected (what about new items, id == 0 ?)
 		 */
-		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $input->get('id')))
+		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $this->getState('job.id')))
 		{
 			// Disable fields
 			$form->setFieldAttribute('state', 'disabled', 'true');
@@ -123,14 +159,11 @@ class CronjobModel extends AdminModel
 		}
 
 		// TODO : Check if this is the right way to check authority (in particular the assetName)
-		return Factory::getApplication()->getIdentity()->authorise('core.delete', 'com.cronjobs.cronjob.' . $record->id);
+		return $this->app->getIdentity()->authorise('core.delete', 'com.cronjobs.cronjob.' . $record->id);
 	}
 
 	/**
-	 * Populate the model state based on user input.
-	 * ? : Do we need this?
-	 *     The parent method already sets the primary key
-	 *     for the Table object, which might be all we need here.
+	 * Populate the model state, we use these instead of toying with input or the global state
 	 *
 	 * @return  void
 	 *
@@ -139,13 +172,30 @@ class CronjobModel extends AdminModel
 	 */
 	protected function populateState(): void
 	{
-		parent::populateState();
+		$app = $this->app;
+
+		$jobId = $app->getInput()->getInt('id');
+		$jobType = $app->getUserState('com_cronjobs.add.cronjob.cronjob_type');
+		$pluginJobId = $app->getUserState('com_cronjobs.add.cronjob.plg_job_id');
+
+		$this->setState('cronjob.id', $jobId);
+		$this->setState('cronjob.type', $jobType);
+
+		if ($pluginJobId !== null)
+		{
+			$this->setState('job.plg_job_id', $pluginJobId);
+		}
+
+		// Load component params, though com_cronjobs does not (yet) have any params
+		$cParams = ComponentHelper::getParams($this->option);
+		$this->setState('params', $cParams);
 	}
 
 	/**
 	 * Probably don't _need_ to define this method since the parent getTable()
 	 * implicitly deduces $name and $prefix anyways. This does make the object
 	 * more transparent though.
+	 *
 	 *
 	 * @param   string  $name     Name of the table
 	 * @param   string  $prefix   Class prefix
@@ -175,27 +225,26 @@ class CronjobModel extends AdminModel
 		 * Check session for previously entered form data
 		 * ? : How and where does this data get saved?
 		 *
-		 * ! : getUserState() makes the IDE scream "Potentially Polymorphic Call"
-		 *     because ConsoleApplication and StubGenerator don't implement the method.
-		 *     While we'll never call loadFormData() from those, it looks ugly as it is.
-		 *     Is there any way to get rid of it?
 		 */
-		$app = Factory::getApplication();
-		$data = $app->getUserState('com_cronjobs.edit.cronjob.data', array());
+		$data = $this->app->getUserState('com_cronjobs.edit.cronjob.data', array());
 
-		// If the UserState didn't have form data, we fetch it with getItem()
+		// If the data from UserState is empty, we fetch it with getItem()
 		if (empty($data))
 		{
 			$data = $this->getItem();
 
-			// TODO : Do we need any _priming_ on the $data here?
 			$time = explode(':', $data->get('execution_interval'));
 			$data->set('interval-hours', $time[0] ?? 0);
 			$data->set('interval-minutes', $time[1] ?? 0);
+
+			// TODO : Any further data processing goes here
 		}
 
-		// ? What would this do here? Is it needed or (just) good practice?
-		$this->preprocessData('com_cronjobs.cronjob', $data);
+		/*
+		 * Let plugins manipulate the form (add fields)
+		 * ? Using the 'job' group (as SelectModel), or should we target the 'cronjob' group?
+		 */
+		$this->preprocessData('com_cronjobs.cronjob', $data, 'job');
 
 		return $data;
 	}
@@ -209,7 +258,7 @@ class CronjobModel extends AdminModel
 	 *
 	 * @param   integer  $pk  Primary key
 	 *
-	 * @return object|boolean  Object on success, false on failure
+	 * @return  object|boolean  Object on success, false on failure
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -222,7 +271,7 @@ class CronjobModel extends AdminModel
 	/**
 	 * @param   array  $data  The form data
 	 *
-	 * @return boolean  True on success, false on failure
+	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

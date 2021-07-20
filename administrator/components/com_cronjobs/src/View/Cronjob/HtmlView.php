@@ -76,12 +76,11 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null): void
 	{
 		/*
-		 * Will call the getForm() method of cronjobModel
+		 * Will call the getForm() method of CronjobModel
 		 */
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 
-		// ? : Where is getState() implemented? [✔] (StateBehaviourTrait)
 		$this->state = $this->get('State');
 		$this->canDo = ContentHelper::getActions('com_cronjobs', 'cronjob', $this->item->id);
 
