@@ -26,7 +26,6 @@ $app = $this->app;
 // ! : This is going down into loading the select-modal script, what does that do?
 // $function  = $app->getInput()->get('function');
 
-// TODO : Cronjob search script
 $wa = $this->document->getWebAssetManager();
 $wa->useStyle('com_cronjobs.admin-plg-job-css');
 $wa->useScript('com_cronjobs.admin-plg-job-search');
@@ -37,7 +36,7 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
  * endif;*/
 ?>
 
-<!-- Search box on below the toolbar -->
+<!-- Jobs search box on below the toolbar begins -->
 <div class="d-none" id="comCronjobsSelectSearchContainer">
 	<div class="d-flex mt-2">
 		<div class="ms-auto me-auto">
@@ -96,7 +95,7 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 			<!-- Plugin job cards start below -->
 			<?php foreach ($this->items as &$item) : ?>
 				<?php // Prepare variables for the link. ?>
-				<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&type=plugin&plg_job=' . $item->id; ?>
+				<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&type=plugin&jid=' . $item->id; ?>
 				<?php $name = $this->escape($item->title); ?>
 				<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 				<!-- The job card begins -->
