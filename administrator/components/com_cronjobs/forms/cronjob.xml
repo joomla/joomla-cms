@@ -13,7 +13,9 @@
 		<!-- Job type, Make custom field type for this? -->
 		<field name="type" type="list" validate="options"
 			   label="COM_CRONJOBS_SELECT_TYPE" required="true"
+			   disabled="true"
 		>
+			<option value="" hidden="true" disabled="true">COM_CRONJOBS_SELECT_JOB_TYPE</option>
 			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
 			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
 		</field>
@@ -30,8 +32,16 @@
 		</field>
 	</fieldset>
 
+	<!-- Options for Plugin defined jobs -->
+	<fieldset name="type-plg-options">
+		<!-- plg_job_id, used by plugins to declare and identify jobs -->
+		<field name="plg_job_id" type="text"
+			   label="COM_CRONJOBS_LABEL_PLG_JOB_ID" disabled="true"
+		/>
+	</fieldset>
+
 	<!-- Options for time based triggers (cron, pseudocron)	-->
-	<fieldset name="cron-options" label="Execution Interval">
+	<fieldset name="cron-options" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
 		<!-- Execution interval-->
 		<!-- TODO : Needs some thought to how we're taking these in. -->
 		<field name="interval-hours" type="number"
