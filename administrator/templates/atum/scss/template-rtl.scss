@@ -21,59 +21,11 @@ ul {
   left: auto;
 }
 
-.switcher {
-  float: right;
-}
-
 .menu-collapse {
   right: 0;
   left: auto;
   margin-right: -7.5px;
   margin-left: 0;
-}
-
-// Status
-.status {
-  margin-right: 250px;
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 50px;
-    margin-left: 0;
-  }
-}
-
-.sidebar-wrapper[data-hidden="1"] ~ .status {
-  margin-right: 0;
-}
-
-// com_cpanel
-.com_cpanel {
-  .card {
-    .list-group {
-      > .published {
-        border-right: 5px solid var(--success);
-        border-left: 0;
-      }
-
-      > .unpublished {
-        border-right: 5px solid var(--danger);
-        border-left: 0;
-      }
-    }
-
-    .module-dropdown {
-      right: auto;
-      left: 0;
-
-      > a {
-        border-right: 1px solid var(--border);
-        border-left: 0;
-        border-top-left-radius: $border-radius;
-        border-top-right-radius: 0;
-      }
-    }
-  }
 }
 
 .field-calendar {
