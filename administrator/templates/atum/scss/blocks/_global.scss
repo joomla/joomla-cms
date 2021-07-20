@@ -261,7 +261,7 @@ meter {
       --gutter-x: 4rem;
 
       > * + * {
-        border-left: 1px solid var(--template-bg-dark-10);
+        border-inline-start: 1px solid var(--template-bg-dark-10);
       }
     }
   }
