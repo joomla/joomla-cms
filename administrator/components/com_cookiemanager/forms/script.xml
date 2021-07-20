@@ -30,6 +30,7 @@
 			name="position"
 			type="list"
 			label="COM_COOKIEMANAGER_FIELD_POSITION_LABEL"
+			required="true"
 			default="4"
 			>
 			<option value="1">COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_HEAD</option>
@@ -42,6 +43,7 @@
 			name="type"
 			type="list"
 			label="COM_COOKIEMANAGER_FIELD_TYPE_LABEL"
+			required="true"
 			default="1"
 			>
 			<option value="1">COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT</option>
@@ -58,6 +60,7 @@
 			type="textarea"
 			label="COM_COOKIEMANAGER_FIELD_CODE_LABEL"
 			rows="4"
+			required="true"
 			filter="JComponentHelper::filterText"
 		/>
 
