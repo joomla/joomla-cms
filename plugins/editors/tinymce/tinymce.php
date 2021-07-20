@@ -521,10 +521,14 @@ class PlgEditorTinymce extends CMSPlugin
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
 
+		// Activate JImage plugin
+		$externalPlugins['jimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/image/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
+
 
 			if ($this->app->isClient('site'))
 			{
