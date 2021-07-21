@@ -905,7 +905,7 @@ CREATE TABLE IF NOT EXISTS `#__cronjobs` (
   `times_executed` int DEFAULT '0' COMMENT 'Count of successful triggers',
   `times_failed` int DEFAULT '0' COMMENT 'Count of failures',
   `note` text,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL,
   `created_by` int UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
