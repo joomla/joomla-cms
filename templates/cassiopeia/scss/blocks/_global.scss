@@ -15,6 +15,7 @@ html {
 
 body {
   position: relative;
+  min-height: 100vh;
 }
 
 img {
@@ -238,10 +239,6 @@ figcaption {
 
 .mod-menu {
   flex-direction: column;
-}
-
-.mod-languages__select {
-  background-color: $white;
 }
 
 // meter element

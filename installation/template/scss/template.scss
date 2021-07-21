@@ -30,7 +30,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
-  background: var(--atum-bg-light);
+  background: var(--template-bg-light);
 }
 
 .form-select {
@@ -62,7 +62,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
   }
 }
