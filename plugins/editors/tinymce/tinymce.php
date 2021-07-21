@@ -517,12 +517,12 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
+		// Activate JImage plugin
+		$externalPlugins['jimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/image/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
-
-		// Activate JImage plugin
-		$externalPlugins['jimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/image/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
