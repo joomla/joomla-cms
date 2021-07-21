@@ -502,8 +502,6 @@ class MailTemplate
 		$ext = File::getExt($file);
 
 		// Strip off extension from $name and append extension of $file, if any
-		$name = File::stripExt($name) . ($ext ? '.' . $ext : '');
-
-		return $name;
+		return File::stripExt($name) . ($ext ? '.' . $ext : '');
 	}
 }
