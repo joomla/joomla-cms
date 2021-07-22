@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -16,6 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 $clientId  = $this->state->get('client_id');
+
+$params = ComponentHelper::getParams('com_content');
+
+$user = Factory::getUser();
 
 // Show only Module Positions of published Templates
 $published = 1;
@@ -59,6 +65,13 @@ $this->document->getWebAssetManager()
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
+		<?php if ($user->authorise('core.admin', 'com_modules') && $params->get('workflow_enabled')) : ?>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_modules']); ?>
+			</div>
+		</div>
+		<?php endif; ?>
 	</div>
 	<div class="row">
 		<?php if ($published >= 0) : ?>
