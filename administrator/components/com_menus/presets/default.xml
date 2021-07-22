@@ -101,7 +101,7 @@
 		/>
 
 		<menuitem
-			title="COM_MODULES_MENU_WORKFLOW"
+			title="MOD_MENU_EXTENSIONS_MODULE_WORKFLOWS"
 			type="component"
 			element="com_workflow"
 			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_modules.module"
