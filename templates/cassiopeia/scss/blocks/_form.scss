@@ -78,6 +78,7 @@ td .form-control {
   padding: .5em;
   margin: .5em;
   color: $black;
+  text-align: start;
   background: $white;
   border: 1px solid $gray-600;
   border-radius: $border-radius;
@@ -91,14 +92,6 @@ td .form-control {
   &[id^=editcontact-] {
     right: auto;
     margin-inline-start: -10em;
-  }
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
   }
 }
 
