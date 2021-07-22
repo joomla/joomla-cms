@@ -241,7 +241,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// We still have 16 month to go, lets remind them about the pre upgrade checker
+		// We still have 16 month to go, lets remind our users about the pre upgrade checker
 		if ($monthsUntilEOS <= 16)
 		{
 			return array(
