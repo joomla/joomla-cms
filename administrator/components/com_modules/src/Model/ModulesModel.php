@@ -230,6 +230,37 @@ class ModulesModel extends ListModel
 	}
 
 	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		$params = ComponentHelper::getParams('com_modules');
+
+		if (!$params->get('workflow_enabled'))
+		{
+			$form->removeField('stage', 'filter');
+		}
+		else
+		{
+			$ordering = $form->getField('fullordering', 'list');
+
+			$ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
+			$ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Translate a list of objects
 	 *
 	 * @param   array  &$items  The array of objects
@@ -278,6 +309,7 @@ class ModulesModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$params = ComponentHelper::getParams('com_modules');
 
 		// Select the required fields.
 		$query->select(
@@ -312,6 +344,24 @@ class ModulesModel extends ListModel
 		$query->select($db->quoteName('e.name', 'name'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('a.module'));
 
+		// Join over the workflows association
+		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
+			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+			->where($db->quoteName('wa.extension') . ' = "com_modules.module"');
+
+		// Join over the workflows stage
+		$query->select(
+			[
+				$db->quoteName('ws.title', 'stage_title'),
+				$db->quoteName('ws.workflow_id', 'workflow_id')
+			]
+		)
+			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
+
+		// Join over the workflows
+		$query->select($db->quoteName('w.title', 'workflow_title'))
+			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
+
 		// Group (careful with PostgreSQL)
 		$query->group(
 			'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, '
@@ -344,6 +394,16 @@ class ModulesModel extends ListModel
 				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
+		// Filter by stage
+		$workflowStage = (string) $this->getState('filter.stage');
+
+		if ($params->get('workflow_enabled') && is_numeric($workflowStage))
+		{
+			$workflowStage = (int) $workflowStage;
+			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
+				->bind(':stage', $workflowStage, ParameterType::INTEGER);
+		}
+
 		// Filter by published state.
 		$state = $this->getState('filter.state');
 
@@ -353,7 +413,7 @@ class ModulesModel extends ListModel
 			$query->where($db->quoteName('a.published') . ' = :state')
 				->bind(':state', $state, ParameterType::INTEGER);
 		}
-		elseif ($state === '')
+		elseif (!is_numeric($workflowStage))
 		{
 			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
@@ -459,6 +519,113 @@ class ModulesModel extends ListModel
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Method to get all transitions at once for all articles
+	 *
+	 * @return  array|boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTransitions()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getTransitions');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$db   = $this->getDbo();
+		$user = Factory::getUser();
+
+		$items = $this->getItems();
+
+		if ($items === false)
+		{
+			return false;
+		}
+
+		$stage_ids = ArrayHelper::getColumn($items, 'stage_id');
+		$stage_ids = ArrayHelper::toInteger($stage_ids);
+		$stage_ids = array_values(array_unique(array_filter($stage_ids)));
+
+		$workflow_ids = ArrayHelper::getColumn($items, 'workflow_id');
+		$workflow_ids = ArrayHelper::toInteger($workflow_ids);
+		$workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
+
+		$this->cache[$store] = array();
+
+		try
+		{
+			if (count($stage_ids) || count($workflow_ids))
+			{
+				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+				$query = $db->getQuery(true);
+
+				$query	->select(
+					[
+						$db->quoteName('t.id', 'value'),
+						$db->quoteName('t.title', 'text'),
+						$db->quoteName('t.from_stage_id'),
+						$db->quoteName('t.to_stage_id'),
+						$db->quoteName('s.id', 'stage_id'),
+						$db->quoteName('s.title', 'stage_title'),
+						$db->quoteName('t.workflow_id'),
+					]
+				)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->innerJoin(
+						$db->quoteName('#__workflow_stages', 's'),
+						$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id')
+					)
+					->where(
+						[
+							$db->quoteName('t.published') . ' = 1',
+							$db->quoteName('s.published') . ' = 1',
+						]
+					)
+					->order($db->quoteName('t.ordering'));
+
+				$where = [];
+
+				if (count($stage_ids))
+				{
+					$where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
+				}
+
+				if (count($workflow_ids))
+				{
+					$where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
+				}
+
+				$query->where('((' . implode(') OR (', $where) . '))');
+
+				$transitions = $db->setQuery($query)->loadAssocList();
+
+				foreach ($transitions as $key => $transition)
+				{
+					if (!$user->authorise('core.execute.transition', 'com_modules.transition.' . (int) $transition['value']))
+					{
+						unset($transitions[$key]);
+					}
+				}
+
+				$this->cache[$store] = $transitions;
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $this->cache[$store];
 	}
 
 	/**
