@@ -187,6 +187,14 @@
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
 			permission="core.manage;com_modules"
 		/>
+
+		<menuitem
+			title="COM_MODULES_MENU_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_modules.module"
+			permission="core.manage.workflow;com_modules"
+		/>
 	</menuitem>
 
 	<menuitem
