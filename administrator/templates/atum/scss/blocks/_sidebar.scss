@@ -225,8 +225,8 @@
     background-color: var(--template-bg-dark-60);
     border-radius: 0 $border-radius $border-radius 0;
     [dir=rtl] & {
-      left: unset;
       right: 100%;
+      left: unset;
       border-radius: $border-radius 0 0 $border-radius;
     }
   }
