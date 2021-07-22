@@ -12,12 +12,14 @@ namespace Joomla\Component\Modules\Administrator\View\Modules;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -96,6 +98,13 @@ class HtmlView extends BaseHtmlView
 		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
+		}
+
+		if (ComponentHelper::getParams('com_modules')->get('workflow_enabled'))
+		{
+			PluginHelper::importPlugin('workflow');
+
+			$this->transitions = $this->get('Transitions');
 		}
 
 		/**
