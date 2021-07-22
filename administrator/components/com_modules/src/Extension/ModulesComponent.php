@@ -11,9 +11,13 @@ namespace Joomla\Component\Modules\Administrator\Extension;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Modules\Administrator\Service\HTML\Modules;
 use Psr\Container\ContainerInterface;
 
@@ -22,9 +26,11 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class ModulesComponent extends MVCComponent implements BootableExtensionInterface
+class ModulesComponent extends MVCComponent implements BootableExtensionInterface,
+WorkflowServiceInterface
 {
 	use HTMLRegistryAwareTrait;
+	use WorkflowServiceTrait;
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like
@@ -43,4 +49,52 @@ class ModulesComponent extends MVCComponent implements BootableExtensionInterfac
 	{
 		$this->getRegistry()->register('modules', new Modules);
 	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWorkflowContexts(): array
+	{
+		Factory::getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_modules.module'    => Text::_('COM_MODULES')
+		);
+
+		return $contexts;
+	}
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to separate different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWorkflowTableBySection(?string $section = null): string
+	{
+		return '#__modules';
+	}
+
+	/**
+	 * Method to filter transitions by given id of state.
+	 *
+	 * @param   array  $transitions  The Transitions to filter
+	 * @param   int    $pk           Id of the state
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function filterTransitions(array $transitions, int $pk): array
+	{
+		return ModuleHelper::filterTransitions($transitions, $pk);
+	}
+
 }
