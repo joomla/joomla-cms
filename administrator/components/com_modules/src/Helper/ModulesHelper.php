@@ -323,4 +323,131 @@ abstract class ModulesHelper
 
 		return $group;
 	}
+
+	/**
+	 * Method to filter transitions by given id of state
+	 *
+	 * @param   array  $transitions  Array of transitions
+	 * @param   int    $pk           Id of state
+	 * @param   int    $workflowId   Id of the workflow
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function filterTransitions(array $transitions, int $pk, int $workflowId = 0): array
+	{
+		return array_values(
+			array_filter(
+				$transitions,
+				function ($var) use ($pk, $workflowId)
+				{
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
+				}
+			)
+		);
+	}
+
+	/**
+	 * Prepares a form
+	 *
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function onPrepareForm(Form $form, $data)
+	{
+		$db = Factory::getDbo();
+
+		$data = (array) $data;
+
+		// Make workflows translatable
+		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('title'))
+			->from($db->quoteName('#__workflows'))
+			->where(
+				[
+					$db->quoteName('default') . ' = 1',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
+
+		$defaulttitle = $db->setQuery($query)->loadResult();
+
+		$option = Text::_('COM_WORKFLOW_INHERIT_WORKFLOW_NEW');
+
+		if (!empty($data['id']))
+		{
+			$category = new Category($db);
+
+			$categories = $category->getPath((int) $data['id']);
+
+			// Remove the current category, because we search for inheritance from parent.
+			array_pop($categories);
+
+			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
+
+			if (!empty($categories))
+			{
+				$categories = array_reverse($categories);
+
+				$query = $db->getQuery(true);
+
+				$query->select($db->quoteName('title'))
+					->from($db->quoteName('#__workflows'))
+					->where(
+						[
+							$db->quoteName('id') . ' = :workflowId',
+							$db->quoteName('published') . ' = 1',
+						]
+					)
+					->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
+
+				$db->setQuery($query);
+
+				foreach ($categories as $cat)
+				{
+					$cat->params = new Registry($cat->params);
+
+					$workflow_id = $cat->params->get('workflow_id');
+
+					if ($workflow_id == 'inherit')
+					{
+						continue;
+					}
+					elseif ($workflow_id == 'use_default')
+					{
+						break;
+					}
+					elseif ($workflow_id = (int) $workflow_id)
+					{
+						$title = $db->loadResult();
+
+						if (!is_null($title))
+						{
+							$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
+
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		$field = $form->getField('workflow_id', 'params');
+
+		$field->addOption($option, ['value' => 'inherit']);
+
+		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
+
+		$field->addOption('- ' . Text::_('COM_MODULE_WORKFLOWS') . ' -', ['disabled' => 'true']);
+	}
 }
