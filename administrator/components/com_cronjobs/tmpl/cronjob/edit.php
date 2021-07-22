@@ -10,15 +10,18 @@
  */
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Cronjobs\Administrator\View\Cronjob\HtmlView;
 
-/** @var \Joomla\Component\Cronjobs\Administrator\View\Cronjob\HtmlView $this */
+/** @var HtmlView $this */
 
 
 $wa = $this->document->getWebAssetManager();
@@ -26,15 +29,8 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive');
 $wa->useScript('form.validate');
 
-try
-{
-	/** @var Joomla\CMS\Application\WebApplication $app */
-	$app = Factory::getApplication();
-} catch (Exception $e)
-{
-	// ? : Is there a better way?
-	die('Failed to fetch application object');
-}
+/** @var AdministratorApplication $app */
+$app = $this->app;
 
 $input = $app->getInput();
 
@@ -48,9 +44,9 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 ?>
 
 <!-- Form begins -->
-<form action="<?php echo Route::_('index.php?option=com_cronjobs&layout=' . $layout . $tmpl . '&id=' . (int)$this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_cronjobs&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
 	  method="post" name="adminForm" id="cronjob-form"
-	  aria-label="<?php echo Text::_('COM_CRONJOBS_FORM_TITLE_' . ((int)$this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
+	  aria-label="<?php echo Text::_('COM_CRONJOBS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
 	  class="form-validate">
 
 	<!-- The cronjob title field -->
@@ -69,6 +65,27 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		?>
 		<div class="row">
 			<div class="col-lg-9">
+				<!-- Job type title, description go here -->
+				<?php if ($this->item->cronOption):
+					/** @var CronOption $cronOption */
+					$cronOption = $this->item->cronOption; ?>
+					<div id="cronOptionInfo">
+						<h2 id="cronOptionTitle">
+							<?php echo $cronOption->title ?>
+						</h2>
+						<p id="cronOptionDesc">
+							<?php
+							// TODO: For long descriptions, we'll want a "read more" functionality like com_modules
+							$desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($cronOption->desc)), 250);
+							echo $desc;
+							?>
+						</p>
+					</div>
+					<!-- If JobOption does not exist -->
+				<?php else:
+					$app->enqueueMessage(Text::_('COM_CRONJOBS_WARNING_EXISTING_JOB_TYPE_NOT_FOUND'), 'warning');
+					?>
+				<?php endif; ?>
 				<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_BASIC'); ?></legend>
 					<?php echo $this->form->renderFieldset('basic'); ?>

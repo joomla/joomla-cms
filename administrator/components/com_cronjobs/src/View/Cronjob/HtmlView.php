@@ -16,6 +16,7 @@ namespace Joomla\Component\Cronjobs\Administrator\View\Cronjob;
 
 use Exception;
 use JObject;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -32,6 +33,12 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * @var AdministratorApplication $app
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $app;
+
 	/**
 	 * The Form object
 	 *
@@ -64,6 +71,27 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $canDo;
 
+	/**
+	 * Overloads the parent constructor.
+	 * Just needed to fetch the Application object.
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
+	 *                          charset: the character set to use for display
+	 *                          escape: the name (optional) of the function to use for escaping strings
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
+	 *                          layout: the layout (optional) to use to display the view
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function __construct($config = array())
+	{
+		$this->app = Factory::getApplication();
+		parent::__construct($config);
+	}
 
 	/**
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

@@ -23,7 +23,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function defined;
+use function is_object;
 
 /**
  * MVC Model to interact with the Cronjobs DB.
@@ -118,7 +120,7 @@ class CronjobModel extends AdminModel
 
 		$user = $this->app->getIdentity();
 
-		// If new entry, set type (and plg_job, if applicable)
+		// If new entry, set job type from state
 		if ($this->getState('cronjob.id', 0) === 0 && $this->getState('cronjob.type') !== null)
 		{
 			$form->setValue('type', null, $this->getState('cronjob.type'));
@@ -176,15 +178,11 @@ class CronjobModel extends AdminModel
 
 		$jobId = $app->getInput()->getInt('id');
 		$jobType = $app->getUserState('com_cronjobs.add.cronjob.cronjob_type');
-		$pluginJobId = $app->getUserState('com_cronjobs.add.cronjob.plg_job_id');
+		$jobOption = $app->getUserState('com_cronjobs.add.cronjob.cronjob_option');
 
 		$this->setState('cronjob.id', $jobId);
 		$this->setState('cronjob.type', $jobType);
-
-		if ($pluginJobId !== null)
-		{
-			$this->setState('job.plg_job_id', $pluginJobId);
-		}
+		$this->setState('cronjob.option', $jobOption);
 
 		// Load component params, though com_cronjobs does not (yet) have any params
 		$cParams = ComponentHelper::getParams($this->option);
@@ -260,12 +258,25 @@ class CronjobModel extends AdminModel
 	 *
 	 * @return  object|boolean  Object on success, false on failure
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function getItem($pk = null)
 	{
 		// TODO : Add CronjobModel specific handling or remove ⚠
-		return parent::getItem($pk);
+		$item = parent::getItem($pk);
+
+		if (!is_object($item))
+		{
+			return false;
+		}
+
+		$cronOption = ($item->id ?? 0) ? CronjobsHelper::getCronOptions()->findOption($item->type ?? 0)
+			: ($this->getState('cronjob.option'));
+
+		$item->set('cronOption', $cronOption);
+
+		return $item;
 	}
 
 	/**

@@ -118,5 +118,3 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 		</div>
 	</div>
 </div>
-
-
