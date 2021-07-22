@@ -53,4 +53,24 @@ class CronOptions
 			$this->jobs[] = new CronOption($jobId, $langConstPrefix);
 		}
 	}
+
+	/**
+	 * @param   string  $jobType  A unique identifier for the job routine offered by a plugin
+	 *
+	 * @return CronOption|false  A matching CronOption if available, false otherwise
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function findOptions(string $jobType)
+	{
+		foreach ($this->jobs as $job)
+		{
+			if ($job->type === $jobType)
+			{
+				return $job;
+			}
+		}
+
+		return false;
+	}
 }

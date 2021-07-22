@@ -42,19 +42,19 @@ class CronOption
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $id;
+	public $type;
 
 	/**
 	 * CronOption constructor.
 	 *
-	 * @param   string  $id               A unique string for the job routine used internally by the job plugin.
+	 * @param   string  $type             A unique string for the job routine used internally by the job plugin.
 	 * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct(string $id, string $langConstPrefix)
+	public function __construct(string $type, string $langConstPrefix)
 	{
-		$this->id = $id;
+		$this->type = $type;
 		$this->title = Text::_("${langConstPrefix}_TITLE");
 		$this->desc = Text::_("${langConstPrefix}_DESC");
 	}
