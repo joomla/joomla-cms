@@ -16,13 +16,11 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOptions;
 use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function defined;
 
 /**
@@ -33,6 +31,8 @@ use function defined;
 class SelectModel extends ListModel
 {
 	/**
+	 * The Application object. Due removal.
+	 *
 	 * @var CMSApplication
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -58,22 +58,11 @@ class SelectModel extends ListModel
 	 *
 	 * @return CronOption[]  An array of CronOption objects
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function getItems(): array
 	{
-		$options = new CronOptions;
-		$event = AbstractEvent::create(
-			'onCronOptionsList',
-			[
-				'subject' => $options
-			]
-		);
-
-		// TODO : Implement an object for $items
-		PluginHelper::importPlugin('job');
-		$this->app->getDispatcher()->dispatch('onCronOptionsList', $event);
-
-		return $options->jobs;
+		return CronjobsHelper::getCronOptions()->jobs;
 	}
 }
