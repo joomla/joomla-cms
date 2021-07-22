@@ -20,11 +20,14 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
+use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -35,8 +38,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModuleModel extends AdminModel
+class ModuleModel extends AdminModel implements WorkflowModelInterface
 {
+	use WorkflowBehaviorTrait;
+
 	/**
 	 * The type alias for this content type.
 	 *
@@ -102,6 +107,8 @@ class ModuleModel extends AdminModel
 		);
 
 		parent::__construct($config);
+
+		$this->setUpWorkflow('com_modules.module');
 	}
 
 	/**
@@ -391,6 +398,8 @@ class ModuleModel extends AdminModel
 
 				// Clear module cache
 				parent::cleanCache($table->module);
+
+				$this->workflow->deleteAssociation($pks);
 			}
 			else
 			{
@@ -842,6 +851,17 @@ class ModuleModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
+		// Set the publish date to now
+		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
+		{
+			$table->publish_up = Factory::getDate()->toSql();
+		}
+
+		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
+		{
+			$table->publish_down = null;
+		}
+
 		$table->title    = htmlspecialchars_decode($table->title, ENT_QUOTES);
 		$table->position = trim($table->position);
 	}
@@ -941,6 +961,7 @@ class ModuleModel extends AdminModel
 				}
 			}
 		}
+		$this->workflowPreprocessForm($form, $data);
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
@@ -1046,6 +1067,8 @@ class ModuleModel extends AdminModel
 
 			return false;
 		}
+
+		$this->workflowBeforeSave();
 
 		// Process the menu link mappings.
 		$assignment = $data['assignment'] ?? 0;
@@ -1171,6 +1194,8 @@ class ModuleModel extends AdminModel
 		// Clean module cache
 		parent::cleanCache($table->module);
 
+		$this->workflowAfterSave($data);
+
 		return true;
 	}
 
@@ -1204,5 +1229,22 @@ class ModuleModel extends AdminModel
 	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_modules');
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$this->workflowBeforeStageChange();
+
+		return parent::publish($pks, $value);
 	}
 }
