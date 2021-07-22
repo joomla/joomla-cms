@@ -45,7 +45,7 @@
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "focus-visible": "^5.2.0",
-    "joomla-ui-custom-elements": "0.0.42",
+    "joomla-ui-custom-elements": "0.1.0 ",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
     "mark.js": "^8.11.1",
