@@ -70,6 +70,7 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 		</h2>
 
 		<!-- Special card for CLI type Jobs -->
+		<!-- ! Needs revision now that CLI type jobs aren't handled as exceptionally-->
 		<div class="main-card p-4" id="cli-job">
 			<a href="index.php?option=com_cronjobs&task=cronjob.add&type=script"
 			   class="new-job mb-3"
@@ -95,7 +96,7 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 			<!-- Plugin job cards start below -->
 			<?php foreach ($this->items as &$item) : ?>
 				<?php // Prepare variables for the link. ?>
-				<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&type=plugin&jid=' . $item->id; ?>
+				<?php $link = 'index.php?option=com_cronjobs&task=cronjob.add&type=' . $item->type; ?>
 				<?php $name = $this->escape($item->title); ?>
 				<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 				<!-- The job card begins -->

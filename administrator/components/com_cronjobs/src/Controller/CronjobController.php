@@ -18,12 +18,13 @@ namespace Joomla\Component\Cronjobs\Administrator\Controller;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function defined;
-use function in_array;
 
 /**
  * The CronjobModel controller.
@@ -35,11 +36,8 @@ class CronjobController extends FormController
 	/**
 	 * Add a new record
 	 *
-	 * ! : Just acting as a proxy to the parent method at the moment
-	 *     Due removal if no additional handling needed here ⚠
-	 *
 	 * @return boolean
-	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function add(): bool
@@ -47,7 +45,7 @@ class CronjobController extends FormController
 		/**@var CMSApplication $app */
 		$app = $this->app;
 		$input = $app->getInput();
-		$validTypes = ['script', 'plugin'];
+		$validJobOptions = CronjobsHelper::getCronOptions();
 
 		$result = parent::add();
 
@@ -57,14 +55,12 @@ class CronjobController extends FormController
 		}
 
 		$jobType = $input->get('type');
+		$jobOption = $validJobOptions->findOption($jobType);
 
-		// ! Change plg_job param to 'jid' in SelectView
-		$pluginJobId = $input->get('jid');
-
-		if (!in_array($jobType, $validTypes))
+		if (!$jobOption)
 		{
-			// ? : Is this the right redirect
-			$redirectUrl = 'index.php?option=' . $this->option . '&view' . $this->view_item . '&layout=edit';
+			// ? : Is this the right redirect [review]
+			$redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
 			$this->setRedirect(Route::_($redirectUrl, false));
 			$app->enqueueMessage(Text::_('COM_CRONJOBS_ERROR_INVALID_JOB_TYPE'), 'warning');
 
@@ -72,7 +68,7 @@ class CronjobController extends FormController
 		}
 
 		$app->setUserState('com_cronjobs.add.cronjob.cronjob_type', $jobType);
-		$app->setUserState('com_cronjobs.add.cronjob.plg_job_id', $pluginJobId);
+		$app->setUserState('com_cronjobs.add.cronjob.cronjob_option', $jobOption);
 
 		// TODO : Parameter array handling below?
 
