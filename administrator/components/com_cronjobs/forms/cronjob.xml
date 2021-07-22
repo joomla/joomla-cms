@@ -10,19 +10,14 @@
 	/>
 
 	<fieldset name="basic">
-		<!-- Job type, Make custom field type for this? -->
-		<field name="type" type="list" validate="options"
-			   label="COM_CRONJOBS_SELECT_TYPE" required="true"
-			   disabled="true"
-		>
-			<option value="" hidden="true" disabled="true">COM_CRONJOBS_SELECT_JOB_TYPE</option>
-			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
-			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
-		</field>
-
-		<!-- Job trigger, make custom fields? -->
-		<!-- TODO : Can use some JS on the frontend to only display fields relevant to Job type -->
-		<!-- Needs testing -->
+		<!-- Job type, unique identifier for jobs used by job implementing plugins? -->
+		<!-- ! : Should this be using readonly instead of disabled? -->
+		<field name="type" type="text" required="true"
+			   label="COM_CRONJOBS_FIELD_JOB_TYPE"
+			   readonly="true" maxlength="1024"
+		/>
+		<!-- TODO : Can use some JS on the frontend to only display fields relevant to trigger -->
+		<!-- Job trigger, make custom field? -->
 		<field name="trigger" type="list" validate="options"
 			   label="COM_CRONJOBS_SELECT_TRIGGER" required="true"
 		>
@@ -30,14 +25,6 @@
 			<option value="cron">COM_CRONJOBS_TRIGGER_CRON</option>
 			<option value="visit_count">COM_CRONJOBS_TRIGGER_XVISITS</option>
 		</field>
-	</fieldset>
-
-	<!-- Options for Plugin defined jobs -->
-	<fieldset name="type-plg-options">
-		<!-- plg_job_id, used by plugins to declare and identify jobs -->
-		<field name="plg_job_id" type="text"
-			   label="COM_CRONJOBS_LABEL_PLG_JOB_ID" disabled="true"
-		/>
 	</fieldset>
 
 	<!-- Options for time based triggers (cron, pseudocron)	-->

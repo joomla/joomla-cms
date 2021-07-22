@@ -47,7 +47,7 @@ class CronjobsHelper
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getCronOptions() : CronOptions
+	public static function getCronOptions(): CronOptions
 	{
 		/**@var AdministratorApplication $app */
 		$app = Factory::getApplication();

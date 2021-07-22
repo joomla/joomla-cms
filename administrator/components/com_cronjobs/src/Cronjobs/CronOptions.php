@@ -61,7 +61,7 @@ class CronOptions
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function findOptions(string $jobType)
+	public function findOption(string $jobType)
 	{
 		foreach ($this->jobs as $job)
 		{
