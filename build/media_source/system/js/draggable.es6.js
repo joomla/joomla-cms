@@ -8,9 +8,7 @@ let direction;
 let isNested;
 let dragElementIndex;
 let dropElementIndex;
-let dropElement;
 let container = document.querySelector('.js-draggable');
-const orderRows = container.querySelectorAll('[name="order[]"]');
 
 if (container) {
   /** The script expects a form with a class js-form
