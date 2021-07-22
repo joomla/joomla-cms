@@ -29,7 +29,7 @@ joomla-tab {
     margin-bottom: 0;
   }
 
-  > ul {
+  > div[role=tablist] {
     display: flex;
     flex-flow: wrap;
     padding: 0;
@@ -37,16 +37,13 @@ joomla-tab {
     list-style: outside none none;
     border-bottom: 1px solid var(--template-bg-dark-10);
 
-    li + li {
-      margin-left: 1px;
-    }
-
-    a[role=tab] {
+    button[role=tab] {
       position: relative;
       box-sizing: border-box;
       display: block;
       padding: .6rem 1rem;
       color: var(--primary);
+      background-color: var(--white);
       text-decoration: none;
       border: 0;
       border-top: 0;
@@ -54,7 +51,8 @@ joomla-tab {
       border-bottom: 0;
       box-shadow: none;
 
-      &[active],
+      &[aria-expanded=true],
+      &:focus,
       &:hover {
         border: 0;
         border-radius: 0;
@@ -72,14 +70,28 @@ joomla-tab {
         }
       }
 
-      &[active] {
+      &[aria-expanded=true] {
         font-weight: $font-weight-bold;
-        background: var(--template-bg-dark-3);
       }
     }
   }
 
-  > section {
+  > button[role=region] {
+    color: var(--template-text-light);
+    background-color: var(--template-link-color);
+    border: 1px solid var(--template-text-light);
+    border-top: 0;
+    padding: .7rem;
+    width: 100%;
+
+    &[aria-expanded=true],
+    &:hover,
+    &:focus {
+      color: var(--template-text-light);
+      background-color: var(--template-bg-dark);
+    }
+  }
+  > joomla-tab-element {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
@@ -98,7 +110,7 @@ joomla-tab {
     align-items: flex-start;
     width: 100%;
 
-    > ul {
+    > div[role=tablist] {
       flex: 0 0 25%;
       flex-direction: column;
       width: 100%;
@@ -117,11 +129,11 @@ joomla-tab {
       }
     }
 
-    li:last-of-type a[role=tab] {
+    button[role=tab]:last-of-type {
       border-bottom: 0;
     }
 
-    a[role=tab] {
+    button[role=tab] {
       position: relative;
       display: block;
       padding: .75em 1em;
@@ -132,7 +144,8 @@ joomla-tab {
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
 
-      &[active],
+      &[aria-expanded=true],
+      &:focus,
       &:hover {
         color: var(--template-text-light);
         background-color: var(--template-bg-dark-60);
@@ -155,7 +168,7 @@ joomla-tab {
       }
     }
 
-    > section {
+    > joomla-tab-element {
       width: 100%;
       padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
       border: 0 none;
@@ -164,15 +177,14 @@ joomla-tab {
   }
 
   &[view=accordion] {
-    > ul {
       flex-direction: column;
       white-space: normal;
-      background-color: var(--template-bg-dark-60);
+      background-color: var(--white);
       border-radius: 0;
       box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
     }
 
-    section {
+    joomla-tab-element {
       display: none;
       padding: 15px;
 
@@ -185,26 +197,9 @@ joomla-tab {
       }
     }
 
-    [active] {
+    [active],
+    [aria-expanded=true] {
       background-color: $white;
-    }
-
-    a[role=tab] {
-      color: var(--template-text-light);
-      background-color: var(--template-link-color);
-      border: 1px solid var(--template-text-light);
-      border-top: 0;
-
-      &[active],
-      &:hover,
-      &:focus {
-        color: var(--template-text-light);
-        background-color: var(--template-bg-dark);
-      }
-
-      .text-muted {
-        color: var(--template-text-light) !important;
-      }
     }
 
     .col-md-6,
@@ -214,11 +209,11 @@ joomla-tab {
     }
 
     joomla-tab[view=accordion] {
-      > ul {
+      > div[role=tablist] {
         background-color: $white;
       }
 
-      a[role=tab] {
+      button[role=tab] {
         position: relative;
         display: block;
         padding: .75em 1em;
@@ -228,7 +223,7 @@ joomla-tab {
         border-bottom: 1px solid $gray-300;
         box-shadow: none;
 
-        &[active]::after,
+        &[aria-expanded=true]::after,
         &:hover::after {
           position: absolute;
           top: auto;
@@ -245,7 +240,7 @@ joomla-tab {
       }
     }
 
-    #permissions-sliders section[active] {
+    #permissions-sliders > joomla-tab-element[active] {
       padding: 0 !important;
 
       @include media-breakpoint-down(lg) {
@@ -297,7 +292,6 @@ joomla-tab {
         }
       }
     }
-  }
 
   .main-card-columns > * > & {
     height: 100%;
