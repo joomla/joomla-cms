@@ -1467,7 +1467,7 @@ ENDDATA;
 			$decode = json_decode($extension->manifest_cache);
 
 			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			unset($decode->description);
 
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)

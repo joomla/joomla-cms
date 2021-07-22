@@ -110,6 +110,8 @@ Desktop.ini
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/joomla/*/ruleset.xml
+/libraries/vendor/joomla/session/Joomla/Session/.drone.jsonnet
+/libraries/vendor/joomla/session/Joomla/Session/.drone.yml
 /libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
