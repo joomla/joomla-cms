@@ -337,7 +337,7 @@
         }
 
         if (aria) {
-          $el.setAttribute('aria-describedby', nameNew);
+          $el.setAttribute('aria-describedby', `${nameNew}-desc`);
         }
 
         // Check if there is a label for this input
