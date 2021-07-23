@@ -19,7 +19,7 @@ namespace Joomla\Component\Cronjobs\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -42,7 +42,7 @@ class CronjobController extends FormController
 	 */
 	public function add(): bool
 	{
-		/**@var CMSApplication $app */
+		/**@var AdministratorApplication $app */
 		$app = $this->app;
 		$input = $app->getInput();
 		$validJobOptions = CronjobsHelper::getCronOptions();
@@ -73,6 +73,27 @@ class CronjobController extends FormController
 		// TODO : Parameter array handling below?
 
 		return true;
+	}
+
+	/**
+	 * Override parent cancel method to reset the add cronjob state
+	 *
+	 * @param   null  $key  Primary key from the URL param
+	 *
+	 * @return boolean  True if access level checks pass
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null): bool
+	{
+		$result = parent::cancel($key);
+
+		$this->app->setUserState('com_cronjobs.add.cronjob.cronjob_type', null);
+		$this->app->setUserState('com_cronjobs.add.cronjob.cronjob_option', null);
+
+		// ? Do we need to redirect based on URL's 'return' param? {@see ModuleController}
+
+		return $result;
 	}
 
 	/**
