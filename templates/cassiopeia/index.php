@@ -41,17 +41,17 @@ $templatePath = 'templates/' . $this->template;
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+$this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
 
 if ($paramsFontScheme)
 {
-	// Prefetch the stylesheet for the font scheme, actually we need to prefetch the font(s)
+	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
 	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
 	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
-	$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+	$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
 }
 
 // Enable assets
