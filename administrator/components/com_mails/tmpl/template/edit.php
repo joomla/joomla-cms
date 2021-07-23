@@ -43,8 +43,8 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 		<div class="row">
 			<div class="col-md-12">
 				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
-					<span class="small">(<?php echo $this->escape($this->master->template_id); ?>)</span>
 				</h1>
+				<div class="small"><?php echo $this->escape($this->master->template_id); ?></div>
 				<p><?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>
 			</div>
 		</div>
