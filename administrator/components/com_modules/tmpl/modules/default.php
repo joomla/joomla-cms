@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Button\TransitionButton;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -17,6 +20,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -34,6 +39,38 @@ if ($saveOrder && !empty($this->items))
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
+
+$workflow_enabled  = ComponentHelper::getParams('com_modules')->get('workflow_enabled');
+$workflow_state    = false;
+
+if ($workflow_enabled) :
+
+// @todo move the script to a file
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.module-status'));
+
+	  elements.forEach(function (element) {
+		element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+
+$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
+	->addInlineScript($js, [], ['type' => 'module']);
+
+$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
+$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+endif;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
@@ -53,6 +90,11 @@ if ($saveOrder && !empty($this->items))
 						<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
+						<?php if ($workflow_enabled) : ?>
+						<th scope="col" class="w-1 text-center">
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
 						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
@@ -94,6 +136,10 @@ if ($saveOrder && !empty($this->items))
 					$canEdit    = $user->authorise('core.edit',		  'com_modules.module.' . $item->id);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
+					$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+
+					$transition_ids = ArrayHelper::getColumn($transitions, 'value');
+					$transition_ids = ArrayHelper::toInteger($transition_ids);
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="text-center">
@@ -118,6 +164,32 @@ if ($saveOrder && !empty($this->items))
 								<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 							<?php endif; ?>
 						</td>
+						<?php if ($workflow_enabled) : ?>
+						<td class="article-stage text-center">
+						<?php
+						$options = [
+							'transitions' => $transitions,
+							'title' => Text::_($item->stage_title),
+							'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+							'id' => 'workflow-' . $item->id
+						];
+
+						echo (new TransitionButton($options))
+							->render(0, $i);
+						?>
+						</td>
+						<td class="module-status text-center">
+						<?php
+							$options = [
+								'task_prefix' => 'modules.',
+								'disabled' => $workflow_state || !$canChange,
+								'id' => 'state-' . $item->id
+							];
+
+							echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+						?>
+						</td>
+						<?php else : ?>
 						<td class="text-center">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
@@ -129,6 +201,7 @@ if ($saveOrder && !empty($this->items))
 								</span>
 							<?php endif; ?>
 						</td>
+						<?php endif; ?>
 						<th scope="row" class="has-context">
 							<div>
 								<?php if ($item->checked_out) : ?>
@@ -212,6 +285,11 @@ if ($saveOrder && !empty($this->items))
 				$this->loadTemplate('batch_body')
 			); ?>
 		<?php endif; ?>
+
+		<?php if ($workflow_enabled) : ?>
+		<input type="hidden" name="transition_id" value="">
+		<?php endif; ?>
+
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
 		<?php echo HTMLHelper::_('form.token'); ?>
