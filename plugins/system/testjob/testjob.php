@@ -9,10 +9,11 @@
  * @license       GPL v3
  */
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Event\Event;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
 
 /**
  * The Testjobplug class
@@ -30,6 +31,16 @@ class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
+	 * An array of supported Form contexts
+	 *
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $supportedFormContexts = [
+		'com_cronjobs.cronjob'
+	];
+
+	/**
 	 * Returns event subscriptions
 	 *
 	 * @return string[]
@@ -40,7 +51,8 @@ class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onCronOptionsList' => 'pluginCronOptions',
-			'onCronRun' => 'cronSampleRoutine'
+			'onCronRun' => 'cronSampleRoutine',
+			'onContentPrepareForm' => 'manipulateForms'
 		];
 	}
 
@@ -87,9 +99,34 @@ class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
 			'job2' => 'routine2'
 		];
 
-		if (\array_key_exists($subject->jobId, $supportedJobs))
+		if (array_key_exists($subject->jobId, $supportedJobs))
 		{
 			$subject->exec[] = ['plugin' => $this->_name, 'exit' => 0];
 		}
+	}
+
+	/**
+	 * @param   Event  $event  The onContentPrepareForm event.
+	 *
+	 * @return void
+	 * @since __DEPLOY_VERSION
+	 */
+	public function manipulateForms(Event $event): void
+	{
+		/** @var Form $form */
+		$form = $event->getArgument('0');
+
+		$context = $form->getName();
+
+		// Return early if form is not supported
+		if (!in_array($context, $this->supportedFormContexts))
+		{
+			return;
+		}
+
+		FormHelper::addFormPath(__DIR__ . '/forms');
+		$loaded = $form->loadFile('testJobForm');
+
+		return;
 	}
 }
