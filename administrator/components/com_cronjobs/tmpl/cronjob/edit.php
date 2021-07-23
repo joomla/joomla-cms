@@ -61,7 +61,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		HTMLHelper::_('uitab.addTab',
 				'myTab', 'general',
 				empty($this->item->id) ? Text::_('COM_CRONJOBS_NEW_CRONJOB') : Text::_('COM_CRONJOBS_EDIT_CRONJOB')
-		);
+			);
 		?>
 		<div class="row">
 			<div class="col-lg-9">
@@ -93,11 +93,20 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 
 				<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_CRON_OPTIONS'); ?></legend>
-					<?php echo $this->form->renderFieldset('cron-options') ?>
+					<?php echo $this->form->renderFieldset('cron-options'); ?>
+				</fieldset>
+
+				<fieldset class="options-form">
+					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_PARAMS_FS'); ?></legend>
+					<?php
+					// TODO: Render [all] fieldsets with the Joomla params template
+					// ! Investigate why `render('joomla.edit.params', $this)` fails
+					echo $this->form->renderFieldset('params-fs');
+					?>
 				</fieldset>
 			</div>
 			<div class="col-lg-3">
-				<?php echo $this->form->renderFieldset('aside') ?>
+				<?php echo $this->form->renderFieldset('aside'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

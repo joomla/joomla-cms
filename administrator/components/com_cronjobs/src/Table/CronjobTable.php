@@ -35,6 +35,13 @@ class CronjobTable extends Table
 	protected $_supportNullValue = false;
 
 	/**
+	 * Ensure params are json encoded by the bind method
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $_jsonEncode = ['params'];
+
+	/**
 	 * Injected into the 'created' column
 	 *
 	 * @var string
