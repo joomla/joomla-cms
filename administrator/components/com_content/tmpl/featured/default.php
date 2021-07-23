@@ -228,7 +228,7 @@ $assoc = Associations::isEnabled();
 									'title' => Text::_($item->stage_title),
 									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
 									'id' => 'workflow-' . $item->id,
-									'task_prefix' => 'articles'
+									'task' => 'articles.runTransitions'
 								];
 
 								echo (new TransitionButton($options))

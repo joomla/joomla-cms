@@ -27,7 +27,7 @@ $id = $options['id'];
 $tipTitle = $options['tip_title'];
 $tipContent = $options['tip_content'];
 $checkboxName = $options['checkbox_name'];
-$taskPrefix = $options['task_prefix'];
+$task = $options['task'];
 
 ?>
 <button type="button" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
@@ -62,7 +62,7 @@ $taskPrefix = $options['task_prefix'];
 				'id'        => 'transition-select_' . (int) $row ?? '',
 				'list.attr' => [
 					'class'    => 'form-select form-select-sm w-auto',
-					'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', '" . $taskPrefix . ".runTransition')"]
+					'onchange' => "this.form.transition_id.value=this.value;Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', '" . $task . "')"]
 				];
 
 			echo HTMLHelper::_('select.genericlist', $transitions, '', $attribs);
