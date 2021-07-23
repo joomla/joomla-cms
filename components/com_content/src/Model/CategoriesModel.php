@@ -15,7 +15,6 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Registry\Registry;
 
 /**
  * This models supports retrieving lists of article categories.
@@ -110,21 +109,13 @@ class CategoriesModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$app = Factory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
+			$params = $this->getState('params');
 
-			if ($active)
-			{
-				$params = $active->getParams();
-			}
-			else
-			{
-				$params = new Registry;
-			}
-
-			$options = array();
+			$options               = array();
+			$options['access']     = $this->getState('filter.access');
+			$options['published']  = $this->getState('filter.published');
 			$options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
+
 			$categories = Categories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
