@@ -9,16 +9,13 @@ class JoomlaShortcutModal {
 		this.initialiseKeySelectModal = this.initialiseKeySelectModal.bind(this);
 		this.handleSaveCombinationkeyUpEvent = this.handleSaveCombinationkeyUpEvent.bind(this);
 		document.addEventListener('DOMContentLoaded',this.initialiseKeySelectModal);
-		let keySelectBtns = document.getElementsByClassName("keySelectBtn");
+		const keySelectBtns = document.getElementsByClassName("keySelectBtn");
 		for(let x = 0; x < keySelectBtns.length; x+=1) {
 			keySelectBtns[x].addEventListener("click",this.handleKeySelectClickEvent,false);
 		}
 	}
 	handleKeyDownEvent(e) {
 		e.preventDefault();
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-		return;
 	}
 	initialiseKeySelectModal() {
 		const modalDiv = document.createElement("div");

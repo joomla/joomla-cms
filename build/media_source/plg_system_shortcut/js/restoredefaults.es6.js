@@ -4,7 +4,7 @@ class JoomlaRestoreDefaults {
 			throw new Error('Joomla API is not properly initialised');
 		}
 		let restoreDefaultsBtns = document.getElementsByClassName("restoreDefaultsBtn");
-		for(let x = 0; x < restoreDefaultsBtns.length; x++) {
+		for(let x = 0; x < restoreDefaultsBtns.length; x+=1) {
 			restoreDefaultsBtns[x].addEventListener("click",this.handleRestoreDefaultsClickEvent,false);
 		}
 	}
