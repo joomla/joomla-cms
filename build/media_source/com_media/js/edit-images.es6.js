@@ -100,9 +100,6 @@ class Edit {
     this.updateProgressBar = this.updateProgressBar.bind(this);
     this.removeProgressBar = this.removeProgressBar.bind(this);
     this.exec = this.exec.bind(this);
-    this.xhrOnload = this.xhrOnload.bind(this);
-    this.xhrOnerror = this.xhrOnerror.bind(this);
-    this.xhrOnprogress = this.xhrOnprogress.bind(this);
 
     // Create history entry
     window.addEventListener('mediaManager.history.point', this.addHistoryPoint.bind(this));
@@ -149,6 +146,7 @@ class Edit {
     if (!current || (current && current === 'initial')) {
       this.current.contents = this.original.contents;
       this.history = {};
+      this.imagePreview.src = this.original.contents;
     }
 
     // Reactivate the current plugin
@@ -179,69 +177,67 @@ class Edit {
   }
 
   // @TODO History
-  // Undo() { }
+  // eslint-disable-next-line class-methods-use-this
+  Undo() { }
 
   // @TODO History
-  // Redo() { }
+  // eslint-disable-next-line class-methods-use-this
+  Redo() { }
 
   // @TODO Create the progress bar
-  // createProgressBar() { }
+  // eslint-disable-next-line class-methods-use-this
+  createProgressBar() { }
 
   // @TODO Update the progress bar
-  // updateProgressBar(/* position */) { }
+  // eslint-disable-next-line class-methods-use-this
+  updateProgressBar(/* position */) { }
 
   // @TODO Remove the progress bar
-  // removeProgressBar() { }
+  // eslint-disable-next-line class-methods-use-this
+  removeProgressBar() { }
 
   exec(name, data, uploadPath, url, type, stateChangeCallback) {
     this.xhr = new XMLHttpRequest();
-
-    this.xhr.upload.onprogress = this.xhrOnprogress;
 
     if (typeof stateChangeCallback === 'function') {
       this.xhr.onreadystatechange = stateChangeCallback;
     }
 
-    this.xhr.onload = this.xhrOnload;
+    this.xhr.upload.onprogress = (e) => {
+      this.updateProgressBar((e.loaded / e.total) * 100);
+    };
+    this.xhr.onload = () => {
+      let resp;
+      try {
+        resp = JSON.parse(this.xhr.responseText);
+      } catch (er) {
+        resp = null;
+      }
 
-    this.xhr.onerror = this.xhrOnerror;
+      if (resp) {
+        if (this.xhr.status === 200) {
+          if (resp.success === true) {
+            this.removeProgressBar();
+          }
+
+          if (resp.status === '1') {
+            Joomla.renderMessages({ success: [resp.message] }, 'true');
+            this.removeProgressBar();
+          }
+        }
+      } else {
+        this.removeProgressBar();
+      }
+    };
+
+    this.xhr.onerror = () => {
+      this.removeProgressBar();
+    };
 
     this.xhr.open('PUT', url, true);
     this.xhr.setRequestHeader('Content-Type', type);
     this.createProgressBar();
     this.xhr.send(data);
-  }
-
-  xhrOnerror() {
-    this.removeProgressBar();
-  }
-
-  xhrOnload() {
-    let resp;
-    try {
-      resp = JSON.parse(this.xhr.responseText);
-    } catch (er) {
-      resp = null;
-    }
-
-    if (resp) {
-      if (this.xhr.status === 200) {
-        if (resp.success === true) {
-          this.removeProgressBar();
-        }
-
-        if (resp.status === '1') {
-          Joomla.renderMessages({ success: [resp.message] }, 'true');
-          this.removeProgressBar();
-        }
-      }
-    } else {
-      this.removeProgressBar();
-    }
-  }
-
-  xhrOnprogress(e) {
-    this.updateProgressBar((e.loaded / e.total) * 100);
   }
 }
 
@@ -302,7 +298,7 @@ Joomla.submitbutton = (task) => {
     case 'save':
       // eslint-disable-next-line func-names
       Joomla.MediaManager.Edit.exec(name, JSON.stringify(forUpload), uploadPath, url, type, () => {
-        if (this.readyState === XMLHttpRequest.DONE) {
+        if (Joomla.MediaManager.Edit.xhr.readyState === XMLHttpRequest.DONE) {
           if (window.self !== window.top) {
             window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}&tmpl=component`;
           } else {

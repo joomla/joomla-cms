@@ -13,47 +13,52 @@ const rotate = (angle, image) => {
   if ((angle >= 0 && angle < 45)
     || (angle >= 135 && angle < 225)
     || (angle >= 315 && angle <= 360)) {
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalWidth;
+    canvas.width = image.width;
+    canvas.height = image.height;
   } else {
     // swap
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalWidth;
+    canvas.width = image.height;
+    canvas.height = image.width;
   }
 
   const ctx = canvas.getContext('2d');
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate((angle * Math.PI) / 180);
-  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  const img = new Image();
+  img.src = image.src;
+  img.onload = () => {
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
-  // The format
-  const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+    // The format
+    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
-  // The quality
-  const quality = document.getElementById('jform_rotate_quality').value;
+    // The quality
+    const quality = document.getElementById('jform_rotate_quality').value;
 
-  // Creating the data from the canvas
-  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
+    // Creating the data from the canvas
+    Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
 
-  // Updating the preview element
-  image.width = canvas.width;
-  image.height = canvas.height;
-  image.src = Joomla.MediaManager.Edit.current.contents;
+    // Updating the preview element
+    image.width = canvas.width;
+    image.height = canvas.height;
+    image.src = Joomla.MediaManager.Edit.current.contents;
 
-  // Update the height input box
-  document.getElementById('jform_rotate_a').value = angle;
+    // Update the height input box
+    document.getElementById('jform_rotate_a').value = angle;
 
-  // Notify the app that a change has been made
-  window.dispatchEvent(new Event('mediaManager.history.point'));
-  canvas = null;
+    // Notify the app that a change has been made
+    window.dispatchEvent(new Event('mediaManager.history.point'));
+    canvas = null;
+  }
 };
 
 const initRotate = (image) => {
   if (!activated) {
     // The number input listener
-    document.getElementById('jform_rotate_a').addEventListener('input', ({ target }) => {
+    document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
       rotate(parseInt(target.value, 10), image);
 
+      target.value = 0;
       // Deselect all buttons
       const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
       elements.forEach((element) => {
