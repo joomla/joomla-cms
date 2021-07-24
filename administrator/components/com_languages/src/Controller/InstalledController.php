@@ -92,7 +92,7 @@ class InstalledController extends BaseController
 			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
 		}
 
-		$info = LanguageHelper::parseXMLLanguageFile($file);
+		$info         = LanguageHelper::parseXMLLanguageFile($file);
 		$languageName = $info['nativeName'];
 
 		if ($model->switchAdminLanguage($cid))
