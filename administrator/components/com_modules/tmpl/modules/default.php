@@ -67,8 +67,8 @@ $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
 	->addInlineScript($js, [], ['type' => 'module']);
 
-$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
-$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_modules.module');
+$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_modules.module');
 
 endif;
 ?>
@@ -136,10 +136,13 @@ endif;
 					$canEdit    = $user->authorise('core.edit',		  'com_modules.module.' . $item->id);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
-					$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+					if ($workflow_enabled)
+					{
+						$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-					$transition_ids = ArrayHelper::getColumn($transitions, 'value');
-					$transition_ids = ArrayHelper::toInteger($transition_ids);
+						$transition_ids = ArrayHelper::getColumn($transitions, 'value');
+						$transition_ids = ArrayHelper::toInteger($transition_ids);
+					}
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="text-center">
@@ -165,13 +168,14 @@ endif;
 							<?php endif; ?>
 						</td>
 						<?php if ($workflow_enabled) : ?>
-						<td class="article-stage text-center">
+						<td class="module-stage text-center">
 						<?php
 						$options = [
 							'transitions' => $transitions,
 							'title' => Text::_($item->stage_title),
 							'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-							'id' => 'workflow-' . $item->id
+							'id' => 'workflow-' . $item->id,
+							'task' => 'modules.runTransition'
 						];
 
 						echo (new TransitionButton($options))
@@ -186,7 +190,7 @@ endif;
 								'id' => 'state-' . $item->id
 							];
 
-							echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+							echo (new PublishedButton)->render((int) $item->published, $i, $options, $item->publish_up, $item->publish_down);
 						?>
 						</td>
 						<?php else : ?>
