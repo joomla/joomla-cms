@@ -147,7 +147,7 @@ class UserListCest
 		$I->amOnPage('/administrator/index.php?option=com_config');
 		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
 		$I->comment('I open the Server Tab');
-		$I->click(['xpath' => "//button[@aria-controls='page-server']"]);
+		$I->click(['xpath' => "//div[@role='tablist']/button[@aria-controls='page-system']"]);
 		$I->comment('I click on the switcher to disable sending mails');
 		$I->waitForJS('document.evaluate("//input[@type=\'radio\' and @value=0 and @name=\'jform[mailonline]\']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();return true;');
 		$I->comment('I click on save');
