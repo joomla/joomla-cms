@@ -15,6 +15,35 @@
 class InstallCest
 {
 	/**
+	 * Sets in Administrator->Global Configuration the Error reporting to Maximum (formerly development)
+	 * {@internal doAdminLogin() before}
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0.0
+	 * @throws Exception
+	 */
+	public function setErrorReportingToDevelopment(AcceptanceTester $I)
+	{
+		$I->debug('I open Joomla Global Configuration Page');
+		$I->amOnPage('/administrator/index.php?option=com_config');
+		$I->debug('I wait for Global Configuration title');
+		$I->waitForText('Global Configuration', 1, ['css' => '.page-title']);
+		$I->debug('I open the Server Tab');
+
+		// TODO improve
+		$I->wait(1);
+		$I->click(['button' => 'Server']);
+		$I->debug('I wait for error reporting dropdown');
+		$I->selectOption('Error Reporting', 'Maximum');
+		$I->debug('I click on save');
+		$I->clickToolbarButton('save');
+		$I->debug('I wait for global configuration being saved');
+		$I->waitForText('Global Configuration', 1, ['css' => '.page-title']);
+		$I->waitForText('Configuration saved.', 1, ['id' => 'system-message-container']);
+	}
+
+	/**
 	 * Install Joomla, disable statistics and enable Error Reporting.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
