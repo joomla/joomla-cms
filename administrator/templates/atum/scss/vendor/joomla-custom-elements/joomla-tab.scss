@@ -38,8 +38,8 @@ joomla-tab {
       display: block;
       padding: .6rem 1rem;
       color: var(--primary);
-      background-color: var(--white);
       text-decoration: none;
+      background-color: var(--white);
       border: 0;
       border-top: 0;
       border-right: 0;
@@ -81,13 +81,13 @@ joomla-tab {
   }
 
   > button[role=region] {
+    width: 100%;
+    padding: .7rem;
     color: var(--template-text-light);
+    text-align: start;
     background-color: var(--template-link-color);
     border: 1px solid var(--template-text-light);
     border-top: 0;
-    padding: .7rem;
-    width: 100%;
-    text-align: start;
 
     &[aria-expanded=true],
     &:hover,
@@ -238,11 +238,11 @@ joomla-tab {
         display: block;
         padding: .75em 1em;
         color: var(--template-text-light);
+        text-align: start;
         text-decoration: none;
         border: 0;
         border-bottom: 1px solid $gray-300;
         box-shadow: none;
-        text-align: start;
 
         &[aria-expanded=true]::after,
         &:hover::after {
