@@ -32,6 +32,44 @@ WorkflowServiceInterface
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
 
+	/** @var array Supported functionality */
+	protected $supportedFunctionality = [
+		'core.state' => true,
+	];
+
+	/**
+	 * The trashed condition
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	const CONDITION_NAMES = [
+		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
+		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
+		self::CONDITION_TRASHED     => 'JTRASHED',
+	];
+
+	/**
+	 * The published condition
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	const CONDITION_PUBLISHED = 1;
+
+	/**
+	 * The unpublished condition
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	const CONDITION_UNPUBLISHED = 0;
+
+	/**
+	 * The trashed condition
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	const CONDITION_TRASHED = -2;
+
+
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like
 	 * registering new class loaders, etc.
