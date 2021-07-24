@@ -24,32 +24,49 @@ $templatePath = 'templates/' . $this->template;
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
+$fontStyles       = '';
 
-if ($paramsFontScheme)
-{
-	// Prefetch the stylesheet for the font scheme, actually we need to prefetch the font(s)
-	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
-	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
-	$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+if ($paramsFontScheme) {
+	if (preg_match('/^https\:\/\//i', $paramsFontScheme)) {
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches);
+
+		if (count($matches) > 0) {
+			$fontStyles = '--cassiopeia-font-family-body: "' . $matches[1][0] . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . count($matches) === 2 ? $matches[2][0] : $matches[1][0] . '", sans-serif;';
+		}
+	} else {
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
+
+		$fontStyles = '--cassiopeia-font-family-body: "Roboto", sans-serif;
+			--cassiopeia-font-family-headings: "Roboto", sans-serif;';
+	}
 }
 
 // Enable assets
-$wa->useStyle('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
 	->useStyle('template.user')
 	->useScript('template.user')
-	->addInlineStyle(':root {
+	->addInlineStyle(":root {
 		--hue: 214;
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
 		--template-link-color: #2a69b8;
 		--template-special-color: #001B4C;
-	}');
+		$fontStyles
+		--cassiopeia-font-weight-normal: 400;
+		--cassiopeia-font-weight-headings: 700;
+	}");
+
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
