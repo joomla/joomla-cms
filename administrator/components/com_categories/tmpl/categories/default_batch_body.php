@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = (int) $this->state->get('filter.published');
@@ -62,4 +62,3 @@ $extension = $this->escape($this->state->get('filter.extension'));
 	</div>
 	<?php endif; ?>
 </div>
-
