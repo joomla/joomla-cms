@@ -49,7 +49,7 @@ const rotate = (angle, image) => {
     // Notify the app that a change has been made
     window.dispatchEvent(new Event('mediaManager.history.point'));
     canvas = null;
-  }
+  };
 };
 
 const initRotate = (image) => {
