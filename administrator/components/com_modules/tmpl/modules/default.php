@@ -45,30 +45,29 @@ $workflow_state    = false;
 
 if ($workflow_enabled) :
 
-// @todo move the script to a file
-$js = <<<JS
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-	  var elements = [].slice.call(document.querySelectorAll('.module-status'));
+	// @todo move the script to a file
+	$js = <<<JS
+	(function() {
+		document.addEventListener('DOMContentLoaded', function() {
+		var elements = [].slice.call(document.querySelectorAll('.module-status'));
 
-	  elements.forEach(function (element) {
-		element.addEventListener('click', function(event) {
-			event.stopPropagation();
+		elements.forEach(function (element) {
+			element.addEventListener('click', function(event) {
+				event.stopPropagation();
+			});
 		});
-	  });
-	});
-})();
-JS;
+		});
+	})();
+	JS;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+	/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
 
-$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-$wa->useScript('com_workflow.admin-items-workflow-buttons')
-	->addInlineScript($js, [], ['type' => 'module']);
+	$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+	$wa->useScript('com_workflow.admin-items-workflow-buttons')
+		->addInlineScript($js, [], ['type' => 'module']);
 
-$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_modules.module');
-$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_modules.module');
+	$workflow_state    = Factory::getApplication()->bootComponent('com_modules')->isFunctionalityUsed('core.state', 'com_modules.module');
 
 endif;
 ?>
