@@ -31,7 +31,7 @@ class PHPMailer
      * The PHPMailer Version number.
      * @var string
      */
-    public $Version = '5.2.28+joomla1';
+    public $Version = '5.2.28+joomla2';
 
     /**
      * Email priority.
@@ -1078,7 +1078,8 @@ class PHPMailer
         if (is_null($patternselect)) {
             $patternselect = self::$validator;
         }
-        if (is_callable($patternselect)) {
+        //Don't allow strings as callables, see CVE-2021-3603
+        if (is_callable($patternselect) && !is_string($patternselect)) {
             return call_user_func($patternselect, $address);
         }
         //Reject line breaks in addresses; it's valid RFC5322, but not RFC5321
@@ -1815,9 +1816,27 @@ class PHPMailer
             if (!self::isPermittedPath($lang_file) or !is_readable($lang_file)) {
                 $foundlang = false;
             } else {
-                // Overwrite language-specific strings.
-                // This way we'll never have missing translation keys.
-                $foundlang = include $lang_file;
+                //$foundlang = include $lang_file;
+                $lines = file($lang_file);
+                foreach ($lines as $line) {
+                    //Translation file lines look like this:
+                    //$PHPMAILER_LANG['authenticate'] = 'SMTP-Fehler: Authentifizierung fehlgeschlagen.';
+                    //These files are parsed as text and not PHP so as to avoid the possibility of code injection
+                    //See https://blog.stevenlevithan.com/archives/match-quoted-string
+                    $matches = array();
+                    if (
+                        preg_match(
+                            '/^\$PHPMAILER_LANG\[\'([a-z\d_]+)\'\]\s*=\s*(["\'])(.+)*?\2;/',
+                            $line,
+                            $matches
+                        ) &&
+                        //Ignore unknown translation keys
+                        array_key_exists($matches[1], $PHPMAILER_LANG)
+                    ) {
+                        //Overwrite language-specific strings so we'll never have missing translation keys.
+                        $PHPMAILER_LANG[$matches[1]] = (string)$matches[3];
+                    }
+                }
             }
         }
         $this->language = $PHPMAILER_LANG;

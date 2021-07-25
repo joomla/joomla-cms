@@ -388,7 +388,7 @@ class InstallerModelInstall extends JModelLegacy
 		// We only allow http & https here
 		$uri = new JUri($url);
 
-		if (!in_array($uri->getScheme(), ['http', 'https']))
+		if (!in_array($uri->getScheme(), array('http', 'https')))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
 
