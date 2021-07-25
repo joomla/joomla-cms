@@ -13,7 +13,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -61,7 +60,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		HTMLHelper::_('uitab.addTab',
 				'myTab', 'general',
 				empty($this->item->id) ? Text::_('COM_CRONJOBS_NEW_CRONJOB') : Text::_('COM_CRONJOBS_EDIT_CRONJOB')
-			);
+		);
 		?>
 		<div class="row">
 			<div class="col-lg-9">
@@ -91,9 +90,14 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 					<?php echo $this->form->renderFieldset('basic'); ?>
 				</fieldset>
 
-				<fieldset class="options-form">
+<!--				<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_CRON_OPTIONS'); ?></legend>
 					<?php echo $this->form->renderFieldset('cron-options'); ?>
+				</fieldset>-->
+
+				<fieldset class="options-form">
+					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_CRON_OPTIONS'); ?></legend>
+					<?php echo $this->form->renderFieldset('interval'); ?>
 				</fieldset>
 
 				<fieldset class="options-form">
@@ -151,5 +155,4 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
-
 </form>
