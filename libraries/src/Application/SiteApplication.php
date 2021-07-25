@@ -304,8 +304,7 @@ final class SiteApplication extends CMSApplication
 			$params[$hash] = clone ComponentHelper::getParams($option);
 
 			// Get menu parameters
-			$menus = $this->getMenu();
-			$menu  = $menus->getActive();
+			$menu  = $this->getMenu()->getActive();
 
 			// Get language
 			$lang_code = $this->getLanguage()->getTag();
@@ -328,8 +327,8 @@ final class SiteApplication extends CMSApplication
 			// Retrieve com_menu global settings
 			$temp = clone ComponentHelper::getParams('com_menus');
 
-			// Lets cascade the parameters if we have menu item parameters
-			if (\is_object($menu))
+			// Lets cascade the parameters if we have menu item for the component
+			if (\is_object($menu) && $menu->component === $option)
 			{
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
