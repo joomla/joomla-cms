@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Joomla! end of support notification plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.10.0
  */
 class PlgQuickiconEos310 extends CMSPlugin
 {
@@ -26,7 +26,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * @todo The date is just for testing and is to be updated on release
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	const EOS_DATE = '2024-07-06';
 
@@ -34,7 +34,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	protected $app;
 
@@ -42,7 +42,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -58,7 +58,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * Holding the current valid message to be shown
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	private $currentMessage = false;
 
@@ -68,7 +68,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * @param   object  &$subject  The object to observe.
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -88,7 +88,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 * @return  array|void  A list of icon definition associative arrays, consisting of the
 	 *			keys link, image, text and access, or void.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function onGetIcons($context)
 	{
@@ -158,7 +158,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 *
 	 * @throws  JAccessExceptionNotallowed  If user is not allowed.
 	 */
@@ -192,7 +192,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  array|bool  An array with the message to be displayed or false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function getMessageInfo($monthsUntilEOS, $inverted)
 	{
@@ -279,7 +279,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function shouldDisplayMessage()
 	{
@@ -327,7 +327,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function isAjaxRequest()
 	{
@@ -339,7 +339,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function isAllowedUser()
 	{
@@ -351,7 +351,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function saveParams()
 	{
@@ -410,7 +410,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
