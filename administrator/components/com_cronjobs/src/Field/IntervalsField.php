@@ -35,6 +35,14 @@ class IntervalsField extends ListField
 	protected $type = 'cronIntervals';
 
 	/**
+	 * Layout used to render the field
+	 *
+	 * @var string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.interval';
+
+	/**
 	 * The subtypes supported by this field type.
 	 *
 	 * @var string[]
