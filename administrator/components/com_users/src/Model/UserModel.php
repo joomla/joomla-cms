@@ -345,7 +345,7 @@ class UserModel extends AdminModel
 		}
 
 		// Destroy all active sessions for the user after changing the password or blocking him
-		if ($data['password'] || $data['block'])
+		if ($data['password2'] || $data['block'])
 		{
 			UserHelper::destroyUserSessions($user->id, true);
 		}
