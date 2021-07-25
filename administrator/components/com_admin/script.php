@@ -91,8 +91,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Ensure we delete the repeatable fields plugin before we remove its files
+		// Uninstall plugins before removing their files and folders
 		$this->uninstallRepeatableFieldsPlugin();
+		$this->uninstallEosPlugin();
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -495,6 +496,56 @@ class JoomlaInstallerScript
 			)->execute();
 
 			// And now uninstall the plugin
+			$installer = new Installer;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
+		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Uninstall the 3.10 EOS plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function uninstallEosPlugin()
+	{
+		$db = Factory::getDbo();
+
+		// Check if the plg_quickicon_eos310 plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_quickicon_eos310'))
+		)->loadResult();
+
+		// Skip uninstalling if it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		try
+		{
+			$db->transactionStart();
+
+			// Unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+			)->execute();
+
+			// Uninstall the plugin
 			$installer = new Installer;
 			$installer->uninstall('plugin', $extensionId);
 
@@ -2115,6 +2166,8 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/en-GB.plg_privacy_message.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_privacy_user.ini',
 			'/administrator/language/en-GB/en-GB.plg_privacy_user.sys.ini',
+			'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini',
+			'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.ini',
 			'/administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_quickicon_joomlaupdate.ini',
@@ -4797,6 +4850,8 @@ class JoomlaInstallerScript
 			'/media/overrider/css/overrider.css',
 			'/media/overrider/js/overrider.js',
 			'/media/overrider/js/overrider.min.js',
+			'/media/plg_quickicon_eos310/js/snooze.js',
+			'/media/plg_quickicon_eos310/js/snooze.min.js',
 			'/media/plg_system_highlight/highlight.css',
 			'/media/plg_twofactorauth_totp/js/qrcode.js',
 			'/media/plg_twofactorauth_totp/js/qrcode.min.js',
@@ -4919,6 +4974,8 @@ class JoomlaInstallerScript
 			'/plugins/editors/tinymce/field/tinymcebuilder.php',
 			'/plugins/editors/tinymce/field/uploaddirs.php',
 			'/plugins/editors/tinymce/form/setoptions.xml',
+			'/plugins/quickicon/eos310/eos310.php',
+			'/plugins/quickicon/eos310/eos310.xml',
 			'/plugins/quickicon/joomlaupdate/joomlaupdate.php',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.ini',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.sys.ini',
@@ -5950,6 +6007,7 @@ class JoomlaInstallerScript
 			'/plugins/system/p3p',
 			'/plugins/system/languagecode/language/en-GB',
 			'/plugins/system/languagecode/language',
+			'/plugins/quickicon/eos310',
 			'/plugins/editors/tinymce/form',
 			'/plugins/editors/tinymce/field',
 			'/plugins/content/confirmconsent/fields',
@@ -5959,6 +6017,8 @@ class JoomlaInstallerScript
 			'/media/plg_twofactorauth_totp/js',
 			'/media/plg_twofactorauth_totp',
 			'/media/plg_system_highlight',
+			'/media/plg_quickicon_eos310/js',
+			'/media/plg_quickicon_eos310',
 			'/media/overrider/js',
 			'/media/overrider/css',
 			'/media/overrider',
