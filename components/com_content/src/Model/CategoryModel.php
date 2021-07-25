@@ -137,26 +137,14 @@ class CategoryModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = Factory::getApplication();
-		$pk  = $app->input->getInt('id');
 
+		$pk  = $app->input->getInt('id');
 		$this->setState('category.id', $pk);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
+		$this->setState('params', $params);
 
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams = $menu->getParams();
-		}
-		else
-		{
-			$menuParams = new Registry;
-		}
-
-		$mergedParams = clone $menuParams;
-		$mergedParams->merge($params);
-
-		$this->setState('params', $mergedParams);
 		$user  = Factory::getUser();
 
 		$asset = 'com_content';
