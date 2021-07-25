@@ -9,6 +9,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+ namespace Joomla\Component\Cronjobs\Administrator\Controller;
+
 // Restrict direct access
 \defined('_JEXEC') or die;
 
