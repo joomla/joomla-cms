@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- TODO : Replace all labels with translatable strings-->
-<form>
+<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field">
 	<fields>
 		<!-- Cronjob title -->
 		<field
@@ -29,17 +29,17 @@
 		</fieldset>
 
 		<!-- Options for time based triggers (cron, pseudocron)	-->
-		<fieldset name="cron-options" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
-			<!-- Execution interval -->
-			<!-- TODO : Needs some thought to how we're taking these in. -->
+		<!--<fieldset name="cron-options" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
+			&lt;!&ndash; Execution interval &ndash;&gt;
+			&lt;!&ndash; TODO : Needs some thought to how we're taking these in. &ndash;&gt;
 			<field name="interval-hours" type="number"
 				   label="COM_CRONJOBS_LABEL_HOURS" min="0" step="1"
 			/>
-			<!-- TODO : JS and submission validation. Minutes >= 1 if Hours == 0 -->
+			&lt;!&ndash; TODO : JS and submission validation. Minutes >= 1 if Hours == 0 &ndash;&gt;
 			<field name="interval-minutes" type="number"
 				   label="COM_CRONJOBS_LABEL_MINUTES" min="0" step="1"
 			/>
-		</fieldset>
+		</fieldset>-->
 
 		<fieldset name="aside">
 			<!-- State field -->
@@ -118,6 +118,33 @@
 				translate_label="false" filter="rules" component="com_cronjobs"
 				section="cronjob" validate="rules"
 		/>
+	</fields>
+
+	<!-- Cron Options field group, for time based triggers -->
+	<!-- TODO : Remove "cron-options" fieldset ! -->
+	<fields name="cron">
+		<fieldset name="interval" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
+			<!-- The interval type, we only need this as a way to switch between interval inputs -->
+			<field name="interval-type" type="intervalTypes" filter="unset"
+				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_TYPE"
+			/>
+
+			<field name="minutes" type="intervals" subtype="minutes" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MINUTES" showon="interval-type:minutes"
+			/>
+			<field name="hours" type="intervals" subtype="hours"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_HOURS" showon="interval-type:hours"
+			/>
+			<field name="days_month" type="intervals" subtype="days_month"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_DAYS_M" showon="interval-type:days_month"
+			/>
+			<field name="months" type="intervals" subtype="months"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MONTHS" showon="interval-type:months"
+			/>
+			<field name="days_week" type="intervals" subtype="days_week"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_DAYS_W" showon="interval-type:days_week"
+			/>
+		</fieldset>
 	</fields>
 
 	<!-- The 'params' field group -->
