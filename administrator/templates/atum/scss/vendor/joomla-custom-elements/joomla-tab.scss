@@ -24,6 +24,11 @@ joomla-tab {
     margin-bottom: 0;
   }
 
+  &[orientation=horizontal]:not([view=accordion]) div[role=tablist] {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
   > div[role=tablist] {
     display: flex;
     flex-flow: wrap;
@@ -56,7 +61,7 @@ joomla-tab {
         &::after {
           position: absolute;
           right: 0;
-          bottom: -1px;
+          bottom: 0px;
           left: 0;
           height: 3px;
           content: "";
