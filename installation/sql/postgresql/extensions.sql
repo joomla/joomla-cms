@@ -858,7 +858,7 @@ CREATE TABLE IF NOT EXISTS "#__cronjobs"
     "asset_id" bigint NOT NULL DEFAULT '0',
     "title" varchar(255) NOT NULL,
     "type" varchar(1024) NOT NULL,
-    "execution_interval" interval NOT NULL,
+    "execution_interval" text,
     "trigger" varchar(12) NOT NULL DEFAULT 'pseudo_cron',
     "state" smallint NOT NULL DEFAULT '0',
     "last_exit_code" int NOT NULL DEFAULT '0',
