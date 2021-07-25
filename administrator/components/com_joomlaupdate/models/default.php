@@ -1728,9 +1728,12 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
+		// Get the minimum stability information from com_installer
+		$minimumStability = JComponentHelper::getParams('com_installer')->get('minimum_stability', JUpdater::STABILITY_STABLE);
+
 		$update = new JUpdate;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
+		$update->loadFromXML($updateFileUrl, $minimumStability);
 
 		$downloadUrl = $update->get('downloadurl');
 
