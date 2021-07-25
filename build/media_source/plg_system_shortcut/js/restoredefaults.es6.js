@@ -34,7 +34,7 @@ class JoomlaRestoreDefaults {
 		}else if(this.getAttribute("data-class") == "editor"){
 			this.options = buttonEditorOptions;
 		}
-		for (let action in this.options){
+		for (const [key, action] of Object.entries(this.options)){
 			let keyValue = this.options[action].keyEvent;
 			keyValue = keyValue.toUpperCase();
 			const restoreCombination = new Array();
