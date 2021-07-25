@@ -6,36 +6,52 @@
   tinymce.PluginManager.add('jimage', function (editor) {
 
     /**
-     * Variable to store form state
+     * Variable to store image details form state
      *
      * @since  4.1.0
      */
-    var formState = {
+    var imageDetails = {
       imgClass: {
         id: "jimage_imageclass",
         type: "text",
         label: "Image class",
-        value: "",
+        value: ""
       },
       lazyLoading: {
         id: "jimage_lazyloading",
         type: "checkbox",
-        label: "Lazy loading",
+        label: "Load time",
         content: "Lazy load",
-        value: false,
+        value: false
       },
       figClass: {
         id: "jimage_figureclass",
         type: "text",
         label: "Figure class",
-        value: "",
+        value: ""
       },
       figCaption: {
         id: "jimage_figurecaption",
         type: "text",
         label: "Figure caption",
-        value: "",
+        value: ""
+      }
+    };
+
+    /**
+     * Variable to store responsive sizes form state
+     *
+     * @since  4.1.0
+     */
+    var responsiveSizes = {
+      setCustom: {
+        id: "jimage_setcustom",
+        type: "checkbox",
+        label: "Responsive images",
+        content: "Custom responsive sizes",
+        value: false
       },
+      sizes: []
     };
 
     /**
@@ -46,7 +62,16 @@
     var jimage = {
       icons: {
         unchecked: '<svg width="24" height="24"><path fill-rule="nonzero" d="M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6c0-1.1.9-2 2-2zm0 1a1 1 0 00-1 1v12c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1H6z"></path></svg>',
-        checked: '<svg width="24" height="24"><path fill-rule="nonzero" d="M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6c0-1.1.9-2 2-2zm3.6 10.9L7 12.3a.7.7 0 00-1 1L9.6 17 18 8.6a.7.7 0 000-1 .7.7 0 00-1 0l-7.4 7.3z"></path></svg>'
+        checked: '<svg width="24" height="24"><path fill-rule="nonzero" d="M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6c0-1.1.9-2 2-2zm3.6 10.9L7 12.3a.7.7 0 00-1 1L9.6 17 18 8.6a.7.7 0 000-1 .7.7 0 00-1 0l-7.4 7.3z"></path></svg>',
+        delete: '<svg viewBox="0 0 24 24" width="24px" height="24px"><path d="M 10 2 L 9 3 L 5 3 C 4.4 3 4 3.4 4 4 C 4 4.6 4.4 5 5 5 L 7 5 L 17 5 L 19 5 C 19.6 5 20 4.6 20 4 C 20 3.4 19.6 3 19 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 20 C 5 21.1 5.9 22 7 22 L 17 22 C 18.1 22 19 21.1 19 20 L 19 7 L 5 7 z M 9 9 C 9.6 9 10 9.4 10 10 L 10 19 C 10 19.6 9.6 20 9 20 C 8.4 20 8 19.6 8 19 L 8 10 C 8 9.4 8.4 9 9 9 z M 15 9 C 15.6 9 16 9.4 16 10 L 16 19 C 16 19.6 15.6 20 15 20 C 14.4 20 14 19.6 14 19 L 14 10 C 14 9.4 14.4 9 15 9 z"/></svg>',
+        add: '<svg viewBox="0 0 24 24" width="24px" height="24px"><path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M16,13h-3v3c0,0.552-0.448,1-1,1h0 c-0.552,0-1-0.448-1-1v-3H8c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h3V8c0-0.552,0.448-1,1-1h0c0.552,0,1,0.448,1,1v3h3 c0.552,0,1,0.448,1,1v0C17,12.552,16.552,13,16,13z"/></svg>'
+      },
+      dialogBody: null,
+      registerField: function (field, callback) {
+        jimage.dialogBody.querySelector('#' + field.id).addEventListener('change', function (e) {
+          field.value = field.type === 'checkbox' ? e.target.checked : e.target.value;
+          callback();
+        });
       },
       renderField: function (field) {
         if (field.type === 'checkbox') {
@@ -69,42 +94,115 @@
             <label for="` + field.id + `" class="tox-label">` + field.label + `</label>
             <input type="` + field.type + `" id="` + field.id + `" value="` + field.value + `" class="tox-textfield">
           </div>`;
+      },
+      renderButton: function (btn) {
+        return `
+          <button id="` + btn.id +`" title="` + btn.title + `" type="button" class="tox-button tox-button--naked tox-button--icon">
+            <span class="tox-icon">` + jimage.icons[btn.icon] + `</span>
+          </button>`;
+      },
+      renderFieldGroup: function (group, btn) {
+        var fieldsHTML = "";
+        group.forEach(function (field) {
+          fieldsHTML += jimage.renderField(field);
+        });
+
+        return `
+          <div class="jimage_field_group tox-form__controls-h-stack justify-content-between">`
+            + fieldsHTML +
+            `<div class="tox-form__group"><label class="tox-label">&nbsp;</label>` + jimage.renderButton(btn) + `</div>
+          </div>`;
       }
     };
 
     // Event that fires on dialog open
     editor.on('OpenWindow', function () {
       if (document.querySelector('.tox-dialog__title').innerText === tinymce.util.I18n.translate('Insert/Edit Image')) {
-        var dialogBody = document.querySelector('.tox-dialog__body');
+        jimage.dialogBody = document.querySelector('.tox-dialog__body');
 
         // Content gets generated again every time tab changes
-        dialogBody.querySelectorAll('.tox-tab').forEach(function (tab) {
+        jimage.dialogBody.querySelectorAll('.tox-tab').forEach(function (tab) {
           tab.addEventListener('click', function (e) {
             // Insert content to advanced tabpanel
             if (e.target.innerText === tinymce.util.I18n.translate('Advanced') && e.target.getAttribute('aria-selected') === 'false') {
               setTimeout(function () {
-                // Set initial values
+                // Set image detail initial values
                 var image = editor.selection.getNode();
-                formState.imgClass.value = image.className;
-                formState.lazyLoading.value = image.getAttribute('loading') === 'lazy';
+                imageDetails.imgClass.value = image.className;
+                imageDetails.lazyLoading.value = image.getAttribute('loading') === 'lazy';
 
                 if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-                  formState.figClass.value = image.parentElement.className;
-                  formState.figCaption.value = image.parentElement.querySelector('figcaption').innerText;
+                  imageDetails.figClass.value = image.parentElement.className;
+                  imageDetails.figCaption.value = image.parentElement.querySelector('figcaption').innerText;
                 }
 
-                // Render form fields dynamically
+                // Render image detail fields
                 var formHTML = '<div class="tox-form__grid tox-form__grid--2col">';
-                Object.keys(formState).forEach(function (key) {
-                  formHTML += jimage.renderField(formState[key]);
+                Object.values(imageDetails).forEach(function (field) {
+                  formHTML += jimage.renderField(field);
                 });
                 formHTML += '</div>';
-                dialogBody.querySelector('.tox-form').insertAdjacentHTML('beforeend', formHTML);
 
-                // Update values of form controls on change
-                Object.keys(formState).forEach(function (key) {
-                  dialogBody.querySelector('#' + formState[key].id).addEventListener('change', function (e) {
-                    formState[key].value = formState[key].type === 'checkbox' ? e.target.checked : e.target.value;
+                // Render responsive size fields
+                formHTML += jimage.renderFieldGroup([responsiveSizes.setCustom], { id: 'jimage_add', title: 'Add size', icon: 'add' });
+                formHTML += '<div id="jimage_sizes_wrapper" style="display: ' + (responsiveSizes.setCustom.value ? 'block' : 'none') + ';">';
+                responsiveSizes.sizes.forEach(function (size, index) {
+                  formHTML += jimage.renderFieldGroup(Object.values(size), { id: 'jimage_delete_' + index, title: 'Delete size', icon: 'delete' });
+                });
+                formHTML += '</div>';
+
+                jimage.dialogBody.querySelector('.tox-form').insertAdjacentHTML('beforeend', formHTML);
+
+                // Update values of image detail controls on change
+                Object.values(imageDetails).forEach(function (field) {
+                  jimage.registerField(field);
+                });
+
+                // Update values of responsive size controls on change
+                var sizesWrapper = jimage.dialogBody.querySelector('#jimage_sizes_wrapper');
+                jimage.registerField(responsiveSizes.setCustom, function () {
+                  // Hide/show sizes depending on the value of setCustom
+                  sizesWrapper.style.display = responsiveSizes.setCustom.value ? 'block' : 'none';
+                });
+                responsiveSizes.sizes.forEach(function (group) {
+                  Object.values(group).forEach(function (field) {
+                    jimage.registerField(field);
+                  });
+                });
+
+                // Handle insertion of responsive size controls
+                jimage.dialogBody.querySelector('#jimage_add').addEventListener('click', function () {
+                  // Create new field object with new id
+                  var id = responsiveSizes.sizes.length;
+                  var newField = {
+                    width: {
+                      id: "jimage_sizes_width_" + id,
+                      type: "number",
+                      label: "Width",
+                      value: ""
+                    },
+                    height: {
+                      id: "jimage_sizes_height" + id,
+                      type: "number",
+                      label: "Height",
+                      value: ""
+                    }
+                  };
+
+                  // Append new object to the array and render field group
+                  responsiveSizes.sizes.push(newField);
+                  sizesWrapper.insertAdjacentHTML('beforeend', jimage.renderFieldGroup(Object.values(newField), {
+                    id: 'jimage_delete_' + id, title: 'Delete size', icon: 'delete'
+                  }));
+
+                  // Handle deletion of the field
+                  jimage.dialogBody.querySelector('#jimage_delete_' + id).addEventListener('click', function (e) {
+                    // Remove object from sizes array and delete from DOM
+                    responsiveSizes.sizes.filter(function (size, index) {
+                      return index !== id;
+                    });
+
+                    e.currentTarget.closest('.jimage_field_group').remove();
                   });
                 });
               });
@@ -116,30 +214,30 @@
 
     // Event that fires on dialog form submit
     editor.on('ExecCommand', function (e) {
-      if (e.command === 'mceUpdateImage') {
+      if (e.command === 'mceUpdateImage' && jimage.dialogBody) {
         var image = e.target.contentDocument.body.querySelector(`img[src="` + e.value.src + `"]`);
-        image.className = formState.imgClass.value;
+        image.className = imageDetails.imgClass.value;
 
         // Add or remove loading attribute from image
-        if (formState.lazyLoading.value) {
+        if (imageDetails.lazyLoading.value) {
           image.setAttribute('loading', 'lazy');
         } else {
           image.removeAttribute('loading');
         }
 
-        if (formState.figCaption.value) {
+        if (imageDetails.figCaption.value) {
           // Check if figure element already exists
           if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-            image.parentElement.querySelector('figcaption').innerText = formState.figCaption.value;
-            image.parentElement.className = formState.figClass.value;
+            image.parentElement.querySelector('figcaption').innerText = imageDetails.figCaption.value;
+            image.parentElement.className = imageDetails.figClass.value;
           } else {
             // Create figure and figcaption elements
             var figure = document.createElement('figure');
             var figCaption = document.createElement('figcaption');
             figure.appendChild(figCaption);
 
-            figure.className = formState.figClass.value;
-            figCaption.innerText = formState.figCaption.value;
+            figure.className = imageDetails.figClass.value;
+            figCaption.innerText = imageDetails.figCaption.value;
 
             // Append image to the figure element
             image.parentElement.appendChild(figure);
