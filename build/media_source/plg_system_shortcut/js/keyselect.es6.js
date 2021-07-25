@@ -58,9 +58,14 @@ class JoomlaShortcutModal {
 				newKeySelectCombination.push("SHIFT");
 				document.getElementById("current_hasShift").value = 1;
 			}
-			if(navigator.platform.match('Mac') ? e.metaKey : e.altKey){
-				newKeySelectCombination.push("ALT");
-				document.getElementById("current_hasAlt").value = 1;
+			if(e.metaKey || e.altKey){
+				if(navigator.platform.match('Mac')){
+					newKeySelectCombination.push("META");
+				}
+				else{
+					newKeySelectCombination.push("ALT");
+					document.getElementById("current_hasAlt").value = 1;
+				}
 			}
 			newKeySelectCombination.push(keyValue);
 			const newKeySelect = newKeySelectCombination.join(' + ');
