@@ -989,7 +989,7 @@ class MenusHelper extends ContentHelper
 		// Translate attributes for iterator values
 		foreach ($replace as $var => $val)
 		{
-			$item->title   = str_replace("{sql:$var}", $val, trim($item->title));
+			$item->title   = str_replace("{sql:$var}", $val, ($item->title));
 			$item->element = str_replace("{sql:$var}", $val, $item->element);
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
@@ -999,5 +999,6 @@ class MenusHelper extends ContentHelper
 
 		$item->setParams($params);
 		return $item;
+
 	}
 }
