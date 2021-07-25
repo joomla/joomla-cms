@@ -47,14 +47,13 @@ if ($paramsFontScheme) {
 
 		if (count($matches) > 0) {
 			$fontStyles = '--cassiopeia-font-family-body: "' . $matches[1][0] . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . count($matches) === 2 ? $matches[2][0] : $matches[1][0] . '", sans-serif;';
+			--cassiopeia-font-family-headings: "' . count($matches) === 2 ? $matches[2][0] : $matches[1][0] . '", sans-serif;
+			--cassiopeia-font-weight-normal: 400;
+			--cassiopeia-font-weight-headings: 700;';
 			}
 	} else {
 		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
 		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
-
-		$fontStyles = '--cassiopeia-font-family-body: "Roboto", sans-serif;
-			--cassiopeia-font-family-headings: "Roboto", sans-serif;';
 	}
 }
 
@@ -71,8 +70,6 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-link-color: #2a69b8;
 		--template-special-color: #001B4C;
 		$fontStyles
-		--cassiopeia-font-weight-normal: 400;
-		--cassiopeia-font-weight-headings: 700;
 	}");
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
