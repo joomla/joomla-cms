@@ -71,7 +71,7 @@ class TemplatesController extends BaseController
 		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 

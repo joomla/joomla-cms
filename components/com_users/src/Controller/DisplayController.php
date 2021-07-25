@@ -52,7 +52,7 @@ class DisplayController extends BaseController
 			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') != 1)
 					{
@@ -79,7 +79,7 @@ class DisplayController extends BaseController
 				case 'profile':
 
 					// If the user is a guest, redirect to the login page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') == 1)
 					{
@@ -100,7 +100,7 @@ class DisplayController extends BaseController
 				case 'remind':
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') != 1)
 					{

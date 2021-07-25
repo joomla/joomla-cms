@@ -34,7 +34,7 @@ class ProfileController extends BaseController
 	public function edit()
 	{
 		$app         = $this->app;
-		$user        = Factory::getUser();
+		$user        = $this->app->getIdentity();
 		$loginUserId = (int) $user->get('id');
 
 		// Get the current user id.
@@ -87,7 +87,7 @@ class ProfileController extends BaseController
 
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
-		$user   = Factory::getUser();
+		$user   = $this->app->getIdentity();
 		$userId = (int) $user->get('id');
 
 		// Get the user data.

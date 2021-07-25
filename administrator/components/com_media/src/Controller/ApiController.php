@@ -346,7 +346,7 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		if (!Factory::getUser()->authorise('core.create', 'com_media'))
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
 		{
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}

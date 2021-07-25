@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'tags');

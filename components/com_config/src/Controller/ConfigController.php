@@ -70,7 +70,7 @@ class ConfigController extends BaseController
 		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
