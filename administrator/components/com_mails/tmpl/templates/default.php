@@ -72,8 +72,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_($component); ?>
 								</td>
 								<?php if (count($this->languages) > 1) : ?>
-									<td class="text-center">
-										<ul class="list-unstyled d-flex">
+									<td>
+										<ul class="list-unstyled d-flex justify-content-center">
 										<?php foreach ($this->languages as $language) : ?>
 											<li class="p-1">
 												<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
