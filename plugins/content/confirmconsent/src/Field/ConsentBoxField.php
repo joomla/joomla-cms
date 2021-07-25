@@ -203,8 +203,10 @@ class ConsentBoxField extends CheckboxesField
 		{
 			$modalParams['title']  = $layoutData['label'];
 			$modalParams['url']    = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
-			$modalParams['height'] = 800;
+			$modalParams['height'] = '100%';
 			$modalParams['width']  = '100%';
+			$modalParams['bodyHeight'] = 70;
+			$modalParams['modalWidth'] = 80;
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
 		}
 

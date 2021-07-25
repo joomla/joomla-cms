@@ -50,19 +50,11 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       elem.classList.remove('child-open');
     }
 
-    if (wrapper.classList.contains('closed')) {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'closed',
-        bubbles: true,
-        cancelable: true,
-      }));
-    } else {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'open',
-        bubbles: true,
-        cancelable: true,
-      }));
-    }
+    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
+      detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
+      bubbles: true,
+      cancelable: true,
+    }));
   });
 
   // Sidebar Nav

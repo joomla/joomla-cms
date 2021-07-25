@@ -121,16 +121,28 @@ $wa->useScript('com_finder.maps');
 							<?php endif; ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="btn <?php echo ((int) $item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
-								<?php echo (int) $item->count_published; ?></a>
+								<a class="btn <?php echo ((int) $item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>"
+									href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>"
+									aria-describedby="tip-publish<?php echo $i; ?>">
+									<?php echo (int) $item->count_published; ?>
+								</a>
+								<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>
 							</td>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="btn <?php echo ((int) $item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
-								<?php echo (int) $item->count_unpublished; ?></a>
+								<a class="btn <?php echo ((int) $item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>"
+									href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>"
+									aria-describedby="tip-unpublish<?php echo $i; ?>">
+									<?php echo (int) $item->count_unpublished; ?>
+								</a>
+								<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>
