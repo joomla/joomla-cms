@@ -49,12 +49,12 @@ class JoomlaRestoreDefaults {
 			}
 			restoreCombination.push(keyValue);
 			const restoreDefault = restoreCombination.join(' + ');
-			document.getElementById(`jform_params_${action}_keyEvent`).value = this.options[action].keyEvent;
-			document.getElementById(`jform_params_${action}_hasControl`).value = this.options[action].hasControl;
-			document.getElementById(`jform_params_${action}_hasShift`).value = this.options[action].hasShift;
-			document.getElementById(`jform_params_${action}_hasAlt`).value = this.options[action].hasAlt;
-			document.getElementById(`jform_params_${action}_keySelect_btn`).textContent = restoreDefault;
-			document.getElementById(`jform_params_${action}_keySelect`).value = restoreDefault; 
+			document.getElementById(`jform_params_${key}_keyEvent`).value = this.options[action].keyEvent;
+			document.getElementById(`jform_params_${key}_hasControl`).value = this.options[action].hasControl;
+			document.getElementById(`jform_params_${key}_hasShift`).value = this.options[action].hasShift;
+			document.getElementById(`jform_params_${key}_hasAlt`).value = this.options[action].hasAlt;
+			document.getElementById(`jform_params_${key}_keySelect_btn`).textContent = restoreDefault;
+			document.getElementById(`jform_params_${key}_keySelect`).value = restoreDefault; 
 		}
 	}
 }
