@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,6 +21,14 @@ use Joomla\CMS\Session\Session;
  */
 class PlgButtonModule extends CMSPlugin
 {
+	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -45,7 +52,7 @@ class PlgButtonModule extends CMSPlugin
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$user  = Factory::getUser();
+		$user  = $this->app->getIdentity();
 
 		if ($user->authorise('core.create', 'com_modules')
 			|| $user->authorise('core.edit', 'com_modules')

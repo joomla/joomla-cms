@@ -35,6 +35,14 @@ use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 class LocalAdapter implements AdapterInterface
 {
 	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * The root path to gather file information from.
 	 *
 	 * @var string
@@ -383,8 +391,8 @@ class LocalAdapter implements AdapterInterface
 	{
 		$dateObj = Factory::getDate($date);
 
-		$timezone = Factory::getApplication()->get('offset');
-		$user     = Factory::getUser();
+		$timezone = $this->app->get('offset');
+		$user     = $this->app->getIdentity();
 
 		if ($user->id)
 		{

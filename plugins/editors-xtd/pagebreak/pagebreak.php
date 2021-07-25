@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -21,6 +20,14 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgButtonPagebreak extends CMSPlugin
 {
+	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -40,14 +47,14 @@ class PlgButtonPagebreak extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$user  = Factory::getUser();
+		$user  = $this->app->getIdentity();
 
 		// Can create in any category (component permission) or at least in one category
 		$canCreateRecords = $user->authorise('core.create', 'com_content')
 			|| count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
 		// Instead of checking edit on all records, we can use **same** check as the form editing view
-		$values = (array) Factory::getApplication()->getUserState('com_content.edit.article.id');
+		$values = (array) $this->app->getUserState('com_content.edit.article.id');
 		$isEditingRecords = count($values);
 
 		// This ACL check is probably a double-check (form view already performed checks)
@@ -57,7 +64,7 @@ class PlgButtonPagebreak extends CMSPlugin
 			return;
 		}
 
-		Factory::getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
+		$this->app->getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
 		$button = new CMSObject;

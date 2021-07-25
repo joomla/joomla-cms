@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,6 +21,14 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgButtonImage extends CMSPlugin
 {
+	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -43,9 +50,9 @@ class PlgButtonImage extends CMSPlugin
 	 */
 	public function onDisplay($name, $asset, $author)
 	{
-		$app       = Factory::getApplication();
+		$app       = $this->app;
 		$doc       = $app->getDocument();
-		$user      = Factory::getUser();
+		$user      = $app->getIdentity();
 		$extension = $app->input->get('option');
 
 		// For categories we check the extension (ex: component.section)

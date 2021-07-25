@@ -25,6 +25,14 @@ use Joomla\Database\ParameterType;
 class PlgContentPagenavigation extends CMSPlugin
 {
 	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * If in the article view and the parameter is enabled shows the page navigation
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
@@ -38,7 +46,7 @@ class PlgContentPagenavigation extends CMSPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		$app   = Factory::getApplication();
+		$app   = $this->app;
 		$view  = $app->input->get('view');
 		$print = $app->input->getBool('print');
 
@@ -50,7 +58,7 @@ class PlgContentPagenavigation extends CMSPlugin
 		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
 			$db         = Factory::getDbo();
-			$user       = Factory::getUser();
+			$user       = $this->app->getIdentity();
 			$lang       = Factory::getLanguage();
 			$now        = Factory::getDate()->toSql();
 			$query      = $db->getQuery(true);

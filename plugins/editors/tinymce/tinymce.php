@@ -174,7 +174,7 @@ class PlgEditorTinymce extends CMSPlugin
 			return $editor;
 		}
 
-		$user     = Factory::getUser();
+		$user     = $this->app->getIdentity();
 		$language = Factory::getLanguage();
 		$theme    = 'silver';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());

@@ -244,7 +244,7 @@ class PlgUserToken extends CMSPlugin
 
 		// No token: no reset
 		$userTokenSeed = $this->getTokenSeedForUser($userId);
-		$currentUser   = Factory::getUser();
+		$currentUser   = $this->app->getIdentity();
 
 		if (empty($userTokenSeed))
 		{

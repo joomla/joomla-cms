@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
@@ -612,7 +611,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$jUser = Factory::getUser();
+		$jUser = $this->app->getIdentity();
 
 		if (!$jUser->id)
 		{
@@ -974,7 +973,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterCheckin($table)
 	{
 		$context = 'com_checkin';
-		$user    = Factory::getUser();
+		$user    = $this->app->getIdentity();
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1010,7 +1009,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogPurge($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = $this->app->getIdentity();
 		$message = array(
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1038,7 +1037,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogExport($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = $this->app->getIdentity();
 		$message = array(
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1066,7 +1065,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterPurge($group = 'all')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = $this->app->getIdentity();
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1147,7 +1146,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onJoomlaAfterUpdate($oldVersion = null)
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = $this->app->getIdentity();
 
 		if (empty($oldVersion))
 		{
