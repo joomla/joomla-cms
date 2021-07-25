@@ -19,12 +19,12 @@ if ($app->get('session_metadata', true))
 
 	if ($showmode == 0 || $showmode == 2)
 	{
-		$count = WhosonlineHelper::getOnlineCount();
+		$count = WhosonlineHelper::getOnlineCount($app);
 	}
 
 	if ($showmode > 0)
 	{
-		$names = WhosonlineHelper::getOnlineUserNames($params);
+		$names = WhosonlineHelper::getOnlineUserNames($params, $app);
 	}
 
 	require ModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

@@ -29,14 +29,14 @@ class ArticlesArchiveHelper
 	 * Retrieve list of archived articles
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  The application
 	 *
 	 * @return  array
 	 *
 	 * @since   1.5
 	 */
-	public static function getList(&$params)
+	public static function getList(&$params, $app)
 	{
-		$app       = Factory::getApplication();
 		$db        = Factory::getDbo();
 		$query     = $db->getQuery(true);
 

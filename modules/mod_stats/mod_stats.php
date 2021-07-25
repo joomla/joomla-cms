@@ -14,6 +14,6 @@ use Joomla\Module\Stats\Site\Helper\StatsHelper;
 
 $serverinfo = $params->get('serverinfo', 0);
 $siteinfo   = $params->get('siteinfo', 0);
-$list       = StatsHelper::getList($params);
+$list       = StatsHelper::getList($params, $app);
 
 require ModuleHelper::getLayoutPath('mod_stats', $params->get('layout', 'default'));

@@ -22,6 +22,6 @@ if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
 	return;
 }
 
-$list = ArticlesPopularHelper::getList($params);
+$list = ArticlesPopularHelper::getList($params, $params);
 
 require ModuleHelper::getLayoutPath('mod_articles_popular', $params->get('layout', 'default'));

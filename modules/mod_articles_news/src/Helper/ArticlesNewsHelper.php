@@ -30,16 +30,15 @@ abstract class ArticlesNewsHelper
 	/**
 	 * Get a list of the latest articles from the article model
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+	 * @param   \Joomla\Registry\Registry  &            $params  object holding the models parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  mixed
 	 *
 	 * @since 1.6
 	 */
-	public static function getList(&$params)
+	public static function getList(&$params, $app)
 	{
-		$app = Factory::getApplication();
-
 		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
@@ -59,7 +58,7 @@ abstract class ArticlesNewsHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
+		$authorised = $app->getIdentity()->getAuthorisedViewLevels();
 		$model->setState('filter.access', $access);
 
 		// Category filter

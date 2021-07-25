@@ -13,6 +13,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesArchive\Site\Helper\ArticlesArchiveHelper;
 
 $params->def('count', 10);
-$list = ArticlesArchiveHelper::getList($params);
+$list = ArticlesArchiveHelper::getList($params, $app);
 
 require ModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));

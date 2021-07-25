@@ -24,20 +24,21 @@ class UsersLatestHelper
 	/**
 	 * Get users sorted by activation date
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 * @param   \Joomla\Registry\Registry               $params  module parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array  The array of users
 	 *
 	 * @since   1.6
 	 */
-	public static function getUsers($params)
+	public static function getUsers($params, $app)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from($db->quoteName('#__users', 'a'));
-		$user = Factory::getUser();
+		$user = $app->getIdentity();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
@@ -63,7 +64,7 @@ class UsersLatestHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}

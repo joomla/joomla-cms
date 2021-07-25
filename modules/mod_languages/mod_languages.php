@@ -14,6 +14,6 @@ use Joomla\Module\Languages\Site\Helper\LanguagesHelper;
 
 $headerText = $params->get('header_text');
 $footerText = $params->get('footer_text');
-$list       = LanguagesHelper::getList($params);
+$list       = LanguagesHelper::getList($params, $app);
 
 require ModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));

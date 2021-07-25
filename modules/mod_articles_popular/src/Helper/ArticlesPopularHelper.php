@@ -29,13 +29,12 @@ abstract class ArticlesPopularHelper
 	 * Get a list of popular articles from the articles model
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+	 *                                               \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  mixed
 	 */
-	public static function getList(&$params)
+	public static function getList(&$params, $app)
 	{
-		$app = Factory::getApplication();
-
 		// Get an instance of the generic articles model
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);

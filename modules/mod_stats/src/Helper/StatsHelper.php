@@ -27,13 +27,13 @@ class StatsHelper
 	/**
 	 * Get list of stats
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &            $params  module parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array
 	 */
-	public static function &getList(&$params)
+	public static function &getList(&$params, $app)
 	{
-		$app        = Factory::getApplication();
 		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);

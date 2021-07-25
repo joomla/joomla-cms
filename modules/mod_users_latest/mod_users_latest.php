@@ -13,6 +13,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\UsersLatest\Site\Helper\UsersLatestHelper;
 
 $shownumber = $params->get('shownumber', 5);
-$names      = UsersLatestHelper::getUsers($params);
+$names      = UsersLatestHelper::getUsers($params, $app);
 
 require ModuleHelper::getLayoutPath('mod_users_latest', $params->get('layout', 'default'));

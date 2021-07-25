@@ -30,16 +30,16 @@ abstract class LanguagesHelper
 	/**
 	 * Gets a list of available languages
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params
+	 * @param   \Joomla\Registry\Registry  &            $params  module params
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array
 	 */
-	public static function getList(&$params)
+	public static function getList(&$params, $app)
 	{
-		$user		= Factory::getUser();
+		$user		= $app->getIdentity();
 		$lang		= Factory::getLanguage();
 		$languages	= LanguageHelper::getLanguages();
-		$app		= Factory::getApplication();
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
 

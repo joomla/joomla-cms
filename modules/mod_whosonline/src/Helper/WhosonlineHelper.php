@@ -23,11 +23,13 @@ class WhosonlineHelper
 	/**
 	 * Show online count
 	 *
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app  The application
+	 *
 	 * @return  array  The number of Users and Guests online.
 	 *
 	 * @since   1.5
 	 **/
-	public static function getOnlineCount()
+	public static function getOnlineCount($app)
 	{
 		$db = Factory::getDbo();
 
@@ -36,7 +38,7 @@ class WhosonlineHelper
 		$user_array  = 0;
 		$guest_array = 0;
 
-		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
 		$query = $db->getQuery(true)
 			->select('guest, client_id')
@@ -80,15 +82,16 @@ class WhosonlineHelper
 	/**
 	 * Show online member names
 	 *
-	 * @param   mixed  $params  The parameters
+	 * @param   mixed                                   $params  The parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array   (array) $db->loadObjectList()  The names of the online users.
 	 *
 	 * @since   1.5
 	 **/
-	public static function getOnlineUserNames($params)
+	public static function getOnlineUserNames($params, $app)
 	{
-		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = $app->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -98,7 +101,7 @@ class WhosonlineHelper
 			->where($db->quoteName('a.client_id') . ' ' . $whereCondition)
 			->group($db->quoteName(['a.username', 'a.userid', 'a.client_id']));
 
-		$user = Factory::getUser();
+		$user = $app->getIdentity();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
