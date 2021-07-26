@@ -205,7 +205,6 @@ joomla-tab {
   &[view=accordion] {
     flex-direction: column;
     white-space: normal;
-    background-color: var(--white);
     border-radius: 0;
     box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
 
@@ -215,7 +214,6 @@ joomla-tab {
 
       &[active] {
         display: block;
-        flex: 0 0 100%;
         width: 100%;
         max-width: 100%;
         border-bottom: 1px solid $gray-300;
