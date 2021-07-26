@@ -99,20 +99,20 @@ if (is_array($attributes))
 }
 
 $calendarAttrs = [
-	'data-inputfield'   => $id,
-	'data-button'       => $id . '_btn',
-	'data-date-format'  => $format,
-	'data-firstday'     => $firstday,
-	'data-weekend'      => implode(',', $weekend),
-	'data-today-btn'    => $todaybutton,
-	'data-week-numbers' => $weeknumbers,
-	'data-show-time'    => $showtime,
-	'data-show-others'  => $filltable,
-	'data-time24'       => $timeformat,
+	'data-inputfield'      => $id,
+	'data-button'          => $id . '_btn',
+	'data-date-format'     => $format,
+	'data-firstday'        => $firstday,
+	'data-weekend'         => implode(',', $weekend),
+	'data-today-btn'       => $todaybutton,
+	'data-week-numbers'    => $weeknumbers,
+	'data-show-time'       => $showtime,
+	'data-show-others'     => $filltable,
+	'data-time24'          => $timeformat,
 	'data-only-months-nav' => $singleheader,
-	'data-min-year'     => $minYear,
-	'data-max-year'     => $maxYear,
-	'data-date-type'    => strtolower($calendar),
+	'data-min-year'        => $minYear,
+	'data-max-year'        => $maxYear,
+	'data-date-type'       => strtolower($calendar),
 ];
 
 $calendarAttrsStr = ArrayHelper::toString($calendarAttrs);
