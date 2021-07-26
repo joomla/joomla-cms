@@ -137,6 +137,12 @@
 			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
 		}
 
+		// Other calendar may have a different order for months and days
+		this.strings.days = Date.daysToLocalOrder(this.strings.days, this.params.dateType);
+		this.strings.shortDays = Date.daysToLocalOrder(this.strings.shortDays, this.params.dateType);
+		this.strings.months = Date.monthsToLocalOrder(this.strings.months, this.params.dateType);
+		this.strings.shortMonths = Date.monthsToLocalOrder(this.strings.shortMonths, this.params.dateType);
+
 		// Event handler need to define here, to be able access in current context
 		this._dayMouseDown = function(event) {
 			return self._handleDayMouseDown(event);

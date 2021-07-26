@@ -284,6 +284,25 @@ Date.toEnglish = function(str) {
 	return str;
 };
 
+	/** Order the days from Gergorian to calendar order */
+	Date.monthsToLocalOrder = function(months, dateType) {
+		if (dateType === 'jalali'){
+			months.push(months.shift()); // January to the end
+			months.push(months.shift()); // February to the end
+
+			return months;
+		} else {
+			return months;
+		}
+	};
+	Date.daysToLocalOrder = function(days, dateType) {
+		if (dateType === 'jalali'){
+			return days.reverse();
+		} else {
+			return days;
+		}
+	};
+
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/
 
