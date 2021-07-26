@@ -140,7 +140,7 @@ foreach ($strings as $c)
 	Text::script($c);
 }
 
-// This is a new strings, make sure they exists. Can be generalised at later time: eg in 4.1 version.
+// These are new strings. Make sure they exist. Can be generalised at later time: eg in 4.1 version.
 if ($lang->hasKey('JLIB_HTML_BEHAVIOR_AM'))
 {
 	Text::script('JLIB_HTML_BEHAVIOR_AM');
