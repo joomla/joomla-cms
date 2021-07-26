@@ -60,8 +60,7 @@
 			am: _t('JLIB_HTML_BEHAVIOR_AM', 'am'),
 			pm: _t('JLIB_HTML_BEHAVIOR_PM', 'pm'),
 			exit: _t('JCLOSE', 'Close'),
-			clear: _t('JCLEAR', 'Clear'),
-			localNumbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+			clear: _t('JCLEAR', 'Clear')
 		};
 
 		// Translate lists of Days, Months
@@ -136,10 +135,6 @@
 		// Evaluate the weekend days
 		if (btn.dataset.weekend) {
 			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
-		}
-
-		if (btn.dataset.localNumbers) {
-			this.strings.localNumbers = btn.dataset.localNumbers.split(',').map(function(item){ return parseInt(item, 10);})
 		}
 
 		// Event handler need to define here, to be able access in current context
@@ -719,10 +714,10 @@
 						}
 						if (i < 10 && range_end >= 10) {
 							num = '0' + i;
-							txt = Date.convertNumbers('0', self.strings.localNumbers) + Date.convertNumbers(i, self.strings.localNumbers);
+							txt = Date.convertNumbers('0') + Date.convertNumbers(i);
 						} else {
 							num = '' + i;
-							txt = '' + Date.convertNumbers(i, self.strings.localNumbers);
+							txt = '' + Date.convertNumbers(i);
 						}
 						part.options.add(new Option(txt, num, selAttr, selAttr));
 					}
@@ -926,7 +921,7 @@
 					cell.style.cursor = "pointer";
 				}
 				cell.disabled = false;
-				cell.textContent = this.params.debug ? iday : Date.convertNumbers(iday, this.strings.localNumbers); // translated day number for each cell
+				cell.textContent = this.params.debug ? iday : Date.convertNumbers(iday); // translated day number for each cell
 				if (!cell.disabled) {
 					cell.caldate = new Date(date);
 					if (current_month && iday === mday) {
@@ -991,9 +986,9 @@
 
 		if (!this.params.compressedHeader) {
 			this._nav_month.getElementsByTagName('span')[0].textContent = this.params.debug ? month + ' ' + this.strings.months[month] : this.strings.months[month];
-			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString(), this.strings.localNumbers) : Date.convertNumbers(year.toString(), this.strings.localNumbers);
+			this.title.getElementsByTagName('span')[0].textContent = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
 		} else {
-			var tmpYear = Date.convertNumbers(year.toString(), this.strings.localNumbers);
+			var tmpYear = Date.convertNumbers(year.toString());
 			this._nav_month.getElementsByTagName('span')[0].textContent = !this.params.monthBefore  ? this.strings.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + this.strings.months[month] ;
 		}
 		this.table.style.visibility = "visible";

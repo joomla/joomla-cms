@@ -313,7 +313,6 @@ class CalendarField extends FormField
 			'calendar'     => $calendar,
 			'firstday'     => $lang->getFirstDay(),
 			'weekend'      => explode(',', $lang->getWeekEnd()),
-			'localNumbers' => $lang->getLocalNumbers(),
 		);
 
 		return array_merge($data, $extraData);

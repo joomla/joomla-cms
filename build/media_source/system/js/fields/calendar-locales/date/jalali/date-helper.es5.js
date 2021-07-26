@@ -1,6 +1,8 @@
 !(function(Date){
 	'use strict';
 
+	var localNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
 /** BEGIN: DATE OBJECT PATCHES **/
 /** Adds the number of days array to the Date object. */
 Date.gregorian_MD = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -249,7 +251,7 @@ Date.gregorianToLocalCal = function(y, m, d) {
 };
 
 /** Method to convert numbers from local symbols to English numbers. */
-Date.numbersToIso = function(str, localNumbers) {
+Date.numbersToIso = function(str) {
 	var i, nums = [0,1,2,3,4,5,6,7,8,9];
 	str = str.toString();
 
@@ -262,7 +264,7 @@ Date.numbersToIso = function(str, localNumbers) {
 };
 
 /** Method to convert numbers to local symbols. */
-Date.convertNumbers = function(str, localNumbers) {
+Date.convertNumbers = function(str) {
 	str = str.toString();
 
 	for (var i = 0, l = localNumbers.length; i < l; i++) {
@@ -350,14 +352,14 @@ Date.prototype.print = function (str, dateType, translate, localStrings) {
 
 	var tmpDate = str.replace(re, function (par) { return s[par] || par; });
 	if (translate) {
-		tmpDate = Date.convertNumbers(tmpDate, localStrings.localNumbers);
+		tmpDate = Date.convertNumbers(tmpDate);
 	}
 
 	return tmpDate;
 };
 
 Date.parseFieldDate = function(str, fmt, dateType, localStrings) {
-	str = Date.numbersToIso(str, localStrings.localNumbers);
+	str = Date.numbersToIso(str);
 
 	var today = new Date();
 	var y = 0;

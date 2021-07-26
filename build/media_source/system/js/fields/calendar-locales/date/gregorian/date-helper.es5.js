@@ -1,6 +1,8 @@
 !(function(Date){
 	'use strict';
 
+	var localNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 	/****************** Gregorian dates ********************/
 	/** Constants used for time computations */
 	Date.SECOND = 1000 /* milliseconds */;
@@ -209,7 +211,7 @@
 	};
 
 	/** Method to convert numbers to local symbols. */
-	Date.convertNumbers = function(str, localNumbers) {
+	Date.convertNumbers = function(str) {
 		str = str.toString();
 
 		for (var i = 0, l = localNumbers.length; i < l; i++) {
@@ -403,7 +405,7 @@
 
 		var tmpDate = str.replace(re, function (par) { return s[par] || par; });
 		if (dateType != 'gregorian' && translate) {
-			tmpDate = Date.convertNumbers(tmpDate, localStrings.localNumbers);
+			tmpDate = Date.convertNumbers(tmpDate);
 		}
 
 		return tmpDate;
