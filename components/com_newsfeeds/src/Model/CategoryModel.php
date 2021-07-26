@@ -13,7 +13,6 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -240,7 +239,9 @@ class CategoryModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = Factory::getApplication();
-		$params = ComponentHelper::getParams('com_newsfeeds');
+
+		$params = $app->getParams();
+		$this->setState('params', $params);
 
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
@@ -285,9 +286,6 @@ class CategoryModel extends ListModel
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
-
-		// Load the parameters.
-		$this->setState('params', $params);
 	}
 
 	/**
