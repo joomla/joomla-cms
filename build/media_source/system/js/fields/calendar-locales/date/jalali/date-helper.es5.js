@@ -257,7 +257,7 @@ Date.numbersToIso = function(str) {
 
 
 	for (i = 0; i < nums.length; i++) {
-		str = str.replace(new RegExp(localNumbers.localLangNumbers[i], 'g'), nums[i]);
+		str = str.replace(new RegExp(localNumbers[i], 'g'), nums[i]);
 	}
 
 	return str;
