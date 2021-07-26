@@ -207,7 +207,7 @@ class MediaHelper
 
 		$filetype = array_pop($filetypes);
 
-		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
@@ -228,7 +228,7 @@ class MediaHelper
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
+			$allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
 			if (\in_array($filetype, $allowedExtensions))
 			{
@@ -463,5 +463,26 @@ class MediaHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Helper method get clean data for value stores in a Media form field by removing adapter information
+	 * from the value if available (in this case, the value will have this format:
+	 * images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180)
+	 *
+	 * @param   string  $value
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getCleanMediaFieldValue($value)
+	{
+		if ($pos = strpos($value, '#'))
+		{
+			return substr($value, 0, $pos);
+		}
+
+		return $value;
 	}
 }

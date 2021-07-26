@@ -82,7 +82,7 @@
             Object.entries(json.pluginState).forEach((context) => {
               let item = `<dt class="col-sm-3">${context[0]}</dt>`;
               item += `<dd id="finder-${context[0].replace(/\s+/g, '-').toLowerCase()}" class="col-sm-9"></dd>`;
-              debuglist.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(item));
+              debuglist.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(item, { dd: ['class', 'id'], dt: ['class'] }));
             });
           }
         }

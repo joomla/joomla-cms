@@ -297,12 +297,8 @@
 }
 
 .mod-list {
-  padding-left: 0;
+  padding-inline-start: 0;
   list-style: none;
-
-  [dir=rtl] & {
-    padding-right: 0;
-  }
 
   li {
     padding: .25em 0;

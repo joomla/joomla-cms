@@ -49,7 +49,8 @@ class PlgButtonImage extends CMSPlugin
 		$extension = $app->input->get('option');
 
 		// For categories we check the extension (ex: component.section)
-		if ($extension === 'com_categories') {
+		if ($extension === 'com_categories')
+		{
 			$parts     = explode('.', $app->input->get('extension', 'com_content'));
 			$extension = $parts[0];
 		}
@@ -63,7 +64,8 @@ class PlgButtonImage extends CMSPlugin
 			|| ($user->authorise('core.edit.own', $asset) && $author === $user->id)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id)
-		) {
+		)
+		{
 			$doc->getWebAssetManager()
 				->useScript('webcomponent.media-select')
 				->useScript('webcomponent.field-media')
@@ -73,7 +75,8 @@ class PlgButtonImage extends CMSPlugin
 				$name . '_ImageModal',
 			]);
 
-			if (count($doc->getScriptOptions('media-picker')) === 0) {
+			if (count($doc->getScriptOptions('media-picker')) === 0)
+			{
 				$imagesExt = array_map(
 					'trim',
 					explode(
