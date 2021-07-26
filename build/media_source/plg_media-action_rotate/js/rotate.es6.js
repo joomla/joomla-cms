@@ -2,12 +2,11 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-const activated = false;
+let activated = false;
 
 // Update image
-const rotate = (angle) => {
+const rotate = (angle, image) => {
   // The canvas where we will resize the image
-  const image = document.getElementById('image-preview');
   let canvas = document.createElement('canvas');
 
   // Pseudo rectangle calculation
@@ -24,13 +23,9 @@ const rotate = (angle) => {
 
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate(angle * Math.PI / 180);
-  const img = new Image();
-  img.src = image.src;
-  ctx.drawImage(img, -image.naturalWidth / 2, -image.naturalHeight / 2);
-  ctx.restore();
+  ctx.rotate((angle * Math.PI) / 180);
+  ctx.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2);
 
   // The format
   const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
@@ -58,7 +53,7 @@ const initRotate = (image) => {
   if (!activated) {
     // The number input listener
     document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
-      rotate(parseInt(target.value, 10));
+      rotate(parseInt(target.value, 10), image);
 
       target.value = 0;
       // Deselect all buttons
@@ -71,18 +66,20 @@ const initRotate = (image) => {
 
     // The 90 degree rotate buttons listeners
     [].slice.call(document.querySelectorAll('#jform_rotate_distinct [type=radio]'))
-      .map((element) => {
+      .forEach((element) => {
         element.addEventListener('click', ({ target }) => {
-          rotate(parseInt(target.value, 10));
+          rotate(parseInt(target.value, 10), image);
 
           // Deselect all buttons
           [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
-            .forEach((element) => {
-              element.classList.remove('active');
-              element.classList.remove('focus');
+            .forEach((el) => {
+              el.classList.remove('active');
+              el.classList.remove('focus');
             });
         });
       });
+
+    activated = true;
   }
 };
 
