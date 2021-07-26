@@ -313,10 +313,10 @@ Date.prototype.print = function (str, dateType, translate, localStrings) {
 		ir = 12;
 	var min = this.getMinutes();
 	var sec = this.getSeconds();
-	s["%a"] = localStrings.shortDays[w];                                                     // abbreviated weekday name
-	s["%A"] = localStrings.days[w];                                                          // full weekday name
-	s["%b"] = localStrings.shortMonths[m];                                                   // abbreviated month name
-	s["%B"] = localStrings.months[m];                                                        // full month name
+	s["%a"] = localStrings.shortDays[w];                                                        // abbreviated weekday name
+	s["%A"] = localStrings.days[w];                                                             // full weekday name
+	s["%b"] = localStrings.shortMonths[m];                                                      // abbreviated month name
+	s["%B"] = localStrings.months[m];                                                           // full month name
 	// FIXME: %c : preferred date and time representation for the current locale
 	s["%C"] = 1 + Math.floor(y / 100);                                                          // the century number
 	s["%d"] = (d < 10) ? ("0" + d) : d;                                                         // the day of the month (range 01 to 31)
