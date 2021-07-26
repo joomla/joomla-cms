@@ -39,15 +39,16 @@ const init = (image) => {
 
   // Initiate the cropper
   Joomla.MediaManager.Edit.plugins.crop.cropper = new Cropper(image, {
-    viewMode: 2,
-    responsive: true,
+    viewMode: 1,
     restore: true,
     autoCrop: true,
     movable: false,
     zoomable: false,
     rotatable: false,
     autoCropArea: 1,
-    scalable: false,
+    // scalable: false,
+    minContainerWidth: image.offsetWidth,
+    minContainerHeight: image.offsetHeight,
     crop(e) {
       formElements.cropX.value = Math.round(e.detail.x);
       formElements.cropY.value = Math.round(e.detail.y);

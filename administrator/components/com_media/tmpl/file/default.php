@@ -33,6 +33,8 @@ $form = $this->form;
 
 $tmpl = $input->getCmd('tmpl');
 
+$input->set('hidemainmenu', true);
+
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component') {
 	echo '<div class="subhead noshadow">';
