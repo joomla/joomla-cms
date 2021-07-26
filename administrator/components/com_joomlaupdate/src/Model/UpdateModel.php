@@ -483,7 +483,7 @@ class UpdateModel extends BaseDatabaseModel
 	{
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'ERROR');
 		}
 		catch (\RuntimeException $exception)
 		{
