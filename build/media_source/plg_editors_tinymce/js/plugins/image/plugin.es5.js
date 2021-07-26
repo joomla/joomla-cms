@@ -67,14 +67,8 @@
         add: '<svg viewBox="0 0 24 24" width="24px" height="24px"><path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M16,13h-3v3c0,0.552-0.448,1-1,1h0 c-0.552,0-1-0.448-1-1v-3H8c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h3V8c0-0.552,0.448-1,1-1h0c0.552,0,1,0.448,1,1v3h3 c0.552,0,1,0.448,1,1v0C17,12.552,16.552,13,16,13z"/></svg>'
       },
       dialogBody: null,
-      registerField: function (field, callback) {
-        jimage.dialogBody.querySelector('#' + field.id).addEventListener('change', function (e) {
-          field.value = field.type === 'checkbox' ? e.target.checked : e.target.value;
-          callback();
-        });
-      },
       renderField: function (field) {
-        if (field.type === 'checkbox') {
+        if (field.type === "checkbox") {
           return `
             <div class="tox-form__group">
               <label class="tox-label">` + field.label + `</label>
@@ -97,7 +91,7 @@
       },
       renderButton: function (btn) {
         return `
-          <button id="` + btn.id +`" title="` + btn.title + `" type="button" class="tox-button tox-button--naked tox-button--icon">
+          <button id="` + btn.id + `" title="` + btn.title + `" type="button" class="tox-button tox-button--naked tox-button--icon">
             <span class="tox-icon">` + jimage.icons[btn.icon] + `</span>
           </button>`;
       },
@@ -112,6 +106,62 @@
             + fieldsHTML +
             `<div class="tox-form__group"><label class="tox-label">&nbsp;</label>` + jimage.renderButton(btn) + `</div>
           </div>`;
+      },
+      registerField: function (field, callback = null) {
+        jimage.dialogBody.querySelector("#" + field.id).addEventListener("change", function (e) {
+          field.value = field.type === "checkbox" ? e.target.checked : e.target.value;
+
+          if (callback) callback();
+        });
+      },
+      createSizeGroup: function (id, width, height) {
+        return {
+          width: {
+            id: "jimage_sizes_width_" + id,
+            type: "number",
+            label: "Width",
+            value: width ?? '',
+          },
+          height: {
+            id: "jimage_sizes_height" + id,
+            type: "number",
+            label: "Height",
+            value: height ?? '',
+          },
+        };
+      },
+      handleDelete: function (id) {
+        jimage.dialogBody.querySelector('#jimage_delete_' + id).addEventListener('click', function (e) {
+          // Remove object from sizes array and delete from DOM
+          responsiveSizes.sizes = responsiveSizes.sizes.filter(function (size, index) {
+            return index !== id;
+          });
+          e.currentTarget.closest('.jimage_field_group').remove();
+
+          jimage.updateImageAttr();
+        });
+      },
+      updateImageAttr: function () {
+        var image = editor.selection.getNode();
+
+        // Edit or delete image data-jimage attribute
+        if (responsiveSizes.setCustom.value && responsiveSizes.sizes.length > 0) {
+          var sizes = [];
+
+          responsiveSizes.sizes.forEach(function (size) {
+            var width = parseInt(size.width.value);
+            var height = parseInt(size.height.value);
+
+            if (width > 0 && height > 0) {
+              sizes.push(width + "x" + height);
+            }
+          });
+
+          // Set sizes string as data attribute
+          if(sizes.length > 0) image.setAttribute('data-jimage', sizes.join(","));
+        } else {
+          image.removeAttribute("data-jimage");
+        }
       }
     };
 
@@ -126,14 +176,31 @@
             // Insert content to advanced tabpanel
             if (e.target.innerText === tinymce.util.I18n.translate('Advanced') && e.target.getAttribute('aria-selected') === 'false') {
               setTimeout(function () {
-                // Set image detail initial values
                 var image = editor.selection.getNode();
-                imageDetails.imgClass.value = image.className;
+
+                // Set image detail initial values
+                imageDetails.imgClass.value = image.className ?? '';
                 imageDetails.lazyLoading.value = image.getAttribute('loading') === 'lazy';
 
                 if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-                  imageDetails.figClass.value = image.parentElement.className;
-                  imageDetails.figCaption.value = image.parentElement.querySelector('figcaption').innerText;
+                  imageDetails.figClass.value = image.parentElement.className ?? '';
+                  imageDetails.figCaption.value = image.parentElement.querySelector('figcaption').innerText ?? '';
+                }
+
+                // Custom sizes initial default values
+                responsiveSizes.sizes = [];
+                responsiveSizes.setCustom.value = false;
+
+                // Set custom sizes initial values if exist
+                if (image.getAttribute('data-jimage')) {
+                  responsiveSizes.setCustom.value = true;
+
+                  // Create new objects with existing sizes
+                  var sizes = image.getAttribute("data-jimage").split(',');
+                  sizes.forEach(function (size, index) {
+                    var dimensions = size.split("x");
+                    responsiveSizes.sizes.push(jimage.createSizeGroup(index, dimensions[0], dimensions[1]));
+                  });
                 }
 
                 // Render image detail fields
@@ -153,57 +220,53 @@
 
                 jimage.dialogBody.querySelector('.tox-form').insertAdjacentHTML('beforeend', formHTML);
 
+                var sizesWrapper = jimage.dialogBody.querySelector('#jimage_sizes_wrapper');
+                var addBtn = jimage.dialogBody.querySelector('#jimage_add');
+
                 // Update values of image detail controls on change
                 Object.values(imageDetails).forEach(function (field) {
                   jimage.registerField(field);
                 });
-
+                
                 // Update values of responsive size controls on change
-                var sizesWrapper = jimage.dialogBody.querySelector('#jimage_sizes_wrapper');
-                jimage.registerField(responsiveSizes.setCustom, function () {
-                  // Hide/show sizes depending on the value of setCustom
-                  sizesWrapper.style.display = responsiveSizes.setCustom.value ? 'block' : 'none';
-                });
-                responsiveSizes.sizes.forEach(function (group) {
+                responsiveSizes.sizes.forEach(function (group, index) {
                   Object.values(group).forEach(function (field) {
                     jimage.registerField(field);
                   });
+                  
+                  jimage.handleDelete(index);
+                });
+                
+                // Show/hide elements depending on custom sizes config
+                jimage.registerField(responsiveSizes.setCustom, function () {
+                  var isCustom = responsiveSizes.setCustom.value;
+                  sizesWrapper.style.display = isCustom ? 'block' : 'none';
+                  addBtn.style.display = isCustom ? 'block' : 'none';
                 });
 
+                // Hide add button if custom size option is off
+                if (!responsiveSizes.setCustom.value) {
+                  addBtn.style.display = 'none';
+                }
+
                 // Handle insertion of responsive size controls
-                jimage.dialogBody.querySelector('#jimage_add').addEventListener('click', function () {
+                addBtn.addEventListener('click', function () {
                   // Create new field object with new id
                   var id = responsiveSizes.sizes.length;
-                  var newField = {
-                    width: {
-                      id: "jimage_sizes_width_" + id,
-                      type: "number",
-                      label: "Width",
-                      value: ""
-                    },
-                    height: {
-                      id: "jimage_sizes_height" + id,
-                      type: "number",
-                      label: "Height",
-                      value: ""
-                    }
-                  };
+                  var newGroup = jimage.createSizeGroup(id);
 
                   // Append new object to the array and render field group
-                  responsiveSizes.sizes.push(newField);
-                  sizesWrapper.insertAdjacentHTML('beforeend', jimage.renderFieldGroup(Object.values(newField), {
+                  responsiveSizes.sizes.push(newGroup);
+                  sizesWrapper.insertAdjacentHTML('beforeend', jimage.renderFieldGroup(Object.values(newGroup), {
                     id: 'jimage_delete_' + id, title: 'Delete size', icon: 'delete'
                   }));
 
-                  // Handle deletion of the field
-                  jimage.dialogBody.querySelector('#jimage_delete_' + id).addEventListener('click', function (e) {
-                    // Remove object from sizes array and delete from DOM
-                    responsiveSizes.sizes.filter(function (size, index) {
-                      return index !== id;
-                    });
-
-                    e.currentTarget.closest('.jimage_field_group').remove();
+                  // Track value of newly created field
+                  Object.values(responsiveSizes.sizes[id]).forEach(function (field) {
+                    jimage.registerField(field);
                   });
+
+                  jimage.handleDelete(id);
                 });
               });
             }
@@ -251,6 +314,8 @@
             figure.parentNode.removeChild(figure);
           }
         }
+
+        jimage.updateImageAttr();
       }
     });
   });

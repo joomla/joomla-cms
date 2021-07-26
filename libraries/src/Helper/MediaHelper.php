@@ -536,6 +536,8 @@ class MediaHelper
 			// Generate new responsive images if file exists
 			if (is_file(JPATH_ROOT . '/' . $image))
 			{
+				$sizes = static::getContentSizes($content, $image) ?? $sizes;
+
 				$imgObj = new Image(JPATH_ROOT . '/' . $image);
 				$imgObj->createMultipleSizes($sizes);
 
@@ -614,6 +616,8 @@ class MediaHelper
 		// Generate srcset and sizes for all images
 		foreach ($images as $image)
 		{
+			$sizes = static::getContentSizes($content, $image) ?? $sizes;
+
 			if ($srcset = static::generateSrcset($image, $sizes))
 			{
 				// Remove previously generated attributes
@@ -638,7 +642,7 @@ class MediaHelper
 	 * @param   int       $isCustom     1 if sizes are custom
 	 * @param   stdClass  $sizeOptions  Responsive size options
 	 *
-	 * @return  array  Responsive image sizes
+	 * @return  array     Responsive image sizes
 	 *
 	 * @since   4.1.0
 	 */
@@ -670,5 +674,24 @@ class MediaHelper
 		}
 
 		return $customSizes;
+	}
+
+	/**
+	 * Returns custom responsive size options of a content image
+	 *
+	 * @param   string  $content  editor content
+	 * @param   string  $image    image source
+	 *
+	 * @return  mixed   Custom sizes or null if not exists
+	 *
+	 * @since   4.1.0
+	 */
+	public static function getContentSizes($content, $image)
+	{
+		// Get data-jimage attribute value of image
+		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage *= *["\'](.*?)["\']/';
+		$customSizes = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
+
+		return $customSizes ? array_unique(explode(',', (string) $customSizes)) : null;
 	}
 }
