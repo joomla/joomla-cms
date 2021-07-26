@@ -126,11 +126,11 @@
 
 		// Evaluate the min year
 		if (btn.dataset.minYear) {
-			self.params.minYear = getBoundary(parseInt(btn.dataset.minYear, 10), self.params.dateType);
+			self.params.minYear = parseInt(btn.dataset.minYear, 10);
 		}
 		// Evaluate the max year
 		if (btn.dataset.maxYear) {
-			self.params.maxYear = getBoundary(parseInt(btn.dataset.maxYear, 10), self.params.dateType);
+			self.params.maxYear = parseInt(btn.dataset.maxYear, 10);
 		}
 		// Evaluate the weekend days
 		if (btn.dataset.weekend) {
