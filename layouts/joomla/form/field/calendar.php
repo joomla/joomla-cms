@@ -17,6 +17,7 @@ extract($displayData);
 
 // Get some system objects.
 $document = Factory::getApplication()->getDocument();
+$lang     = Factory::getApplication()->getLanguage();
 
 /**
  * Layout variables
@@ -131,12 +132,23 @@ $strings = [
 	// Buttons
 	'JCLOSE', 'JCLEAR', 'JLIB_HTML_BEHAVIOR_TODAY',
 	// Miscellaneous
-	'JLIB_HTML_BEHAVIOR_WK', 'JLIB_HTML_BEHAVIOR_AM', 'JLIB_HTML_BEHAVIOR_PM',
+	'JLIB_HTML_BEHAVIOR_WK',
 ];
 
 foreach ($strings as $c)
 {
 	Text::script($c);
+}
+
+// This is a new strings, make sure they exists. Can be generalised at later time: eg in 4.1 version.
+if ($lang->hasKey('JLIB_HTML_BEHAVIOR_AM'))
+{
+	Text::script('JLIB_HTML_BEHAVIOR_AM');
+}
+
+if ($lang->hasKey('JLIB_HTML_BEHAVIOR_PM'))
+{
+	Text::script('JLIB_HTML_BEHAVIOR_PM');
 }
 
 // Redefine locale/helper assets to use correct path, and load calendar assets
