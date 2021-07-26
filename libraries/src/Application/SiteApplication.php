@@ -19,6 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -551,7 +552,7 @@ final class SiteApplication extends CMSApplication
 			{
 				if (!is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 				{
-					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+					Log::add(Text::_('JERROR_ALERTNOTEMPLATE'), Log::WARNING, 'jerror');
 
 					// Try to find data for 'cassiopeia' template
 					$original_tmpl = $template->template;
@@ -575,7 +576,7 @@ final class SiteApplication extends CMSApplication
 		}
 		elseif (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			Log::add(Text::_('JERROR_ALERTNOTEMPLATE'), Log::WARNING, 'jerror');
 
 			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
