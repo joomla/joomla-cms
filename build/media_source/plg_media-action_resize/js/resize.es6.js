@@ -59,8 +59,8 @@ const addListeners = (image) => {
 
 const initResize = (image) => {
   // Update the input boxes
-  formElements.resizeWidth.value = image.width;
-  formElements.resizeHeight.value = image.height;
+  formElements.resizeWidth.value = image.naturalWidth;
+  formElements.resizeHeight.value = image.naturalHeight;
 
   if (!activated) {
     activated = true;
