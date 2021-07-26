@@ -51,7 +51,7 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 					<?php endif; ?>
 
 					<?php if ($tabs) : ?>
-						<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
+						<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '', 'recall' => true, 'breakpoint' => 768]); ?>
 						<?php // Show installation tabs ?>
 						<?php foreach ($tabs as $tab) : ?>
 							<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
