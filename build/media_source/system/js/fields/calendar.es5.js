@@ -85,7 +85,7 @@
 				firstDayOfWeek  : btn.dataset.firstday ? parseInt(btn.dataset.firstday, 10) : 0,
 				dateFormat      : btn.dataset.dateFormat || "%Y-%m-%d %H:%M:%S",
 				weekend         : [0,6],
-				minYear         : 1900,
+				minYear         : 1000,
 				maxYear         : 2100,
 				time24          : true,
 				showsOthers     : true,
