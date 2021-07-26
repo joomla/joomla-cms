@@ -75,7 +75,6 @@ const initRotate = (image) => {
         element.addEventListener('click', ({ target }) => {
           rotate(parseInt(target.value, 10));
 
-          target.value = 0;
           // Deselect all buttons
           [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
             .forEach((element) => {
