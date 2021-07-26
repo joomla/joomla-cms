@@ -17,6 +17,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
@@ -272,7 +273,8 @@ class AdministratorApplication extends CMSApplication
 		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
 			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
-			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			Log::add(Text::_('JERROR_ALERTNOTEMPLATE'),Log::WARNING,'jerror');
+
 			$template->params = new Registry;
 			$template->template = 'atum';
 
