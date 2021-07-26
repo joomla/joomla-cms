@@ -24,7 +24,7 @@ class PlgButtonImage extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
