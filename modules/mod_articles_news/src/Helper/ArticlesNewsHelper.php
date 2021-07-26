@@ -29,7 +29,7 @@ abstract class ArticlesNewsHelper
 	/**
 	 * Get a list of the latest articles from the article model
 	 *
-	 * @param   \Joomla\Registry\Registry  &            $params  object holding the models parameters
+	 * @param   \Joomla\Registry\Registry               &$params  object holding the models parameters
 	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  mixed

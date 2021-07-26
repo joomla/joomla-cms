@@ -82,7 +82,7 @@ class WhosonlineHelper
 	/**
 	 * Show online member names
 	 *
-	 * @param   mixed                                   $params  The parameters
+	 * @param   \Joomla\Registry\Registry               $params  The parameters
 	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array   (array) $db->loadObjectList()  The names of the online users.

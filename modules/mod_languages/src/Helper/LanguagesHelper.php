@@ -30,7 +30,7 @@ abstract class LanguagesHelper
 	/**
 	 * Gets a list of available languages
 	 *
-	 * @param   \Joomla\Registry\Registry  &            $params  module params
+	 * @param   \Joomla\Registry\Registry               &$params  module params
 	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array

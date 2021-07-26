@@ -28,8 +28,8 @@ abstract class ArticlesPopularHelper
 	/**
 	 * Get a list of popular articles from the articles model
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
-	 *                                               \Joomla\CMS\Application\CMSApplication  $app     The application
+	 * @param   \Joomla\Registry\Registry               &$params  object holding the models parameters
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  mixed
 	 */

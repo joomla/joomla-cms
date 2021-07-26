@@ -27,7 +27,7 @@ class StatsHelper
 	/**
 	 * Get list of stats
 	 *
-	 * @param   \Joomla\Registry\Registry  &            $params  module parameters
+	 * @param   \Joomla\Registry\Registry               &$params  module parameters
 	 * @param   \Joomla\CMS\Application\CMSApplication  $app     The application
 	 *
 	 * @return  array
