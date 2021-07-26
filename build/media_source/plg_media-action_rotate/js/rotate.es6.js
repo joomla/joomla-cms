@@ -6,7 +6,7 @@ let activated = false;
 
 // Update image
 const rotate = (angle, image) => {
-  // The canvas where we will resize the image
+  // The canvas where we will rotate the image
   let canvas = document.createElement('canvas');
 
   // Pseudo rectangle calculation
