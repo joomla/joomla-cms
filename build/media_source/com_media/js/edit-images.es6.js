@@ -125,6 +125,7 @@ class Edit {
     this.imagePreview = document.createElement('img');
     this.imagePreview.src = data.contents;
     this.imagePreview.id = 'image-preview';
+    this.imagePreview.style.width = '100%';
     this.imagePreview.style.maxWidth = '100%';
     this.baseContainer.appendChild(this.imagePreview);
   }
