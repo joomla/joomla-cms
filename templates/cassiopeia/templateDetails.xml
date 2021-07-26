@@ -23,6 +23,8 @@
 		<folder>scss</folder>
 	</files>
 	<positions>
+		<position>topbar</position>
+		<position>below-top</position>
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
@@ -46,10 +48,23 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
+					name="brand"
+					type="radio"
+					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="logoFile"
 					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
+					showon="brand:1"
 				/>
 
 				<field
@@ -58,6 +73,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -66,6 +82,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TAGLINE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -87,8 +104,7 @@
 				<field
 					name="noteFontScheme"
 					type="note"
-					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
-					heading="p"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
 					class="alert alert-warning"
 				/>
 

@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -256,24 +257,31 @@ class InstallationController extends JSONController
 
 		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
 		$model = $this->getModel('Cleanup');
-		$success = $model->deleteInstallationFolder();
 
-		// If an error was encountered return an error.
-		if (!$success)
+		if (!$model->deleteInstallationFolder())
 		{
-			$this->app->enqueueMessage(Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+			// We can't send a response with sendJsonResponse because our installation classes might not now exist
+			$error = [
+				'token' => Session::getFormToken(true),
+				'error' => true,
+				'data' => [
+					'view' => 'remove'
+				],
+				'messages' => [
+					'warning' => [
+						Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation')
+					]
+				]
+			];
+
+			echo json_encode($error);
+
+			return;
 		}
 
 		$this->app->getSession()->destroy();
 
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/**
-		 * TODO: We can't send a response this way because our installation classes no longer
-		 *       exist. We probably need to hardcode a json response here
-		 *
-		 * $this->sendJsonResponse($r);
-		 */
+		// We can't send a response with sendJsonResponse because our installation classes now do not exist
+		echo json_encode(['error' => false]);
 	}
 }

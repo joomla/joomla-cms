@@ -11,14 +11,28 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $wa = $this->getWebAssetManager();
 
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+
 // Enable assets
-$wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
-	->useStyle('template.user');
+	->useStyle('template.user')
+	->addInlineStyle(':root {
+		--hue: ' . $matches[1] . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '--template-bg-light') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '--template-text-dark') . ';
+		--template-text-light: ' . $this->params->get('text-light', '--template-text-light') . ';
+		--template-link-color: ' . $this->params->get('link-color', '--template-link-color') . ';
+		--template-special-color: ' . $this->params->get('special-color', '--template-special-color') . ';
+	}');
+
+// No template.js for modals
+$wa->disableScript('template.atum');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -33,7 +47,9 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />

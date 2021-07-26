@@ -227,10 +227,9 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected
@@ -292,7 +291,12 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$limit = $app->getUserStateFromRequest(
+				'com_contact.category.list',
+				'limit',
+				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
+				'uint'
+			);
 		}
 
 		$this->setState('list.limit', $limit);

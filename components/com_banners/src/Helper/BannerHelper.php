@@ -23,7 +23,7 @@ abstract class BannerHelper
 	 *
 	 * @param   string  $url  The URL path to the potential image
 	 *
-	 * @return  boolean  True if an image of type bmp, gif, jp(e)g or png, false otherwise
+	 * @return  boolean  True if an image of type bmp, gif, jp(e)g, png or webp, false otherwise
 	 *
 	 * @since   1.6
 	 */
@@ -31,25 +31,11 @@ abstract class BannerHelper
 	{
 		$urlCheck = explode('?', $url);
 
-		if (preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $urlCheck[0]))
+		if (preg_match('#\.(?:bmp|gif|jpe?g|png|webp)$#i', $urlCheck[0]))
 		{
 			return true;
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks if a URL is a Flash file
-	 *
-	 * @param   string  $url  The URL path to the potential flash file
-	 *
-	 * @return  boolean  True if an image of type bmp, gif, jp(e)g or png, false otherwise
-	 *
-	 * @since   1.6
-	 */
-	public static function isFlash($url)
-	{
-		return preg_match('#\.swf$#i', $url);
 	}
 }

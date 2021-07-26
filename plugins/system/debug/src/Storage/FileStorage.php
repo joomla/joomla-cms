@@ -80,7 +80,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 			{
 				$files[] = [
 					'time' => $file->getMTime(),
-					'id' => $file->getBasename('.php')
+					'id' => $file->getBasename('.php'),
 				];
 			}
 		}
@@ -89,7 +89,12 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		usort(
 			$files,
 			function ($a, $b) {
-				return $a['time'] < $b['time'];
+				if ($a['time'] === $b['time'])
+				{
+					return 0;
+				}
+
+				return $a['time'] < $b['time'] ? 1 : -1;
 			}
 		);
 

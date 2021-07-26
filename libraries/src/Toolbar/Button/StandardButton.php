@@ -97,8 +97,6 @@ class StandardButton extends BasicButton
 		{
 			case 'apply':
 			case 'new':
-				return 'btn btn-success';
-
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
@@ -106,17 +104,13 @@ class StandardButton extends BasicButton
 			case 'publish':
 				return 'btn btn-success';
 
-			case 'unpublish':
-				return 'btn btn-danger';
-
 			case 'featured':
 				return 'btn btn-warning';
 
 			case 'cancel':
-				return 'btn btn-danger';
-
 			case 'trash':
 			case 'delete':
+			case 'unpublish':
 				return 'btn btn-danger';
 
 			default:
@@ -140,7 +134,7 @@ class StandardButton extends BasicButton
 
 		if ($this->getListCheck())
 		{
-			$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+			$messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = 'Joomla.renderMessages(' . $messages . ')';
 			$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 		}

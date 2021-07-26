@@ -27,7 +27,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
@@ -134,8 +134,8 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							}
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
-								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
-								level="<?php echo $item->level; ?>">
+								data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
+								data-level="<?php echo $item->level; ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>

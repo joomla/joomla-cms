@@ -70,28 +70,29 @@ export default {
         return;
       }
 
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
+      // @todo remove the hardcoded extensions here
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension
-        && !extensionWithPreview.includes(this.item.extension.toLowerCase())) {
+        && extensionWithPreview.includes(this.item.extension.toLowerCase())) {
         this.$store.commit(types.SHOW_PREVIEW_MODAL);
         this.$store.dispatch('getFullContents', this.item);
       }
     },
 
     /**
-             * Whether or not the item is currently selected
-             * @returns {boolean}
-             */
+     * Whether or not the item is currently selected
+     * @returns {boolean}
+     */
     isSelected() {
       return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
     },
 
     /**
-             * Handle the click event
-             * @param event
-             */
+     * Handle the click event
+     * @param event
+     */
     onClick(event) {
       const path = false;
       const data = {
@@ -107,12 +108,16 @@ export default {
         data.width = this.item.width ? this.item.width : 0;
         data.height = this.item.height ? this.item.height : 0;
 
-        const ev = new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: data,
-        });
-        window.parent.document.dispatchEvent(ev);
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: data,
+            },
+          ),
+        );
       }
 
       // Handle clicks when the item was not selected
