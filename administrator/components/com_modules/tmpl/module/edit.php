@@ -134,6 +134,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<?php
 				// Set main fields.
 				$this->fields = array(
+					'transition',
 					'showtitle',
 					'position',
 					'published',
