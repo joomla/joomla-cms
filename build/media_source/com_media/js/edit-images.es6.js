@@ -230,10 +230,12 @@ class Edit {
       } else {
         this.removeProgressBar();
       }
+      this.xhr = null;
     };
 
     this.xhr.onerror = () => {
       this.removeProgressBar();
+      this.xhr = null;
     };
 
     this.xhr.open('PUT', url, true);
