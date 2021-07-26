@@ -110,6 +110,7 @@ textarea {
 label,
 caption {
   font-size: $label-font-size;
+  text-align: start;
 }
 
 .logo {
@@ -122,7 +123,6 @@ caption {
 .container-main,
 .system-debug {
   padding-bottom: 50px;
-  overflow: auto;
 }
 
 body .container-main {
@@ -262,7 +262,7 @@ meter {
       --gutter-x: 4rem;
 
       > * + * {
-        border-left: 1px solid var(--template-bg-dark-10);
+        border-inline-start: 1px solid var(--template-bg-dark-10);
       }
     }
   }

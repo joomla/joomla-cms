@@ -76,7 +76,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		$vName = $this->input->getCmd('view', 'categories');
 		$this->input->set('view', $vName);
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'

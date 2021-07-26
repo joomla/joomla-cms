@@ -91,8 +91,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Ensure we delete the repeatable fields plugin before we remove its files
+		// Uninstall plugins before removing their files and folders
 		$this->uninstallRepeatableFieldsPlugin();
+		$this->uninstallEosPlugin();
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -508,6 +509,56 @@ class JoomlaInstallerScript
 	}
 
 	/**
+	 * Uninstall the 3.10 EOS plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function uninstallEosPlugin()
+	{
+		$db = Factory::getDbo();
+
+		// Check if the plg_quickicon_eos310 plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_quickicon_eos310'))
+		)->loadResult();
+
+		// Skip uninstalling if it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		try
+		{
+			$db->transactionStart();
+
+			// Unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+			)->execute();
+
+			// Uninstall the plugin
+			$installer = new Installer;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
+		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Update the manifest caches
 	 *
 	 * @return  void
@@ -644,6 +695,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2020-08-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.2-2013-12-22.sql',
@@ -765,6 +817,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.2-2013-12-22.sql',
@@ -887,6 +940,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.3.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
