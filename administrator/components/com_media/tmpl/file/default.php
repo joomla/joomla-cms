@@ -72,4 +72,4 @@ $this->useCoreUI = true;
 	<?php endif; ?>
 	<input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
 </form>
-<script type="module" src="<?php echo $script; ?>"></script>
+<script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>
