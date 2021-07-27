@@ -211,7 +211,7 @@ export default {
     /* Get a UID */
     getHash() {
       return api.mediaVersion;
-    }
+    },
   },
   methods: {
     /* Preview an item */
