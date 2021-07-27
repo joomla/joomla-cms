@@ -32,6 +32,11 @@
       "name": "com_cronjobs.admin-plg-job-css",
       "type": "style",
       "uri": "com_cronjobs/admin-plg-job.css"
+    },
+    {
+      "name": "com_cronjobs.admin-view-cronjob-css",
+      "type": "style",
+      "uri": "com_cronjobs/admin-view-cronjob.css"
     }
   ]
 }
