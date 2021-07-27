@@ -137,9 +137,13 @@
 			self.params.weekend = btn.dataset.weekend.split(',').map(function(item) { return parseInt(item, 10); });
 		}
 
-		// Other calendar may have a different order for months and days
-		this.strings.days = Date.daysToLocalOrder(this.strings.days, this.params.dateType);
-		this.strings.shortDays = Date.daysToLocalOrder(this.strings.shortDays, this.params.dateType);
+		// Legacy thing, days for RTL is reversed
+		if (this.params.direction === 'rtl') {
+			this.strings.days = this.strings.days.reverse();
+			this.strings.shortDays = this.strings.shortDays.reverse();
+		}
+
+		// Other calendar may have a different order for months
 		this.strings.months = Date.monthsToLocalOrder(this.strings.months, this.params.dateType);
 		this.strings.shortMonths = Date.monthsToLocalOrder(this.strings.shortMonths, this.params.dateType);
 

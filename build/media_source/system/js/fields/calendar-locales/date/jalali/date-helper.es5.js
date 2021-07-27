@@ -295,13 +295,6 @@ Date.toEnglish = function(str) {
 			return months;
 		}
 	};
-	Date.daysToLocalOrder = function(days, dateType) {
-		if (dateType === 'jalali'){
-			return days.reverse();
-		} else {
-			return days;
-		}
-	};
 
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/

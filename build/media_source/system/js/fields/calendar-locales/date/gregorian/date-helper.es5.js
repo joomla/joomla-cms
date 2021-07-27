@@ -231,12 +231,9 @@
 		return str;
 	};
 
-	/** Order the days from Gergorian to calendar order */
+	/** Order the months from Gergorian to the calendar order */
 	Date.monthsToLocalOrder = function(months) {
 		return months;
-	};
-	Date.daysToLocalOrder = function(days) {
-		return days;
 	};
 
 	/** INTERFACE METHODS FOR THE CALENDAR PICKER **/
