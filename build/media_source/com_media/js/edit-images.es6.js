@@ -27,7 +27,7 @@ class Edit {
       contents: `data:image/${this.fileType};base64,${this.options.contents}`,
     };
     this.history = {};
-    this.current = {};
+    this.current = this.original;
     this.plugins = {};
     this.baseContainer = document.getElementById('media-manager-edit-container');
 
@@ -140,6 +140,9 @@ class Edit {
   }
 
   async activate(name) {
+    this.imagePreview = null;
+    this.createImageContainer(this.current.contents);
+
     // Activate the first plugin
     if (name) {
       try {
