@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
+          :style="{ backgroundImage: 'url(' + thumbUrl + '?' + getHash +')' }"
         />
       </div>
     </div>
@@ -187,6 +187,7 @@
 </template>
 
 <script>
+import { api } from '../../../app/Api.es6';
 import * as types from '../../../store/mutation-types.es6';
 
 export default {
@@ -207,6 +208,10 @@ export default {
     canEdit() {
       return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
     },
+    /* Get a UID */
+    getHash() {
+      return api.mediaVersion;
+    }
   },
   methods: {
     /* Preview an item */
