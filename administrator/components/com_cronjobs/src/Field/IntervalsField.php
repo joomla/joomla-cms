@@ -36,11 +36,12 @@ class IntervalsField extends ListField
 
 	/**
 	 * Layout used to render the field
+	 * ! Due removal
 	 *
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $layout = 'joomla.form.field.interval';
+	// protected $layout = 'joomla.form.field.interval';
 
 	/**
 	 * The subtypes supported by this field type.
@@ -74,7 +75,7 @@ class IntervalsField extends ListField
 	];
 
 	/**
-	 * For options without explicit labels, count of options
+	 * Count of predefined options for each subtype
 	 *
 	 * @var int[]
 	 * @since __DEPLOY_VERSION__
@@ -82,7 +83,9 @@ class IntervalsField extends ListField
 	private static $optionsCount = [
 		'minutes' => 59,
 		'hours' => 23,
-		'days_month' => 31
+		'days_week' => 7,
+		'days_month' => 31,
+		'months' => 12
 	];
 
 	/**
@@ -94,12 +97,20 @@ class IntervalsField extends ListField
 	private $subtype;
 
 	/**
-	 * The multiple attribute is enabled by default.
+	 * If true, field options will include a wildcard
 	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @var boolean
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected $multiple = true;
+	private $wildcard;
+
+	/**
+	 * If true, field will only have numeric labels (for days_week and months)
+	 *
+	 * @var boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $onlyNumericLabels;
 
 	/**
 	 * Override the parent method to set deal with subtypes.
@@ -119,6 +130,8 @@ class IntervalsField extends ListField
 		$parentResult = parent::setup($element, $value, $group);
 
 		$subtype = (string) $element['subtype'] ?? null;
+		$wildcard = (string) $element['wildcard'] ?? false;
+		$onlyNumericLabels = (string) $element['onlyNumericLabels'] ?? false;
 
 		if (!($subtype && in_array($subtype, self::$subtypes)))
 		{
@@ -126,8 +139,8 @@ class IntervalsField extends ListField
 		}
 
 		$this->subtype = $subtype;
-		$this->multiple = true;
-		$element['multiple'] = $element['multiple'] ?? 'true';
+		$this->wildcard = $wildcard;
+		$this->onlyNumericLabels = $onlyNumericLabels;
 
 		return $parentResult;
 	}
@@ -138,19 +151,25 @@ class IntervalsField extends ListField
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function getOptions()
+	protected function getOptions(): array
 	{
 		$subtype = $this->subtype;
 		$options = [];
+
+		$options = parent::getOptions();
 
 		if (!in_array($subtype, self::$subtypes))
 		{
 			return $options;
 		}
 
-		$options[] = HTMLHelper::_('select.option', '*', '*');
+		// $options[] = HTMLHelper::_('select.option', '*', '*');
+		if ($this->wildcard)
+		{
+			$options[] = HTMLHelper::_('select.option', '*', '*');
+		}
 
-		if (array_key_exists($subtype, self::$preparedResponseLabels))
+		if (!$this->onlyNumericLabels && array_key_exists($subtype, self::$preparedResponseLabels))
 		{
 			$labels = self::$preparedResponseLabels[$subtype];
 			$responseCount = count($labels);
