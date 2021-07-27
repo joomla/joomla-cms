@@ -1396,7 +1396,7 @@ ENDDATA;
 			$decode = json_decode($extension->manifest_cache);
 
 			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			unset($decode->description);
 
 			$this->translateExtensionName($extension);
 			$extension->version
@@ -1647,9 +1647,11 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$update = new \Joomla\CMS\Updater\Update;
+		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+
+		$update = new Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXml($updateFileUrl);
+		$update->loadFromXml($updateFileUrl, $minimumStability);
 
 		$downloadUrl = $update->get('downloadurl');
 

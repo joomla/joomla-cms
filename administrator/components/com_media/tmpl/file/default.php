@@ -62,7 +62,7 @@ $this->useCoreUI = true;
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'attrib-' . reset($fieldSets)->name, 'recall' => true, 'breakpoint' => 768]); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
