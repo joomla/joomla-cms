@@ -208,7 +208,7 @@ class Edit {
 
   /**
    * Uploads
-   * Puplic
+   * Public
    */
   upload(url, stateChangeCallback) {
     let format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
