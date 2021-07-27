@@ -40,7 +40,7 @@
         />
         <img
           v-if="isImage()"
-          :src=" item.url + getHash "
+          :src="getHashedURL"
           :type="item.mime_type"
         >
       </div>
@@ -69,12 +69,12 @@ export default {
       // Use the currently selected directory as a fallback
       return this.$store.state.previewItem;
     },
-    /* Get a UID */
-    getHash() {
+    /* Get the hashed URL */
+    getHashedURL() {
       if (this.item.adapter.startsWith('local-')) {
-        return `?${api.mediaVersion}`;
+        return `${this.item.url}?${api.mediaVersion}`;
       }
-      return '';
+      return this.item.url;
     },
   },
   methods: {

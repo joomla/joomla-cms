@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: 'url(' + thumbUrl + getHash +')' }"
+          :style="{ backgroundImage: 'url(' + getHashedURL + ')' }"
         />
       </div>
     </div>
@@ -200,20 +200,16 @@ export default {
     };
   },
   computed: {
-    /* Get the item url */
-    thumbUrl() {
-      return this.item.thumb_path;
-    },
     /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
     },
     /* Get a UID */
-    getHash() {
+    getHashedURL() {
       if (this.item.adapter.startsWith('local-')) {
-        return `?${api.mediaVersion}`;
+        return `${this.item.thumb_path}?${api.mediaVersion}`;
       }
-      return '';
+      return this.item.thumb_path;
     },
   },
   methods: {
