@@ -27,6 +27,7 @@ $wa = $this->document->getWebAssetManager();
 
 $wa->useScript('keepalive');
 $wa->useScript('form.validate');
+$wa->useStyle('com_cronjobs.admin-view-cronjob-css');
 
 /** @var AdministratorApplication $app */
 $app = $this->app;
@@ -90,14 +91,12 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 					<?php echo $this->form->renderFieldset('basic'); ?>
 				</fieldset>
 
-<!--				<fieldset class="options-form">
-					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_CRON_OPTIONS'); ?></legend>
-					<?php echo $this->form->renderFieldset('cron-options'); ?>
-				</fieldset>-->
 
-				<fieldset class="options-form">
+				<fieldset class="options-form match-custom"
+						  data-showon='[{"field":"jform[execution_rules][rule-type]","values":["custom"],"sign":"=","op":""}]'
+				>
 					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_CRON_OPTIONS'); ?></legend>
-					<?php echo $this->form->renderFieldset('interval'); ?>
+					<?php echo $this->form->renderFieldset('custom-cron-rules'); ?>
 				</fieldset>
 
 				<fieldset class="options-form">
