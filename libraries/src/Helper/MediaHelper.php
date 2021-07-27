@@ -474,7 +474,7 @@ class MediaHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getCleanMediaFieldValue($value)
 	{
