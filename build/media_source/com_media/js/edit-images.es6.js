@@ -18,6 +18,7 @@ class Edit {
 
     this.extension = this.options.uploadPath.split('.').pop();
     this.fileType = ['jpeg', 'jpg'].includes(this.extension) ? 'jpeg' : this.extension;
+    this.options.currentUrl = new URL(window.location.href);
 
     // Initiate the registry
     this.original = {
@@ -99,24 +100,31 @@ class Edit {
     this.createProgressBar = this.createProgressBar.bind(this);
     this.updateProgressBar = this.updateProgressBar.bind(this);
     this.removeProgressBar = this.removeProgressBar.bind(this);
-    this.exec = this.exec.bind(this);
+    this.upload = this.upload.bind(this);
 
     // Create history entry
     window.addEventListener('mediaManager.history.point', this.addHistoryPoint.bind(this));
   }
 
+  /**
+   * Creates a history snapshot
+   * PRIVATE
+   */
   addHistoryPoint() {
-    if (this.original !== this.current.contents) {
+    if (this.original !== this.current) {
       const key = Object.keys(this.history).length;
       if (this.history[key] && this.history[key - 1]
         && this.history[key] === this.history[key - 1]) {
         return;
       }
-      this.history[key + 1] = this.current.contents;
+      this.history[key + 1] = this.current;
     }
   }
 
-  // Create the images for edit and preview
+  /**
+   * Creates the images for edit and preview
+   * PRIVATE
+   */
   createImageContainer(data) {
     if (!data.contents) {
       throw new Error('Initialization error "edit-images.js"');
@@ -198,7 +206,22 @@ class Edit {
   // eslint-disable-next-line class-methods-use-this
   removeProgressBar() { }
 
-  exec(name, data, uploadPath, url, type, stateChangeCallback) {
+  /**
+   * Uploads
+   * Puplic
+   */
+  upload(url, stateChangeCallback) {
+    let format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+
+    if (!format) {
+      // eslint-disable-next-line prefer-destructuring
+      format = /data:image\/(.+);/gm.exec(Joomla.MediaManager.Edit.original.contents)[1];
+    }
+
+    if (!format) {
+      throw new Error('Unable to determine image format');
+    }
+
     this.xhr = new XMLHttpRequest();
 
     if (typeof stateChangeCallback === 'function') {
@@ -239,9 +262,13 @@ class Edit {
     };
 
     this.xhr.open('PUT', url, true);
-    this.xhr.setRequestHeader('Content-Type', type);
+    this.xhr.setRequestHeader('Content-Type', 'application/json');
     this.createProgressBar();
-    this.xhr.send(data);
+    this.xhr.send(JSON.stringify({
+      name: Joomla.MediaManager.Edit.options.uploadPath.split('/').pop(),
+      content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
+      [Joomla.MediaManager.Edit.options.csrfToken]: 1,
+    }));
   }
 }
 
@@ -249,21 +276,21 @@ class Edit {
 // eslint-disable-next-line no-new
 new Edit();
 
-// Customize the Toolbar buttons behavior
-Joomla.submitbutton = (task) => {
-  const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
-  const pathName = window.location.pathname.replace(/&view=file.*/g, '');
-  const name = Joomla.MediaManager.Edit.options.uploadPath.split('/').pop();
-  const forUpload = {
-    name,
-    content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
-  };
+/**
+ * Compute the corrent URL
+ *
+ * @param {boolean} isModal is the URL for a modal window
+ *
+ * @return {{}} the URL object
+ */
+const getUrl = (isModal) => {
+  const newUrl = Joomla.MediaManager.Edit.options.currentUrl;
+  let params = new URLSearchParams(newUrl.search);
+  params.set('view', 'media');
+  params.delete('path');
+  params.delete('mediatypes');
 
   const { uploadPath } = Joomla.MediaManager.Edit.options;
-  const url = `${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${uploadPath}`;
-  const type = 'application/json';
-  forUpload[Joomla.MediaManager.Edit.options.csrfToken] = '1';
-
   let fileDirectory = uploadPath.split('/');
   fileDirectory.pop();
   fileDirectory = fileDirectory.join('/');
@@ -273,16 +300,27 @@ Joomla.submitbutton = (task) => {
     fileDirectory = `${fileDirectory}/`;
   }
 
+  params.set('path', fileDirectory);
+
   // Respect the images_only URI param
   const mediaTypes = document.querySelector('input[name="mediatypes"]');
-  let mediatypes;
-  if (mediaTypes) {
-    mediatypes = `&mediatypes=${mediaTypes.value ? mediaTypes.value : '0'}`;
+  params.set('mediatypes', (mediaTypes && mediaTypes.value) ? mediaTypes.value : '0');
+
+  if (isModal) {
+    params.set('tmpl', 'component');
   }
 
+  newUrl.search = params;
+
+  return newUrl;
+};
+
+// Customize the Toolbar buttons behavior
+Joomla.submitbutton = (task) => {
+  const url = new URL(`${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${Joomla.MediaManager.Edit.options.uploadPath}`);
   switch (task) {
     case 'apply':
-      Joomla.MediaManager.Edit.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+      Joomla.MediaManager.Edit.upload(url, null);
       Joomla.MediaManager.Edit.imagePreview.src = Joomla.MediaManager.Edit.current.contents;
       Joomla.MediaManager.Edit.original = Joomla.MediaManager.Edit.current;
       Joomla.MediaManager.Edit.history = {};
@@ -300,22 +338,21 @@ Joomla.submitbutton = (task) => {
       })();
       break;
     case 'save':
-      // eslint-disable-next-line func-names
-      Joomla.MediaManager.Edit.exec(name, JSON.stringify(forUpload), uploadPath, url, type, () => {
+      Joomla.MediaManager.Edit.upload(url, () => {
         if (Joomla.MediaManager.Edit.xhr.readyState === XMLHttpRequest.DONE) {
           if (window.self !== window.top) {
-            window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}&tmpl=component`;
+            window.location = getUrl(true);
           } else {
-            window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}`;
+            window.location = getUrl();
           }
         }
       });
       break;
     case 'cancel':
       if (window.self !== window.top) {
-        window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}&tmpl=component`;
+        window.location = getUrl(true);
       } else {
-        window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}`;
+        window.location = getUrl();
       }
       break;
     case 'reset':
