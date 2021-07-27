@@ -31,7 +31,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 165, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 175, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -114,11 +114,12 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
 (90, 1, 173, 174, 1, 'com_scheduler', 'com_scheduler', '{}');
-(91, 8, 130, 131, 2, 'com_modules.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW', '{}'),
-(92, 18, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
-(93, 18, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
-(94, 18, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
-(95, 18, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
+(89, 8, 130, 131, 2, 'com_modules.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '{}'),
+(90, 18, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
+(91, 18, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
+(92, 18, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
+(93, 18, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
+
 
 SELECT setval('#__assets_id_seq', 91, false);
 
@@ -1117,7 +1118,7 @@ CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
 (1, 56, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42),
-(2, 89, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42);
+(2, 89, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 
