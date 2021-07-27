@@ -39,7 +39,12 @@ const rotate = (angle, image) => {
   // Updating the preview element
   image.width = canvas.width;
   image.height = canvas.height;
-  image.src = Joomla.MediaManager.Edit.current.contents;
+  image.src = '';
+  requestAnimationFrame(
+    () => requestAnimationFrame(() => {
+      image.src = Joomla.MediaManager.Edit.current.contents;
+    })
+  );
 
   // Update the angle input box
   document.getElementById('jform_rotate_a').value = angle;
