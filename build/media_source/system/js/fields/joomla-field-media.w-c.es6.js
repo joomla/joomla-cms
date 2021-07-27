@@ -193,7 +193,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
     // Reset preview
     if (this.preview) {
-      let { value } = this.inputElement;
+      const { value } = this.inputElement;
       const { supportedExtensions } = this;
       if (!value) {
         this.buttonClearEl.style.display = 'none';
