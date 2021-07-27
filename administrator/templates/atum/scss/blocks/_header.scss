@@ -54,7 +54,15 @@
       height: 30px;
       margin: 0 .35rem;
       object-fit: contain;
-      object-position: left center;
+
+      [dir=ltr] & {
+        object-position: left center;
+      }
+
+      [dir=rtl] & {
+        object-position: right center;
+      }
+
       &.logo-collapsed {
         display: none;
       }
