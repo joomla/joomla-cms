@@ -59,7 +59,7 @@ class JoomlatokenField extends TextField
 		 */
 		$userId = $this->form->getData()->get('id');
 
-		if ($userId != Factory::getUser()->id)
+		if ($userId != Factory::getApplication()->getIdentity()->id)
 		{
 			$this->hidden = true;
 		}
@@ -122,7 +122,7 @@ class JoomlatokenField extends TextField
 		$userId    = $this->form->getData()->get('id');
 		$message   = base64_encode("$algorithm:$userId:$tokenHash");
 
-		if ($userId != Factory::getUser()->id)
+		if ($userId != Factory::getApplication()->getIdentity()->id)
 		{
 			$message = '';
 		}

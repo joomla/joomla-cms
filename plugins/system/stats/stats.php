@@ -414,7 +414,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	private function isAllowedUser()
 	{
-		return Factory::getUser()->authorise('core.admin');
+		return $this->app->getIdentity()->authorise('core.admin');
 	}
 
 	/**
