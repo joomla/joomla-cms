@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: 'url(' + getHashedURL + ')' }"
+          :style="{ backgroundImage: getHashedURL }"
         />
       </div>
     </div>
@@ -207,9 +207,9 @@ export default {
     /* Get a UID */
     getHashedURL() {
       if (this.item.adapter.startsWith('local-')) {
-        return `${this.item.thumb_path}?${api.mediaVersion}`;
+        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
       }
-      return this.item.thumb_path;
+      return `url(${this.item.thumb_path})`;
     },
   },
   methods: {
