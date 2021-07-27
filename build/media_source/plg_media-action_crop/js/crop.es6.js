@@ -44,8 +44,6 @@ const init = (image) => {
     rotatable: false,
     autoCropArea: 1,
     // scalable: false,
-    maxContainerWidth: image.width,
-    maxContainerHeight: image.height,
     crop(e) {
       formElements.cropX.value = Math.round(e.detail.x);
       formElements.cropY.value = Math.round(e.detail.y);

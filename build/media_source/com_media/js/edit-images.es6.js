@@ -35,6 +35,8 @@ class Edit {
       throw new Error('The image preview container is missing');
     }
 
+    this.createImageContainer(this.original);
+
     Joomla.MediaManager.Edit = this;
     window.dispatchEvent(new CustomEvent('media-manager-edit-init'));
 
@@ -43,20 +45,14 @@ class Edit {
       const tabContainer = document.getElementById('myTab');
       const tabsUlElement = tabContainer.firstElementChild;
       const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
-      this.createImageContainer(this.original);
-
-      if (links[0]) {
-        const tabId = links[0].getAttribute('aria-controls');
-        try {
-          await this.activate(tabId.replace('attrib-', ''));
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.log(e);
-        }
-      }
 
       // Couple the tabs with the plugin objects
       links.forEach((link, index) => {
+        const tab = document.getElementById(link.getAttribute('aria-controls'));
+        if (index === 0) {
+          tab.insertAdjacentElement('beforeend', this.baseContainer);
+        }
+
         link.addEventListener('joomla.tab.shown', async ({ relatedTarget, target }) => {
           if (relatedTarget) {
             try {
@@ -66,8 +62,6 @@ class Edit {
               console.log(e);
             }
           }
-
-          const tab = document.getElementById(link.getAttribute('aria-controls'));
           // Move the image container to the correct tab
           tab.insertAdjacentElement('beforeend', this.baseContainer);
           try {
@@ -77,18 +71,16 @@ class Edit {
             console.log(e);
           }
         });
-
-        tabContainer.activateTab(index, false);
       });
 
-      const tabId = links[0].getAttribute('aria-controls');
-      tabContainer.activateTab(0, false);
-      try {
-        await this.activate(tabId.replace('attrib-', ''));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
+      links.map((link) => link.click())
+      links[0].click();
+      links[0].blur();
+
+      setTimeout(() => {
+        links[0].click();
+        links[0].blur();
+      }, 400);
     });
 
     this.addHistoryPoint = this.addHistoryPoint.bind(this);
@@ -140,9 +132,6 @@ class Edit {
   }
 
   async activate(name) {
-    this.imagePreview = null;
-    this.createImageContainer(this.current.contents);
-
     // Activate the first plugin
     if (name) {
       try {
