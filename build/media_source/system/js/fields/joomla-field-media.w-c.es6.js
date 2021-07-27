@@ -14,7 +14,7 @@ if (!Joomla) {
  */
 const getExtension = (path) => {
   const parts = path.split(/[#]/);
-  if (parts.length) {
+  if (parts.length > 1) {
     return parts[1].split(/[?]/)[0].split('.').pop().trim();
   }
   return path.split(/[#?]/)[0].split('.').pop().trim();
@@ -186,7 +186,7 @@ class JoomlaFieldMedia extends HTMLElement {
     this.setValue('');
   }
 
-  updatePreview(withValue) {
+  updatePreview() {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
     }
@@ -194,7 +194,6 @@ class JoomlaFieldMedia extends HTMLElement {
     // Reset preview
     if (this.preview) {
       let { value } = this.inputElement;
-      if (withValue) value = withValue;
       const { supportedExtensions } = this;
       if (!value) {
         this.buttonClearEl.style.display = 'none';
