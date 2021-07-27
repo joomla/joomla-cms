@@ -54,10 +54,7 @@
       height: 30px;
       margin: 0 .35rem;
       object-fit: contain;
-
-      [dir=ltr] & {
-        object-position: left center;
-      }
+      object-position: left center;
 
       [dir=rtl] & {
         object-position: right center;
