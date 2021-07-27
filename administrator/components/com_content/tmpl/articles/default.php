@@ -361,7 +361,7 @@ $assoc = Associations::isEnabled();
 								</td>
 								<?php if ($this->hits) : ?>
 									<td class="d-none d-lg-table-cell text-center">
-										<span class="badge bg-info">
+										<span class="badge btn-primary">
 											<?php echo (int) $item->hits; ?>
 										</span>
 									</td>

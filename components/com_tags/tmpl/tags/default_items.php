@@ -126,7 +126,7 @@ $n         = count($this->items);
 							</span>
 						<?php endif; ?>
 						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-							<span class="list-hits badge bg-info">
+							<span class="list-hits badge btn-primary">
 								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 							</span>
 						<?php endif; ?>
