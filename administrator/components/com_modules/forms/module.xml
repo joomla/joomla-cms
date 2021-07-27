@@ -149,24 +149,22 @@
 		/>
 	</fieldset>
 
-	<fields name="params" addfieldprefix="Joomla\Component\Modules\Administrator\Field">
-		<fieldset name="workflow" label="COM_MODULES_WORKFLOW">
-			<field
-				name="workflow_id"
-				type="sql"
-				label="COM_MODULES_WORKFLOWS"
-				class="form-select"
-				size="1"
-				sql_select="id, title"
-				sql_from="#__workflows"
-				sql_where="published = 1"
-				sql_order="ordering"
-				key_field="id"
-				value_field="title"
-				required="true"
-				default="use_default"
-				translate="true"
-			/>
-		</fieldset>
-	</fields>
+	<fieldset name="workflow" label="COM_MODULES_WORKFLOW">
+		<field
+			name="workflow_id"
+			type="sql"
+			label="COM_MODULES_WORKFLOW"
+			class="form-select"
+			size="1"
+			sql_select="id, title"
+			sql_from="#__workflows"
+			sql_where="published = 1 AND extension = 'com_modules.module'"
+			sql_order="ordering"
+			key_field="id"
+			value_field="title"
+			required="true"
+			default="use_default"
+			translate="true"
+		/>
+	</fieldset>
 </form>
