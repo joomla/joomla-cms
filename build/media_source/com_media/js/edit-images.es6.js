@@ -73,7 +73,7 @@ class Edit {
         });
       });
 
-      links.map((link) => link.click())
+      links.map((link) => link.click());
       links[0].click();
       links[0].blur();
 
