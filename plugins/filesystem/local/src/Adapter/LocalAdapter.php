@@ -735,22 +735,6 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $path  The path to file
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 * @throws  FileNotFoundException
-	 */
-	public function getTemporaryUrl(string $path): string
-	{
-		return $this->getUrl($path);
-	}
-
-	/**
 	 * Replace spaces on a path with %20
 	 *
 	 * @param   string  $path  The Path to be encoded
