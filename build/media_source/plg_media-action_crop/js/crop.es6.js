@@ -8,6 +8,7 @@ let activated = false;
 
 const addListeners = () => {
   formElements.cropX.addEventListener('change', ({ currentTarget }) => {
+    console.log(currentTarget.value);
     Joomla.MediaManager.Edit.plugins.crop.cropper
       .setData({ x: parseInt(currentTarget.value, 10) });
   });
@@ -40,6 +41,7 @@ const init = (image) => {
   // Initiate the cropper
   Joomla.MediaManager.Edit.plugins.crop.cropper = new Cropper(image, {
     viewMode: 1,
+    responsive: true,
     restore: true,
     autoCrop: true,
     movable: false,
@@ -47,6 +49,8 @@ const init = (image) => {
     rotatable: false,
     autoCropArea: 1,
     // scalable: false,
+    maxContainerWidth: image.width,
+    maxContainerHeight: image.height,
     crop(e) {
       formElements.cropX.value = Math.round(e.detail.x);
       formElements.cropY.value = Math.round(e.detail.y);
@@ -83,7 +87,11 @@ window.addEventListener('media-manager-edit-init', () => {
   Joomla.MediaManager.Edit.plugins.crop = {
     Activate(image) {
       return new Promise((resolve /* , reject */) => {
-        init(image);
+        if (activated) {
+          Joomla.MediaManager.Edit.plugins.crop.cropper.enable();
+        } else {
+          init(image);
+        }
         Joomla.MediaManager.Edit.plugins.crop.cropper
           .setAspectRatio(formElements.cropAspectRatioOption.value);
         resolve();
@@ -92,8 +100,7 @@ window.addEventListener('media-manager-edit-init', () => {
     Deactivate(image) {
       return new Promise((resolve /* , reject */) => {
         if (image.cropper) {
-          image.cropper.destroy();
-          delete Joomla.MediaManager.Edit.plugins.crop.cropper;
+          image.cropper.disable();
         }
         resolve();
       });
