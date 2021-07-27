@@ -40,7 +40,7 @@
         />
         <img
           v-if="isImage()"
-          :src=" item.url + '?' + getHash "
+          :src=" item.url + getHash "
           :type="item.mime_type"
         >
       </div>
@@ -71,7 +71,10 @@ export default {
     },
     /* Get a UID */
     getHash() {
-      return api.mediaVersion;
+      if (this.item.adapter.startsWith('local-')) {
+        return `?${api.mediaVersion}`;
+      }
+      return '';
     },
   },
   methods: {

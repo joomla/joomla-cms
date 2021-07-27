@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: 'url(' + thumbUrl + '?' + getHash +')' }"
+          :style="{ backgroundImage: 'url(' + thumbUrl + getHash +')' }"
         />
       </div>
     </div>
@@ -210,7 +210,9 @@ export default {
     },
     /* Get a UID */
     getHash() {
-      return api.mediaVersion;
+      if (this.item.adapter.startsWith('local-')) {
+        return `?${api.mediaVersion}`;
+      return '';
     },
   },
   methods: {
