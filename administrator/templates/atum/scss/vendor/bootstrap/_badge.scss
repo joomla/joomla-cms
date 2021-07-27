@@ -6,6 +6,8 @@
     white-space: normal;
   }
 
+  background-color: var(--template-bg-dark-60);
+
   &.bg-secondary {
     &:hover {
       color: $white;

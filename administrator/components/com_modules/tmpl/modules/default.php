@@ -147,7 +147,7 @@ if ($saveOrder && !empty($this->items))
 						</th>
 						<td class="d-none d-md-table-cell">
 							<?php if ($item->position) : ?>
-								<span class="badge btn-primary">
+								<span class="badge">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
