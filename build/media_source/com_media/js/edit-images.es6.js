@@ -285,7 +285,7 @@ new Edit();
  */
 const getUrl = (isModal) => {
   const newUrl = Joomla.MediaManager.Edit.options.currentUrl;
-  let params = new URLSearchParams(newUrl.search);
+  const params = new URLSearchParams(newUrl.search);
   params.set('view', 'media');
   params.delete('path');
   params.delete('mediatypes');
