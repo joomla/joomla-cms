@@ -8,7 +8,6 @@ let activated = false;
 
 const addListeners = () => {
   formElements.cropX.addEventListener('change', ({ currentTarget }) => {
-    console.log(currentTarget.value);
     Joomla.MediaManager.Edit.plugins.crop.cropper
       .setData({ x: parseInt(currentTarget.value, 10) });
   });
