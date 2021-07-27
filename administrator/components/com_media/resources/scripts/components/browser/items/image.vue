@@ -204,7 +204,7 @@ export default {
     canEdit() {
       return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
     },
-    /* Get a UID */
+    /* Get the hashed URL */
     getHashedURL() {
       if (this.item.adapter.startsWith('local-')) {
         return `url(${this.item.thumb_path}?${api.mediaVersion})`;
