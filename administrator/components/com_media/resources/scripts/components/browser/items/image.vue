@@ -212,6 +212,7 @@ export default {
     getHash() {
       if (this.item.adapter.startsWith('local-')) {
         return `?${api.mediaVersion}`;
+      }
       return '';
     },
   },
