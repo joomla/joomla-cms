@@ -176,7 +176,7 @@ class IntervalsField extends ListField
 
 			for ($i = 0; $i < $responseCount; $i++)
 			{
-				$options[] = HTMLHelper::_('select.option', $i, Text::_($labels[$i]));
+				$options[] = HTMLHelper::_('select.option', (string) ($i + 1), Text::_($labels[$i]));
 			}
 		}
 		elseif (array_key_exists($subtype, self::$optionsCount))
@@ -185,7 +185,7 @@ class IntervalsField extends ListField
 
 			for ($i = 0; $i < $responseCount; $i++)
 			{
-				$options[] = HTMLHelper::_('select.option', $i, (string) ($i + 1));
+				$options[] = HTMLHelper::_('select.option', (string) ($i + 1), (string) ($i + 1));
 			}
 		}
 
