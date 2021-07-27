@@ -43,7 +43,7 @@ const rotate = (angle, image) => {
   requestAnimationFrame(
     () => requestAnimationFrame(() => {
       image.src = Joomla.MediaManager.Edit.current.contents;
-    })
+    }),
   );
 
   // Update the angle input box
