@@ -852,12 +852,12 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
-		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
+		if ($table->published == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
+		if ($table->published == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = null;
 		}
@@ -1187,14 +1187,15 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		$this->setState('module.extension_id', $extensionId);
 		$this->setState('module.id', $table->id);
+		$this->setState('module.new', $isNew);;
+
+		$this->workflowAfterSave($data);
 
 		// Clear modules cache
 		$this->cleanCache();
 
 		// Clean module cache
 		parent::cleanCache($table->module);
-
-		$this->workflowAfterSave($data);
 
 		return true;
 	}
@@ -1246,5 +1247,43 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 		$this->workflowBeforeStageChange();
 
 		return parent::publish($pks, $value);
+	}
+
+	/**
+	 * Overrides the function in WorkflowBehaviorTrait to get the default
+	 * stage ID while creating a new module.
+	 *
+	 * @param   Form   $form  A Form object.
+	 * @param   mixed  $data  The data expected for the form.
+	 *
+	 * @return  boolean|integer  An integer, holding the stage ID or false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getStageForNewItem(Form $form, $data)
+	{
+		$db = $this->getDbo();
+
+		// Query to find the default workflow id of the extension type com_modules.module
+		$defaultWorkflowQuery = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__workflows'))
+			->where($db->quoteName('default') . ' = 1')
+			->where($db->quoteName('extension') . ' = "com_modules.module"');
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__workflow_stages'))
+			->where($db->quoteName('default') . '= 1')
+			->where($db->quoteName('workflow_id') . ' IN (' . $defaultWorkflowQuery . ')');
+		$db->setQuery($query);
+		$defaultStage = $db->loadResult();
+
+		if (empty($defaultStage))
+		{
+			return false;
+		}
+
+		return $defaultStage;
 	}
 }
