@@ -50,7 +50,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 	<?php if ($extension === 'com_content') : ?>
 	<div class="row">
 		<div class="form-group col-md-6">
-			<div class="control-group">
+			<div class="controls">
 				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
 					<?php echo Text::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
 				</label>
