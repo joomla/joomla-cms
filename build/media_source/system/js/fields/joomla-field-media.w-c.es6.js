@@ -15,10 +15,10 @@ if (!Joomla) {
 const getExtension = (path) => {
   const parts = path.split(/[#]/);
   if (parts.length) {
-    return parts[1].split(/[\?]/)[0].split('.').pop().trim()
+    return parts[1].split(/[\?]/)[0].split('.').pop().trim();
   }
   return path.split(/[#?]/)[0].split('.').pop().trim();
-}
+};
 
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
