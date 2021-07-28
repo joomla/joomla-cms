@@ -12,12 +12,14 @@
 namespace Joomla\Component\Cronjobs\Administrator\Controller;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use function count;
+use function defined;
 
 
 /**
@@ -45,23 +47,63 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		$layout = $this->input->get('layout', 'default');
-		$id = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($layout == 'edit' && !$this->checkEditId('com_cronjobs.edit.cronjob', $id))
+		if ($layout === 'edit')
 		{
-			// Somehow the person just went to the form - we don't allow that.
-			if (!\count($this->app->getMessageQueue()))
+			if (!$this->validateEntry())
 			{
-				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+				$cronjobsViewUrl = Route::_('index.php?option=com_cronjobs&view=cronjobs');
+				$this->setRedirect($cronjobsViewUrl);
+
+				return false;
 			}
-
-			$this->setRedirect(Route::_('index.php?option=com_cronjobs&view=cronjobs'));
-
-			return false;
 		}
 
 		// Let the parent method take over
 		return parent::display($cachable, $urlparams);
+	}
+
+	/**
+	 * Validates entry to the view
+	 *
+	 * @param   string  $layout  The layout to validate entry for (defaults to 'edit')
+	 *
+	 * @return boolean  True is entry is valid
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function validateEntry(string $layout = 'edit'): bool
+	{
+		$context = 'com_cronjobs';
+		$id = $this->input->getInt('id');
+		$isValid = true;
+
+		switch ($layout)
+		{
+			case 'edit':
+
+				// True if controller was called and verified permissions
+				$canEdit = $this->checkEditId("${context}.edit.cronjob", $id);
+				$isNew = ($id == 0);
+
+				// For new item, entry is invalid if job type was not selected through SelectView
+				if ($isNew && !$this->app->getUserState("${context}.add.cronjob.cronjob_type"))
+				{
+					$this->setMessage((Text::_('COM_CRONJOBS_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
+					$isValid = false;
+				}
+				// For existing item, entry is invalid if CronjobController has not granted access
+				elseif (!$canEdit && !count($this->app->getMessageQueue()))
+				{
+					$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+					$isValid = false;
+				}
+				break;
+			default:
+				break;
+		}
+
+		return $isValid;
 	}
 }
