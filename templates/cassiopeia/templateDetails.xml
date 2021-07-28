@@ -77,7 +77,7 @@
 				/>
 
 				<field
-					name="siteDescription"
+					name="siteTagline"
 					type="text"
 					default=""
 					label="TPL_CASSIOPEIA_TAGLINE"
