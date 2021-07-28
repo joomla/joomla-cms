@@ -39,7 +39,7 @@ $htag        = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
 				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_QUOTES, 'UTF-8'); ?>"
 					alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_QUOTES, 'UTF-8'); ?>"
-					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_fulltext_sizes, $images->image_fulltext_size_options)), MediaHelper::generateSizes($img->url)); ?>
+					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $images->image_fulltext_sizes, $images->image_fulltext_size_options, $images->image_fulltext_method), MediaHelper::generateSizes($img->url)); ?>
 				>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>

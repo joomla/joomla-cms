@@ -25,7 +25,7 @@ $imgclass    = empty($images->float_fulltext) ? $params->get('float_fulltext') :
 $extraAttr   = '';
 $img         = HTMLHelper::cleanImageURL($images->image_fulltext);
 $alt         = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8') . '"';
-$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_fulltext_sizes, $images->image_fulltext_size_options)), MediaHelper::generateSizes($img->url));
+$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $images->image_fulltext_sizes, $images->image_fulltext_size_options, $images->image_fulltext_method), MediaHelper::generateSizes($img->url));
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)

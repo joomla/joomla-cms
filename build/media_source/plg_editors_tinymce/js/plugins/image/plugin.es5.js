@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-  /* eslint-disable */
   /* eslint-disable no-undef */
   tinymce.PluginManager.add('jimage', function (editor) {
 

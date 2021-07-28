@@ -33,6 +33,19 @@
 				</field>
 
 				<field
+					name="creation_method"
+					type="list"
+					label="PLG_CONTENT_RESPONSIVEIMAGES_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="custom_sizes:1"
+					>
+					<option value="2">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_RESIZE</option>
+					<option value="4">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_CROP</option>
+					<option value="5">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
 					name="custom_size_options"
 					type="subform"
 					label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_LABEL"
@@ -44,6 +57,13 @@
 				>
 					<form hidden="true" name="list_templates_modal" repeat="true">
 						<field
+							name="title"
+							type="text"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_TITLE_LABEL"
+							hint="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_TITLE_PLACEHOLDER"
+						/>
+
+						<field
 							name="width"
 							type="number"
 							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_WIDTH_LABEL"
@@ -51,7 +71,7 @@
 							validate="number"
 							required="true"
 						/>
-
+						
 						<field
 							name="height"
 							type="number"

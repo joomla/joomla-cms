@@ -35,6 +35,14 @@ class MediaHelper
 	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
 
 	/**
+	 * Responsive image creation method
+	 *
+	 * @var    int
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $creationMethod = 2;
+
+	/**
 	 * Checks if the file is an image
 	 *
 	 * @param   string  $fileName  The filename
@@ -502,7 +510,7 @@ class MediaHelper
 			if (is_file(JPATH_ROOT . '/' . $image->name))
 			{
 				$imgObj = new Image(JPATH_ROOT . '/' . $image->name);
-				$imgObj->createMultipleSizes($image->sizes);
+				$imgObj->createMultipleSizes($image->sizes, $image->method);
 
 				$imagesGenerated[] = $image;
 			}
@@ -514,14 +522,15 @@ class MediaHelper
 	/**
 	 * Method to generate different-sized versions of content images
 	 *
-	 * @param   string  $content   editor content
-	 * @param   array   $sizes     array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   string   $content  editor content
+	 * @param   array    $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   integer  $method   1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
 	 * @return  array   generated images
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function generateContentResponsiveImages($content, $sizes)
+	public static function generateContentResponsiveImages($content, $sizes, $method)
 	{
 		// Get src of img tag: <img src="images/joomla.png" /> - images/joomla.png
 		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
@@ -537,9 +546,10 @@ class MediaHelper
 			if (is_file(JPATH_ROOT . '/' . $image))
 			{
 				$sizes = static::getContentSizes($content, $image) ?? $sizes;
+				// $method = static::getContentMethod($content, $image) ?? $method;
 
 				$imgObj = new Image(JPATH_ROOT . '/' . $image);
-				$imgObj->createMultipleSizes($sizes);
+				$imgObj->createMultipleSizes($sizes, $method);
 
 				$imagesGenerated[] = $image;
 			}
@@ -551,20 +561,21 @@ class MediaHelper
 	/**
 	 * Method to generate a srcset attribute for an image
 	 *
-	 * @param   string  $imgSource  image source. Example: images/joomla_black.png
-	 * @param   array   $sizes      array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   string   $imgSource  image source. Example: images/joomla_black.png
+	 * @param   array    $sizes      array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   integer  $method     1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
-	 * @return  mixed   generated srcset attribute or false if not generated
+	 * @return  mixed    generated srcset attribute or false if not generated
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function generateSrcset($imgSource, $sizes)
+	public static function generateSrcset($imgSource, $sizes, $method)
 	{
 		$imgObj = new Image(JPATH_ROOT . '/' . $imgSource);
 
 		$srcset = "";
 
-		if ($images = $imgObj->generateMultipleSizes($sizes))
+		if ($images = $imgObj->generateMultipleSizes($sizes, $method))
 		{
 			// Iterate through responsive images and generate srcset
 			foreach ($images as $key => $image)
@@ -601,14 +612,15 @@ class MediaHelper
 	/**
 	 * Method to add srcset and sizes attributes to img tags of content
 	 *
-	 * @param   string  $content  content to which srcset attributes must be inserted
-	 * @param   array   $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   string   $content  content to which srcset attributes must be inserted
+	 * @param   array    $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
+	 * @param   integer  $method   1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
 	 * @return  string  content with srcset attributes inserted
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function addContentSrcsetAndSizes($content, $sizes)
+	public static function addContentSrcsetAndSizes($content, $sizes, $method)
 	{
 		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
 		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
@@ -618,7 +630,7 @@ class MediaHelper
 		{
 			$sizes = static::getContentSizes($content, $image) ?? $sizes;
 
-			if ($srcset = static::generateSrcset($image, $sizes))
+			if ($srcset = static::generateSrcset($image, $sizes, $method))
 			{
 				// Remove previously generated attributes
 				$content = preg_replace('/[' . preg_quote($image, '/') . ']*srcset *= *("?[^"]*" )/', '', $content);
@@ -637,16 +649,16 @@ class MediaHelper
 	}
 
 	/**
-	 * Returns responsive image size options depending on parameters
+	 * Returns form responsive image size options depending on parameters
 	 *
-	 * @param   int       $isCustom     1 if sizes are custom
+	 * @param   int       $isCustom     1 if custom options are set
 	 * @param   stdClass  $sizeOptions  Responsive size options
 	 *
 	 * @return  array     Responsive image sizes
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getSizes($isCustom, $sizeOptions)
+	public static function getFormSizes($isCustom, $sizeOptions)
 	{
 		if (!$isCustom || ($isCustom && empty($sizeOptions)))
 		{
@@ -654,6 +666,7 @@ class MediaHelper
 			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
 			$params = new Registry($plugin->params);
 
+			// In case plugin custom sizes are not set
 			if (!$params->get('custom_sizes'))
 			{
 				return static::$responsiveSizes;
@@ -677,6 +690,36 @@ class MediaHelper
 	}
 
 	/**
+	 * Returns form responsive image creation method 
+	 *
+	 * @param   int  $isCustom  1 if custom options are set
+	 * @param   int  $method    1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 *
+	 * @return  int  Image creation method
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getFormMethod($isCustom, $method)
+	{
+		if (!$isCustom)
+		{
+			// Get plugin options
+			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
+			$params = new Registry($plugin->params);
+
+			// In case plugin custom sizes are not set
+			if (!$params->get('custom_sizes'))
+			{
+				return static::$creationMethod;
+			}
+
+			$method = $params->get('creation_method');
+		}
+
+		return (int) $method;
+	}
+
+	/**
 	 * Returns custom responsive size options of a content image
 	 *
 	 * @param   string  $content  editor content
@@ -693,5 +736,24 @@ class MediaHelper
 		$customSizes = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
 
 		return $customSizes ? array_unique(explode(',', (string) $customSizes)) : null;
+	}
+
+	/**
+	 * Returns srcset attribute value depending on the provided parameters
+	 *
+	 * @param   string    $imgSource  image source. Example: images/joomla_black.png
+	 * @param   int       $isCustom   1 if custom options are set
+	 * @param   stdClass  $sizes      Responsive size options
+	 * @param   int       $method     Responsive size options
+	 *
+	 * @return  string    Srcset attribute value
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createFormSrcset($imgSource, $isCustom, $sizes, $method)
+	{
+		return static::generateSrcset(
+			$imgSource, static::getFormSizes($isCustom, $sizes), static::getFormMethod($isCustom, $method)
+		) ?? '';
 	}
 }

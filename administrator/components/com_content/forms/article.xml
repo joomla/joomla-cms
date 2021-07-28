@@ -779,6 +779,19 @@
 			</field>
 
 			<field
+				name="image_intro_method"
+				type="list"
+				label="COM_CONTENT_FIELD_METHOD_LABEL"
+				default="2"
+				validate="options"
+				showon="image_intro_sizes:1"
+				>
+				<option value="2">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE</option>
+				<option value="4">COM_CONTENT_FIELD_METHOD_OPTION_CROP</option>
+				<option value="5">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+			</field>
+
+			<field
 				name="image_intro_size_options"
 				type="subform"
 				label="COM_CONTENT_FIELD_SIZES_LABEL"
@@ -859,6 +872,19 @@
 			</field>
 
 			<field
+				name="image_fulltext_method"
+				type="list"
+				label="COM_CONTENT_FIELD_METHOD_LABEL"
+				default="2"
+				validate="options"
+				showon="image_fulltext_sizes:1"
+				>
+				<option value="2">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE</option>
+				<option value="4">COM_CONTENT_FIELD_METHOD_OPTION_CROP</option>
+				<option value="5">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+			</field>
+
+			<field
 				name="image_fulltext_size_options"
 				type="subform"
 				label="COM_CONTENT_FIELD_SIZES_LABEL"
@@ -869,6 +895,13 @@
 				showon="image_fulltext_sizes:1"
 				>
 				<form hidden="true" name="list_templates_modal" repeat="true">
+					<field
+						name="title"
+						type="text"
+						label="COM_CONTENT_FIELD_SIZES_TITLE_LABEL"
+						hint="COM_CONTENT_FIELD_SIZES_TITLE_DESC"
+					/>
+
 					<field
 						name="width"
 						type="number"

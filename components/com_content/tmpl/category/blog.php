@@ -35,6 +35,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 $img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image'));
 $img_sizes = $this->category->getParams()->get('image_sizes');
 $img_size_options = $this->category->getParams()->get('image_size_options');
+$img_size_method = $this->category->getParams()->get('image_size_method');
 
 ?>
 <div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
@@ -61,7 +62,7 @@ $img_size_options = $this->category->getParams()->get('image_size_options');
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>
-					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
+					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $img_sizes, $img_size_options, $img_size_method), MediaHelper::generateSizes($img->url)); ?>
 				>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
