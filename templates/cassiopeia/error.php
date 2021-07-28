@@ -118,7 +118,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 						<?php echo $logo; ?>
 					</a>
 					<?php if ($this->params->get('siteTagline')) : ?>
-						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteTagline')); ?></div>
+						<div class="site-tagline"><?php echo htmlspecialchars($this->params->get('siteTagline')); ?></div>
 					<?php endif; ?>
 				</div>
 			</div>
