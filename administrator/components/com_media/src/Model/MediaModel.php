@@ -45,9 +45,10 @@ class MediaModel extends BaseDatabaseModel
 
 		foreach ($providerManager->getProviders() as $provider)
 		{
-			$result = new \stdClass;
-			$result->name = $provider->getID();
-			$result->displayName = $provider->getDisplayName();
+			$result               = new \stdClass;
+			$result->name         = $provider->getID();
+			$result->displayName  = $provider->getDisplayName();
+			$result->adapterNames = [];
 
 			foreach ($provider->getAdapters() as $adapter)
 			{
