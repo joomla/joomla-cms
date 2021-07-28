@@ -310,6 +310,7 @@ class LibraryAdapter extends InstallerAdapter
 		if (2 === \count($elementParts))
 		{
 			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0], '.', false, true, array(), array());
+
 			if (empty($folders))
 			{
 				Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
