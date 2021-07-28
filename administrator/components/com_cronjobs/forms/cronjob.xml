@@ -122,38 +122,41 @@
 				<option value="interval-months">COM_CRONJOBS_OPTION_INTERVAL_MONTHS</option>
 				<option value="custom">COM_CRONJOBS_OPTION_INTERVAL_CUSTOM</option>
 			</field>
-			<!-- Interval (minutes) -->
-			<field name="interval-minutes" type="intervals" subtype="minutes"
+
+			<!-- TODO : Check validation for interval/match fields-->
+			<!-- Interval (minutes), starting at user time -->
+			<field name="interval-minutes" type="intervals" subtype="minutes" validate="options"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MINUTES" showon="rule-type:interval-minutes">
-				<option value="" disabled="true">COM_CRONJOBS_SELECT_INTERVAL_MINUTES</option>
+				<option value="0">COM_CRONJOBS_SELECT_INTERVAL_MINUTES</option>
 			</field>
-			<!-- Interval (hours) -->
-			<field name="interval-hours" type="intervals" subtype="hours"
+			<!-- Interval (hours), starting at user time -->
+			<field name="interval-hours" type="intervals" subtype="hours" validate="options"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS" showon="rule-type:interval-hours"/>
-			<!-- Interval (days) -->
+			<!-- Interval (days), starting at 1st of month -->
+			<!-- TODO: Should probably offer a time option -->
 			<field name="interval-days" type="intervals" subtype="days_month"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS" showon="rule-type:interval-days"/>
-			<!-- Interval (months) -->
+			<!-- Interval (months), starting at 1st month-->
 			<field name="interval-months" type="intervals" subtype="months" onlyNumericLabels="true"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS" showon="rule-type:interval-months"/>
 		</fieldset>
 
 		<fieldset name="custom-cron-rules" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
 			<!-- The custom interval fields -->
-			<field name="match-minutes" type="intervals" subtype="minutes" multiple="true" wildcard="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES" hiddenLabel="true"
+			<field name="match-minutes" type="intervals" subtype="minutes" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES"
 			/>
-			<field name="match-hours" type="intervals" subtype="hours" multiple="true" wildcard="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS" hiddenLabel="true"
+			<field name="match-hours" type="intervals" subtype="hours" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS"
 			/>
-			<field name="match-days_month" type="intervals" subtype="days_month" multiple="true" wildcard="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_M" hiddenLabel="true"
+			<field name="match-days_month" type="intervals" subtype="days_month" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_M"
 			/>
-			<field name="match-months" type="intervals" subtype="months" multiple="true" wildcard="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MONTHS" hiddenLabel="true"
+			<field name="match-months" type="intervals" subtype="months" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MONTHS"
 			/>
-			<field name="match-days_week" type="intervals" subtype="days_week" multiple="true" wildcard="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_W" hiddenLabel="true"
+			<field name="match-days_week" type="intervals" subtype="days_week" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_W"
 			/>
 		</fieldset>
 	</fields>
