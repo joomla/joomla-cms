@@ -2,7 +2,6 @@
 
 .table {
   thead {
-
     th {
       font-size: $label-font-size;
     }
@@ -51,7 +50,7 @@
 
     .itemnumber a.btn,
     .itemnumber span.btn {
-      padding: .1rem .5rem;
+      padding: 0.1rem 0.5rem;
       text-decoration: none;
     }
 
@@ -60,7 +59,7 @@
     }
 
     a:not(.badge) {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 
