@@ -47,15 +47,15 @@ class CronjobController extends FormController
 		$input = $app->getInput();
 		$validJobOptions = CronjobsHelper::getCronOptions();
 
-		$result = parent::add();
+		$canAdd = parent::add();
 
-		if ($result !== true)
+		if ($canAdd !== true)
 		{
 			return false;
 		}
 
 		$jobType = $input->get('type');
-		$jobOption = $validJobOptions->findOption($jobType);
+		$jobOption = $validJobOptions->findOption($jobType) ?: null;
 
 		if (!$jobOption)
 		{
@@ -63,8 +63,7 @@ class CronjobController extends FormController
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
 			$this->setRedirect(Route::_($redirectUrl, false));
 			$app->enqueueMessage(Text::_('COM_CRONJOBS_ERROR_INVALID_JOB_TYPE'), 'warning');
-
-			return false;
+			$canAdd = false;
 		}
 
 		$app->setUserState('com_cronjobs.add.cronjob.cronjob_type', $jobType);
@@ -72,7 +71,7 @@ class CronjobController extends FormController
 
 		// TODO : Parameter array handling below?
 
-		return true;
+		return $canAdd;
 	}
 
 	/**
