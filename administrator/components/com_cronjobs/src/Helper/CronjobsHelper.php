@@ -21,7 +21,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOptions;
-use function \defined;
+use function defined;
 
 /**
  * The CronjobsHelper class.
@@ -29,8 +29,16 @@ use function \defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobsHelper
+final class CronjobsHelper
 {
+	/**
+	 * Cached CronOptions object
+	 *
+	 * @var CronOptions
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected static $cronOptionsCache = null;
+
 	/**
 	 * Private constructor to prevent instantiation
 	 *
@@ -49,6 +57,11 @@ class CronjobsHelper
 	 */
 	public static function getCronOptions(): CronOptions
 	{
+		if (self::$cronOptionsCache !== null)
+		{
+			return self::$cronOptionsCache;
+		}
+
 		/**@var AdministratorApplication $app */
 		$app = Factory::getApplication();
 		$options = new CronOptions;
@@ -59,9 +72,10 @@ class CronjobsHelper
 			]
 		);
 
-		// TODO : Implement an object for $items
 		PluginHelper::importPlugin('job');
 		$app->getDispatcher()->dispatch('onCronOptionsList', $event);
+
+		self::$cronOptionsCache = $options;
 
 		return $options;
 	}
