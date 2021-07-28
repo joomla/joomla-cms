@@ -220,7 +220,7 @@
     }
 
     @include media-breakpoint-down(lg) {
-      background: var(--atum-bg-dark-70);
+      background: var(--template-bg-dark-70);
     }
   }
 }
