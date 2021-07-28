@@ -26,7 +26,8 @@ const loadedDisks = options.providers.map((disk) => ({
   displayName: disk.displayName,
   drives: getDrives(disk.adapterNames, disk.name),
 }));
-const defaultDisk = loadedDisks.find(disk => disk.drives.length > 0 && disk.drives[0] !== undefined);
+const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0
+  && disk.drives[0] !== undefined);
 if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
@@ -48,7 +49,7 @@ export default {
   // Will hold the activated filesystem disks
   disks: loadedDisks,
   // The loaded directories
-  directories: loadedDisks.map((disk) => ({
+  directories: loadedDisks.map(() => ({
     path: defaultDisk.drives[0].root,
     name: defaultDisk.displayName,
     directories: [],
