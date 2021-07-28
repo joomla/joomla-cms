@@ -114,7 +114,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($category as $key => $value)
 		{
-			$bannerBody .= '<li class="cookie-cat form-check form-check-inline"><label for="banner_cat_' . $value->alias . '">' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" id="banner_cat_'
+			$bannerBody .= '<li class="cookie-cat form-check form-check-inline"><label>' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" data-cookiecategory="'
 			. $value->alias . '" type=checkbox></span></label></li>';
 		}
 
@@ -156,7 +156,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		foreach ($category as $catKey => $catValue)
 		{
 			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
-			'<input class="form-check-input " type="checkbox" id="cat_' . $catValue->alias . '"></span></h4>' . $catValue->description;
+			'<input class="form-check-input " type="checkbox" data-cookiecategory="' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
 			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" role="button" aria-expanded="false" '
 			. 'aria-controls="' . $catValue->alias . '">' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
