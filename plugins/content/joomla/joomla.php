@@ -50,7 +50,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Initial version of form images
 	 *
 	 * @var    array
-	 * @since  4.1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $initFormImages;
 
@@ -58,7 +58,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Initial version of content
 	 *
 	 * @var    string
-	 * @since  4.1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $initContent;
 

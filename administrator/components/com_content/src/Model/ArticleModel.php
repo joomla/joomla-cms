@@ -684,7 +684,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function save($data)
 	{
-		$app  = Factory::getApplication();
+		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
@@ -752,7 +752,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-			$check = $app->input->post->get('jform', array(), 'array');
+			$check = $input->post->get('jform', array(), 'array');
 
 			foreach ($data['urls'] as $i => $url)
 			{
@@ -777,10 +777,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($app->input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -798,7 +798,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($app->input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{
