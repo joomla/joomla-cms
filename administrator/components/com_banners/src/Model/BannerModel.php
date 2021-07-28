@@ -185,8 +185,6 @@ class BannerModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app  = Factory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -393,7 +391,7 @@ class BannerModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$app = Factory::getApplication();
+		$input = Factory::getApplication()->input;
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -433,11 +431,11 @@ class BannerModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
 			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
-			$origTable->load($app->input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{
