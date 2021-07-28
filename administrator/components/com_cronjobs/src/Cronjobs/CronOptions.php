@@ -22,7 +22,7 @@ use function defined;
  * Used as the subject argument for the `OnCronOptionsList` event, plugins that support jobs must add them to the object
  * through the addOptions() method.
  *
- * @since  __DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class CronOptions
 {
@@ -32,7 +32,7 @@ class CronOptions
 	 * @var CronOption[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $jobs = [];
+	public $options = [];
 
 
 	/**
@@ -50,20 +50,25 @@ class CronOptions
 	{
 		foreach ($jobsArray as $jobId => $langConstPrefix)
 		{
-			$this->jobs[] = new CronOption($jobId, $langConstPrefix);
+			$this->options[] = new CronOption($jobId, $langConstPrefix);
 		}
 	}
 
 	/**
-	 * @param   string  $jobType  A unique identifier for the job routine offered by a plugin
+	 * @param   ?string  $jobType  A unique identifier for the job routine offered by a plugin
 	 *
-	 * @return CronOption|false  A matching CronOption if available, false otherwise
+	 * @return  CronOption|false  A matching CronOption if available, false otherwise
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function findOption(string $jobType)
+	public function findOption(?string $jobType)
 	{
-		foreach ($this->jobs as $job)
+		if ($jobType === null)
+		{
+			return false;
+		}
+
+		foreach ($this->options as $job)
 		{
 			if ($job->type === $jobType)
 			{
