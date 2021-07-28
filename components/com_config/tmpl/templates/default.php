@@ -47,7 +47,6 @@ $wa->useScript('keepalive')
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 
-	<hr>
 	<div class="mb-2">
 	<button type="button" class="btn btn-primary " data-submit-task="templates.apply">
 		<span class="icon-check text-white" aria-hidden="true"></span>
