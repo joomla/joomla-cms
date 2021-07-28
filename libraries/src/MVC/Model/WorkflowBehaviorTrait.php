@@ -364,12 +364,7 @@ trait WorkflowBehaviorTrait
 		}
 		else
 		{
-			$stage_id = $this->getStageForNewItem($form, $data);
-
-			if (!empty($stage_id))
-			{
-				$form->setFieldAttribute('transition', 'workflow_stage', (int) $stage_id);
-			}
+			$form->removeField('transition');
 		}
 	}
 
