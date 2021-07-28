@@ -50,6 +50,9 @@ $isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
+// If the module is already created then display the transition field else display the workflow selection field
+$workflowField = empty($input->get('id')) ? 'workflow_id' : 'transition';
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo Text::_('COM_MODULES_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
@@ -134,7 +137,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<?php
 				// Set main fields.
 				$this->fields = array(
-					'transition',
+					$workflowField,
 					'showtitle',
 					'position',
 					'published',
@@ -179,7 +182,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php
 		$this->fieldsets        = array();
-		$this->ignore_fieldsets = array('basic', 'description');
+		$this->ignore_fieldsets = array('basic', 'description', 'workflow');
 		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
