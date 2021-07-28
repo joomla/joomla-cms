@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\CMS\Helper\MediaHelper;
 
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
@@ -49,7 +49,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 							$img = HTMLHelper::cleanImageURL($item->getParams()->get('image'));
 							$img_sizes = $this->category->getParams()->get('image_sizes');
 							$img_size_options = $this->category->getParams()->get('image_size_options');
-							echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
+							echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url));
 						?>
 					>
 				<?php endif; ?>
