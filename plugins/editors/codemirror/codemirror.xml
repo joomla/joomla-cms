@@ -18,8 +18,8 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_codemirror.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_codemirror.sys.ini</language>
 	</languages>
 
 	<config>
