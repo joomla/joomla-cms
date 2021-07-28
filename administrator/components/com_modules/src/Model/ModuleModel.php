@@ -1187,7 +1187,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		$this->setState('module.extension_id', $extensionId);
 		$this->setState('module.id', $table->id);
-		$this->setState('module.new', $isNew);;
+		$this->setState('module.new', $isNew);
 
 		$this->workflowAfterSave($data);
 
@@ -1264,18 +1264,29 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	{
 		$db = $this->getDbo();
 
-		// Query to find the default workflow id of the extension type com_modules.module
-		$defaultWorkflowQuery = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__workflows'))
-			->where($db->quoteName('default') . ' = 1')
-			->where($db->quoteName('extension') . ' = "com_modules.module"');
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('default') . '= 1')
-			->where($db->quoteName('workflow_id') . ' IN (' . $defaultWorkflowQuery . ')');
+			->where($db->quoteName('default') . '= 1');
+
+		if (isset($data['workflow_id']))
+		{
+			// If workflow_id is set by the query then we find the stage corresponding to that workflow_id
+			$query->where($db->quoteName('workflow_id') . ' = :workflowid')
+				->bind(':workflowid', $data['workflow_id'], ParameterType::INTEGER);
+		}
+		else
+		{
+			// Query to find the default workflow id of the extension type com_modules.module
+			$defaultWorkflowQuery = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__workflows'))
+				->where($db->quoteName('default') . ' = 1')
+				->where($db->quoteName('extension') . ' = "com_modules.module"');
+
+			$query->where($db->quoteName('workflow_id') . ' IN (' . $defaultWorkflowQuery . ')');
+		}
+
 		$db->setQuery($query);
 		$defaultStage = $db->loadResult();
 
