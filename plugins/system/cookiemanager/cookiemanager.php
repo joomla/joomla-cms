@@ -56,6 +56,14 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	 protected $db;
 
+	 /**
+	  * For scripts in DOM
+	  *
+	  * @var    Scripts
+	  * @since  __DEPLOY_VERSION__
+	  */
+	 protected $script = [];
+
 	/**
 	 * Add assets for the modal.
 	 *
@@ -130,7 +138,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		HTMLHelper::_('bootstrap.collapse');
 
-		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
 			->from($db->quoteName('#__categories', 'c'))
@@ -197,6 +204,32 @@ class PlgSystemCookiemanager extends CMSPlugin
 			],
 			$prefBody
 		);
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['a.type','a.position','a.code','a.catid']))
+			->from($db->quoteName('#__categories', 'c'))
+			->join(
+				'RIGHT',
+				$db->quoteName('#__cookiemanager_scripts', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
+			);
+
+			$db->setQuery($query);
+			$script = $db->loadObjectList();
+
+		foreach ($category as $catKey => $catValue)
+		{
+			$scripts[$catValue->alias] = [];
+
+			foreach ($script as $key => $value)
+			{
+				if ($catValue->id == $value->catid)
+				{
+					array_push($scripts[$catValue->alias], $value);
+				}
+			}
+		}
+
+				$this->app->getDocument()->addScriptOptions('code', $scripts);
 
 	}
 
