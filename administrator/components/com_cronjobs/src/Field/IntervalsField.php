@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use SimpleXMLElement;
 use function in_array;
+use function range;
 
 /**
  * Multi-select form field, supporting inputs of:
@@ -27,20 +28,12 @@ use function in_array;
 class IntervalsField extends ListField
 {
 	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $type = 'cronIntervals';
-
-	/**
 	 * The subtypes supported by this field type.
 	 *
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	private static $subtypes = [
+	private const SUBTYPES = [
 		'minutes',
 		'hours',
 		'days_month',
@@ -49,12 +42,26 @@ class IntervalsField extends ListField
 	];
 
 	/**
+	 * Count of predefined options for each subtype
+	 *
+	 * @var int[][]
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const OPTIONS_RANGE = [
+		'minutes' => [0, 59],
+		'hours' => [0, 23],
+		'days_week' => [1, 7],
+		'days_month' => [1, 31],
+		'months' => [1, 12]
+	];
+
+	/**
 	 * Response labels for the 'month' and 'days_week' subtypes
 	 *
 	 * @var string[][]
 	 * @since __DEPLOY_VERSION__
 	 */
-	private static $preparedResponseLabels = [
+	private const PREPARED_RESPONSE_LABELS = [
 		'months' => [
 			'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
 			'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
@@ -66,18 +73,12 @@ class IntervalsField extends ListField
 	];
 
 	/**
-	 * Count of predefined options for each subtype
+	 * The form field type.
 	 *
-	 * @var int[]
-	 * @since __DEPLOY_VERSION__
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private static $optionsCount = [
-		'minutes' => 59,
-		'hours' => 23,
-		'days_week' => 7,
-		'days_month' => 31,
-		'months' => 12
-	];
+	protected $type = 'cronIntervals';
 
 	/**
 	 * The subtype of the CronIntervals field
@@ -124,7 +125,7 @@ class IntervalsField extends ListField
 		$wildcard = (string) $element['wildcard'] ?? false;
 		$onlyNumericLabels = (string) $element['onlyNumericLabels'] ?? false;
 
-		if (!($subtype && in_array($subtype, self::$subtypes)))
+		if (!($subtype && in_array($subtype, self::SUBTYPES)))
 		{
 			return false;
 		}
@@ -137,6 +138,7 @@ class IntervalsField extends ListField
 	}
 
 	/**
+	 * Method to get field options
 	 *
 	 * @return   array  Array of objects representing options in the options list
 	 *
@@ -145,39 +147,37 @@ class IntervalsField extends ListField
 	protected function getOptions(): array
 	{
 		$subtype = $this->subtype;
-		$options = [];
-
 		$options = parent::getOptions();
 
-		if (!in_array($subtype, self::$subtypes))
+		if (!in_array($subtype, self::SUBTYPES))
 		{
 			return $options;
 		}
 
-		// $options[] = HTMLHelper::_('select.option', '*', '*');
 		if ($this->wildcard)
 		{
 			$options[] = HTMLHelper::_('select.option', '*', '*');
 		}
 
-		if (!$this->onlyNumericLabels && array_key_exists($subtype, self::$preparedResponseLabels))
-		{
-			$labels = self::$preparedResponseLabels[$subtype];
-			$responseCount = count($labels);
+		[$optionLower, $optionUpper] = self::OPTIONS_RANGE[$subtype];
 
-			for ($i = 0; $i < $responseCount; $i++)
-			{
-				$options[] = HTMLHelper::_('select.option', (string) ($i + 1), Text::_($labels[$i]));
-			}
+		if (array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels)
+		{
+			$labels = array_map(
+				function (string $string): string {
+					return Text::_($string);
+				},
+				self::PREPARED_RESPONSE_LABELS[$subtype]
+			);
 		}
-		elseif (array_key_exists($subtype, self::$optionsCount))
+		else
 		{
-			$responseCount = self::$optionsCount[$subtype];
+			$labels = range(... self::OPTIONS_RANGE[$subtype]);
+		}
 
-			for ($i = 0; $i < $responseCount; $i++)
-			{
-				$options[] = HTMLHelper::_('select.option', (string) ($i + 1), (string) ($i + 1));
-			}
+		for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++)
+		{
+			$options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
 		}
 
 		return $options;
