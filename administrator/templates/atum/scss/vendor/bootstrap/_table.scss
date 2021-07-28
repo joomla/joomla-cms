@@ -2,6 +2,7 @@
 
 .table {
   thead {
+
     th {
       font-size: $label-font-size;
     }
@@ -50,7 +51,7 @@
 
     .itemnumber a.btn,
     .itemnumber span.btn {
-      padding: 0.1rem 0.5rem;
+      padding: .1rem .5rem;
       text-decoration: none;
     }
 
@@ -70,9 +71,9 @@
     }
 
     .inactive [class^="#{$jicon-css-prefix}-"],
-    .inactive [class*=" #{$jicon-css-prefix}-"],
+    .inactive [class=" #{$jicon-css-prefix}-"],
     .inactive [class^="#{$fa-css-prefix}-"],
-    .inactive [class*=" #{$fa-css-prefix}-"] {
+    .inactive [class=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
   }
