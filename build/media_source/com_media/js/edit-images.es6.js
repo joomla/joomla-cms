@@ -42,6 +42,7 @@ class Edit {
 
     // Once the DOM is ready, initialize everything
     customElements.whenDefined('joomla-tab').then(async () => {
+      const pluginsForInit = [];
       const tabContainer = document.getElementById('myTab');
       const tabsUlElement = tabContainer.firstElementChild;
       const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
@@ -73,14 +74,19 @@ class Edit {
         });
       });
 
-      links.map((link) => link.click());
+      const initPluginFn = async (link, index) => {
+        const plugin = link.getAttribute('aria-controls').replace('attrib-', '');
+        if (index > 0) {
+          await this.plugins[plugin].Deactivate(this.imagePreview);
+        }
+        await this.plugins[plugin].Deactivate(this.imagePreview);
+      };
+
+      links.map((link) => pluginsForInit.push(initPluginFn(link)));
+      await Promise.all(pluginsForInit);
+
       links[0].click();
       links[0].blur();
-
-      setTimeout(() => {
-        links[0].click();
-        links[0].blur();
-      }, 400);
     });
 
     this.addHistoryPoint = this.addHistoryPoint.bind(this);
