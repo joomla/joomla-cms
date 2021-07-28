@@ -16,6 +16,31 @@
     });
   });
 
+  const code = Joomla.getOptions('code');
+  const parse = Range.prototype.createContextualFragment.bind(document.createRange());
+
+  document.getElementById('btnConfirmChoice').addEventListener('click', () => {
+    document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
+      if (item.checked) {
+        Object.entries(code).forEach(([key, value]) => {
+          if (key === item.getAttribute('data-cookiecategory')) {
+            Object.values(value).forEach((i) => {
+              if (i.position === '1') {
+                document.head.prepend(parse(i.code));
+              } else if (i.position === '2') {
+                document.head.append(parse(i.code));
+              } else if (i.position === '3') {
+                document.body.prepend(parse(i.code));
+              } else if (i.position === '4') {
+                document.body.append(parse(i.code));
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {
     item.addEventListener('click', () => {
       if (item.innerText === Joomla.Text._('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT')) {
