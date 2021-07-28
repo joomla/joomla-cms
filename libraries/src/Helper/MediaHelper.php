@@ -30,7 +30,7 @@ class MediaHelper
 	 * Responsive image size options
 	 *
 	 * @var    array
-	 * @since  4.1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
 
@@ -487,7 +487,7 @@ class MediaHelper
 	 *
 	 * @return  array  images for which responsive sizes are generated
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function generateFormResponsiveImages($images)
 	{
@@ -519,7 +519,7 @@ class MediaHelper
 	 *
 	 * @return  array   generated images
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function generateContentResponsiveImages($content, $sizes)
 	{
@@ -554,7 +554,7 @@ class MediaHelper
 	 *
 	 * @return  mixed   generated srcset attribute or false if not generated
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function generateSrcset($imgSource, $sizes)
 	{
@@ -587,7 +587,7 @@ class MediaHelper
 	 *
 	 * @return  string  generated sizes attribute or false if not generated
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function generateSizes($imgSource)
 	{
@@ -604,7 +604,7 @@ class MediaHelper
 	 *
 	 * @return  string  content with srcset attributes inserted
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function addContentSrcsetAndSizes($content, $sizes)
 	{
@@ -640,7 +640,7 @@ class MediaHelper
 	 *
 	 * @return  array  Responsive image sizes
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSizes($isCustom, $sizeOptions)
 	{

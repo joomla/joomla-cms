@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Helper\MediaHelper;
 
 $pageClass = $this->params->get('pageclass_sfx');
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
@@ -41,7 +41,7 @@ $img_size_options = $this->category->getParams()->get('image_size_options');
 		<div class="com-newsfeeds-category__description category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>"
-					<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
+					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
 				>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>

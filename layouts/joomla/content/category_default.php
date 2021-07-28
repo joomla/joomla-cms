@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Helper\MediaHelper;
 
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
@@ -80,7 +80,7 @@ $tagsData = $category->tags->itemTags;
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
-						<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
+						<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
 					>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>

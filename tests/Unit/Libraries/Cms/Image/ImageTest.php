@@ -933,7 +933,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testDeleteMultipleSizesWithoutLoadedImage()
 	{
@@ -949,7 +949,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testDeleteMultipleSizes()
 	{

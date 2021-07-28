@@ -382,7 +382,7 @@ class Image
 	 *
 	 * @return  array    deleted images
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
 	public function deleteMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
