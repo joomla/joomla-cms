@@ -13,8 +13,8 @@
 		<filename plugin="responsiveimages">responsiveimages.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_responsiveimages.ini</language>
-		<language tag="en-GB">en-GB.plg_content_responsiveimages.sys.ini</language>
+		<language tag="en-GB">plg_content_responsiveimages.ini</language>
+		<language tag="en-GB">plg_content_responsiveimages.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
