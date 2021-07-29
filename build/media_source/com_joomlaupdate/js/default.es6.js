@@ -370,7 +370,7 @@ Joomla = window.Joomla || {};
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
       PreUpdateChecker.nonCoreCriticalPlugins = PreUpdateChecker.nonCoreCriticalPlugins
-        .filter((ext) => !(ext.package_id === extensionId || ext.extension_id === extensionId));
+        .filter((ext) => !(ext.package_id.toString() === extensionId || ext.extension_id.toString() === extensionId));
     }
 
     // Have we finished?
