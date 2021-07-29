@@ -20,8 +20,8 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-  "MediaManager" : true,
-  "bootstrap": true
+    "MediaManager" : true,
+    "bootstrap": true
   },
   // Rule overrides
   "rules": {
