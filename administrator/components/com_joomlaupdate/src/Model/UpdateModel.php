@@ -646,7 +646,7 @@ ENDDATA;
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -713,7 +713,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		if ($id)
 		{
@@ -806,7 +806,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update(Factory::getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDbo());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
