@@ -549,19 +549,19 @@ class ModulesModel extends ListModel
 			return false;
 		}
 
-		$stage_ids = ArrayHelper::getColumn($items, 'stage_id');
-		$stage_ids = ArrayHelper::toInteger($stage_ids);
-		$stage_ids = array_values(array_unique(array_filter($stage_ids)));
+		$stageIds = ArrayHelper::getColumn($items, 'stage_id');
+		$stageIds = ArrayHelper::toInteger($stageIds);
+		$stageIds = array_values(array_unique(array_filter($stageIds)));
 
-		$workflow_ids = ArrayHelper::getColumn($items, 'workflow_id');
-		$workflow_ids = ArrayHelper::toInteger($workflow_ids);
-		$workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
+		$workflowIds = ArrayHelper::getColumn($items, 'workflow_id');
+		$workflowIds = ArrayHelper::toInteger($workflowIds);
+		$workflowIds = array_values(array_unique(array_filter($workflowIds)));
 
 		$this->cache[$store] = array();
 
 		try
 		{
-			if (count($stage_ids) || count($workflow_ids))
+			if (count($stageIds) || count($workflowIds))
 			{
 				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
@@ -593,14 +593,14 @@ class ModulesModel extends ListModel
 
 				$where = [];
 
-				if (count($stage_ids))
+				if (count($stageIds))
 				{
-					$where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
+					$where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stageIds)) . ')';
 				}
 
-				if (count($workflow_ids))
+				if (count($workflowIds))
 				{
-					$where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
+					$where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflowIds)) . '))';
 				}
 
 				$query->where('((' . implode(') OR (', $where) . '))');
