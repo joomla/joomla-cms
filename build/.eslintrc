@@ -35,7 +35,7 @@
     "no-alert": 0,
     // Max length to match the .php files
     "max-len": ["error",
-      160,
+      150,
       2,
       {
         "ignoreUrls": true,
