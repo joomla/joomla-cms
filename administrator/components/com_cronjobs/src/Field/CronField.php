@@ -25,7 +25,7 @@ use function range;
  *
  * @since  __DEPLOY_VERSION__
  */
-class IntervalsField extends ListField
+class CronField extends ListField
 {
 	/**
 	 * The subtypes supported by this field type.
