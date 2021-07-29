@@ -477,10 +477,9 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function installPresetItems($node, $menutype)
 	{
-		$db             = Factory::getDbo();
-		$query          = $db->getQuery(true);
-		$items          = $node->getChildren();
-		$separatorCount = 0;
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$items = $node->getChildren();
 
 		static $components = array();
 
