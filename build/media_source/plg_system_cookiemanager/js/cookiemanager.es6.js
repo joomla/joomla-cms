@@ -7,8 +7,11 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const Banner = new bootstrap.Modal(document.getElementById('cookieBanner'));
-    Banner.show();
+    const cookie = document.cookie.split('; ');
+    if (cookie.indexOf('cookieBanner=1') === -1) {
+      const Banner = new bootstrap.Modal(document.getElementById('cookieBanner'));
+      Banner.show();
+    }
 
     document.querySelectorAll('[data-cookiecategory="necessary"]').forEach((item) => {
       item.setAttribute('checked', true);
@@ -19,7 +22,7 @@
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
 
-  document.getElementById('btnConfirmChoice').addEventListener('click', () => {
+  document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
       if (item.checked) {
         Object.entries(code).forEach(([key, value]) => {
@@ -31,14 +34,16 @@
                 document.head.append(parse(i.code));
               } else if (i.position === '3') {
                 document.body.prepend(parse(i.code));
-              } else if (i.position === '4') {
+              } else {
                 document.body.append(parse(i.code));
               }
+              document.cookie = `cookie_category_${key}=1`;
             });
           }
         });
       }
     });
+    document.cookie = 'cookieBanner=1';
   });
 
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {

@@ -125,7 +125,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			'cookieBanner',
 			[
 					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
-					'footer' => '<button type="button" id="btnConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
+					'footer' => '<button type="button" id="bannerConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_MORE_DETAILS') . '</button>'
@@ -156,7 +156,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		foreach ($category as $catKey => $catValue)
 		{
 			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
-			'<input class="form-check-input " type="checkbox" data-cookiecategory="' . $catValue->alias . '"></span></h4>' . $catValue->description;
+			'<input class="form-check-input " type="checkbox" data-cookie-category="' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
 			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" role="button" aria-expanded="false" '
 			. 'aria-controls="' . $catValue->alias . '">' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
