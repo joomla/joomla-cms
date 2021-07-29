@@ -52,7 +52,6 @@ class PlgButtonContact extends CMSPlugin
 				. Session::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button = new CMSObject;
-		$button->realName = 'PlgButtonContact';
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
