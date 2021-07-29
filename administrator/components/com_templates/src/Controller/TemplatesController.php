@@ -299,7 +299,7 @@ class TemplatesController extends AdminController
 //		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
-		$model = $this->getModel('Template', 'Administrator');
+		$model = $this->getModel('Templates', 'Administrator');
 
 		$overrides = $model->getOverridesList($templateID);
 
