@@ -50,6 +50,15 @@ class MenusHelper extends ContentHelper
 	protected static $presets = null;
 
 	/**
+	 * Counts separator menu items during preset imports for unique alias creation.
+	 *
+	 * @var  integer
+	 *
+	 * @since   4.0.0
+	 */
+	protected static $separatorCount = 0;
+
+	/**
 	 * Gets a standard form of a link for lookups.
 	 *
 	 * @param   mixed  $request  A link string or array of request variables.
@@ -468,9 +477,10 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function installPresetItems($node, $menutype)
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$items = $node->getChildren();
+		$db             = Factory::getDbo();
+		$query          = $db->getQuery(true);
+		$items          = $node->getChildren();
+		$separatorCount = 0;
 
 		static $components = array();
 
@@ -506,7 +516,7 @@ class MenusHelper extends ContentHelper
 			{
 				// Do not reuse a separator
 				$item->title = $item->title ?: '-';
-				$item->alias = microtime(true);
+				$item->alias = microtime(true) . '-' . self::$separatorCount++;
 			}
 			elseif ($item->type == 'heading' || $item->type == 'container')
 			{
