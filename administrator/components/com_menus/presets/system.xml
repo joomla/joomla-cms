@@ -219,29 +219,16 @@
 		icon="paint-brush"
 		permission="core.manage;com_templates"
 		>
-		<menuitem
-			title="MOD_MENU_TEMPLATE_SITE_TEMPLATES"
-			type="component"
-			element="com_templates"
-			link="index.php?option=com_templates&amp;view=templates&amp;client_id=0"
-		/>
 
 		<menuitem
-			title="MOD_MENU_TEMPLATE_SITE_STYLES"
+			title="MOD_MENU_TEMPLATES_SITE"
 			type="component"
 			element="com_templates"
 			link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
 		/>
 
 		<menuitem
-			title="MOD_MENU_TEMPLATE_ADMIN_TEMPLATES"
-			type="component"
-			element="com_templates"
-			link="index.php?option=com_templates&amp;view=templates&amp;client_id=1"
-		/>
-
-		<menuitem
-			title="MOD_MENU_TEMPLATE_ADMIN_STYLES"
+			title="MOD_MENU_TEMPLATES_ADMIN"
 			type="component"
 			element="com_templates"
 			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
