@@ -33,7 +33,19 @@
     "strict": [0],
     // Disable alert rule till we have a CE in place
     "no-alert": 0,
-	// Allow extensions on imports
-	"import/extensions": 0
+    // Max length to match the .php files
+    "max-len": ["error",
+      160,
+      2,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    // Allow extensions on imports
+    "import/extensions": 0
   }
 }
