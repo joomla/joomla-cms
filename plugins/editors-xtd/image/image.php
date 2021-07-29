@@ -148,6 +148,7 @@ class PlgButtonImage extends CMSPlugin
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
 			$button = new CMSObject;
+			$button->realName = 'PlgButtonImage';
 			$button->modal   = true;
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');

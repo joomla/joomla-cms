@@ -101,6 +101,15 @@ class PlgEditorNone extends CMSPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
+
+			if (count($buttons))
+			{
+				foreach ($buttons as $button)
+				{
+					$button->realName = str_replace('#', '', $name) . '_' . strtolower($button->realName);
+				}
+			}
+
 			return LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 	}
