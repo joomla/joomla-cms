@@ -54,7 +54,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @var  integer
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static $separatorCount = 0;
 
