@@ -961,7 +961,22 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				}
 			}
 		}
-		$this->workflowPreprocessForm($form, $data);
+
+		if (ComponentHelper::getParams('com_modules')->get('workflow_enabled'))
+		{
+			// The workflowPreprocessForm function enables the workflow plugins and adds the transition field
+			// to the form. We do not need to add the transition field to the form in the case of new
+			// items so we seperately call the importWorkflowPlugins function.
+			if (!empty(Factory::getApplication()->input->get('id')))
+			{
+				$this->workflowPreprocessForm($form, $data);
+			}
+			else
+			{
+				// Import the workflow plugin group to allow form manipulation.
+				$this->importWorkflowPlugins();
+			}
+		}
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
