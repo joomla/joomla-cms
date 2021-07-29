@@ -369,12 +369,15 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
-        if (plugin.package_id.toString() === extensionId
-            || plugin.extension_id.toString() === extensionId) {
-          PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
+      let pluginInfo;
+
+      for (let i = PreUpdateChecker.nonCoreCriticalPlugins.length - 1; i >= 0; i -= 1) {
+        pluginInfo = PreUpdateChecker.nonCoreCriticalPlugins[i];
+
+        if (pluginInfo.package_id === extensionId || pluginInfo.extension_id === extensionId) {
+          PreUpdateChecker.nonCoreCriticalPlugins.splice(i, 1);
         }
-      });
+      }
     }
 
     // Have we finished?
