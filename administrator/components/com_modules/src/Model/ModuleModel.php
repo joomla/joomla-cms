@@ -964,6 +964,8 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		if (ComponentHelper::getParams('com_modules')->get('workflow_enabled'))
 		{
+			Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
 			/**
 			 * The workflowPreprocessForm function enables the workflow plugins and adds the
 			 * transition field to the form. We do not need to add the transition field to the
