@@ -139,8 +139,8 @@ endif;
 					{
 						$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-						$transition_ids = ArrayHelper::getColumn($transitions, 'value');
-						$transition_ids = ArrayHelper::toInteger($transition_ids);
+						$transitionIds = ArrayHelper::getColumn($transitions, 'value');
+						$transitionIds = ArrayHelper::toInteger($transitionIds);
 					}
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
