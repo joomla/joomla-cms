@@ -286,16 +286,18 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const els = [].slice.call(this.getFilterFields());
+      const els = this.getFilterFields();
       let activeFilterCount = 0;
 
-      els.forEach((item) => {
-        if (item.classList.contains('active')) {
-          activeFilterCount += 1;
-          cont.filterButton.classList.remove('btn-secondary');
-          cont.filterButton.classList.add('btn-primary');
-        }
-      });
+      if (els) {
+        els.forEach((item) => {
+          if (item.classList.contains('active')) {
+            activeFilterCount += 1;
+            cont.filterButton.classList.remove('btn-secondary');
+            cont.filterButton.classList.add('btn-primary');
+          }
+        });
+      }
 
       // If there are no active filters - remove the filtered caption area from the table
       if (activeFilterCount === 0) {
