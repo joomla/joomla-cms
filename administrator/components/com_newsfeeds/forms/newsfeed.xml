@@ -304,6 +304,19 @@
 				</field>
 
 				<field
+					name="image_first_method"
+					type="list"
+					label="COM_NEWSFEEDS_FIELD_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="image_first_sizes:1"
+					>
+					<option value="2">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_NEWSFEEDS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
 					name="image_first_size_options"
 					type="subform"
 					label="COM_NEWSFEEDS_FIELD_SIZES_LABEL"
@@ -389,6 +402,19 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_second_method"
+					type="list"
+					label="COM_NEWSFEEDS_FIELD_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="image_second_sizes:1"
+					>
+					<option value="2">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_NEWSFEEDS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
 				</field>
 
 				<field

@@ -350,6 +350,19 @@
 			</field>
 
 			<field
+				name="imageurl_method"
+				type="list"
+				label="COM_BANNERS_FIELD_METHOD_LABEL"
+				default="2"
+				validate="options"
+				showon="imageurl_sizes:1"
+				>
+				<option value="2">COM_BANNERS_FIELD_METHOD_OPTION_RESIZE</option>
+				<option value="4">COM_BANNERS_FIELD_METHOD_OPTION_CROP</option>
+				<option value="5">COM_BANNERS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+			</field>
+
+			<field
 				name="imageurl_size_options"
 				type="subform"
 				label="COM_BANNERS_FIELD_SIZES_LABEL"

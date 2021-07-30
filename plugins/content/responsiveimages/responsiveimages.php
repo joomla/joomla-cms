@@ -135,7 +135,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 					'image' => (object) [
 						'name'   => $data['params']['imageurl'],
 						'sizes'  => MediaHelper::getFormSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
-						'method' => MediaHelper::getFormMethod($data['params']['imageurl_sizes'], $data['images']['imageurl_method'])
+						'method' => MediaHelper::getFormMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
 					]
 				);
 			case "com_categories.category":

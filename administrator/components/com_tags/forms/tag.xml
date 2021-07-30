@@ -298,6 +298,19 @@
 				</field>
 
 				<field
+					name="image_intro_method"
+					type="list"
+					label="COM_TAGS_FIELD_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="image_intro_sizes:1"
+					>
+					<option value="2">COM_TAGS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_TAGS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_TAGS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
 					name="image_intro_size_options"
 					type="subform"
 					label="COM_TAGS_FIELD_SIZES_LABEL"
@@ -373,6 +386,19 @@
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_fulltext_method"
+					type="list"
+					label="COM_TAGS_FIELD_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="image_fulltext_sizes:1"
+					>
+					<option value="2">COM_TAGS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_TAGS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_TAGS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
 				</field>
 
 				<field

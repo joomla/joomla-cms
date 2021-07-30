@@ -273,6 +273,19 @@
 				</field>
 
 				<field
+					name="image_method"
+					type="list"
+					label="COM_CATEGORIES_FIELD_METHOD_LABEL"
+					default="2"
+					validate="options"
+					showon="image_sizes:1"
+					>
+					<option value="2">COM_CATEGORIES_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_CATEGORIES_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_CATEGORIES_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
 					name="image_size_options"
 					type="subform"
 					label="COM_CATEGORIES_FIELD_SIZES_LABEL"
