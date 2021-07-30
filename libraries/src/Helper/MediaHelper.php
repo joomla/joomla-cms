@@ -545,8 +545,8 @@ class MediaHelper
 			// Generate new responsive images if file exists
 			if (is_file(JPATH_ROOT . '/' . $image))
 			{
-				$sizes = static::getContentSizes($content, $image) ?? $sizes;
-				// $method = static::getContentMethod($content, $image) ?? $method;
+				$method = static::getContentMethod($content, $image) ?? $method;
+				$sizes  = static::getContentSizes($content, $image) ?? $sizes;
 
 				$imgObj = new Image(JPATH_ROOT . '/' . $image);
 				$imgObj->createMultipleSizes($sizes, $method);
@@ -628,7 +628,8 @@ class MediaHelper
 		// Generate srcset and sizes for all images
 		foreach ($images as $image)
 		{
-			$sizes = static::getContentSizes($content, $image) ?? $sizes;
+			$method = static::getContentMethod($content, $image) ?? $method;
+			$sizes  = static::getContentSizes($content, $image) ?? $sizes;
 
 			if ($srcset = static::generateSrcset($image, $sizes, $method))
 			{
@@ -690,7 +691,7 @@ class MediaHelper
 	}
 
 	/**
-	 * Returns form responsive image creation method 
+	 * Returns form responsive image creation method
 	 *
 	 * @param   int  $isCustom  1 if custom options are set
 	 * @param   int  $method    1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
@@ -731,11 +732,30 @@ class MediaHelper
 	 */
 	public static function getContentSizes($content, $image)
 	{
-		// Get data-jimage attribute value of image
-		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage *= *["\'](.*?)["\']/';
+		// Get data-jimage-sizes attribute value of image
+		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-sizes *= *["\'](.*?)["\']/';
 		$customSizes = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
 
 		return $customSizes ? array_unique(explode(',', (string) $customSizes)) : null;
+	}
+
+	/**
+	 * Returns custom creation method option of a content image
+	 *
+	 * @param   string  $content  editor content
+	 * @param   string  $image    image source
+	 *
+	 * @return  mixed   Creation method or null if not exists
+	 *
+	 * @since   4.1.0
+	 */
+	public static function getContentMethod($content, $image)
+	{
+		// Get data-jimage-sizes attribute value of image
+		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-method *= *["\'](.*?)["\']/';
+		$method = (int) preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
+
+		return $method ?? null;
 	}
 
 	/**
