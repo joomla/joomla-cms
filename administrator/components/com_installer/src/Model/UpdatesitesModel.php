@@ -376,7 +376,6 @@ class UpdatesitesModel extends InstallerModel
 					// Is it a valid Joomla installation manifest file?
 					$manifest = $tmpInstaller->isManifest($file);
 
-
 					if ($manifest !== null)
 					{
 						/**
