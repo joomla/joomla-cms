@@ -69,7 +69,6 @@ Joomla = window.Joomla || {};
       if (result.data.length !== 0) {
         [].slice.call(Object.keys(result.data)).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
-          // eslint-disable-next-line max-len
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }
