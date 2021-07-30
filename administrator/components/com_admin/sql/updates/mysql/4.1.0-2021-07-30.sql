@@ -32,10 +32,4 @@ SELECT NULL, 0, 1, NULL, `w`.`id`, 'Trash', '', -1, `s`.`id`, '{"publishing":"-2
 -- Creating Associations for existing modules
 --
 INSERT INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
-SELECT `m`.`id`, `s`.`id`, 'com_modules.module'
-FROM `#__modules` as `m` ,
-(`#__workflow_stages` as `s`
-   INNER JOIN `#__workflows` as `w`
-   ON `w`.`title` = 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES'
-   AND  `s`.`title` = 'COM_WORKFLOW_BASIC_STAGE'
-   AND `s`.`workflow_id` = `w`.`id`);
+SELECT `m`.`id`, `s`.`id`, 'com_modules.module' FROM `#__modules` as `m` , (`#__workflow_stages` as `s` INNER JOIN `#__workflows` as `w` ON `w`.`title` = 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES' AND `s`.`title` = 'COM_WORKFLOW_BASIC_STAGE' AND `s`.`workflow_id` = `w`.`id`);
