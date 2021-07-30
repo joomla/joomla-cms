@@ -79,14 +79,14 @@ class Edit {
         if (index > 0) {
           await this.plugins[plugin].Deactivate(this.imagePreview);
         }
-        await this.plugins[plugin].Deactivate(this.imagePreview);
+        await this.plugins[plugin].Activate(this.imagePreview);
       };
 
       links.map((link) => pluginsForInit.push(initPluginFn(link)));
-      await Promise.all(pluginsForInit);
-
-      links[0].click();
-      links[0].blur();
+      await Promise.all(pluginsForInit).then(() => {
+        links[0].click();
+        links[0].blur();
+      });
     });
 
     this.addHistoryPoint = this.addHistoryPoint.bind(this);
@@ -149,38 +149,12 @@ class Edit {
   }
 
   // Reset the image to the initial state
-  Reset(current) {
-    if (!current || (current && current === 'initial')) {
-      this.current.contents = this.original.contents;
-      this.history = {};
-      this.imagePreview.src = this.original.contents;
-    }
-
-    // Reactivate the current plugin
-    const tabContainer = document.getElementById('myTab');
-    const tabsUlElement = tabContainer.firstElementChild;
-    const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
-
-    links.forEach(async (link) => {
-      if (link.getAttribute('aria-expanded') !== 'true') {
-        return;
-      }
-
-      try {
-        await this.plugins[link.getAttribute('aria-controls').replace('attrib-', '')].Deactivate(this.imagePreview);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-
-      link.click();
-      try {
-        await this.activate(link.getAttribute('aria-controls').replace('attrib-', ''));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-    });
+  Reset(/* current */) {
+    this.current.contents = `data:image/${this.fileType};base64,${this.options.contents}`;
+    // Reactivate the first plugin
+    this.imagePreview.setAttribute('src', this.current.contents);
+    document.getElementById('myTab').activateTab(0, false);
+    this.history = {};
   }
 
   // @TODO History
