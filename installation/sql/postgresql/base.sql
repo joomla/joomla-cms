@@ -1213,5 +1213,5 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 
 SELECT setval('#__workflow_transitions_id_seq', 8, false);
 
-INSERT INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
-SELECT `id`, 2, 'com_modules.module' FROM `#__modules`;
+INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
+SELECT "id", 2, 'com_modules.module' FROM "#__modules";
