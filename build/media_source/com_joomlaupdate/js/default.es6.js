@@ -369,12 +369,9 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
-        if (plugin.package_id.toString() === extensionId
-            || plugin.extension_id.toString() === extensionId) {
-          PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
-        }
-      });
+      PreUpdateChecker.nonCoreCriticalPlugins = PreUpdateChecker.nonCoreCriticalPlugins
+        // eslint-disable-next-line max-len
+        .filter((ext) => !(ext.package_id.toString() === extensionId || ext.extension_id.toString() === extensionId));
     }
 
     // Have we finished?
