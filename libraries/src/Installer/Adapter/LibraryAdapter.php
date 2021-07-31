@@ -309,7 +309,7 @@ class LibraryAdapter extends InstallerAdapter
 		// Delete empty vendor folders
 		if (2 === \count($elementParts))
 		{
-			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0], '.', false, true);
+			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0]);
 
 			if (empty($folders))
 			{
