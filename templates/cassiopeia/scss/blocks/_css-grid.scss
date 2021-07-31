@@ -12,9 +12,9 @@
       ". side-l side-l side-l side-l ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
-      ". footer footer footer footer ."
-      ". debug debug debug debug .";
+      ". footer footer footer footer .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
+    grid-template-rows: auto auto auto auto 1fr auto auto auto auto auto;
     grid-gap: 0 $cassiopeia-grid-gutter;
 
     > [class^="container-"],
@@ -45,6 +45,7 @@
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
         ". footer footer footer footer .";
+      grid-template-rows: auto auto auto auto 1fr auto auto auto;
     }
 
     &.wrapper-fluid {
