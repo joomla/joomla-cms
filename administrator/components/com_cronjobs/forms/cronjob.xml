@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- TODO : Replace all labels with translatable strings-->
-<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field">
+<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field"
+	  addruleprefix="Joomla\Component\Cronjobs\Administrator\Rule">
 	<fields>
 		<!-- Cronjob title -->
 		<field
@@ -114,7 +115,7 @@
 		<fieldset name="basic">
 			<!-- The interval type, we only need this as a way to switch between interval inputs -->
 			<field name="rule-type" type="list" required="true"
-				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE">
+				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE" validate="options">
 				<option value="" disabled="true">COM_CRONJOBS_SELECT_EXEC_RULE</option>
 				<option value="interval-minutes">COM_CRONJOBS_OPTION_INTERVAL_MINUTES</option>
 				<option value="interval-hours">COM_CRONJOBS_OPTION_INTERVAL_HOURS</option>
@@ -125,19 +126,19 @@
 
 			<!-- TODO : Check validation for interval/match fields-->
 			<!-- Interval (minutes), starting at user time -->
-			<field name="interval-minutes" type="interval" subtype="minutes" validate="options"
+			<field name="interval-minutes" type="interval" subtype="minutes" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MINUTES" showon="rule-type:interval-minutes">
 				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_MINUTES</option>
 			</field>
 			<!-- Interval (hours), starting at user time -->
-			<field name="interval-hours" type="interval" subtype="hours" validate="options"
+			<field name="interval-hours" type="interval" subtype="hours" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS" showon="rule-type:interval-hours"/>
 			<!-- Interval (days), starting at 1st of month -->
 			<!-- TODO: Should probably offer a time option -->
-			<field name="interval-days" type="interval" subtype="days"
+			<field name="interval-days" type="interval" subtype="days" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS" showon="rule-type:interval-days"/>
 			<!-- Interval (months), starting at 1st month-->
-			<field name="interval-months" type="interval" subtype="months" onlyNumericLabels="true"
+			<field name="interval-months" type="interval" subtype="months" onlyNumericLabels="true" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS" showon="rule-type:interval-months"/>
 			<!-- The day of execution (UTC), needed for interval-months -->
 			<field name="exec-day" type="number" min="1" max="31" step="1" default="1"
@@ -149,21 +150,23 @@
 
 		<fieldset name="custom-cron-rules" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
 			<!-- The custom interval fields -->
-			<field name="match-minutes" type="cron" subtype="minutes" multiple="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES"
+			<fields name="custom">
+			<field name="minutes" type="cron" subtype="minutes" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES" validate="ExecutionRules"
 			/>
-			<field name="match-hours" type="cron" subtype="hours" multiple="true"
-				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS"
+			<field name="hours" type="cron" subtype="hours" multiple="true"
+				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS" validate="ExecutionRules"
 			/>
-			<field name="match-days_month" type="cron" subtype="days_month" multiple="true"
+			<field name="days_month" type="cron" subtype="days_month" multiple="true" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_M"
 			/>
-			<field name="match-months" type="cron" subtype="months" multiple="true"
+			<field name="months" type="cron" subtype="months" multiple="true" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MONTHS"
 			/>
-			<field name="match-days_week" type="cron" subtype="days_week" multiple="true"
+			<field name="days_week" type="cron" subtype="days_week" multiple="true" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_W"
 			/>
+			</fields>
 		</fieldset>
 	</fields>
 
