@@ -57,13 +57,28 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 protected $db;
 
 	 /**
+	  * For script in DOM
+	  *
+	  * @var    Script
+	  * @since  __DEPLOY_VERSION__
+	  */
+	 protected $script = [];
+
+	 /**
 	  * For scripts in DOM
 	  *
 	  * @var    Scripts
 	  * @since  __DEPLOY_VERSION__
 	  */
-	 protected $script = [];
+	 protected $scripts;
 
+	 /**
+	  * For cookie category
+	  *
+	  * @var    Category
+	  * @since  __DEPLOY_VERSION__
+	  */
+	 protected $category;
 	/**
 	 * Add assets for the modal.
 	 *
@@ -74,6 +89,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
+		ob_start();
+		ob_implicit_flush(false);
 
 		if (!$this->app->isClient('site'))
 		{
@@ -106,13 +123,13 @@ class PlgSystemCookiemanager extends CMSPlugin
 			->order($db->quoteName('lft'));
 
 		$db->setQuery($query);
-		$category = $db->loadObjectList();
+		$this->category = $db->loadObjectList();
 
 		$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
 			. '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5><ul>';
 
-		foreach ($category as $key => $value)
+		foreach ($this->category as $key => $value)
 		{
 			$bannerBody .= '<li class="cookie-cat form-check form-check-inline"><label>' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" data-cookiecategory="'
 			. $value->alias . '" type=checkbox></span></label></li>';
@@ -153,7 +170,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
 		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
 
-		foreach ($category as $catKey => $catValue)
+		foreach ($this->category as $catKey => $catValue)
 		{
 			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
 			'<input class="form-check-input " type="checkbox" data-cookie-category="' . $catValue->alias . '"></span></h4>' . $catValue->description;
@@ -214,22 +231,25 @@ class PlgSystemCookiemanager extends CMSPlugin
 			);
 
 			$db->setQuery($query);
-			$script = $db->loadObjectList();
+			$this->scripts = $db->loadObjectList();
 
-		foreach ($category as $catKey => $catValue)
+		foreach ($this->category as $catKey => $catValue)
 		{
-			$scripts[$catValue->alias] = [];
-
-			foreach ($script as $key => $value)
+			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]))
 			{
-				if ($catValue->id == $value->catid)
+				$this->script[$catValue->alias] = [];
+
+				foreach ($this->scripts as $key => $value)
 				{
-					array_push($scripts[$catValue->alias], $value);
+					if ($catValue->id == $value->catid)
+					{
+						array_push($this->script[$catValue->alias], $value);
+					}
 				}
 			}
 		}
 
-				$this->app->getDocument()->addScriptOptions('code', $scripts);
+				$this->app->getDocument()->addScriptOptions('code', $this->script);
 
 	}
 
@@ -251,6 +271,67 @@ class PlgSystemCookiemanager extends CMSPlugin
 		echo $this->preferences;
 		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
-	}
+		foreach ($this->category as $catKey => $catValue)
+		{
+			if (isset($_COOKIE['cookie_category_' . $catValue->alias]))
+			{
+				$this->script[$catValue->alias] = [];
 
+				foreach ($this->scripts as $key => $value)
+				{
+					if ($catValue->id == $value->catid)
+					{
+						if ($value->type == 1 || $value->type == 2)
+						{
+							if ($value->position == 1)
+							{
+								$html = ob_get_contents();
+
+								if ($html)
+								{
+									ob_end_clean();
+								}
+
+								echo str_replace('<head>', '<head>' . $value->code, $html);
+							}
+							elseif ($value->position == 2)
+							{
+								$html = ob_get_contents();
+
+								if ($html)
+								{
+									ob_end_clean();
+								}
+
+								echo str_replace('</head>', $value->code . '</head>', $html);
+							}
+							elseif ($value->position == 3)
+							{
+								$html = ob_get_contents();
+
+								if ($html)
+								{
+									ob_end_clean();
+								}
+
+								echo preg_replace('/<body[^>]+>\K/i', $value->code, $html);
+							}
+
+							else
+							{
+								$html = ob_get_contents();
+
+								if ($html)
+								{
+									ob_end_clean();
+								}
+
+								echo str_replace('</body>', $value->code . '</body>', $html);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
