@@ -25,6 +25,14 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+
+$positions = array (
+		'1' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_HEAD'),
+		'2' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_HEAD'),
+		'3' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_BODY'),
+		'4' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_BODY')
+);
+
 $types = array (
 		'1' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT'),
 		'2' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_EXTERNAL_SCRIPT'),
@@ -66,6 +74,9 @@ $types = array (
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_POSITION_LABEL', 'a.position', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
@@ -124,6 +135,9 @@ $types = array (
 										</span>
 									</div>
 								</th>
+								<td class="text-center">
+									<?php echo $positions[$item->position]; ?>
+								</td>
 								<td class="text-center">
 									<?php echo $types[$item->type]; ?>
 								</td>

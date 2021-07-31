@@ -47,6 +47,8 @@
       		<option value="a.published DESC">JSTATUS_DESC</option>
       		<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
       		<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.position ASC">COM_COOKIEMANAGER_POSITION_ASC</option>
+			<option value="a.position DESC">COM_COOKIEMANAGER_POSITION_DESC</option>
 			<option value="a.type ASC">COM_COOKIEMANAGER_TYPE_ASC</option>
 			<option value="a.type DESC">COM_COOKIEMANAGER_TYPE_DESC</option>
       		<option value="category_title ASC">JCATEGORY_ASC</option>
