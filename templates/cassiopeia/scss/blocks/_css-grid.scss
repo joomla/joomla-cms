@@ -1,19 +1,26 @@
 // CSS Grid
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-grid {
+  margin-bottom: auto;
+}
+
+
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ."
-      ". banner banner banner banner ."
+    grid-template-areas: ". banner banner banner banner ."
       ". top-a top-a top-a top-a ."
       ". top-b top-b top-b top-b ."
       ". comp comp comp comp ."
       ". side-r side-r side-r side-r ."
       ". side-l side-l side-l side-l ."
       ". bot-a bot-a bot-a bot-a ."
-      ". bot-b bot-b bot-b bot-b ."
-      ". footer footer footer footer ."
-      ". debug debug debug debug .";
+      ". bot-b bot-b bot-b bot-b .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
@@ -37,14 +44,12 @@
     }
 
     @include media-breakpoint-up(md) {
-      grid-template-areas: ". head head head head ."
-        ". banner banner banner banner ."
+      grid-template-areas: ". banner banner banner banner ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."
         ". side-l comp comp side-r ."
         ". bot-a bot-a bot-a bot-a ."
-        ". bot-b bot-b bot-b bot-b ."
-        ". footer footer footer footer .";
+        ". bot-b bot-b bot-b bot-b .";
     }
 
     &.wrapper-fluid {
