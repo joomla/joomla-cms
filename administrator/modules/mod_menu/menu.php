@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -356,6 +356,11 @@ class JAdminCssMenu
 				continue;
 			}
 			elseif ($item->element === 'com_joomlaupdate' && !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$this->user->authorise('core.admin'))
 			{
 				continue;
 			}

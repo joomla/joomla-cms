@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -479,21 +479,31 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
-			if (strpos($showOnPartBlocks[0], '.') !== false)
+			$dotPos = strpos($showOnPartBlocks[0], '.');
+
+			if ($dotPos === false)
 			{
-				if ($formControl)
-				{
-					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
-				}
-				else
-				{
-					$groupParts = explode('.', $showOnPartBlocks[0]);
-					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
-				}
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
 			}
 			else
 			{
-				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+				if ($dotPos === 0)
+				{
+					$fieldName = substr($showOnPartBlocks[0], 1);
+					$field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+				}
+				else
+				{
+					if ($formControl)
+					{
+						$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+					}
+					else
+					{
+						$groupParts = explode('.', $showOnPartBlocks[0]);
+						$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+					}
+				}
 			}
 
 			$showOnData[] = array(

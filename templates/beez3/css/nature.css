@@ -199,7 +199,7 @@ ul.menu a:focus {
 }
 
 
-/* ++++++++++++++++   highlightning active menuitem  +++++++++++++++++++ */
+/* ++++++++++++++++   highlighting active menuitem  +++++++++++++++++++ */
 
 ul.menu li.active a,ul.menu  li.active ul li.active a,
 ul.menu  li.active ul li.active  ul li.active a,

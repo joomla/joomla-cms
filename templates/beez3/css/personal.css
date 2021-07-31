@@ -105,7 +105,7 @@ a:hover,a:active,a:focus {
 	border: solid 1px #ddd
 }
 
-/* +++++++++++++  table display  Catgegories table, contact etc, ++++++++++++++++++++* */
+/* +++++++++++++  table display  Categories table, contact etc, ++++++++++++++++++++* */
 table {
 	border: solid 1px #ddd
 }
@@ -251,7 +251,7 @@ ul.menu a:hover,ul.menu a:active,ul.menu a:focus {
 	color: #095197
 }
 
-/* ++++++++++++++++   highlightning active menuitem  +++++++++++++++++++ */
+/* ++++++++++++++++   highlighting active menuitem  +++++++++++++++++++ */
 ul.menu li.active a,ul.menu  li.active ul li.active a,ul.menu  li.active ul li.active  ul li.active a,ul.menu  li.active ul li.active  ul li.active ul li.active  a,ul.menu  li.active ul li.active  ul li.active ul li.active ul li.active a
 	{
 	font-weight: bold;

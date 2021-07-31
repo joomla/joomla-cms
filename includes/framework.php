@@ -2,11 +2,13 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\IpHelper;
 
 // Joomla system checks.
 @ini_set('magic_quotes_runtime', 0);
@@ -94,11 +96,28 @@ if (!defined('JDEBUG'))
 	define('JDEBUG', $config->debug);
 }
 
-unset($config);
-
 // System profiler
 if (JDEBUG)
 {
 	// @deprecated 4.0 - The $_PROFILER global will be removed
 	$_PROFILER = JProfiler::getInstance('Application');
 }
+
+/**
+ * Correctly set the allowing of IP Overrides if behind a trusted proxy/load balancer.
+ *
+ * We need to do this as high up the stack as we can, as the default in \Joomla\Utilities\IpHelper is to
+ * $allowIpOverride = true which is the wrong default for a generic site NOT behind a trusted proxy/load balancer.
+ */
+if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1)
+{
+	// If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
+	IpHelper::setAllowIpOverrides(true);
+}
+else
+{
+	// We disable the allowing of IP overriding using headers by default.
+	IpHelper::setAllowIpOverrides(false);
+}
+
+unset($config);

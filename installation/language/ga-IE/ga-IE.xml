@@ -2,9 +2,9 @@
 <metafile version="3.9" client="installation">
 	<name>Irish (Ireland)</name>
 	<version>3.9.0</version>
-	<creationDate>October 2018</creationDate>
+	<creationDate>2018-10-01</creationDate>
 	<author>Irish translation team</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2015 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License leagan 2 nó níos déanaí; féach LICENSE.txt</license>
 	<files>
 		<filename>ga-IE.ini</filename>

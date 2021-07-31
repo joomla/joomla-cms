@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ abstract class JHtmlContact
 	 *
 	 * @since   1.6
 	 */
-	public static function featured($value = 0, $i, $canChange = true)
+	public static function featured($value = 0, $i = 0, $canChange = true)
 	{
 
 		// Array of image, task, title, action

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,7 +210,7 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Check that the user is authorized to perform this action
 	 *
-	 * @param   string  $action  - the action to be peformed (create or delete)
+	 * @param   string  $action  - the action to be performed (create or delete)
 	 *
 	 * @return  boolean
 	 *

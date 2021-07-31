@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -170,7 +170,7 @@ if (!function_exists('finalizeRestore'))
 		// Make sure Joomla!'s code can figure out which files exist and need be removed
 		clearstatcache();
 
-		// Remove obsolete files - prevents errors occuring in some system plugins
+		// Remove obsolete files - prevents errors occurring in some system plugins
 		if (class_exists('JoomlaInstallerScript'))
 		{
 			$script = new JoomlaInstallerScript;

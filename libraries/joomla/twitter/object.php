@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,7 +114,7 @@ abstract class JTwitterObject
 			}
 		}
 
-		// Get a new JUri object fousing the api url and given path.
+		// Get a new JUri object focusing the api url and given path.
 		if (strpos($path, 'http://search.twitter.com/search.json') === false)
 		{
 			$uri = new JUri($this->options->get('api.url') . $path);

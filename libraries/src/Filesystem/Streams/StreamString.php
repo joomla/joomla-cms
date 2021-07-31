@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@ namespace Joomla\CMS\Filesystem\Streams;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Support\Stringcontroller;
+use Joomla\CMS\Filesystem\Support\StringController;
 
 /**
  * String Stream Wrapper
@@ -91,16 +91,16 @@ class StreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path          The stream path.
-	 * @param   string   $mode          Not used.
-	 * @param   integer  $options       Not used.
-	 * @param   string   &$opened_path  Not used.
+	 * @param   string   $path         The stream path.
+	 * @param   string   $mode         Not used.
+	 * @param   integer  $options      Not used.
+	 * @param   string   &$openedPath  Not used.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.7.0
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$openedPath)
 	{
 		$this->currentString = &StringController::getRef(str_replace('string://', '', $path));
 

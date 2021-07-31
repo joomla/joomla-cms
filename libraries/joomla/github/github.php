@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubPackageSearch         $search         GitHub API object for search.
  * @property-read  JGithubPackageUsers          $users          GitHub API object for users.
  *
- * @property-read  JGithubRefs        $refs        Deprecated GitHub API object for referencess.
+ * @property-read  JGithubRefs        $refs        Deprecated GitHub API object for references.
  * @property-read  JGithubForks       $forks       Deprecated GitHub API object for forks.
  * @property-read  JGithubCommits     $commits     Deprecated GitHub API object for commits.
  * @property-read  JGithubMilestones  $milestones  Deprecated GitHub API object for commits.

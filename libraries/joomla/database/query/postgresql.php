@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -346,7 +346,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @param   string  $value  The value to cast as a char.
 	 *
-	 * @param   string  $len    The lenght of the char.
+	 * @param   string  $len    The length of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *
@@ -404,25 +404,25 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Sets the FOR UPDATE lock on select's output row
 	 *
-	 * @param   string  $table_name  The table to lock
-	 * @param   string  $glue        The glue by which to join the conditions. Defaults to ',' .
+	 * @param   string  $tableName  The table to lock
+	 * @param   string  $glue       The glue by which to join the conditions. Defaults to ',' .
 	 *
 	 * @return  JDatabaseQueryPostgresql  FOR UPDATE query element
 	 *
 	 * @since   1.7.3
 	 */
-	public function forUpdate($table_name, $glue = ',')
+	public function forUpdate($tableName, $glue = ',')
 	{
 		$this->type = 'forUpdate';
 
 		if (is_null($this->forUpdate))
 		{
 			$glue            = strtoupper($glue);
-			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', 'OF ' . $table_name, "$glue ");
+			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', 'OF ' . $tableName, "$glue ");
 		}
 		else
 		{
-			$this->forUpdate->append($table_name);
+			$this->forUpdate->append($tableName);
 		}
 
 		return $this;
@@ -431,25 +431,25 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Sets the FOR SHARE lock on select's output row
 	 *
-	 * @param   string  $table_name  The table to lock
-	 * @param   string  $glue        The glue by which to join the conditions. Defaults to ',' .
+	 * @param   string  $tableName  The table to lock
+	 * @param   string  $glue       The glue by which to join the conditions. Defaults to ',' .
 	 *
 	 * @return  JDatabaseQueryPostgresql  FOR SHARE query element
 	 *
 	 * @since   1.7.3
 	 */
-	public function forShare($table_name, $glue = ',')
+	public function forShare($tableName, $glue = ',')
 	{
 		$this->type = 'forShare';
 
 		if (is_null($this->forShare))
 		{
 			$glue           = strtoupper($glue);
-			$this->forShare = new JDatabaseQueryElement('FOR SHARE', 'OF ' . $table_name, "$glue ");
+			$this->forShare = new JDatabaseQueryElement('FOR SHARE', 'OF ' . $tableName, "$glue ");
 		}
 		else
 		{
-			$this->forShare->append($table_name);
+			$this->forShare->append($tableName);
 		}
 
 		return $this;

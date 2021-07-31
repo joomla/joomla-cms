@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,7 +110,7 @@ class InstallerModel extends JModelList
 			}
 
 			// Process ordering.
-			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			// Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
 			// Process pagination.

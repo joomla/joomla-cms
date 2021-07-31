@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class OutputFilter extends BaseOutputFilter
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
 	 * @param   string  $string    String to process
-	 * @param   string  $language  Language to transilterate to
+	 * @param   string  $language  Language to transliterate to
 	 *
 	 * @return  string  Processed string
 	 *
