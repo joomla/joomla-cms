@@ -25,6 +25,17 @@ use Joomla\Registry\Registry;
 class MediaHelper
 {
 	/**
+	 * A special list of blocked executable extensions.
+	 *
+	 * @var    string[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $executables = array(
+		'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
+		'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
+	);
+
+	/**
 	 * Checks if the file is an image
 	 *
 	 * @param   string  $fileName  The filename
@@ -143,6 +154,47 @@ class MediaHelper
 	}
 
 	/**
+	 * Checks the file extension
+	 *
+	 * @param   string  $extension  The extension to be checked
+	 * @param   string  $component  The optional name for the component storing the parameters
+	 *
+	 * @return  boolean  true if it passes the checks else false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
+	{
+		$params = ComponentHelper::getParams($component);
+
+		// Media file names should never have executable extensions buried in them.
+		$executables = self::$executables;
+
+		// Remove allowed executables from array
+		if (count($allowedExecutables))
+		{
+			$executables = array_diff($executables, $allowedExecutables);
+		}
+
+		if (in_array($extension, $executables, true))
+		{
+			return false;
+		}
+
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
+
+		if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($filetype, $ignored, true)))
+		{
+			return false;
+		}
+
+		// We don't check mime at all or it passes the checks
+		return true;
+	}
+
+
+	/**
 	 * Checks if the file can be uploaded
 	 *
 	 * @param   array   $file                File information
@@ -185,18 +237,15 @@ class MediaHelper
 		array_shift($filetypes);
 
 		// Media file names should never have executable extensions buried in them.
-		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
-		);
+		$executables = self::$executables;
 
 		// Remove allowed executables from array
 		if (count($allowedExecutables))
 		{
-			$executable = array_diff($executable, $allowedExecutables);
+			$executable = array_diff($executables, $allowedExecutables);
 		}
 
-		$check = array_intersect($filetypes, $executable);
+		$check = array_intersect($filetypes, $executables);
 
 		if (!empty($check))
 		{
