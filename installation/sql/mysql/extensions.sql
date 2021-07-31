@@ -897,7 +897,8 @@ CREATE TABLE IF NOT EXISTS `#__cronjobs` (
   `type` varchar(1024) NOT NULL COMMENT 'unique identifier for job defined by plugin',
   -- Trigger type, default to PseudoCron (compatible everywhere).
   `trigger` enum ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
-  `execution_interval` text COMMENT 'Configured execution interval, cron format',
+  `execution_rules` text COMMENT 'Execution Rules, Unprocessed',
+  `cron_rules` text COMMENT 'Processed execution rules, crontab-like JSON form',
   `state` tinyint NOT NULL DEFAULT FALSE,
   `last_exit_code` int NOT NULL DEFAULT '0' COMMENT 'Exit code when job was last run',
   `last_execution` datetime COMMENT 'Timestamp of last run',
