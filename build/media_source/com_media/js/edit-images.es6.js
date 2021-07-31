@@ -137,6 +137,8 @@ class Edit {
     this.current.contents = `data:image/${this.fileType};base64,${this.options.contents}`;
     // Reactivate the first plugin
     this.imagePreview.setAttribute('src', this.current.contents);
+    this.imagePreview.setAttribute('width', this.imagePreview.naturalWidth);
+    this.imagePreview.setAttribute('height', this.imagePreview.naturalHeight);
     document.getElementById('myTab').activateTab(0, false);
     this.history = {};
   }
