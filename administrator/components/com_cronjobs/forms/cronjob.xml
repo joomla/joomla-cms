@@ -139,6 +139,12 @@
 			<!-- Interval (months), starting at 1st month-->
 			<field name="interval-months" type="interval" subtype="months" onlyNumericLabels="true"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS" showon="rule-type:interval-months"/>
+			<!-- The day of execution (UTC), needed for interval-months -->
+			<field name="exec-day" type="number" min="1" max="31" step="1" default="1"
+				   label="COM_CRONJOBS_LABEL_EXEC_DAY" showon="rule-type:interval-months"/>
+			<!-- The time of execution (UTC), needed for interval-days and interval-months -->
+			<field name="exec-time" type="time" label="COM_CRONJOBS_LABEL_EXEC_TIME"
+				   showon="rule-type:interval-days[OR]rule-type:interval-months"/>
 		</fieldset>
 
 		<fieldset name="custom-cron-rules" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
