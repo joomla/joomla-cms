@@ -57,6 +57,7 @@ class Edit {
         link.addEventListener('joomla.tab.hidden', ({ target }) => {
           if (!target) {
             this.previousPluginDeactivated = new Promise((resolve) => resolve);
+            return;
           }
 
           this.previousPluginDeactivated = new Promise((resolve, reject) => {
