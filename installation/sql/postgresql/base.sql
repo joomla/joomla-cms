@@ -115,10 +115,10 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
 (90, 1, 173, 174, 1, 'com_scheduler', 'com_scheduler', '{}');
 (89, 18, 130, 131, 2, 'com_modules.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '{}'),
-(90, 18, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
-(91, 18, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
-(92, 18, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
-(93, 18, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
+(90, 89, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
+(91, 89, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
+(92, 89, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
+(93, 89, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
 
 
 SELECT setval('#__assets_id_seq', 91, false);
