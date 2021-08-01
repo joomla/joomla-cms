@@ -39,7 +39,7 @@ class CronjobTable extends Table
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $_jsonEncode = ['params'];
+	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
 
 	/**
 	 * Injected into the 'created' column
