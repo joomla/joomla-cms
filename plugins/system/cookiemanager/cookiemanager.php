@@ -214,9 +214,9 @@ class PlgSystemCookiemanager extends CMSPlugin
 			'preferences',
 			[
 				'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
-				'footer' => '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+				'footer' => '<button type="button" id="prefConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preferences">'
+					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
 			],
 			$prefBody
@@ -235,7 +235,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($this->category as $catKey => $catValue)
 		{
-			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]))
+			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]) || $_COOKIE['cookie_category_' . $catValue->alias] == false)
 			{
 				$this->script[$catValue->alias] = [];
 
@@ -273,7 +273,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($this->category as $catKey => $catValue)
 		{
-			if (isset($_COOKIE['cookie_category_' . $catValue->alias]))
+			if (isset($_COOKIE['cookie_category_' . $catValue->alias]) && $_COOKIE['cookie_category_' . $catValue->alias] == true)
 			{
 				$this->script[$catValue->alias] = [];
 
