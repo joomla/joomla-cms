@@ -60,7 +60,7 @@ class NoteField extends FormField
 		{
 			return '';
 		}
-		
+
 		$html  = [];
 		$class = [];
 
