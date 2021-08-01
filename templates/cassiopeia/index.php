@@ -229,11 +229,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('backTop') == 1) : ?>
-		<div class="back-to-top-wrapper">
-			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-				<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-			</a>
-		</div>
+		<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+			<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+		</a>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
