@@ -63,6 +63,6 @@ class SelectModel extends ListModel
 	 */
 	public function getItems(): array
 	{
-		return CronjobsHelper::getCronOptions()->jobs;
+		return CronjobsHelper::getCronOptions()->options;
 	}
 }
