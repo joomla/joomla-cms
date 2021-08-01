@@ -1119,7 +1119,7 @@ INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description
 (1, 56, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42),
 (2, 89, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42);
 
-SELECT setval('#__workflows_id_seq', 2, false);
+SELECT setval('#__workflows_id_seq', 3, false);
 
 --
 -- Table structure for table `#__workflow_associations`
