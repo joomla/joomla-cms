@@ -67,9 +67,6 @@ class CronjobsModel extends ListModel
 				'trigger',
 				'a.trigger',
 
-				'execution_interval',
-				'a.execution_interval',
-
 				'enabled',
 				'a.enabled',
 
@@ -163,7 +160,7 @@ class CronjobsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_interval, a.state, a.last_exit_code' .
+				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_rules, a.state, a.last_exit_code' .
 				', a.last_execution, a.next_execution, a.times_executed, a.times_failed'
 			)
 			// ? Does 'list.select' exist ?

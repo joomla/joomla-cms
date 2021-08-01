@@ -143,7 +143,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		// TODO: eval $canDo('core.delete')
 		$canDo = ContentHelper::getActions('com_cronjobs');
 		$user = Factory::getApplication()->getIdentity();
 
@@ -158,7 +157,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('cronjob.add');
+			$toolbar->linkButton('new', 'JTOOLBAR_NEW')
+				->url('index.php?option=com_cronjobs&view=select&layout=default')
+				->buttonClass('btn btn-success')
+				->icon('icon-new');
 		}
 
 		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
