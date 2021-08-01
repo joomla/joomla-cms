@@ -1210,7 +1210,7 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 (9, 91, 1, 2, 2, 'Publish', '', -1, 2, '{"publishing":"1"}'),
 (10, 93, 1, 3, 2, 'Trash', '', -1, 2, '{"publishing":"-2"}');
 
-SELECT setval('#__workflow_transitions_id_seq', 8, false);
+SELECT setval('#__workflow_transitions_id_seq', 11, false);
 
 INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
 SELECT "id", 2, 'com_modules.module' FROM "#__modules";
