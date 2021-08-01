@@ -1168,7 +1168,7 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default") VALUES
 (1, 57, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1),
-(2, 90, 1, 2, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 1);
+(2, 90, 1, 2, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
 
 SELECT setval('#__workflow_stages_id_seq', 3, false);
 
