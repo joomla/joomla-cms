@@ -166,7 +166,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php endif; ?>
 	</header>
 
-    <div class="site-grid">
+	<div class="site-grid">
 		<?php if ($this->countModules('banner', true)) : ?>
 			<div class="container-banner full-width">
 				<jdoc:include type="modules" name="banner" style="none" />
