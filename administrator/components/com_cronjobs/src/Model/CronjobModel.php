@@ -22,6 +22,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function array_diff;
@@ -233,11 +234,8 @@ class CronjobModel extends AdminModel
 		// If the data from UserState is empty, we fetch it with getItem()
 		if (empty($data))
 		{
+			/** @var CMSObject $data */
 			$data = $this->getItem();
-
-			$time = explode(':', $data->get('execution_interval'));
-			$data->set('interval-hours', $time[0] ?? 0);
-			$data->set('interval-minutes', $time[1] ?? 0);
 
 			// TODO : Any further data processing goes here
 		}
@@ -269,6 +267,10 @@ class CronjobModel extends AdminModel
 		{
 			return false;
 		}
+
+		// Parent call leaves `execution_rules` and `cron_rules` JSON encoded
+		$item->set('execution_rules', json_decode($item->get('execution_rules')));
+		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
 		$cronOption = ($item->id ?? 0) ? CronjobsHelper::getCronOptions()->findOption($item->type ?? 0)
 			: ($this->getState('cronjob.option'));
