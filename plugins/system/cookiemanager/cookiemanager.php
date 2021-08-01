@@ -250,7 +250,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		}
 
 				$this->app->getDocument()->addScriptOptions('code', $this->script);
-
+				$this->app->getDocument()->addScriptOptions('exp', $params->get('consentexp'));
 	}
 
 	/**

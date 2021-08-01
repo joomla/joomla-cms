@@ -14,13 +14,21 @@
 			name="position"
 			type="list"
 			label="COM_COOKIEMANAGER_POSITION_BUTTON_LABEL"
-			default="bottom"
+			default="top"
 			>
 			<option value="bottom">Bottom</option>
 			<option value="left">Left</option>
 			<option value="right">Right</option>
 			<option value="top">Top</option>
 		</field>
+
+		<field
+			name="consentexp"
+			type="text"
+			label="COM_COOKIEMANAGER_CONSENT_EXPIRATION_LABEL"
+			default="30"
+		/>
+
 	</fieldset>
 
 	<fieldset

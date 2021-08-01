@@ -33,7 +33,16 @@
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
 
+  function getExpiration() {
+    const exp = Joomla.getOptions('exp');
+    const d = new Date();
+    d.setTime(d.getTime() + (exp * 24 * 60 * 60 * 1000));
+    const expires = d.toUTCString();
+    return expires;
+  }
+
   document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
+    const exp = getExpiration();
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
       if (item.checked) {
         Object.entries(code).forEach(([key, value]) => {
@@ -48,19 +57,20 @@
               } else {
                 document.body.append(parse(i.code));
               }
-              document.cookie = `cookie_category_${key}=true; path=/;`;
+              document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
             });
           }
         });
       } else {
         const key = item.getAttribute('data-cookiecategory');
-        document.cookie = `cookie_category_${key}=false; path=/;`;
+        document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
       }
     });
-    document.cookie = 'cookieBanner=true; path=/;';
+    document.cookie = `cookieBanner=true; expires=${exp}; path=/;`;
   });
 
   document.getElementById('prefConfirmChoice').addEventListener('click', () => {
+    const exp = getExpiration();
     document.querySelectorAll('[data-cookie-category]').forEach((item) => {
       if (item.checked) {
         Object.entries(code).forEach(([key, value]) => {
@@ -75,16 +85,16 @@
               } else {
                 document.body.append(parse(i.code));
               }
-              document.cookie = `cookie_category_${key}=true; path=/;`;
+              document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
             });
           }
         });
       } else {
         const key = item.getAttribute('data-cookie-category');
-        document.cookie = `cookie_category_${key}=false; path=/;`;
+        document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
       }
     });
-    document.cookie = 'cookieBanner=true; path=/;';
+    document.cookie = `cookieBanner=true; expires=${exp}; path=/;`;
   });
 
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {
