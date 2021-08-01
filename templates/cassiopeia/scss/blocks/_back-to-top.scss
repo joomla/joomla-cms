@@ -3,18 +3,18 @@
 */
 
 .back-to-top-link {
-  opacity: 0;
   position: fixed;
-  bottom: 1rem;
+  opacity: 0;
   right: 1rem;
+  bottom: 1rem;
   padding: $cassiopeia-grid-gutter/2;
   color: var(--cassiopeia-color-primary, $standard-color-primary);
   pointer-events: all;
   background-color: var(--white, $white);
   border: 1px solid var(--cassiopeia-color-primary, $standard-color-primary);
   border-radius: $border-radius;
-  transition: opacity 200ms ease-in;
   z-index: 10000;
+  transition: opacity 200ms ease-in;
 
   &.visible {
     opacity: 1;
