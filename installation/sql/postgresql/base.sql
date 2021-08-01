@@ -1170,7 +1170,7 @@ INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "
 (1, 57, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1),
 (2, 90, 1, 2, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 1);
 
-SELECT setval('#__workflow_stages_id_seq', 2, false);
+SELECT setval('#__workflow_stages_id_seq', 3, false);
 
 --
 -- Table structure for table `#__workflow_transitions`
