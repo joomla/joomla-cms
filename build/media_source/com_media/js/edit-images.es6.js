@@ -142,7 +142,7 @@ class Edit {
       requestAnimationFrame(() => {
         this.imagePreview.setAttribute('width', this.imagePreview.naturalWidth);
         this.imagePreview.setAttribute('height', this.imagePreview.naturalHeight);
-      })
+      });
     });
   }
 
