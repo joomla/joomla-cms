@@ -132,14 +132,20 @@
 			</field>
 			<!-- Interval (hours), starting at user time -->
 			<field name="interval-hours" type="interval" subtype="hours" validate="ExecutionRules"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS" showon="rule-type:interval-hours"/>
+				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS" showon="rule-type:interval-hours">
+				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_HOURS</option>
+			</field>
 			<!-- Interval (days), starting at 1st of month -->
 			<!-- TODO: Should probably offer a time option -->
 			<field name="interval-days" type="interval" subtype="days" validate="ExecutionRules"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS" showon="rule-type:interval-days"/>
+				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS" showon="rule-type:interval-days">
+				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_DAYS</option>
+			</field>
 			<!-- Interval (months), starting at 1st month-->
 			<field name="interval-months" type="interval" subtype="months" onlyNumericLabels="true" validate="ExecutionRules"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS" showon="rule-type:interval-months"/>
+				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS" showon="rule-type:interval-months">
+				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_MONTHS</option>
+			</field>
 			<!-- The day of execution (UTC), needed for interval-months -->
 			<field name="exec-day" type="number" min="1" max="31" step="1" default="1"
 				   label="COM_CRONJOBS_LABEL_EXEC_DAY" showon="rule-type:interval-months"/>
