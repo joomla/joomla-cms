@@ -120,7 +120,7 @@ $types = array (
 									</span>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'cookies.', $canChange, 'cb'); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'scripts.', $canChange, 'cb'); ?>
 								</td>
 								<th scope="row" class="has-context">
 									<div>
