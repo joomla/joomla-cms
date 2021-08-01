@@ -1145,7 +1145,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`) VALUES
 (1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1),
-(2, 18, 1, 2, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 1);
+(2, 90, 1, 2, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 1);
 
 -- --------------------------------------------------------
 
