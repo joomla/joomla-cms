@@ -61,10 +61,6 @@ class CronjobTable extends Table
 	 * CronjobTable constructor.
 	 * Just passes the DB table name and primary key name to parent constructor.
 	 *
-	 * ? : How do we incorporate the supporting job type tables?
-	 *     Is the solution a Table class for each of them
-	 *     Or can we have a more elegant arrangement?
-	 *
 	 * @param   DatabaseDriver  $db  A database connector object (?)
 	 *
 	 * @since __DEPLOY_VERSION__
@@ -106,7 +102,7 @@ class CronjobTable extends Table
 		$this->title  = htmlspecialchars_decode($this->title, ENT_QUOTES);
 
 		// Set created date if not set.
-		// ? : Might not need since the constructor already sets this
+		// ? Might not need since the constructor already sets this
 		if (!(int) $this->created)
 		{
 			$this->created = Factory::getDate()->toSql();
