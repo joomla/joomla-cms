@@ -21,7 +21,7 @@ $displayData = [
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_cronjobs'))
 {
-	$displayData['createURL'] = 'index.php?option=com_cronjobs&task=cronjob.add';
+	$displayData['createURL'] = 'index.php?option=com_cronjobs&view=select&layout=default';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
