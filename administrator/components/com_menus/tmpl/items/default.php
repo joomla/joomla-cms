@@ -202,7 +202,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
-											<span class="badge bg-secondary">
+											<span class="badge">
 												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 											</span>
 										</div>
