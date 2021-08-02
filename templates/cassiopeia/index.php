@@ -128,51 +128,49 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
 		<?php if ($this->countModules('topbar')) : ?>
-		<div class="container-topbar">
+			<div class="container-topbar">
 			<jdoc:include type="modules" name="topbar" style="none" />
-		</div>
+			</div>
 		<?php endif; ?>
 
 		<?php if ($this->countModules('below-top')) : ?>
-		<div class="grid-child container-below-top">
-			<jdoc:include type="modules" name="below-top" style="none" />
-		</div>
+			<div class="grid-child container-below-top">
+				<jdoc:include type="modules" name="below-top" style="none" />
+			</div>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('brand', 1)) : ?>
-		<div class="grid-child">
-			<div class="navbar-brand">
-				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-				<div class="site-description">
-					<?php echo htmlspecialchars($this->params->get('siteDescription')); ?>
+			<div class="grid-child">
+				<div class="navbar-brand">
+					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+					<?php endif; ?>
 				</div>
-				<?php endif; ?>
 			</div>
-		</div>
 		<?php endif; ?>
 
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
-		<div class="grid-child container-nav">
-			<?php if ($this->countModules('menu', true)) : ?>
-				<jdoc:include type="modules" name="menu" style="none" />
-			<?php endif; ?>
-			<?php if ($this->countModules('search', true)) : ?>
-			<div class="container-search">
-				<jdoc:include type="modules" name="search" style="none" />
+			<div class="grid-child container-nav">
+				<?php if ($this->countModules('menu', true)) : ?>
+					<jdoc:include type="modules" name="menu" style="none" />
+				<?php endif; ?>
+				<?php if ($this->countModules('search', true)) : ?>
+					<div class="container-search">
+						<jdoc:include type="modules" name="search" style="none" />
+					</div>
+				<?php endif; ?>
 			</div>
-			<?php endif; ?>
-		</div>
 		<?php endif; ?>
 	</header>
 
 	<div class="site-grid">
 		<?php if ($this->countModules('banner', true)) : ?>
-		<div class="container-banner full-width">
-			<jdoc:include type="modules" name="banner" style="none" />
-		</div>
+			<div class="container-banner full-width">
+				<jdoc:include type="modules" name="banner" style="none" />
+			</div>
 		<?php endif; ?>
 
 		<?php if ($this->countModules('top-a', true)) : ?>
@@ -231,9 +229,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('backTop') == 1) : ?>
-	<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-		<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-	</a>
+		<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+			<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+		</a>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
