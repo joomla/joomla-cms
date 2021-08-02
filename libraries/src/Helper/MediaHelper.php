@@ -34,7 +34,7 @@ class MediaHelper
 		'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'js', 'exe', 'phtml', 'java', 'perl',
 		'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
 		'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe',
-		'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'py'
+		'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'py', 'jar', 'msi'
 	);
 
 	/**
