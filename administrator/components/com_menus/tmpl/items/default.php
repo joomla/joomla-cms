@@ -202,7 +202,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
-											<span class="badge bg-secondary">
+											<span class="badge">
 												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 											</span>
 										</div>
@@ -221,7 +221,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 													<?php if ($item->language_image) : ?>
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
-														<span class="badge bg-secondary"
+														<span class="badge"
 															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
 													<?php endif; ?>
 												</a>
@@ -229,7 +229,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 												<?php if ($item->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
-													<span class="badge bg-secondary"
+													<span class="badge"
 														  title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>

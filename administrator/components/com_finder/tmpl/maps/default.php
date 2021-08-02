@@ -113,7 +113,7 @@ $wa->useScript('com_finder.maps');
 							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
+									<span class="btn btn-secondary"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
 							<?php else : ?>
 								-
 							<?php endif; ?>
