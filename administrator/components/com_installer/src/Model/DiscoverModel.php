@@ -169,7 +169,12 @@ class DiscoverModel extends InstallerModel
 
 		foreach ($installedtmp as $install)
 		{
-			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
+			$key = implode(':',
+				array(
+					$install->type,
+					str_replace('\\', '/', $install->element),
+					$install->folder,
+					$install->client_id));
 			$extensions[$key] = $install;
 		}
 
@@ -178,7 +183,12 @@ class DiscoverModel extends InstallerModel
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
-			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
+			$key = implode(':',
+				array(
+					$result->type,
+					str_replace('\\', '/', $result->element),
+					$result->folder,
+					$result->client_id));
 
 			if (!array_key_exists($key, $extensions))
 			{
