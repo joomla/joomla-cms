@@ -393,7 +393,7 @@ class Language
 		{
 			$string = \call_user_func($this->transliterator, $string);
 
-			// Check if all symbols was transliterated, otherwise continue
+			// Check if all symbols were transliterated, otherwise continue
 			if (mb_check_encoding($string, 'ASCII'))
 			{
 				return $string;
