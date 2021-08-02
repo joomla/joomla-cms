@@ -769,8 +769,8 @@
 			<field
 				name="image_intro_sizes"
 				type="radio"
-				label="COM_CONTENT_FIELD_SET_SIZES_LABEL"
 				layout="joomla.form.field.radio.switcher"
+				label="COM_CONTENT_FIELD_SIZES_LABEL"
 				default="0"
 				filter="integer"
 				>
@@ -781,13 +781,12 @@
 			<field
 				name="image_intro_size_options"
 				type="subform"
-				label="COM_CONTENT_FIELD_SIZES_LABEL"
 				description="COM_CONTENT_FIELD_SIZES_DESC"
 				layout="joomla.form.field.subform.repeatable-table"
 				icon="list"
 				multiple="true"
 				showon="image_intro_sizes:1"
-				>
+			>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="width"
@@ -849,8 +848,8 @@
 			<field
 				name="image_fulltext_sizes"
 				type="radio"
-				label="COM_CONTENT_FIELD_SET_SIZES_LABEL"
 				layout="joomla.form.field.radio.switcher"
+				label="COM_CONTENT_FIELD_SIZES_LABEL"
 				default="0"
 				filter="integer"
 				>
@@ -861,13 +860,12 @@
 			<field
 				name="image_fulltext_size_options"
 				type="subform"
-				label="COM_CONTENT_FIELD_SIZES_LABEL"
 				description="COM_CONTENT_FIELD_SIZES_DESC"
 				layout="joomla.form.field.subform.repeatable-table"
 				icon="list"
 				multiple="true"
 				showon="image_fulltext_sizes:1"
-				>
+			>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="width"

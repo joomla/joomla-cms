@@ -56,7 +56,7 @@
 
 		<field
 			name="language"
-			type="contentlanguage"
+			type="NEWSFEEDSlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>
 			<option value="*">JALL</option>
@@ -116,7 +116,7 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			content_type="com_newsfeeds.newsfeed"
+			NEWSFEEDS_type="com_newsfeeds.newsfeed"
 		/>
 
 		<field
@@ -294,8 +294,8 @@
 				<field
 					name="image_first_sizes"
 					type="radio"
-					label="COM_NEWSFEEDS_FIELD_SET_SIZES_LABEL"
 					layout="joomla.form.field.radio.switcher"
+					label="COM_NEWSFEEDS_FIELD_SIZES_LABEL"
 					default="0"
 					filter="integer"
 					>
@@ -306,7 +306,6 @@
 				<field
 					name="image_first_size_options"
 					type="subform"
-					label="COM_NEWSFEEDS_FIELD_SIZES_LABEL"
 					description="COM_NEWSFEEDS_FIELD_SIZES_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"
@@ -382,8 +381,8 @@
 				<field
 					name="image_second_sizes"
 					type="radio"
-					label="COM_NEWSFEEDS_FIELD_SET_SIZES_LABEL"
 					layout="joomla.form.field.radio.switcher"
+					label="COM_NEWSFEEDS_FIELD_SIZES_LABEL"
 					default="0"
 					filter="integer"
 					>
@@ -394,7 +393,6 @@
 				<field
 					name="image_second_size_options"
 					type="subform"
-					label="COM_NEWSFEEDS_FIELD_SIZES_LABEL"
 					description="COM_NEWSFEEDS_FIELD_SIZES_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"

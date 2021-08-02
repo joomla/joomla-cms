@@ -248,145 +248,6 @@ class Image
 	}
 
 	/**
-	 * Method to generate thumbnails from the current image. It allows creation by resizing or cropping the original image.
-	 *
-	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
-	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping | 5 resize then crop
-	 *
-	 * @return  array
-	 *
-	 * @since        2.5.0
-	 * @deprecated   __DEPLOY_VERSION__  Use Image::generateMultipleSizes instead
-	 * @throws  \LogicException
-	 * @throws  \InvalidArgumentException
-	 */
-	public function generateThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE)
-	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
-		// Accept a single thumbsize string as parameter
-		if (!\is_array($thumbSizes))
-		{
-			$thumbSizes = [$thumbSizes];
-		}
-
-		// Process thumbs
-		$generated = [];
-
-		if (!empty($thumbSizes))
-		{
-			foreach ($thumbSizes as $thumbSize)
-			{
-				// Desired thumbnail size
-				$size = explode('x', strtolower($thumbSize));
-
-				if (\count($size) != 2)
-				{
-					throw new \InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
-				}
-
-				$thumbWidth  = $size[0];
-				$thumbHeight = $size[1];
-
-				switch ($creationMethod)
-				{
-					case self::CROP:
-						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
-						break;
-
-					case self::CROP_RESIZE:
-						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
-						break;
-
-					default:
-						$thumb = $this->resize($thumbWidth, $thumbHeight, true, $creationMethod);
-						break;
-				}
-
-				// Store the thumb in the results array
-				$generated[] = $thumb;
-			}
-		}
-
-		return $generated;
-	}
-
-	/**
-	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
-	 *
-	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
-	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
-	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
-	 *
-	 * @return  array
-	 *
-	 * @since        2.5.0
-	 * @deprecated   __DEPLOY_VERSION__  Use Image::createMultipleSizes instead
-	 * @throws  \LogicException
-	 * @throws  \InvalidArgumentException
-	 */
-	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
-	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
-		// No thumbFolder set -> we will create a thumbs folder in the current image folder
-		if (\is_null($thumbsFolder))
-		{
-			$thumbsFolder = \dirname($this->getPath()) . '/thumbs';
-		}
-
-		// Check destination
-		if (!is_dir($thumbsFolder) && (!is_dir(\dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
-		{
-			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $thumbsFolder);
-		}
-
-		// Process thumbs
-		$thumbsCreated = [];
-
-		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
-		{
-			// Parent image properties
-			$imgProperties = static::getImageFileProperties($this->getPath());
-
-			// Get image filename and extension.
-			$pathInfo      = pathinfo($this->getPath());
-			$filename      = $pathInfo['filename'];
-			$fileExtension = $pathInfo['extension'] ?? '';
-
-			foreach ($thumbs as $thumb)
-			{
-				// Get thumb properties
-				$thumbWidth  = $thumb->getWidth();
-				$thumbHeight = $thumb->getHeight();
-
-				// Generate thumb name
-				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
-
-				// Save thumb file to disk
-				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
-
-				if ($thumb->toFile($thumbFileName, $imgProperties->type))
-				{
-					// Return Image object with thumb path to ease further manipulation
-					$thumb->path = $thumbFileName;
-					$thumbsCreated[] = $thumb;
-				}
-			}
-		}
-
-		return $thumbsCreated;
-	}
-
-	/**
 	 * Method to generate different sized versions of current image. It allows creation by resizing or
 	 * cropping the original image.
 	 *
@@ -396,7 +257,7 @@ class Image
 	 *
 	 * @return  array    generated images
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.5.0
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
@@ -480,7 +341,7 @@ class Image
 	 *
 	 * @return  array    created images
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.5.0
 	 * @throws  \LogicException
 	 */
 	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
@@ -521,7 +382,7 @@ class Image
 	 *
 	 * @return  array    deleted images
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws  \LogicException
 	 */
 	public function deleteMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)

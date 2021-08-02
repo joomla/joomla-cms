@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.responsiveimages
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Plugin for implementing responsive images with art direction functionality
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgContentResponsiveImages extends CMSPlugin
 {
@@ -24,7 +24,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 * Custom image sizes
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $customSizes;
 
@@ -39,7 +39,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
@@ -65,7 +65,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function onContentAfterSave($context, $article, $isNew): void
 	{
@@ -93,7 +93,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 *
 	 * @return  mixed   Array of form images or false if they don't exist
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function _getFormImages($context, $data)
 	{
@@ -160,7 +160,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 *
 	 * @return  string  Content key
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function _getContentKey($context)
 	{

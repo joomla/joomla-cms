@@ -14,6 +14,8 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -168,7 +170,7 @@ class TagModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$jinput = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
@@ -180,7 +182,7 @@ class TagModel extends AdminModel
 
 		$user = Factory::getUser();
 
-		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
+		if (!$user->authorise('core.edit.state', 'com_tags' . $app->input->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -230,7 +232,7 @@ class TagModel extends AdminModel
 	{
 		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 		$table      = $this->getTable();
-		$input      = Factory::getApplication()->input;
+		$app      = Factory::getApplication();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -254,10 +256,10 @@ class TagModel extends AdminModel
 			}
 
 			// Alter the title for save as copy
-			if ($input->get('task') == 'save2copy')
+			if ($app->input->get('task') == 'save2copy')
 			{
 				$origTable = $this->getTable();
-				$origTable->load($input->getInt('id'));
+				$origTable->load($app->input->getInt('id'));
 
 				if ($data['title'] == $origTable->title)
 				{

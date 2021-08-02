@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Helper\MediaHelper;
 
 $app = Factory::getApplication();
 
@@ -61,7 +61,7 @@ $img_size_options = $this->category->getParams()->get('image_size_options');
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>
-					<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
+					<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($img_sizes, $img_size_options)), MediaHelper::generateSizes($img->url)); ?>
 				>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>

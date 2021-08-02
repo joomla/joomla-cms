@@ -296,7 +296,7 @@ class ContactModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -336,10 +336,10 @@ class ContactModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

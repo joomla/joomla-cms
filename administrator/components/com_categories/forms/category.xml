@@ -264,7 +264,7 @@
 					name="image_sizes"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
-					label="COM_CATEGORIES_FIELD_SET_SIZES_LABEL"
+					label="COM_CATEGORIES_FIELD_SIZES_LABEL"
 					default="0"
 					filter="integer"
 				>
@@ -275,7 +275,6 @@
 				<field
 					name="image_size_options"
 					type="subform"
-					label="COM_CATEGORIES_FIELD_SIZES_LABEL"
 					description="COM_CATEGORIES_FIELD_SIZES_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"

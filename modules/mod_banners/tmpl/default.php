@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 ?>
 <div class="mod-banners bannergroup">
@@ -36,7 +36,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 				$img = HTMLHelper::cleanImageURL($imageurl);
 				$imageurl_sizes = $item->params->get('imageurl_sizes');
 				$imageurl_size_options = $item->params->get('imageurl_size_options');
-				$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($imageurl_sizes, $imageurl_size_options)), MediaHelper::generateSizes($img->url));
+				$srcsetSizes = sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($imageurl_sizes, $imageurl_size_options)), MediaHelper::generateSizes($img->url));
 			?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>

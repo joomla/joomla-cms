@@ -208,7 +208,7 @@
 		</field>
 
 		<field
-			name="tags"
+			name="CONTACT"
 			type="tag"
 			label="JTAG"
 			class="advancedSelect"
@@ -227,8 +227,8 @@
 		<field
 			name="image_sizes"
 			type="radio"
-			label="COM_CONTACT_FIELD_SET_SIZES_LABEL"
 			layout="joomla.form.field.radio.switcher"
+			label="COM_CONTACT_FIELD_SIZES_LABEL"
 			default="0"
 			filter="integer"
 		>
@@ -239,7 +239,6 @@
 		<field
 			name="image_size_options"
 			type="subform"
-			label="COM_CONTACT_FIELD_SIZES_LABEL"
 			description="COM_CONTACT_FIELD_SIZES_DESC"
 			layout="joomla.form.field.subform.repeatable-table"
 			icon="list"
@@ -397,9 +396,9 @@
 				</field>
 
 				<field
-					name="show_tags"
+					name="show_CONTACT"
 					type="list"
-					label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+					label="COM_CONTACT_FIELD_SHOW_CONTACT_LABEL"
 					useglobal="true"
 					validate="options"
 					>

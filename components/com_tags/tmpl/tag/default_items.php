@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\CMS\Helper\MediaHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -96,7 +96,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 					<a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
-							<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_intro_sizes, $images->image_intro_size_options)), MediaHelper::generateSizes($img->url)); ?>
+							<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::generateSrcset($img->url, MediaHelper::getSizes($images->image_intro_sizes, $images->image_intro_size_options)), MediaHelper::generateSizes($img->url)); ?>
 					</a>
 				<?php endif; ?>
 				<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>

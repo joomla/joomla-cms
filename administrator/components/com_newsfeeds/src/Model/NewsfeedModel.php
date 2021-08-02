@@ -14,7 +14,9 @@ namespace Joomla\Component\Newsfeeds\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -108,6 +110,8 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
 		// Get the form.
 		$form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -182,7 +186,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$app = Factory::getApplication();
 
 		// Create new category, if needed.
 		$createCategory = true;
@@ -222,10 +226,10 @@ class NewsfeedModel extends AdminModel
 		}
 
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($app->input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable->load($app->input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

@@ -7,14 +7,14 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>4.1.0</version>
 	<description>PLG_CONTENT_RESPONSIVEIMAGES_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="responsiveimages">responsiveimages.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_content_responsiveimages.ini</language>
-		<language tag="en-GB">plg_content_responsiveimages.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_content_responsiveimages.ini</language>
+		<language tag="en-GB">en-GB.plg_content_responsiveimages.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -23,8 +23,8 @@
 				<field
 					name="custom_sizes"
 					type="radio"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_SET_SIZES_LABEL"
 					layout="joomla.form.field.radio.switcher"
+					label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_LABEL"
 					default="0"
 					filter="integer"
 					>
@@ -35,8 +35,7 @@
 				<field
 					name="custom_size_options"
 					type="subform"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_LABEL"
-					description="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_DESC"
+					description="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"
 					multiple="true"
@@ -46,7 +45,7 @@
 						<field
 							name="width"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_WIDTH_LABEL"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_WIDTH_LABEL"
 							filter="integer"
 							validate="number"
 							required="true"
@@ -55,7 +54,7 @@
 						<field
 							name="height"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_HEIGHT_LABEL"
+							label="PLG_CONTENT_RESPONSIVEIMAGES_CUSTOM_SIZES_OPTIONS_HEIGHT_LABEL"
 							filter="integer"
 							validate="number"
 							required="true"
