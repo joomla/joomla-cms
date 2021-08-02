@@ -151,7 +151,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge">
+								<span class="badge bg-secondary">
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
