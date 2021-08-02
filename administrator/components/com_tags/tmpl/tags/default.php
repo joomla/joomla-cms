@@ -242,7 +242,7 @@ if ($saveOrder && !empty($this->items))
 							</td>
 						<?php endif; ?>
 						<td class="small d-none d-md-table-cell text-center">
-							<span class="badge bg-info">
+							<span class="badge btn-secondary">
 								<?php echo $item->countTaggedItems; ?>
 							</span>
 						</td>
