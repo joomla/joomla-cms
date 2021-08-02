@@ -13,8 +13,8 @@
 		<filename plugin="logrotation">logrotation.php</filename>
 	</files>
 	<languages folder="language">
-		<language tag="en-GB">en-GB.plg_system_logrotation.ini</language>
-		<language tag="en-GB">en-GB.plg_system_logrotation.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_logrotation.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_logrotation.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
