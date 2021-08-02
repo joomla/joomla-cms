@@ -20,9 +20,14 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
+use Joomla\Utilities\ArrayHelper;
 use function defined;
+use function in_array;
 
 /**
  * MVC Model to deal with operations concerning multiple 'Cronjob' entries.
@@ -169,9 +174,82 @@ class CronjobsModel extends ListModel
 			// ? Does 'list.select' exist ?
 		);
 
+		// From the #__cronjobs table as 'a'
 		$query->from($db->quoteName('#__cronjobs', 'a'));
 
-		// TODO : Implement filters and sorting here
+		// Filter over job type (this should go to _getList()) [! this is not in the filter form yet]
+
+		// Filter over state ----
+		$state = $this->getState('filter.state');
+
+		if (is_numeric($state))
+		{
+			$state = (int) $state;
+			$query->where($db->quoteName('a.state') . '= :state')
+				->bind(':state', $state);
+		}
+
+		// ! [Are we showing the orphaned pseudo-state by default or no? (handled in _getList())]
+
+		// Filter over exit code
+		$exitCode = $this->getState('filter.last_exit_code');
+
+		if (is_numeric($exitCode))
+		{
+			$exitCode = (int) $exitCode;
+			$query->where($db->quoteName('a.last_exit_code') . '= :last_exit_code')
+				->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
+		}
+
+		// TODO: Filter over access levels [? should access level be retained] ----
+
+		// Filter over search string if set (title, type title, note, id) ----
+		$searchStr = $this->getState('filter.search');
+
+		if (!empty($searchStr))
+		{
+			// Allow search by ID
+			if (\stripos($searchStr, 'id:') === 0)
+			{
+				// Add array support [?]
+				$id = (int) \substr($searchStr, 3);
+				$query->where($db->quoteName('a.id') . '= :id')
+					->bind(':id', $id, ParameterType::INTEGER);
+			}
+			// Search by type is handled exceptionally in _getList() [TODO]
+			elseif (\stripos($searchStr, 'type:') !== 0)
+			{
+				// The where clause is extended to allow other filters to act
+				$query->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.title') . ' LIKE :searchStr',
+						$db->quoteName('a.note') . 'LIKE : searchStr'
+					],
+					'OR'
+				)
+					->bind(':searchStr', $searchStr, ParameterType::STRING);
+			}
+		}
+
+		// Add list ordering clause. ----
+		$orderCol = $this->state->get('list.ordering', 'a.title');
+		$orderDir = $this->state->get('list.direction', 'desc');
+
+		// Type title ordering is handled exceptionally in _getList()
+		if ($orderCol !== 'j.type_title')
+		{
+			// If ordering by type or state, also order by title.
+			if (in_array($orderCol, ['a.type', 'a.state']))
+			{
+				// TODO : Test if things are working as expected
+				$query->order($db->quoteName('a.title') . ' ' . $orderDir);
+
+				// $orderCol = $db->quoteName('a.title') . ' ' . $orderDir . ', ' . $db->quoteName('a.ordering');
+			}
+
+			$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+		}
 
 		return $query;
 	}
@@ -211,6 +289,8 @@ class CronjobsModel extends ListModel
 		{
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
 		}
+
+		// TODO: Implement filtering by type title here
 
 		return $responseList;
 	}
