@@ -134,5 +134,4 @@ WorkflowServiceInterface
 	{
 		return ModuleHelper::filterTransitions($transitions, $pk);
 	}
-
 }

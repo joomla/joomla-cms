@@ -979,6 +979,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 			{
 				// Import the workflow plugin group to allow form manipulation.
 				$this->importWorkflowPlugins();
+				$this->prepareWorkflowField($form, $data);
 			}
 		}
 
@@ -1315,5 +1316,44 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		return $defaultStage;
+	}
+
+	/**
+	 * Adds defaylt stage to workflow field in the form.
+	 *
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function prepareWorkflowField(Form $form, $data)
+	{
+		$db = Factory::getDbo();
+
+		$data = (array) $data;
+
+		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('title'))
+			->from($db->quoteName('#__workflows'))
+			->where(
+				[
+					$db->quoteName('default') . ' = 1',
+					$db->quoteName('published') . ' = 1',
+					$db->quoteName('extension') . ' = "com_modules.module"',
+				]
+			);
+
+		$defaulttitle = $db->setQuery($query)->loadResult();
+
+		$field = $form->getField('workflow_id');
+
+		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOWS', Text::_($defaulttitle)), ['value' => 'use_default']);
+
+		$field->addOption('- ' . Text::_('COM_MODULES_WORKFLOW') . ' -', ['disabled' => 'true']);
 	}
 }
