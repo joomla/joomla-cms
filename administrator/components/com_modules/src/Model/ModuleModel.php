@@ -1338,7 +1338,10 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('title'))
+		$query->select([
+			$db->quoteName('title'),
+			$db->quoteName('id')
+		])
 			->from($db->quoteName('#__workflows'))
 			->where(
 				[
@@ -1348,11 +1351,10 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				]
 			);
 
-		$defaulttitle = $db->setQuery($query)->loadResult();
-
+		$defaultWorkflow = $db->setQuery($query)->loadObject();
 		$field = $form->getField('workflow_id');
 
-		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOWS', Text::_($defaulttitle)), ['value' => 'use_default']);
+		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaultWorkflow->title)), ['value' => $defaultWorkflow->id]);
 
 		$field->addOption('- ' . Text::_('COM_MODULES_WORKFLOW') . ' -', ['disabled' => 'true']);
 	}
