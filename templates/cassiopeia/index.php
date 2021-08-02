@@ -218,7 +218,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			<jdoc:include type="modules" name="bottom-b" style="card" />
 		</div>
 		<?php endif; ?>
-	</div>	
+	</div>
 
 	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
