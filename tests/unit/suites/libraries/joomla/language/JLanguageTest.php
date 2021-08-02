@@ -285,6 +285,12 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			$this->object->getPluralSuffixes(1),
 			'Line: ' . __LINE__
 		);
+
+		$this->assertEquals(
+			array('OTHER', 'MORE'),
+			$this->object->getPluralSuffixes(2),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
