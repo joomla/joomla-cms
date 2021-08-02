@@ -1356,6 +1356,6 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaultWorkflow->title)), ['value' => $defaultWorkflow->id]);
 
-		$field->addOption('- ' . Text::_('COM_MODULES_WORKFLOW') . ' -', ['disabled' => 'true']);
+		$field->addOption('- ' . Text::_('COM_MODULES_WORKFLOWS') . ' -', ['disabled' => 'true']);
 	}
 }
