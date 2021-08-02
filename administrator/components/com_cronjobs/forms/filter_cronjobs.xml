@@ -46,7 +46,7 @@
 
 	<!--THE SORT_BY LIST -->
 	<fields name="list">
-		<!-- TODO: Options for relevant cronjob properties -->
+		<!-- TODO: Add options for execution date(s) -->
 		<field
 				name="fullordering"
 				type="list"
@@ -62,9 +62,10 @@
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<!-- These might have to go -->
-			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
-			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="a.last_exit_code ASC">COM_CRONJOBS_EXIT_CODE_ASC</option>
+			<option value="a.last_exit_code DESC">COM_CRONJOBS_EXIT_CODE_DESC</option>
+			<option value="j.type_title ASC">COM_CRONJOBS_JOB_TYPE_ASC</option>
+			<option value="j.type_title DESC">COM_CRONJOBS_JOB_TYPE_DESC</option>
 		</field>
 		<field
 				name="limit"
