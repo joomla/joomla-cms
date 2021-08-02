@@ -388,15 +388,22 @@ class Language
 	 */
 	public function transliterate($string)
 	{
+		// First check for transliterator provided by translation
+		if ($this->transliterator !== null)
+		{
+			$string = \call_user_func($this->transliterator, $string);
+
+			// Check if all symbols was transliterated, otherwise continue
+			if (mb_check_encoding($string, 'ASCII'))
+			{
+				return $string;
+			}
+		}
+
 		// Override custom and core transliterate method with native php function if enabled
 		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
-			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
-		}
-
-		if ($this->transliterator !== null)
-		{
-			return \call_user_func($this->transliterator, $string);
+			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('de-ASCII; Any-Latin; Latin-ASCII; Lower()', $string));
 		}
 
 		$string = Transliterate::utf8_latin_to_ascii($string);
