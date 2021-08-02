@@ -137,7 +137,7 @@ if (!empty($editor))
 							</div>
 							<?php if ($item->type === 'component' && !$item->enabled) : ?>
 								<div>
-									<span class="badge">
+									<span class="badge bg-secondary">
 										<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 									</span>
 								</div>
@@ -154,7 +154,7 @@ if (!empty($editor))
 									<?php if ($item->language_image) : ?>
 										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="badge" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
+										<span class="badge bg-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>
