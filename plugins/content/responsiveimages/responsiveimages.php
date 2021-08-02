@@ -126,7 +126,9 @@ class PlgContentResponsiveImages extends CMSPlugin
 					],
 					'image_fulltext' => (object) [
 						'name'   => $data['images']['image_fulltext'],
-						'sizes'  => MediaHelper::getFormSizes($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options']),
+						'sizes'  => MediaHelper::getFormSizes(
+							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options']
+						),
 						'method' => MediaHelper::getFormMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
 					],
 				);

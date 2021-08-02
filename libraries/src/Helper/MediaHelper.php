@@ -37,7 +37,7 @@ class MediaHelper
 	/**
 	 * Responsive image creation method
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $creationMethod = 2;
