@@ -19,99 +19,6 @@
 	</menuitem>
 
 	<menuitem
-		title="MOD_MENU_MAINTAIN"
-		type="heading"
-		icon="tools"
-		>
-		<menuitem
-			title="MOD_MENU_CLEAR_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache"
-			permission="core.manage;com_cache"
-		/>
-
-		<menuitem
-			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=database"
-			permission="core.manage;com_installer"
-			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
-		/>
-
-		<menuitem
-			title="MOD_MENU_GLOBAL_CHECKIN"
-			type="component"
-			element="com_checkin"
-			link="index.php?option=com_checkin"
-			permission="core.manage;com_checkin"
-			ajax-badge="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json"
-		/>
-	</menuitem>
-
-	<menuitem
-		title="MOD_MENU_INFORMATION"
-		type="heading"
-		icon="info-circle"
-		>
-		<menuitem
-			title="MOD_MENU_INFORMATION_WARNINGS"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=warnings"
-			permission="core.manage;com_installer"
-			ajax-badge="index.php?option=com_installer&amp;task=getMenuBadgeData&amp;format=json"
-		/>
-
-		<menuitem
-			title="MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES"
-			type="component"
-			element="com_postinstall"
-			link="index.php?option=com_postinstall"
-			permission="core.manage;com_postinstall"
-			ajax-badge="index.php?option=com_postinstall&amp;task=getMenuBadgeData&amp;format=json"
-		/>
-
-		<menuitem
-			title="MOD_MENU_SYSTEM_INFORMATION_SYSINFO"
-			type="component"
-			element="com_admin"
-			link="index.php?option=com_admin&amp;view=sysinfo"
-			permission="core.admin"
-		/>
-	</menuitem>
-
-	<menuitem
-		title="MOD_MENU_INSTALL"
-		type="heading"
-		icon="upload"
-		permission="core.manage;com_installer"
-		>
-		<menuitem
-			title="MOD_MENU_INSTALL_EXTENSIONS"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=install"
-		/>
-
-		<menuitem
-			title="MOD_MENU_INSTALL_DISCOVER"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=discover"
-			ajax-badge="index.php?option=com_installer&amp;task=discover.getMenuBadgeData&amp;format=json"
-		/>
-
-		<menuitem
-			title="MOD_MENU_INSTALL_LANGUAGES"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=languages"
-		/>
-	</menuitem>
-
-	<menuitem
 		title="MOD_MENU_MANAGE"
 		type="heading"
 		icon="tasks"
@@ -182,6 +89,38 @@
 	</menuitem>
 
 	<menuitem
+		title="MOD_MENU_INFORMATION"
+		type="heading"
+		icon="info-circle"
+		>
+		<menuitem
+			title="MOD_MENU_INFORMATION_WARNINGS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=warnings"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES"
+			type="component"
+			element="com_postinstall"
+			link="index.php?option=com_postinstall"
+			permission="core.manage;com_postinstall"
+			ajax-badge="index.php?option=com_postinstall&amp;task=getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_SYSINFO"
+			type="component"
+			element="com_admin"
+			link="index.php?option=com_admin&amp;view=sysinfo"
+			permission="core.admin"
+		/>
+	</menuitem>
+
+	<menuitem
 		title="MOD_MENU_UPDATE"
 		type="heading"
 		icon="sync"
@@ -210,6 +149,35 @@
 			element="com_installer"
 			link="index.php?option=com_installer&amp;view=updatesites"
 			permission="core.manage;com_installer"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_INSTALL"
+		type="heading"
+		icon="upload"
+		permission="core.manage;com_installer"
+		>
+		<menuitem
+			title="MOD_MENU_INSTALL_EXTENSIONS"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=install"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INSTALL_DISCOVER"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=discover"
+			ajax-badge="index.php?option=com_installer&amp;task=discover.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_INSTALL_LANGUAGES"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=languages"
 		/>
 	</menuitem>
 
@@ -252,6 +220,38 @@
 				type="component"
 				element="com_mails"
 				link="index.php?option=com_mails&amp;view=templates"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_MAINTAIN"
+		type="heading"
+		icon="tools"
+		>
+		<menuitem
+			title="MOD_MENU_CLEAR_CACHE"
+			type="component"
+			element="com_cache"
+			link="index.php?option=com_cache"
+			permission="core.manage;com_cache"
+		/>
+
+		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=database"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
+			title="MOD_MENU_GLOBAL_CHECKIN"
+			type="component"
+			element="com_checkin"
+			link="index.php?option=com_checkin"
+			permission="core.manage;com_checkin"
+			ajax-badge="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json"
 		/>
 	</menuitem>
 
