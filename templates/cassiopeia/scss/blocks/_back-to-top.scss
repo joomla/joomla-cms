@@ -16,6 +16,11 @@
   opacity: 0;
   transition: opacity 200ms ease-in;
 
+  [dir=rtl] & {
+    right: unset;
+    left: 1rem;
+  }
+
   &.visible {
     opacity: 1;
   }
