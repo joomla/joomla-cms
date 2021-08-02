@@ -14,9 +14,6 @@ class JoomlaShortcutModal {
 			keySelectBtns[x].addEventListener("click",this.handleKeySelectClickEvent,false);
 		}
 	}
-	handleKeyDownEvent(e) {
-		e.preventDefault();
-	}
 	initialiseKeySelectModal() {
 		const modalDiv = document.createElement("div");
 		this.setModalAttributes(modalDiv, {"class": "modal fade", "id": "keySelectModal", "tabindex": "-1", "role": "dialog", "aria-labelledby": "keySelectModalLabel", "aria-hidden": "true"});
