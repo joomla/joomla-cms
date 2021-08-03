@@ -200,8 +200,8 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// TODO: Check states
-		if ($this->state->get('filter.enabled') == 0 && $canDo->get('core.delete'))
+		// Add "Empty Trash" button if filtering by trashed.
+		if ($this->state->get('filter.state') == -1 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('cronjobs.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
