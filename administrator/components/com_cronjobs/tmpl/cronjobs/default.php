@@ -34,7 +34,7 @@ $user = $app->getIdentity();
 $userId = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$saveOrder = $listOrder == 'a.ordering';
 $section = null;
 $mode = false;
 
@@ -42,7 +42,7 @@ $mode = false;
 if ($saveOrder && !empty($this->items))
 {
 	// TODO : Check if this works
-	$saveOrderingUrl = 'index.php?option=com_cronjobs&task=cronjobs.saveOrderAjax&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_cronjobs&task=cronjobs.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
@@ -89,7 +89,7 @@ if ($saveOrder && !empty($this->items))
 					<!-- Ordering?-->
 					<th scope="col" class="w-1 d-none d-md-table-cell text-center">
 						<!-- Might need to adjust method args here -->
-						<?php echo HTMLHelper::_('searchtools.sort', '', 'a.id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 					</th>
 					<!-- Job State -->
 					<th scope="col" class="w-1 text-center">
@@ -118,7 +118,6 @@ if ($saveOrder && !empty($this->items))
 					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php endif; ?>>
 				<?php foreach ($this->items as $i => $item):
 					// TODO : Check if $user->authorise() calls work as they should
-					$orderKey = $item->id;
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
 					$canEdit = $user->authorise('core.edit', 'com_cronjobs');
 					$canChange = $user->authorise('core.edit.state', 'com_cronjobs');
@@ -149,11 +148,12 @@ if ($saveOrder && !empty($this->items))
 
 							<span class="sortable-handler <?php echo $iconClass ?>">
 									<span class="icon-ellipsis-v"></span>
-								</span>
+							</span>
 
 							<?php if ($canChange && $saveOrder): ?>
-								<input type="text" class="hidden" name="order[]" size="5"
-									   value="<?php echo $orderKey + 1; ?>">
+								<input type="text" class="hidden text-area-order" name="order[]" size="5"
+									   value="<?php echo $item->ordering; ?>"
+								>
 							<?php endif; ?>
 						</td>
 
