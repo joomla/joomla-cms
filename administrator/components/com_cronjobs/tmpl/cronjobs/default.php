@@ -125,8 +125,7 @@ if ($saveOrder && !empty($this->items))
 
 					<!-- Row begins -->
 					<tr class="row<?php echo $i % 2; ?>"
-						data-item-id="<?php echo $item->id; ?>"
-						data-draggable-group="<?php echo $item->id; ?>"
+						data-draggable-group="none"
 					>
 						<!-- Item Checkbox -->
 						<td class="text-center">
