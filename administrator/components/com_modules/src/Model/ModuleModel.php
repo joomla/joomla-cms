@@ -1338,10 +1338,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 
 		$query = $db->getQuery(true);
 
-		$query->select([
-			$db->quoteName('title'),
-			$db->quoteName('id')
-		])
+		$query->select([$db->quoteName('title'), $db->quoteName('id')])
 			->from($db->quoteName('#__workflows'))
 			->where(
 				[
