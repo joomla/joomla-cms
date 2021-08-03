@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		 * Add page title
 		 * TODO: 'cronjobs' icon
 		 */
-		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'tags');
+		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'clock');
 
 		$toolbar->linkButton('cancel')
 			->buttonClass('btn btn-danger')

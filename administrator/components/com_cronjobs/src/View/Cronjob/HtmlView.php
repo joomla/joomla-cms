@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = $this->canDo;
 
 		// TODO : icon?
-		ToolbarHelper::title($isNew ? Text::_('COM_CRONJOBS_MANAGER_CRONJOB_NEW') : Text::_('COM_CRONJOBS_MANAGER_CRONJOB_EDIT'), 'tags');
+		ToolbarHelper::title($isNew ? Text::_('COM_CRONJOBS_MANAGER_CRONJOB_NEW') : Text::_('COM_CRONJOBS_MANAGER_CRONJOB_EDIT'), 'clock');
 
 		// Goes into ToolbarHelper::saveGroup()
 		$toolbarButtons = [];
