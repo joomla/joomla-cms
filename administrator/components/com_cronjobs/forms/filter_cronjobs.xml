@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field">
 	<fields name="filter">
 
 		<!-- Search Box -->
@@ -11,27 +11,18 @@
 				description="COM_TAGS_FILTER_SEARCH"
 				hint="JSEARCH_FILTER"
 		/>
-		<!-- Might want to change either this or db -->
+
+		<!-- Job state filter -->
 		<field
 				name="state"
-				type="status"
+				type="CronjobState"
 				label="JSTATUS"
 				onchange="this.form.submit();"
 		>
-			<!-- TODO: ADD ENABLED, DISABLED OPTIONS -->
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
-		<!-- Filter by access level -->
-		<field
-				name="access"
-				type="accesslevel"
-				label="JGRID_HEADING_ACCESS"
-				onchange="this.form.submit();"
-		>
-			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
-		<!-- Filter by cronjob type-->
+		<!-- TODO: This needs to either go, or be a dynamic list of all types -->
 		<field
 				name="type"
 				type="list"
@@ -44,7 +35,7 @@
 		</field>
 	</fields>
 
-	<!--THE SORT_BY LIST -->
+	<!-- List ordering -->
 	<fields name="list">
 		<!-- TODO: Add options for execution date(s) -->
 		<field
@@ -67,6 +58,8 @@
 			<option value="j.type_title ASC">COM_CRONJOBS_JOB_TYPE_ASC</option>
 			<option value="j.type_title DESC">COM_CRONJOBS_JOB_TYPE_DESC</option>
 		</field>
+
+		<!-- Limit for pagination -->
 		<field
 				name="limit"
 				type="limitbox"
