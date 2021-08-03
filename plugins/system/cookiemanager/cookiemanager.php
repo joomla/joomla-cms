@@ -111,6 +111,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$sitemenu = $this->app->getMenu();
 		$menuitem = $sitemenu->getItem($params->get('policylink'));
 
+		$config = [];
+		$config['expiration'] = $params->get('consent_expiration');
+		$config['position'] = $params->get('modal_position');
+		$this->app->getDocument()->addScriptOptions('config', $config);
+
 		$db    = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id','title','alias','description']))
@@ -250,7 +255,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		}
 
 				$this->app->getDocument()->addScriptOptions('code', $this->script);
-				$this->app->getDocument()->addScriptOptions('exp', $params->get('consentexp'));
+
 	}
 
 	/**
