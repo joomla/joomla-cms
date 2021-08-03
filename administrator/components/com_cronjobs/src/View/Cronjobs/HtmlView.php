@@ -183,7 +183,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->addNew('cronjobs.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
 
 				// We don't want the batch Trash button if displayed entries are all trashed
-				if ($this->state->get('filter.state') != -1)
+				if ($this->state->get('filter.state') != -2)
 				{
 					$childBar->trash('cronjobs.trash')->listCheck(true);
 				}
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add "Empty Trash" button if filtering by trashed.
-		if ($this->state->get('filter.state') == -1 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('cronjobs.delete')
 				->message('JGLOBAL_CONFIRM_DELETE')

@@ -36,7 +36,7 @@ class CronjobStateField extends PredefinedlistField
 	 * @since  3.2
 	 */
 	protected $predefinedOptions = [
-		-1 => 'JTRASHED',
+		-2 => 'JTRASHED',
 		0 => 'JDISABLED',
 		1 => 'JENABLED',
 		'*' => 'JALL'

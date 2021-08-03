@@ -33,7 +33,7 @@
 			<!-- State field -->
 			<field name="state" type="CronjobState" label="JSTATUS"
 				   default="1" class="form-select-color-state"
-				   size="1" validate="options" optionsFilter="-1,0,1"
+				   size="1" validate="options" optionsFilter="-2,0,1"
 			/>
 			<!-- Note -->
 			<field name="note" type="text" label="COM_CRONJOBS_LABEL_NOTES"
