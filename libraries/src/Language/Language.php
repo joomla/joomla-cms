@@ -400,7 +400,7 @@ class Language
 			}
 		}
 
-		// Run out transliterator for common symbols,
+		// Run our transliterator for common symbols,
 		// This need to be executed before native php transliterator, because it may not have all required transliterators
 		$string = Transliterate::utf8_latin_to_ascii($string);
 
