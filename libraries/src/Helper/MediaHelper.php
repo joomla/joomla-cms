@@ -464,4 +464,25 @@ class MediaHelper
 
 		return false;
 	}
+
+	/**
+	 * Helper method get clean data for value stores in a Media form field by removing adapter information
+	 * from the value if available (in this case, the value will have this format:
+	 * images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180)
+	 *
+	 * @param   string  $value
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getCleanMediaFieldValue($value)
+	{
+		if ($pos = strpos($value, '#'))
+		{
+			return substr($value, 0, $pos);
+		}
+
+		return $value;
+	}
 }

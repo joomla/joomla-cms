@@ -319,7 +319,7 @@
 		</fields>
 	</config>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_httpheaders.ini</language>
-		<language tag="en-GB">en-GB.plg_system_httpheaders.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_httpheaders.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_httpheaders.sys.ini</language>
 	</languages>
 </extension>

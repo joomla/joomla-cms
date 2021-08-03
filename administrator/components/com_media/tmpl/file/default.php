@@ -21,8 +21,9 @@ use Joomla\CMS\Uri\Uri;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')
-	->useScript('com_media.edit-images')
 	->useStyle('com_media.mediamanager');
+
+$script = $wa->getAsset('script', 'com_media.edit-images')->getUri(true);
 
 $params = ComponentHelper::getParams('com_media');
 $input  = Factory::getApplication()->input;
@@ -31,6 +32,8 @@ $input  = Factory::getApplication()->input;
 $form = $this->form;
 
 $tmpl = $input->getCmd('tmpl');
+
+$input->set('hidemainmenu', true);
 
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component') {
@@ -62,10 +65,11 @@ $this->useCoreUI = true;
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'attrib-' . reset($fieldSets)->name, 'breakpoint' => 768]); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 	<input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
 </form>
+<script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>

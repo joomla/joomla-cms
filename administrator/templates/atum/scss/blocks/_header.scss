@@ -42,6 +42,8 @@
           display: inline-block;
           width: 20px;
           height: 20px;
+          object-fit: contain;
+          object-position: center center;
         }
       }
     }
@@ -51,6 +53,12 @@
       width: 150px;
       height: 30px;
       margin: 0 .35rem;
+      object-fit: contain;
+      object-position: left center;
+
+      [dir=rtl] & {
+        object-position: right center;
+      }
 
       &.logo-collapsed {
         display: none;

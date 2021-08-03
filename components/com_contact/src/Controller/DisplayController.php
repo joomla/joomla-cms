@@ -68,7 +68,7 @@ class DisplayController extends BaseController
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if (Factory::getUser()->get('id'))
+		if ($this->app->getIdentity()->get('id'))
 		{
 			$cachable = false;
 		}
