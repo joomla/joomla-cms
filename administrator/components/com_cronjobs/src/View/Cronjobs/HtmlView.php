@@ -21,6 +21,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
@@ -165,38 +166,27 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
+			/** @var DropdownButton $dropdown */
 			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
+				->text('JTOOLBAR_CHANGE_STATUS')
 				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
+			// Add the batch Enable, Disable and Trash buttons if privileged
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->publish('cronjob.enable')->listCheck(true);
-				$childBar->unpublish('cronjob.disable')->listCheck(true);
-				$childBar->archive('cronjob.delete')->listCheck(true);
-			}
+				$childBar->addNew('cronjobs.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
+				$childBar->addNew('cronjobs.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
 
-			/*
-			* TODO: Remove this
-			* This is probably unneeded
-			*/
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('cronjobs.trash')->listCheck(true);
-			}
-
-			// Add a batch button
-			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
-			{
-				$childBar->popupButton('batch')
-					->text('JTOOLBAR_BATCH')
-					->selector('collapseModal')
-					->listCheck(true);
+				// We don't want the batch Trash button if displayed entries are all trashed
+				if ($this->state->get('filter.state') != -1)
+				{
+					$childBar->trash('cronjobs.trash')->listCheck(true);
+				}
 			}
 		}
 
@@ -204,11 +194,12 @@ class HtmlView extends BaseHtmlView
 		if ($this->state->get('filter.state') == -1 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('cronjobs.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
+				->text('JTOOLBAR_EMPTY_TRASH')
 				->listCheck(true);
 		}
 
+		// Link to component preferences if user has admin privileges
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			$toolbar->preferences('com_cronjobs');
