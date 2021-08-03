@@ -3,9 +3,9 @@ class JoomlaRestoreDefaults {
 		if (!Joomla) {
 			throw new Error('Joomla API is not properly initialised');
 		}
-		let restoreDefaultsBtns = document.getElementsByClassName("restoreDefaultsBtn");
+		let restoreDefaultsBtns = document.querySelectorAll('.restoreDefaultsBtn');
 		for(let x = 0; x < restoreDefaultsBtns.length; x+=1) {
-			restoreDefaultsBtns[x].addEventListener("click",this.handleRestoreDefaultsClickEvent,false);
+			restoreDefaultsBtns[x].addEventListener('click',this.handleRestoreDefaultsClickEvent,false);
 		}
 	}
 	handleRestoreDefaultsClickEvent(e){
@@ -29,9 +29,9 @@ class JoomlaRestoreDefaults {
 			pagebreak: {keyEvent: 'p',hasShift: 0,hasAlt: 1,hasControl: 1},
 			readmore: {keyEvent: 'r',hasShift: 0,hasAlt: 1,hasControl: 1}
 		};
-		if(this.getAttribute("data-class") == "buttons"){
+		if(this.getAttribute('data-class') == 'buttons'){
 			this.options = buttonDefaultOptions;
-		}else if(this.getAttribute("data-class") == "editor"){
+		}else if(this.getAttribute('data-class') == 'editor'){
 			this.options = buttonEditorOptions;
 		}
 		for (const [key, action] of Object.entries(this.options)){
@@ -39,13 +39,13 @@ class JoomlaRestoreDefaults {
 			keyValue = keyValue.toUpperCase();
 			const restoreCombination = new Array();
 			if(this.options[action].hasControl){
-				restoreCombination.push("CTRL");
+				restoreCombination.push('CTRL');
 			}
 			if(this.options[action].hasShift){
-				restoreCombination.push("SHIFT");
+				restoreCombination.push('SHIFT');
 			}
 			if(this.options[action].hasAlt){
-				restoreCombination.push("ALT");
+				restoreCombination.push('ALT');
 			}
 			restoreCombination.push(keyValue);
 			const restoreDefault = restoreCombination.join(' + ');
