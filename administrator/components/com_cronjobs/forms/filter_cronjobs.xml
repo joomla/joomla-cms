@@ -33,6 +33,18 @@
 			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
 			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
 		</field>
+
+		<!-- Switch to show/hide jobs with the "orphan" pseudo-state-->
+		<field
+				name="show_orphaned"
+				type="list"
+				label="COM_CRONJOBS_FIELD_LABEL_SHOW_ORPHANED"
+				default="0"
+				onchange="this.form.submit()"
+		>
+			<option value="0">COM_CRONJOBS_OPTION_HIDE_ORPHANED</option>
+			<option value="1">COM_CRONJOBS_OPTION_SHOW_ORPHANED</option>
+		</field>
 	</fields>
 
 	<!-- List ordering -->

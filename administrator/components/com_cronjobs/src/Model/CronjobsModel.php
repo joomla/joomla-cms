@@ -292,6 +292,21 @@ class CronjobsModel extends ListModel
 
 		// TODO: Implement filtering by type title here
 
+		// Filter out orphaned jobs if the state allows
+		// ! This breaks pagination at the moment [TODO: fix]
+		$showOrphaned = $this->getState('filter.show_orphaned');
+
+		if (!$showOrphaned)
+		{
+			$responseList = array_filter(
+				$responseList,
+				function (object $c)
+				{
+					return isset($c->cronOption);
+				}
+			);
+		}
+
 		return $responseList;
 	}
 
