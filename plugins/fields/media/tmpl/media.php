@@ -26,7 +26,6 @@ $value  = $field->value;
 
 if ($value)
 {
-
 	$img       = HTMLHelper::cleanImageURL($value['imagefile']);
 	$imgUrl    = htmlentities($img->url, ENT_COMPAT, 'UTF-8', true);
 	$alt       = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : ' alt="' . htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') . '"';
