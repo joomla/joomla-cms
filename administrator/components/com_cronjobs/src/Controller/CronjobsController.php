@@ -12,9 +12,12 @@
  namespace Joomla\Component\Cronjobs\Administrator\Controller;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Cronjobs\Administrator\Model\CronjobModel;
+use function defined;
 
 /**
  * The CronjobsModel controller.
@@ -23,5 +26,19 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class CronjobsController extends AdminController
 {
-	// ! TODO
+	/**
+	 * Proxy for the parent method, set
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   array   $config  Array of configuration parameters.
+	 *
+	 * @return  BaseDatabaseModel
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModel($name = 'Cronjob', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
 }

@@ -42,6 +42,15 @@ class CronjobTable extends Table
 	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
 
 	/**
+	 * Aliases for special columns, allowing to work with built-in Joomla! methods
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $_columnAlias = [
+		'published' => 'state'
+	];
+
+	/**
 	 * Injected into the 'created' column
 	 *
 	 * @var string
