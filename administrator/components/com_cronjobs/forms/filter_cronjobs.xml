@@ -8,7 +8,7 @@
 				type="text"
 				inputmode="search"
 				label="COM_CRONJOBS_FILTER_SEARCH_LABEL"
-				description="COM_TAGS_FILTER_SEARCH"
+				description="COM_CRONJOBS_FILTER_SEARCH_DESC"
 				hint="JSEARCH_FILTER"
 		/>
 
@@ -42,8 +42,8 @@
 				default="0"
 				onchange="this.form.submit()"
 		>
-			<option value="0">COM_CRONJOBS_OPTION_HIDE_ORPHANED</option>
-			<option value="1">COM_CRONJOBS_OPTION_SHOW_ORPHANED</option>
+			<option value="0">COM_CRONJOBS_OPTION_ORPHANED_HIDE</option>
+			<option value="1">COM_CRONJOBS_OPTION_ORPHANED_SHOW</option>
 		</field>
 	</fields>
 
