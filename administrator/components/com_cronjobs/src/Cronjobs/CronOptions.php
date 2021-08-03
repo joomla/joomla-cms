@@ -57,15 +57,15 @@ class CronOptions
 	/**
 	 * @param   ?string  $jobType  A unique identifier for the job routine offered by a plugin
 	 *
-	 * @return  CronOption|false  A matching CronOption if available, false otherwise
+	 * @return  ?CronOption  A matching CronOption if available, null otherwise
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function findOption(?string $jobType)
+	public function findOption(?string $jobType): ?CronOption
 	{
 		if ($jobType === null)
 		{
-			return false;
+			return null;
 		}
 
 		foreach ($this->options as $job)
@@ -76,6 +76,6 @@ class CronOptions
 			}
 		}
 
-		return false;
+		return null;
 	}
 }
