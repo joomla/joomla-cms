@@ -133,11 +133,11 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('script.publish')->listCheck(true);
+			$childBar->publish('scripts.publish')->listCheck(true);
 
-			$childBar->unpublish('script.unpublish')->listCheck(true);
+			$childBar->unpublish('scripts.unpublish')->listCheck(true);
 
-			$childBar->archive('script.archive')->listCheck(true);
+			$childBar->archive('scripts.archive')->listCheck(true);
 
 			if ($this->state->get('filter.published') != -2)
 			{
