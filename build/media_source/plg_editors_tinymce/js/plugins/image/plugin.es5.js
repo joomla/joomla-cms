@@ -154,8 +154,14 @@
           if (callback) callback();
         });
       },
-      createSizeGroup: function (id, width, height) {
+      createSizeGroup: function (id, title, width, height) {
         return {
+          title: {
+            id: "jimage_sizes_title_" + id,
+            type: "text",
+            label: "Title",
+            value: title ?? '',
+          },
           width: {
             id: "jimage_sizes_width_" + id,
             type: "number",
@@ -237,22 +243,26 @@
       updateImageAttrs: function () {
         var image = editor.selection.getNode();
 
-        // Edit or delete image data-jimage-size attribute
+        // Edit or delete image size and title attributes
         if (responsiveSizes.setCustom.value) {
-          var sizes = [];
+          var sizes  = [];
+          var titles = [];
 
           responsiveSizes.sizes.forEach(function (size) {
-            var width = parseInt(size.width.value);
+            var width  = parseInt(size.width.value);
             var height = parseInt(size.height.value);
+            var title  = size.title.value.replaceAll(',', '');
 
             if (width > 0 && height > 0) {
               sizes.push(width + "x" + height);
+              titles.push(title);
             }
           });
 
-          // Set sizes string method as data attribute
+          // Set sizes and titles as data attributes
           if (sizes.length > 0) {
-            image.setAttribute('data-jimage-size', sizes.join(","))
+            image.setAttribute('data-jimage-size', sizes.join(","));
+            image.setAttribute('data-jimage-title', titles.join(","));
           }
 
           // Set creation method as data attribute
@@ -263,6 +273,7 @@
           }
         } else {
           image.removeAttribute("data-jimage-size");
+          image.removeAttribute("data-jimage-title");
           image.removeAttribute("data-jimage-method");
         }
       }
@@ -301,10 +312,12 @@
                   responsiveSizes.setCustom.value = true;
 
                   // Create new objects with existing sizes
-                  var sizes = image.getAttribute("data-jimage-size").split(',');
+                  var sizes  = image.getAttribute("data-jimage-size").split(',');
+                  var titles = image.getAttribute("data-jimage-title") ? image.getAttribute("data-jimage-title").split(',') : [];
+
                   sizes.forEach(function (size, index) {
                     var dimensions = size.split("x");
-                    responsiveSizes.sizes.push(jimage.createSizeGroup(index, dimensions[0], dimensions[1]));
+                    responsiveSizes.sizes.push(jimage.createSizeGroup(index, titles[index], dimensions[0], dimensions[1]));
                   });
                 }
 
