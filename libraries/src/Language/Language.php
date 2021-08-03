@@ -393,20 +393,23 @@ class Language
 		{
 			$string = \call_user_func($this->transliterator, $string);
 
-			// Check if all symbols were transliterated, otherwise continue
-			if (mb_check_encoding($string, 'ASCII'))
+			// Check if all symbols were transliterated (contains only ASCII), otherwise continue
+			if (!preg_match('/[\\x80-\\xff]/', $string))
 			{
 				return $string;
 			}
 		}
 
-		// Override custom and core transliterate method with native php function if enabled
-		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
-		{
-			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('de-ASCII; Any-Latin; Latin-ASCII; Lower()', $string));
-		}
-
+		// Run out transliterator for common symbols,
+		// This need to be executed before native php transliterator, because it may not have all required transliterators
 		$string = Transliterate::utf8_latin_to_ascii($string);
+
+		// Check if all symbols were transliterated (contains only ASCII),
+		// Otherwise try to use native php function if available
+		if (preg_match('/[\\x80-\\xff]/', $string) && function_exists('transliterator_transliterate') && function_exists('iconv'))
+		{
+			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
+		}
 
 		return StringHelper::strtolower($string);
 	}
