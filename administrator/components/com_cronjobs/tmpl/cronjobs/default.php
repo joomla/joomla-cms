@@ -170,25 +170,19 @@ if ($saveOrder && !empty($this->items))
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
-							<?php if (empty($item->note)): ?>
-								<!-- TODO: Remove or modify 'note' section -->
-								<?php echo 'No note :)'; ?>
-							<?php else: ?>
-								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', 'Alias', $this->escape($item->note)); ?>
-							<?php endif; ?>
+							<span class="small">
+								<?php if (empty($item->note)): ?>
+									<?php echo Text::_('COM_CRONJOBS_NO_NOTE'); ?>
+								<?php else: ?>
+									<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+								<?php endif; ?>
+							</span>
 						</th>
 
 						<!-- Item type -->
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->safeTypeTitle); ?>
 						</td>
-
-						<!-- TODO: What should be done about Multi-lang? Is it needed here? -->
-						<?php if (Multilanguage::isEnabled()): ?>
-							<td class="small d-none d-md-table-cell">
-								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-							</td>
-						<?php endif; ?>
 
 						<!-- Item ID -->
 						<td class="d-none d-md-table-cell">

@@ -172,7 +172,7 @@ class CronjobsModel extends ListModel
 			$this->getState(
 				'list.select',
 				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_rules, a.state, a.last_exit_code' .
-				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering'
+				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
 			)
 			// ? Does 'list.select' exist ?
 		);
