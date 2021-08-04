@@ -9,10 +9,13 @@
   const cookie = document.cookie.split('; ');
   const config = Joomla.getOptions('config');
   const code = Joomla.getOptions('code');
+  const parse = Range.prototype.createContextualFragment.bind(document.createRange());
+
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#cookieBanner .modal-dialog').classList.add(config.position);
-    if (cookie.indexOf('cookieBanner=true') === -1) {
-      const Banner = new bootstrap.Modal(document.getElementById('cookieBanner'));
+
+    if (cookie.indexOf('cookieBanner=shown') === -1) {
+      const Banner = new bootstrap.Modal(document.querySelector('#cookieBanner'));
       Banner.show();
     }
 
@@ -20,6 +23,21 @@
       cookie.forEach((i) => {
         if (i.match(`${item.getAttribute('data-cookiecategory')}=true`)) {
           item.checked = true;
+        } else if (i.indexOf(`cookie_category_${item.getAttribute('data-cookiecategory')}=false`) === -1 || i.match(`cookie_category_${item.getAttribute('data-cookiecategory')}=false`)) {
+          Object.entries(code).forEach(([key, value]) => {
+            if (key === item.getAttribute('data-cookiecategory')) {
+              Object.values(value).forEach((val) => {
+                if (val.type === '3' || val.type === '4' || val.type === '5' || val.type === '6') {
+                  const q = val.code.match(/src="([^\s]*)"\s/)[1];
+                  if (document.querySelector(`[src="${q}"]`)) {
+                    const p = document.querySelector(`[src="${q}"]`);
+                    p.setAttribute('data-src', q);
+                    p.removeAttribute('src');
+                  }
+                }
+              });
+            }
+          });
         }
       });
     });
@@ -32,8 +50,6 @@
       });
     });
   });
-
-  const parse = Range.prototype.createContextualFragment.bind(document.createRange());
 
   function getExpiration() {
     const exp = config.expiration;
@@ -60,6 +76,13 @@
                 } else {
                   document.body.append(parse(i.code));
                 }
+              } else if (i.type === '3' || i.type === '4' || i.type === '5' || i.type === '6') {
+                const q = i.code.match(/src="([^\s]*)"\s/)[1];
+                if (document.querySelector(`[data-src="${q}"]`)) {
+                  const p = document.querySelector(`[data-src="${q}"]`);
+                  p.setAttribute('src', q);
+                  p.removeAttribute('data-src');
+                }
               }
 
               document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
@@ -71,7 +94,7 @@
         document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
       }
     });
-    document.cookie = `cookieBanner=true; expires=${exp}; path=/;`;
+    document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
   });
 
   document.getElementById('prefConfirmChoice').addEventListener('click', () => {
@@ -81,15 +104,25 @@
         Object.entries(code).forEach(([key, value]) => {
           if (key === item.getAttribute('data-cookie-category')) {
             Object.values(value).forEach((i) => {
-              if (i.position === '1') {
-                document.head.prepend(parse(i.code));
-              } else if (i.position === '2') {
-                document.head.append(parse(i.code));
-              } else if (i.position === '3') {
-                document.body.prepend(parse(i.code));
-              } else {
-                document.body.append(parse(i.code));
+              if (i.type === '1' || i.type === '2') {
+                if (i.position === '1') {
+                  document.head.prepend(parse(i.code));
+                } else if (i.position === '2') {
+                  document.head.append(parse(i.code));
+                } else if (i.position === '3') {
+                  document.body.prepend(parse(i.code));
+                } else {
+                  document.body.append(parse(i.code));
+                }
+              } else if (i.type === '3' || i.type === '4' || i.type === '5' || i.type === '6') {
+                const q = i.code.match(/src="([^\s]*)"\s/)[1];
+                if (document.querySelector(`[data-src="${q}"]`)) {
+                  const p = document.querySelector(`[data-src="${q}"]`);
+                  p.setAttribute('src', q);
+                  p.removeAttribute('data-src');
+                }
               }
+
               document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
             });
           }
@@ -99,7 +132,7 @@
         document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
       }
     });
-    document.cookie = `cookieBanner=true; expires=${exp}; path=/;`;
+    document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
   });
 
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {

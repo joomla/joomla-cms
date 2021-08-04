@@ -51,8 +51,8 @@
 			<option value="3">COM_COOKIEMANAGER_SCRIPT_TYPE_IFRAME</option>
 			<option value="4">COM_COOKIEMANAGER_SCRIPT_TYPE_EMBED</option>
 			<option value="5">COM_COOKIEMANAGER_SCRIPT_TYPE_OBJECT</option>
-			<option value="6">COM_COOKIEMANAGER_SCRIPT_TYPE_LINK</option>
-			<option value="7">COM_COOKIEMANAGER_SCRIPT_TYPE_IMG</option>
+			<option value="6">COM_COOKIEMANAGER_SCRIPT_TYPE_IMG</option>
+			<option value="7">COM_COOKIEMANAGER_SCRIPT_TYPE_LINK</option>
 		</field>
 
 		<field
