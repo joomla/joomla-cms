@@ -48,9 +48,9 @@
           box-shadow: 0 0 .5em hsla(0, 0%, 0%, .1);
         }
 
-        > span,
-        > a,
-        > button {
+        span,
+        a,
+        button {
           overflow: hidden;
           text-decoration: none;
           text-overflow: ellipsis;
@@ -68,6 +68,15 @@
         > a:hover,
         > button:hover {
           text-decoration: underline;
+        }
+
+        &.active li:not(.level-1) .toggler__wrapper {
+          > a,
+          > button,
+          > a:hover,
+          > button:hover {
+            text-decoration: underline;
+          }
         }
 
         &::after {
@@ -185,6 +194,14 @@
       .parent {
         > ul {
           color: $gray-900;
+        }
+      }
+
+      .toggler__wrapper {
+        display: flex;
+
+        .mm-toggler.mm-toggler-link {
+          height: 1.5em;
         }
       }
     }
