@@ -20,19 +20,3 @@ CREATE TABLE IF NOT EXISTS "#__cronjobs"
     "created" timestamp without time zone NOT NULL,
     "created_by" bigint NOT NULL DEFAULT '0'
 );
-
--- --------------------------------------------------------
-
---
--- Table structure for table "#__cronjobs_scripts"
---
-
-CREATE TABLE IF NOT EXISTS "#__cronjobs_scripts"
-(
-    "id" int GENERATED ALWAYS AS IDENTITY,
-    "job_id" int, -- References "#__cronjobs"(id)
-    "directory" varchar(256) NOT NULL,
-    "file" varchar(128) NOT NULL
-);
-
--- --------------------------------------------------------
