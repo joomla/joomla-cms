@@ -165,6 +165,14 @@
 		/>
 
 		<menuitem
+				title="MOD_MENU_MANAGE_CRONJOBS"
+				type="component"
+				element="com_cronjobs"
+				link="index.php?option=com_cronjobs&amp;view=cronjobs"
+				permission="core.manage;com_cronjobs"
+		/>
+
+		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
 			type="component"
 			element="com_modules"
