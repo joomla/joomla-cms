@@ -156,6 +156,13 @@ class CronjobsModel extends ListModel
 				->bind(':state', $state);
 		}
 
+		// Filter over type
+		if ($typeFilter = $this->getState('filter.type'))
+		{
+			$query->where($db->quotename('a.type') . '= :type')
+				->bind(':type', $typeFilter);
+		}
+
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
 
