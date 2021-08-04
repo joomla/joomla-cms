@@ -24,13 +24,12 @@
         >
         <video
           v-if="isVideo()"
-          controls
-        >
-          <source
-            :src="item.url"
-            :type="item.mime_type"
-          >
-        </video>
+          :src="item.url"
+          width="300"
+          height="300"
+          class="mejs__player"
+          data-mejsoptions='{"pluginPath": "/media/vendor/mediaelement/js", "alwaysShowControls": "true"}'
+        ></video>
       </div>
     </template>
     <template #backdrop-close>

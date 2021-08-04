@@ -145,7 +145,7 @@ class MediaHelper
 		{
 			$allowedMime = $params->get(
 				'upload_mime',
-				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+				'image/jpeg,image/gif,image/png,image/bmp,video/mp4,application/msword,application/excel,' .
 					'application/pdf,application/powerpoint,text/plain,application/x-zip'
 			);
 
@@ -227,8 +227,8 @@ class MediaHelper
 
 		$allowable = $params->get(
 			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,mp4,BMP,' .
+				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS,MP4'
 		);
 		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));

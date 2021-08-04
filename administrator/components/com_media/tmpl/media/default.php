@@ -19,6 +19,8 @@ $params = ComponentHelper::getParams('com_media');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useStyle('mediaelement')
+	->useScript('mediaelement')
 	->useStyle('com_media.mediamanager')
 	->useScript('com_media.mediamanager');
 

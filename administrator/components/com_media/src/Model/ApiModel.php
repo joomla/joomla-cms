@@ -300,7 +300,7 @@ class ApiModel extends BaseDatabaseModel
 		PluginHelper::importPlugin('content');
 
 		// Also include the filesystem plugins, perhaps they support batch processing too
- 		PluginHelper::importPlugin('media-action');
+		PluginHelper::importPlugin('media-action');
 
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
 
@@ -535,7 +535,7 @@ class ApiModel extends BaseDatabaseModel
 			// Get the setting from the params
 			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
 				'upload_extensions',
-				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+				'bmp,csv,doc,gif,ico,jpg,jpeg,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,MP3,MP4,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
 			);
 
 			// Make them an array

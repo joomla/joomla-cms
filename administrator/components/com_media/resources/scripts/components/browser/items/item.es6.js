@@ -30,7 +30,7 @@ export default {
       }
 
       // Render video items
-      if (this.item.extension && !videoExtensions.includes(this.item.extension.toLowerCase())) {
+      if (this.item.extension && videoExtensions.includes(this.item.extension.toLowerCase())) {
         return Video;
       }
 

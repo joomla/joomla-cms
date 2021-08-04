@@ -520,6 +520,29 @@
           "build/mediaelementplayer-legacy.min.css": "css/mediaelementplayer-legacy.min.css",
           "build/mediaelementplayer-legacy.css": "css/mediaelementplayer-legacy.css"
         },
+        "provideAssets": [
+          {
+            "name": "mediaelement",
+            "type": "style",
+            "uri": "mediaelementplayer.min.css"
+          },
+          {
+            "name": "mediaelement",
+            "type": "script",
+            "uri": "mediaelement-and-player.min.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "mediaelement",
+            "type": "preset",
+            "dependencies": [
+              "mediaelement#style",
+              "mediaelement#script"
+            ]
+          }
+        ],
         "filesExtra": {
           "build/mediaelement-flash-audio-ogg.swf": "js/mediaelement-flash-audio-ogg.swf",
           "build/mediaelement-flash-audio.swf": "js/mediaelement-flash-audio.swf",
