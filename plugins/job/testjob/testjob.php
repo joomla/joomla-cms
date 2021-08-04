@@ -16,11 +16,11 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Event\Event;
 
 /**
- * The Testjobplug class
+ * The PlgJobTestjob class
  *
- * @since __DEPLOY__
+ * @since __DEPLOY__VERSION__
  */
-class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
+class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Autoload the language file
@@ -89,8 +89,8 @@ class PlgSystemTestjob extends CMSPlugin implements SubscriberInterface
 	public function cronSampleRoutine(Event $event): void
 	{
 		/**
-		 * ! : com_cronjobs does not trigger anything as of yet. The operations below only exist as an example.
-		 * ! : The $subject object has not been implemented, nor are the operations below its intended form.
+		 * ! com_cronjobs does not trigger anything as yet. The operations below only exist as an example.
+		 * ! The $subject object has not been implemented, nor are the operations below its intended form.
 		 */
 
 		$subject = $event['subject'];
