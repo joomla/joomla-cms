@@ -47,7 +47,7 @@ const minifiedExists = async (file) => {
  * @returns {Promise}
  */
 const minifyJS = async (file) => {
-  const needsDotJS = noMinified.includes(file.replace(`${RootPath}${sep}`, ''));
+  const needsDotJS = noMinified.includes(file.replace(`${RootPath}${sep}`, '').replace(sep, '/'));
   if (file.endsWith('.min.js') && !needsDotJS) {
     return;
   }
