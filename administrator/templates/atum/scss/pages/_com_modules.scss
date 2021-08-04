@@ -1,12 +1,12 @@
 .new-modules {
   .card-columns {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    display: grid;
   }
 }
 
 .new-module {
-  display: inline-flex;
-  width: 100%;
+  display: flex;
   overflow: hidden;
   color: hsl(var(--hue),30%,40%);
   background-color: hsl(var(--hue), 60%, 97%);
