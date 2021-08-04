@@ -23,6 +23,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function array_diff;
@@ -47,10 +48,11 @@ class CronjobModel extends AdminModel
 	 * @var array
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $STATES = array(
+	protected $STATES = [
 		'enabled' => 1,
-		'disabled' => 0
-	);
+		'disabled' => 0,
+		'trashed' => -2
+	];
 
 	/**
 	 * Prefix used with controller messages
@@ -89,6 +91,15 @@ class CronjobModel extends AdminModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
+		$config['events_map'] = $config['events_map'] ?? [];
+		$config['events_map'] = array_merge(
+			[
+				'save' => 'job',
+				'validate' => 'job'
+			],
+			$config['events_map']
+		);
+
 		$this->app = Factory::getApplication();
 		parent::__construct($config, $factory, $formFactory);
 	}
@@ -425,5 +436,26 @@ class CronjobModel extends AdminModel
 		$isMatch = array_diff($reference, $target) === [];
 
 		return $isMatch ? "*" : $target;
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param   Form    $form   A Form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'content'): void
+	{
+		// Load the 'job' plugin group
+		PluginHelper::importPlugin('job');
+
+		// Let the parent method take over
+		parent::preprocessForm($form, $data, $group);
 	}
 }
