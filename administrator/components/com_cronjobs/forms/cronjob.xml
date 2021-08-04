@@ -12,14 +12,6 @@
 		/>
 
 		<fieldset name="basic">
-			<!-- Job type, unique identifier for jobs used by job implementing plugins? -->
-			<!-- ! : Should this be using readonly instead of disabled? -->
-			<field name="type" type="text" required="true"
-				   label="COM_CRONJOBS_FIELD_JOB_TYPE"
-				   readonly="true" maxlength="1024"
-			/>
-			<!-- TODO : Can use some JS on the frontend to only display fields relevant to trigger -->
-			<!-- Job trigger, make custom field? -->
 			<field name="trigger" type="list" validate="options"
 				   label="COM_CRONJOBS_SELECT_TRIGGER" required="true"
 			>
@@ -77,6 +69,12 @@
 					default="0" class="readonly" readonly="true"
 			/>
 
+			<!-- Job type, unique identifier for jobs used by job implementing plugins -->
+			<field name="type" type="text" required="true"
+				   label="COM_CRONJOBS_FIELD_JOB_TYPE"
+				   readonly="true" maxlength="1024"
+			/>
+
 			<!-- Cronjob asset_id (used by Joomla for per-item access control) -->
 			<field name="asset_id" type="hidden"
 				   filter="unset"
@@ -121,7 +119,6 @@
 				<option value="custom">COM_CRONJOBS_OPTION_INTERVAL_CUSTOM</option>
 			</field>
 
-			<!-- TODO : Check validation for interval/match fields-->
 			<!-- Interval (minutes), starting at user time -->
 			<field name="interval-minutes" type="interval" subtype="minutes" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MINUTES" showon="rule-type:interval-minutes">
