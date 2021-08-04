@@ -206,7 +206,6 @@ a[target="_blank"]::before {
   display: block;
   grid-gap: 0 15px;
   grid-template-columns: 1fr;
-  
   @include media-breakpoint-up(md) {
     grid-template-columns: 1fr 1fr;
   }
