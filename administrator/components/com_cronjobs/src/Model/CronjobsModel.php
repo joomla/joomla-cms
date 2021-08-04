@@ -26,6 +26,8 @@ use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 use function defined;
 use function in_array;
+use function stripos;
+use function substr;
 
 /**
  * MVC Model to deal with operations concerning multiple 'Cronjob' entries.
@@ -49,60 +51,24 @@ class CronjobsModel extends ListModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			/*
-			 * TODO : Works right? Need to implement filtering to check.
-			 * TODO: Might want to remove unnecessary fields
-			*/
-			$config['filter_fields']
-				= array(
-				'id',
-				'a.id',
-
-				'asset_id',
-				'a.asset_id',
-
-				'title',
-				'a.title',
-
-				'type',
-				'a.type',
-
-				'type_title',
-				'j.type_title',
-
-				'trigger',
-				'a.trigger',
-
-				'state',
-				'a.state',
-
-				'last_exit_code',
-				'a.last_exit_code',
-
-				'last_execution',
-				'a.last_execution',
-
-				'next_execution',
-				'a.next_execution',
-
-				'times_executed',
-				'a.times_executed',
-
-				'times_failed',
-				'a.times_failed',
-
-				'ordering',
-				'a.ordering',
-
-				'note',
-				'a.note',
-
-				'created',
-				'a.created',
-
-				'created_by',
-				'a.created_by'
-				);
+			$config['filter_fields'] = [
+				'id', 'a.id',
+				'asset_id', 'a.asset_id',
+				'title', 'a.title',
+				'type', 'a.type',
+				'type_title', 'j.type_title',
+				'trigger', 'a.trigger',
+				'state', 'a.state',
+				'last_exit_code', 'a.last_exit_code',
+				'last_execution', 'a.last_execution',
+				'next_execution', 'a.next_execution',
+				'times_executed', 'a.times_executed',
+				'times_failed', 'a.times_failed',
+				'ordering', 'a.ordering',
+				'note', 'a.note',
+				'created', 'a.created',
+				'created_by', 'a.created_by'
+			];
 		}
 
 		parent::__construct($config, $factory);
@@ -190,7 +156,7 @@ class CronjobsModel extends ListModel
 				->bind(':state', $state);
 		}
 
-		// Filter over exit code
+		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
 
 		if (is_numeric($exitCode))
@@ -206,22 +172,22 @@ class CronjobsModel extends ListModel
 		if (!empty($searchStr))
 		{
 			// Allow search by ID
-			if (\stripos($searchStr, 'id:') === 0)
+			if (stripos($searchStr, 'id:') === 0)
 			{
 				// Add array support [?]
-				$id = (int) \substr($searchStr, 3);
+				$id = (int) substr($searchStr, 3);
 				$query->where($db->quoteName('a.id') . '= :id')
 					->bind(':id', $id, ParameterType::INTEGER);
 			}
 			// Search by type is handled exceptionally in _getList() [TODO]
-			elseif (\stripos($searchStr, 'type:') !== 0)
+			elseif (stripos($searchStr, 'type:') !== 0)
 			{
 				// The where clause is extended to allow other filters to act
 				$query->extendWhere(
 					'AND',
 					[
 						$db->quoteName('a.title') . ' LIKE :searchStr',
-						$db->quoteName('a.note') . 'LIKE : searchStr'
+						$db->quoteName('a.note') . 'LIKE :searchStr'
 					],
 					'OR'
 				)
@@ -296,8 +262,7 @@ class CronjobsModel extends ListModel
 			$responseList = array_values(
 				array_filter(
 					$responseList,
-					function (object $c)
-					{
+					function (object $c) {
 						return isset($c->cronOption);
 					}
 				)
