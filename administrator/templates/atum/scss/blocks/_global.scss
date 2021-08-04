@@ -206,8 +206,15 @@ a[target="_blank"]::before {
   display: block;
   grid-gap: 0 15px;
   grid-template-columns: 1fr;
+  -webkit-column-count: 1;
+  -moz-column-count: 1;
+  column-count: 1;
+  
   @include media-breakpoint-up(md) {
     grid-template-columns: 1fr 1fr;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
   }
 }
 
@@ -217,6 +224,9 @@ a[target="_blank"]::before {
   .card-columns {
     @include media-breakpoint-up(md) {
       grid-template-columns: 1fr 1fr 1fr;
+      -webkit-column-count: 3;
+      -moz-column-count: 3;
+      column-count: 3;
     }
   }
 }
