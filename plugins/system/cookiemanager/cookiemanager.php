@@ -240,7 +240,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($this->category as $catKey => $catValue)
 		{
-			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]) || $_COOKIE['cookie_category_' . $catValue->alias] == false)
+			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]) || $_COOKIE['cookie_category_' . $catValue->alias] === 'false')
 			{
 				$this->script[$catValue->alias] = [];
 
@@ -278,7 +278,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		foreach ($this->category as $catKey => $catValue)
 		{
-			if (isset($_COOKIE['cookie_category_' . $catValue->alias]) && $_COOKIE['cookie_category_' . $catValue->alias] == true)
+			if (isset($_COOKIE['cookie_category_' . $catValue->alias]) && $_COOKIE['cookie_category_' . $catValue->alias] === 'true')
 			{
 				$this->script[$catValue->alias] = [];
 
