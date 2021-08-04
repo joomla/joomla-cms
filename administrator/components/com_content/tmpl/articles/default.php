@@ -98,7 +98,7 @@ $assoc = Associations::isEnabled();
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => ['selectorFieldName' => 'featured']));
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
