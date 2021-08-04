@@ -111,7 +111,6 @@
 			<!-- The interval type, we only need this as a way to switch between interval inputs -->
 			<field name="rule-type" type="list" required="true"
 				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE" validate="options">
-				<option value="" disabled="true">COM_CRONJOBS_SELECT_EXEC_RULE</option>
 				<option value="interval-minutes">COM_CRONJOBS_OPTION_INTERVAL_MINUTES</option>
 				<option value="interval-hours">COM_CRONJOBS_OPTION_INTERVAL_HOURS</option>
 				<option value="interval-days">COM_CRONJOBS_OPTION_INTERVAL_DAYS</option>
