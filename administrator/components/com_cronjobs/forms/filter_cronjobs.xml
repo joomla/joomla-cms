@@ -26,13 +26,11 @@
 		<!-- TODO: This needs to either go, or be a dynamic list of all types -->
 		<field
 				name="type"
-				type="list"
+				type="JobType"
 				label="COM_CRONJOBS_HEADING_JOB_TYPE"
 				onchange="this.form.submit();"
 		>
 			<option value="">COM_CRONJOBS_SELECT_TYPE</option>
-			<option value="script">COM_CRONJOBS_TYPE_SCRIPT</option>
-			<option value="plugin">COM_CRONJOBS_TYPE_PLG</option>
 		</field>
 
 		<!-- Switch to show/hide jobs with the "orphan" pseudo-state-->
