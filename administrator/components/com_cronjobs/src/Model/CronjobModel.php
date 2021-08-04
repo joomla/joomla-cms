@@ -118,14 +118,12 @@ class CronjobModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-
-		// TODO :  Can we need any custom fields [?]
 		Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_cronjobs/src/Field');
 
 		/*
-		 * * : loadForm() (defined by FormBehaviourTrait) also loads the form data by calling
-		 *     loadFormData() : $data [implemented here] and binds it to the form by calling
-		 *     $form->bind($data).
+		 *  loadForm() (defined by FormBehaviourTrait) also loads the form data by calling
+		 *  loadFormData() : $data [implemented here] and binds it to the form by calling
+		 *  $form->bind($data).
 		*/
 		$form = $this->loadForm('com_cronjobs.cronjob', 'cronjob', ['control' => 'jform', 'load_data' => $loadData]);
 
@@ -142,9 +140,7 @@ class CronjobModel extends AdminModel
 			$form->setValue('type', null, $this->getState('cronjob.type'));
 		}
 
-		/*
-		 * TODO : Check if this is working as expected (what about new items, id == 0 ?)
-		 */
+		 // TODO : Check if this is working as expected for new items (id == 0)
 		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $this->getState('job.id')))
 		{
 			// Disable fields
@@ -176,7 +172,6 @@ class CronjobModel extends AdminModel
 			return false;
 		}
 
-		// TODO : Check if this is the right way to check authority (in particular the assetName)
 		return $this->app->getIdentity()->authorise('core.delete', 'com.cronjobs.cronjob.' . $record->id);
 	}
 
@@ -206,10 +201,9 @@ class CronjobModel extends AdminModel
 	}
 
 	/**
-	 * Probably don't _need_ to define this method since the parent getTable()
-	 * implicitly deduces $name and $prefix anyways. This does make the object
+	 * Don't need to define this method since the parent getTable()
+	 * implicitly deduces $name and $prefix anyways. This makes the object
 	 * more transparent though.
-	 *
 	 *
 	 * @param   string  $name     Name of the table
 	 * @param   string  $prefix   Class prefix
@@ -235,11 +229,6 @@ class CronjobModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		/*
-		 * Check session for previously entered form data
-		 * ? : How and where does this data get saved?
-		 *
-		 */
 		$data = $this->app->getUserState('com_cronjobs.edit.cronjob.data', array());
 
 		// If the data from UserState is empty, we fetch it with getItem()
@@ -251,10 +240,7 @@ class CronjobModel extends AdminModel
 			// TODO : Any further data processing goes here
 		}
 
-		/*
-		 * Let plugins manipulate the form (add fields)
-		 * ? Using the 'job' group (as SelectModel), or should we target the 'cronjob' group?
-		 */
+		 // Let plugins manipulate the data
 		$this->preprocessData('com_cronjobs.cronjob', $data, 'job');
 
 		return $data;
@@ -286,7 +272,6 @@ class CronjobModel extends AdminModel
 		$cronOption = ($item->id ?? 0) ? CronjobsHelper::getCronOptions()->findOption($item->type ?? 0)
 			: ($this->getState('cronjob.option'));
 
-		CronjobsHelper::getCronOptions();
 		$item->set('cronOption', $cronOption);
 
 		return $item;
@@ -362,6 +347,8 @@ class CronjobModel extends AdminModel
 	/**
 	 * Private method to build cron rules from input execution rules.
 	 * Cron rules are used internally to determine execution times/conditions.
+	 *
+	 * ! A lot of DRY violations here...
 	 *
 	 * @param   array  $data  The form input data
 	 *
