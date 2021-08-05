@@ -212,6 +212,10 @@ a[target="_blank"]::before {
     grid-template-columns: 1fr 1fr;
     column-count: 2;
   }
+  @include media-breakpoint-up(ld) {
+    grid-template-columns: 1fr 1fr 1fr;
+    column-count: 2;
+  }
 }
 
 .cpanel-help,
@@ -219,6 +223,10 @@ a[target="_blank"]::before {
 
   .card-columns {
     @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr;
+      column-count: 2;
+    }
+    @include media-breakpoint-up(ld) {
       grid-template-columns: 1fr 1fr 1fr;
       column-count: 3;
     }
