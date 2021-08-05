@@ -40,7 +40,7 @@ class ArticlesModel extends ListModel
 	 */
 	public function __construct($config = array())
 	{
-		$featured =  $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = Factory::getApplication()->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 
 		if (empty($config['filter_fields']))
 		{
@@ -239,8 +239,6 @@ class ArticlesModel extends ListModel
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
 
-		$featured = $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
-
 		$params = ComponentHelper::getParams('com_content');
 
 		// Select the required fields from the table.
@@ -313,13 +311,6 @@ class ArticlesModel extends ListModel
 			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
-		if ($featured === '1'){
-			$query->select($this->getDbo()->quoteName('fp.ordering'));
-		}
-		elseif ($featured === '0'){
-			$query->where($db->quoteName('a.featured') . ' = 0');
-		}
-
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select(
@@ -365,13 +356,18 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by featured.
-		$featured = (string) $this->getState('filter.featured');
+		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 
 		if (\in_array($featured, ['0','1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
 				->bind(':featured', $featured, ParameterType::INTEGER);
+		}
+
+		if ($featured === '1')
+		{
+			$query->select($this->getDbo()->quoteName('fp.ordering'));
 		}
 
 		// Filter by access level on categories.
