@@ -109,14 +109,9 @@
 
 		<fieldset name="basic">
 			<!-- The interval type, we only need this as a way to switch between interval inputs -->
-			<field name="rule-type" type="list" required="true"
-				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE" validate="options">
-				<option value="interval-minutes">COM_CRONJOBS_OPTION_INTERVAL_MINUTES</option>
-				<option value="interval-hours">COM_CRONJOBS_OPTION_INTERVAL_HOURS</option>
-				<option value="interval-days">COM_CRONJOBS_OPTION_INTERVAL_DAYS</option>
-				<option value="interval-months">COM_CRONJOBS_OPTION_INTERVAL_MONTHS</option>
-				<option value="custom">COM_CRONJOBS_OPTION_INTERVAL_CUSTOM</option>
-			</field>
+			<field name="rule-type" type="ExecutionRule" required="true"
+				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE" validate="options"
+			/>
 
 			<!-- Interval (minutes), starting at user time -->
 			<field name="interval-minutes" type="interval" subtype="minutes" validate="ExecutionRules"
