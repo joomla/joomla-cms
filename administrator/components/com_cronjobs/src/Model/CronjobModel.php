@@ -278,7 +278,6 @@ class CronjobModel extends AdminModel
 		$item->set('execution_rules', json_decode($item->get('execution_rules')));
 		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
-
 		$cronOption = CronjobsHelper::getCronOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('cronjob.type')
 		);
