@@ -239,7 +239,14 @@ class CronjobModel extends AdminModel
 			/** @var CMSObject $data */
 			$data = $this->getItem();
 
-			// TODO : Any further data processing goes here
+			// TODO : further data processing goes here
+
+			// For a fresh object, set exec-day and exec-time
+			if (!$id = $data->id ?? 0)
+			{
+				$data->execution_rules['exec-day'] = gmdate('d');
+				$data->execution_rules['exec-time'] = gmdate('H:i');
+			}
 		}
 
 		// Let plugins manipulate the data
@@ -271,8 +278,10 @@ class CronjobModel extends AdminModel
 		$item->set('execution_rules', json_decode($item->get('execution_rules')));
 		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
-		$cronOption = ($item->id ?? 0) ? CronjobsHelper::getCronOptions()->findOption($item->type ?? 0)
-			: ($this->getState('cronjob.option'));
+
+		$cronOption = CronjobsHelper::getCronOptions()->findOption(
+			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('cronjob.type')
+		);
 
 		$item->set('cronOption', $cronOption);
 
