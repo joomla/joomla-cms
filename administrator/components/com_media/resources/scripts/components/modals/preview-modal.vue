@@ -5,6 +5,7 @@
     class="media-preview-modal"
     label-element="previewTitle"
     :show-close="false"
+    @open="open()"
     @close="close()"
   >
     <template #header>
@@ -24,12 +25,20 @@
         >
         <video
           v-if="isVideo()"
+          id="video-player"
           :src="item.url"
-          width="300"
+          :type="item.mime_type"
+          width="400"
           height="300"
-          class="mejs__player"
-          data-mejsoptions='{"pluginPath": "/media/vendor/mediaelement/js", "alwaysShowControls": "true"}'
-        ></video>
+        >
+        </video>
+        <audio
+          v-if="isAudio()"
+          id="audio-player"
+          :src="item.url"
+          :type="item.mime_type"
+        >
+        </audio>
       </div>
     </template>
     <template #backdrop-close>
@@ -49,23 +58,52 @@ import * as types from '../../store/mutation-types.es6';
 
 export default {
   name: 'MediaPreviewModal',
+  data() {
+    return {
+      item: null,
+      player: null
+    }
+  },
   computed: {
     /* Get the item to show in the modal */
     item() {
       // Use the currently selected directory as a fallback
+      console.log(this.$store.state.previewItem);
       return this.$store.state.previewItem;
     },
   },
   methods: {
+    open() {
+      // Get the item to show in the modal
+      this.initPlayer();
+    },
     /* Close the modal */
     close() {
       this.$store.commit(types.HIDE_PREVIEW_MODAL);
+      this.destroyPlayer();
+    },
+    initPlayer() {
+      // Start player depending on media type
+      if (this.isVideo()) {
+        this.player = new MediaElementPlayer('video-player');
+      } else if (this.isAudio()) {
+        this.player = new MediaElementPlayer('audio-player');
+      }
+    },
+    destroyPlayer() {
+      if (this.player) {
+        this.player.remove();
+        this.player = null;
+      }
     },
     isImage() {
       return this.item.mime_type.indexOf('image/') === 0;
     },
     isVideo() {
       return this.item.mime_type.indexOf('video/') === 0;
+    },
+    isAudio() {
+      return this.item.mime_type.indexOf('audio/') === 0;
     },
   },
 };

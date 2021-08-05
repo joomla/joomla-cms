@@ -69,6 +69,9 @@ export default {
     },
   },
   mounted() {
+    // Pass open event to parent
+    this.$emit('open');
+
     // Listen to keydown events on the document
     document.addEventListener('keydown', this.onKeyDown);
   },
