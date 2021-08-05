@@ -156,7 +156,6 @@ if (Program.prepare) {
     recreateMediaFolder(options)
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
-    // .then(() => patchPackages(options))
     .then(() => Promise.all(
       [
         patchPackages(options),
