@@ -176,9 +176,9 @@ const insertAsImage = async (media, editor, fieldClass) => {
       }
 
       if (figCaption) {
-        imageElement = `<figure${figClasses}><img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/><figcaption>${figCaption}</figcaption></figure>`;
+        imageElement = `<figure${figClasses}><img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt} data-path="${Joomla.selectedMediaFile.path}"/><figcaption>${figCaption}</figcaption></figure>`;
       } else {
-        imageElement = `<img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/>`;
+        imageElement = `<img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt} data-path="${Joomla.selectedMediaFile.path}"/>`;
       }
 
       if (attribs) {
