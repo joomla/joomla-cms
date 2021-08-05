@@ -74,7 +74,8 @@ class ArticlesModel extends ListModel
 				'ws.title'
 			);
 
-			if ($featured === '1'){
+			if ($featured === '1')
+			{
 				$config['filter_fields'][] = 'fp.ordering';
 			}
 
