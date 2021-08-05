@@ -34,7 +34,9 @@ $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering';
+$featured  = $this->state->get('filter.featured');
+$orderName = $featured === "1" ? 'fp.ordering' : 'a.ordering';
+$saveOrder = $listOrder == $orderName ;
 
 if (strpos($listOrder, 'publish_up') !== false)
 {
@@ -108,7 +110,7 @@ $assoc = Associations::isEnabled();
 				<?php else : ?>
 					<table class="table itemList" id="articleList">
 						<caption class="visually-hidden">
-							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
+							<?php echo $featured === "1" ? Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION') : Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
@@ -118,15 +120,15 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', $orderName, $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
-								<th scope="col" class="w-1 text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-								</th>
+									<th scope="col" class="w-1 text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+									</th>
 								<?php endif; ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+									<?php echo $featured === "1" ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -174,6 +176,9 @@ $assoc = Associations::isEnabled();
 						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
+							$ordering         = ($listOrder == 'fp.ordering');
+							$assetId          = 'com_content.article.' . $item->id;
+							$canCreate        = $user->authorise('core.create',     'com_content.category.' . $item->catid);
 							$canEdit          = $user->authorise('core.edit',       'com_content.article.' . $item->id);
 							$canCheckin       = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn       = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
@@ -389,19 +394,30 @@ $assoc = Associations::isEnabled();
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
-					<?php // Load the batch processing form. ?>
-					<?php if ($user->authorise('core.create', 'com_content')
-						&& $user->authorise('core.edit', 'com_content')
-						&& $user->authorise('core.edit.state', 'com_content')) : ?>
+					<?php if ($featured === "1"): ?>
 						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
-							'collapseModal',
+							'stageModal',
 							array(
-								'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
-								'footer' => $this->loadTemplate('batch_footer'),
+							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+							'footer' => $this->loadTemplate('stage_footer'),
 							),
-							$this->loadTemplate('batch_body')
+							$this->loadTemplate('stage_body')
 						); ?>
+					<?php else: ?>
+						<?php if ($user->authorise('core.create', 'com_content')
+							&& $user->authorise('core.edit', 'com_content')
+							&& $user->authorise('core.edit.state', 'com_content')) : ?>
+							<?php echo HTMLHelper::_(
+								'bootstrap.renderModal',
+								'collapseModal',
+								array(
+									'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
+									'footer' => $this->loadTemplate('batch_footer'),
+								),
+								$this->loadTemplate('batch_body')
+							); ?>
+						<?php endif; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 
@@ -410,6 +426,9 @@ $assoc = Associations::isEnabled();
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
+				<?php if ($featured === "1"): ?>
+					<input type="hidden" name="featured" value="1">
+				<?php endif; ?>
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
