@@ -12,8 +12,8 @@ namespace Joomla\Component\Cronjobs\Administrator\Field;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\NumberField;
+use Joomla\CMS\Form\FormField;
 use SimpleXMLElement;
 
 /**
@@ -21,49 +21,52 @@ use SimpleXMLElement;
  *
  * @since __DEPLOY_VERSION__
  */
-class IntervalField extends ListField
+class IntervalField extends NumberField
 {
-	/**
-	 * The subtypes supported by this field type.
-	 *
-	 * @var string[]
-	 * @since __DEPLOY_VERSION__
-	 */
-	private const SUBTYPES = [
-		'minutes',
-		'hours',
-		'days',
-		'months'
-	];
-
-	/**
-	 * Options corresponding to each subtype
-	 *
-	 * @var int[][]
-	 * @since __DEPLOY_VERSION__
-	 */
-	private const OPTIONS = [
-		'minutes' => [1, 2, 3, 5, 10, 15, 30],
-		'hours' => [1, 2, 3, 6, 12],
-		'days' => [1, 2, 3, 5, 10, 15],
-		'months' => [1, 2, 3, 6, 12]
-	];
-
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'cronIntervals';
+	protected $type = 'Intervals';
 
 	/**
-	 * The subtype of the CronIntervals field
+	 * The subtypes supported by this field type => [minVal, maxVal]
 	 *
-	 * @var string
+	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $subtype;
+	private const SUBTYPES = [
+		'minutes' => [1, 59],
+		'hours' => [1, 23],
+		'days' => [1, 30],
+		'months' => [1, 12]
+	];
+
+	/**
+	 * The allowable maximum value of the field.
+	 *
+	 * @var    float
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $max;
+
+	/**
+	 * The allowable minimum value of the field.
+	 *
+	 * @var    float
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $min;
+
+	/**
+	 * The step by which value of the field increased or decreased.
+	 *
+	 * @var    float
+	 * @since  3.2
+	 */
+	protected $step = 1;
 
 	/**
 	 * Override the parent method to set deal with subtypes.
@@ -80,41 +83,16 @@ class IntervalField extends ListField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null): bool
 	{
-		$parentResult = parent::setup($element, $value, $group);
+		$parentResult = FormField::setup($element, $value, $group);
 		$subtype = (string) $element['subtype'] ?? null;
 
-		if (!($subtype && in_array($subtype, self::SUBTYPES)))
+		if (!($subtype && array_key_exists($subtype, self::SUBTYPES)))
 		{
 			return false;
 		}
 
-		$this->subtype = $subtype;
+		[$this->min, $this->max] = self::SUBTYPES[$subtype];
 
 		return $parentResult;
-	}
-
-	/**
-	 * Method to get field options
-	 *
-	 * @return   array  Array of objects representing options in the options list
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected function getOptions(): array
-	{
-		$subtype = $this->subtype;
-		$options = parent::getOptions();
-
-		if (!in_array($subtype, self::SUBTYPES))
-		{
-			return $options;
-		}
-
-		foreach (self::OPTIONS[$subtype] as $option)
-		{
-			$options[] = HTMLHelper::_('select.option', (string) ($option), (string) $option);
-		}
-
-		return $options;
 	}
 }
