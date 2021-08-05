@@ -67,10 +67,10 @@ class ExecutionRulesRule extends FormRule
 	}
 
 	/**
-	 * @param   SimpleXMLElement  $element   The SimpleXMLElement for the field.
-	 * @param   mixed             $value     The field value.
-	 * @param   ?string			  $group 	 The form field group the element belongs to.
-	 * @param   Form|null         $form      The Form object against which the field is tested/
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement for the field.
+	 * @param   mixed             $value    The field value.
+	 * @param   ?string           $group    The form field group the element belongs to.
+	 * @param   Form|null         $form     The Form object against which the field is tested/
 	 *
 	 * @return boolean  True if field is valid
 	 *
@@ -78,8 +78,16 @@ class ExecutionRulesRule extends FormRule
 	 */
 	private function validateField(SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
 	{
+		$elementType = (string) $element['type'];
+		$optionsTest = true;
+
 		// Test that the option is valid
-		$optionsTest = (new OptionsRule)->test($element, $value, $group, null, $form);
+		if ($elementType === 'cron')
+		{
+			$optionsTest = (new OptionsRule)->test($element, $value, $group, null, $form);
+		}
+
+		// ? Does the numeric IntervalField need validation
 
 		return $value && $optionsTest;
 	}
