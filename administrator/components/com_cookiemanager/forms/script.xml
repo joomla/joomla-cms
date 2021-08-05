@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_TITLE_LABEL"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			size="45"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="position"
+			type="list"
+			label="COM_COOKIEMANAGER_FIELD_POSITION_LABEL"
+			required="true"
+			default="4"
+			>
+			<option value="1">COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_HEAD</option>
+			<option value="2">COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_HEAD</option>
+			<option value="3">COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_BODY</option>
+			<option value="4">COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_BODY</option>
+		</field>
+
+		<field
+			name="type"
+			type="list"
+			label="COM_COOKIEMANAGER_FIELD_TYPE_LABEL"
+			required="true"
+			default="1"
+			>
+			<option value="1">COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT</option>
+			<option value="2">COM_COOKIEMANAGER_SCRIPT_TYPE_EXTERNAL_SCRIPT</option>
+			<option value="3">COM_COOKIEMANAGER_SCRIPT_TYPE_IFRAME</option>
+			<option value="4">COM_COOKIEMANAGER_SCRIPT_TYPE_EMBED</option>
+			<option value="5">COM_COOKIEMANAGER_SCRIPT_TYPE_OBJECT</option>
+			<option value="6">COM_COOKIEMANAGER_SCRIPT_TYPE_IMG</option>
+			<option value="7">COM_COOKIEMANAGER_SCRIPT_TYPE_LINK</option>
+		</field>
+
+		<field
+			name="code"
+			type="textarea"
+			label="COM_COOKIEMANAGER_FIELD_CODE_LABEL"
+			rows="4"
+			required="true"
+			filter="JComponentHelper::filterText"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			default="1"
+			class="form-select-color-state"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			extension="com_cookiemanager"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			required="true"
+			default=""
+		/>
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			content_type="com_cookiemanager.script"
+		/>
+	</fieldset>
+</form>

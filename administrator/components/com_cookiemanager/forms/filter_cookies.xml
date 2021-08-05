@@ -4,8 +4,8 @@
 		<field
   			name="search"
   			type="text"
-  			label="COM_COOKIEMANAGER_FILTER_SEARCH_LABEL"
-  			description="COM_COOKIEMANAGER_FILTER_SEARCH_DESC"
+  			label="COM_COOKIEMANAGER_FILTER_SEARCH_COOKIES_LABEL"
+  			description="COM_COOKIEMANAGER_FILTER_SEARCH_COOKIES_DESC"
   			hint="JSEARCH_FILTER"
 		/>
 
@@ -36,7 +36,7 @@
       		name="fullordering"
       		type="list"
       		label="JGLOBAL_SORT_BY"
-      		default="a.name ASC"
+      		default="a.title ASC"
       		onchange="this.form.submit();"
       		validate="options"
 			>

@@ -11,16 +11,29 @@
 		/>
 
 		<field
-			name="position"
+			name="modal_position"
 			type="list"
-			label="COM_COOKIEMANAGER_POSITION_BUTTON_LABEL"
-			default="bottom"
+			label="COM_COOKIEMANAGER_POSITION_FIELD_LABEL"
+			default=""
 			>
-			<option value="bottom">Bottom</option>
-			<option value="left">Left</option>
-			<option value="right">Right</option>
-			<option value="top">Top</option>
+			<option value="">COM_COOKIEMANAGER_POSITION_FIELD_TOP</option>
+			<option value="modal-dialog-left">COM_COOKIEMANAGER_POSITION_FIELD_LEFT</option>
+			<option value="modal-dialog-right">COM_COOKIEMANAGER_POSITION_FIELD_RIGHT</option>
+			<option value="modal-dialog-bottom">COM_COOKIEMANAGER_POSITION_FIELD_BOTTOM</option>
+			<option value="modal-dialog-centered">COM_COOKIEMANAGER_POSITION_FIELD_CENTER</option>
+			<option value="modal-dialog-top-left">COM_COOKIEMANAGER_POSITION_FIELD_TOP_LEFT</option>
+			<option value="modal-dialog-top-right">COM_COOKIEMANAGER_POSITION_FIELD_TOP_RIGHT</option>
+			<option value="modal-dialog-bottom-left">COM_COOKIEMANAGER_POSITION_FIELD_BOTTOM_LEFT</option>
+			<option value="modal-dialog-bottom-right">COM_COOKIEMANAGER_POSITION_FIELD_BOTTOM_RIGHT</option>
 		</field>
+
+		<field
+			name="consent_expiration"
+			type="text"
+			label="COM_COOKIEMANAGER_CONSENT_EXPIRATION_LABEL"
+			default="30"
+		/>
+
 	</fieldset>
 
 	<fieldset

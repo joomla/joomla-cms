@@ -26,9 +26,25 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
+$positions = array (
+		'1' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_HEAD'),
+		'2' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_HEAD'),
+		'3' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_AFTER_BEGIN_BODY'),
+		'4' => Text::_('COM_COOKIEMANAGER_SCRIPT_POSITION_BEFORE_END_BODY')
+);
+
+$types = array (
+		'1' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_SCRIPT'),
+		'2' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_EXTERNAL_SCRIPT'),
+		'3' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_IFRAME'),
+		'4' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_EMBED'),
+		'5' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_OBJECT'),
+		'6' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_LINK'),
+		'7' => Text::_('COM_COOKIEMANAGER_SCRIPT_TYPE_IMG')
+);
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_cookiemanager&view=cookies'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_cookiemanager&view=scripts'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
@@ -60,6 +76,12 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_POSITION_LABEL', 'a.position', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JCATEGORY', 'a.category_title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
@@ -73,7 +95,7 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 						foreach ($this->items as $i => $item) :
 							$canCreate  = $user->authorise('core.create',     'com_cookiemanager.category.' . $item->catid);
 							$canEdit    = $user->authorise('core.edit',       'com_cookiemanager.category.' . $item->catid);
-							$canEditOwn = $user->authorise('core.edit.own',   'com_cookiemanager.category.' . $item->catid) && $item->created_by == $userId;
+							$canEditOwn = $user->authorise('core.edit.own',   'com_cookiemanager.category.' . $item->catid);
 							$canChange  = $user->authorise('core.edit.state', 'com_cookiemanager.category.' . $item->catid);
 
 							?>
@@ -98,12 +120,12 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 									</span>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'cookies.', $canChange, 'cb'); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'scripts.', $canChange, 'cb'); ?>
 								</td>
 								<th scope="row" class="has-context">
 									<div>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=cookie.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=script.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 												<?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
@@ -113,6 +135,12 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 										</span>
 									</div>
 								</th>
+								<td class="text-center">
+									<?php echo $positions[$item->position]; ?>
+								</td>
+								<td class="text-center">
+									<?php echo $types[$item->type]; ?>
+								</td>
 								<td class="text-center">
 									<?php echo $item->category_title; ?>
 								</td>

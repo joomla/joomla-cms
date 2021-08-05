@@ -11,12 +11,14 @@
 	<description>COM_COOKIEMANAGER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Cookiemanager</namespace>
 	<administration>
-		<menu>COM_COOKIEMANAGER</menu>
+		<menu img="class:cookie">COM_COOKIEMANAGER</menu>
 		<submenu>
-			<menu link="option=com_cookiemanager&amp;view=cookies"
+			<menu link="option=com_cookiemanager&amp;view=cookies" img="class:cookie"
 				alt="Cookiemanager/Cookies">COM_COOKIEMANAGER_COOKIES</menu>
 			<menu link="option=com_categories&amp;extension=com_cookiemanager"
 				view="categories" alt="Cookiemanager/Categories">COM_COOKIEMANAGER_CATEGORIES</menu>
+			<menu link="option=com_cookiemanager&amp;view=scripts" img="class:code"
+				alt="Cookiemanager/Scripts">COM_COOKIEMANAGER_SCRIPTS</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
