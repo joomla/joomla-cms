@@ -14,9 +14,12 @@ namespace Joomla\Component\Cronjobs\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use DateInterval;
+use DateTimeZone;
 use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -27,7 +30,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use function array_diff;
-use function array_fill_keys;
 use function defined;
 use function gmdate;
 use function is_object;
@@ -140,7 +142,7 @@ class CronjobModel extends AdminModel
 			$form->setValue('type', null, $this->getState('cronjob.type'));
 		}
 
-		 // TODO : Check if this is working as expected for new items (id == 0)
+		// TODO : Check if this is working as expected for new items (id == 0)
 		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $this->getState('job.id')))
 		{
 			// Disable fields
@@ -240,7 +242,7 @@ class CronjobModel extends AdminModel
 			// TODO : Any further data processing goes here
 		}
 
-		 // Let plugins manipulate the data
+		// Let plugins manipulate the data
 		$this->preprocessData('com_cronjobs.cronjob', $data, 'job');
 
 		return $data;
@@ -303,7 +305,7 @@ class CronjobModel extends AdminModel
 		$this->processExecutionRules($data);
 
 		// Build the `cron_rules` column from `execution_rules`
-		$this->buildCronRule($data);
+		$this->buildExecExpression($data);
 
 		// Parent method takes care of saving to the table
 		if (!parent::save($data))
@@ -345,8 +347,8 @@ class CronjobModel extends AdminModel
 	}
 
 	/**
-	 * Private method to build cron rules from input execution rules.
-	 * Cron rules are used internally to determine execution times/conditions.
+	 * Private method to build execution expression from input execution rules.
+	 * This expression is used internally to determine execution times/conditions.
 	 *
 	 * ! A lot of DRY violations here...
 	 *
@@ -354,47 +356,58 @@ class CronjobModel extends AdminModel
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function buildCronRule(array &$data): void
+	private function buildExecExpression(array &$data): void
 	{
-		$executionRules = $data['execution_rules'];
-		$cronRules = &$data['cron_rules'];
-		$standardRules = ['minutes', 'hours', 'days_month', 'months', 'days_week'];
-		$cronRules = array_fill_keys($standardRules, '*');
-		$cronRules['visits'] = null;
-		$basisDayOfMonth = $executionRules['exec-day'];
-		$basisTime = $executionRules['exec-time'];
-		[$basisHour, $basisMinute] = explode(':', $basisTime);
+		// Maps interval strings, use with sprintf($map[intType], $interval)
+		$intervalStringMap = [
+			'minutes' => 'PT%dM',
+			'hours' => 'PT%dH',
+			'days' => 'P%dD',
+			'months' => 'P%dM',
+			'years' => 'P%dY'
+		];
 
-		switch ($executionRules['rule-type'])
+		$executionRules = $data['execution_rules'];
+		$ruleType = $executionRules['rule-type'];
+		$execExpression['visits'] = null;
+		$basisDayOfMonth = $executionRules['exec-day'];
+		[$basisHour, $basisMinute] = explode(':', $executionRules['exec-time']);
+
+		$execExpression['type'] = $execType = $ruleType === 'custom' ? 'cron' : 'interval';
+		$nextExec = null;
+
+		if ($execType === 'interval')
 		{
-			case 'interval-minutes':
-				$cronRules['minutes'] = "*/${executionRules['interval-minutes']}";
-				break;
-			case 'interval-hours':
-				$cronRules['minutes'] = (int) $basisMinute;
-				$cronRules['hours'] = "*/${executionRules['interval-hours']}";
-				break;
-			case 'interval-days':
-				$cronRules['minutes'] = (int) $basisMinute;
-				$cronRules['hours'] = (int) $basisHour;
-				$cronRules['days'] = "*/${executionRules['interval-days']}";
-				break;
-			case 'interval-months':
-				$cronRules['minutes'] = (int) $basisMinute;
-				$cronRules['hours'] = (int) $basisHour;
-				$cronRules['days'] = (int) $basisDayOfMonth;
-				$cronRules['months'] = "*/${executionRules['interval-months']}";
-				break;
-			case 'custom':
-				$customRules = &$executionRules['custom'];
-				$cronRules['minutes'] = $this->wildcardIfMatch($customRules['minutes'], range(0, 59), true);
-				$cronRules['hours'] = $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
-				$cronRules['days_month'] = $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
-				$cronRules['months'] = $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
-				$cronRules['days_week'] = $this->wildcardIfMatch($customRules['days_week'], range(1, 7), true);
+			$intervalType = explode('-', $ruleType)[1];
+			$interval = $executionRules["interval-$intervalType"];
+			$execExpression['exp'] = sprintf($intervalStringMap[$intervalType], $interval);
+			$nextExec = new Date(Factory::getDate('now', 'GMT')->format('Y-m') .
+				"-$basisDayOfMonth $basisHour:$basisMinute:00", new DateTimeZone('GMT')
+			);
+			$interval = new DateInterval(
+				sprintf($intervalStringMap[$intervalType], $interval)
+			);
+
+			$nextExec = ($nextExec->add($interval))->toSql();
 		}
+
+		if ($execType === 'cron')
+		{
+			// ! custom matches are disabled in the form
+			$customRules = &$executionRules['custom'];
+			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['minutes'], range(0, 59), true);
+			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
+			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
+			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
+			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['days_week'], range(1, 7), true);
+			$nextExec = null;
+		}
+
+		$data['cron_rules'] = $execExpression;
+		$data['next_execution'] = $nextExec;
 	}
 
 	/**
@@ -434,8 +447,8 @@ class CronjobModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if there is an error in the form event.
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content'): void
 	{
