@@ -45,7 +45,13 @@ class JoomlaRestoreDefaults {
 				restoreCombination.push('SHIFT');
 			}
 			if(this.options[action].hasAlt){
-				restoreCombination.push('ALT');
+				if(navigator.platform.match('Mac'))
+				{
+					restoreCombination.push("META")
+				}
+				else{
+				restoreCombination.push("ALT");
+			}
 			}
 			restoreCombination.push(keyValue);
 			const restoreDefault = restoreCombination.join(' + ');
