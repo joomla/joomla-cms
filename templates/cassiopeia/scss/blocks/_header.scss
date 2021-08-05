@@ -224,20 +224,20 @@
         }
       }
 
-      &.active .toggler__wrapper {
-        > a,
-        > button,
-        > a:hover,
-        > button:hover {
-
-          @include media-breakpoint-up(md) {
-            text-decoration: none;
-          }
-        }
-      }
-
       > ul {
         min-width: 12rem;
+      }
+    }
+
+    .metismenu > li.level-1.active .toggler__wrapper {
+      > a,
+      > button,
+      > a:hover,
+      > button:hover {
+
+        @include media-breakpoint-up(md) {
+          text-decoration: none;
+        }
       }
     }
   }
