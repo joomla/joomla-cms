@@ -1,4 +1,5 @@
-const { stat, copy } = require('fs-extra');
+const { existsSync } = require('fs');
+const { stat, copy, emptyDirSync } = require('fs-extra');
 const { join, extname } = require('path');
 
 const RootPath = process.cwd();
@@ -10,16 +11,20 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.recreateMediaFolder = async () => {
+module.exports.recreateMediaFolder = async (options) => {
+  // Clean up existing folders
+  for (const folder of options.settings.cleanUpFolders) {
+    const folderPath = join(`${RootPath}/media`, folder);
+    if (existsSync(folderPath)) {
+      emptyDirSync(folderPath);
+    }
+  }
+
   // eslint-disable-next-line no-console
   console.log('Recreating the media folder...');
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isDirectory() && src.endsWith('core.es6')) {
-      return false;
-    }
-
     if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
       return false;
     }

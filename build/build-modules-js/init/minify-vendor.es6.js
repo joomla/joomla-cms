@@ -1,5 +1,5 @@
 const { lstat, readFile, writeFile } = require('fs-extra');
-const { sep } = require('path');
+const { sep, basename } = require('path');
 const recursive = require('recursive-readdir');
 const { minify } = require('terser');
 
@@ -18,8 +18,8 @@ const folders = [
 let allFiles = [];
 
 const noMinified = [
-  'media/vendor/accessibility/js/accessibility.min.js',
-  'media/vendor/short-and-sweet/js/short-and-sweet.min.js',
+  'accessibility.min.js',
+  'short-and-sweet.min.js',
 ];
 
 const alreadyMinified = [
@@ -47,7 +47,7 @@ const minifiedExists = async (file) => {
  * @returns {Promise}
  */
 const minifyJS = async (file) => {
-  const needsDotJS = noMinified.includes(file.replace(`${RootPath}${sep}`, ''));
+  const needsDotJS = noMinified.includes(basename(file));
   if (file.endsWith('.min.js') && !needsDotJS) {
     return;
   }
