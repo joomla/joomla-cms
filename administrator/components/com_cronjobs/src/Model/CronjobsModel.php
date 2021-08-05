@@ -146,19 +146,46 @@ class CronjobsModel extends ListModel
 		// From the #__cronjobs table as 'a'
 		$query->from($db->quoteName('#__cronjobs', 'a'));
 
+		// Filters go below
+		$filterCount = 0;
+
+		/**
+		 * Extends query if already filtered.
+		 *
+		 * @param   string  $outerGlue
+		 * @param   array   $conditions
+		 * @param   string  $innerGlue
+		 * @since __DEPLOY_VERSION__
+		 */
+		$extendIfFiltered = function (
+			string $outerGlue, array $conditions, string $innerGlue
+		) use ($query, &$filterCount) {
+			if ($filterCount)
+			{
+				$query->extendWhere($outerGlue, $conditions, $innerGlue);
+			}
+			else
+			{
+				$query->where($conditions, $innerGlue);
+			}
+
+		};
+
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
 		if (is_numeric($state))
 		{
+			$filterCount++;
 			$state = (int) $state;
 			$query->where($db->quoteName('a.state') . '= :state')
 				->bind(':state', $state);
 		}
 
-		// Filter over type
+		// Filter over type ----
 		if ($typeFilter = $this->getState('filter.type'))
 		{
+			$filterCount++;
 			$query->where($db->quotename('a.type') . '= :type')
 				->bind(':type', $typeFilter);
 		}
@@ -168,6 +195,7 @@ class CronjobsModel extends ListModel
 
 		if (is_numeric($exitCode))
 		{
+			$filterCount++;
 			$exitCode = (int) $exitCode;
 			$query->where($db->quoteName('a.last_exit_code') . '= :last_exit_code')
 				->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
@@ -186,19 +214,19 @@ class CronjobsModel extends ListModel
 				$query->where($db->quoteName('a.id') . '= :id')
 					->bind(':id', $id, ParameterType::INTEGER);
 			}
-			// Search by type is handled exceptionally in _getList() [TODO]
+			// Search by type is handled exceptionally in _getList() [TODO: remove refs]
 			elseif (stripos($searchStr, 'type:') !== 0)
 			{
-				// The where clause is extended to allow other filters to act
-				$query->extendWhere(
-					'AND',
-					[
-						$db->quoteName('a.title') . ' LIKE :searchStr',
-						$db->quoteName('a.note') . 'LIKE :searchStr'
-					],
-					'OR'
-				)
-					->bind(':searchStr', $searchStr, ParameterType::STRING);
+				$searchStr = "%${searchStr}%";
+
+				// Bind keys to query
+				$query->bind(':title', $searchStr)
+					->bind(':note', $searchStr);
+				$conditions = [
+					$db->quoteName('a.title') . ' LIKE :title',
+					$db->quoteName('a.note') . ' LIKE :note'
+				];
+				$extendIfFiltered('AND', $conditions, 'OR');
 			}
 		}
 
@@ -257,8 +285,6 @@ class CronjobsModel extends ListModel
 		{
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
 		}
-
-		// TODO: Implement filtering by type title here [filter form + search]
 
 		// Filter out orphaned jobs if the state allows
 		// ! This breaks pagination at the moment [TODO: fix]
