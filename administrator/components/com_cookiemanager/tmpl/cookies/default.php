@@ -53,16 +53,16 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
-								<th scope="col" style="min-width:85px" class="w-1 text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JCATEGORY', 'a.category_title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-5 d-none d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -113,10 +113,10 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 										</span>
 									</div>
 								</th>
-								<td class="d-none d-md-table-cell">
+								<td class="text-center">
 									<?php echo $item->category_title; ?>
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>

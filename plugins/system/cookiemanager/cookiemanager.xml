@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+  <name>plg_system_cookiemanager</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_COOKIEMANAGER_XML_DESCRIPTION</description>
+	<files>
+    <filename plugin="cookiemanager">cookiemanager.php</filename>
+  </files>
+  <languages>
+    <language tag="en-GB">en-GB.plg_system_cookiemanager.ini</language>
+    <language tag="en-GB">en-GB.plg_system_cookiemanager.sys.ini</language>
+  </languages>
+</extension>
