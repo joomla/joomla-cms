@@ -70,7 +70,7 @@
           text-decoration: underline;
         }
 
-        &.active li:not(.level-1) .toggler__wrapper {
+        &.active .toggler__wrapper {
           > a,
           > button,
           > a:hover,
