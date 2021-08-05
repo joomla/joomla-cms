@@ -34,6 +34,13 @@
                     p.setAttribute('data-src', q);
                     p.removeAttribute('src');
                   }
+                } else if (val.type === '7') {
+                  const q = val.code.match(/href="(.+)"/)[1];
+                  if (document.querySelector(`[href="${q}"]`)) {
+                    const p = document.querySelector(`[href="${q}"]`);
+                    p.setAttribute('data-href', q);
+                    p.removeAttribute('href');
+                  }
                 }
               });
             }
@@ -83,6 +90,13 @@
                   p.setAttribute('src', q);
                   p.removeAttribute('data-src');
                 }
+              } else {
+                const q = i.code.match(/href="(.+)"/)[1];
+                if (document.querySelector(`[data-href="${q}"]`)) {
+                  const p = document.querySelector(`[data-href="${q}"]`);
+                  p.setAttribute('href', q);
+                  p.removeAttribute('data-href');
+                }
               }
 
               document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
@@ -120,6 +134,13 @@
                   const p = document.querySelector(`[data-src="${q}"]`);
                   p.setAttribute('src', q);
                   p.removeAttribute('data-src');
+                }
+              } else {
+                const q = i.code.match(/href="(.+)"/)[1];
+                if (document.querySelector(`[data-href="${q}"]`)) {
+                  const p = document.querySelector(`[data-href="${q}"]`);
+                  p.setAttribute('href', q);
+                  p.removeAttribute('data-href');
                 }
               }
 
