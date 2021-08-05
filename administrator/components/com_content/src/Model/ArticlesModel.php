@@ -40,6 +40,8 @@ class ArticlesModel extends ListModel
 	 */
 	public function __construct($config = array())
 	{
+		$featured =  $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
@@ -56,7 +58,6 @@ class ArticlesModel extends ListModel
 				'created_by', 'a.created_by',
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
-				'featured', 'a.featured',
 				'featured_up', 'fp.featured_up',
 				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
@@ -72,6 +73,10 @@ class ArticlesModel extends ListModel
 				'stage', 'wa.stage_id',
 				'ws.title'
 			);
+
+			if ($featured === '1'){
+				$config['filter_fields'][] = 'fp.ordering';
+			}
 
 			if (Associations::isEnabled())
 			{
@@ -146,7 +151,8 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		// Initialize featured to the get request value if it is set, else use the selector dropdown value.
+		$featured = $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 		$this->setState('filter.featured', $featured);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
@@ -233,6 +239,8 @@ class ArticlesModel extends ListModel
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
 
+		$featured = $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+
 		$params = ComponentHelper::getParams('com_content');
 
 		// Select the required fields from the table.
@@ -304,6 +312,13 @@ class ArticlesModel extends ListModel
 			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
+
+		if ($featured === '1'){
+			$query->select($this->getDbo()->quoteName('fp.ordering'));
+		}
+		elseif ($featured === '0'){
+			$query->where($db->quoteName('a.featured') . ' = 0');
+		}
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
