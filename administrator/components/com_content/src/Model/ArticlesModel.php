@@ -40,7 +40,7 @@ class ArticlesModel extends ListModel
 	 */
 	public function __construct($config = array())
 	{
-		$featured = Factory::getApplication()->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 
 		if (empty($config['filter_fields']))
 		{
@@ -151,8 +151,7 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		// Initialize featured to the get request value if it is set, else use the selector dropdown value.
-		$featured = $app->input->get('featured') ?? $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 		$this->setState('filter.featured', $featured);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
