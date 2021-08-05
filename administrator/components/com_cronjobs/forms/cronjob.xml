@@ -135,7 +135,7 @@
 				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_MONTHS</option>
 			</field>
 			<!-- The day of execution (UTC), needed for interval-months -->
-			<field name="exec-day" type="number" min="1" max="31" step="1" default="1"
+			<field name="exec-day" type="number" min="1" max="31" step="1"
 				   label="COM_CRONJOBS_LABEL_EXEC_DAY" showon="rule-type:interval-months"/>
 			<!-- The time of execution (UTC), needed for interval-days and interval-months -->
 			<field name="exec-time" type="time" label="COM_CRONJOBS_LABEL_EXEC_TIME"
