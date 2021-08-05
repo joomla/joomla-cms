@@ -259,7 +259,6 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="form-select-color-state"
 			size="1"
 			validate="options"
 			>
