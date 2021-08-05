@@ -848,8 +848,7 @@
       "plg_user_token",
       "system",
       "templates/site/cassiopeia",
-      "templates/administrator/atum",
-      "vendor"
+      "templates/administrator/atum"
     ]
   }
 }

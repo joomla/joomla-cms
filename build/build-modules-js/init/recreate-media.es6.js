@@ -12,13 +12,29 @@ const RootPath = process.cwd();
  * @returns {Promise}
  */
 module.exports.recreateMediaFolder = async (options) => {
+  const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
+    if (vendor === 'choices.js') {
+      return 'vendor/choicesjs';
+    }
+    if (vendor === '@fortawesome/fontawesome-free') {
+      return 'vendor/fontawesome-free';
+    }
+    if (vendor === '@claviska/jquery-minicolors') {
+      return 'vendor/minicolors';
+    }
+    if (vendor === '@webcomponents/webcomponentsjs') {
+      return 'vendor/webcomponentsjs';
+    }
+    return `vendor/${vendor}`;
+  });
+
   // Clean up existing folders
-  for (const folder of options.settings.cleanUpFolders) {
+  [...options.settings.cleanUpFolders, ...installedVendors].forEach((folder) => {
     const folderPath = join(`${RootPath}/media`, folder);
     if (existsSync(folderPath)) {
       emptyDirSync(folderPath);
     }
-  }
+  });
 
   // eslint-disable-next-line no-console
   console.log('Recreating the media folder...');
