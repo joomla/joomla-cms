@@ -151,7 +151,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_MORE_DETAILS') . '</button>'
-					. '<button type="button" "btnAcceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
+					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
 
 				],
@@ -221,7 +221,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 				'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
 				'footer' => '<button type="button" id="prefConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-info" data-bs-dismiss="modal">'
+					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
 			],
 			$prefBody

@@ -156,6 +156,44 @@
     document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
   });
 
+  document.querySelectorAll('[data-button="acceptAllCookies"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const exp = getExpiration();
+      Object.entries(code).forEach(([key, value]) => {
+        Object.values(value).forEach((i) => {
+          if (i.type === 1 || i.type === 2) {
+            if (i.position === 1) {
+              document.head.prepend(parse(i.code));
+            } else if (i.position === 2) {
+              document.head.append(parse(i.code));
+            } else if (i.position === 3) {
+              document.body.prepend(parse(i.code));
+            } else {
+              document.body.append(parse(i.code));
+            }
+          } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
+            const q = i.code.match(/src="([^\s]*)"\s/)[1];
+            if (document.querySelector(`[data-src="${q}"]`)) {
+              const p = document.querySelector(`[data-src="${q}"]`);
+              p.setAttribute('src', q);
+              p.removeAttribute('data-src');
+            }
+          } else {
+            const q = i.code.match(/href="(.+)"/)[1];
+            if (document.querySelector(`[data-href="${q}"]`)) {
+              const p = document.querySelector(`[data-href="${q}"]`);
+              p.setAttribute('href', q);
+              p.removeAttribute('data-href');
+            }
+          }
+          document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
+        });
+      });
+
+      document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
+    });
+  });
+
   document.querySelectorAll('a[data-bs-toggle="collapse"]').forEach((item) => {
     item.addEventListener('click', () => {
       if (item.innerText === Joomla.Text._('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT')) {
