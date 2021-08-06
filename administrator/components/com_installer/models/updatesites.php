@@ -331,7 +331,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 					if (!is_null($manifest))
 					{
-						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
+						// Search if the extension exists in the extensions table. Excluding joomla core extensions and discovered but not yet installed extensions.
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
