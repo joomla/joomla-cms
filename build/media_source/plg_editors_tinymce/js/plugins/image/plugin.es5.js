@@ -61,7 +61,7 @@
           { name: Joomla.Text._('PLG_TINY_JIMAGE_CROP'), value: 4 },
           { name: Joomla.Text._('PLG_TINY_JIMAGE_RESIZE_CROP'), value: 5 },
         ],
-        activeItem: responsiveSizes.creationMethod.items[0],
+        activeItem: { name: Joomla.Text._('PLG_TINY_JIMAGE_SELECT'), value: 0 },
         value: '',
       },
       sizes: [],
