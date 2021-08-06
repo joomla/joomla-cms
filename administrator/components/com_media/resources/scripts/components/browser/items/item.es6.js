@@ -3,6 +3,7 @@ import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
+import Audio from './audio.vue';
 import * as types from '../../../store/mutation-types.es6';
 import { api } from '../../../app/Api.es6';
 
@@ -20,6 +21,7 @@ export default {
     itemType() {
       const imageExtensions = api.imagesExtensions;
       const videoExtensions = ['mp4'];
+      const audioExtensions = ['mp3'];
 
       // Render directory items
       if (this.item.type === 'dir') return Directory;
@@ -32,6 +34,11 @@ export default {
       // Render video items
       if (this.item.extension && videoExtensions.includes(this.item.extension.toLowerCase())) {
         return Video;
+      }
+
+      // Render audio items
+      if (this.item.extension && audioExtensions.includes(this.item.extension.toLowerCase())) {
+        return Audio;
       }
 
       // Default to file type

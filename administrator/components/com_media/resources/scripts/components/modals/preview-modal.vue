@@ -23,18 +23,24 @@
           :src="item.url"
           :type="item.mime_type"
         >
+      </div>
+      <div class="player-wrapper" v-if="isVideo()">
         <video
-          v-if="isVideo()"
           id="video-player"
+          width="100%"
+          height="100%"
+          style="width: 100%; height: 300px;"
           :src="item.url"
           :type="item.mime_type"
-          width="400"
-          height="300"
         >
         </video>
+      </div>
+      <div class="player-wrapper" v-if="isAudio()">
         <audio
-          v-if="isAudio()"
           id="audio-player"
+          width="100%"
+          height="100%"
+          style="width: 100%;"
           :src="item.url"
           :type="item.mime_type"
         >
@@ -60,7 +66,6 @@ export default {
   name: 'MediaPreviewModal',
   data() {
     return {
-      item: null,
       player: null
     }
   },
@@ -68,13 +73,19 @@ export default {
     /* Get the item to show in the modal */
     item() {
       // Use the currently selected directory as a fallback
-      console.log(this.$store.state.previewItem);
       return this.$store.state.previewItem;
     },
   },
+  watch: {
+    // Handle item change from ordinary to potentially playable
+    item(newItem, oldItem) {
+      if (oldItem && oldItem.mime_type !== newItem.mime_type) {
+        setTimeout(() => this.initPlayer());
+      }
+    }
+  },
   methods: {
     open() {
-      // Get the item to show in the modal
       this.initPlayer();
     },
     /* Close the modal */

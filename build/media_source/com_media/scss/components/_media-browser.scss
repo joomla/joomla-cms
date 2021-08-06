@@ -201,10 +201,6 @@
   background-image: linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 25%, transparent 75%, #eee 75%, hsl(var(--hue), 20%, 97%) 100%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, hsl(var(--hue), 20%, 97%) 75%, hsl(var(--hue), 20%, 97%) 100%);
   background-position: 0 0, 10px 10px;
   background-size: 20px 20px;
-
-  > video {
-    width: 100%;
-  }
 }
 
 .image-cropped {
@@ -213,6 +209,14 @@
   background-position: center;
   background-size: contain;
   border-radius: $grid-item-border-radius;
+}
+
+.player-wrapper {
+  width: 500px;
+
+  @media screen and (max-width: 576px) {
+    width: 300px;
+  }
 }
 
 .file-background, .folder-background {

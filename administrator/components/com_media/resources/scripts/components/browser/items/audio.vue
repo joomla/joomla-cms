@@ -7,7 +7,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="fas fa-file-video" />
+          <span class="fas fa-file-audio" />
         </div>
       </div>
     </div>
@@ -169,7 +169,7 @@ import * as types from '../../../store/mutation-types.es6';
 export default {
   name: 'MediaBrowserItemVideo',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['type', 'item', 'focused'],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,
