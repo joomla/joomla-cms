@@ -66,17 +66,19 @@
     }
   }
 }
-.card-columns {
-  grid-template-columns: 1fr;
-  column-count: 1;
+.com-cpanel {
+  .card-columns {
+    grid-template-columns: 1fr;
+    column-count: 1;
 
-  @include media-breakpoint-up(md) {
-    grid-template-columns: 1fr 1fr;
-    column-count: 2;
-  }
-  @include media-breakpoint-up(lg) {
-    grid-template-columns: 1fr 1fr 1fr;
-    column-count: 3;
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr;
+      column-count: 2;
+    }
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: 1fr 1fr 1fr;
+      column-count: 3;
+    }
   }
 }
 
