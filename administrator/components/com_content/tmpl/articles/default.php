@@ -36,7 +36,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $featured  = $this->state->get('filter.featured');
 $orderName = $featured === "1" ? 'fp.ordering' : 'a.ordering';
-$saveOrder = $listOrder == $orderName ;
+$saveOrder = $listOrder == $orderName;
 
 if (strpos($listOrder, 'publish_up') !== false)
 {
