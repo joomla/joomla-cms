@@ -13,6 +13,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#cookieBanner .modal-dialog').classList.add(config.position);
+    document.querySelector('#preferences .modal-dialog').classList.add('modal-dialog-scrollable');
 
     if (cookie.indexOf('cookieBanner=shown') === -1) {
       const Banner = new bootstrap.Modal(document.querySelector('#cookieBanner'));
@@ -27,12 +28,19 @@
           Object.entries(code).forEach(([key, value]) => {
             if (key === item.getAttribute('data-cookiecategory')) {
               Object.values(value).forEach((val) => {
-                if (val.type === 3 || val.type === 4 || val.type === 5 || val.type === 6) {
+                if (val.type === 3 || val.type === 4 || val.type === 6) {
                   const q = val.code.match(/src="([^\s]*)"\s/)[1];
                   if (document.querySelector(`[src="${q}"]`)) {
                     const p = document.querySelector(`[src="${q}"]`);
                     p.setAttribute('data-src', q);
                     p.removeAttribute('src');
+                  }
+                } else if (val.type === 5) {
+                  const q = val.code.match(/data="([^\s]*)"\s/)[1];
+                  if (document.querySelector(`[data="${q}"]`)) {
+                    const p = document.querySelector(`[data="${q}"]`);
+                    p.setAttribute('data-src', q);
+                    p.removeAttribute('data');
                   }
                 } else if (val.type === 7) {
                   const q = val.code.match(/href="(.+)"/)[1];
@@ -83,11 +91,18 @@
                 } else {
                   document.body.append(parse(i.code));
                 }
-              } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
+              } else if (i.type === 3 || i.type === 4 || i.type === 6) {
                 const q = i.code.match(/src="([^\s]*)"\s/)[1];
                 if (document.querySelector(`[data-src="${q}"]`)) {
                   const p = document.querySelector(`[data-src="${q}"]`);
                   p.setAttribute('src', q);
+                  p.removeAttribute('data-src');
+                }
+              } else if (i.type === 5) {
+                const q = i.code.match(/data="([^\s]*)"\s/)[1];
+                if (document.querySelector(`[data-src="${q}"]`)) {
+                  const p = document.querySelector(`[data-src="${q}"]`);
+                  p.setAttribute('data', q);
                   p.removeAttribute('data-src');
                 }
               } else {
@@ -128,11 +143,18 @@
                 } else {
                   document.body.append(parse(i.code));
                 }
-              } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
+              } else if (i.type === 3 || i.type === 4 || i.type === 6) {
                 const q = i.code.match(/src="([^\s]*)"\s/)[1];
                 if (document.querySelector(`[data-src="${q}"]`)) {
                   const p = document.querySelector(`[data-src="${q}"]`);
                   p.setAttribute('src', q);
+                  p.removeAttribute('data-src');
+                }
+              } else if (i.type === 5) {
+                const q = i.code.match(/data="([^\s]*)"\s/)[1];
+                if (document.querySelector(`[data-object="${q}"]`)) {
+                  const p = document.querySelector(`[data-src="${q}"]`);
+                  p.setAttribute('data', q);
                   p.removeAttribute('data-src');
                 }
               } else {
@@ -171,11 +193,18 @@
             } else {
               document.body.append(parse(i.code));
             }
-          } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
+          } else if (i.type === 3 || i.type === 4 || i.type === 6) {
             const q = i.code.match(/src="([^\s]*)"\s/)[1];
             if (document.querySelector(`[data-src="${q}"]`)) {
               const p = document.querySelector(`[data-src="${q}"]`);
               p.setAttribute('src', q);
+              p.removeAttribute('data-src');
+            }
+          } else if (i.type === 5) {
+            const q = i.code.match(/data="([^\s]*)"\s/)[1];
+            if (document.querySelector(`[data-src="${q}"]`)) {
+              const p = document.querySelector(`[data-src="${q}"]`);
+              p.setAttribute('data', q);
               p.removeAttribute('data-src');
             }
           } else {
