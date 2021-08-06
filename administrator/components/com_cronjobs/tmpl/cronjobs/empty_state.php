@@ -16,7 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_CRONJOBS',
 	'formURL'    => 'index.php?option=com_cronjobs&task=cronjob.add',
 	'helpURL'    => 'https://github.com/joomla-projects/soc21_website-cronjob',
-	'icon'       => 'icon-cronjobs cronjobs',
+	'icon'       => 'icon-clock clock',
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_cronjobs'))
