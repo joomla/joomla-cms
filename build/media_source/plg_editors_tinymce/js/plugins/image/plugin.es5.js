@@ -14,28 +14,28 @@
       imgClass: {
         id: "jimage_imageclass",
         type: "text",
-        label: "Image class",
-        value: ""
+        label: Joomla.Text._('PLG_TINY_JIMAGE_IMAGE_CLASS'),
+        value: "",
       },
       lazyLoading: {
         id: "jimage_lazyloading",
         type: "checkbox",
-        label: "Load time",
-        content: "Lazy load",
-        value: false
+        label: Joomla.Text._('PLG_TINY_JIMAGE_LOAD_TYPE'),
+        content: Joomla.Text._('PLG_TINY_JIMAGE_LAZY_LOAD'),
+        value: false,
       },
       figClass: {
         id: "jimage_figureclass",
         type: "text",
-        label: "Figure class",
-        value: ""
+        label: Joomla.Text._('PLG_TINY_JIMAGE_FIGURE_CLASS'),
+        value: "",
       },
       figCaption: {
         id: "jimage_figurecaption",
         type: "text",
-        label: "Figure caption",
-        value: ""
-      }
+        label: Joomla.Text._('PLG_TINY_JIMAGE_FIGURE_CAPTION'),
+        value: "",
+      },
     };
 
     /**
@@ -47,11 +47,11 @@
       setCustom: {
         id: "jimage_setcustom",
         type: "checkbox",
-        label: "Responsive images",
-        content: "Custom responsive sizes",
-        value: false
+        label: Joomla.Text._("PLG_TINY_JIMAGE_RESPONSIVE_IMAGES"),
+        content: Joomla.Text._("PLG_TINY_JIMAGE_RESPONSIVE_SIZES"),
+        value: false,
       },
-      sizes: []
+      sizes: [],
     };
 
     /**
@@ -119,14 +119,14 @@
           width: {
             id: "jimage_sizes_width_" + id,
             type: "number",
-            label: "Width",
-            value: width ?? '',
+            label: Joomla.Text._('PLG_TINY_JIMAGE_WIDTH'),
+            value: width ?? "",
           },
           height: {
             id: "jimage_sizes_height" + id,
             type: "number",
-            label: "Height",
-            value: height ?? '',
+            label: Joomla.Text._('PLG_TINY_JIMAGE_HEIGHT'),
+            value: height ?? "",
           },
         };
       },
@@ -211,10 +211,14 @@
                 formHTML += '</div>';
 
                 // Render responsive size fields
-                formHTML += jimage.renderFieldGroup([responsiveSizes.setCustom], { id: 'jimage_add', title: 'Add size', icon: 'add' });
+                formHTML += jimage.renderFieldGroup([responsiveSizes.setCustom], {
+                  id: 'jimage_add', title: Joomla.Text._('PLG_TINY_JIMAGE_ADD_SIZE'), icon: 'add'
+                });
                 formHTML += '<div id="jimage_sizes_wrapper" style="display: ' + (responsiveSizes.setCustom.value ? 'block' : 'none') + ';">';
                 responsiveSizes.sizes.forEach(function (size, index) {
-                  formHTML += jimage.renderFieldGroup(Object.values(size), { id: 'jimage_delete_' + index, title: 'Delete size', icon: 'delete' });
+                  formHTML += jimage.renderFieldGroup(Object.values(size), {
+                    id: 'jimage_delete_' + index, title: Joomla.Text._('PLG_TINY_JIMAGE_DELETE_SIZE'), icon: 'delete'
+                  });
                 });
                 formHTML += '</div>';
 
@@ -227,16 +231,16 @@
                 Object.values(imageDetails).forEach(function (field) {
                   jimage.registerField(field);
                 });
-                
+
                 // Update values of responsive size controls on change
                 responsiveSizes.sizes.forEach(function (group, index) {
                   Object.values(group).forEach(function (field) {
                     jimage.registerField(field);
                   });
-                  
+
                   jimage.handleDelete(index);
                 });
-                
+
                 // Show/hide elements depending on custom sizes config
                 jimage.registerField(responsiveSizes.setCustom, function () {
                   var isCustom = responsiveSizes.setCustom.value;
@@ -258,7 +262,7 @@
                   // Append new object to the array and render field group
                   responsiveSizes.sizes.push(newGroup);
                   sizesWrapper.insertAdjacentHTML('beforeend', jimage.renderFieldGroup(Object.values(newGroup), {
-                    id: 'jimage_delete_' + id, title: 'Delete size', icon: 'delete'
+                    id: 'jimage_delete_' + id, title: Joomla.Text._('PLG_TINY_JIMAGE_DELETE_SIZE'), icon: 'delete'
                   }));
 
                   // Track value of newly created field
