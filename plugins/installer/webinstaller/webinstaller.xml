@@ -15,7 +15,7 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_installer_webinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_webinstaller.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.sys.ini</language>
 	</languages>
 </extension>

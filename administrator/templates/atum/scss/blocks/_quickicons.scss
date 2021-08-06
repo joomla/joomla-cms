@@ -21,7 +21,7 @@
     --text-color: hsl(var(--hue), 30%, 40%);
     --bg-color: hsl(var(--hue), 60%, 97%);
     --icon-color: hsl(var(--hue), 30%, 40%);
-    --bg-color-hvr: var(--atum-bg-dark);
+    --bg-color-hvr: var(--template-bg-dark);
 
     display: flex;
     flex-grow: 1;
@@ -121,7 +121,7 @@
       &:hover,
       &:focus,
       &:active {
-        background: var(--atum-bg-dark);
+        background: var(--template-bg-dark);
 
         * {
           color: $white;
@@ -142,7 +142,10 @@
 
 #content .menu-quicktask {
   position: absolute;
-  right: 1.25rem;
+
+  [dir=ltr] & {
+    right: 1.25rem;
+  }
 
   [dir=rtl] & {
     left: 1.25rem;

@@ -137,9 +137,9 @@ if ($saveOrder && !empty($this->items))
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											</span>
+											</div>
 											<div class="small">
 												<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 											</div>

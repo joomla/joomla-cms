@@ -13,7 +13,6 @@ namespace Joomla\Component\Tags\Site\Service;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;

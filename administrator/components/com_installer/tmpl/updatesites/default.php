@@ -102,12 +102,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php else : ?>
 										<?php echo Text::_($item->update_site_name); ?>
 									<?php endif; ?>
-									<br>
-									<span class="small break-word">
+									<div class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-									</span>
-									<br>
-									<span class="small break-word">
+									</div>
+									<div class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge bg-info">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
@@ -123,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											</span>
 										</span>
 										<?php endif; ?>
-									</span>
+									</div>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
