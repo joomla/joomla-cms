@@ -872,6 +872,25 @@ CREATE INDEX "#__cookiemanager_cookies_idx_catid" on "#__cookiemanager_cookies" 
 CREATE INDEX "#__cookiemanager_cookies_idx_createdby" on "#__cookiemanager_cookies" ("created_by");
 
 --
+-- Table structure for table "#__cookiemanager_scripts"
+--
+
+CREATE TABLE IF NOT EXISTS "#__cookiemanager_scripts" (
+  "id" serial NOT NULL,
+  "title" varchar(255) NOT NULL,
+  "alias" varchar(400) NOT NULL,
+  "position" integer DEFAULT 4 NOT NULL,
+  "type" integer DEFAULT 1 NOT NULL,
+  "code" text NOT NULL,
+  "catid" integer DEFAULT 0 NOT NULL,
+  "published" smallint DEFAULT 1 NOT NULL,
+  "ordering" integer DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__cookiemanager_scripts_idx_state" on "#__cookiemanager_scripts" ("published");
+CREATE INDEX "#__cookiemanager_scripts_idx_catid" on "#__cookiemanager_scripts" ("catid");
+
+--
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module
 --   from contrib folder.
 -- This function comes from https://wiki.postgresql.org/wiki/Soundex
