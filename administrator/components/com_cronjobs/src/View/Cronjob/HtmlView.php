@@ -15,6 +15,7 @@ namespace Joomla\Component\Cronjobs\Administrator\View\Cronjob;
 \defined('_JEXEC') or die;
 
 use Exception;
+use JForm;
 use JObject;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
@@ -42,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var   \JForm
+	 * @var   JForm
 	 * @since __DEPLOY__VERSION__
 	 */
 	protected $form;
@@ -135,7 +136,6 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		// TODO : icon?
 		ToolbarHelper::title($isNew ? Text::_('COM_CRONJOBS_MANAGER_CRONJOB_NEW') : Text::_('COM_CRONJOBS_MANAGER_CRONJOB_EDIT'), 'clock');
 
 		// Goes into ToolbarHelper::saveGroup()
