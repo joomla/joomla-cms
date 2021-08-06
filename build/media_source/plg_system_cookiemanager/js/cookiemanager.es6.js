@@ -27,14 +27,14 @@
           Object.entries(code).forEach(([key, value]) => {
             if (key === item.getAttribute('data-cookiecategory')) {
               Object.values(value).forEach((val) => {
-                if (val.type === '3' || val.type === '4' || val.type === '5' || val.type === '6') {
+                if (val.type === 3 || val.type === 4 || val.type === 5 || val.type === 6) {
                   const q = val.code.match(/src="([^\s]*)"\s/)[1];
                   if (document.querySelector(`[src="${q}"]`)) {
                     const p = document.querySelector(`[src="${q}"]`);
                     p.setAttribute('data-src', q);
                     p.removeAttribute('src');
                   }
-                } else if (val.type === '7') {
+                } else if (val.type === 7) {
                   const q = val.code.match(/href="(.+)"/)[1];
                   if (document.querySelector(`[href="${q}"]`)) {
                     const p = document.querySelector(`[href="${q}"]`);
@@ -73,17 +73,17 @@
         Object.entries(code).forEach(([key, value]) => {
           if (key === item.getAttribute('data-cookiecategory')) {
             Object.values(value).forEach((i) => {
-              if (i.type === '1' || i.type === '2') {
-                if (i.position === '1') {
+              if (i.type === 1 || i.type === 2) {
+                if (i.position === 1) {
                   document.head.prepend(parse(i.code));
-                } else if (i.position === '2') {
+                } else if (i.position === 2) {
                   document.head.append(parse(i.code));
-                } else if (i.position === '3') {
+                } else if (i.position === 3) {
                   document.body.prepend(parse(i.code));
                 } else {
                   document.body.append(parse(i.code));
                 }
-              } else if (i.type === '3' || i.type === '4' || i.type === '5' || i.type === '6') {
+              } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
                 const q = i.code.match(/src="([^\s]*)"\s/)[1];
                 if (document.querySelector(`[data-src="${q}"]`)) {
                   const p = document.querySelector(`[data-src="${q}"]`);
@@ -118,17 +118,17 @@
         Object.entries(code).forEach(([key, value]) => {
           if (key === item.getAttribute('data-cookie-category')) {
             Object.values(value).forEach((i) => {
-              if (i.type === '1' || i.type === '2') {
-                if (i.position === '1') {
+              if (i.type === 1 || i.type === 2) {
+                if (i.position === 1) {
                   document.head.prepend(parse(i.code));
-                } else if (i.position === '2') {
+                } else if (i.position === 2) {
                   document.head.append(parse(i.code));
-                } else if (i.position === '3') {
+                } else if (i.position === 3) {
                   document.body.prepend(parse(i.code));
                 } else {
                   document.body.append(parse(i.code));
                 }
-              } else if (i.type === '3' || i.type === '4' || i.type === '5' || i.type === '6') {
+              } else if (i.type === 3 || i.type === 4 || i.type === 5 || i.type === 6) {
                 const q = i.code.match(/src="([^\s]*)"\s/)[1];
                 if (document.querySelector(`[data-src="${q}"]`)) {
                   const p = document.querySelector(`[data-src="${q}"]`);
