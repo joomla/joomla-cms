@@ -70,7 +70,7 @@
 .com-cpanel {
   .card-columns {
     display: grid;
-    
+
     @include media-breakpoint-up(lg) {
       grid-template-columns: 1fr 1fr 1fr;
       column-count: 3;
