@@ -67,8 +67,7 @@
   }
 }
 
-.com-cpanel {
-  .card-columns {
+.com-cpanel .card-columns {
     grid-template-columns: 1fr;
     column-count: 1;
 
@@ -83,7 +82,6 @@
     @include media-breakpoint-up(sm) {
       grid-template-columns: 1fr;
       column-count: 1;
-    }
   }
 }
 .com_cpanel {
