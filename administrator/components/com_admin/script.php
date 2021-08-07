@@ -2297,7 +2297,9 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			$filePath = JPATH_ROOT . $file;
+
+			if (JFile::exists($filePath) && !JFile::delete($filePath))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
@@ -2307,9 +2309,21 @@ class JoomlaInstallerScript
 
 		foreach ($folders as $folder)
 		{
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			$folderPath = JPATH_ROOT . $folder;
+
+			if (JFolder::exists($folderPath)
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+				if (JFolder::isEmpty($folderPath)
+				{
+					if (!JFolder::delete($folderPath))
+					{
+						echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+					}
+				}
+				else
+				{
+					echo JText::sprintf('FILES_JOOMLA_ERROR_FOLDER_NOT_EMPTY', $folder) . '<br />';
+				}
 			}
 		}
 

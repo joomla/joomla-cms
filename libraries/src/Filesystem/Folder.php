@@ -728,4 +728,48 @@ abstract class Folder
 
 		return preg_replace($regex, '', $path);
 	}
+
+	/**
+	 * Checks if a folder is empty.
+	 *
+	 * @param   string  $path  The path of the folder to check.
+	 *
+	 * @return  boolean  True if the folder is a valid empty folder.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isEmpty($path)
+	{
+		// Check to make sure the path valid and clean
+		$pathObject = new PathWrapper;
+		$path = $pathObject->clean($path);
+
+		// Is the path a folder?
+		if (!is_dir($path))
+		{
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		if (!($handle = @opendir($path)))
+		{
+			return false;
+		}
+
+		// Return false as soon as the first file or subfolder found
+		while (($entry = readdir($handle)) !== false)
+		{
+			if ($entry !== '.' && $entry !== '..')
+			{
+				closedir($handle);
+
+				return false;
+			}
+		}
+
+		closedir($handle);
+
+		return true;
+	}
 }
