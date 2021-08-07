@@ -95,8 +95,9 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
 					<a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
-							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>
-							<?php echo sprintf('srcset="%s" sizes="%s"', MediaHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), MediaHelper::generateSizes($img->url)); ?>
+							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"
+							<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), MediaHelper::generateSizes($img->url)); ?>
+						/>
 					</a>
 				<?php endif; ?>
 				<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>

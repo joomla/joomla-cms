@@ -520,6 +520,19 @@ class PlgEditorTinymce extends CMSPlugin
 		// Activate JImage plugin
 		$externalPlugins['jimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/image/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
+		// Add JImage translation strings to JS store
+		$translationStrs = [
+			'PLG_TINY_JIMAGE_ADD_SIZE', 'PLG_TINY_JIMAGE_CREATION_METHOD', 'PLG_TINY_JIMAGE_CROP', 'PLG_TINY_JIMAGE_DELETE_SIZE',
+			'PLG_TINY_JIMAGE_FIGURE_CAPTION', 'PLG_TINY_JIMAGE_FIGURE_CLASS', 'PLG_TINY_JIMAGE_IMAGE_CLASS', 'PLG_TINY_JIMAGE_LAZY_LOAD',
+			'PLG_TINY_JIMAGE_LOAD_TYPE', 'PLG_TINY_JIMAGE_RESIZE', 'PLG_TINY_JIMAGE_RESIZE_CROP', 'PLG_TINY_JIMAGE_RESPONSIVE_IMAGES',
+			'PLG_TINY_JIMAGE_RESPONSIVE_SIZES', 'PLG_TINY_JIMAGE_SELECT', 'PLG_TINY_JIMAGE_TITLE', 'PLG_TINY_JIMAGE_WIDTH', 'PLG_TINY_JIMAGE_HEIGHT'
+		];
+
+		foreach ($translationStrs as $str)
+		{
+			Text::script($str);
+		}
+
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);

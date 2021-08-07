@@ -14,28 +14,28 @@
       imgClass: {
         id: "jimage_imageclass",
         type: "text",
-        label: "Image class",
-        value: ""
+        label: Joomla.Text._('PLG_TINY_JIMAGE_IMAGE_CLASS'),
+        value: "",
       },
       lazyLoading: {
         id: "jimage_lazyloading",
         type: "checkbox",
-        label: "Load time",
-        content: "Lazy load",
-        value: false
+        label: Joomla.Text._('PLG_TINY_JIMAGE_LOAD_TYPE'),
+        content: Joomla.Text._('PLG_TINY_JIMAGE_LAZY_LOAD'),
+        value: false,
       },
       figClass: {
         id: "jimage_figureclass",
         type: "text",
-        label: "Figure class",
-        value: ""
+        label: Joomla.Text._('PLG_TINY_JIMAGE_FIGURE_CLASS'),
+        value: "",
       },
       figCaption: {
         id: "jimage_figurecaption",
         type: "text",
-        label: "Figure caption",
-        value: ""
-      }
+        label: Joomla.Text._('PLG_TINY_JIMAGE_FIGURE_CAPTION'),
+        value: "",
+      },
     };
 
     /**
@@ -47,22 +47,22 @@
       setCustom: {
         id: "jimage_setcustom",
         type: "checkbox",
-        label: "Responsive images",
-        content: "Custom responsive sizes",
+        label: Joomla.Text._('PLG_TINY_JIMAGE_RESPONSIVE_IMAGES'),
+        content: Joomla.Text._('PLG_TINY_JIMAGE_RESPONSIVE_SIZES'),
         value: false,
       },
       creationMethod: {
         id: "jimage_method",
         type: "dropdown",
-        label: "Creation Method",
+        label: Joomla.Text._('PLG_TINY_JIMAGE_CREATION_METHOD'),
         items: [
-          { name: "Select...", value: 0 },
-          { name: "Resize", value: 2 },
-          { name: "Crop", value: 4 },
-          { name: "Resize & Crop", value: 5 },
+          { name: Joomla.Text._('PLG_TINY_JIMAGE_SELECT'), value: 0 },
+          { name: Joomla.Text._('PLG_TINY_JIMAGE_RESIZE'), value: 2 },
+          { name: Joomla.Text._('PLG_TINY_JIMAGE_CROP'), value: 4 },
+          { name: Joomla.Text._('PLG_TINY_JIMAGE_RESIZE_CROP'), value: 5 },
         ],
-        activeItem: { name: "Select...", value: 0 },
-        value: "",
+        activeItem: { name: Joomla.Text._('PLG_TINY_JIMAGE_SELECT'), value: 0 },
+        value: '',
       },
       sizes: [],
     };
@@ -148,7 +148,7 @@
           </div>`;
       },
       registerField: function (field, callback = null) {
-        jimage.dialogBody.querySelector("#" + field.id).addEventListener("change", function (e) {
+        jimage.dialogBody.querySelector('#' + field.id).addEventListener('change', function (e) {
           field.value = field.type === "checkbox" ? e.target.checked : e.target.value;
 
           if (callback) callback();
@@ -159,20 +159,20 @@
           title: {
             id: "jimage_sizes_title_" + id,
             type: "text",
-            label: "Title",
+            label: Joomla.Text._('PLG_TINY_JIMAGE_TITLE'),
             value: title ?? '',
           },
           width: {
             id: "jimage_sizes_width_" + id,
             type: "number",
-            label: "Width",
-            value: width ?? '',
+            label: Joomla.Text._('PLG_TINY_JIMAGE_WIDTH'),
+            value: width ?? "",
           },
           height: {
             id: "jimage_sizes_height" + id,
             type: "number",
-            label: "Height",
-            value: height ?? '',
+            label: Joomla.Text._('PLG_TINY_JIMAGE_HEIGHT'),
+            value: height ?? "",
           },
         };
       },
@@ -261,8 +261,8 @@
 
           // Set sizes and titles as data attributes
           if (sizes.length > 0) {
-            image.setAttribute('data-jimage-size', sizes.join(","));
-            image.setAttribute('data-jimage-title', titles.join(","));
+            image.setAttribute('data-jimage-size', sizes.join(','));
+            image.setAttribute('data-jimage-title', titles.join(','));
           }
 
           // Set creation method as data attribute
@@ -272,9 +272,9 @@
             image.removeAttribute('data-jimage-method');
           }
         } else {
-          image.removeAttribute("data-jimage-size");
-          image.removeAttribute("data-jimage-title");
-          image.removeAttribute("data-jimage-method");
+          image.removeAttribute('data-jimage-size');
+          image.removeAttribute('data-jimage-title');
+          image.removeAttribute('data-jimage-method');
         }
       }
     };
@@ -312,11 +312,11 @@
                   responsiveSizes.setCustom.value = true;
 
                   // Create new objects with existing sizes
-                  var sizes  = image.getAttribute("data-jimage-size").split(',');
-                  var titles = image.getAttribute("data-jimage-title") ? image.getAttribute("data-jimage-title").split(',') : [];
+                  var sizes  = image.getAttribute('data-jimage-size').split(',');
+                  var titles = image.getAttribute('data-jimage-title') ? image.getAttribute('data-jimage-title').split(',') : [];
 
                   sizes.forEach(function (size, index) {
-                    var dimensions = size.split("x");
+                    var dimensions = size.split('x');
                     responsiveSizes.sizes.push(jimage.createSizeGroup(index, titles[index], dimensions[0], dimensions[1]));
                   });
                 }
@@ -340,11 +340,15 @@
                 formHTML += '</div>';
 
                 // Render responsive size fields
-                formHTML += jimage.renderFieldGroup([responsiveSizes.setCustom], { id: 'jimage_add', title: 'Add size', icon: 'add' });
+                formHTML += jimage.renderFieldGroup([responsiveSizes.setCustom], {
+                  id: 'jimage_add', title: Joomla.Text._('PLG_TINY_JIMAGE_ADD_SIZE'), icon: 'add'
+                });
                 formHTML += '<div id="jimage_sizes_wrapper" style="display: ' + (responsiveSizes.setCustom.value ? 'block' : 'none') + ';">';
                 formHTML += jimage.renderField(responsiveSizes.creationMethod);
                 responsiveSizes.sizes.forEach(function (size, index) {
-                  formHTML += jimage.renderFieldGroup(Object.values(size), { id: 'jimage_delete_' + index, title: 'Delete size', icon: 'delete' });
+                  formHTML += jimage.renderFieldGroup(Object.values(size), {
+                    id: 'jimage_delete_' + index, title: Joomla.Text._('PLG_TINY_JIMAGE_DELETE_SIZE'), icon: 'delete'
+                  });
                 });
                 formHTML += '</div>';
 
@@ -391,7 +395,7 @@
                   // Append new object to the array and render field group
                   responsiveSizes.sizes.push(newGroup);
                   sizesWrapper.insertAdjacentHTML('beforeend', jimage.renderFieldGroup(Object.values(newGroup), {
-                    id: 'jimage_delete_' + id, title: 'Delete size', icon: 'delete'
+                    id: 'jimage_delete_' + id, title: Joomla.Text._('PLG_TINY_JIMAGE_DELETE_SIZE'), icon: 'delete'
                   }));
 
                   // Track value of newly created field
