@@ -2313,16 +2313,13 @@ class JoomlaInstallerScript
 
 			if (JFolder::exists($folderPath)
 			{
-				if (JFolder::isEmpty($folderPath)
-				{
-					if (!JFolder::delete($folderPath))
-					{
-						echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
-					}
-				}
-				else
+				if (!JFolder::isEmpty($folderPath)
 				{
 					echo JText::sprintf('FILES_JOOMLA_ERROR_FOLDER_NOT_EMPTY', $folder) . '<br />';
+				}
+				elseif (!JFolder::delete($folderPath))
+				{
+					echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 				}
 			}
 		}
