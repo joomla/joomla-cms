@@ -24,7 +24,10 @@
           :type="item.mime_type"
         >
       </div>
-      <div class="player-wrapper" v-if="isVideo()">
+      <div
+        v-if="isVideo()"
+        class="player-wrapper"
+      >
         <video
           id="video-player"
           width="100%"
@@ -32,10 +35,12 @@
           style="width: 100%; height: 300px;"
           :src="item.url"
           :type="item.mime_type"
-        >
-        </video>
+        />
       </div>
-      <div class="player-wrapper" v-if="isAudio()">
+      <div
+        v-if="isAudio()"
+        class="player-wrapper"
+      >
         <audio
           id="audio-player"
           width="100%"
@@ -43,8 +48,7 @@
           style="width: 100%;"
           :src="item.url"
           :type="item.mime_type"
-        >
-        </audio>
+        />
       </div>
     </template>
     <template #backdrop-close>
@@ -66,8 +70,8 @@ export default {
   name: 'MediaPreviewModal',
   data() {
     return {
-      player: null
-    }
+      player: null,
+    };
   },
   computed: {
     /* Get the item to show in the modal */
@@ -82,7 +86,7 @@ export default {
       if (oldItem && oldItem.mime_type !== newItem.mime_type) {
         setTimeout(() => this.initPlayer());
       }
-    }
+    },
   },
   methods: {
     open() {
@@ -94,12 +98,16 @@ export default {
       this.destroyPlayer();
     },
     initPlayer() {
-      // Start player depending on media type
-      if (this.isVideo()) {
-        this.player = new MediaElementPlayer('video-player');
-      } else if (this.isAudio()) {
-        this.player = new MediaElementPlayer('audio-player');
+      /* eslint-disable no-undef */
+      if (typeof MediaElementPlayer !== 'undefined') {
+        // Start player depending on media type
+        if (this.isVideo()) {
+          this.player = new MediaElementPlayer('video-player');
+        } else if (this.isAudio()) {
+          this.player = new MediaElementPlayer('audio-player');
+        }
       }
+      /* eslint-enable no-undef */
     },
     destroyPlayer() {
       if (this.player) {
