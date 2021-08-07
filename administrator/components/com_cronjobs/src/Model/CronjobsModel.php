@@ -189,6 +189,8 @@ class CronjobsModel extends ListModel
 				->bind(':type', $typeFilter);
 		}
 
+		// TODO: Filter over trigger
+
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
 
@@ -198,6 +200,14 @@ class CronjobsModel extends ListModel
 			$exitCode = (int) $exitCode;
 			$query->where($db->quoteName('a.last_exit_code') . '= :last_exit_code')
 				->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
+		}
+
+		// Filter due ----
+		if (is_numeric($due = $this->getState('filter.due')))
+		{
+			$operator = $due === 1 ? '<=' : '>';
+			$filterCount++;
+			$query->where($db->qn('a.next_execution') . $operator . $query->currentTimestamp());
 		}
 
 		// Filter over search string if set (title, type title, note, id) ----
@@ -341,4 +351,40 @@ class CronjobsModel extends ListModel
 		parent::populateState($ordering, $direction);
 	}
 
+	/**
+	 * Returns due jobs.
+	 * ! Orphan filtering + pagination issues will break this if orphaned jobs exist [TODO]
+	 *
+	 * @param   bool  $single  If true, only a single job is returned
+	 *
+	 * @return array
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getDueJobs(bool $single = true): array
+	{
+		$this->set('__state_set', true);
+
+		$this->setState('list.select',
+			'a.id, a.title, a.type, a.next_execution, a.times_executed, a.times_failed, a.params, a.cron_rules'
+		);
+
+		$this->setState('list.start', 0);
+
+		if ($single)
+		{
+			$this->setState('list.limit', 1);
+		}
+
+		$this->setState('filter.state', '1');
+
+		$this->setState('filter.due', 1);
+
+		$this->setState('filter.show_orphaned', 0);
+
+		$this->setState('list.ordering', 'a.next_execution');
+		$this->setState('list.direction', 'ASC');
+
+		return $this->getItems();
+	}
 }
