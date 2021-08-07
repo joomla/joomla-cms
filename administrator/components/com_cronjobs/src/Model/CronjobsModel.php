@@ -104,9 +104,11 @@ class CronjobsModel extends ListModel
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
-		$id .= ':' . $this->getState('filter.job_type');
-
-		// ? Does the store id need more specificity
+		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.show_orphaned');
+		$id .= ':' . $this->getState('filter.due');
+		$id .= ':' . $this->getState('filter.trigger');
+		$id .= ':' . $this->getState('list.select');
 
 		return parent::getStoreId($id);
 	}
