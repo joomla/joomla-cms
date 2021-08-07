@@ -7316,13 +7316,15 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
-			if ($fileExists = File::exists(JPATH_ROOT . $file))
+			$filePath = JPATH_ROOT . $file;
+
+			if ($fileExists = File::exists($filePath))
 			{
 				$status['files_exist'][] = $file;
 
 				if ($dryRun === false)
 				{
-					if (File::delete(JPATH_ROOT . $file))
+					if (File::delete($filePath))
 					{
 						$status['files_deleted'][] = $file;
 					}
@@ -7336,13 +7338,19 @@ class JoomlaInstallerScript
 
 		foreach ($folders as $folder)
 		{
-			if ($folderExists = Folder::exists(JPATH_ROOT . $folder))
+			$folderPath = JPATH_ROOT . $folder;
+
+			if ($folderExists = Folder::exists($folderPath))
 			{
 				$status['folders_exist'][] = $folder;
 
-				if ($dryRun === false)
+				if (!(Folder::isEmpty($folderPath)))
 				{
-					if (Folder::delete(JPATH_ROOT . $folder))
+					$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FOLDER_NOT_EMPTY', $folder);
+				}
+				elseif ($dryRun === false)
+				{
+					if (Folder::delete($folderPath))
 					{
 						$status['folders_deleted'][] = $folder;
 					}
@@ -7356,14 +7364,17 @@ class JoomlaInstallerScript
 
 		$this->fixFilenameCasing();
 
-		if ($suppressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false)
 		{
-			echo implode('<br>', $status['folders_errors']);
-		}
+			if (\count($status['folders_errors']))
+			{
+				echo implode('<br>', $status['folders_errors']);
+			}
 
-		if ($suppressOutput === false && \count($status['files_errors']))
-		{
-			echo implode('<br>', $status['files_errors']);
+			if (\count($status['files_errors']))
+			{
+				echo implode('<br>', $status['files_errors']);
+			}
 		}
 
 		return $status;
