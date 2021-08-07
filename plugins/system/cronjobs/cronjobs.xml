@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="4.1" type="plugin" group="system" method="upgrade">
+	<name>Cronjobs</name>
+	<author>Joomla! Projects</author>
+	<creationDate>Augest 2021</creationDate>
+	<license>GPL v3</license>
+	<version>4.1</version>
+	<description>PLG_SYSTEM_CRONJOBS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="cronjobs">cronjobs.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_cronjobs.ini</language>
+		<language tag="en-GB">en-GB.plg_system_cronjobs.sys.ini</language>
+	</languages>
+</extension>
