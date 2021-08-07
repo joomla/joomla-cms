@@ -7344,7 +7344,7 @@ class JoomlaInstallerScript
 			{
 				$status['folders_exist'][] = $folder;
 
-				if (!(Folder::isEmpty($folderPath)))
+				if (!Folder::isEmpty($folderPath))
 				{
 					$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FOLDER_NOT_EMPTY', $folder);
 				}
