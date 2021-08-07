@@ -93,9 +93,6 @@ class CronjobsModel extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * ? What does this do internally ?
-	 * TODO:
-	 *
 	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return string  A store id.
@@ -116,7 +113,6 @@ class CronjobsModel extends ListModel
 
 	/**
 	 * Method to create a query for a list of items.
-	 * ! No filters at the moment ⚠
 	 *
 	 * @return QueryInterface
 	 *
@@ -133,6 +129,7 @@ class CronjobsModel extends ListModel
 		/*
 		 * Select the required fields from the table.
 		 * ? Do we need all these defaults ?
+		 * ? Does 'list.select' exist ?
 		 */
 		$query->select(
 			$this->getState(
@@ -140,7 +137,6 @@ class CronjobsModel extends ListModel
 				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_rules, a.state, a.last_exit_code' .
 				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
 			)
-			// ? Does 'list.select' exist ?
 		);
 
 		// From the #__cronjobs table as 'a'
@@ -155,6 +151,7 @@ class CronjobsModel extends ListModel
 		 * @param   string  $outerGlue
 		 * @param   array   $conditions
 		 * @param   string  $innerGlue
+		 *
 		 * @since __DEPLOY_VERSION__
 		 */
 		$extendIfFiltered = function (
