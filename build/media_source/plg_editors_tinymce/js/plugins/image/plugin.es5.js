@@ -8,7 +8,7 @@
     /**
      * Variable to store image details form state
      *
-     * @since  4.1.0
+     * @since  __DEPLOY__
      */
     var imageDetails = {
       imgClass: {
@@ -41,7 +41,7 @@
     /**
      * Variable to store responsive sizes form state
      *
-     * @since  4.1.0
+     * @since  __DEPLOY__
      */
     var responsiveSizes = {
       setCustom: {
@@ -70,7 +70,7 @@
     /**
      * JImage object to store methods and icons
      *
-     * @since  4.1.0
+     * @since  __DEPLOY__
      */
     var jimage = {
       icons: {

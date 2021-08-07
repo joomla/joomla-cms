@@ -728,7 +728,7 @@ class MediaHelper
 	 *
 	 * @return  mixed   Custom sizes or null if not exists
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY__
 	 */
 	public static function getContentSizes($content, $image)
 	{
@@ -747,7 +747,7 @@ class MediaHelper
 	 *
 	 * @return  mixed   Creation method or null if not exists
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY__
 	 */
 	public static function getContentMethod($content, $image)
 	{
