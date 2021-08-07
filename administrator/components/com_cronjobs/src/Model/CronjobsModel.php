@@ -350,41 +350,4 @@ class CronjobsModel extends ListModel
 		// Call the parent method
 		parent::populateState($ordering, $direction);
 	}
-
-	/**
-	 * Returns due jobs.
-	 * ! Orphan filtering + pagination issues will break this if orphaned jobs exist [TODO]
-	 *
-	 * @param   bool  $single  If true, only a single job is returned
-	 *
-	 * @return array
-	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function getDueJobs(bool $single = true): array
-	{
-		$this->set('__state_set', true);
-
-		$this->setState('list.select',
-			'a.id, a.title, a.type, a.next_execution, a.times_executed, a.times_failed, a.params, a.cron_rules'
-		);
-
-		$this->setState('list.start', 0);
-
-		if ($single)
-		{
-			$this->setState('list.limit', 1);
-		}
-
-		$this->setState('filter.state', '1');
-
-		$this->setState('filter.due', 1);
-
-		$this->setState('filter.show_orphaned', 0);
-
-		$this->setState('list.ordering', 'a.next_execution');
-		$this->setState('list.direction', 'ASC');
-
-		return $this->getItems();
-	}
 }

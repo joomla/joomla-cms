@@ -66,7 +66,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		/** @var CronjobsModel $model */
 		$model = $component->getMVCFactory()->createModel('Cronjobs', 'Administrator');
 
-		$dueJob = $model->getDueJobs();
+		$dueJob = $this->getDueJobs($model);
 
 		if ($dueJob)
 		{
@@ -74,5 +74,43 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		}
 
 		return;
+	}
+
+	/**
+	 * Fetches due jobs from CronjobsModel
+	 * ! Orphan filtering + pagination issues in the Model will break this if orphaned jobs exist [TODO]
+	 *
+	 * @param   CronjobsModel  $model   The CronjobsModel
+	 * @param   boolean 	   $single  If true, only a single job is returned
+	 *
+	 * @return object[]
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getDueJobs(CronjobsModel $model, bool $single = true): array
+	{
+		$model->set('__state_set', true);
+
+		$model->setState('list.select',
+			'a.id, a.title, a.type, a.next_execution, a.times_executed, a.times_failed, a.params, a.cron_rules'
+		);
+
+		$model->setState('list.start', 0);
+
+		if ($single)
+		{
+			$model->setState('list.limit', 1);
+		}
+
+		$model->setState('filter.state', '1');
+
+		$model->setState('filter.due', 1);
+
+		$model->setState('filter.show_orphaned', 0);
+
+		$model->setState('list.ordering', 'a.next_execution');
+		$model->setState('list.direction', 'ASC');
+
+		return $model->getItems();
 	}
 }
