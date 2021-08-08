@@ -1302,7 +1302,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflows'))
 				->where($db->quoteName('default') . ' = 1')
-				->where($db->quoteName('extension') . ' = ' . $db->quote('com_modules.module');
+				->where($db->quoteName('extension') . ' = ' . $db->quote('com_modules.module'));
 
 			$query->where($db->quoteName('workflow_id') . ' IN (' . $defaultWorkflowQuery . ')');
 		}
