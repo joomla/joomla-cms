@@ -206,7 +206,7 @@ class Taxonomy
 			// Prepare the node object.
 			$nodeTable->id = (int) $result->id;
 			$nodeTable->title = $result->title;
-			$nodeTable->state = (int) $result->title;
+			$nodeTable->state = (int) ($node->state > 0 ? $node->state : $result->state);
 			$nodeTable->access = (int) $result->access;
 			$nodeTable->language = $node->language;
 			$nodeTable->setLocation($result->parent_id, 'last-child');

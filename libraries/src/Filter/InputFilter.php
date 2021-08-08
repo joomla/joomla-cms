@@ -181,7 +181,8 @@ class InputFilter extends BaseInputFilter
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
 			'forbidden_extensions'       => array(
-				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7',
+				'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
 			),
 
 			// <?php tag in file contents
@@ -298,7 +299,7 @@ class InputFilter extends BaseInputFilter
 					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = @fopen($tempName, 'r');
+					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
 
 					if ($fp !== false)
 					{

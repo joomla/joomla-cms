@@ -33,8 +33,7 @@ $this->document->getWebAssetManager()
 		src="<?php echo $this->escape($this->wrapper->url); ?>"
 		width="<?php echo $this->escape($this->params->get('width')); ?>"
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
-		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
-		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+		loading="<?php echo $this->params->get('lazyloading', 'lazy'); ?>"
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
 		<?php else : ?>

@@ -163,8 +163,20 @@ class FieldModel extends AdminModel
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
+
+		/**
+		 * If the field is only used in subform, set Category to None automatically so that it will only be displayed
+		 * as part of SubForm on add/edit item screen
+		 */
+		if (!empty($data['only_use_in_subform']))
+		{
+			$cats = [-1];
+		}
+		else
+		{
+			$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+			$cats = ArrayHelper::toInteger($cats);
+		}
 
 		$assignedCatIds = array();
 
@@ -559,6 +571,29 @@ class FieldModel extends AdminModel
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
+		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+		if ($fieldId)
+		{
+			$fieldType = $form->getField('type');
+
+			if ($fieldType->value == 'subform')
+			{
+				// Only Use In subform should not be available for subform field type, so we remove it
+				$form->removeField('only_use_in_subform');
+			}
+			else
+			{
+				// Field type could not be changed, so remove showon attribute to avoid js errors
+				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
+			}
+		}
+
 		return $form;
 	}
 
@@ -860,7 +895,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -924,7 +959,7 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -1085,7 +1120,7 @@ class FieldModel extends AdminModel
 	 * Clean the cache
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

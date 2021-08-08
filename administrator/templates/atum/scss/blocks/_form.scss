@@ -5,7 +5,6 @@
   background-color: $white;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   &:focus {
     border-color: $focuscolor;
@@ -13,14 +12,8 @@
   }
 }
 
-.form-control:disabled,
-.form-control[readonly] {
-  border: 0;
-  box-shadow: none;
-}
-
-
 .control-group {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 1rem;
@@ -72,10 +65,6 @@ td .form-control {
   width: auto;
 }
 
-legend {
-  margin-bottom: 1.1rem;
-}
-
 .checkboxes {
   padding-top: 5px;
 
@@ -120,13 +109,12 @@ legend {
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
-  max-width: 100%;
   padding: .5em;
   margin: .25em;
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem;
+  border-radius: .2rem !important;
 }
 
 // reveal associated tooltip on focus
@@ -143,21 +131,6 @@ legend {
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
-}
-
-.input-group-append {
-  overflow: hidden;
-  transform: translate3d(0, 0, 0);
-
-  [dir=ltr] & {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-  }
-
-  [dir=rtl] & {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-  }
 }
 
 .input-group > .form-control[readonly] {

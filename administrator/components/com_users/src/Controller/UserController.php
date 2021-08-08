@@ -53,6 +53,12 @@ class UserController extends FormController
 			}
 		}
 
+		// Allow users to edit their own account
+		if (isset($data[$key]) && (int) $this->app->getIdentity()->id === (int) $data[$key])
+		{
+			return true;
+		}
+
 		return parent::allowEdit($data, $key);
 	}
 
@@ -80,6 +86,38 @@ class UserController extends FormController
 			}
 
 			$this->app->redirect($return);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Override parent save to redirect when using status edit account.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		$result = parent::save($key, $urlVar);
+
+		$task   = $this->getTask();
+
+		if ($task === 'save' && $return = $this->input->get('return', '', 'BASE64'))
+		{
+			$return = base64_decode($return);
+
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($return))
+			{
+				$return = Uri::base();
+			}
+
+			$this->setRedirect($return);
 		}
 
 		return $result;

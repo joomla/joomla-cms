@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Associations;
  * Supports a generic list of options.
  * Displays only when Associations are enabled.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class AssocField extends ListField
 {
@@ -27,7 +27,7 @@ class AssocField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'Assoc';
 
@@ -43,7 +43,7 @@ class AssocField extends ListField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     AssocField::setup()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{

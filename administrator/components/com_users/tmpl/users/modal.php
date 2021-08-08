@@ -83,14 +83,18 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 						<td>
 							<?php echo $this->escape($item->username); ?>
 						</td>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+							</span>
 						</td>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+							</span>
 						</td>
 						<td>
-							<?php echo nl2br($item->group_names); ?>
+							<?php echo nl2br($item->group_names, false); ?>
 						</td>
 						<td>
 							<?php echo (int) $item->id; ?>

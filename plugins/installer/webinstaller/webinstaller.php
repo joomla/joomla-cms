@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\Rule\UrlRule;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -78,17 +77,14 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
 		Text::script('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL');
 
-		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
-		HTMLHelper::_('bootstrap.framework');
-
 		$doc->getWebAssetManager()
 			->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
 			->registerAndUseScript(
 				'plg_installer_webinstaller.client',
 				'plg_installer_webinstaller/client.min.js',
 				[],
-				['defer' => true],
-				['core', 'jquery']
+				['type' => 'module'],
+				['core']
 			);
 
 		$devLevel = Version::PATCH_VERSION;
@@ -122,6 +118,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		ob_start();
 		include PluginHelper::getLayoutPath('installer', 'webinstaller');
 		$tab['content'] = ob_get_clean();
+		$tab['content'] = '<legend>' . $tab['label'] . '</legend>' . $tab['content'];
 
 		return $tab;
 	}
@@ -161,7 +158,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 			if ((new UrlRule)->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom))
 			{
 				$update = new Update;
-				$update->loadFromXML($installfrom);
+				$update->loadFromXml($installfrom);
 				$package_url = trim($update->get('downloadurl', false)->_data);
 
 				if ($package_url)

@@ -13,8 +13,8 @@
 		<filename plugin="overridecheck">overridecheck.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_overridecheck.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_overridecheck.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_overridecheck.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_overridecheck.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

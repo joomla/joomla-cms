@@ -196,6 +196,12 @@ class ContactModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 

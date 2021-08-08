@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the user dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class User implements ServiceProviderInterface
 {
@@ -30,7 +30,7 @@ class User implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

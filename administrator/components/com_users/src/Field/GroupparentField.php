@@ -65,8 +65,8 @@ class GroupparentField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = UserGroupsHelper::getInstance()->getAll();
-		$currentGroupId = $this->form->getValue('id');
+		$options        = UserGroupsHelper::getInstance()->getAll();
+		$currentGroupId = (int) Factory::getApplication()->input->get('id', 0, 'int');
 
 		// Prevent to set yourself as parent
 		if ($currentGroupId)
@@ -75,7 +75,7 @@ class GroupparentField extends ListField
 		}
 
 		// We should not remove any groups when we are creating a new group
-		if ($currentGroupId !== null && $currentGroupId !== 0)
+		if ($currentGroupId !== 0)
 		{
 			// Prevent parenting direct children and children of children of this item.
 			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);

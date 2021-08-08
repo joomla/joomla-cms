@@ -152,6 +152,17 @@
             }
           },
           {
+            "name": "bootstrap.offcanvas",
+            "type": "script",
+            "uri": "offcanvas.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
             "name": "bootstrap.popover",
             "type": "script",
             "uri": "popover.min.js",
@@ -523,20 +534,6 @@
       },
       "punycode": {
         "name": "punycode",
-        "js": {
-          "punycode.js": "js/punycode.js"
-        },
-        "provideAssets": [
-          {
-            "name": "punycode",
-            "type": "script",
-            "uri": "punycode.js",
-            "attributes": {
-              "defer": true
-            }
-          }
-        ],
-        "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
       "@claviska/jquery-minicolors": {
@@ -593,10 +590,7 @@
       "@webcomponents/webcomponentsjs": {
         "name": "webcomponentsjs",
         "js": {
-          "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
-          "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
-          "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
+          "webcomponents-bundle.js": "js/webcomponents-bundle.js"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md",
@@ -604,7 +598,7 @@
           {
             "name": "wcpolyfill",
             "type": "script",
-            "uri": "webcomponents-sd-ce-pf.js",
+            "uri": "webcomponents-bundle.js",
             "attributes": {
               "nomodule": true,
               "defer": true

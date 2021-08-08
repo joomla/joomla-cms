@@ -12,6 +12,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ModuleInterface;
+use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -37,7 +38,10 @@ class Module implements ServiceProviderInterface
 			ModuleInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Extension\Module($container->get(ModuleDispatcherFactoryInterface::class));
+				return new \Joomla\CMS\Extension\Module(
+					$container->get(ModuleDispatcherFactoryInterface::class),
+					$container->get(HelperFactoryInterface::class)
+				);
 			}
 		);
 	}

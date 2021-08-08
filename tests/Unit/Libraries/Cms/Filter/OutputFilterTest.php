@@ -63,11 +63,17 @@ class OutputFilterTest extends UnitTestCase
 			OutputFilter::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);
+
+		$this->assertEquals(
+			'joomlas-version',
+			OutputFilter::stringURLSafe('joomla\'s version'),
+			'Should remove apostrophe from the string'
+		);
 	}
 
 	/**
 	 * Tests replacing single ampersands with the entity, but leaving double ampersands
-	 * and ampsersand-octothorpe combinations intact.
+	 * and ampersand-octothorpe combinations intact.
 	 *
 	 * @return  void
 	 * @since   4.0.0

@@ -13,8 +13,8 @@
 		<filename plugin="cache">cache.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_cache.ini</language>
-		<language tag="en-GB">en-GB.plg_system_cache.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_cache.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_cache.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -37,6 +37,7 @@
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
 					multiple="multiple"
 					filter="intarray"
+					layout="joomla.form.field.groupedlist-fancy-select"
 				/>
 
 			</fieldset>
