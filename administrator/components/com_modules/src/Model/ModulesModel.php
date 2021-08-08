@@ -347,7 +347,7 @@ class ModulesModel extends ListModel
 		// Join over the workflows association
 		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
 			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-			->where($db->quoteName('wa.extension') . ' = "com_modules.module"');
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_modules.module');
 
 		// Join over the workflows stage
 		$query->select(
