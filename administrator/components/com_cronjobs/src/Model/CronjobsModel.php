@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
@@ -284,7 +285,29 @@ class CronjobsModel extends ListModel
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
 		$this->getDbo()->setQuery($query);
-		$responseList = $this->getDbo()->loadObjectList();
+
+		// Return optionally an extended class.
+		// TODO: Use something other than CMSObject..
+		if ($customObj = $this->getState('list.customClass'))
+		{
+			$responseList = array_map(
+				function (array $arr) {
+					$o = new CMSObject;
+
+					foreach ($arr as $k => $v)
+					{
+						$o->{$k} = $v;
+					}
+
+					return $o;
+				},
+				$this->getDbo()->loadAssocList() ?: []
+			);
+		}
+		else
+		{
+			$responseList = $this->getDbo()->loadObjectList();
+		}
 
 		// Attach CronOptions objects and a safe type title
 		$this->attachCronOptions($responseList);
