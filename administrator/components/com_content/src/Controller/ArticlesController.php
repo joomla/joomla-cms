@@ -155,4 +155,60 @@ class ArticlesController extends AdminController
 
 		echo new JsonResponse($result);
 	}
+
+	/**
+	 * Removes an item.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function delete()
+	{
+		$articlesModel = $this->getModel('articles');
+		$featured = $articlesModel->isFeatured();
+
+		if ($featured === "1")
+		{
+			// Check for request forgeries
+			$this->checkToken();
+
+			$user = $this->app->getIdentity();
+			$ids  = $this->input->get('cid', array(), 'array');
+
+			// Access checks.
+			foreach ($ids as $i => $id)
+			{
+				if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id))
+				{
+					// Prune items that you can't delete.
+					unset($ids[$i]);
+					$this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
+				}
+			}
+
+			if (empty($ids))
+			{
+				$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			}
+			else
+			{
+				/** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
+				$featureModel = $this->getModel('Feature');
+
+				// Remove the items.
+				if (!$featureModel->featured($ids, 0))
+				{
+					$this->app->enqueueMessage($featureModel->getError(), 'error');
+				}
+			}
+
+			$this->setMessage(Text::plural('COM_CONTENT_N_ITEMS_DELETED', \count($ids)));
+			$this->setRedirect('index.php?option=com_content&view=articles&featured=1');
+		}
+		else
+		{
+			parent::delete();
+		}
+	}
 }
