@@ -867,6 +867,7 @@ CREATE TABLE IF NOT EXISTS "#__cronjobs"
     "next_execution" timestamp without time zone,
     "times_executed" int NOT NULL DEFAULT '0',
     "times_failed" int DEFAULT '0',
+    "locked" smallint default 0 NOT NULL,
 	"ordering" bigint DEFAULT 0 NOT NULL,
     "params" text NOT NULL,
     "note" text DEFAULT '',
