@@ -304,7 +304,7 @@ class ArticlesModel extends ListModel
 			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'))
-			->where($db->quoteName('wa.extension') . ' = "com_content.article"');
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article');
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
