@@ -67,5 +67,4 @@
   window.addEventListener('load', () => {
     setTimeout(checkOverride, 390);
   });
-
 })();

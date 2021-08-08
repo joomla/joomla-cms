@@ -73,5 +73,4 @@
   window.addEventListener('load', () => {
     setTimeout(checkPrivacy, 360);
   });
-
 })(document);

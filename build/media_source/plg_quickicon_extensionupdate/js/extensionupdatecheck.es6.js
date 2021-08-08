@@ -57,5 +57,4 @@
   window.addEventListener('load', () => {
     setTimeout(fetchUpdate, 330);
   });
-
 })();

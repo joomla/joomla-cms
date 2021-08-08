@@ -110,5 +110,4 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
   // Initialise Masonry layout at the very beginning, to avoid jumping.
   // We can do this because the script is deferred.
   MasonryLayout.initialise();
-
 })(window, document, window.Joomla);

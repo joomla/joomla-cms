@@ -4,7 +4,6 @@
  */
 
 if (Joomla && Joomla.getOptions('js-extensions-update')) {
-
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
     const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
@@ -22,7 +21,7 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
   const fetchUpdate = () => {
     const options = Joomla.getOptions('js-joomla-update');
 
-    fetch(options.ajaxUrl, {method: 'GET'})
+    fetch(options.ajaxUrl, { method: 'GET' })
       .then((response) => {
         response.json().then((updateInfoList) => {
           if (Array.isArray(updateInfoList)) {

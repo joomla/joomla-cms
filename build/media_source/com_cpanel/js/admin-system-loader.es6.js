@@ -65,5 +65,4 @@
   window.addEventListener('load', () => {
     setTimeout(init, 300);
   });
-
 })(document, Joomla);
