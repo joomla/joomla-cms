@@ -13,6 +13,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -25,16 +26,17 @@ use Joomla\Registry\Registry;
 class MediaHelper
 {
 	/**
-	 * A special list of blocked executable extensions.
+	 * A special list of blocked executable extensions, skipping executables that are
+	 * typically executable in the webserver context as those are fetched from
+	 * Joomla\CMS\Filter\InputFilter
 	 *
 	 * @var    string[]
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static $executables = array(
-		'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'js', 'exe', 'phtml', 'java', 'perl',
-		'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-		'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe',
-		'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'py', 'jar', 'msi'
+	public const EXECUTABLES = array(
+		'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
+		'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+		'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
 	);
 
 	/**
@@ -170,7 +172,7 @@ class MediaHelper
 		$params = ComponentHelper::getParams($component);
 
 		// Media file names should never have executable extensions buried in them.
-		$executables = self::$executables;
+		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
 		// Remove allowed executables from array
 		if (count($allowedExecutables))
@@ -239,7 +241,7 @@ class MediaHelper
 		array_shift($filetypes);
 
 		// Media file names should never have executable extensions buried in them.
-		$executables = self::$executables;
+		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
 		// Remove allowed executables from array
 		if (count($allowedExecutables))
