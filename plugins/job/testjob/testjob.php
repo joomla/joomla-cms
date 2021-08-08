@@ -41,6 +41,15 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const JOBS_MAP = [
+	'job1' => 'routine1',
+	'job2' => 'routine2'
+	];
+
+	/**
 	 * Returns event subscriptions
 	 *
 	 * @return string[]
@@ -88,21 +97,19 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 */
 	public function cronSampleRoutine(Event $event): void
 	{
-		/**
-		 * ! com_cronjobs does not trigger anything as yet. The operations below only exist as an example.
-		 * ! The $subject object has not been implemented, nor are the operations below its intended form.
-		 */
-
-		$subject = $event['subject'];
-		$supportedJobs = [
-			'job1' => 'routine1',
-			'job2' => 'routine2'
-		];
-
-		if (array_key_exists($subject->jobId, $supportedJobs))
+		if (array_key_exists($event['jobId'], self::JOBS_MAP))
 		{
-			$subject->exec[] = ['plugin' => $this->_name, 'exit' => 0];
+			// Plugin does whatever it wants
+			$resultCarrier = &$event['results'];
+			$resultCarrier[] = ['plugin' => $this->_name, 'exit' => 0];
+
+			// Probably not this
+			$event->stopPropagation();
 		}
+
+		// ! resultCarrier should be an object
+		// TODO: resultCarrier takes in a "snapshot"
+
 	}
 
 	/**
