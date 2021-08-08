@@ -24,6 +24,43 @@ use Joomla\Event\SubscriberInterface;
  */
 class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 {
+
+	/**
+	 * Exit Code For no time to run
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public const JOB_NO_TIME = 1;
+
+	/**
+	 * Exit Code For lock failure
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public const JOB_NO_LOCK = 2;
+
+	/**
+	 * Exit Code For execution failure
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public const JOB_NO_RUN = 3;
+
+	/**
+	 * Exit Code For execution success
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public const JOB_OK_RUN = 0;
+
+	/**
+	 * Replacement exit code for job with no exit code
+	 * ! Removal due
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const JOB_NO_EXIT = -1;
+
 	/**
 	 * @var CMSApplication
 	 * @since __DEPLOY_VERSION__
