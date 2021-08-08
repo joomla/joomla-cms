@@ -40,7 +40,7 @@ class ArticlesModel extends ListModel
 	 */
 	public function __construct($config = array())
 	{
-		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = $this->isFeatured();
 
 		if (empty($config['filter_fields']))
 		{
@@ -152,7 +152,7 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = $this->isFeatured();
 		$this->setState('filter.featured', $featured);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
@@ -356,7 +356,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by featured.
-		$featured = $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
+		$featured = $this->isFeatured();
 
 		if (\in_array($featured, ['0','1']))
 		{
@@ -725,5 +725,17 @@ class ArticlesModel extends ListModel
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Method to get the value of featured selector.
+	 *
+	 * @return  string  Returns the value of featured selector.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isFeatured()
+	{
+		return $this->getUserStateFromRequest($this->context . '.featured', 'featured', '');
 	}
 }
