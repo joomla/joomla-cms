@@ -93,12 +93,12 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
 
       this.resizeAllGridItems();
 
-      // Re check the layout after all content (fonts and images) is loaded.
+      // Recheck the layout after all content (fonts and images) is loaded.
       window.addEventListener('load', () => this.resizeAllGridItems());
 
-      // Re check the layout when the menu is toggled
+      // Recheck the layout when the menu is toggled
       window.addEventListener('joomla:menu-toggle', () => {
-        // 300ms is animation time, need to wait for the animation ends
+        // 300ms is animation time, need to wait for the animation to end
         setTimeout(() => this.resizeAllGridItems(), 330);
       });
 
