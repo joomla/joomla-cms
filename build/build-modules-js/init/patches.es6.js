@@ -27,7 +27,6 @@ module.exports.patchPackages = async (options) => {
   dest = join(mediaVendorPath, 'short-and-sweet');
   const shortandsweetPath = `${dest}/${options.settings.vendors['short-and-sweet'].js['dist/short-and-sweet.min.js']}`;
   let ShortandsweetJs = await readFile(shortandsweetPath, { encoding: 'utf8' });
-  ShortandsweetJs = ShortandsweetJs.concat('document.addEventListener(\'DOMContentLoaded\', function()'
-      + '{shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'}); });');
+  ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
   await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8' });
 };
