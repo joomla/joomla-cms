@@ -23,12 +23,11 @@ class PlgQuickiconEos310 extends CMSPlugin
 {
 	/**
 	 * The EOS date for 3.10
-	 * @todo The date is just for testing and is to be updated on release
 	 *
 	 * @var    string
 	 * @since  3.10.0
 	 */
-	const EOS_DATE = '2024-07-06';
+	const EOS_DATE = '2023-08-17';
 
 	/**
 	 * Application object
