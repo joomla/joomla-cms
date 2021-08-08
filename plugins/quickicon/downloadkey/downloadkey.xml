@@ -13,8 +13,8 @@
 		<filename plugin="downloadkey">downloadkey.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_downloadkey.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_downloadkey.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
