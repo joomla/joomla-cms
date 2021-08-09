@@ -115,6 +115,16 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 */
 	public function executeDueJob(Event $event): void
 	{
+		// We only act on site requests
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
+		// TODO: Should use a lock for this plugin too
+
+		$this->snapshot['startTime'] = microtime(true);
+
 		/** @var MVCComponent $component */
 		$component = $this->app->bootComponent('com_cronjobs');
 
