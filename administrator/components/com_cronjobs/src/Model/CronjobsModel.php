@@ -206,9 +206,11 @@ class CronjobsModel extends ListModel
 		// Filter due ----
 		if (is_numeric($due = $this->getState('filter.due')))
 		{
-			$operator = $due === 1 ? '<=' : '>';
+			$now = Factory::getDate('now', 'GMT')->toSql();
+			$operator = $due === 1 ? '<= ' : '> ';
 			$filterCount++;
-			$query->where($db->qn('a.next_execution') . $operator . $query->currentTimestamp());
+			$query->where($db->qn('a.next_execution') . $operator . ':now')
+				->bind(':now', $now);
 		}
 
 		// Filter over search string if set (title, type title, note, id) ----
