@@ -264,6 +264,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 				'eventClass' => 'Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent',
 				'subject' => $this,
 				'jobId' => $cronjob->type,
+				'langNsSuffix' => $cronjob->cronOption->langNsSuffix,
 				'params' => json_decode($cronjob->params),
 				'results' => &$results
 			]

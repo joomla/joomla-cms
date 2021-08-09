@@ -7,9 +7,6 @@
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GPL v3
- *
- * @TODO : Review! Is it too convoluted? Plugins could perhaps call the CronOption constructor themselves. Or a change of
- *         documentation might suffice.
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\Cronjobs;
@@ -27,22 +24,29 @@ class CronOption
 {
 	/**
 	 * Job title
+	 *
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $title;
+	protected $title;
 
 	/**
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $desc;
+	protected $desc;
 
 	/**
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $type;
+	protected $type;
+
+	/**
+	 * @var string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $langNsSuffix;
 
 	/**
 	 * CronOption constructor.
@@ -57,5 +61,27 @@ class CronOption
 		$this->type = $type;
 		$this->title = Text::_("${langConstPrefix}_TITLE");
 		$this->desc = Text::_("${langConstPrefix}_DESC");
+
+		$langParts = explode('_', $langConstPrefix);
+		$this->langNsSuffix = end($langParts);
+	}
+
+	/**
+	 * Overload the __get() magic method to give access to private properties
+	 *
+	 * @param   string  $name  The object property requested.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __get(string $name)
+	{
+		if (property_exists($this, $name))
+		{
+			return $this->$name;
+		}
+
+		return null;
 	}
 }

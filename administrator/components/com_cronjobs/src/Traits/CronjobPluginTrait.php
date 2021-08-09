@@ -91,9 +91,9 @@ trait CronjobPluginTrait
 
 		if ($log)
 		{
-			$jobIdStr = '_' . strtoupper($event->getArgument('jobId')) . '_';
+			$jobNsSuffix = '_' . strtoupper($event->getArgument('langNsSuffix')) . '_';
 			Log::add(
-				Text::sprintf('PLG_JOB_' . strtoupper($this->_name) . $jobIdStr . 'JOB_LOG_MESSAGE',
+				Text::sprintf('PLG_JOB_' . strtoupper($this->_name) . $jobNsSuffix . 'JOB_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
 				),
 				Log::INFO,
