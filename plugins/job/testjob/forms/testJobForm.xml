@@ -2,7 +2,7 @@
 <form>
 	<fields name="params">
 		<fieldset name="params-fs">
-			<field name="sample" type="text" label="PLG_TESTJOB_LABEL_SAMPLE_FIELD"
+			<field name="sample" type="text" label="PLG_JOB_TESTJOB_LABEL_SAMPLE_FIELD"
 				   placeholder="..."/>
 		</fieldset>
 	</fields>
