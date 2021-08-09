@@ -261,9 +261,10 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$event = AbstractEvent::create(
 			'onCronRun',
 			[
+				'eventClass' => 'Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent',
 				'subject' => $this,
 				'jobId' => $cronjob->type,
-				'params' => $cronjob->params,
+				'params' => json_decode($cronjob->params),
 				'results' => &$results
 			]
 		);
