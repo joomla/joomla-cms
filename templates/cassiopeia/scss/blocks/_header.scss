@@ -217,16 +217,16 @@
           left: 0;
         }
       }
+    }
 
-      > .toggler__wrapper > button.mm-toggler-link:hover::before,
-      &.active > .toggler__wrapper > button.mm-toggler-link::before {
-        right: 0;
-        left: .5em;
+    .level-1 > .toggler__wrapper > button.mm-toggler-link:hover::before,
+    .level-1.active > .toggler__wrapper > button.mm-toggler-link::before {
+      right: 0;
+      left: .5em;
 
-        [dir="rtl"] & {
-          right: .5em;
-          left: 0;
-        }
+      [dir="rtl"] & {
+        right: .5em;
+        left: 0;
       }
     }
 
