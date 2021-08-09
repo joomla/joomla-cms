@@ -14,8 +14,8 @@
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_actionlogs.ini</language>
-		<language tag="en-GB">en-GB.plg_system_actionlogs.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_actionlogs.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_actionlogs.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

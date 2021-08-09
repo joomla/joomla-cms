@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
