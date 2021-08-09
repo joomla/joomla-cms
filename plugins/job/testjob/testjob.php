@@ -12,6 +12,8 @@
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
+use Joomla\Component\Cronjobs\Administrator\Traits\CronjobPluginTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Event\Event;
 
@@ -22,6 +24,8 @@ use Joomla\Event\Event;
  */
 class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 {
+	use CronjobPluginTrait;
+
 	/**
 	 * Autoload the language file
 	 *
@@ -95,22 +99,17 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION
 	 */
-	public function cronSampleRoutine(Event $event): void
+	public function cronSampleRoutine(CronRunEvent $event): void
 	{
 		if (array_key_exists($event['jobId'], self::JOBS_MAP))
 		{
+			$this->jobStart();
+
 			// Plugin does whatever it wants
-			$resultCarrier = $event->getArgument('results');
-			$resultCarrier[] = ['plugin' => $this->_name, 'exit' => 0];
-			$event->setArgument('results', $resultCarrier);
 
-			// Probably not this
-			$event->stopPropagation();
+			$this->jobEnd($event, 0);
+			$event->setResult($this->snapshot);
 		}
-
-		// ! resultCarrier should be an object
-		// TODO: resultCarrier takes in a "snapshot"
-
 	}
 
 	/**
