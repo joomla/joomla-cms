@@ -101,8 +101,14 @@
       }
 
       > a,
-      > .toggler__wrapper a,
       > span {
+        position: relative;
+        color: currentColor;
+        text-decoration: none;
+      }
+
+      > .toggler__wrapper  > a,
+      > .toggler__wrapper  > span {
         position: relative;
         color: currentColor;
         text-decoration: none;
@@ -183,15 +189,6 @@
         background: $white;
       }
 
-      &.active > .toggler__wrapper {
-        > a::after,
-        > button::before {
-          right: 0;
-          left: 0;
-          background: $white;
-        }
-      }
-
       > .toggler__wrapper {
         > a:hover::after,
         > button:hover::before {
@@ -201,8 +198,28 @@
         }
       }
 
+      &.active > .toggler__wrapper {
+        > a::after,
+        > button::before {
+          right: 0;
+          left: 0;
+          background: $white;
+        }
+      }
+
       > button.mm-toggler-link:hover::before,
       &.active > button.mm-toggler-link::before {
+        right: 0;
+        left: .5em;
+
+        [dir="rtl"] & {
+          right: .5em;
+          left: 0;
+        }
+      }
+
+      > .toggler__wrapper > button.mm-toggler-link:hover::before,
+      &.active > .toggler__wrapper > button.mm-toggler-link::before {
         right: 0;
         left: .5em;
 
@@ -224,20 +241,25 @@
         }
       }
 
-      > ul {
-        min-width: 12rem;
-      }
-    }
-
-    .metismenu > li.level-1.active .toggler__wrapper {
-      > a,
-      > button,
-      > a:hover,
-      > button:hover {
+      > .toggler__wrapper > a:hover,
+      > .toggler__wrapper > button:hover {
 
         @include media-breakpoint-up(md) {
           text-decoration: none;
         }
+      }
+
+      &.active > .toggler__wrapper > a,
+      &.active > .toggler__wrapper > button {
+
+          @include media-breakpoint-up(md) {
+            text-decoration: none;
+          }
+        }
+
+
+      > ul {
+        min-width: 12rem;
       }
     }
   }

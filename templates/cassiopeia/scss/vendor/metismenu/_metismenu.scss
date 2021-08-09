@@ -70,11 +70,16 @@
           text-decoration: underline;
         }
 
-        &.active .toggler__wrapper {
-          > a,
-          > button,
+        > .toggler__wrapper {
           > a:hover,
           > button:hover {
+            text-decoration: underline;
+          }
+        }
+
+        &.active > .toggler__wrapper {
+          > a,
+          > button {
             text-decoration: underline;
           }
         }
