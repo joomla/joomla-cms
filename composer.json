@@ -5,7 +5,6 @@
     "keywords": ["joomla", "cms"],
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0-or-later",
-    "non-feature-branches": ["staging"],
     "config": {
         "optimize-autoloader": true,
         "platform": {
