@@ -704,13 +704,12 @@ platform:
   arch: amd64
 
 steps:
-- name: analysis3x
+- name: analysis310x
   image: rips/rips-cli:3.2.2
   commands:
   - export RIPS_BASE_URI='https://api.rips.joomla.org'
   - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-  - rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-  failure: ignore
+  - rips-cli rips:scan:start --progress --application=3 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
   environment:
     RIPS_EMAIL:
       from_secret: RIPS_EMAIL
@@ -718,13 +717,13 @@ steps:
       from_secret: RIPS_PASSWORD
   when:
     branch:
-    - staging
+    - 3.10-dev
     repo:
     - joomla/joomla-cms
     - joomla/cms-security
 
 ---
 kind: signature
-hmac: a19842fd1bb225c608f58ff7353d87566069ac8969d29b69a5464a8df422f9d4
+hmac: 5692462a9c53cd5937db302a216ba95f3367ff58c2269565a215587198352276
 
 ...

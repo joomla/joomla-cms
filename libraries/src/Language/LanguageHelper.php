@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -232,6 +232,11 @@ class LanguageHelper
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+
+				if (!is_file($metafile))
+				{
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+				}
 
 				// Process the language metadata.
 				if ($processMetaData)
@@ -546,7 +551,13 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+
+		if (!is_file($file))
+		{
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
@@ -612,6 +623,11 @@ class LanguageHelper
 			{
 				$dirPathParts = pathinfo($directory);
 				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+
+				if (!is_file($file))
+				{
+					$file = $directory . '/langmetadata.xml';
+				}
 
 				if (!is_file($file))
 				{

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.10" type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_eos310</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.10.0</version>
+	<description>PLG_QUICKICON_EOS310_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="eos310">eos310.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_eos310.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_eos310.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="last_snoozed_id"
+					type="hidden"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

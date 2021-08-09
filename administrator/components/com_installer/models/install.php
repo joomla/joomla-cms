@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -388,7 +388,7 @@ class InstallerModelInstall extends JModelLegacy
 		// We only allow http & https here
 		$uri = new JUri($url);
 
-		if (!in_array($uri->getScheme(), ['http', 'https']))
+		if (!in_array($uri->getScheme(), array('http', 'https')))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -856,5 +856,67 @@ abstract class UserHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Destroy all active session for a given user id
+	 *
+	 * @param   int      $userId       Id of user
+	 * @param   boolean  $keepCurrent  Keep the session of the currently acting user
+	 * @param   int      $clientId     Application client id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.28
+	 */
+	public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
+	{
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = ' . (int) $userId);
+
+		if ($clientId !== null)
+		{
+			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+		}
+
+		// Destroy all sessions for the user account
+		$sessionIds = $db->setQuery(
+			$query
+		)->loadColumn();
+
+		// If true, removes the current session id from the purge list
+		if ($keepCurrent)
+		{
+			$sessionIds = array_diff($sessionIds, array(\JFactory::getSession()->getId()));
+		}
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return false;
+		}
+
+		$storeName = \JFactory::getConfig()->get('session_handler', 'none');
+		$store     = \JSessionStorage::getInstance($storeName);
+		$quotedIds = array();
+
+		// Destroy the sessions and quote the IDs to purge the session table
+		foreach ($sessionIds as $sessionId)
+		{
+			$store->destroy($sessionId);
+			$quotedIds[] = $db->quoteBinary($sessionId);
+		}
+
+		$db->setQuery(
+			$db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
+		)->execute();
+
+		return true;
 	}
 }
