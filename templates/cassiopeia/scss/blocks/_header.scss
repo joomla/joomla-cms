@@ -252,11 +252,10 @@
       &.active > .toggler__wrapper > a,
       &.active > .toggler__wrapper > button {
 
-          @include media-breakpoint-up(md) {
-            text-decoration: none;
-          }
+        @include media-breakpoint-up(md) {
+          text-decoration: none;
         }
-
+      }
 
       > ul {
         min-width: 12rem;
