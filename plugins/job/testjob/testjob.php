@@ -108,7 +108,6 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 			// Plugin does whatever it wants
 
 			$this->jobEnd($event, 0);
-			$event->setResult($this->snapshot);
 		}
 	}
 
