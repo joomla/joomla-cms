@@ -50,6 +50,12 @@
           :type="item.mime_type"
         />
       </div>
+      <div
+        v-if="isPdf()"
+        class="doc-wrapper"
+      >
+        <iframe :src="item.url" />
+      </div>
     </template>
     <template #backdrop-close>
       <button
@@ -123,6 +129,9 @@ export default {
     },
     isAudio() {
       return this.item.mime_type.indexOf('audio/') === 0;
+    },
+    isPdf() {
+      return this.item.mime_type.indexOf('application/pdf') === 0;
     },
   },
 };

@@ -800,13 +800,161 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * Test the Image::generateThumbs method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testGenerateThumbsWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$thumbs = $this->instance->generateThumbs('50x38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method with invalid size.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testGenerateThumbsWithInvalidSize()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->loadFile($this->testFile);
+
+		$thumbs = $this->instance->generateThumbs('50*38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testGenerateThumbs()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$thumbs = $this->instance->generateThumbs('50x38');
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			34,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+
+		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			38,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+
+		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP_RESIZE);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			38,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+	}
+
+	/**
+	 * Test the Image::createThumbs method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testCreateThumbsWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$thumbs = $this->instance->createThumbs('50x38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method with invalid folder.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testGenerateThumbsWithInvalidFolder()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->loadFile($this->testFile);
+		$this->instance->createThumbs('50x38', Image::SCALE_INSIDE, '/foo/bar');
+	}
+
+	/**
+	 * Test the Image::createThumbs method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
+	 * @since   1.1.3
+	 */
+	public function testCreateThumbs()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$thumbs = $this->instance->createThumbs('50x38', Image::CROP);
+		$outFileGif = TestHelper::getValue($thumbs[0], 'path');
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileGif);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals(50, $b->width);
+		$this->assertEquals(38, $b->height);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
+
+		unlink($outFileGif);
+	}
+
+	/**
 	 * Test the Image::generateMultipleSizes method without a loaded image.
 	 *
 	 * @return  void
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
-	 * @since   1.1.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateMultipleSizesWithoutLoadedImage()
 	{
@@ -822,7 +970,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
-	 * @since   1.1.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateMultipleSizesWithInvalidSize()
 	{
@@ -840,7 +988,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
 	 *
-	 * @since   1.1.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateMultipleSizes()
 	{
@@ -886,7 +1034,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
 	 *
-	 * @since   1.1.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCreateMultipleSizesWithoutLoadedImage()
 	{
@@ -902,7 +1050,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
 	 *
-	 * @since   1.1.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCreateMultipleSizes()
 	{
