@@ -14,6 +14,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
@@ -92,6 +94,12 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $snapshot = [];
 
+	private const LOG_TEXT = [
+		self::JOB_OK_RUN => 'PLG_SYSTEM_CRONJOBS_RUN_COMPLETE',
+		self::JOB_NO_LOCK => 'PLG_SYSTEM_CRONJOBS_LOCKED',
+		self::JOB_NO_RUN => 'PLG_SYSTEM_CRONJOBS_UNLOCKED'
+	];
+
 	/**
 	 * Returns event subscriptions
 	 *
@@ -110,7 +118,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * @param   Event  $event  The onAfterRespond event
 	 *
 	 * @return void
-	 * @throws Exception
+	 * @throws Exception|RuntimeException
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function executeDueJob(Event $event): void
@@ -131,14 +139,55 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		/** @var CronjobsModel $model */
 		$model = $component->getMVCFactory()->createModel('Cronjobs', 'Administrator');
 
-		$dueJob = $this->getDueJobs($model);
-
-		if ($dueJob)
+		if (!$model)
 		{
-			$this->runJob($dueJob[0]);
+			throw new RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
-		return;
+		$dueJob = $this->getDueJobs($model)[0] ?? null;
+
+		if (!$dueJob)
+		{
+			return;
+		}
+
+		// Log events -- should we use action logger  or this or both?
+		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_cronjobs.php';
+		Log::addLogger($options, Log::INFO, ['cronjobs']);
+
+		$jobId = $dueJob->id;
+		$jobTitle = $dueJob->title;
+
+		// Add job ID, Title etc
+		Log::add(
+			Text::sprintf('PLG_SYSTEM_CRONJOBS_START', $jobId, $jobTitle),
+			Log::INFO,
+			'cronjobs'
+		);
+
+		$jobRun = $this->runJob($dueJob);
+		$status = $this->snapshot['status'];
+		$duration = $this->snapshot['duration'];
+
+		if (!$jobRun)
+		{
+			// TODO: Exit code
+			Log::add(
+				Text::sprintf(self::LOG_TEXT[$status], $jobId, 0),
+				Log::INFO,
+				'cronjobs'
+			);
+
+			return;
+		}
+
+		// TODO: Exit code
+		Log::add(
+			Text::sprintf(self::LOG_TEXT[$status], $jobId, $duration, 0),
+			LOG::INFO,
+			'cronjobs'
+		);
 	}
 
 	/**
