@@ -77,8 +77,8 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	public function pluginCronOptions(Event $event): array
 	{
 		$jobsArray = [
-			'job1' => 'COM_TESTJOBPLG_JOB1',
-			'job2' => 'COM_TESTJOBPLG_JOB2'
+			'job1' => 'PLG_JOB_TESTJOB_JOB1',
+			'job2' => 'PLG_JOB_TESTJOB_JOB2'
 		];
 
 		$subject = $event['subject'];
