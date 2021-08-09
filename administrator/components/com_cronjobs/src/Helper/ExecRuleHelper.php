@@ -12,12 +12,12 @@
 namespace Joomla\Component\Cronjobs\Administrator\Helper;
 
 // Restrict direct access
+defined('_JEXEC') or die;
+
 use DateInterval;
-use DateTimeZone;
 use Exception;
 use Joomla\CMS\Date\Date;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Helper class for supported execution rules.
@@ -70,7 +70,7 @@ class ExecRuleHelper
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = new Date($this->cronjob->get('last_execution'), new DateTimeZone('GMT'));
+				$lastExec = Factory::getDate($this->cronjob->get('last_execution'), 'GMT');
 				$interval = new DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
