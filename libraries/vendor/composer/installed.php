@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-staging',
-        'version' => 'dev-staging',
+        'pretty_version' => 'dev-3.10-dev',
+        'version' => 'dev-3.10-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => '920cf31b6b90656dd9156325f862a6a00e71e60f',
+        'reference' => 'c764d4dcb74353037015f166f16ce345555ab381',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -128,12 +128,12 @@
             'dev_requirement' => false,
         ),
         'joomla/joomla-cms' => array(
-            'pretty_version' => 'dev-staging',
-            'version' => 'dev-staging',
+            'pretty_version' => 'dev-3.10-dev',
+            'version' => 'dev-3.10-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => '920cf31b6b90656dd9156325f862a6a00e71e60f',
+            'reference' => 'c764d4dcb74353037015f166f16ce345555ab381',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
