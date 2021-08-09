@@ -279,6 +279,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 
 		$updateQuery = $db->getQuery(true);
 
+		$jobId = $cronjob->get('id');
 		$ruleType = $cronjob->get('cron_rules');
 		$nextExec = (new ExecRuleHelper($cronjob))->nextExec();
 		$exitCode = null ?? self::JOB_NO_EXIT;
@@ -296,9 +297,12 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 					'j.last_exit_code = :exitCode',
 					'j.times_executed = j.times_executed + 1'
 				]
-			)->bind(':nextExec', $nextExec)
+			)
+			->where('j.id = :jobId')
+			->bind(':nextExec', $nextExec)
 			->bind(':exitCode', $exitCode)
-			->bind(':now', $now);
+			->bind(':now', $now)
+			->bind(':jobId', $jobId);
 		$db->setQuery($updateQuery)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
