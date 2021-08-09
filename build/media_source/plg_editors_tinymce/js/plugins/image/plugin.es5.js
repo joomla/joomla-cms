@@ -245,7 +245,6 @@
         // Edit or delete image size and title attributes
         if (responsiveSizes.setCustom.value) {
           var sizes  = [];
-          var titles = [];
 
           responsiveSizes.sizes.forEach(function (size) {
             var width  = parseInt(size.width.value);
@@ -253,15 +252,15 @@
             var title  = size.title.value.replaceAll(',', '');
 
             if (width > 0 && height > 0) {
-              sizes.push(width + "x" + height);
-              titles.push(title);
+              sizes.push({ title, size: width + 'x' + height });
             }
           });
 
-          // Set sizes and titles as data attributes
+          // Set sizes as data attribute
           if (sizes.length > 0) {
-            image.setAttribute('data-jimage-size', sizes.join(','));
-            image.setAttribute('data-jimage-title', titles.join(','));
+            // Replace double quotes with single
+            var sizesStr = JSON.stringify(sizes).replace(/"/g, "'");
+            image.setAttribute('data-jimage-size', sizesStr);
           }
 
           // Set creation method as data attribute
@@ -272,7 +271,6 @@
           }
         } else {
           image.removeAttribute('data-jimage-size');
-          image.removeAttribute('data-jimage-title');
           image.removeAttribute('data-jimage-method');
         }
       }
@@ -310,13 +308,13 @@
                 if (image.getAttribute('data-jimage-size')) {
                   responsiveSizes.setCustom.value = true;
 
-                  // Create new objects with existing sizes
-                  var sizes  = image.getAttribute('data-jimage-size').split(',');
-                  var titles = image.getAttribute('data-jimage-title') ? image.getAttribute('data-jimage-title').split(',') : [];
+                  // Replace single quotes with double
+                  var sizesStr = image.getAttribute('data-jimage-size').replace(/'/g, '"');
+                  var sizes = JSON.parse(sizesStr);
 
-                  sizes.forEach(function (size, index) {
-                    var dimensions = size.split('x');
-                    responsiveSizes.sizes.push(jimage.createSizeGroup(index, titles[index], dimensions[0], dimensions[1]));
+                  sizes.forEach(function (item, index) {
+                    var dimensions = item.size.split("x");
+                    responsiveSizes.sizes.push(jimage.createSizeGroup(index, item.title, dimensions[0], dimensions[1]));
                   });
                 }
 

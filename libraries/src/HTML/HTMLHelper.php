@@ -1337,4 +1337,30 @@ abstract class HTMLHelper
 
 		return '';
 	}
+
+	/**
+	 * Method that gets HTML as string and removes specified attribute(s)
+	 *
+	 * @param   string  $content  HTML content
+	 * @param   array   $attribs  array of attributes to be removed. For example: ['src', 'data-size']
+	 *
+	 * @return  string  content without the given attributes or false
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function removeContentAttribs($content, $attribs)
+	{
+		if (is_null($content))
+		{
+			return false;
+		}
+
+		// Iterate through the attributes and remove from string
+		foreach ($attribs as $attr)
+		{
+			$content = preg_replace('/(' . $attr . '*= *"?[^"]*")/', '', $content);
+		}
+
+		return $content;
+	}
 }

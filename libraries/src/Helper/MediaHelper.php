@@ -732,11 +732,23 @@ class MediaHelper
 	 */
 	public static function getContentSizes($content, $image)
 	{
-		// Get data-jimage-sizes attribute value of image
-		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-sizes *= *["\'](.*?)["\']/';
-		$customSizes = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
+		// Get data-jimage-size attribute value of image
+		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-size *= *"(.*?)"/';
+		$customSizes  = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
 
-		return $customSizes ? array_unique(explode(',', (string) $customSizes)) : null;
+		// Replace single quotes with double then decode
+		$customSizes = str_replace('\'', "\"", $customSizes);
+		$customSizes = $customSizes ? json_decode($customSizes) : [];
+
+		// Create an array that contains only sizes (not titles)
+		$sizes = [];
+		foreach ($customSizes as $item)
+		{
+			$sizes[] = $item->size;
+		}
+
+
+		return count($sizes) > 0 ? array_unique($sizes) : null;
 	}
 
 	/**
