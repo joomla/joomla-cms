@@ -100,8 +100,9 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 		if (array_key_exists($event['jobId'], self::JOBS_MAP))
 		{
 			// Plugin does whatever it wants
-			$resultCarrier = &$event['results'];
+			$resultCarrier = $event->getArgument('results');
 			$resultCarrier[] = ['plugin' => $this->_name, 'exit' => 0];
+			$event->setArgument('results', $resultCarrier);
 
 			// Probably not this
 			$event->stopPropagation();
