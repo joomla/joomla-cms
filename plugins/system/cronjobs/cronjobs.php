@@ -179,7 +179,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		// Get a class with a smarter class
 		$model->setState('list.customClass', true);
 
-		return $model->getItems();
+		return $model->getItems() ?? [];
 	}
 
 	/**
@@ -189,6 +189,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return boolean True on success
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	private function runJob(object $cronjob, bool $scheduling = true): bool
@@ -196,9 +197,10 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$this->snapshot['jobId'] = $cronjob->id;
 		$this->snapshot['jobTitle'] = $cronjob->title;
 		$this->snapshot['status'] = self::JOB_NO_TIME;
+		$this->snapshot['startTime'] = $this->snapshot['startTime'] ?? microtime(true);
 		$this->snapshot['duration'] = 0;
 
-		if (!$setlock = $this->setLock($cronjob))
+		if (!$setLock = $this->setLock($cronjob))
 		{
 			$this->snapshot['status'] = self::JOB_NO_LOCK;
 
@@ -224,10 +226,13 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		if (!$this->releaseLock($cronjob))
 		{
 			$this->snapshot['status'] = self::JOB_NO_RUN;
-			$this->snapshot['duration'] = 0;
 
 			return false;
 		}
+
+		$this->snapshot['endTime'] = microtime(true);
+		$this->snapshot['status'] = self::JOB_OK_RUN;
+		$this->snapshot['duration'] = $this->snapshot['endTime'] - $this->snapshot['startTime'];
 
 		return true;
 	}
