@@ -6053,6 +6053,17 @@ class JoomlaInstallerScript
 			'/media/system/js/fields/calendar-locales/zh-CN.min.js.gz',
 			'/media/system/js/fields/calendar-locales/zh-TW.min.js',
 			'/media/system/js/fields/calendar-locales/zh-TW.min.js.gz',
+			// 4.0 from RC 5 to RC 6
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js.gz',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js.gz',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css.gz',
+			'/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss',
 		);
 
 		$folders = array(
@@ -7294,6 +7305,12 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/tmpl/profile',
 			'/administrator/components/com_admin/src/View/Profile',
 			'/administrator/components/com_admin/forms',
+			// 4.0 from RC 5 to RC 6
+			'/templates/cassiopeia/scss/vendor/fontawesome-free',
+			'/templates/cassiopeia/css/vendor/fontawesome-free',
+			'/media/templates/cassiopeia/js/mod_menu',
+			'/media/templates/cassiopeia/js',
+			'/media/templates/cassiopeia',
 		);
 
 		$status['files_checked'] = $files;
