@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d384efe5f59ee02cfa998ce5a1794b19",
+    "content-hash": "10dc0965742d8f6d2452fbcc93d2c5c5",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -579,16 +579,16 @@
         },
         {
             "name": "joomla/application",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "981d430345227bcb615676bf2ccce1212b1b5204"
+                "reference": "7982ba04ad2812dd30fc98c178a474c1a45ba8bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/981d430345227bcb615676bf2ccce1212b1b5204",
-                "reference": "981d430345227bcb615676bf2ccce1212b1b5204",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/7982ba04ad2812dd30fc98c178a474c1a45ba8bf",
+                "reference": "7982ba04ad2812dd30fc98c178a474c1a45ba8bf",
                 "shasum": ""
             },
             "require": {
@@ -597,7 +597,8 @@
                 "laminas/laminas-diactoros": "^2.2.2",
                 "php": "^7.2.5",
                 "psr/http-message": "^1.0",
-                "psr/log": "^1.0"
+                "psr/log": "^1.0",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "conflict": {
                 "joomla/di": "<1.5",
@@ -607,7 +608,7 @@
                 "joomla/uri": "<1.1"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/controller": "^1.0|^2.0",
                 "joomla/di": "^1.5|^2.0",
                 "joomla/input": "^1.2|^2.0",
@@ -648,20 +649,34 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:24:44+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/application/issues",
+                "source": "https://github.com/joomla-framework/application/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:41:35+00:00"
         },
         {
             "name": "joomla/archive",
-            "version": "2.0.0-beta5",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "fbaba1042083fb73f11575bc9efef3f583c1861d"
+                "reference": "5bbc35f97463aad6c9f2dbd005d9b31871afe513"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/fbaba1042083fb73f11575bc9efef3f583c1861d",
-                "reference": "fbaba1042083fb73f11575bc9efef3f583c1861d",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/5bbc35f97463aad6c9f2dbd005d9b31871afe513",
+                "reference": "5bbc35f97463aad6c9f2dbd005d9b31871afe513",
                 "shasum": ""
             },
             "require": {
@@ -700,30 +715,44 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2021-03-06T12:46:31+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/archive/issues",
+                "source": "https://github.com/joomla-framework/archive/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-22T19:37:59+00:00"
         },
         {
             "name": "joomla/authentication",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "483f5d7e11098aa3dbf8694872752f8295b19824"
+                "reference": "73d77db3b5d31300ffc0f147936cb420d4dffd96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/483f5d7e11098aa3dbf8694872752f8295b19824",
-                "reference": "483f5d7e11098aa3dbf8694872752f8295b19824",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/73d77db3b5d31300ffc0f147936cb420d4dffd96",
+                "reference": "73d77db3b5d31300ffc0f147936cb420d4dffd96",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "conflict": {
                 "joomla/database": "<2.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/database": "^2.0",
                 "joomla/input": "^1.0|^2.0",
                 "phpunit/phpunit": "^8.5|^9.0",
@@ -755,7 +784,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:25:47+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/authentication/issues",
+                "source": "https://github.com/joomla-framework/authentication/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:44:21+00:00"
         },
         {
             "name": "joomla/console",
@@ -809,24 +852,38 @@
                 "framework",
                 "joomla"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/console/issues",
+                "source": "https://github.com/joomla-framework/console/tree/2.0.0-beta3"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "time": "2020-11-28T14:40:42+00:00"
         },
         {
             "name": "joomla/crypt",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/crypt.git",
-                "reference": "bf98bc551badd1c10b13a3ba96a6530f1f97d830"
+                "reference": "db9e5c4f8b42df5dee0a3698404affe631fdaba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/crypt/zipball/bf98bc551badd1c10b13a3ba96a6530f1f97d830",
-                "reference": "bf98bc551badd1c10b13a3ba96a6530f1f97d830",
+                "url": "https://api.github.com/repos/joomla-framework/crypt/zipball/db9e5c4f8b42df5dee0a3698404affe631fdaba4",
+                "reference": "db9e5c4f8b42df5dee0a3698404affe631fdaba4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "conflict": {
                 "defuse/php-encryption": "<2.0"
@@ -867,20 +924,34 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:30:27+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/crypt/issues",
+                "source": "https://github.com/joomla-framework/crypt/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:46:07+00:00"
         },
         {
             "name": "joomla/data",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/data.git",
-                "reference": "c8eb8cf89a00cafeaf258c313f024688705f0352"
+                "reference": "6327825f48ba517d8f35179ac8f7868522d3a23f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/data/zipball/c8eb8cf89a00cafeaf258c313f024688705f0352",
-                "reference": "c8eb8cf89a00cafeaf258c313f024688705f0352",
+                "url": "https://api.github.com/repos/joomla-framework/data/zipball/6327825f48ba517d8f35179ac8f7868522d3a23f",
+                "reference": "6327825f48ba517d8f35179ac8f7868522d3a23f",
                 "shasum": ""
             },
             "require": {
@@ -888,7 +959,7 @@
                 "php": "^7.2.5"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -914,11 +985,25 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:27:08+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/data/issues",
+                "source": "https://github.com/joomla-framework/data/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:47:10+00:00"
         },
         {
             "name": "joomla/database",
-            "version": "2.0.0-beta4",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
@@ -982,33 +1067,44 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.0-beta4"
+                "source": "https://github.com/joomla-framework/database/tree/2.0.0-rc"
             },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "time": "2021-07-13T18:43:12+00:00"
         },
         {
             "name": "joomla/di",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "ad4fb4cacbda3581137d862a292a2932dba756ad"
+                "reference": "22ef18207e8945c8247aa2372bddbe76383bd0bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/ad4fb4cacbda3581137d862a292a2932dba756ad",
-                "reference": "ad4fb4cacbda3581137d862a292a2932dba756ad",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/22ef18207e8945c8247aa2372bddbe76383bd0bc",
+                "reference": "22ef18207e8945c8247aa2372bddbe76383bd0bc",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
-                "psr/container": "^1.0"
+                "php": "^7.2.5|~8",
+                "psr/container": "^1.0",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "provide": {
                 "psr/container-implementation": "~1.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -1037,27 +1133,42 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2020-06-05T11:28:10+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/di/issues",
+                "source": "https://github.com/joomla-framework/di/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-04-06T22:33:15+00:00"
         },
         {
             "name": "joomla/event",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "534744c33a67e583325540679f880e7cdcfde39f"
+                "reference": "f81952f2341780e48fe50b1c0f41d2221eeca5c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/534744c33a67e583325540679f880e7cdcfde39f",
-                "reference": "534744c33a67e583325540679f880e7cdcfde39f",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/f81952f2341780e48fe50b1c0f41d2221eeca5c2",
+                "reference": "f81952f2341780e48fe50b1c0f41d2221eeca5c2",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/console": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0",
                 "psr/container": "^1.0"
@@ -1088,27 +1199,41 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:28:34+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/event/issues",
+                "source": "https://github.com/joomla-framework/event/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:50:45+00:00"
         },
         {
             "name": "joomla/filesystem",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782"
+                "reference": "c8490f062a3764920d5cd784484e6495d975debe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
-                "reference": "a4d9a952b43490e4fdfdaff2cfac6c3f31c41782",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/c8490f062a3764920d5cd784484e6495d975debe",
+                "reference": "c8490f062a3764920d5cd784484e6495d975debe",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/test": "^2.0",
                 "mikey179/vfsstream": "^1.1",
                 "phpunit/phpunit": "^8.5|^9.0"
@@ -1135,20 +1260,34 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-09-02T17:35:07+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/filesystem/issues",
+                "source": "https://github.com/joomla-framework/filesystem/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:51:15+00:00"
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.0-beta5",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8"
+                "reference": "8e75093af3e1614ba774cd94fd39517c19ed0444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
-                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8e75093af3e1614ba774cd94fd39517c19ed0444",
+                "reference": "8e75093af3e1614ba774cd94fd39517c19ed0444",
                 "shasum": ""
             },
             "require": {
@@ -1188,20 +1327,34 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2021-02-01T12:25:08+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/filter/issues",
+                "source": "https://github.com/joomla-framework/filter/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:51:02+00:00"
         },
         {
             "name": "joomla/http",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "ac4afbaeca2e3d2f61839b1437344c1306bfd9ed"
+                "reference": "66d6c6a1bd91f489c79132954a230695ec6ade1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ac4afbaeca2e3d2f61839b1437344c1306bfd9ed",
-                "reference": "ac4afbaeca2e3d2f61839b1437344c1306bfd9ed",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/66d6c6a1bd91f489c79132954a230695ec6ade1e",
+                "reference": "66d6c6a1bd91f489c79132954a230695ec6ade1e",
                 "shasum": ""
             },
             "require": {
@@ -1242,28 +1395,43 @@
                 "http",
                 "joomla"
             ],
-            "time": "2020-06-05T11:31:04+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/http/issues",
+                "source": "https://github.com/joomla-framework/http/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:54:21+00:00"
         },
         {
             "name": "joomla/input",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "156d9e91ca0e154643951a0a728afc854f95b38a"
+                "reference": "d1d675513aa3cd8f3e7372866fb1ab170b645338"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/156d9e91ca0e154643951a0a728afc854f95b38a",
-                "reference": "156d9e91ca0e154643951a0a728afc854f95b38a",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/d1d675513aa3cd8f3e7372866fb1ab170b645338",
+                "reference": "d1d675513aa3cd8f3e7372866fb1ab170b645338",
                 "shasum": ""
             },
             "require": {
                 "joomla/filter": "^1.0|^2.0",
-                "php": "^7.2.5"
+                "php": "^7.2.5",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -1289,20 +1457,34 @@
                 "input",
                 "joomla"
             ],
-            "time": "2020-06-05T11:31:52+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/input/issues",
+                "source": "https://github.com/joomla-framework/input/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:54:50+00:00"
         },
         {
             "name": "joomla/ldap",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/ldap.git",
-                "reference": "dd31ff72fa5a5221025524452e8314dc22890d55"
+                "reference": "64f33be29f52af7d99c32965b47b5dd579cf5964"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/dd31ff72fa5a5221025524452e8314dc22890d55",
-                "reference": "dd31ff72fa5a5221025524452e8314dc22890d55",
+                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/64f33be29f52af7d99c32965b47b5dd579cf5964",
+                "reference": "64f33be29f52af7d99c32965b47b5dd579cf5964",
                 "shasum": ""
             },
             "require": {
@@ -1336,20 +1518,34 @@
                 "joomla",
                 "ldap"
             ],
-            "time": "2020-06-05T11:32:05+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/ldap/issues",
+                "source": "https://github.com/joomla-framework/ldap/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T19:00:45+00:00"
         },
         {
             "name": "joomla/oauth1",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "ba21e0bb8451521c71c38cf8b4f236434c440860"
+                "reference": "2d0429965561adb983d849af09ae39ee01edd68e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/ba21e0bb8451521c71c38cf8b4f236434c440860",
-                "reference": "ba21e0bb8451521c71c38cf8b4f236434c440860",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/2d0429965561adb983d849af09ae39ee01edd68e",
+                "reference": "2d0429965561adb983d849af09ae39ee01edd68e",
                 "shasum": ""
             },
             "require": {
@@ -1362,7 +1558,7 @@
                 "php": "^7.2.5"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/event": "^2.0",
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
@@ -1389,20 +1585,34 @@
                 "joomla",
                 "oauth1"
             ],
-            "time": "2020-06-05T11:33:29+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/oauth1/issues",
+                "source": "https://github.com/joomla-framework/oauth1/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T19:00:57+00:00"
         },
         {
             "name": "joomla/oauth2",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "742f75813deeb60da769d6f7f80f603ac57a5882"
+                "reference": "c78c3bcdd299f423663ca58e085d0dd3ff6b243e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/742f75813deeb60da769d6f7f80f603ac57a5882",
-                "reference": "742f75813deeb60da769d6f7f80f603ac57a5882",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/c78c3bcdd299f423663ca58e085d0dd3ff6b243e",
+                "reference": "c78c3bcdd299f423663ca58e085d0dd3ff6b243e",
                 "shasum": ""
             },
             "require": {
@@ -1414,7 +1624,7 @@
                 "php": "^7.2.5"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
             "type": "joomla-package",
@@ -1439,30 +1649,47 @@
                 "joomla",
                 "oauth2"
             ],
-            "time": "2020-06-05T11:33:41+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/oauth2/issues",
+                "source": "https://github.com/joomla-framework/oauth2/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T19:01:08+00:00"
         },
         {
             "name": "joomla/registry",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "02fdfc11577095e598aa57c92f1bf8f077a80837"
+                "reference": "8b6521e97d405d3ab646b0d6dc7b19c5d8d3ca00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/02fdfc11577095e598aa57c92f1bf8f077a80837",
-                "reference": "02fdfc11577095e598aa57c92f1bf8f077a80837",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/8b6521e97d405d3ab646b0d6dc7b19c5d8d3ca00",
+                "reference": "8b6521e97d405d3ab646b0d6dc7b19c5d8d3ca00",
                 "shasum": ""
             },
             "require": {
-                "joomla/utilities": "^1.4.1|~2.0",
+                "joomla/utilities": "^1.4.1|^2.0",
                 "php": "^7.2.5"
             },
+            "conflict": {
+                "symfony/yaml": "<3.4"
+            },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~8.2",
-                "symfony/yaml": "~3.4|~4.0|~5.0"
+                "joomla/coding-standards": "^3.0@dev",
+                "phpunit/phpunit": "^8.5|^9.0",
+                "symfony/yaml": "^3.4|^4.4|^5.0"
             },
             "suggest": {
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
@@ -1489,24 +1716,38 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2020-06-05T11:33:51+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/registry/issues",
+                "source": "https://github.com/joomla-framework/registry/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T19:00:29+00:00"
         },
         {
             "name": "joomla/router",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "14904beb7b894b1df9b156c783ec05d9aba2872d"
+                "reference": "7c675423eb7cb29ed921d4e374fb2152c3c0fd61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/14904beb7b894b1df9b156c783ec05d9aba2872d",
-                "reference": "14904beb7b894b1df9b156c783ec05d9aba2872d",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/7c675423eb7cb29ed921d4e374fb2152c3c0fd61",
+                "reference": "7c675423eb7cb29ed921d4e374fb2152c3c0fd61",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "conflict": {
                 "jeremeamia/superclosure": "<2.4"
@@ -1543,11 +1784,25 @@
                 "joomla",
                 "router"
             ],
-            "time": "2020-06-05T11:26:06+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/router/issues",
+                "source": "https://github.com/joomla-framework/router/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T19:00:18+00:00"
         },
         {
             "name": "joomla/session",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
@@ -1610,31 +1865,46 @@
                 "joomla",
                 "session"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/session/issues",
+                "source": "https://github.com/joomla-framework/session/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "time": "2021-05-18T22:10:43+00:00"
         },
         {
             "name": "joomla/string",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "f9fe41afffd28535b29b2875d48eaaf56532412a"
+                "reference": "778682c04a1909323da6a453a5b3030d7a7a2fa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/f9fe41afffd28535b29b2875d48eaaf56532412a",
-                "reference": "f9fe41afffd28535b29b2875d48eaaf56532412a",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/778682c04a1909323da6a453a5b3030d7a7a2fa9",
+                "reference": "778682c04a1909323da6a453a5b3030d7a7a2fa9",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "conflict": {
                 "doctrine/inflector": "<1.2"
             },
             "require-dev": {
-                "doctrine/inflector": "^1.2",
-                "joomla/coding-standards": "^2.0@alpha",
+                "doctrine/inflector": "1.2",
+                "joomla/coding-standards": "^3.0@dev",
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -1681,24 +1951,38 @@
                 "joomla",
                 "string"
             ],
-            "time": "2020-06-05T11:04:28+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/string/issues",
+                "source": "https://github.com/joomla-framework/string/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:57:12+00:00"
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "906d86d5dc7ebec7ccd6140b091e53a4136bf6ad"
+                "reference": "e025baa512a135e7ef0fe9687b7020812b11bf4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/906d86d5dc7ebec7ccd6140b091e53a4136bf6ad",
-                "reference": "906d86d5dc7ebec7ccd6140b091e53a4136bf6ad",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/e025baa512a135e7ef0fe9687b7020812b11bf4b",
+                "reference": "e025baa512a135e7ef0fe9687b7020812b11bf4b",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "^2.0@alpha",
@@ -1726,11 +2010,25 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2020-06-05T11:26:35+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/uri/issues",
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-10T18:56:05+00:00"
         },
         {
             "name": "joomla/utilities",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
@@ -1771,6 +2069,20 @@
                 "framework",
                 "joomla",
                 "utilities"
+            ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/utilities/issues",
+                "source": "https://github.com/joomla-framework/utilities/tree/2.0.0-rc"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
             ],
             "time": "2021-06-03T11:06:46+00:00"
         },
@@ -5796,25 +6108,26 @@
         },
         {
             "name": "joomla/test",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-rc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b"
+                "reference": "860c443fc7bb6be1e6cd97f81b7009cb871420ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/e9cfcf8c218eae790226d49b839c475042d6e46b",
-                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/860c443fc7bb6be1e6cd97f81b7009cb871420ef",
+                "reference": "860c443fc7bb6be1e6cd97f81b7009cb871420ef",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "conflict": {
                 "joomla/database": "<2.0"
             },
             "require-dev": {
+                "joomla/coding-standards": "~3.0@dev",
                 "joomla/database": "~2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -5846,7 +6159,11 @@
                 "reflection",
                 "unit test"
             ],
-            "time": "2020-06-05T11:34:48+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/test/issues",
+                "source": "https://github.com/joomla-framework/test/tree/2.0.0-rc"
+            },
+            "time": "2021-08-10T18:46:49+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -8197,33 +8514,33 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/application": 10,
-        "joomla/archive": 10,
-        "joomla/authentication": 10,
+        "joomla/application": 5,
+        "joomla/archive": 5,
+        "joomla/authentication": 5,
         "joomla/console": 10,
-        "joomla/crypt": 10,
-        "joomla/data": 10,
-        "joomla/database": 10,
-        "joomla/di": 10,
-        "joomla/event": 10,
-        "joomla/filter": 10,
-        "joomla/filesystem": 10,
-        "joomla/http": 10,
-        "joomla/input": 10,
-        "joomla/ldap": 10,
-        "joomla/oauth1": 10,
-        "joomla/oauth2": 10,
-        "joomla/registry": 10,
-        "joomla/router": 10,
-        "joomla/session": 10,
-        "joomla/string": 10,
-        "joomla/uri": 10,
-        "joomla/utilities": 10,
+        "joomla/crypt": 5,
+        "joomla/data": 5,
+        "joomla/database": 5,
+        "joomla/di": 5,
+        "joomla/event": 5,
+        "joomla/filter": 5,
+        "joomla/filesystem": 5,
+        "joomla/http": 5,
+        "joomla/input": 5,
+        "joomla/ldap": 5,
+        "joomla/oauth1": 5,
+        "joomla/oauth2": 5,
+        "joomla/registry": 5,
+        "joomla/router": 5,
+        "joomla/session": 5,
+        "joomla/string": 5,
+        "joomla/uri": 5,
+        "joomla/utilities": 5,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
         "joomla/mediawiki": 20,
         "joomla-projects/joomla-browser": 20,
-        "joomla/test": 10
+        "joomla/test": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -8236,5 +8553,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    }
+    },
+    "plugin-api-version": "2.1.0"
 }
