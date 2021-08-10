@@ -38,12 +38,6 @@ jobs:
         run: |
           cd ..
           SYNC_VERION="v4"
-
-          # Disabled for the moment
-          #SYNC_PATH="build/media_source/system/js/fields/calendar-locales/"
-          #echo ${SYNC_PATH}
-          #rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
-          #ls -l joomla-cms/${SYNC_PATH}
           
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
