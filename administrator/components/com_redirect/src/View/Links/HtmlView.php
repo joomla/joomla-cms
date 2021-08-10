@@ -95,11 +95,19 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  False if unsuccessful, otherwise void.
+	 * @return  void
 	 *
 	 * @throws  GenericDataException
 	 * @since   1.6
@@ -114,8 +122,13 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters        = $this->get('ActiveFilters');
 		$this->params               = ComponentHelper::getParams('com_redirect');
 
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -127,7 +140,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -151,7 +164,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('link.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -184,17 +197,17 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('links.trash')->listCheck(true);
 			}
-
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('links.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
 		}
 
-		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('links.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
+		}
+
+		if (!$this->isEmptyState && (!$state->get('filter.state') == -2 && $canDo->get('core.delete')))
 		{
 			$toolbar->confirmButton('delete')
 				->text('COM_REDIRECT_TOOLBAR_PURGE')

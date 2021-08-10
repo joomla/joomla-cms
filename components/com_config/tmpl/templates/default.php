@@ -23,7 +23,17 @@ $wa->useScript('keepalive')
 	->useScript('com_config.templates');
 
 ?>
-
+<?php if ($this->params->get('show_page_heading')) : ?>
+	<div class="page-header">
+		<h1>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
+		</h1>
+	</div>
+<?php endif; ?>
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
 	<div id="page-site" class="tab-pane active">

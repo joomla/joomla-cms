@@ -1,7 +1,6 @@
 // Table
 
 .table {
-
   thead {
 
     th {
@@ -12,13 +11,13 @@
     td {
       white-space: nowrap;
 
-      @include media-breakpoint-down(md) {
+      .sysinfo & {
         white-space: normal;
       }
     }
 
     a {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
 
       &#sorted {
         font-weight: $medium-weight;
@@ -31,7 +30,6 @@
       @include media-breakpoint-down(md) {
         width: 28%;
       }
-
     }
   }
 
@@ -51,10 +49,6 @@
       }
     }
 
-    a:not(.badge) {
-      text-decoration: underline;
-    }
-
     .itemnumber a.btn,
     .itemnumber span.btn {
       padding: .1rem .5rem;
@@ -63,6 +57,10 @@
 
     th {
       font-weight: $medium-weight;
+    }
+
+    a:not(.badge) {
+      text-decoration: underline;
     }
   }
 
@@ -78,5 +76,9 @@
     .inactive [class*=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
+  }
+
+  .j-main-container > & {
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
   }
 }

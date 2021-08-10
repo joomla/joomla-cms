@@ -11,3 +11,5 @@
 
 # Ignore the deleted file script output
 /deleted_files.txt
+/deleted_folders.txt
+/renamed_files.txt

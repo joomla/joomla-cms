@@ -571,6 +571,12 @@ class FieldModel extends AdminModel
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
 		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
 		if ($fieldId)
 		{
@@ -889,7 +895,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -965,15 +971,6 @@ class FieldModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		// Don't allow to change the users if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			if (isset($data['created_user_id']))
-			{
-				unset($data['created_user_id']);
-			}
-		}
-
 		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))
@@ -1123,7 +1120,7 @@ class FieldModel extends AdminModel
 	 * Clean the cache
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

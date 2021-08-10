@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -97,6 +98,16 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
 
+		$component = Factory::getApplication()->bootComponent('com_content');
+
+		if (!$component instanceof WorkflowServiceInterface
+			|| !$component->isWorkflowActive('com_content.article'))
+		{
+			$form->removeField('workflow_id', 'params');
+
+			return;
+		}
+
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('title'))
@@ -105,6 +116,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				[
 					$db->quoteName('default') . ' = 1',
 					$db->quoteName('published') . ' = 1',
+					$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 				]
 			);
 
@@ -135,6 +147,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 						[
 							$db->quoteName('id') . ' = :workflowId',
 							$db->quoteName('published') . ' = 1',
+							$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 						]
 					)
 					->bind(':workflowId', $workflow_id, ParameterType::INTEGER);

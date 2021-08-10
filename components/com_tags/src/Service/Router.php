@@ -12,7 +12,7 @@ namespace Joomla\Component\Tags\Site\Service;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -30,9 +30,18 @@ class Router extends RouterBase
 	 * Lookup array of the menu items
 	 *
 	 * @var   array
-	 * @since 4.0
+	 * @since 4.1
 	 */
 	protected $lookup = array();
+
+  /**
+	 * The db
+	 *
+	 * @var DatabaseInterface
+	 *
+	 * @since  4.0
+	 */
+	private $db;
 
 	/**
 	 * Tags Component router constructor
@@ -44,7 +53,7 @@ class Router extends RouterBase
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory = null, DatabaseInterface $db)
+	public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
 	{
 		parent::__construct($app, $menu);
 
@@ -191,6 +200,8 @@ class Router extends RouterBase
 	public function build(&$query)
 	{
 		$segments = array();
+
+		// Get a menu item based on Itemid or currently active
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))

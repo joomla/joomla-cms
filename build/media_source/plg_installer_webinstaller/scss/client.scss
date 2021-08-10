@@ -122,16 +122,16 @@ $extension-types: (
 
       .input-group-append {
         button#search-extensions {
-          color: var(--atum-text-light);
-          background-color: var(--atum-link-color);
-          border-color: var(--atum-link-color);
+          color: var(--template-text-light);
+          background-color: var(--template-link-color);
+          border-color: var(--template-link-color);
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
         }
 
         button#search-reset {
           margin-inline-start: .8rem;
-          background-color: var(--atum-bg-dark);
+          background-color: var(--template-bg-dark);
           border-radius: .25rem;
         }
       }

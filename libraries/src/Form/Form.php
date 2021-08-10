@@ -1255,7 +1255,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function postProcess($data, $group = null)
 	{

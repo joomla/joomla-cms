@@ -25,13 +25,13 @@ if ($hideLinks)
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
-<div class="header-item-content dropdown header-profile d-flex">
-	<button class="dropdown-toggle d-flex flex-column align-items-stretch" data-bs-toggle="dropdown" type="button"
+<div class="header-item-content dropdown header-profile">
+	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
 		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
-		<div class="d-flex align-items-end mx-auto">
+		<div class="header-item-icon">
 			<span class="icon-user-circle" aria-hidden="true"></span>
 		</div>
-		<div class="tiny">
+		<div class="header-item-text">
 			<?php echo Text::_('MOD_USER_MENU'); ?>
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>

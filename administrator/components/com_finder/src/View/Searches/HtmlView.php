@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * View class for a list of search terms.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -82,11 +82,18 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
+	 * @var boolean
+	 *
+	 * @since  4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -101,6 +108,11 @@ class HtmlView extends BaseHtmlView
 		$uri                 = Uri::getInstance();
 		$link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
 		$output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
+
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -117,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the view.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -133,12 +145,15 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
-		if ($canDo->get('core.edit.state'))
+		if (!$this->isEmptyState)
 		{
-			ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
-		}
+			if ($canDo->get('core.edit.state'))
+			{
+				ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
+			}
 
-		ToolbarHelper::divider();
+			ToolbarHelper::divider();
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
