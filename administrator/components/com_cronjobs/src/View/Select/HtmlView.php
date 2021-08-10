@@ -108,10 +108,6 @@ class HtmlView extends BaseHtmlView
 	{
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
-		$this->specialItem = (object) [
-			'title' => Text::_('COM_CRONJOBS_CLI_JOBS_TITLE'),
-			'desc' => Text::_('COM_CRONJOBS_CLI_JOBS_DESC')
-		];
 		$this->modalLink = '';
 
 		// Check for errors.

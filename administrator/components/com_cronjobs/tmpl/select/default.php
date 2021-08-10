@@ -69,27 +69,6 @@ $wa->useScript('com_cronjobs.admin-plg-job-search');
 			<?php echo Text::_('COM_CRONJOBS_TYPE_CHOOSE'); ?>
 		</h2>
 
-		<!-- Special card for CLI type Jobs -->
-		<!-- ! Needs revision now that CLI type jobs aren't handled as exceptionally-->
-		<div class="main-card p-4" id="cli-job">
-			<a href="index.php?option=com_cronjobs&task=cronjob.add&type=script"
-			   class="new-job mb-3"
-			   aria-label="<?php echo Text::_('COM_CRONJOBS_SELECT_CLI_JOB') ?>">
-				<div class="new-job-details">
-					<h3 class="new-job-title">
-						<?php echo $this->specialItem->title ?>
-					</h3>
-					<p class="card-body new-job-caption p-0">
-						<?php echo $this->specialItem->desc ?>
-					</p>
-				</div>
-				<span class="new-job-link">
-						<span class="icon-plus" aria-hidden="true"></span>
-				</span>
-			</a>
-		</div>
-		<!-- Special card ends here -->
-
 		<!-- Parent card -->
 		<div class="main-card card-columns p-4" id="comCronjobsSelectResultsContainer">
 
