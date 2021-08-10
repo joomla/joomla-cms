@@ -31,7 +31,7 @@ class MediaHelper
 	 * Joomla\CMS\Filter\InputFilter
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public const EXECUTABLES = array(
 		'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
@@ -165,7 +165,7 @@ class MediaHelper
 	 *
 	 * @return  boolean  true if it passes the checks else false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
 	{
