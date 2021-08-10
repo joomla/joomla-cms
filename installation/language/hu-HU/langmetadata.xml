@@ -3,11 +3,11 @@
 	<name>Hungarian (hu-HU)</name>
 	<version>4.0.0</version>
 	<creationDate>2019 október</creationDate>
-	<author> </author>
-	<copyright/>
+	<author>Joomla! Magyarország</author>
+	<copyright>Minden jog fenntartva (C) 2005 Open Source Matters.</copyright>
 	<license>GNU Általános Nyilvános Licenc 2-es vagy újabb verzió; lásd LICENSE.txt</license>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Magyar (hu-HU)</name>

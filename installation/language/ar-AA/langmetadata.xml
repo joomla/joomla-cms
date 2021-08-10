@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
 	<name>Arabic Unitag (العربية الموحدة)</name>
-	<version/>
+	<version>4.0.0</version>
 	<creationDate>June 2021</creationDate>
-	<author> Arabic Unitag Translation team</author>
-	<copyright>Copyright (C) 2005 - 2021 Open Source Matters.</copyright>
-	<license/>
+	<author>Dr. Ashraf Damra</author>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters &amp; Dr. Ashraf Damra/Abu Nidal. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>ar-AA.ini</filename>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Arabic Unitag (العربية الموحدة)</name>
-		<nativeName>Arabic Unitag (اللغة العربية)</nativeName>
+		<nativeName>Arabic Unitag (العربية الموحدة)</nativeName>
 		<tag>ar-AA</tag>
 		<rtl>1</rtl>
 	</metadata>

@@ -3,15 +3,15 @@
 	<name>Basque</name>
 	<version>4.0.0</version>
 	<creationDate>Urria 2019</creationDate>
-	<author> </author>
+	<author/>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<license/>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Basque (eu-ES)</name>
-		<nativeName>Euskara (Euskara batua)</nativeName>
+		<nativeName>Basque</nativeName>
 		<tag>eu-ES</tag>
 		<rtl>0</rtl>
 	</metadata>

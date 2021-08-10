@@ -3,7 +3,7 @@
 	<name>Catalan (ca-ES)</name>
 	<version>4.0.0</version>
 	<creationDate>October 2019</creationDate>
-	<author> </author>
+	<author/>
 	<copyright/>
 	<license>Llicència Pública General de GNU versió 2 o posterior; veure LICENSE.txt</license>
 	<files>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>Catalan (ca-ES)</name>
-		<nativeName>Català (Espanya)</nativeName>
+		<nativeName>Catalan (ca-ES)</nativeName>
 		<tag>ca-ES</tag>
 		<rtl>0</rtl>
 	</metadata>

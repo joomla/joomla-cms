@@ -3,8 +3,8 @@
 	<name>Dutch (nl-NL)</name>
 	<version>4.0.0-rc2.1</version>
 	<creationDate>Juni 2021</creationDate>
-	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2021 Open Source Matters, Inc.</copyright>
+	<author>Dutch Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters, Inc. Alle rechten voorbehouden.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>

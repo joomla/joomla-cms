@@ -3,7 +3,7 @@
 	<name>Czech (Čeština)</name>
 	<version>4.0.0-rc1.1</version>
 	<creationDate>Červen 2021</creationDate>
-	<author> </author>
+	<author/>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>

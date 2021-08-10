@@ -3,11 +3,11 @@
 	<name>Português do Brasil (pt-BR)</name>
 	<version>4.0.0.1</version>
 	<creationDate>Março de 2020</creationDate>
-	<author>Projeto Joomla! </author>
+	<author/>
 	<copyright/>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Brazilian Portuguese (pt-BR)</name>

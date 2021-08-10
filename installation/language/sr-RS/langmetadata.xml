@@ -3,11 +3,11 @@
 	<name/>
 	<version/>
 	<creationDate/>
-	<author> </author>
+	<author/>
 	<copyright/>
 	<license/>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Serbian Cyrillic</name>

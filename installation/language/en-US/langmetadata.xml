@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name/>
-	<version/>
-	<creationDate/>
-	<author> </author>
-	<copyright/>
-	<license/>
+	<name>English (United States)</name>
+	<version>3.9.12</version>
+	<creationDate>October 2019</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name/>
-		<nativeName/>
-		<tag/>
+		<name>English (United States)</name>
+		<nativeName>English (United States)</nativeName>
+		<tag>en-US</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>

@@ -2,12 +2,12 @@
 <metafile client="installation">
 	<name>Greek (el-GR)</name>
 	<version>4.0.0</version>
-	<creationDate>Ιούνιος 2020</creationDate>
-	<author> </author>
-	<copyright/>
-	<license/>
+	<creationDate>Αυγ. 2021</creationDate>
+	<author>Ομάδα Μετάφρασης στα Ελληνικά: joomla. gr</author>
+	<copyright>Copyright (C) 2005 - 2021 joomla.gr και Open Source Matters. All rights reserved.</copyright>
+	<license>Γενική Άδεια Δημόσιας Χρήσης GNU (GNU GPL), έκδοση 2 ή μεταγενέστερη· δείτε το LICENSE.txt</license>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Greek (el-GR)</name>

@@ -3,15 +3,15 @@
 	<name>Norwegian bokmål (Norway)</name>
 	<version>4.0.0</version>
 	<creationDate>October 2019</creationDate>
-	<author> </author>
-	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<author/>
+	<copyright/>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename/>
+		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
 		<name>Norwegian Bokmal (nb-NO)</name>
-		<nativeName>Norsk bokmål (Norge)</nativeName>
+		<nativeName>Norwegian bokmål (Norway)</nativeName>
 		<tag>nb-NO</tag>
 		<rtl>0</rtl>
 	</metadata>
