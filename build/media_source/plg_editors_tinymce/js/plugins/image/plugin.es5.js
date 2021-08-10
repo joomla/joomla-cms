@@ -258,9 +258,9 @@
 
           // Set sizes as data attribute
           if (sizes.length > 0) {
-            // Replace double quotes with single
+            // Replace double quotes with single (to store JSON in HTML attribute)
             var sizesStr = JSON.stringify(sizes).replace(/"/g, "'");
-            image.setAttribute('data-jimage-size', sizesStr);
+            image.setAttribute('data-jimage-responsive', sizesStr);
           }
 
           // Set creation method as data attribute
@@ -270,7 +270,7 @@
             image.removeAttribute('data-jimage-method');
           }
         } else {
-          image.removeAttribute('data-jimage-size');
+          image.removeAttribute('data-jimage-responsive');
           image.removeAttribute('data-jimage-method');
         }
       }
@@ -305,11 +305,11 @@
                 responsiveSizes.creationMethod.activeItem.value = responsiveSizes.creationMethod.items[0].value;
 
                 // Set custom sizes initial values if exist
-                if (image.getAttribute('data-jimage-size')) {
+                if (image.getAttribute('data-jimage-responsive')) {
                   responsiveSizes.setCustom.value = true;
 
-                  // Replace single quotes with double
-                  var sizesStr = image.getAttribute('data-jimage-size').replace(/'/g, '"');
+                  // Replace single quotes with double (to get valid JSON)
+                  var sizesStr = image.getAttribute('data-jimage-responsive').replace(/'/g, '"');
                   var sizes = JSON.parse(sizesStr);
 
                   sizes.forEach(function (item, index) {

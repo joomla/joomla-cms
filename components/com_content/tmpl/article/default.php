@@ -99,7 +99,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 		echo $this->item->toc;
 	endif; ?>
 	<div itemprop="articleBody" class="com-content-article__body">
-		<?php echo HTMLHelper::removeContentAttribs($this->item->text, ['data-jimage-size']); ?>
+		<?php echo HTMLHelper::removeContentAttribs($this->item->text, ['data-jimage-responsive']); ?>
 	</div>
 
 	<?php if ($info == 1 || $info == 2) : ?>

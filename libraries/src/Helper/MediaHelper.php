@@ -532,11 +532,7 @@ class MediaHelper
 	 */
 	public static function generateContentResponsiveImages($content, $sizes, $method)
 	{
-		// Get src of img tag: <img src="images/joomla.png" /> - images/joomla.png
-		$pattern = '/<*img[^>]*src *= *["\']?([^"\']*)/';
-
-		// Get images from content and remove duplicates
-		$images = preg_match_all($pattern, $content, $matched) ? array_unique($matched[1]) : [];
+		$images = HTMLHelper::getContentImageSources($content);
 
 		$imagesGenerated = [];
 
@@ -622,8 +618,10 @@ class MediaHelper
 	 */
 	public static function addContentSrcsetAndSizes($content, $sizes, $method)
 	{
-		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
-		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
+		$images = HTMLHelper::getContentImageSources($content);
+
+		// Remove previously generated attributes
+		$content = HTMLHelper::removeContentAttribs($content, ['srcset', 'sizes']);
 
 		// Generate srcset and sizes for all images
 		foreach ($images as $image)
@@ -633,11 +631,7 @@ class MediaHelper
 
 			if ($srcset = static::generateSrcset($image, $sizes, $method))
 			{
-				// Remove previously generated attributes
-				$content = preg_replace('/[' . preg_quote($image, '/') . ']*srcset *= *("?[^"]*" )/', '', $content);
-				$content = preg_replace('/[' . preg_quote($image, '/') . ']*sizes *= *("?[^"]*" )/', '', $content);
-
-				// Match all between <img and /> then insert srcset and sizes: <img src="" /> - <img src="" srcset="" sizes="">
+				// Insert new attributes: <img src="" /> - <img src="" srcset="" sizes="">
 				$content = preg_replace(
 					'/(<img [^>]+' . preg_quote($image, '/') . '.*?) \/>/',
 					'$1 srcset="' . $srcset . '" sizes="' . static::generateSizes($image) . '" />',
@@ -732,23 +726,31 @@ class MediaHelper
 	 */
 	public static function getContentSizes($content, $image)
 	{
-		// Get data-jimage-size attribute value of image
-		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-size *= *"(.*?)"/';
-		$customSizes  = preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
+		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
 
-		// Replace single quotes with double then decode
-		$customSizes = str_replace('\'', "\"", $customSizes);
-		$customSizes = $customSizes ? json_decode($customSizes) : [];
-
-		// Create an array that contains only sizes (not titles)
-		$sizes = [];
-		foreach ($customSizes as $item)
+		if (!is_null($imgTag))
 		{
-			$sizes[] = $item->size;
+			// Get custom image sizes from data-jimage-responsive attribute
+			$customSizes = preg_match('/data-jimage-responsive *= *"(.*?)"/', $imgTag, $matched) ? $matched[1] : null;
+
+			if (!is_null($customSizes))
+			{
+				// Replace single quotes with double (to have valid JSON) then decode
+				$customSizes = str_replace('\'', "\"", $customSizes);
+				$customSizes = $customSizes ? json_decode($customSizes) : [];
+
+				// Create an array that contains only sizes (not titles)
+				$sizes = [];
+				foreach ($customSizes as $item)
+				{
+					$sizes[] = $item->size;
+				}
+
+				return count($sizes) > 0 ? array_unique($sizes) : false;
+			}
 		}
 
-
-		return count($sizes) > 0 ? array_unique($sizes) : null;
+		return null;
 	}
 
 	/**
@@ -763,11 +765,13 @@ class MediaHelper
 	 */
 	public static function getContentMethod($content, $image)
 	{
-		// Get data-jimage-sizes attribute value of image
-		$sizesPattern = '/[' . preg_quote($image, '/') . ']*data-jimage-method *= *["\'](.*?)["\']/';
-		$method = (int) preg_match($sizesPattern, $content, $matched) ? $matched[1] : null;
+		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
 
-		return $method ?? null;
+		if (!is_null($imgTag))
+		{
+			// Get custom image sizes from data-jimage-method attribute
+			return preg_match('/data-jimage-method *= *"(.*?)"/', $imgTag, $matched) ? (int) $matched[1] : null;
+		}
 	}
 
 	/**

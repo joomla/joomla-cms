@@ -1339,6 +1339,28 @@ abstract class HTMLHelper
 	}
 
 	/**
+	 * Method that gets HTML as string and finds all image sources
+	 *
+	 * @param   string  $content  HTML content
+	 *
+	 * @return  array   image sources
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getContentImageSources($content)
+	{
+		if (is_null($content))
+		{
+			return false;
+		}
+
+		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
+		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
+
+		return $images;
+	}
+
+	/**
 	 * Method that gets HTML as string and removes specified attribute(s)
 	 *
 	 * @param   string  $content  HTML content
@@ -1358,7 +1380,7 @@ abstract class HTMLHelper
 		// Iterate through the attributes and remove from string
 		foreach ($attribs as $attr)
 		{
-			$content = preg_replace('/(' . $attr . '*= *"?[^"]*")/', '', $content);
+			$content = preg_replace('/' . $attr . '*= *"?[^"]*"/', '', $content);
 		}
 
 		return $content;
