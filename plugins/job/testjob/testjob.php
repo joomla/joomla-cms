@@ -93,7 +93,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   Event  $event  onCronRun Event
+	 * @param   CronRunEvent  $event  onCronRun Event
 	 *
 	 * @return void
 	 *
@@ -101,7 +101,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 */
 	public function cronSampleRoutine(CronRunEvent $event): void
 	{
-		if (array_key_exists($event['jobId'], self::JOBS_MAP))
+		if (array_key_exists($event->getJobId(), self::JOBS_MAP))
 		{
 			$this->jobStart();
 
