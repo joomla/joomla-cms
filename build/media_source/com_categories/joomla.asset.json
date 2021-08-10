@@ -27,6 +27,11 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_categories.shared-categories-accordion",
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css"
     }
   ]
 }
