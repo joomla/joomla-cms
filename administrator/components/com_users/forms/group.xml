@@ -21,6 +21,7 @@
 			name="parent_id"
 			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
+			validate="options"
 		/>
 
 		<field

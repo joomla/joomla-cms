@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -30,6 +31,19 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
+
+$c = Factory::getApplication()->bootComponent($this->state->get('category.extension'));
+
+if ($c instanceof WorkflowServiceInterface)
+{
+	$wcontext = $c->getCategoryWorkflowContext($this->state->get('category.section'));
+
+	if (!$c->isWorkflowActive($wcontext))
+	{
+		$this->ignore_fieldsets[] = 'workflow';
+	}
+}
+
 $this->useCoreUI = true;
 
 // In case of modal

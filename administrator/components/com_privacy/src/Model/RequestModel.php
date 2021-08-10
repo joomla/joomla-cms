@@ -409,6 +409,9 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
+		// Make sure the status is always 0
+		$validatedData['status'] = 0;
+
 		// The user cannot create a request for their own account
 		if (strtolower(Factory::getUser()->email) === strtolower($validatedData['email']))
 		{
