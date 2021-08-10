@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Cronjobs\Administrator\Model\CronjobsModel;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -257,7 +258,6 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		}
 
 		$app = $this->app;
-		$results = [];
 		$event = AbstractEvent::create(
 			'onCronRun',
 			[
@@ -266,7 +266,6 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 				'jobId' => $cronjob->type,
 				'langNsSuffix' => $cronjob->cronOption->langNsSuffix,
 				'params' => json_decode($cronjob->params),
-				'results' => &$results
 			]
 		);
 
@@ -304,7 +303,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			->set('j.locked = 1')
 			->where($db->qn('j.id') . ' = :jobId')
 			->where($db->qn('j.locked') . ' = 0')
-			->bind(':jobId', $cronjob->id);
+			->bind(':jobId', $cronjob->id, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
@@ -334,7 +333,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			->set('locked = 0')
 			->where($db->qn('id') . ' = :jobId')
 			->where($db->qn('locked') . ' = 1')
-			->bind(':jobId', $cronjob->id);
+			->bind(':jobId', $cronjob->id, ParameterType::INTEGER);
 		$db->setQuery($releaseQuery)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
@@ -366,9 +365,9 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			)
 			->where('j.id = :jobId')
 			->bind(':nextExec', $nextExec)
-			->bind(':exitCode', $exitCode)
+			->bind(':exitCode', $exitCode, ParameterType::INTEGER)
 			->bind(':now', $now)
-			->bind(':jobId', $jobId);
+			->bind(':jobId', $jobId, ParameterType::INTEGER);
 		$db->setQuery($updateQuery)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
