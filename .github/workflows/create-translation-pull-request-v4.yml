@@ -6,6 +6,10 @@ on:
 
   workflow_dispatch:
 
+schedule:
+    # Run daily at 7:26
+    - cron:  '26 7 * * *'
+
 jobs:
   build:
     runs-on: ubuntu-latest
