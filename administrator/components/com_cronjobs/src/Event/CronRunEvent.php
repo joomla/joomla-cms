@@ -38,10 +38,17 @@ class CronRunEvent extends AbstractEvent
 	{
 		$arguments['resultSnapshot'] = null;
 
+		if (!isset($arguments['jobId']))
+		{
+			throw new \BadMethodCallException("No jobId given for $name event");
+		}
+
 		parent::__construct($name, $arguments);
 	}
 
 	/**
+	 * Sets the job result snapshot and stops event propagation.
+	 *
 	 * @param   array  $snapshot   The job snapshot.
 	 *
 	 * @return void
@@ -56,5 +63,17 @@ class CronRunEvent extends AbstractEvent
 		{
 			$this->stopPropagation();
 		}
+	}
+
+	/**
+	 * Returns the jobId of the job.
+	 *
+	 * @return  string  The jobId of the job
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getJobId(): string
+	{
+		return $this->arguments['jobId'];
 	}
 }
