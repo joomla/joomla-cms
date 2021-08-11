@@ -19,7 +19,7 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 $clientId  = $this->state->get('client_id');
 
-$params = ComponentHelper::getParams('com_content');
+$params = ComponentHelper::getParams('com_modules');
 
 $user = Factory::getUser();
 
