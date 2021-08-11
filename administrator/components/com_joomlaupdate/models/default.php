@@ -1203,8 +1203,10 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
+		$updateInformation = $this->getUpdateInformation();
+
 		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$option = new stdClass;
 			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
