@@ -16,7 +16,7 @@ $displayData = [
 	'textPrefix' => 'COM_COOKIEMANAGER_CONSENTS',
 	'formURL'    => 'index.php?option=com_cookiemanager&view=consents',
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage',
-	'icon'       => 'icon-generic generic',
+	'icon'       => 'icon-lock',
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

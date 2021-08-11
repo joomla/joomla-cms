@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_CONSENTS'));
+		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_CONSENTS'), 'lock');
 
 		if (!$this->isEmptyState && $canDo->get('core.delete'))
 		{
@@ -128,6 +128,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_CONSENTS');
-
 	}
 }

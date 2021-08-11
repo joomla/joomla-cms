@@ -159,6 +159,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_SCRIPTS');
-
 	}
 }
