@@ -25,6 +25,12 @@ steps:
   - php -v
   - libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
 
+- name: phplinter
+  image: joomlaprojects/docker-images:php5.3
+  commands:
+  - php -v
+  - find . -path . -prune -false -o -type f -name '*.php' -print0 | xargs -0 -n1 -P$(nproc) php -l -n
+
 - name: javascript
   image: joomlaprojects/docker-images:systemtests
   commands:
@@ -38,12 +44,6 @@ steps:
   - cd ../..
   - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
   - echo $(date)
-
-- name: phplinter
-  image: joomlaprojects/docker-images:php5.3
-  commands:
-  - php -v
-  - find . -path . -prune -false -o -type f -name '*.php' -print0 | xargs -0 -n1 -P$(nproc) php -l -n > /dev/null
 
 volumes:
 - name: composer-cache
@@ -730,6 +730,6 @@ steps:
 
 ---
 kind: signature
-hmac: 4e6cc3f0bd166cf409c2be9b5ffc24234b3c01bbd51a1996354773d921a2c338
+hmac: 25e6366c7473d1d9fa9a5b8ebc28cdac50dd1779b0515707ab5575943fa24e41
 
 ...
