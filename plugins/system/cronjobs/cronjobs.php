@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
@@ -18,10 +19,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
 use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Cronjobs\Administrator\Model\CronjobsModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -173,7 +176,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Log events -- should we use action logger  or this or both?
-		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_cronjobs.php';
 		Log::addLogger($options, Log::INFO, ['cronjobs']);
 
@@ -193,7 +196,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 
 		if (!$jobRun)
 		{
-			// TODO: Exit code
+			// TODO: Exit code ?
 			Log::add(
 				Text::sprintf(self::LOG_TEXT[$status], $jobId, 0),
 				Log::INFO,
@@ -203,7 +206,6 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// TODO: Exit code
 		Log::add(
 			Text::sprintf(self::LOG_TEXT[$status], $jobId, $duration, 0),
 			LOG::INFO,
@@ -246,7 +248,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$model->setState('list.ordering', 'a.next_execution');
 		$model->setState('list.direction', 'ASC');
 
-		// Get a class with a smarter class
+		// Get smarter objects
 		$model->setState('list.customClass', true);
 
 		return $model->getItems() ?? [];
@@ -278,6 +280,8 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		}
 
 		$app = $this->app;
+
+		/** @var CronRunEvent $event */
 		$event = AbstractEvent::create(
 			'onCronRun',
 			[
@@ -371,8 +375,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$now = Factory::getDate('now', 'GMT')->toSql();
 
 		/*
-		 * [TODO] We are not aware of job exit code at the moment. That's due in the API.
-		 * [TODO] Failed status
+		 * [TODO] Failed status - should go in runJob()
 		 */
 		$updateQuery->update($db->qn('#__cronjobs', 'j'))
 			->set(
