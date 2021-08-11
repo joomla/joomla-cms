@@ -33,7 +33,7 @@ class JFormFieldKeyselect extends FormField
 	 * Method to get the input
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getInput()
