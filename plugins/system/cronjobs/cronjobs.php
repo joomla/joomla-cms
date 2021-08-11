@@ -297,7 +297,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		PluginHelper::importPlugin('job');
 		$app->getDispatcher()->dispatch('onCronRun', $event);
 
-		if (!$this->releaseLock($cronjob))
+		if (!$this->releaseLock($cronjob, $event->getResultSnapshot()))
 		{
 			$this->snapshot['status'] = self::JOB_NO_RUN;
 
@@ -340,6 +340,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @param   object   $cronjob     The cronjob entry
+	 * @param   ?array   $snapshot    The job snapshot, optional
 	 * @param   boolean  $scheduling  Respect scheduling settings and state
 	 *                                ! Does nothing
 	 *
@@ -348,7 +349,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function releaseLock(object $cronjob, bool $scheduling = true): bool
+	private function releaseLock(object $cronjob, array $snapshot = null, bool $scheduling = true): bool
 	{
 		$db = $this->db;
 
@@ -371,7 +372,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$jobId = $cronjob->get('id');
 		$ruleType = $cronjob->get('cron_rules');
 		$nextExec = (new ExecRuleHelper($cronjob))->nextExec();
-		$exitCode = null ?? self::JOB_NO_EXIT;
+		$exitCode = $snapshot['status'] ?? self::JOB_NO_EXIT;
 		$now = Factory::getDate('now', 'GMT')->toSql();
 
 		/*
