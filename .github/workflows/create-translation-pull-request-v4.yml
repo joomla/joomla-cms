@@ -6,7 +6,7 @@ on:
 
   workflow_dispatch:
 
-schedule:
+  schedule:
     # Run daily at 7:26
     - cron:  '26 7 * * *'
 
