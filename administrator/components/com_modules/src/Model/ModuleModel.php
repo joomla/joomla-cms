@@ -476,6 +476,16 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				{
 					$tuples[] = (int) $table->id . ',' . (int) $menuid;
 				}
+
+				$query = $db->getQuery(true)
+					->select($db->quoteName('stage_id'))
+					->from($db->quoteName('#__workflow_associations'))
+					->where($db->quoteName('extension') . ' = ' . $db->quote('com_modules.module'))
+					->where($db->quoteName('item_id') . ' = :moduleid')
+					->bind(':moduleid', $pk, ParameterType::INTEGER);
+
+				$db->setQuery($query);
+				$stageIdTuples[] = (int) $table->id . ',' . (int) $db->loadResult() . ',' . $db->quote('com_modules.module');
 			}
 			else
 			{
@@ -490,6 +500,27 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				->insert($db->quoteName('#__modules_menu'))
 				->columns($db->quoteName(array('moduleid', 'menuid')))
 				->values($tuples);
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
+			}
+		}
+
+		if (!empty($stageIdTuples))
+		{
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__workflow_associations'))
+				->columns($db->quoteName(array('item_id', 'stage_id', 'extension')))
+				->values($stageIdTuples);
 
 			$db->setQuery($query);
 
