@@ -39,6 +39,12 @@ steps:
   - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
   - echo $(date)
 
+- name: phplinter
+  image: joomlaprojects/docker-images:php5.3
+  commands:
+  - php -v
+  - find . -path . -prune -false -o -type f -name '*.php' -print0 | xargs -0 -n1 -P$(nproc) php -l -n > /dev/null
+
 volumes:
 - name: composer-cache
   host:
@@ -724,6 +730,6 @@ steps:
 
 ---
 kind: signature
-hmac: 5692462a9c53cd5937db302a216ba95f3367ff58c2269565a215587198352276
+hmac: 4e6cc3f0bd166cf409c2be9b5ffc24234b3c01bbd51a1996354773d921a2c338
 
 ...
