@@ -102,6 +102,26 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
+	 * Override parent constructor.
+	 * Prevents the plugin from attaching to the subject if conditions are not met.
+	 *
+	 * @param   DispatcherInterface  $subject The object to observe
+	 * @param   array                $config  An optional associative array of configuration settings.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function __construct(&$subject, $config = [])
+	{
+		// Make sure com_cronjobs is installed and enabled
+		if (! ComponentHelper::isEnabled('com_cronjobs'))
+		{
+			return;
+		}
+
+		parent::__construct($subject, $config);
+	}
+
+	/**
 	 * Returns event subscriptions
 	 *
 	 * @return string[]
