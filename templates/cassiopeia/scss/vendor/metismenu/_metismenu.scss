@@ -230,9 +230,10 @@
         background-color: hsla(0, 0%, 0%, .03);
       }
 
-      .metismenu-item>span,
-      .metismenu-item>a,
-      .metismenu-item>button {
+      .metismenu-item span,
+      .metismenu-item a,
+      .metismenu-item button {
+        overflow: visible;
         text-align: left;
         white-space: break-spaces;
       }
