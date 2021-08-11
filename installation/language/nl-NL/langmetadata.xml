@@ -4,8 +4,8 @@
 	<version>4.0.0-rc5.1</version>
 	<creationDate>Juli 2021</creationDate>
 	<author>Dutch Translation Team</author>
-	<copyright/>
-	<license/>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License versie 2 of hoger; zie LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>

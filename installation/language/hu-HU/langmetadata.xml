@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>Hungarian (hu-HU)</name>
+	<name/>
 	<version>4.0.0</version>
 	<creationDate>2019 október</creationDate>
 	<author>Joomla! Magyarország</author>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Magyar (hu-HU)</name>
-		<nativeName>Hungarian (hu-HU)</nativeName>
+		<name/>
+		<nativeName/>
 		<tag>hu-HU</tag>
 		<rtl>0</rtl>
 	</metadata>

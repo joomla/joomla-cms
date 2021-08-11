@@ -3,9 +3,9 @@
 	<name>Basque</name>
 	<version>4.0.0</version>
 	<creationDate>Urria 2019</creationDate>
-	<author/>
+	<author>Joomla! Basque Translation Team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
-	<license/>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>
