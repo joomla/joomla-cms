@@ -113,7 +113,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 			$messageText = Text::sprintf(
 				$this->currentMessage['messageText'],
 				HTMLHelper::_('date', static::EOS_DATE, Text::_('DATE_FORMAT_LC3')),
-				$this->currentMessage['messageLink'],
+				$this->currentMessage['messageLink']
 			);
 
 			if ($this->currentMessage['snoozable'])
@@ -126,7 +126,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 
 			$this->app->enqueueMessage(
 				$messageText,
-				$this->currentMessage['messageType'],
+				$this->currentMessage['messageType']
 			);
 		}
 
@@ -137,7 +137,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'date',
 				static::EOS_DATE,
 				Text::_('DATE_FORMAT_LC3')
-			),
+			)
 		);
 
 		// The message as quickicon
