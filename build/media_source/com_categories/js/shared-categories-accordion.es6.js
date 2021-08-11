@@ -38,7 +38,7 @@ const handleCategoryToggleButtonClick = ({ currentTarget }) => {
     ),
   );
 
-  const categoryId = button.dataset.id;
+  const { categoryId } = button.dataset;
   const target = document.getElementById(`category-${categoryId}`);
   target.toggleAttribute('hidden');
 };
