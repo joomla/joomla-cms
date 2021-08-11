@@ -41,7 +41,8 @@ class ConsentsModel extends ListModel
 				'id', 'a.id',
 				'uuid', 'a.uuid',
 				'ccuuid', 'a.ccuuid',
-				'consent', 'a.consent',
+				'consent_opt_in', 'a.consent_opt_in',
+				'consent_opt_out', 'a.consent_opt_out',
 				'consent_date', 'a.consent_date',
 				'user_agent', 'a.user_agent',
 				'url', 'a.url',
@@ -63,7 +64,7 @@ class ConsentsModel extends ListModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 'a.consent_date', $direction = 'desc')
+	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . 'filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -109,7 +110,7 @@ class ConsentsModel extends ListModel
 			$query->select(
 				$this->getState(
 					'list.select',
-					'a.id, a.uuid, a.ccuuid, a.consent, a.consent_date, a.user_agent, a.url, a.published, a.ordering'
+					'a.id, a.uuid, a.ccuuid, a.consent_opt_in, a.consent_opt_out, a.consent_date, a.user_agent, a.url'
 				)
 			);
 			$query->from($db->quoteName('#__cookiemanager_consents', 'a'));
@@ -124,7 +125,7 @@ class ConsentsModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'a.consent_date');
+		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));

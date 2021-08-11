@@ -97,9 +97,9 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_CONSENT'));
+		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_REVIEW_CONSENT'));
 
-		$toolbar->cancel('script.cancel', 'JTOOLBAR_CLOSE');
+		$toolbar->cancel('consent.cancel', 'JTOOLBAR_CLOSE');
 
 		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}
