@@ -29,7 +29,9 @@ steps:
   image: joomlaprojects/docker-images:php5.3
   commands:
   - php -v
+  - ls
   - find . -path . -prune -false -o -type f -name '*.php' -print0 | xargs -0 -n1 -P$(nproc) php -l -n
+  - find . -type f -name '*.php' -exec php -l -n {} \; > /dev/null
 
 - name: javascript
   image: joomlaprojects/docker-images:systemtests
@@ -730,6 +732,6 @@ steps:
 
 ---
 kind: signature
-hmac: 25e6366c7473d1d9fa9a5b8ebc28cdac50dd1779b0515707ab5575943fa24e41
+hmac: 83f3e3bf49bd11664c35854461e3d9a759287c7e35165e29bf67b31b58c6a19c
 
 ...
