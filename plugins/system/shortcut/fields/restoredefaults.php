@@ -27,11 +27,11 @@ class JFormFieldRestoredefaults extends FormField
 	 */
 	protected $type = 'Restoredefaults';
 
-    /**
+	/**
 	 * Method to get the input
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getInput()
