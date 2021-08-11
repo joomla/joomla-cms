@@ -37,14 +37,15 @@ class PlgSystemShortcut extends CMSPlugin
 	 * Add a shortcut keys for Shortcut
 	 *
 	 * @return  string
-	 * 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onBeforeCompileHead()
 	{
-		if (!$this->app->isClient('administrator')) {
+		if (!$this->app->isClient('administrator')) 
+		{
 			return true;
-		  }
+		}
 			$joomla_shortcut_keys = array(
 				'new' => array(
 				  'keyEvent' => $this->params->get('new_keyEvent', 'n'),
@@ -165,7 +166,7 @@ class PlgSystemShortcut extends CMSPlugin
 			}
 
 			$wa->useScript('shortcut');
-
+			
 			return true;
 		}
 }
