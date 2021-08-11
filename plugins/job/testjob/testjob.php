@@ -105,6 +105,9 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 		{
 			$this->jobStart();
 
+			// Access to job parameters
+			$params = $event->getArgument('params');
+
 			// Plugin does whatever it wants
 
 			$this->jobEnd($event, 0);
