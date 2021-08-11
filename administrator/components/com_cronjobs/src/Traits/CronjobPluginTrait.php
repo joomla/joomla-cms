@@ -41,9 +41,9 @@ trait CronjobPluginTrait
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $STATUS = [
+		'OK_RUN' => 0,
 		'NO_TIME' => 1,
-		'NO_RUN' => 3,
-		'OK_RUN' => 0
+		'NO_RUN' => 3
 	];
 
 	/**
@@ -91,9 +91,10 @@ trait CronjobPluginTrait
 
 		if ($log)
 		{
-			$jobNsSuffix = '_' . strtoupper($event->getArgument('langNsSuffix')) . '_';
+			$typeName = '_' . strtoupper($this->_type) . '_' . strtoupper($this->_name);
+			$jobNsSuffix = '_' . strtoupper($event->getArgument('langNsSuffix'));
 			Log::add(
-				Text::sprintf('PLG_JOB_' . strtoupper($this->_name) . $jobNsSuffix . 'JOB_LOG_MESSAGE',
+				Text::sprintf('PLG' . $typeName . $jobNsSuffix . '_JOB_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
 				),
 				Log::INFO,
