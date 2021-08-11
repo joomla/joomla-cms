@@ -76,4 +76,16 @@ class CronRunEvent extends AbstractEvent
 	{
 		return $this->arguments['jobId'];
 	}
+
+	/**
+	 * Returns the snapshot of the triggered job if available, else an empty array
+	 *
+	 * @return array   The job snapshot if available, else null
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getResultSnapshot(): array
+	{
+		return $this->arguments['resultSnapshot'] ?? [];
+	}
 }
