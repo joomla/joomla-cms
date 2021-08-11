@@ -5,6 +5,10 @@ Joomla.Modal = Joomla.Modal || {};
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Modal = Modal;
 
+const allowed = {
+  iframe: ['src', 'name', 'width', 'height'],
+};
+
 Joomla.initialiseModal = (modal, options) => {
   if (!(modal instanceof Element)) {
     return;
@@ -53,9 +57,9 @@ Joomla.initialiseModal = (modal, options) => {
           el = document.getElementById(idFieldArr[1]).value;
         }
 
-        modalBody.insertAdjacentHTML('afterbegin', `${iframeTextArr[0]}${el}${iframeTextArr[2]}`);
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`${iframeTextArr[0]}${el}${iframeTextArr[2]}`, allowed));
       } else {
-        modalBody.insertAdjacentHTML('afterbegin', modal.dataset.iframe);
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
       }
     }
   });

@@ -35,7 +35,7 @@ class MediaHelper
 	 */
 	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -127,7 +127,7 @@ class MediaHelper
 		{
 			$allowedMime = $params->get(
 				'upload_mime',
-				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+				'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
 					'application/pdf,application/powerpoint,text/plain,application/x-zip'
 			);
 
@@ -145,14 +145,15 @@ class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array   $file                File information
+	 * @param   string  $component           The option name for the component storing the parameters
+	 * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
 	{
 		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams($component);
@@ -186,8 +187,14 @@ class MediaHelper
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
 			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
 		);
+
+		// Remove allowed executables from array
+		if (count($allowedExecutables))
+		{
+			$executable = array_diff($executable, $allowedExecutables);
+		}
 
 		$check = array_intersect($filetypes, $executable);
 
@@ -200,12 +207,7 @@ class MediaHelper
 
 		$filetype = array_pop($filetypes);
 
-		$allowable = $params->get(
-			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
-		);
-		$allowable = array_map('trim', explode(',', $allowable));
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
@@ -226,9 +228,9 @@ class MediaHelper
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = array_map('trim', explode(',', $params->get('image_extensions')));
+			$allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
-			if (\in_array($filetype, $images))
+			if (\in_array($filetype, $allowedExtensions))
 			{
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))

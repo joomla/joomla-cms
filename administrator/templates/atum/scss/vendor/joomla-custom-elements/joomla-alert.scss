@@ -10,9 +10,9 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--alert-accent-color, var(--atum-bg-dark));
+  color: var(--alert-accent-color, var(--template-bg-dark));
   background-color: var(--alert-bg-color, var(--white));
-  border: 1px solid var(--alert-accent-color, var(--atum-bg-dark));
+  border: 1px solid var(--alert-accent-color, var(--template-bg-dark));
   border-radius: .25rem;
   transition: opacity .15s linear;
 
@@ -22,7 +22,7 @@
     justify-content: center;
     padding: .8rem;
     color: var(--white);
-    background: var(--alert-accent-color, var(--atum-bg-dark));
+    background: var(--alert-accent-color, var(--template-bg-dark));
     align-content: center;
 
     .message::before,
@@ -70,7 +70,7 @@
   }
 
   .alert-link {
-    color: var(--atum-link-color);
+    color: var(--template-link-color);
     text-decoration: underline;
   }
 
@@ -125,7 +125,6 @@
     [dir=rtl] & {
       right: auto;
       left: 0;
-      padding: .2rem .6rem;
     }
   }
 
