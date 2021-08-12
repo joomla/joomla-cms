@@ -73,10 +73,6 @@
     margin-top: 2rem;
   }
 
-  .module-wrapper {
-    overflow-x: hidden;
-  }
-
   .card {
     p:last-child {
       margin-bottom: 0;
@@ -116,7 +112,6 @@
 
     > * {
       padding: 0;
-      margin-top: -10px;
       color: var(--template-bg-dark-70);
     }
   }
