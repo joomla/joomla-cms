@@ -1231,7 +1231,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks whether all the core extensions have been setup with modern routing already.
+	 * Checks if all the core components are already using modern routing.
 	 * Returns an array off the affected extensions when there havent yet be set to modern routing or true in case anything is fine.
 	 *
 	 * @return  boolean|array
