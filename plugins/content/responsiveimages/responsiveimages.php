@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory as CMSFactory;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
@@ -22,20 +22,20 @@ use Joomla\CMS\Table\Table;
 class PlgContentResponsiveImages extends CMSPlugin
 {
 	/**
-	 * Custom image sizes
+	 * Initial version of form images
 	 *
-	 * @var    string
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $customSizes;
+	protected $initFormImages;
 
 	/**
-	 * Custom image creation method
+	 * Initial version of content
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $creationMethod;
+	protected $initContent;
 
 	/**
 	 * Event that stores initial versions of images and inserts srcset and sizes
@@ -55,14 +55,24 @@ class PlgContentResponsiveImages extends CMSPlugin
 		// Check type of table object
 		if ($table instanceof Table)
 		{
-			$this->customSizes    = MediaHelper::getFormSizes($this->params->get('custom_sizes'), $this->params->get('custom_size_options'));
-			$this->creationMethod = MediaHelper::getFormMethod($this->params->get('custom_sizes'), $this->params->get('creation_method'));
-			$contentKey           = $this->_getContentKey($context);
+			$contentKey = $this->_getContentKey($context);
 
 			// Add srcset attribute to content images
-			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes(
-				$table->{$contentKey}, $this->customSizes, $this->creationMethod
-			);
+			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
+
+			// Get initial versions of content and form images
+			$item = clone $table;
+			$item->load($table->id);
+
+			if ($formImages = $this->_getFormImages($context, (array) $item))
+			{
+				$this->initFormImages = $formImages;
+			}
+
+			if ($content = $item->{$contentKey})
+			{
+				$this->initContent = $content;
+			}
 		}
 
 		return true;
@@ -87,12 +97,17 @@ class PlgContentResponsiveImages extends CMSPlugin
 			// Generate responsive images for form and content
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
+				$unusedFormImages = MediaHelper::getUnusedFormResponsiveImages($this->initFormImages, $formImages);
+
 				MediaHelper::generateFormResponsiveImages($formImages);
 			}
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				MediaHelper::generateContentResponsiveImages($content, $this->customSizes, $this->creationMethod);
+				$unusedContentImages = MediaHelper::getUnusedContentResponsiveImages($this->initContent, $content);
+				Factory::getApplication()->enqueueMessage($unusedContentImages);
+
+				MediaHelper::generateContentResponsiveImages($content);
 			}
 		}
 	}
@@ -121,52 +136,52 @@ class PlgContentResponsiveImages extends CMSPlugin
 				return array(
 					'image_intro' => (object) [
 						'name'   => $data['images']['image_intro'],
-						'sizes'  => MediaHelper::getFormSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']),
-						'method' => MediaHelper::getFormMethod($data['images']['image_intro_sizes'], $data['images']['image_intro_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_intro_sizes'], $data['images']['image_intro_method'])
 					],
 					'image_fulltext' => (object) [
 						'name'   => $data['images']['image_fulltext'],
-						'sizes'  => MediaHelper::getFormSizes(
+						'sizes'  => MediaHelper::getDefaultImageSizes(
 							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options']
 						),
-						'method' => MediaHelper::getFormMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
+						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
 					],
 				);
 			case "com_banners.banner":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['imageurl'],
-						'sizes'  => MediaHelper::getFormSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
-						'method' => MediaHelper::getFormMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
 					]
 				);
 			case "com_categories.category":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['image'],
-						'sizes'  => MediaHelper::getFormSizes($data['params']['image_sizes'], $data['params']['image_size_options']),
-						'method' => MediaHelper::getFormMethod($data['params']['image_sizes'], $data['images']['image_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['params']['image_sizes'], $data['params']['image_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['params']['image_sizes'], $data['images']['image_method'])
 					]
 				);
 			case "com_contact.contact":
 				return array(
 					'image' => (object) [
 						'name'   => $data['image'],
-						'sizes'  => MediaHelper::getFormSizes($data['image_sizes'], $data['image_size_options']),
-						'method' => MediaHelper::getFormMethod($data['image_sizes'], $data['images']['image_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['image_sizes'], $data['image_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['image_sizes'], $data['images']['image_method'])
 					]
 				);
 			case "com_newsfeeds.newsfeed":
 				return array(
 					'image_first' => (object) [
 						'name'   => $data['images']['image_first'],
-						'sizes'  => MediaHelper::getFormSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options']),
-						'method' => MediaHelper::getFormMethod($data['images']['image_first_sizes'], $data['images']['image_first_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_first_sizes'], $data['images']['image_first_method'])
 					],
 					'image_second' => (object) [
 						'name'   => $data['images']['image_second'],
-						'sizes'  => MediaHelper::getFormSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options']),
-						'method' => MediaHelper::getFormMethod($data['images']['image_second_sizes'], $data['images']['image_second_method'])
+						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options']),
+						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_second_sizes'], $data['images']['image_second_method'])
 					],
 				);
 			default:

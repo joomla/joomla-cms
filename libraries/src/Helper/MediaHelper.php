@@ -503,8 +503,8 @@ class MediaHelper
 
 		foreach ($images as $image)
 		{
-			// Get image name (currently they are: imgName#joomlaImage://imgPath)
-			$image->name  = HTMLHelper::cleanImageURL($image->name)->url;
+			// Clean image sources from additional info
+			$image->name = HTMLHelper::cleanImageURL($image->name)->url;
 
 			// Generate new responsive images if file exists
 			if (is_file(JPATH_ROOT . '/' . $image->name))
@@ -523,14 +523,12 @@ class MediaHelper
 	 * Method to generate different-sized versions of content images
 	 *
 	 * @param   string   $content  editor content
-	 * @param   array    $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
-	 * @param   integer  $method   1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
-	 * @return  array   generated images
+	 * @return  array    generated images
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function generateContentResponsiveImages($content, $sizes, $method)
+	public static function generateContentResponsiveImages($content)
 	{
 		$images = HTMLHelper::getContentImageSources($content);
 
@@ -541,8 +539,8 @@ class MediaHelper
 			// Generate new responsive images if file exists
 			if (is_file(JPATH_ROOT . '/' . $image))
 			{
-				$method = static::getContentMethod($content, $image) ?? $method;
-				$sizes  = static::getContentSizes($content, $image) ?? $sizes;
+				$method = static::getContentImageMethod($content, $image);
+				$sizes  = static::getContentImageSizes($content, $image);
 
 				$imgObj = new Image(JPATH_ROOT . '/' . $image);
 				$imgObj->createMultipleSizes($sizes, $method);
@@ -552,6 +550,122 @@ class MediaHelper
 		}
 
 		return $imagesGenerated;
+	}
+
+	/**
+	 * Method that compares initial and final versions of image sizes and finds unused ones
+	 *
+	 * @param   Image[]  $initImages   initial version
+	 * @param   Image[]  $finalImages  final version
+	 *
+	 * @return  array    paths to the unused images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUnusedResponsiveImages($initImages, $finalImages)
+	{
+		// Get final image paths
+		foreach ($finalImages as $finalImage)
+		{
+			$finalImagePaths[] = $finalImage->getPath();
+		}
+
+		// Check if initial image path exists in final image paths
+		foreach ($initImages as $initImage)
+		{
+			$initImagePath = $initImage->getPath();
+
+			if (!in_array($initImagePath, $finalImagePaths))
+			{
+				$unusedImages[] = $initImagePath;
+			}
+		}
+
+		return $unusedImages;
+	}
+
+	/**
+	 * Method that takes initial and final versions of form images and finds unused ones
+	 *
+	 * @param   array  $initImages   initial versions
+	 * @param   array  $finalImages  final versions
+	 *
+	 * @return  array  unused images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUnusedFormResponsiveImages($initImages, $finalImages)
+	{
+		$unusedImages = [];
+
+		foreach ($finalImages as $key => $finalImage)
+		{
+			$initImage = $initImages[$key];
+
+			// Clean image names from additional info
+			$initImage->name  = HTMLHelper::cleanImageURL($initImage->name)->url;
+			$finalImage->name = HTMLHelper::cleanImageURL($finalImage->name)->url;
+
+			if (is_file(JPATH_ROOT . '/' . $initImage->name) && is_file(JPATH_ROOT . '/' . $finalImage->name))
+			{
+				$initImgObj  = new Image(JPATH_ROOT . '/' . $initImage->name);
+				$finalImgObj = new Image(JPATH_ROOT . '/' . $finalImage->name);
+
+				// Get initial and final image sizes
+				$initRespImages  = $initImgObj->generateMultipleSizes($initImage->sizes, $initImage->method);
+				$finalRespImages = $finalImgObj->generateMultipleSizes($finalImage->sizes, $finalImage->method);
+
+				$unusedImages = static::getUnusedResponsiveImages($initRespImages, $finalRespImages);
+			}
+		}
+
+		return $unusedImages;
+	}
+
+	/**
+	 * Method that takes initial and final versions of content images and finds unused ones
+	 *
+	 * @param   string  $initContent   initial version
+	 * @param   string  $finalContent  final version
+	 *
+	 * @return  array   unused images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUnusedContentResponsiveImages($initContent, $finalContent)
+	{
+		// Get initial and final image sizes
+		$initImages  = HTMLHelper::getContentImageSources($initContent);
+		$finalImages = HTMLHelper::getContentImageSources($finalContent);
+
+		$unusedImages = [];
+
+		foreach ($initImages as $initImage)
+		{
+			// Check if image exists both in initial and final content
+			if (in_array($initImage, $finalImages))
+			{
+				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
+
+				// Get initial and final image sizes
+				$initRespImages = $imgObj->generateMultipleSizes(
+					static::getContentImageSizes($initContent, $initImage),
+					static::getContentImageMethod($initContent, $initImage)
+				);
+				$finalRespImages = $imgObj->generateMultipleSizes(
+					static::getContentImageSizes($finalContent, $initImage),
+					static::getContentImageMethod($finalContent, $initImage)
+				);
+
+				$unusedImages = static::getUnusedResponsiveImages($initRespImages, $finalRespImages);
+			}
+			else
+			{
+				$unusedImages[] = $initImage;
+			}
+		}
+
+		return $unusedImages;
 	}
 
 	/**
@@ -609,14 +723,12 @@ class MediaHelper
 	 * Method to add srcset and sizes attributes to img tags of content
 	 *
 	 * @param   string   $content  content to which srcset attributes must be inserted
-	 * @param   array    $sizes    array of strings. Example: $sizes = array('1200x800','800x600');
-	 * @param   integer  $method   1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
 	 *
 	 * @return  string  content with srcset attributes inserted
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function addContentSrcsetAndSizes($content, $sizes, $method)
+	public static function addContentSrcsetAndSizes($content)
 	{
 		$images = HTMLHelper::getContentImageSources($content);
 
@@ -626,8 +738,8 @@ class MediaHelper
 		// Generate srcset and sizes for all images
 		foreach ($images as $image)
 		{
-			$method = static::getContentMethod($content, $image) ?? $method;
-			$sizes  = static::getContentSizes($content, $image) ?? $sizes;
+			$method = static::getContentImageMethod($content, $image);
+			$sizes  = static::getContentImageSizes($content, $image);
 
 			if ($srcset = static::generateSrcset($image, $sizes, $method))
 			{
@@ -644,7 +756,7 @@ class MediaHelper
 	}
 
 	/**
-	 * Returns form responsive image size options depending on parameters
+	 * Returns responsive image size options depending on parameters
 	 *
 	 * @param   int       $isCustom     1 if custom options are set
 	 * @param   stdClass  $sizeOptions  Responsive size options
@@ -653,9 +765,10 @@ class MediaHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getFormSizes($isCustom, $sizeOptions)
+	public static function getDefaultImageSizes($isCustom = 0, $sizeOptions = null)
 	{
-		if (!$isCustom || ($isCustom && empty($sizeOptions)))
+		// In case no custom size option is set
+		if (!$isCustom || is_null($sizeOptions) || ($isCustom && empty($sizeOptions)))
 		{
 			// Get plugin options
 			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
@@ -685,7 +798,7 @@ class MediaHelper
 	}
 
 	/**
-	 * Returns form responsive image creation method
+	 * Returns responsive image creation method
 	 *
 	 * @param   int  $isCustom  1 if custom options are set
 	 * @param   int  $method    1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
@@ -694,9 +807,9 @@ class MediaHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getFormMethod($isCustom, $method)
+	public static function getDefaultImageMethod($isCustom = 0, $method = 0)
 	{
-		if (!$isCustom)
+		if (!$isCustom || ($isCustom && $method === 0))
 		{
 			// Get plugin options
 			$plugin = PluginHelper::getPlugin('content', 'responsiveimages');
@@ -711,7 +824,7 @@ class MediaHelper
 			$method = $params->get('creation_method');
 		}
 
-		return (int) $method;
+		return $method;
 	}
 
 	/**
@@ -724,7 +837,7 @@ class MediaHelper
 	 *
 	 * @since   __DEPLOY__
 	 */
-	public static function getContentSizes($content, $image)
+	public static function getContentImageSizes($content, $image)
 	{
 		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
 
@@ -746,11 +859,11 @@ class MediaHelper
 					$sizes[] = $item->size;
 				}
 
-				return count($sizes) > 0 ? array_unique($sizes) : false;
+				$contentSizes = count($sizes) > 0 ? array_unique($sizes) : null;
 			}
 		}
 
-		return null;
+		return $contentSizes ?? static::getDefaultImageSizes();
 	}
 
 	/**
@@ -759,19 +872,21 @@ class MediaHelper
 	 * @param   string  $content  editor content
 	 * @param   string  $image    image source
 	 *
-	 * @return  mixed   Creation method or null if not exists
+	 * @return  integer  creation method
 	 *
 	 * @since   __DEPLOY__
 	 */
-	public static function getContentMethod($content, $image)
+	public static function getContentImageMethod($content, $image)
 	{
 		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
 
 		if (!is_null($imgTag))
 		{
 			// Get custom image sizes from data-jimage-method attribute
-			return preg_match('/data-jimage-method *= *"(.*?)"/', $imgTag, $matched) ? (int) $matched[1] : null;
+			$method = preg_match('/data-jimage-method *= *"(.*?)"/', $imgTag, $matched) ? (int) $matched[1] : null;
 		}
+
+		return $method ?? static::getDefaultImageMethod();
 	}
 
 	/**
@@ -789,7 +904,7 @@ class MediaHelper
 	public static function createFormSrcset($imgSource, $isCustom, $sizes, $method)
 	{
 		return static::generateSrcset(
-			$imgSource, static::getFormSizes($isCustom, $sizes), static::getFormMethod($isCustom, $method)
+			$imgSource, static::getDefaultImageSizes($isCustom, $sizes), static::getDefaultImageMethod($isCustom, $method)
 		) ?? '';
 	}
 }

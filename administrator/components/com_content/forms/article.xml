@@ -782,10 +782,12 @@
 				name="image_intro_method"
 				type="list"
 				label="COM_CONTENT_FIELD_METHOD_LABEL"
-				default="2"
+				default="0"
+				filter="integer"
 				validate="options"
 				showon="image_intro_sizes:1"
 				>
+				<option value="0">JSELECT</option>
 				<option value="2">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE</option>
 				<option value="4">COM_CONTENT_FIELD_METHOD_OPTION_CROP</option>
 				<option value="5">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE_CROP</option>
@@ -875,10 +877,12 @@
 				name="image_fulltext_method"
 				type="list"
 				label="COM_CONTENT_FIELD_METHOD_LABEL"
-				default="2"
+				default="0"
 				validate="options"
+				filter="integer"
 				showon="image_fulltext_sizes:1"
 				>
+				<option value="0">JSELECT</option>
 				<option value="2">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE</option>
 				<option value="4">COM_CONTENT_FIELD_METHOD_OPTION_CROP</option>
 				<option value="5">COM_CONTENT_FIELD_METHOD_OPTION_RESIZE_CROP</option>

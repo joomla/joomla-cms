@@ -353,10 +353,12 @@
 				name="imageurl_method"
 				type="list"
 				label="COM_BANNERS_FIELD_METHOD_LABEL"
-				default="2"
+				default="0"
+				filter="integer"
 				validate="options"
 				showon="imageurl_sizes:1"
 				>
+				<option value="0">JSELECT</option>
 				<option value="2">COM_BANNERS_FIELD_METHOD_OPTION_RESIZE</option>
 				<option value="4">COM_BANNERS_FIELD_METHOD_OPTION_CROP</option>
 				<option value="5">COM_BANNERS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
