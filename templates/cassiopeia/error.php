@@ -49,9 +49,10 @@ if ($paramsFontScheme) {
 		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
 		preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches);
 
-		if (count($matches) > 0) {
+		if (count($matches) > 0)
+		{
 			$fontStyles = '--cassiopeia-font-family-body: "' . $matches[1][0] . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . count($matches) === 2 ? $matches[2][0] : $matches[1][0] . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . (count($matches) === 3 ? str_replace('+', ' ', $matches[2][0]) : str_replace('+', ' ', $matches[1][0])) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
 		}
