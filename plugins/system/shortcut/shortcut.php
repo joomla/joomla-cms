@@ -160,14 +160,14 @@ class PlgSystemShortcut extends CMSPlugin
 			$document = $this->app->getDocument();
 			$document->addScriptOptions('editor', $editor);
 			$document->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
-			
-			if (!$wa->assetExists('script', 'shortcut'))
-			{
-				$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
-			}
-			
+
+		if (!$wa->assetExists('script', 'shortcut'))
+		{
+			$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
+		}
+
 			$wa->useScript('shortcut');
-			
+
 			return true;
 	}
 }
