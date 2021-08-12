@@ -42,10 +42,11 @@ class PlgSystemShortcut extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		if (!$this->app->isClient('administrator')) 
+		if (!$this->app->isClient('administrator'))
 		{
 			return true;
 		}
+
 			$joomla_shortcut_keys = array(
 				'new' => array(
 				  'keyEvent' => $this->params->get('new_keyEvent', 'n'),
@@ -160,13 +161,13 @@ class PlgSystemShortcut extends CMSPlugin
 			$document->addScriptOptions('editor', $editor);
 			$document->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
 
-			if (!$wa->assetExists('script', 'shortcut'))
-			{
-				$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
-			}
-
-			$wa->useScript('shortcut');
-			
-			return true;
+		if (!$wa->assetExists('script', 'shortcut'))
+		{
+			$wa->registerScript('shortcut', $this->_basePath . '/js/shortcut.js', [], ['defer' => true , 'type' => 'module']);
 		}
+
+		$wa->useScript('shortcut');
+			
+		return true;
+	}
 }
