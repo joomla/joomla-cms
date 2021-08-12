@@ -1211,12 +1211,6 @@ ENDDATA;
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
-
-			$option = new stdClass;
-			$option->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_TITLE');
-			$option->state  = $this->isUsingCoreBackendTemplate();
-			$option->notice = $option->state ? false : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_NOTICE');
-			$options[] = $option;
 		}
 
 		// Check if database structure is up to date
@@ -1342,6 +1336,13 @@ ENDDATA;
 			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_TITLE');
 			$setting->state  = $this->isUsingCoreFrontendTemplate();
 			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_NOTICE');
+			$setting->recommended = true;
+			$settings[] = $setting;
+
+			$setting = new stdClass;
+			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_TITLE');
+			$setting->state  = $this->isUsingCoreBackendTemplate();
+			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_NOTICE');
 			$setting->recommended = true;
 			$settings[] = $setting;
 		}
