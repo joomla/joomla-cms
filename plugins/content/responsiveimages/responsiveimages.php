@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 
@@ -58,7 +58,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 			$contentKey = $this->_getContentKey($context);
 
 			// Add srcset attribute to content images
-			$table->{$contentKey} = MediaHelper::addContentSrcsetAndSizes($table->{$contentKey});
+			$table->{$contentKey} = ResponsiveImagesHelper::addContentSrcsetAndSizes($table->{$contentKey});
 
 			// Get initial versions of content and form images
 			$item = clone $table;
@@ -97,17 +97,17 @@ class PlgContentResponsiveImages extends CMSPlugin
 			// Generate responsive images for form and content
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
-				$unusedFormImages = MediaHelper::getUnusedFormResponsiveImages($this->initFormImages, $formImages);
+				$unusedFormImages = ResponsiveImagesHelper::getUnusedFormImages($this->initFormImages, $formImages);
 
-				MediaHelper::generateFormResponsiveImages($formImages);
+				ResponsiveImagesHelper::generateFormImages($formImages);
 			}
 
 			if ($content = $article->{$this->_getContentKey($context)})
 			{
-				$unusedContentImages = MediaHelper::getUnusedContentResponsiveImages($this->initContent, $content);
+				$unusedContentImages = ResponsiveImagesHelper::getUnusedContentImages($this->initContent, $content);
 				Factory::getApplication()->enqueueMessage($unusedContentImages);
 
-				MediaHelper::generateContentResponsiveImages($content);
+				ResponsiveImagesHelper::generateContentImages($content);
 			}
 		}
 	}
@@ -136,52 +136,52 @@ class PlgContentResponsiveImages extends CMSPlugin
 				return array(
 					'image_intro' => (object) [
 						'name'   => $data['images']['image_intro'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_intro_sizes'], $data['images']['image_intro_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_intro_sizes'], $data['images']['image_intro_method'])
 					],
 					'image_fulltext' => (object) [
 						'name'   => $data['images']['image_fulltext'],
-						'sizes'  => MediaHelper::getDefaultImageSizes(
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
 							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options']
 						),
-						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
 					],
 				);
 			case "com_banners.banner":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['imageurl'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
 					]
 				);
 			case "com_categories.category":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['image'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['params']['image_sizes'], $data['params']['image_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['params']['image_sizes'], $data['images']['image_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['params']['image_sizes'], $data['params']['image_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['params']['image_sizes'], $data['images']['image_method'])
 					]
 				);
 			case "com_contact.contact":
 				return array(
 					'image' => (object) [
 						'name'   => $data['image'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['image_sizes'], $data['image_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['image_sizes'], $data['images']['image_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['image_sizes'], $data['image_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['image_sizes'], $data['images']['image_method'])
 					]
 				);
 			case "com_newsfeeds.newsfeed":
 				return array(
 					'image_first' => (object) [
 						'name'   => $data['images']['image_first'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_first_sizes'], $data['images']['image_first_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_first_sizes'], $data['images']['image_first_method'])
 					],
 					'image_second' => (object) [
 						'name'   => $data['images']['image_second'],
-						'sizes'  => MediaHelper::getDefaultImageSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options']),
-						'method' => MediaHelper::getDefaultImageMethod($data['images']['image_second_sizes'], $data['images']['image_second_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options']),
+						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_second_sizes'], $data['images']['image_second_method'])
 					],
 				);
 			default:
