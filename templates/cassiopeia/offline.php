@@ -47,7 +47,7 @@ if ($paramsFontScheme) {
 
 		if (count($matches) > 0)
 		{
-			$fontStyles = '--cassiopeia-font-family-body: "' . $matches[1][0] . '", sans-serif;
+			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-family-headings: "' . (count($matches) === 3 ? str_replace('+', ' ', $matches[2][0]) : str_replace('+', ' ', $matches[1][0])) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
