@@ -1279,6 +1279,7 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_DISPLAY_ERRORS');
 		$setting->state = (bool) ini_get('display_errors');
+		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1286,6 +1287,7 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
+		$setting->notice = null;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
@@ -1296,6 +1298,7 @@ ENDDATA;
 			$setting = new stdClass;
 			$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
 			$setting->state = (bool) ini_get('magic_quotes_runtime');
+			$setting->notice = null;
 			$setting->recommended = false;
 			$settings[] = $setting;
 
@@ -1311,6 +1314,7 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
 		$setting->state = (int) ini_get('output_buffering') !== 0;
+		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1318,6 +1322,7 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_SESSION_AUTO_START');
 		$setting->state = (bool) ini_get('session.auto_start');
+		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1325,6 +1330,7 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
+		$setting->notice = null;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
@@ -1335,7 +1341,7 @@ ENDDATA;
 			$setting = new stdClass;
 			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_TITLE');
 			$setting->state  = $this->isUsingCoreFrontendTemplate();
-			$setting->notice = $setting->state ? false : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_NOTICE');
+			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_NOTICE');
 			$setting->recommended = true;
 			$settings[] = $setting;
 		}
