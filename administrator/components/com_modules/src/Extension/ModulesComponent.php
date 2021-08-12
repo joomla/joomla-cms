@@ -134,4 +134,20 @@ WorkflowServiceInterface
 	{
 		return ModuleHelper::filterTransitions($transitions, $pk);
 	}
+
+	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string
+	{
+		$context = $this->getWorkflowContexts();
+
+		return array_key_first($context);
+	}
 }
