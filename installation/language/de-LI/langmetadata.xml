@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation" version="4.0">
 	<name>German (Lichtenstein)</name>
-	<version>4.0.0.1-rc5</version>
-	<creationDate>28.07.2021</creationDate>
-	<author>J!German</author>
+	<version>4.0.0-rc6.1</version>
+	<creationDate>11.08.2021</creationDate>
+	<author>Joomla! Project</author>
 	<authorEmail>team@jgerman.de</authorEmail>
 	<authorUrl>https://www.jgerman.de</authorUrl>
-	<copyright>(C) 2008 - 2021 J!German. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
