@@ -1216,7 +1216,13 @@ ENDDATA;
 			$option = new stdClass;
 			$option->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_MODERN_ROUTING_TITLE');
 			$option->state  = is_array($this->hasModernRoutingEnabledForCoreExtensions()) ? false : true;
-			$option->notice = $option->state ? null : JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_MODERN_ROUTING_NOTICE', implode(', ', $this->hasModernRoutingEnabledForCoreExtensions()));
+			$option->notice = $option->state ? null : JText::sprintf(
+				'COM_JOOMLAUPDATE_VIEW_DEFAULT_MODERN_ROUTING_NOTICE',
+				implode(
+					', ',
+					$this->hasModernRoutingEnabledForCoreExtensions()
+				)
+			);
 			$options[]      = $option;
 		}
 
