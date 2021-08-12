@@ -1224,7 +1224,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks whether the default backend tempalte is isis
+	 * Checks if the default backend template is isis
 	 *
 	 * @return  bool
 	 *
@@ -1241,7 +1241,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks whether the default frontend tempalte is protostar
+	 * Checks if the default frontend template is protostar
 	 *
 	 * @return  bool
 	 *
@@ -1852,9 +1852,9 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks whether an given template is active
+	 * Checks if a given template is active
 	 *
-	 * @param   string  $template  The tempalte name to be checked
+	 * @param   string  $template  The template name to be checked
 	 *
 	 * @return  bool
 	 *
