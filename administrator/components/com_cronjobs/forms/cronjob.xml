@@ -104,7 +104,6 @@
 	</fields>
 
 	<!-- Cron Options field group, for time based triggers -->
-	<!-- TODO : Remove "cron-options" fieldset ! -->
 	<fields name="execution_rules">
 
 		<fieldset name="basic">
@@ -124,7 +123,6 @@
 				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_HOURS</option>
 			</field>
 			<!-- Interval (days), starting at 1st of month -->
-			<!-- TODO: Should probably offer a time option -->
 			<field name="interval-days" type="interval" subtype="days" validate="ExecutionRules"
 				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS" showon="rule-type:interval-days">
 				<option value="" disabled="true" hidden="true">COM_CRONJOBS_SELECT_INTERVAL_DAYS</option>

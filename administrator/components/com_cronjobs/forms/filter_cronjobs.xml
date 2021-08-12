@@ -23,7 +23,6 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
-		<!-- TODO: This needs to either go, or be a dynamic list of all types -->
 		<field
 				name="type"
 				type="JobType"
