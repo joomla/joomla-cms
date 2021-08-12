@@ -152,6 +152,9 @@ $compatibilityTypes = array(
 							<td>
 								<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
+									<?php if (isset($setting->notice)) : ?>
+										<span class="icon-info icon-white hasTooltip" title="<?php echo $setting->notice; ?>"></span>
+									<?php endif; ?>
 								</span>
 							</td>
 						</tr>

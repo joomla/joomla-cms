@@ -1211,6 +1211,12 @@ ENDDATA;
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
+
+			$option = new stdClass;
+			$option->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_TITLE');
+			$option->state  = $this->isUsingCoreBackendTemplate();
+			$option->notice = $option->state ? false : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_NOTICE');
+			$options[] = $option;
 		}
 
 		// Check if database structure is up to date
@@ -1221,6 +1227,40 @@ ENDDATA;
 		$options[] = $option;
 
 		return $options;
+	}
+
+	/**
+	 * Checks whether the default backend tempalte is isis
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isUsingCoreBackendTemplate()
+	{
+		if ($this->isTemplateActive('isis'))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the default frontend tempalte is protostar
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isUsingCoreFrontendTemplate()
+	{
+		if ($this->isTemplateActive('protostar'))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -1287,6 +1327,18 @@ ENDDATA;
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
 		$setting->recommended = true;
 		$settings[] = $setting;
+
+		$updateInfo =  $this->getUpdateInformation();
+
+		if (version_compare($updateInfo['latest'], '4', '>='))
+		{
+			$setting = new stdClass;
+			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_TITLE');
+			$setting->state  = $this->isUsingCoreFrontendTemplate();
+			$setting->notice = $setting->state ? false : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_NOTICE');
+			$setting->recommended = true;
+			$settings[] = $setting;
+		}
 
 		return $settings;
 	}
@@ -1790,5 +1842,60 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(JText::_($item->name));
+	}
+
+	/**
+	 * Checks whether an given template is active
+	 *
+	 * @param   string  $template  The tempalte name to be checked
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = ' . $db->q($template)
+		);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter($templates, function($value) {
+			return $value->home > 0;
+		});
+
+		$ids = JArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+						'COUNT(*)'
+					)->from(
+						$db->qn('#__menu')
+					)->where(
+						$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
+					);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }
