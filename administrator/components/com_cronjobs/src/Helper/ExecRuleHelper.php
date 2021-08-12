@@ -14,7 +14,9 @@ namespace Joomla\Component\Cronjobs\Administrator\Helper;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Cron\CronExpression;
 use DateInterval;
+use DateTime;
 use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -28,6 +30,7 @@ class ExecRuleHelper
 {
 	/**
 	 * The execution rule type
+	 *
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -46,7 +49,8 @@ class ExecRuleHelper
 	private $rule;
 
 	/**
-	 * @param   object  $cronjob   A cronjob entry in a class with ::get()
+	 * @param   object  $cronjob  A cronjob entry in a class with ::get()
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct(object $cronjob)
@@ -57,7 +61,7 @@ class ExecRuleHelper
 	}
 
 	/**
-	 * @param   boolean  $string   If true, an SQL formatted string is returned.
+	 * @param   boolean  $string  If true, an SQL formatted string is returned.
 	 *
 	 * @return ?Date|string
 	 *
@@ -76,13 +80,33 @@ class ExecRuleHelper
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
 				break;
 			case 'cron':
-				// Cannot handle cron expressions yet
-				$nextExec = null;
+				// TODO: testing
+				$cExp = new CronExpression((string) $this->rule->exp);
+				$nextExec = $cExp->getNextRunDate('now', 0, false, 'GMT');
+				$nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
 				break;
 			default:
 				$nextExec = null;
 		}
 
 		return $nextExec;
+	}
+
+	/**
+	 * Returns a sql-formatted string for a DateTime object.
+	 * Only needed for DateTime objects returned by CronExpression, JDate supports this as class method.
+	 *
+	 * @param   DateTime  $dateTime  A DateTime object to format
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function dateTimeToSql(DateTime $dateTime): string
+	{
+		static $db;
+		$db = $db ?? Factory::getDbo();
+
+		return $dateTime->format($db->getDateFormat());
 	}
 }
