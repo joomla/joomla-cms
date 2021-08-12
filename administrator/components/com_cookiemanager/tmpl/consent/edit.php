@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_cookiemanager&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="consent-form" aria-label="<?php echo Text::_('COM_COOKIEMANAGER_FORM_TITLE_REVIEW_CONSENT'), true); ?>">
+<form action="<?php echo Route::_('index.php?option=com_cookiemanager&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="consent-form" aria-label="<?php echo Text::_('COM_COOKIEMANAGER_FORM_TITLE_REVIEW_CONSENT'); ?>" class="form-validate">
 	<div class="main-card">
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
