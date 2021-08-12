@@ -232,24 +232,24 @@ class PlgSearchContent extends JPlugin
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.created ASC';
+				$order = '5 ASC';
 				break;
 
 			case 'popular':
-				$order = 'a.hits DESC';
+				$order = '9 DESC';
 				break;
 
 			case 'alpha':
-				$order = 'a.title ASC';
+				$order = '2 ASC';
 				break;
 
 			case 'category':
-				$order = 'c.title ASC, a.title ASC';
+				$order = '9 ASC, 5 ASC';
 				break;
 
 			case 'newest':
 			default:
-				$order = 'a.created DESC';
+				$order = '5 DESC';
 				break;
 		}
 
@@ -281,7 +281,7 @@ class PlgSearchContent extends JPlugin
 			if (!empty($relevance))
 			{
 				$query->select(implode(' + ', $relevance) . ' AS relevance');
-				$order = ' relevance DESC, ' . $order;
+				$order = ' 1 DESC, ' . $order;
 			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
@@ -292,11 +292,7 @@ class PlgSearchContent extends JPlugin
 				->where(
 					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
-						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
-						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
-				)
-				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
-				->order($order);
+				);
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
@@ -304,6 +300,22 @@ class PlgSearchContent extends JPlugin
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
+
+			$query1 = clone $query;
+			$query2 = clone $query;
+			$query3 = clone $query;
+			$unionQuery = $db->getQuery(true);
+			
+			$query->where('(publish_up is null and publish_down is null)');
+			$query1->where('(publish_up is null and publish_down is not null and ' . $db->quote($now) . ' <= publish_down)');
+			$query2->where('(publish_up is not null and publish_down is null and ' . $db->quote($now) . ' >= publish_up)');
+			$query3->where('(publish_up is not null and publish_down is not null and ' . $db->quote($now) . ' BETWEEN publish_up AND publish_down)');
+			
+			$query->union($query1);
+			$query->union($query2);
+			$query->unionAll($query3);
+			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id');
+			$query->order($order);
 
 			$db->setQuery($query, 0, $limit);
 
@@ -355,7 +367,7 @@ class PlgSearchContent extends JPlugin
 			if (!empty($relevance))
 			{
 				$query->select(implode(' + ', $relevance) . ' AS relevance');
-				$order = ' relevance DESC, ' . $order;
+				$order = ' 1 DESC, ' . $order;
 			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
@@ -366,10 +378,8 @@ class PlgSearchContent extends JPlugin
 				->where(
 					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
 						. ') AND c.access IN (' . $groups . ') '
-						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
-						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
-				)
-				->order($order);
+				);
+
 
 			// Join over Fields is no longer needed
 
@@ -380,6 +390,21 @@ class PlgSearchContent extends JPlugin
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
+			$query1 = clone $query;
+			$query2 = clone $query;
+			$query3 = clone $query;
+			$unionQuery = $db->getQuery(true);
+			
+			$query->where('(publish_up is null and publish_down is null)');
+			$query1->where('(publish_up is null and publish_down is not null and ' . $db->quote($now) . ' <= publish_down)');
+			$query2->where('(publish_up is not null and publish_down is null and ' . $db->quote($now) . ' >= publish_up)');
+			$query3->where('(publish_up is not null and publish_down is not null and ' . $db->quote($now) . ' BETWEEN publish_up AND publish_down)');
+			
+			$query->union($query1);
+			$query->union($query2);
+			$query->unionAll($query3);
+		
+			$query->order($order);
 			$db->setQuery($query, 0, $limit);
 
 			try
