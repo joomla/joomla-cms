@@ -522,7 +522,7 @@ class ModulesModel extends ListModel
 	}
 
 	/**
-	 * Method to get all transitions at once for all articles
+	 * Method to get all transitions at once for all modules
 	 *
 	 * @return  array|boolean
 	 *
