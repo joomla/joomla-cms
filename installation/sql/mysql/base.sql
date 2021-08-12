@@ -76,7 +76,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (54, 16, 52, 53, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 94, 95, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW', '{}'),
-(57, 56, 21, 22, 3, 'com_content.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
+(57, 56, 21, 22, 3, 'com_content.stage.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
 (58, 56, 23, 24, 3, 'com_content.transition.1', 'Publish', '{}'),
 (59, 56, 25, 26, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (60, 56, 27, 28, 3, 'com_content.transition.3', 'Archive', '{}'),
@@ -1126,7 +1126,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`) VALUES
-(1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
+(1, 57, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
 
 -- --------------------------------------------------------
 
