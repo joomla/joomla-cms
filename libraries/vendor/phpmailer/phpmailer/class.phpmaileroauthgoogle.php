@@ -66,7 +66,7 @@ class PHPMailerOAuthGoogle
     {
         $provider = $this->getProvider();
         $grant = $this->getGrant();
-        return $provider->getAccessToken($grant, ['refresh_token' => $this->oauthRefreshToken]);
+        return $provider->getAccessToken($grant, array('refresh_token' => $this->oauthRefreshToken));
     }
 
     public function getOauth64()
