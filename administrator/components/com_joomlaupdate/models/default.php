@@ -1238,7 +1238,7 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function hasModernRoutingEnabledForCoreExtensions()
+	private function hasModernRoutingEnabledForCoreComponents()
 	{
 		foreach (array('com_contact', 'com_content', 'com_newsfeeds', 'com_users') as $extension)
 		{
