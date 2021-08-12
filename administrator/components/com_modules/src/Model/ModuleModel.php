@@ -1350,7 +1350,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	}
 
 	/**
-	 * Adds defaylt stage to workflow field in the form.
+	 * Adds default stage to workflow field in the form.
 	 *
 	 * @param   Form          $form  The form to change
 	 * @param   array|object  $data  The form data
