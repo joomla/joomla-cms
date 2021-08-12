@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filter\InputFilter;
 
@@ -1211,6 +1212,12 @@ ENDDATA;
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
+
+			$option = new stdClass;
+			$option->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_MODERN_ROUTING_TITLE');
+			$option->state  = is_array($this->hasModernRoutingEnabledForCoreExtensions()) ? false : true;
+			$option->notice = $option->state ? null : JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_MODERN_ROUTING_NOTICE', implode(', ', $this->hasModernRoutingEnabledForCoreExtensions()));
+			$options[]      = $option;
 		}
 
 		// Check if database structure is up to date
@@ -1221,6 +1228,32 @@ ENDDATA;
 		$options[] = $option;
 
 		return $options;
+	}
+
+	/**
+	 * Checks whether all the core extensions have been setup with modern routing already.
+	 * Returns an array off the affected extensions when there havent yet be set to modern routing or true in case anything is fine.
+	 *
+	 * @return  boolean|array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function hasModernRoutingEnabledForCoreExtensions()
+	{
+		foreach (array('com_contact', 'com_content', 'com_newsfeeds', 'com_users') as $extension)
+		{
+			if ((int) ComponentHelper::getComponent($extension)->getParams()->get('sef_advanced', 0) === 0)
+			{
+				$affectedExtensions[] = $extension;
+			}
+		}
+
+		if (isset($affectedExtensions))
+		{
+			return $affectedExtensions;
+		}
+
+		return true;
 	}
 
 	/**
@@ -1789,6 +1822,6 @@ ENDDATA;
 		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
-		$item->name = strip_tags(JText::_($item->name));
+		$item->name = JText::_($item->name);
 	}
 }
