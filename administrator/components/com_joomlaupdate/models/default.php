@@ -1423,8 +1423,10 @@ ENDDATA;
 		// Get the schema change set
 		$changeSet = $model->getItems();
 
+		$changeSetCheck = $changeSet->check();
+
 		// Check if schema errors found
-		if (!empty($changeSet->check()))
+		if (!empty($changeSetCheck))
 		{
 			return false;
 		}
