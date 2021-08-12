@@ -1822,6 +1822,6 @@ ENDDATA;
 		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
-		$item->name = JText::_($item->name);
+		$item->name = strip_tags(JText::_($item->name));
 	}
 }
