@@ -44,6 +44,16 @@ $compatibilityTypes = array(
 	)
 );
 
+if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendTeamplateIsis === false)
+{
+	JFactory::getApplication()->enqueueMessage(
+		JText::_(
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
+		),
+		'info'
+	);
+}
+
 ?>
 <h2>
 	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', $this->updateInfo['latest']); ?>
@@ -152,9 +162,6 @@ $compatibilityTypes = array(
 							<td>
 								<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
-									<?php if ($setting->notice) : ?>
-										<span class="icon-info icon-white hasTooltip" title="<?php echo $setting->notice; ?>"></span>
-									<?php endif; ?>
 								</span>
 							</td>
 						</tr>

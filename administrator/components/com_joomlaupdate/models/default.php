@@ -1239,7 +1239,6 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_DISPLAY_ERRORS');
 		$setting->state = (bool) ini_get('display_errors');
-		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1247,7 +1246,6 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
-		$setting->notice = null;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
@@ -1258,7 +1256,6 @@ ENDDATA;
 			$setting = new stdClass;
 			$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
 			$setting->state = (bool) ini_get('magic_quotes_runtime');
-			$setting->notice = null;
 			$setting->recommended = false;
 			$settings[] = $setting;
 
@@ -1274,7 +1271,6 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
 		$setting->state = (int) ini_get('output_buffering') !== 0;
-		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1282,7 +1278,6 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_SESSION_AUTO_START');
 		$setting->state = (bool) ini_get('session.auto_start');
-		$setting->notice = null;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -1290,21 +1285,8 @@ ENDDATA;
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
-		$setting->notice = null;
 		$setting->recommended = true;
 		$settings[] = $setting;
-
-		$updateInfo =  $this->getUpdateInformation();
-
-		if (version_compare($updateInfo['latest'], '4', '>='))
-		{
-			$setting = new stdClass;
-			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_TITLE');
-			$setting->state  = $this->isUsingCoreBackendTemplate();
-			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_NOTICE');
-			$setting->recommended = true;
-			$settings[] = $setting;
-		}
 
 		return $settings;
 	}
@@ -1811,32 +1793,15 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks if the default backend template is isis
+	 * Checks whether an given template is active
+	 *
+	 * @param   string  $template  The tempalte name to be checked
 	 *
 	 * @return  bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function isUsingCoreBackendTemplate()
-	{
-		if ($this->isTemplateActive('isis'))
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks if a given template is active
-	 *
-	 * @param   string  $template  The template name to be checked
-	 *
-	 * @return  bool
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function isTemplateActive($template)
+	public function isTemplateActive($template)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1856,10 +1821,13 @@ ENDDATA;
 
 		$templates = $db->setQuery($query)->loadObjectList();
 
-		$home = array_filter($templates, function($value)
-		{
-			return $value->home > 0;
-		});
+		$home = array_filter(
+			$templates,
+			function($value)
+			{
+				return $value->home > 0;
+			}
+		);
 
 		$ids = JArrayHelper::getColumn($templates, 'id');
 
