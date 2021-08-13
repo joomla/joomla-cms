@@ -139,4 +139,26 @@ trait CronjobPluginTrait
 
 		return true;
 	}
+
+	/**
+	 * Advertises jobs supported by this plugin.
+	 *
+	 * @param   Event  $event  onCronOptionsList Event
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function advertiseJobs(Event $event): void
+	{
+		$options = [];
+
+		foreach (self::JOBS_MAP as $job => $details)
+		{
+			$options[$job] = $details['langConstPrefix'];
+		}
+
+		$subject = $event->getArgument('subject');
+		$subject->addOptions($options);
+	}
 }
