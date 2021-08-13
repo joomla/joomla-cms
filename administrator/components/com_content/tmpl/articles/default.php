@@ -426,9 +426,6 @@ $assoc = Associations::isEnabled();
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
-				<?php if ($featured === "1"): ?>
-					<input type="hidden" name="featured" value="1">
-				<?php endif; ?>
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
