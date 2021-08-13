@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -81,7 +81,7 @@ $tagsData = $category->tags->itemTags;
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
-						<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $img_sizes, $img_size_options, $img_method), MediaHelper::generateSizes($img->url)); ?>
+						<?php echo sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $img_sizes, $img_size_options, $img_method), ResponsiveImagesHelper::generateSizes($img->url)); ?>
 					>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>

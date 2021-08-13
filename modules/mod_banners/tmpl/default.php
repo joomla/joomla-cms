@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -37,7 +37,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 				$imageurl_sizes = $item->params->get('imageurl_sizes');
 				$imageurl_size_options = $item->params->get('imageurl_size_options');
 				$imageurl_method = $item->params->get('imageurl_method');
-				$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $imageurl_sizes, $imageurl_size_options, $imageurl_method), MediaHelper::generateSizes($img->url));
+				$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $imageurl_sizes, $imageurl_size_options, $imageurl_method), ResponsiveImagesHelper::generateSizes($img->url));
 			?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>

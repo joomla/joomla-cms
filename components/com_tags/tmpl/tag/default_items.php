@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -96,7 +96,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 					<a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"
-							<?php echo sprintf('srcset="%1s" sizes="%2s"', MediaHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), MediaHelper::generateSizes($img->url)); ?>
+							<?php echo sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), ResponsiveImagesHelper::generateSizes($img->url)); ?>
 						/>
 					</a>
 				<?php endif; ?>

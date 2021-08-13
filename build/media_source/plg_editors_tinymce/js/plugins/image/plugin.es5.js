@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  /* eslint-disable */
   /* eslint-disable no-undef */
   tinymce.PluginManager.add('jimage', function (editor) {
 
@@ -127,6 +128,13 @@
             <label for="` + field.id + `" class="tox-label">` + field.label + `</label>
             <input type="` + field.type + `" id="` + field.id + `" value="` + field.value + `" class="tox-textfield">
           </div>`;
+      },
+      setClassName: function (element, value) {
+        if (value.trim() !== '') {
+          element.className = value;
+        } else {
+          element.removeAttribute('class');
+        }
       },
       renderButton: function (btn) {
         return `
@@ -261,6 +269,8 @@
             // Replace double quotes with single (to store JSON in HTML attribute)
             var sizesStr = JSON.stringify(sizes).replace(/"/g, "'");
             image.setAttribute('data-jimage-responsive', sizesStr);
+          } else {
+            image.removeAttribute('data-jimage-responsive');
           }
 
           // Set creation method as data attribute
@@ -413,42 +423,49 @@
     editor.on('ExecCommand', function (e) {
       if (e.command === 'mceUpdateImage' && jimage.dialogBody) {
         var image = e.target.contentDocument.body.querySelector(`img[src="` + e.value.src + `"]`);
-        image.className = imageDetails.imgClass.value;
+        var figure = null;
+        var figCaption = null;
 
-        // Add or remove loading attribute from image
+        // Set image class
+        jimage.setClassName(image, imageDetails.imgClass.value);
+
+        // Set lazy loading
         if (imageDetails.lazyLoading.value) {
           image.setAttribute('loading', 'lazy');
         } else {
           image.removeAttribute('loading');
         }
 
-        if (imageDetails.figCaption.value) {
-          // Check if figure element already exists
-          if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-            image.parentElement.querySelector('figcaption').innerText = imageDetails.figCaption.value;
-            image.parentElement.className = imageDetails.figClass.value;
-          } else {
-            // Create figure and figcaption elements
-            var figure = document.createElement('figure');
-            var figCaption = document.createElement('figcaption');
-            figure.appendChild(figCaption);
+        // Check if figure is already inserted
+        if (image.parentElement.nodeName.toLowerCase() === 'figure') {
+          figure = image.parentElement;
+          figCaption = figure.querySelector('figcaption');
+        }
 
-            figure.className = imageDetails.figClass.value;
-            figCaption.innerText = imageDetails.figCaption.value;
+        // Create figure and set details if caption exists
+        if (imageDetails.figCaption.value) {
+          if (!figure) {
+            figure = document.createElement('figure');
+            figCaption = document.createElement('figcaption');
+            figure.appendChild(figCaption);
 
             // Append image to the figure element
             image.parentElement.appendChild(figure);
             figure.insertBefore(image, figCaption);
           }
+
+          // Set figure class and caption
+          jimage.setClassName(figure, imageDetails.figClass.value);
+          figCaption.innerText = imageDetails.figCaption.value;
         } else {
           // Delete figure element if exists
-          if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-            var figure = image.parentElement;
+          if (figure) {
             figure.parentNode.insertBefore(image, figure);
             figure.parentNode.removeChild(figure);
           }
         }
 
+        // Set responsive image field attributes
         jimage.updateImageAttrs();
       }
     });

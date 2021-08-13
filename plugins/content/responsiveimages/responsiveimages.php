@@ -98,6 +98,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 			if ($formImages = $this->_getFormImages($context, (array) $article))
 			{
 				$unusedFormImages = ResponsiveImagesHelper::getUnusedFormImages($this->initFormImages, $formImages);
+				Factory::getApplication()->enqueueMessage($unusedFormImages);
 
 				ResponsiveImagesHelper::generateFormImages($formImages);
 			}
