@@ -34,6 +34,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<button
 						type="button"
 						id="category-btn-<?php echo $item->id; ?>"
+						data-category-id="<?php echo $item->id; ?>"
 						class="btn btn-secondary btn-sm"
 						aria-expanded="false"
 						aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
