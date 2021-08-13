@@ -1221,7 +1221,7 @@ class lessc {
         if ($args[0] == 'color') {
             return $this->lib_mix(array( 'list', ',', array($white, $args) ));
         } elseif ($args[0] == "list" && count($args[2]) == 2) {
-            return $this->lib_mix([ $args[0], $args[1], [$white, $args[2][0], $args[2][1]] ]);
+            return $this->lib_mix(array( $args[0], $args[1], array($white, $args[2][0], $args[2][1]) ));
         } else {
             $this->throwError("tint expects (color, weight)");
         }
@@ -1241,9 +1241,9 @@ class lessc {
     protected function lib_shade($args) {
         $black = array('color', 0, 0, 0);
         if ($args[0] == 'color') {
-            return $this->lib_mix([ 'list', ',', [$black, $args] ]);
+            return $this->lib_mix(array( 'list', ',', array($black, $args) ));
         } elseif ($args[0] == "list" && count($args[2]) == 2) {
-            return $this->lib_mix([ $args[0], $args[1], [$black, $args[2][0], $args[2][1]] ]);
+            return $this->lib_mix(array( $args[0], $args[1], array($black, $args[2][0], $args[2][1]) ));
         } else {
             $this->throwError("shade expects (color, weight)");
         }
