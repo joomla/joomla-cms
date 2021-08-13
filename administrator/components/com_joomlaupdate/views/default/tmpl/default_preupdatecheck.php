@@ -44,7 +44,7 @@ $compatibilityTypes = array(
 	)
 );
 
-if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendTeamplateIsis === false)
+if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendTemplateIsis === false)
 {
 	JFactory::getApplication()->enqueueMessage(
 		JText::_(
