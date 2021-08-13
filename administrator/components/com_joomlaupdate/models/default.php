@@ -1856,10 +1856,13 @@ ENDDATA;
 
 		$templates = $db->setQuery($query)->loadObjectList();
 
-		$home = array_filter($templates, function($value)
-		{
-			return $value->home > 0;
-		});
+		$home = array_filter(
+			$templates,
+			function($value)
+			{
+				return $value->home > 0;
+			}
+		);
 
 		$ids = JArrayHelper::getColumn($templates, 'id');
 
