@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => '908dbe42c1c14bc77ddb9dbe2f6eefccf634d2f0',
+        'reference' => 'e9ef82568c974fdc9f610d73b24bd3f7e789713c',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -133,7 +133,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => '908dbe42c1c14bc77ddb9dbe2f6eefccf634d2f0',
+            'reference' => 'e9ef82568c974fdc9f610d73b24bd3f7e789713c',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
