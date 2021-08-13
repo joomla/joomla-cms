@@ -264,7 +264,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_01_SHORT',
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
-				'messageLink'   => 'https://joomla.org/4',
+				'messageLink'   => 'https://www.joomla.org/4/#features',
 				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
 				'snoozable'     => true,
 			);
