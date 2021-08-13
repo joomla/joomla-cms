@@ -1333,13 +1333,6 @@ ENDDATA;
 		if (version_compare($updateInfo['latest'], '4', '>='))
 		{
 			$setting = new stdClass;
-			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_TITLE');
-			$setting->state  = $this->isUsingCoreFrontendTemplate();
-			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_FRONTEND_TEMPLATE_USED_NOTICE');
-			$setting->recommended = true;
-			$settings[] = $setting;
-
-			$setting = new stdClass;
 			$setting->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_TITLE');
 			$setting->state  = $this->isUsingCoreBackendTemplate();
 			$setting->notice = $setting->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CORE_BACKEND_TEMPLATE_USED_NOTICE');
