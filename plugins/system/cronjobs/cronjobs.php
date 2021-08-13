@@ -288,12 +288,12 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 				'eventClass' => 'Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent',
 				'subject' => $this,
 				'jobId' => $cronjob->type,
-				'langNsSuffix' => $cronjob->cronOption->langNsSuffix,
+				'langConstPrefix' => $cronjob->cronOption->langConstPrefix,
 				'params' => json_decode($cronjob->params),
 			]
 		);
 
-		// TODO: test
+		// TODO: test -- can use exception handling here to prevent locked jobs
 		PluginHelper::importPlugin('job');
 		$app->getDispatcher()->dispatch('onCronRun', $event);
 
