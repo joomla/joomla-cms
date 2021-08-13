@@ -1795,7 +1795,7 @@ ENDDATA;
 	/**
 	 * Checks whether an given template is active
 	 *
-	 * @param   string  $template  The tempalte name to be checked
+	 * @param   string  $template  The template name to be checked
 	 *
 	 * @return  bool
 	 *
