@@ -14,12 +14,15 @@ namespace Joomla\Component\Cronjobs\Administrator\Traits;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
 use Joomla\Event\Event;
+use Joomla\Utilities\ArrayHelper;
 use ReflectionClass;
 use function array_key_exists;
 use function is_file;
@@ -48,7 +51,8 @@ trait CronjobPluginTrait
 	private static $STATUS = [
 		'OK_RUN' => 0,
 		'NO_TIME' => 1,
-		'NO_RUN' => 3
+		'KO_RUN' => 3,
+		'TIMEOUT' => 124
 	];
 
 	/**
@@ -112,16 +116,17 @@ trait CronjobPluginTrait
 	 * Enhance the cronjob form with a job specific form.
 	 * Expects the JOBS_MAP class constant to have the relevant information.
 	 *
-	 * @param   Form  $form  The form
-	 * @param   mixed $data  The data
+	 * @param   Form   $form  The form
+	 * @param   mixed  $data  The data
 	 *
 	 * @return boolean
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected function enhanceCronjobItemForm(Form $form, $data): bool
 	{
-		$jobId = $data->cronOption->type ?? $form->getValue('type');
+		$jobId = $this->getJobId($form, $data);
 
 		$isSupported = array_key_exists($jobId, self::JOBS_MAP);
 
@@ -160,5 +165,28 @@ trait CronjobPluginTrait
 
 		$subject = $event->getArgument('subject');
 		$subject->addOptions($options);
+	}
+
+	/**
+	 * @param   Form   $form  The form
+	 * @param   mixed  $data  The data
+	 *
+	 * @return string
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getJobId(Form $form, $data): string
+	{
+		$jobId = $data->cronOption->type ?? $data['cronOption']->type ?? $form->getValue('type');
+
+		if (!$jobId)
+		{
+			$app = $this->app ?? Factory::getApplication();
+			$form = $app->getInput()->get('jform', []);
+			$jobId = ArrayHelper::getValue($form, 'type', '', 'STRING');
+		}
+
+		return $jobId;
 	}
 }
