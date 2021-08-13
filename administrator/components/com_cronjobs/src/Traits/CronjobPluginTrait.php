@@ -100,10 +100,9 @@ trait CronjobPluginTrait
 
 		if ($log)
 		{
-			$typeName = '_' . strtoupper($this->_type) . '_' . strtoupper($this->_name);
-			$jobNsSuffix = '_' . strtoupper($event->getArgument('langNsSuffix'));
+			$langConstPrefix = strtoupper($event->getArgument('langConstPrefix'));
 			Log::add(
-				Text::sprintf('PLG' . $typeName . $jobNsSuffix . '_JOB_LOG_MESSAGE',
+				Text::sprintf($langConstPrefix . '_JOB_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
 				),
 				Log::INFO,

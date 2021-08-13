@@ -46,7 +46,7 @@ class CronOption
 	 * @var string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $langNsSuffix;
+	protected $langConstPrefix;
 
 	/**
 	 * CronOption constructor.
@@ -61,9 +61,7 @@ class CronOption
 		$this->type = $type;
 		$this->title = Text::_("${langConstPrefix}_TITLE");
 		$this->desc = Text::_("${langConstPrefix}_DESC");
-
-		$langParts = explode('_', $langConstPrefix);
-		$this->langNsSuffix = end($langParts);
+		$this->langConstPrefix = $langConstPrefix;
 	}
 
 	/**
