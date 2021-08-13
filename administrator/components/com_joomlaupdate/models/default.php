@@ -1224,40 +1224,6 @@ ENDDATA;
 	}
 
 	/**
-	 * Checks if the default backend template is isis
-	 *
-	 * @return  bool
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function isUsingCoreBackendTemplate()
-	{
-		if ($this->isTemplateActive('isis'))
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks if the default frontend template is protostar
-	 *
-	 * @return  bool
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function isUsingCoreFrontendTemplate()
-	{
-		if ($this->isTemplateActive('protostar'))
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Gets PHP Settings.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
@@ -1842,6 +1808,23 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(JText::_($item->name));
+	}
+
+	/**
+	 * Checks if the default backend template is isis
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isUsingCoreBackendTemplate()
+	{
+		if ($this->isTemplateActive('isis'))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
