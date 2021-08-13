@@ -10,12 +10,11 @@
  */
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
 use Joomla\Component\Cronjobs\Administrator\Traits\CronjobPluginTrait;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Event\Event;
+use Joomla\Event\SubscriberInterface;
 
 /**
  * The PlgJobTestjob class
@@ -25,6 +24,21 @@ use Joomla\Event\Event;
 class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 {
 	use CronjobPluginTrait;
+
+	/**
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const JOBS_MAP = [
+		'job1' => [
+			'langConstPrefix' => 'PLG_JOB_TESTJOB_JOB1',
+			'form' => 'testJobForm'
+		],
+		'job2' => [
+			'langConstPrefix' => 'PLG_JOB_TESTJOB_JOB2',
+			'form' => 'testJobForm'
+		]
+	];
 
 	/**
 	 * Autoload the language file
@@ -45,15 +59,6 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
-	 * @var string[]
-	 * @since __DEPLOY_VERSION__
-	 */
-	private const JOBS_MAP = [
-	'job1' => 'routine1',
-	'job2' => 'routine2'
-	];
-
-	/**
 	 * Returns event subscriptions
 	 *
 	 * @return string[]
@@ -63,33 +68,10 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'pluginCronOptions',
+			'onCronOptionsList' => 'advertiseJobs',
 			'onCronRun' => 'cronSampleRoutine',
 			'onContentPrepareForm' => 'manipulateForms'
 		];
-	}
-
-	/**
-	 * Just returns a jobId => langConstPrefix mapped array (for now)
-	 *
-	 * @param   Event  $event  onCronOptionsList Event
-	 *
-	 * @return string[]
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function pluginCronOptions(Event $event): array
-	{
-		$jobsArray = [
-			'job1' => 'PLG_JOB_TESTJOB_JOB1',
-			'job2' => 'PLG_JOB_TESTJOB_JOB2'
-		];
-
-		$subject = $event['subject'];
-
-		$subject->addOptions($jobsArray);
-
-		return $jobsArray;
 	}
 
 	/**
@@ -118,24 +100,19 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @param   Event  $event  The onContentPrepareForm event.
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function manipulateForms(Event $event): void
 	{
 		/** @var Form $form */
 		$form = $event->getArgument('0');
+		$data = $event->getArgument('1');
 
 		$context = $form->getName();
 
-		// Return early if form is not supported
-		if (!in_array($context, $this->supportedFormContexts))
+		if ($context === 'com_cronjobs.cronjob')
 		{
-			return;
+			$this->enhanceCronjobItemForm($form, $data);
 		}
-
-		FormHelper::addFormPath(__DIR__ . '/forms');
-		$loaded = $form->loadFile('testJobForm');
-
-		return;
 	}
 }
