@@ -1880,7 +1880,8 @@ ENDDATA;
 
 		$templates = $db->setQuery($query)->loadObjectList();
 
-		$home = array_filter($templates, function($value) {
+		$home = array_filter($templates, function($value)
+		{
 			return $value->home > 0;
 		});
 
