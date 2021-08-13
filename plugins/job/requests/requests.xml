@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="4.1" type="plugin" group="job" method="upgrade">
+	<name>Requests</name>
+	<author>Joomla! Projects</author>
+	<creationDate>August 2021</creationDate>
+	<license>GPL v3</license>
+	<version>4.1</version>
+	<description>PLG_JOB_REQUESTS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="requests">requests.php</filename>
+		<folder>language</folder>
+		<folder>forms</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_job_requests.ini</language>
+		<language tag="en-GB">en-GB.plg_job_requests.sys.ini</language>
+	</languages>
+</extension>
