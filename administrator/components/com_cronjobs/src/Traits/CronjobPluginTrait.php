@@ -14,10 +14,15 @@ namespace Joomla\Component\Cronjobs\Administrator\Traits;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
+use Joomla\Event\Event;
+use ReflectionClass;
+use function array_key_exists;
+use function is_file;
 
 /**
  * Utility trait for plugins that support com_cronjobs jobs
@@ -101,5 +106,37 @@ trait CronjobPluginTrait
 				'cronjobs'
 			);
 		}
+	}
+
+	/**
+	 * Enhance the cronjob form with a job specific form.
+	 * Expects the JOBS_MAP class constant to have the relevant information.
+	 *
+	 * @param   Form  $form  The form
+	 * @param   mixed $data  The data
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function enhanceCronjobItemForm(Form $form, $data): bool
+	{
+		$jobId = $data->cronOption->type ?? $form->getValue('type');
+
+		$isSupported = array_key_exists($jobId, self::JOBS_MAP);
+
+		if (!$isSupported || !$enhancementForm = self::JOBS_MAP[$jobId]['form'] ?? '')
+		{
+			return false;
+		}
+
+		$path = dirname((new ReflectionClass(static::class))->getFileName());
+
+		if (is_file($fn = $path . '/forms/' . $enhancementForm . '.xml'))
+		{
+			$form->loadFile($fn);
+		}
+
+		return true;
 	}
 }
