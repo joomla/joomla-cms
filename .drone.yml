@@ -25,13 +25,6 @@ steps:
   - php -v
   - libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
 
-- name: phplinter
-  image: joomlaprojects/docker-images:php5.3
-  commands:
-  - php -v
-  - find . -path . -prune -false -o -type f -name '*.php' -print0 | xargs -0 -n1 -P$(nproc) php -l -n
-  - find . -type f -name '*.php' -exec php -l -n {} \;
-
 - name: javascript
   image: joomlaprojects/docker-images:systemtests
   commands:
@@ -731,6 +724,6 @@ steps:
 
 ---
 kind: signature
-hmac: d5eb962524e17ee0736953b6dedf343d4787e266b13b1df7fdea36662de71793
+hmac: 5692462a9c53cd5937db302a216ba95f3367ff58c2269565a215587198352276
 
 ...
