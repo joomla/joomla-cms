@@ -96,13 +96,13 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
-		$this->isBackendTeamplateIsis = (bool) $this->getModel()->isTemplateActive('isis');
 
 		// Get results of pre update check evaluations
 		$this->phpOptions             = $model->getPhpOptions();
 		$this->phpSettings            = $model->getPhpSettings();
 		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
 		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		$this->isBackendTeamplateIsis = (bool) $this->getModel()->isTemplateActive('isis');
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
