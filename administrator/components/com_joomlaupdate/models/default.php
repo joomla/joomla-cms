@@ -1203,8 +1203,10 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
+		$updateInformation = $this->getUpdateInformation();
+
 		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$option = new stdClass;
 			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1313,7 +1315,10 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1347,8 +1352,10 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1416,8 +1423,10 @@ ENDDATA;
 		// Get the schema change set
 		$changeSet = $model->getItems();
 
+		$changeSetCheck = $changeSet->check();
+
 		// Check if schema errors found
-		if (!empty($changeSet->check()))
+		if (!empty($changeSetCheck))
 		{
 			return false;
 		}

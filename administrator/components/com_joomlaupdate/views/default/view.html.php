@@ -101,7 +101,14 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->phpOptions             = $model->getPhpOptions();
 		$this->phpSettings            = $model->getPhpSettings();
 		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
-		$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+
+		// Disable the critical plugins check for non-major updates.
+		$this->nonCoreCriticalPlugins = false;
+
+		if (version_compare($this->updateInfo['latest'], '4', '>='))
+		{
+			$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		}
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');

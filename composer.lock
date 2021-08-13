@@ -1087,12 +1087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/lessphp.git",
-                "reference": "a149187adb2eaec0be5e24203a2e25bda5e5073b"
+                "reference": "802755b7632f59078843f38c9d57e5a8c496cc3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/a149187adb2eaec0be5e24203a2e25bda5e5073b",
-                "reference": "a149187adb2eaec0be5e24203a2e25bda5e5073b",
+                "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/802755b7632f59078843f38c9d57e5a8c496cc3a",
+                "reference": "802755b7632f59078843f38c9d57e5a8c496cc3a",
                 "shasum": ""
             },
             "require-dev": {
@@ -1132,7 +1132,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2021-03-26T22:48:27+00:00"
+            "time": "2021-08-13T06:59:31+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1279,12 +1279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/PHPMailer.git",
-                "reference": "30436c6d0065ba12bbb790cd713a5daee757c95a"
+                "reference": "3bac61142e875279af98f16afef696b6bb7a19c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/30436c6d0065ba12bbb790cd713a5daee757c95a",
-                "reference": "30436c6d0065ba12bbb790cd713a5daee757c95a",
+                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/3bac61142e875279af98f16afef696b6bb7a19c9",
+                "reference": "3bac61142e875279af98f16afef696b6bb7a19c9",
                 "shasum": ""
             },
             "require": {
@@ -1348,7 +1348,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2021-07-14T13:57:15+00:00"
+            "time": "2021-08-13T06:59:24+00:00"
         },
         {
             "name": "psr/container",
