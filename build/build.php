@@ -6,8 +6,13 @@
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
