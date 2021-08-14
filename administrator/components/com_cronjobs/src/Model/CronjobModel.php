@@ -14,12 +14,9 @@ namespace Joomla\Component\Cronjobs\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use DateInterval;
-use DateTimeZone;
 use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -29,6 +26,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
 use function array_diff;
 use function defined;
 use function gmdate;
@@ -358,7 +356,7 @@ class CronjobModel extends AdminModel
 	 * Private method to build execution expression from input execution rules.
 	 * This expression is used internally to determine execution times/conditions.
 	 *
-	 * ! A lot of DRY violations here...
+	 * ! DRY violations here
 	 *
 	 * @param   array  $data  The form input data
 	 *
@@ -385,21 +383,14 @@ class CronjobModel extends AdminModel
 		[$basisHour, $basisMinute] = explode(':', $executionRules['exec-time']);
 
 		$execExpression['type'] = $execType = $ruleType === 'custom' ? 'cron' : 'interval';
-		$nextExec = null;
+		$lastExec = Factory::getDate('now', 'GMT')->format('Y-m')
+			. "-$basisDayOfMonth $basisHour:$basisMinute:00";
 
 		if ($execType === 'interval')
 		{
 			$intervalType = explode('-', $ruleType)[1];
 			$interval = $executionRules["interval-$intervalType"];
 			$execExpression['exp'] = sprintf($intervalStringMap[$intervalType], $interval);
-			$nextExec = new Date(Factory::getDate('now', 'GMT')->format('Y-m') .
-				"-$basisDayOfMonth $basisHour:$basisMinute:00", new DateTimeZone('GMT')
-			);
-			$interval = new DateInterval(
-				sprintf($intervalStringMap[$intervalType], $interval)
-			);
-
-			$nextExec = ($nextExec->add($interval))->toSql();
 		}
 
 		if ($execType === 'cron')
@@ -407,15 +398,15 @@ class CronjobModel extends AdminModel
 			// ! custom matches are disabled in the form
 			$customRules = &$executionRules['custom'];
 			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['minutes'], range(0, 59), true);
-			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
-			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
-			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
-			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['days_week'], range(1, 7), true);
-			$nextExec = null;
+			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
+			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
+			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
+			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_week'], range(0, 6), true);
 		}
 
+		$data['last_execution'] = $lastExec;
 		$data['cron_rules'] = $execExpression;
-		$data['next_execution'] = $nextExec;
+		$data['next_execution'] = (new ExecRuleHelper($data))->nextExec();
 	}
 
 	/**
@@ -425,11 +416,11 @@ class CronjobModel extends AdminModel
 	 * @param   array  $reference    The reference array, populated by the complete set of possible values in $target
 	 * @param   bool   $targetToInt  If true, converts $target array values to integers before comparing
 	 *
-	 * @return string|int[]  A wildcard string if $target is fully populated, else $target itself.
+	 * @return string  A wildcard string if $target is fully populated, else $target itself.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function wildcardIfMatch(array $target, array $reference, bool $targetToInt = false)
+	private function wildcardIfMatch(array $target, array $reference, bool $targetToInt = false): string
 	{
 		if ($targetToInt)
 		{
@@ -443,7 +434,7 @@ class CronjobModel extends AdminModel
 
 		$isMatch = array_diff($reference, $target) === [];
 
-		return $isMatch ? "*" : $target;
+		return $isMatch ? "*" : implode(',', $target);
 	}
 
 	/**
