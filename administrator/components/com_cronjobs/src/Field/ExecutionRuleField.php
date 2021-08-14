@@ -43,6 +43,6 @@ class ExecutionRuleField extends PredefinedlistField
 		'interval-hours' => 'COM_CRONJOBS_OPTION_INTERVAL_HOURS',
 		'interval-days' => 'COM_CRONJOBS_OPTION_INTERVAL_DAYS',
 		'interval-months' => 'COM_CRONJOBS_OPTION_INTERVAL_MONTHS',
-		// 'custom' => 'COM_CRONJOBS_OPTION_INTERVAL_CUSTOM'
+		'custom' => 'COM_CRONJOBS_OPTION_INTERVAL_CUSTOM'
 	];
 }
