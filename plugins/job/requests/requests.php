@@ -3,11 +3,14 @@
  * A job plugin to make GET requests.
  *
  * @package       Joomla.Plugins
- * @subpackage    System.testjob
+ * @subpackage    Job.Requests
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GPL v3
  */
+
+// Restrict direct access
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Http\HttpFactory;
@@ -19,6 +22,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 /**
+ * The plugin class
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -73,8 +77,9 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   CronRunEvent  $event
+	 * @param   CronRunEvent  $event  The onCronRun event
 	 *
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -95,6 +100,8 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @param   Event  $event  The onContentPrepareForm event.
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION
 	 */
 	public function enhanceForm(Event $event): void
@@ -115,6 +122,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @param   CronRunEvent  $event  The onCronRun event
 	 *
 	 * @return integer  The exit code
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected function makeGetRequest(CronRunEvent $event): int

@@ -3,16 +3,19 @@
  * A job plugin to toggle the offline status of the site.
  *
  * @package       Joomla.Plugins
- * @subpackage    System.testjob
+ * @subpackage    Job.ToggleOffline
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GPL v3
  */
 
+// Restrict direct access
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
 use Joomla\Component\Cronjobs\Administrator\Traits\CronjobPluginTrait;
@@ -29,6 +32,10 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 {
 	use CronjobPluginTrait;
 
+	/**
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
 	protected const JOBS_MAP = [
 		'plg_job_toggle_offline' => [
 			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE'
@@ -105,7 +112,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   Registry  $config  A Registry object containing all global config data.
 	 *
-	 * @return  int  The job exit code
+	 * @return  integer  The job exit code
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

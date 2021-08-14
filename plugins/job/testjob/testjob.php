@@ -3,11 +3,14 @@
  * A test plugin for com_cronjobs.
  *
  * @package       Joomla.Plugins
- * @subpackage    System.testjob
+ * @subpackage    System.TestJob
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GPL v3
  */
+
+// Restrict direct access
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -17,7 +20,7 @@ use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * The PlgJobTestjob class
+ * The plugin class
  *
  * @since __DEPLOY__VERSION__
  */
@@ -100,6 +103,8 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @param   Event  $event  The onContentPrepareForm event.
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function manipulateForms(Event $event): void
