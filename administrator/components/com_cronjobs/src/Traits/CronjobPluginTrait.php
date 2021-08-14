@@ -203,6 +203,7 @@ trait CronjobPluginTrait
 	 */
 	protected function addJobLog(string $message, string $priority = 'info'): void
 	{
+		static $langLoaded;
 		static $priorityMap = [
 			'debug' => Log::DEBUG,
 			'error' => Log::ERROR,
@@ -210,6 +211,13 @@ trait CronjobPluginTrait
 			'notice' => Log::NOTICE,
 			'warning' => Log::WARNING,
 		];
+
+		if (!$langLoaded)
+		{
+			$app = $this->app ?? Factory::getApplication();
+			$app->getLanguage()->load('com_cronjobs', JPATH_ADMINISTRATOR);
+			$langLoaded = true;
+		}
 
 		Log::add(Text::_('COM_CRONJOBS_JOB_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'cronjobs');
 	}
