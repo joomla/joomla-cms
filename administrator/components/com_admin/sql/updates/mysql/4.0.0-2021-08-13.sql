@@ -1,6 +1,6 @@
 --
 -- Fix wrong asset name for com_content basic workflow stage if a new asset with the right
--- name hasn't been created yet
+-- name hasn't been created yet when saving the workflow stage in backend in past.
 --
 UPDATE `#__assets` a
    SET a.`name` = 'com_content.stage.1'
@@ -18,7 +18,8 @@ UPDATE `#__assets` SET `title` = 'Archive'   WHERE `name` = 'com_content.transit
 --
 -- Set asset ID of com_content basic workflow stage to the right value if not already set.
 -- The right value is either the asset fixed with the first update statement at the top
--- of this file or a new asset created when saving the workflow stage in backend.
+-- of this file or a new asset which has been created yet when saving the workflow stage
+-- in backend in past.
 --
 UPDATE `#__workflow_stages` s
  INNER JOIN (SELECT `name`, MAX(`id`) AS `id` FROM `#__assets` GROUP BY `name`) AS a ON a.`name` = CONCAT('com_content.stage.', s.`id`)
