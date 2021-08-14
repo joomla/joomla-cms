@@ -2,9 +2,9 @@
 -- Fix wrong asset name for com_content basic workflow stage if a new asset with the right
 -- name hasn't been created yet when saving the workflow stage in backend in past.
 --
-UPDATE "#__assets" a
-   SET a."name" = 'com_content.stage.1'
- WHERE a."name" = 'com_content.state.1'
+UPDATE "#__assets"
+   SET "name" = 'com_content.stage.1'
+ WHERE "name" = 'com_content.state.1'
    AND (SELECT c."count" FROM (SELECT COUNT(b."id") AS "count" FROM "#__assets" b WHERE b."name" = 'com_content.stage.1') AS c) = 0;
 
 --
