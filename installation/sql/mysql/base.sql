@@ -369,7 +369,9 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
 (0, 'plg_job_testjob', 'plugin', 'testjob', 'job', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
-(0, 'plg_system_cronjobs', 'plugin', 'cronjobs', 'system', 0, 1, 1, 0, 0, '', '{}', '', 15, 0);
+(0, 'plg_system_cronjobs', 'plugin', 'cronjobs', 'system', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
+(0, 'plg_job_requests', 'plugin', 'requests', 'job', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
+(0, 'plg_job_toggleoffline', 'plugin', 'toggleoffline', 'job', 0, 1, 1, 0, 0, '', '{}', '', 15, 0);
 
 -- Templates
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
