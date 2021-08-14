@@ -313,6 +313,10 @@ class CronjobModel extends AdminModel
 		// Build the `cron_rules` column from `execution_rules`
 		$this->buildExecExpression($data);
 
+		// If no params, we set as empty array.
+		// ? Is this the right place to do this
+		$data['params'] = $data['params'] ?? [];
+
 		// Parent method takes care of saving to the table
 		if (!parent::save($data))
 		{
