@@ -3,7 +3,7 @@
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
-  overflow: hidden;
+  overflow: visible;
   background-color: var(--template-sidebar-bg);
   box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
 
