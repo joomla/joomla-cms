@@ -274,6 +274,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		echo $this->cookieBanner;
 		echo $this->preferences;
+
+		if ($this->app->input->get('format') === 'json')
+		{
+			return;
+		}
+
 		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
 		foreach ($this->category as $catKey => $catValue)
@@ -338,5 +344,26 @@ class PlgSystemCookiemanager extends CMSPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * AJAX Handler
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAjaxCookiemanager()
+	{
+		$data = $this->app->input->get('data', '', 'STRING');
+
+		$data = json_decode($data);
+		$ccuuid = bin2hex(random_bytes(32));
+		$data->ccuuid = $ccuuid;
+		$data->user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		$this->db->insertObject('#__cookiemanager_consents', $data);
+
+		return $ccuuid;
 	}
 }
