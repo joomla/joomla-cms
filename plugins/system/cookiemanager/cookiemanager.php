@@ -112,8 +112,8 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$menuitem = $sitemenu->getItem($params->get('policylink'));
 
 		$config = [];
-		$config['expiration'] = $params->get('consent_expiration');
-		$config['position'] = $params->get('modal_position');
+		$config['expiration'] = $params->get('consent_expiration', 30);
+		$config['position'] = $params->get('modal_position', '');
 		$this->app->getDocument()->addScriptOptions('config', $config);
 
 		$db    = $this->db;
@@ -174,6 +174,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
 		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
+		$prefBody .= '<p> Consent: <span id="consent-opt-in"></span></p><p> Consent ID: <span id="ccuuid"></span></p><p> Consent Date: <span id="consent-date"></span></p>';
 
 		foreach ($this->category as $catKey => $catValue)
 		{
@@ -256,6 +257,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 				$this->app->getDocument()->addScriptOptions('code', $this->script);
 
+		if (!$this->app->input->cookie->get('uuid'))
+		{
+			$uuid = bin2hex(random_bytes(32));
+			$cookieLifetime = $params->get('consent_expiration', 30) * 24 * 60 * 60;
+			$this->app->input->cookie->set('uuid', $uuid, time() + $cookieLifetime, '/');
+		}
 	}
 
 	/**

@@ -7,6 +7,9 @@
   'use strict';
 
   const cookie = document.cookie.split('; ');
+
+  const uuid = cookie.find((c) => c.startsWith('uuid=')).split('=')[1];
+
   const config = Joomla.getOptions('config');
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
@@ -73,6 +76,30 @@
     const expires = d.toUTCString();
     return expires;
   }
+
+  const storingConsents = () => {
+    const consentDetails = {
+      uuid,
+      consent_date: Date(),
+      url: window.location.href,
+      consent_opt_in: 'Necessary',
+      consent_opt_out: 'Analytics, Functional',
+    };
+    const data = JSON.stringify(consentDetails);
+
+    Joomla.request({
+      url: `index.php?option=com_ajax&plugin=cookiemanager&group=system&format=json&data=${data}`,
+      method: 'POST',
+      onSuccess: (r) => {
+        const res = JSON.parse(r);
+        const ccuuid = res.data[0];
+
+        document.getElementById('ccuuid').innerHTML = ccuuid;
+        document.getElementById('consent-date').innerHTML = consentDetails.consent_date;
+        document.getElementById('consent-opt-in').innerHTML = consentDetails.consent_opt_in;
+      },
+    });
+  };
 
   document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
@@ -232,4 +259,5 @@
       }
     });
   });
+  storingConsents();
 })(document);
