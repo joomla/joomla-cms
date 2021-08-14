@@ -259,7 +259,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		if (!$this->app->input->cookie->get('uuid'))
 		{
-			$uuid = bin2hex(random_bytes(32));
+			$uuid = bin2hex(random_bytes(16));
 			$cookieLifetime = $params->get('consent_expiration', 30) * 24 * 60 * 60;
 			$this->app->input->cookie->set('uuid', $uuid, time() + $cookieLifetime, '/');
 		}

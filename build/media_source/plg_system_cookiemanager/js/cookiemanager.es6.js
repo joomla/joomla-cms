@@ -7,9 +7,7 @@
   'use strict';
 
   const cookie = document.cookie.split('; ');
-
   const uuid = cookie.find((c) => c.startsWith('uuid=')).split('=')[1];
-
   const config = Joomla.getOptions('config');
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());

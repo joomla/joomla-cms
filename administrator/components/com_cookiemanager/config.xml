@@ -29,7 +29,7 @@
 
 		<field
 			name="consent_expiration"
-			type="text"
+			type="number"
 			label="COM_COOKIEMANAGER_CONSENT_EXPIRATION_LABEL"
 			default="30"
 		/>

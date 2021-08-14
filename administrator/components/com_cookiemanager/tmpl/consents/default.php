@@ -51,13 +51,13 @@ $saveOrder = ($listOrder == 'a.id' && strtolower($listDirn) == 'desc');
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_UUID_LABEL', 'a.ccuuid', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_COOKIEMANAGER_FIELD_CCUUID_LABEL'); ?>
 								</th>
-								<th scope="col">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_CCUUID_LABEL', 'a.ccuuid', $listDirn, $listOrder); ?>
+								<th scope="col" class="text-center d-none d-md-table-cell">
+									<?php echo Text::_('COM_COOKIEMANAGER_FIELD_UUID_LABEL'); ?>
 								</th>
-								<th scope="col">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL', 'a.consent_date', $listDirn, $listOrder); ?>
+								<th scope="col" class="text-center d-none d-md-table-cell">
+									<?php echo Text::_('COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL'); ?>
 								</th>
 								<th scope="col" class="w-5 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -81,21 +81,21 @@ $saveOrder = ($listOrder == 'a.id' && strtolower($listDirn) == 'desc');
 								<th scope="row" class="has-context w-20">
 									<div>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=consent.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->uuid); ?>">
-													<?php echo $item->uuid; ?></a>
+											<a href="<?php echo Route::_('index.php?option=com_cookiemanager&task=consent.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->ccuuid); ?>">
+													<?php echo $item->ccuuid; ?></a>
 
 										<?php else : ?>
-											<?php echo $item->uuid; ?>
+											<?php echo $item->ccuuid; ?>
 										<?php endif; ?>
 									</div>
 								</th>
-								<td class="text-center w-20 d-none d-md-table-cell">
-									<?php echo $item->ccuuid; ?>
+								<td class="text-center d-none d-md-table-cell">
+									<?php echo $item->uuid; ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php echo $item->consent_date; ?>
 								</td>
-								<td class="text-center w-5 d-none d-md-table-cell">
+								<td class="text-center w-5">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
