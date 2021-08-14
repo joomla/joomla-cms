@@ -59,7 +59,7 @@ $saveOrder = ($listOrder == 'a.id' && strtolower($listDirn) == 'desc');
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL', 'a.consent_date', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-5 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -68,10 +68,10 @@ $saveOrder = ($listOrder == 'a.id' && strtolower($listDirn) == 'desc');
 						<?php
 						$n = count($this->items);
 						foreach ($this->items as $i => $item) :
-							$canCreate  = $user->authorise('core.create',     'com_cookiemanager.category.' . $item->catid);
-							$canEdit    = $user->authorise('core.edit',       'com_cookiemanager.category.' . $item->catid);
-							$canEditOwn = $user->authorise('core.edit.own',   'com_cookiemanager.category.' . $item->catid);
-							$canChange  = $user->authorise('core.edit.state', 'com_cookiemanager.category.' . $item->catid);
+							$canCreate  = $user->authorise('core.create');
+							$canEdit    = $user->authorise('core.edit');
+							$canEditOwn = $user->authorise('core.edit.own');
+							$canChange  = $user->authorise('core.edit.state');
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
