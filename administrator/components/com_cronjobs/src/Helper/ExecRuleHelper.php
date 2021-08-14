@@ -20,6 +20,7 @@ use DateTime;
 use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper class for supported execution rules.
@@ -37,7 +38,7 @@ class ExecRuleHelper
 	private $type;
 
 	/**
-	 * @var object
+	 * @var array
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $cronjob;
@@ -49,15 +50,33 @@ class ExecRuleHelper
 	private $rule;
 
 	/**
-	 * @param   object  $cronjob  A cronjob entry in a class with ::get()
+	 * @param   array|object  $cronjob  A cronjob entry
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct(object $cronjob)
+	public function __construct($cronjob)
 	{
-		$this->cronjob = $cronjob;
-		$this->rule = json_decode($cronjob->get('cron_rules'));
+		$this->cronjob = is_array($cronjob) ? $cronjob : ArrayHelper::fromObject($cronjob);
+		$rule = $this->getFromCronjob('cron_rules');
+		$this->rule = is_string($rule) ? json_decode($rule) : is_array($rule) ? (object) $rule : $rule;
 		$this->type = $this->rule->type;
+	}
+
+	/**
+	 * Get a property from the cronjob array
+	 *
+	 * @param   string  $property  The property to get
+	 * @param   mixed   $default   The default value returned if property does not exist
+	 *
+	 * @return mixed
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getFromCronjob(string $property, $default = null)
+	{
+		$property = ArrayHelper::getValue($this->cronjob, $property);
+
+		return $property ?? $default;
 	}
 
 	/**
@@ -74,7 +93,7 @@ class ExecRuleHelper
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = Factory::getDate($this->cronjob->get('last_execution'), 'GMT');
+				$lastExec = Factory::getDate($this->getFromCronjob('last_execution'), 'GMT');
 				$interval = new DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
@@ -104,6 +123,7 @@ class ExecRuleHelper
 	 */
 	private function dateTimeToSql(DateTime $dateTime): string
 	{
+		// TODO: Get DBO from DI container
 		static $db;
 		$db = $db ?? Factory::getDbo();
 
