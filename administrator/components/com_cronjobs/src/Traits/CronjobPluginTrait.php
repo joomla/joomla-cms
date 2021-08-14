@@ -188,4 +188,29 @@ trait CronjobPluginTrait
 
 		return $jobId;
 	}
+
+	/**
+	 * Add a log message to the `cronjobs` category.
+	 * ! This might change
+	 * ? Maybe use a PSR3 logger instead?
+	 *
+	 * @param   string  $message   The log message
+	 * @param   string  $priority  The log message priority
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function addJobLog(string $message, string $priority = 'info'): void
+	{
+		static $priorityMap = [
+			'debug' => Log::DEBUG,
+			'error' => Log::ERROR,
+			'info' => Log::INFO,
+			'notice' => Log::NOTICE,
+			'warning' => Log::WARNING,
+		];
+
+		Log::add(Text::_('COM_CRONJOBS_JOB_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'cronjobs');
+	}
 }
