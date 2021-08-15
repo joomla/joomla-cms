@@ -625,7 +625,7 @@ if (!$excludeZstd)
 
 chdir('..');
 
-// Thats only needed when we release a version
+// This is only needed when we release a version
 if ($includeExtraTextfiles)
 {
 
