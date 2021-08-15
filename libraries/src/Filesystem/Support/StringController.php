@@ -24,7 +24,7 @@ class StringController
 	 *
 	 * @since   1.7.0
 	 */
-	public function _getArray()
+	public static function _getArray()
 	{
 		static $strings = array();
 
@@ -41,7 +41,7 @@ class StringController
 	 *
 	 * @since   1.7.0
 	 */
-	public function createRef($reference, &$string)
+	public static function createRef($reference, &$string)
 	{
 		$ref = &self::_getArray();
 		$ref[$reference] = & $string;
@@ -56,7 +56,7 @@ class StringController
 	 *
 	 * @since   1.7.0
 	 */
-	public function getRef($reference)
+	public static function getRef($reference)
 	{
 		$ref = &self::_getArray();
 
