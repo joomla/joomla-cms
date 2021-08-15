@@ -418,7 +418,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			Log::add(
 				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
-				
 				Log::WARNING,
 				'deprecated'
 			);
