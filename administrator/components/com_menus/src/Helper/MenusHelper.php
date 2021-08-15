@@ -515,7 +515,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'title'     => $item->title,
-					'parent_id' => $item->getParent()->id,
+					'parent_id' => (int) $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -541,7 +541,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'link'      => $item->link,
-					'parent_id' => $item->getParent()->id,
+					'parent_id' => (int) $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -577,7 +577,7 @@ class MenusHelper extends ContentHelper
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
-				'parent_id'    => $item->getParent()->id,
+				'parent_id'    => (int) $item->getParent()->id,
 				'client_id'    => 1,
 				'published'    => 1,
 				'language'     => '*',

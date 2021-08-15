@@ -202,7 +202,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCategoryWorkflowContext(?string $section = null): string
 	{

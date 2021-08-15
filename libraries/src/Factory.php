@@ -418,8 +418,7 @@ abstract class Factory
 		@trigger_error(
 			sprintf(
 				'%1$s() is deprecated. Load the database from the dependency injection container.',
-				__METHOD__,
-				__CLASS__
+				__METHOD__
 			),
 			E_USER_DEPRECATED
 		);

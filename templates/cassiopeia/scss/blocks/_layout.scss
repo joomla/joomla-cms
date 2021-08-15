@@ -45,7 +45,7 @@
   position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2) 0;
   }
 
   @include media-breakpoint-down(md) {

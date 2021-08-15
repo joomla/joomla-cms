@@ -182,15 +182,15 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<div>
 										<?php echo $prefix; ?>
 										<span class="small">
-										<?php if ($item->type != 'url') : ?>
-											<?php if (empty($item->note)) : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											<?php else : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php if ($item->type != 'url') : ?>
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
+											<?php elseif ($item->type == 'url' && $item->note) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 											<?php endif; ?>
-										<?php elseif ($item->type == 'url' && $item->note) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-										<?php endif; ?>
 										</span>
 									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">

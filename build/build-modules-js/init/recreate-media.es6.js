@@ -16,10 +16,6 @@ module.exports.recreateMediaFolder = async () => {
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isDirectory() && src.endsWith('core.es6')) {
-      return false;
-    }
-
     if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
       return false;
     }

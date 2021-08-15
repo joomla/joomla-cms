@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -337,6 +338,12 @@ class ProfileModel extends FormModel
 			$this->setError($user->getError());
 
 			return false;
+		}
+
+		// Destroy all active sessions for the user after changing the password
+		if ($data['password'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
 		}
 
 		return $user->id;

@@ -372,7 +372,7 @@ class MediaField extends FormField
 				',',
 				ComponentHelper::getParams('com_media')->get(
 					'doc_extensions',
-					'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+					'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
 				)
 			)
 		);

@@ -41,8 +41,8 @@ Joomla = window.Joomla || {};
     const button = document.querySelector('#select-file-button');
     const returnUrl = document.querySelector('#installer-return').value;
     const progress = document.getElementById('upload-progress');
-    const progressBar = progress.querySelectorAll('.bar')[0];
-    const percentage = progress.querySelectorAll('.uploading-number')[0];
+    const progressBar = progress.querySelector('.progress-bar');
+    const percentage = progress.querySelector('.uploading-number');
     let uploadUrl = 'index.php?option=com_installer&task=install.ajax_upload';
 
     function showError(res) {
@@ -139,7 +139,7 @@ Joomla = window.Joomla || {};
         if (evt.lengthComputable) {
           const percentComplete = evt.loaded / evt.total;
           const number = Math.round(percentComplete * 100);
-          progressBar.css('width', `${number}%`);
+          progressBar.style.width = `${number}%`;
           progressBar.setAttribute('aria-valuenow', number);
           percentage.textContent = `${number}`;
           if (number === 100) {
@@ -153,8 +153,9 @@ Joomla = window.Joomla || {};
         method: 'POST',
         perform: true,
         data,
-        headers: { 'Content-Type': 'false' },
-        uploadProgressCallback: progressCallback,
+        onBefore: (xhr) => {
+          xhr.upload.addEventListener('progress', progressCallback);
+        },
         onSuccess: (response) => {
           if (!response) {
             showError(response);
