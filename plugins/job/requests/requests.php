@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
 use Joomla\Component\Cronjobs\Administrator\Traits\CronjobPluginTrait;
@@ -152,6 +153,9 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 		{
 			return self::$STATUS['TIMEOUT'];
 		}
+
+		$responseCode = $response->code;
+		$this->addJobLog(Text::sprintf('PLG_JOB_REQUESTS_JOB_GET_REQUEST_LOG_RESPONSE', $responseCode));
 
 		if ($response->code !== 200)
 		{
