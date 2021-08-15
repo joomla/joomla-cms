@@ -102,7 +102,9 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		$config = ArrayHelper::fromObject(new JConfig);
 
 		$config['offline'] = !$config['offline'];
+		$status = $config['offline'] ? 'offline' : 'online';
 		$this->writeConfigFile(new Registry($config));
+		$this->addJobLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $status));
 
 		$this->jobEnd($event, 0);
 	}
