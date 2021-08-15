@@ -38,8 +38,20 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 */
 	protected const JOBS_MAP = [
 		'plg_job_toggle_offline' => [
-			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE'
-		]
+			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE',
+			'toggle' => true
+		],
+		'plg_job_toggle_offline_set_online' => [
+			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE_SET_ONLINE',
+			'toggle' => false,
+			'offline' => false
+		],
+		'plg_job_toggle_offline_set_offline' => [
+			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE_SET_OFFLINE',
+			'toggle' => false,
+			'offline' => true
+		],
+
 	];
 
 	/**
@@ -101,12 +113,24 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 
 		$config = ArrayHelper::fromObject(new JConfig);
 
-		$config['offline'] = !$config['offline'];
-		$status = $config['offline'] ? 'offline' : 'online';
-		$this->writeConfigFile(new Registry($config));
-		$this->addJobLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $status));
+		$toggle = self::JOBS_MAP[$event->getJobId()]['toggle'];
+		$oldStatus = $config['offline'] ? 'offline' : 'online';
 
-		$this->jobEnd($event, 0);
+		if ($toggle)
+		{
+			$config['offline'] = !$config['offline'];
+		}
+		else
+		{
+			$offline = self::JOBS_MAP[$event->getJobId()]['offline'];
+			$config['offline'] = $offline;
+		}
+
+		$newStatus = $config['offline'] ? 'offline' : 'online';
+		$exit = $this->writeConfigFile(new Registry($config));
+		$this->addJobLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $oldStatus, $newStatus));
+
+		$this->jobEnd($event, $exit);
 	}
 
 	/**
