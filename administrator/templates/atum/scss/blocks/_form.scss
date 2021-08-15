@@ -140,3 +140,41 @@ td .form-control {
 .form-group {
   @extend .mb-3;
 }
+
+// Subform - non table layout
+div.subform-repeatable-group {
+  margin-top: 20px;
+  border: $input-border;
+  padding: 32px 32px 16px 28px;
+  position: relative;
+  border-radius: $border-radius;
+
+  > .btn-toolbar {
+
+    .btn-group {
+      position: static;
+    }
+
+    .btn {
+      position: absolute;
+
+      &.group-add {
+        bottom: -1px;
+        right: -1px;
+        border-radius: $border-radius 0 $border-radius 0;
+      }
+      &.group-remove {
+        top: -1px;
+        right: -1px;
+        border-radius: 0 $border-radius 0 $border-radius;
+      }
+      &.group-move {
+        right: 100%;
+        top: 50%;
+        margin-top: -27px;
+        border-radius: $border-radius 0 0 $border-radius;
+        line-height: 52px;
+      }
+    }
+  }
+}
