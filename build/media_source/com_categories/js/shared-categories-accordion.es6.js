@@ -38,7 +38,8 @@ const handleCategoryToggleButtonClick = ({ currentTarget }) => {
     ),
   );
 
-  const target = button.nextElementSibling;
+  const { categoryId } = button.dataset;
+  const target = document.getElementById(`category-${categoryId}`);
   target.toggleAttribute('hidden');
 };
 
