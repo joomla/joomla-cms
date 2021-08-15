@@ -352,6 +352,7 @@ class Path
 				case '..':
 					if (empty($parts))
 					{
+						// Don't translate.
 						throw new Exception('Path is outside of the defined root');
 					}
 
