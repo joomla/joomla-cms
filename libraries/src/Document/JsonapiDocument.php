@@ -99,7 +99,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 */
 	public function setJsonapi($jsonapi)
 	{
-		$this->setJsonapi($jsonapi);
+		$this->document->setJsonapi($jsonapi);
 
 		return $this;
 	}

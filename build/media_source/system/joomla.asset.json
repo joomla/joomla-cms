@@ -192,11 +192,6 @@
       "uri": "system/fields/calendar-rtl.css"
     },
     {
-      "name": "field.calendar.locale",
-      "type": "script",
-      "uri": ""
-    },
-    {
       "name": "field.calendar.helper",
       "type": "script",
       "uri": ""
@@ -209,7 +204,6 @@
         "defer": true
       },
       "dependencies": [
-        "field.calendar.locale",
         "field.calendar.helper"
       ]
     },

@@ -110,8 +110,14 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
 	system('rm -rf libraries/vendor/bin');
 
+	// aldo26-matthias/idna-convert
+	system('rm -rf libraries/vendor/algo26-matthias/idna-convert/tests');
+
 	// defuse/php-encryption
 	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
+
+	// doctrine/inflector
+	system('rm -rf libraries/vendor/doctrine/inflector/docs');
 
 	// fig/link-util
 	system('rm -rf libraries/vendor/fig/link-util/test');
@@ -119,6 +125,9 @@ function clean_checkout(string $dir)
 	// google/recaptcha
 	system('rm -rf libraries/vendor/google/recaptcha/examples');
 	system('rm -rf libraries/vendor/google/recaptcha/tests');
+
+	// jakeasmith/http_build_url
+	system ('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
 	// joomla/*
 	system('rm -rf libraries/vendor/joomla/*/docs');
@@ -148,6 +157,9 @@ function clean_checkout(string $dir)
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
+
+	// willdurand/negotiation
+	system('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
 	echo "Cleanup complete.\n";
 

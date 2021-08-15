@@ -9,7 +9,7 @@ The unit tests are checking the specific PHP code of the Joomla framework with t
 
 Javascript tests
 ==========
-The javascript tests test the Joomla-specific Javascript code. For further information on the tests and on how to run them, please check out https://docs.joomla.org/Running_JavaScript_Tests_for_the_Joomla_CMS
+The javascript tests test the Joomla-specific Javascript code. For further information on the tests and on how to run them, please check out https://docs.joomla.org/Special:MyLanguage/Running_JavaScript_Tests_for_the_Joomla_CMS
 
 Codeception tests
 ==========

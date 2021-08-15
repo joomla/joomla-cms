@@ -66,13 +66,13 @@
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
 
   &.is-highlighted {
-    background-color: var(--atum-bg-dark);
+    background-color: var(--template-bg-dark);
     opacity: .9;
   }
 }

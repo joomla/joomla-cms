@@ -232,7 +232,7 @@ class PluginAdapter extends InstallerAdapter
 	 */
 	public function getElement($element = null)
 	{
-		if (!$element)
+		if (!$element && $this->getManifest())
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
@@ -421,7 +421,10 @@ class PluginAdapter extends InstallerAdapter
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());
 
-		$this->group = (string) $this->getManifest()->attributes()->group;
+		if ($this->getManifest())
+		{
+			$this->group = (string) $this->getManifest()->attributes()->group;
+		}
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->loadLanguage($this->parent->getPath('source'));
