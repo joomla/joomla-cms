@@ -144,9 +144,9 @@ td .form-control {
 // Subform - non table layout
 div.subform-repeatable-group {
   margin-top: 20px;
-  border: $input-border;
-  padding: 32px 32px 16px 28px;
   position: relative;
+  padding: 32px 32px 16px 28px;
+  border: $input-border;
   border-radius: $border-radius;
 
   > .btn-toolbar {
@@ -159,8 +159,8 @@ div.subform-repeatable-group {
       position: absolute;
 
       &.group-add {
-        bottom: -1px;
         right: -1px;
+        bottom: -1px;
         border-radius: $border-radius 0 $border-radius 0;
       }
       &.group-remove {
@@ -169,11 +169,11 @@ div.subform-repeatable-group {
         border-radius: 0 $border-radius 0 $border-radius;
       }
       &.group-move {
-        right: 100%;
         top: 50%;
+        right: 100%;
         margin-top: -27px;
-        border-radius: $border-radius 0 0 $border-radius;
         line-height: 52px;
+        border-radius: $border-radius 0 0 $border-radius;
       }
     }
   }
