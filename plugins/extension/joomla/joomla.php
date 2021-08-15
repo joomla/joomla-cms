@@ -291,7 +291,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true, $this->installer->extraQuery);
+				$this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
 			}
 		}
 		else

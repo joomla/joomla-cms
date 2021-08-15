@@ -3,12 +3,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Ajax call to get the override status.
 (() => {
   'use strict';
 
-  // Add a listener on content loaded to initiate the check.
-  document.addEventListener('DOMContentLoaded', () => {
+  // Ajax call to get the override status.
+  const checkOverride = () => {
     if (Joomla.getOptions('js-override-check')) {
       const options = Joomla.getOptions('js-override-check');
       const update = (type, text, linkHref) => {
@@ -62,5 +61,10 @@
         },
       });
     }
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(checkOverride, 390);
   });
 })();

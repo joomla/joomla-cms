@@ -81,15 +81,14 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
-								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
-							</a>
+							<button type="button" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+								<?php echo Text::_('JYES'); ?>
+								&nbsp;<span class="icon-lock" aria-hidden="true"></span>
+							</button>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+							<button type="buttton" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
-							</a>
+							</button>
 						<?php endif; ?>
 					</td>
 					<td class="d-none d-md-table-cell">
