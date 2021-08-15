@@ -14,6 +14,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! Update Controller
