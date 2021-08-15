@@ -170,7 +170,7 @@ class Path
 		if (strpos($path, '..') !== false)
 		{
 			// Don't translate.
-			throw new Exception('Use of relative paths not permitted', 20);
+			throw new Exception('Use of relative paths not permitted');
 		}
 
 		$path = self::clean($path);
@@ -178,7 +178,7 @@ class Path
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate.
-			throw new Exception('Snooping out of bounds', 20);
+			throw new Exception('Snooping out of bounds');
 		}
 
 		return $path;
@@ -200,7 +200,7 @@ class Path
 		if (!\is_string($path) && !empty($path))
 		{
 			// Don't translate.
-			throw new \UnexpectedValueException('Path is not a string', 20);
+			throw new \UnexpectedValueException('Path is not a string');
 		}
 
 		$path = trim($path);
