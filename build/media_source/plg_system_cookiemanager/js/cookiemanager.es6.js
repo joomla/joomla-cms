@@ -90,6 +90,10 @@
   const storingConsents = () => {
     const consentsIn = consentsOptIn.join(', ');
     const consentsOut = consentsOptOut.join(', ');
+
+    consentsOptIn = [];
+    consentsOptOut = [];
+
     const date = Date();
     document.cookie = `consents_opt_in=${consentsIn}; path=/;`;
     document.cookie = `consent_date=${date}; path=/;`;
@@ -171,8 +175,6 @@
     });
     document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
     storingConsents();
-    consentsOptIn = [];
-    consentsOptOut = [];
   });
 
   document.getElementById('prefConfirmChoice').addEventListener('click', () => {
@@ -228,8 +230,6 @@
     });
     document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
     storingConsents();
-    consentsOptIn = [];
-    consentsOptOut = [];
   });
 
   document.querySelectorAll('[data-button="acceptAllCookies"]').forEach((btn) => {
@@ -276,8 +276,6 @@
 
       document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
       storingConsents();
-      consentsOptIn = [];
-      consentsOptOut = [];
     });
   });
 
