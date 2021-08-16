@@ -358,16 +358,21 @@ class ArticlesModel extends ListModel
 		// Filter by featured.
 		$featured = $this->isFeatured();
 
-		if (\in_array($featured, ['0','1']))
+		if ($featured === '1')
+		{
+			$query->select($db->quoteName('fp.ordering'));
+			$defaultOrdering = 'fp.ordering';
+		}
+		else
+		{
+			$defaultOrdering = 'a.id';
+		}
+
+		if (in_array($featured, ['0','1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
 				->bind(':featured', $featured, ParameterType::INTEGER);
-		}
-
-		if ($featured === '1')
-		{
-			$query->select($this->getDbo()->quoteName('fp.ordering'));
 		}
 
 		// Filter by access level on categories.
@@ -572,7 +577,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'a.id');
+		$orderCol  = $this->state->get('list.ordering', $defaultOrdering);
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
