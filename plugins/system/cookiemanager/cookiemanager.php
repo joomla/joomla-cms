@@ -27,7 +27,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    ApplicationCms
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
@@ -89,17 +89,19 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		ob_start();
-		ob_implicit_flush(false);
-
 		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
 
+		ob_start();
+		ob_implicit_flush(false);
+
 		$this->app->getDocument()->getWebAssetManager()
 			->registerAndUseScript('plg_system_cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
 			->registerAndUseStyle('plg_system_cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+
+		HTMLHelper::_('bootstrap.collapse');
 
 		$lang = Factory::getLanguage();
 		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
@@ -109,11 +111,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$params = ComponentHelper::getParams('com_cookiemanager');
 		$sitemenu = $this->app->getMenu();
-		$menuitem = $sitemenu->getItem($params->get('policylink'));
+		$menuitem = $sitemenu->getItem($params->get('policylink', '101'));
 
 		$config = [];
 		$config['expiration'] = $params->get('consent_expiration', 30);
-		$config['position'] = $params->get('modal_position', '');
+		$config['position'] = $params->get('modal_position', null);
 		$this->app->getDocument()->addScriptOptions('config', $config);
 
 		$db    = $this->db;
@@ -127,8 +129,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			)
 			->order($db->quoteName('lft'));
 
-		$db->setQuery($query);
-		$this->category = $db->loadObjectList();
+		$this->category = $db->setQuery($query)->loadObjectList();
 
 		$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
@@ -158,8 +159,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 			$bannerBody
 		);
 
-		HTMLHelper::_('bootstrap.collapse');
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
 			->from($db->quoteName('#__categories', 'c'))
@@ -169,8 +168,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			)
 			->order($db->quoteName('lft'));
 
-		$db->setQuery($query);
-		$cookies = $db->loadObjectList();
+		$cookies = $db->setQuery($query)->loadObjectList();
 
 		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
 		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
@@ -236,8 +234,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 				$db->quoteName('#__cookiemanager_scripts', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
 			);
 
-			$db->setQuery($query);
-			$this->scripts = $db->loadObjectList();
+			$this->scripts = $db->setQuery($query)->loadObjectList();
 
 		foreach ($this->category as $catKey => $catValue)
 		{
