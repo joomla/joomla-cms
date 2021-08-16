@@ -2,7 +2,7 @@
 <extension version="4.1" type="plugin" group="system" method="upgrade">
 	<name>Cronjobs</name>
 	<author>Joomla! Projects</author>
-	<creationDate>Augest 2021</creationDate>
+	<creationDate>August 2021</creationDate>
 	<license>GPL v3</license>
 	<version>4.1</version>
 	<description>PLG_SYSTEM_CRONJOBS_XML_DESCRIPTION</description>
