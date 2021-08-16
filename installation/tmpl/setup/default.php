@@ -92,12 +92,24 @@ HTMLHelper::_('behavior.formvalidator');
 				<div class="mb-3">
 					<?php echo $this->form->renderField('db_prefix'); ?>
 				</div>
-				<?php echo $this->form->renderField('db_encryption'); ?>
-				<?php echo $this->form->renderField('db_sslkey'); ?>
-				<?php echo $this->form->renderField('db_sslcert'); ?>
-				<?php echo $this->form->renderField('db_sslverifyservercert'); ?>
-				<?php echo $this->form->renderField('db_sslca'); ?>
-				<?php echo $this->form->renderField('db_sslcipher'); ?>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_encryption'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslkey'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslcert'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslverifyservercert'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslca'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslcipher'); ?>
+				</div>
 				<div class="mb-3">
 					<?php //echo $this->form->getLabel('db_old'); ?>
 					<?php echo $this->form->getInput('db_old'); ?>
