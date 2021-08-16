@@ -95,6 +95,11 @@ class AtomRenderer extends DocumentRenderer
 			{
 				foreach ($data->category as $cat)
 				{
+					if ('ROOT' === $cat)
+					{
+						continue;
+					}
+
 					$feed .= "	<category term=\"" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
 				}
 			}
@@ -191,6 +196,11 @@ class AtomRenderer extends DocumentRenderer
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{
+						if ('ROOT' === $cat)
+						{
+							continue;
+						}
+
 						$feed .= "		<category term=\"" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
 					}
 				}
