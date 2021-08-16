@@ -77,26 +77,7 @@ defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
-	\Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], JLog::ALL, ['jerror']);
-
-	// We only log errors unless Site Debug is enabled
-	$logLevels = \Joomla\CMS\Log\Log::ERROR | \Joomla\CMS\Log\Log::CRITICAL |
-		\Joomla\CMS\Log\Log::ALERT | \Joomla\CMS\Log\Log::EMERGENCY;
-
-	if (\defined('JDEBUG') && JDEBUG)
-	{
-		$logLevels = \Joomla\CMS\Log\Log::ALL;
-	}
-
-	/**
-	 * This error category is explicitly designed for core errors that need logging. It is NOT intended for use
-	 * by 3rd party extensions
-	 */
-	\Joomla\CMS\Log\Log::addLogger(
-		['text_file' => 'joomla_core_errors.php'],
-		$logLevels,
-		["system"]
-	);
+	JLog::addLogger(['logger' => 'messagequeue'], JLog::ALL, ['jerror']);
 }
 
 // Register the Crypto lib
