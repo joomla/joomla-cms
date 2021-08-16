@@ -198,7 +198,7 @@ class Language
 		But make sure, that we don't enforce it on each language file load.
 		So don't put it in $this->override
 		*/
-		if ($lang !== $this->default)
+		if (!$this->debug && $lang !== $this->default)
 		{
 			$this->loadLanguage(JPATH_BASE . '/language/overrides/' . $this->default . '.override.ini');
 		}
