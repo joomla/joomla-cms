@@ -215,7 +215,6 @@ class FeedDocument extends Document
 		// Output
 		// Generate prolog
 		$data = "<?xml version=\"1.0\" encoding=\"" . $this->_charset . "\"?>\n";
-		$data .= "<!-- generator=\"" . $this->getGenerator() . "\" -->\n";
 
 		// Generate stylesheet links
 		foreach ($this->_styleSheets as $src => $attr)
