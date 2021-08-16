@@ -79,6 +79,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	  * @since  __DEPLOY_VERSION__
 	  */
 	 protected $category;
+	 
 	/**
 	 * Add assets for the modal.
 	 *
@@ -97,14 +98,22 @@ class PlgSystemCookiemanager extends CMSPlugin
 		ob_start();
 		ob_implicit_flush(false);
 
-		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript('plg_system_cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
-			->registerAndUseStyle('plg_system_cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+		$assets = $this->app->getDocument()->getWebAssetManager();
+		$assets->registerAndUseScript(
+			'plg_system_cookiemanager.script',
+			'plg_system_cookiemanager/cookiemanager.min.js',
+			[],
+			['defer' => true],
+			['core']
+		);
+		$assets->registerAndUseStyle(
+			'plg_system_cookiemanager.style',
+			'plg_system_cookiemanager/cookiemanager.min.css'
+		);
 
 		HTMLHelper::_('bootstrap.collapse');
 
-		$lang = Factory::getLanguage();
-		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
+		$this->app->getLanguage()->load('com_cookiemanager', JPATH_ADMINISTRATOR);
 
 		Text::script('COM_COOKIEMANAGER_PREFERENCES_LESS_BUTTON_TEXT');
 		Text::script('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT');
@@ -113,10 +122,10 @@ class PlgSystemCookiemanager extends CMSPlugin
 		$sitemenu = $this->app->getMenu();
 		$menuitem = $sitemenu->getItem($params->get('policylink', '101'));
 
-		$config = [];
-		$config['expiration'] = $params->get('consent_expiration', 30);
-		$config['position'] = $params->get('modal_position', null);
-		$this->app->getDocument()->addScriptOptions('config', $config);
+		$cookieManagerConfig = [];
+		$cookieManagerConfig['expiration'] = $params->get('consent_expiration', 30);
+		$cookieManagerConfig['position'] = $params->get('modal_position', null);
+		$this->app->getDocument()->addScriptOptions('config', $cookieManagerConfig);
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
@@ -359,14 +368,14 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	public function onAjaxCookiemanager()
 	{
-		$data = $this->app->input->get('data', '', 'STRING');
+		$cookieConsentsData = $this->app->input->get('data', '', 'STRING');
 
-		$data = json_decode($data);
+		$cookieConsentsData = json_decode($cookieConsentsData);
 		$ccuuid = bin2hex(random_bytes(32));
-		$data->ccuuid = $ccuuid;
-		$data->user_agent = $_SERVER['HTTP_USER_AGENT'];
+		$cookieConsentsData->ccuuid = $ccuuid;
+		$cookieConsentsData->user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		$this->db->insertObject('#__cookiemanager_consents', $data);
+		$this->db->insertObject('#__cookiemanager_consents', $cookieConsentsData);
 
 		return $ccuuid;
 	}
