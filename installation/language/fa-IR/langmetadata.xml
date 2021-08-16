@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>Persian (fa-IR)</name>
+	<name>Persian (پارسی)</name>
 	<version>4.0.0</version>
 	<creationDate>August 2021</creationDate>
-	<author>Persian Translation Team, Joomlafarsi.com</author>
+	<author>JoomlaFarsi.Com Team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>Persian (fa-IR)</name>
-		<nativeName>Persian (fa-IR)</nativeName>
+		<nativeName>Persian (پارسی)</nativeName>
 		<tag>fa-IR</tag>
 		<rtl>1</rtl>
 	</metadata>
