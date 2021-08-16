@@ -114,11 +114,19 @@ class ResponsiveImagesHelper
 	 */
 	public static function getUnusedImages($initImages, $finalImages)
 	{
+		// Final version empty means that image is deleted
+		if (empty($finalImages))
+		{
+			return $initImages;
+		}
+
 		// Get final image paths
 		foreach ($finalImages as $finalImage)
 		{
 			$finalImagePaths[] = $finalImage->getPath();
 		}
+
+		$unusedImages = [];
 
 		// Check if initial image path exists in final image paths
 		foreach ($initImages as $initImage)
@@ -127,7 +135,8 @@ class ResponsiveImagesHelper
 
 			if (!in_array($initImagePath, $finalImagePaths))
 			{
-				$unusedImages[] = $initImagePath;
+				// Insert image source to array
+				$unusedImages[] = explode('/', $initImagePath, 2)[1];
 			}
 		}
 
@@ -186,33 +195,25 @@ class ResponsiveImagesHelper
 	{
 		// Get initial and final image sizes
 		$initImages  = HTMLHelper::getContentImageSources($initContent);
-		$finalImages = HTMLHelper::getContentImageSources($finalContent);
 
 		$unusedImages = [];
 
 		foreach ($initImages as $initImage)
 		{
-			// Check if image exists both in initial and final content
-			if (in_array($initImage, $finalImages))
-			{
-				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
+			$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
 
-				// Get initial and final image sizes
-				$initRespImages = $imgObj->generateMultipleSizes(
-					static::getContentSizes($initContent, $initImage),
-					static::getContentMethod($initContent, $initImage)
-				);
-				$finalRespImages = $imgObj->generateMultipleSizes(
-					static::getContentSizes($finalContent, $initImage),
-					static::getContentMethod($finalContent, $initImage)
-				);
+			// Get initial and final image sizes
+			$initRespImages = $imgObj->generateMultipleSizes(
+				static::getContentSizes($initContent, $initImage),
+				static::getContentMethod($initContent, $initImage)
+			);
+			$finalRespImages = $imgObj->generateMultipleSizes(
+				static::getContentSizes($finalContent, $initImage),
+				static::getContentMethod($finalContent, $initImage)
+			);
 
-				$unusedImages = static::getUnusedImages($initRespImages, $finalRespImages);
-			}
-			else
-			{
-				$unusedImages[] = $initImage;
-			}
+			// Compare initial and final sizes of images
+			$unusedImages = static::getUnusedImages($initRespImages, $finalRespImages);
 		}
 
 		return $unusedImages;
