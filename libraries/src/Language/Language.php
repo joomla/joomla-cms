@@ -193,6 +193,16 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
+		/*
+		Let's load the default override once, so we can profit from that, too
+		But make sure, that we don't enforce it on each language file load.
+		So don't put it in $this->override
+		*/
+		if ($lang !== $this->default)
+		{
+			$this->loadLanguage(JPATH_BASE . '/language/overrides/' . $this->default . '.override.ini');
+		}
+
 		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
