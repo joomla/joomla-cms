@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c112c61191b26154d00a503cb29e66e",
+    "content-hash": "c9a7854f652d08360c08598e74e42304",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -6823,16 +6823,16 @@
         },
         {
             "name": "joomla/mediawiki",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:joomla-framework/mediawiki-api.git",
-                "reference": "e82bb93e1a40ecfdd43005d35ab3cce449914229"
+                "url": "https://github.com/joomla-framework/mediawiki-api.git",
+                "reference": "57feedd1afda0536498e2c4b08ebab55fbe5ba4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/e82bb93e1a40ecfdd43005d35ab3cce449914229",
-                "reference": "e82bb93e1a40ecfdd43005d35ab3cce449914229",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/57feedd1afda0536498e2c4b08ebab55fbe5ba4a",
+                "reference": "57feedd1afda0536498e2c4b08ebab55fbe5ba4a",
                 "shasum": ""
             },
             "require": {
@@ -6846,7 +6846,6 @@
                 "joomla/test": "~1.0",
                 "phpunit/phpunit": "~4.8|>=5.0 <5.4"
             },
-            "default-branch": true,
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -6869,7 +6868,21 @@
                 "joomla",
                 "mediawiki"
             ],
-            "time": "2021-04-06T22:40:19+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/mediawiki-api/issues",
+                "source": "https://github.com/joomla-framework/mediawiki-api/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-16T20:30:12+00:00"
         },
         {
             "name": "joomla/test",
@@ -9710,7 +9723,6 @@
     "stability-flags": {
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
-        "joomla/mediawiki": 20,
         "joomla-projects/joomla-browser": 20
     },
     "prefer-stable": false,
