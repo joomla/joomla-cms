@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
 	<name>com_cronjobs</name>
 	<creationDate>July 2021</creationDate>
-	<author>Joomla! Project</author>
+	<author>Joomla! Projects</author>
 	<license>GPL v3</license>
 	<version>4.0.0</version>
 	<description>
