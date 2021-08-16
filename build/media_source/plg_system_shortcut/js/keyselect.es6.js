@@ -31,9 +31,7 @@ class JoomlaShortcutModal {
   }
 
   setModalAttributes(element, attrs) {
-    for (const [key, value] of Object.entries(attrs)) {
-      element.setAttribute(`${key}`, `${value}`);
-    }
+    Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
   }
 
   handleKeySelectClickEvent(e) {
