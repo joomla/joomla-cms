@@ -37,7 +37,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				</button>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul role="listbox" aria-labelledby="language_picker_des" class="lang-block dropdown-menu">
+		<ul role="listbox" aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="lang-block dropdown-menu">
 
 		<?php foreach ($list as $language) : ?>
 			<?php
@@ -71,7 +71,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul role="listbox" aria-labelledby="language_picker_des" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
+	<ul role="listbox" aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 
 	<?php foreach ($list as $language) : ?>
 		<?php
