@@ -182,10 +182,10 @@ div.subform-repeatable-group {
 // Highlight draggable section
 .subform-repeatable-group[draggable="true"] {
   // For non table layout
-  background-color: var(--template-bg-dark-3);
+  background-color: $teal;
 
   // For table layout
   > td {
-    background-color: var(--template-bg-dark-3);
+    background-color: $teal;
   }
 }
