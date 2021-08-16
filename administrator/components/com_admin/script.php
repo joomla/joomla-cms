@@ -6064,6 +6064,24 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css',
 			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css.gz',
 			'/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToIdnTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToUnicodeTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/.gitkeep',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/namePrepTest.php',
+			'/libraries/vendor/doctrine/inflector/docs/en/index.rst',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/HttpBuildUrlTest.php',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/bootstrap.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptLanguageTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/BaseAcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/CharsetNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/EncodingNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/LanguageNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/MatchTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
+			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
 		);
 
 		$folders = array(
@@ -7311,6 +7329,16 @@ class JoomlaInstallerScript
 			'/media/templates/cassiopeia/js/mod_menu',
 			'/media/templates/cassiopeia/js',
 			'/media/templates/cassiopeia',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation',
+			'/libraries/vendor/willdurand/negotiation/tests',
+			'/libraries/vendor/jakeasmith/http_build_url/tests',
+			'/libraries/vendor/doctrine/inflector/docs/en',
+			'/libraries/vendor/doctrine/inflector/docs',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 		);
 
 		$status['files_checked'] = $files;
