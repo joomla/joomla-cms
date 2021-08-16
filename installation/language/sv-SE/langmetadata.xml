@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>English (United States)</name>
+	<name>Swedish (Sweden)</name>
 	<version>4.0.0</version>
 	<creationDate>August 2021</creationDate>
-	<author>Joomla! Project</author>
+	<author>Swedish Translation Team - SvenskJoomla</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>English (United States)</name>
-		<nativeName>English (United States)</nativeName>
-		<tag>en-US</tag>
+		<name>Swedish (sv-SE)</name>
+		<nativeName>Swedish (Sweden)</nativeName>
+		<tag>sv-SE</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
