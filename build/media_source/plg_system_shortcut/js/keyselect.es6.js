@@ -30,6 +30,7 @@ class JoomlaShortcutModal {
     saveKeyCombination.addEventListener('click', this.handleSaveCombinationkeyUpEvent, false);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   setModalAttributes(element, attrs) {
     Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
   }
@@ -43,6 +44,7 @@ class JoomlaShortcutModal {
     window.bootstrap.Modal.getInstance(keySelectModal).show(keySelectModal);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handleKeyCombinationkeyUpEvent(e) {
     if (e.keyCode >= 65 && e.keyCode <= 90) {
       let keyValue = e.key;
@@ -74,6 +76,7 @@ class JoomlaShortcutModal {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handleSaveCombinationkeyUpEvent(e) {
     e.preventDefault();
     const keySelectModal = document.getElementById('keySelectModal');
