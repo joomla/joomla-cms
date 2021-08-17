@@ -190,7 +190,7 @@ HTMLHelper::_('behavior.formvalidator');
 						<span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
 					</button>
 					<button type="button" class="complete-installation btn btn-primary w-100"
-					   data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development): ?>data-development<?php endif; ?> title="<?php echo Text::_('JADMINISTRATOR'); ?>">
+					   data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development): ?>data-development<?php endif; ?>">
 						<span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
 					</button>
 				</div>
