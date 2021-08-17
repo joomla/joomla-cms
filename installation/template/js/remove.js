@@ -51,7 +51,7 @@ completeInstallationOptions.forEach(function(item) {
         });
 
         // In development mode we show the user a pretty button to allow them to choose whether to delete the installation
-        // directory or not. In stable the decision is made forward. Maximum extermination!
+        // directory or not. In stable the decision is made for us. Maximum extermination!
         if ('development' in item.dataset) {
             window.location.href = item.dataset.href;
         } else {
