@@ -2579,6 +2579,8 @@ CREATE TABLE "#__template_styles" (
   "template" nvarchar(50) NOT NULL DEFAULT '',
   "client_id" tinyint NOT NULL DEFAULT 0,
   "home" nvarchar(7) NOT NULL DEFAULT '0',
+  "inheritable" smallint NOT NULL DEFAULT '0',
+  "parent" nvarchar(50) NOT NULL DEFAULT '',
   "title" nvarchar(255) NOT NULL DEFAULT '',
   "params" nvarchar(max) NOT NULL,
  CONSTRAINT "PK_#__template_styles_id" PRIMARY KEY CLUSTERED
