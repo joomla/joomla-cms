@@ -6662,16 +6662,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "db8e97cb93aac70d39ff0b62dcb2e79b4b079603"
+                "reference": "8be3499dbdb3ded4a7f6cd3449be5c008332cff5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/db8e97cb93aac70d39ff0b62dcb2e79b4b079603",
-                "reference": "db8e97cb93aac70d39ff0b62dcb2e79b4b079603",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/8be3499dbdb3ded4a7f6cd3449be5c008332cff5",
+                "reference": "8be3499dbdb3ded4a7f6cd3449be5c008332cff5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "codeception/codeception": "~4.1",
+                "codeception/module-webdriver": "^1.0",
+                "php": ">=7.2.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~3.0@dev",
@@ -6680,7 +6682,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Codeception\\Module\\": "src"
+                    "Joomla\\Browser\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6709,7 +6711,7 @@
                 "issues": "https://github.com/joomla-projects/joomla-browser/issues",
                 "source": "https://github.com/joomla-projects/joomla-browser/tree/v4.0.0"
             },
-            "time": "2021-08-17T08:03:25+00:00"
+            "time": "2021-08-17T19:24:55+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
