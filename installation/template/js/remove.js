@@ -45,6 +45,11 @@ const completeInstallationOptions = document.querySelectorAll('.complete-install
 
 completeInstallationOptions.forEach(function(item) {
     item.addEventListener('click', function (e) {
+        // Evil voodoo. Once a button is clicked ensure they don't spam click it...
+        completeInstallationOptions.forEach(function(nestedItem) {
+            nestedItem.disabled = true;
+        });
+
         // In development mode we show the user a pretty button to allow them to choose whether to delete the installation
         // directory or not. In stable the decision is made forward. Maximum extermination!
         if ('development' in item.dataset) {
@@ -78,7 +83,11 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
                 const customInstallation = document.getElementById('customInstallation');
                 customInstallation.parentNode.removeChild(customInstallation);
                 const removeInstallationTab = document.getElementById('removeInstallationTab');
-                removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+
+                // This will only exist in debug mode
+                if (removeInstallationTab) {
+                    removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+                }
 
                 if (redirectUrl) {
                     window.location.href = redirectUrl;
