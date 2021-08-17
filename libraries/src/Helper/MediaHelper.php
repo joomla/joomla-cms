@@ -35,7 +35,7 @@ class MediaHelper
 	 */
 	protected static $responsiveSizes = array('800x600', '600x400', '400x200');
 
-  	/**
+	/**
 	 * A special list of blocked executable extensions, skipping executables that are
 	 * typically executable in the webserver context as those are fetched from
 	 * Joomla\CMS\Filter\InputFilter
