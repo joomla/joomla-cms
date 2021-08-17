@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
+use DateTime;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -342,6 +344,16 @@ class CalendarField extends FormField
 
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
+
+		if ($value)
+		{
+			// Convert from a localised JS date/time format back to a standard `Y-m-d H:i:s` PHP/SQL format
+			$myDateTime = DateTime::createFromFormat(
+				// Note: M and S are using in the date-helper.js
+				str_replace(['%','M','S'], ['','i','s'], Text::_('DATE_FORMAT_CALENDAR_DATETIME')
+				), $value);
+			$value = $myDateTime->format(Date::$format);
+		}
 
 		$return = $value;
 
