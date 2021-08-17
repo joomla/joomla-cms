@@ -567,6 +567,12 @@ class JoomlaInstallerScript
 	{
 		$extensions = ExtensionHelper::getCoreExtensions();
 
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = array('package', 'pkg_search', '', 0);
+		}
+
 		// Attempt to refresh manifest caches
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -594,12 +600,6 @@ class JoomlaInstallerScript
 			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
-		}
-
-		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
-		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
-		{
-			$extensions[] = ExtensionHelper::getExtensionRecord('pkg_search', 'package');
 		}
 
 		$installer = new Installer;
