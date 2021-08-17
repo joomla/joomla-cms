@@ -30,6 +30,7 @@ class CleanupModel extends BaseInstallationModel
 	 */
 	public function deleteInstallationFolder()
 	{
+		// TODO: Move this to the generic library method once #32915 is merged
 		if (ini_get('opcache.enable')
 			&& function_exists('opcache_invalidate')
 			&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0))
