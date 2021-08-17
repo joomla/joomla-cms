@@ -245,7 +245,7 @@ class RssRenderer extends DocumentRenderer
 						{
 							continue;
 						}
-						
+
 						$feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
 					}
 				}
