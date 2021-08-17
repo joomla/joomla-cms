@@ -30,17 +30,17 @@ class CleanupModel extends BaseInstallationModel
 	 */
 	public function deleteInstallationFolder()
 	{
+		if (function_exists('opcache_invalidate'))
+		{
+			\opcache_invalidate(JPATH_INSTALLATION . '/index.php', true);
+		}
+
 		$return = Folder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || File::delete(JPATH_ROOT . '/joomla.xml'));
 
 		// Rename the robots.txt.dist file if robots.txt doesn't exist
 		if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
 		{
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
-		}
-
-		if (function_exists('opcache_reset'))
-		{
-			\opcache_reset();
 		}
 
 		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
