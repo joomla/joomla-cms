@@ -31,7 +31,7 @@ const processFile = (file) => {
 module.exports.watching = (path) => {
   const watchingPath = path ? join(RootPath, path) : join(RootPath, 'build/media_source');
   const watcher = chokidar.watch(watchingPath, {
-    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    ignored: /(^|[/\\])\../, // ignore dotfiles
     persistent: true,
   });
 
