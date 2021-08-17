@@ -350,8 +350,9 @@ class CalendarField extends FormField
 			// Convert from a localised JS date/time format back to a standard `Y-m-d H:i:s` PHP/SQL format
 			$myDateTime = DateTime::createFromFormat(
 				// Note: M and S are using in the date-helper.js
-				str_replace(['%','M','S'], ['','i','s'], Text::_('DATE_FORMAT_CALENDAR_DATETIME')
-				), $value);
+				str_replace(['%','M','S'], ['','i','s'], Text::_('DATE_FORMAT_CALENDAR_DATETIME')),
+				$value
+			);
 			$value = $myDateTime->format(Date::$format);
 		}
 
