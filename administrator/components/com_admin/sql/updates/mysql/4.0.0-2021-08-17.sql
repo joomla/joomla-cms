@@ -6,7 +6,7 @@ UPDATE `#__extensions` a
    SET a.`package_id` = b.`extension_id`
  WHERE (`type` = 'component' AND `element` = 'com_search')
     OR (`type` = 'module' AND `element` = 'mod_search' AND `client_id` = 0)
-    OR (`type` = 'plugin' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds','tags') AND `folder` = 'search');
+    OR (`type` = 'plugin' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags') AND `folder` = 'search');
 
 INSERT INTO `#__update_sites` (`name`, `type`, `location`, `enabled`) VALUES
 ('Search Update Site', 'extension', 'https://raw.githubusercontent.com/joomla-extensions/search/main/manifest.xml', 1);
