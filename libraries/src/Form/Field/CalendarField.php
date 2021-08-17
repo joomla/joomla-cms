@@ -345,8 +345,9 @@ class CalendarField extends FormField
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
-		if ($value) {
-			$myDateTime = DateTime::createFromFormat(str_replace('%','',Text::_('DATE_FORMAT_CALENDAR_DATETIME')), $value);
+		if ($value)
+		{
+			$myDateTime = DateTime::createFromFormat(str_replace('%','', Text::_('DATE_FORMAT_CALENDAR_DATETIME')), $value);
 			$value = $myDateTime->format(Date::$format);
 		}
 
