@@ -13,4 +13,4 @@ INSERT INTO "#__update_sites" ("name", "type", "location", "enabled") VALUES
 ('Search Update Site', 'extension', 'https://raw.githubusercontent.com/joomla-extensions/search/main/manifest.xml', 1);
 
 INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALUES
-((SELECT "update_site_id" FROM "#__update_sites" WHERE "name" = 'Search Update Site'), (SELECT "extension_id" FROM "#__extensions" WHERE "name" = 'pkg_search' AND "type" = 'package'));
+((SELECT "update_site_id" FROM "#__update_sites" WHERE "name" = 'Search Update Site'), (SELECT "extension_id" FROM "#__extensions" WHERE "element" = 'pkg_search' AND "type" = 'package'));
