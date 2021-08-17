@@ -596,6 +596,12 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
+		}
+
 		$installer = new Installer;
 
 		foreach ($extensions as $extension)
@@ -7396,14 +7402,6 @@ class JoomlaInstallerScript
 			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
 		{
 			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
-		}
-
-		// Now we know we are keeping the search package. Refresh it's manifest cache so we have a definite version.
-		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
-		{
-			$packageId = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
-			$installer = new Installer;
-			$installer->refreshManifestCache($packageId);
 		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
