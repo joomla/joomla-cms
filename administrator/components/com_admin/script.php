@@ -7401,7 +7401,7 @@ class JoomlaInstallerScript
 		// Now we know we are keeping the search package. Refresh it's manifest cache so we have a definite version.
 		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
 		{
-			$packageId = ExtensionHelper::getExtensionRecord('com_search', 'component')->extension_id;
+			$packageId = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
 			$installer = new Installer;
 			$installer->refreshManifestCache($packageId)
 		}
