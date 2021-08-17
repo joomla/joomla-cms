@@ -7403,7 +7403,7 @@ class JoomlaInstallerScript
 		{
 			$packageId = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
 			$installer = new Installer;
-			$installer->refreshManifestCache($packageId)
+			$installer->refreshManifestCache($packageId);
 		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
