@@ -7688,6 +7688,7 @@ class JoomlaInstallerScript
 
 		// Update UCM content types.
 		$this->updateContentTypes();
+		$this->setupSearchUpdateSite();
 
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
@@ -8104,6 +8105,52 @@ class JoomlaInstallerScript
 			// Execute the query.
 			$db->execute();
 		}
+	}
+
+	/**
+	 * Updates Update Site Tables for com_search when updating from Joomla 3.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setupSearchUpdateSite()
+	{
+		$componentId = ExtensionHelper::getExtensionRecord('com_search', 'component')->extension_id;
+		$packageId   = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
+
+		if ($componentId === null || $packageId === null)
+		{
+			return;
+		}
+
+		$db = Factory::getDbo();
+
+		$enabled = 1;
+		$updateSiteLocation = 'https://raw.githubusercontent.com/joomla-extensions/search/main/manifest.xml';
+		$updateName = 'Search Update Site';
+		$updateType = 'extension';
+
+		$query = $db->getQuery(true)
+			->insert('#__update_sites')
+			->columns('name, type, location, enabled')
+			->values(':update_site_name,:update_site_type,:update_site_location,:enabled')
+			->bind(':update_site_name', $updateName)
+			->bind(':update_site_type', $updateType)
+			->bind(':update_site_location', $updateSiteLocation)
+			->bind(':enabled', $enabled, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+		$updateSiteId = $db->insertid();
+
+		$query = $db->getQuery(true)
+			->insert('#__update_sites_extensions')
+			->columns('update_site_id, extension_id')
+			->values(':update_site_id,:extension_id')
+			->bind(':update_site_id', $updateSiteId, ParameterType::INTEGER)
+			->bind(':extension_id', $packageId, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	/**

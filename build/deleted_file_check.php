@@ -155,6 +155,7 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
+	"'/administrator/manifests/packages/pkg_search.xml',",
 	"'/administrator/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
