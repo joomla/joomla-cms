@@ -7389,10 +7389,10 @@ class JoomlaInstallerScript
 		/*
 		 * Needed for updates from 3.x
 		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
+		 * but an update has put the files back. In that case it exists even if they don't believe in it!
 		 */
-		$searchInstalled = ExtensionHelper::getExtensionRecord('com_search', 'component');
-
-		if ($searchInstalled === null)
+		if (!File::exists(JPATH_ADMINISTRATOR . '/components/com_search/search.php'))
 		{
 			if (File::exists(JPATH_MANIFESTS . '/packages/pkg_search.xml'))
 			{
