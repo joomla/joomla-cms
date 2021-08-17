@@ -186,7 +186,7 @@ HTMLHelper::_('behavior.formvalidator');
 
 				<div class="form-group j-install-last-step d-grid gap-2">
 					<button type="button" class="complete-installation btn btn-primary w-100"
-					   data-href="<?php echo Uri::root(); ?>" <?php if ($this->development): ?>data-development<?php endif; ?> title="<?php echo Text::_('JSITE'); ?>">
+					   data-href="<?php echo Uri::root(); ?>" <?php if ($this->development): ?>data-development<?php endif; ?>">
 						<span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
 					</button>
 					<button type="button" class="complete-installation btn btn-primary w-100"
