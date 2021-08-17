@@ -14,6 +14,9 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 
+use function clearstatcache;
+use function function_exists;
+
 /**
  * Cleanup model for the Joomla Core Installer.
  *
@@ -37,6 +40,12 @@ class CleanupModel extends BaseInstallationModel
 		{
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
+
+		if (function_exists('opcache_reset')) {
+			\opcache_reset();
+		}
+
+		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
 
 		return $return;
 	}
