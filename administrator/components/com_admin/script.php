@@ -7386,6 +7386,20 @@ class JoomlaInstallerScript
 
 		$this->fixFilenameCasing();
 
+		/*
+		 * Needed for updates from 3.x
+		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 */
+		$searchInstalled = ExtensionHelper::getExtensionRecord('com_search', 'component');
+
+		if ($searchInstalled === null)
+		{
+			if (File::exists(JPATH_MANIFESTS . '/packages/pkg_search.xml'))
+			{
+				File::delete(JPATH_MANIFESTS . '/packages/pkg_search.xml');
+			}
+		}
+
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);

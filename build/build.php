@@ -545,6 +545,9 @@ for ($num = $release - 1; $num >= 0; $num--)
 echo "Build full package files.\n";
 chdir($time);
 
+// The search package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
+
 // Create full archive packages.
 if (!$excludeBzip2)
 {
@@ -591,6 +594,9 @@ system('rm -r images/headers');
 system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
+
+// Move the search manifest back
+system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
 
 if (!$excludeBzip2)
 {
