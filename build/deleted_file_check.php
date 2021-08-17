@@ -67,6 +67,7 @@ $previousReleaseExclude = [
 	$options['from'] . '/images/sampledata',
 	$options['from'] . '/installation',
 	$options['from'] . '/media/plg_quickicon_eos310',
+	$options['from'] . '/media/system/images',
 	$options['from'] . '/modules/mod_search',
 	$options['from'] . '/plugins/fields/repeatable',
 	$options['from'] . '/plugins/quickicon/eos310',

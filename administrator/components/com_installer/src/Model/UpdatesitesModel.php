@@ -380,7 +380,7 @@ class UpdatesitesModel extends InstallerModel
 					{
 						/**
 						 * Search if the extension exists in the extensions table. Excluding Joomla
-						 * core extensions (id < 10000) and discovered extensions.
+						 * core extensions and discovered but not yet installed extensions.
 						 */
 
 						$name    = (string) $manifest->name;

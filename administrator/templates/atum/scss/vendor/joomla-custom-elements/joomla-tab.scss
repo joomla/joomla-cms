@@ -51,6 +51,10 @@ joomla-tab {
       border-bottom: 0;
       box-shadow: none;
 
+      &:focus-visible {
+        z-index: 1;
+      }
+
       &[aria-expanded=true],
       &:focus,
       &:hover {

@@ -26,6 +26,7 @@ class Edit {
       extension: this.extension,
       contents: `data:image/${this.fileType};base64,${this.options.contents}`,
     };
+    this.previousPluginDeactivated = new Promise((resolve) => resolve);
     this.history = {};
     this.current = this.original;
     this.plugins = {};
@@ -42,7 +43,6 @@ class Edit {
 
     // Once the DOM is ready, initialize everything
     customElements.whenDefined('joomla-tab').then(async () => {
-      const pluginsForInit = [];
       const tabContainer = document.getElementById('myTab');
       const tabsUlElement = tabContainer.firstElementChild;
       const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
@@ -54,44 +54,41 @@ class Edit {
           tab.insertAdjacentElement('beforeend', this.baseContainer);
         }
 
-        link.addEventListener('joomla.tab.shown', async ({ relatedTarget, target }) => {
-          if (relatedTarget) {
-            try {
-              await this.plugins[relatedTarget.getAttribute('aria-controls').replace('attrib-', '')].Deactivate(this.imagePreview);
-            } catch (e) {
-              // eslint-disable-next-line no-console
-              console.log(e);
-            }
+        link.addEventListener('joomla.tab.hidden', ({ target }) => {
+          if (!target) {
+            this.previousPluginDeactivated = new Promise((resolve) => resolve);
+            return;
           }
+
+          this.previousPluginDeactivated = new Promise((resolve, reject) => {
+            this.plugins[target.getAttribute('aria-controls').replace('attrib-', '')]
+              .Deactivate(this.imagePreview)
+              .then(resolve)
+              .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+                reject();
+              });
+          });
+        });
+
+        link.addEventListener('joomla.tab.shown', ({ target }) => {
           // Move the image container to the correct tab
           tab.insertAdjacentElement('beforeend', this.baseContainer);
-          try {
-            await this.activate(target.getAttribute('aria-controls').replace('attrib-', ''));
-          } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log(e);
-          }
+          this.previousPluginDeactivated
+            .then(() => this.plugins[target.getAttribute('aria-controls').replace('attrib-', '')].Activate(this.imagePreview))
+            .catch((e) => {
+              // eslint-disable-next-line no-console
+              console.log(e);
+            });
         });
       });
 
-      const initPluginFn = async (link, index) => {
-        const plugin = link.getAttribute('aria-controls').replace('attrib-', '');
-        if (index > 0) {
-          await this.plugins[plugin].Deactivate(this.imagePreview);
-        }
-        await this.plugins[plugin].Deactivate(this.imagePreview);
-      };
-
-      links.map((link) => pluginsForInit.push(initPluginFn(link)));
-      await Promise.all(pluginsForInit);
-
-      links[0].click();
-      links[0].blur();
+      tabContainer.activateTab(0, false);
     });
 
     this.addHistoryPoint = this.addHistoryPoint.bind(this);
     this.createImageContainer = this.createImageContainer.bind(this);
-    this.activate = this.activate.bind(this);
     this.Reset = this.Reset.bind(this);
     this.Undo = this.Undo.bind(this);
     this.Redo = this.Redo.bind(this);
@@ -136,50 +133,16 @@ class Edit {
     this.baseContainer.appendChild(this.imagePreview);
   }
 
-  async activate(name) {
-    // Activate the first plugin
-    if (name) {
-      try {
-        await this.plugins[name.toLowerCase()].Activate(this.imagePreview);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-    }
-  }
-
   // Reset the image to the initial state
-  Reset(current) {
-    if (!current || (current && current === 'initial')) {
-      this.current.contents = this.original.contents;
-      this.history = {};
-      this.imagePreview.src = this.original.contents;
-    }
+  Reset(/* current */) {
+    this.current.contents = `data:image/${this.fileType};base64,${this.options.contents}`;
+    this.imagePreview.setAttribute('src', this.current.contents);
 
-    // Reactivate the current plugin
-    const tabContainer = document.getElementById('myTab');
-    const tabsUlElement = tabContainer.firstElementChild;
-    const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
-
-    links.forEach(async (link) => {
-      if (link.getAttribute('aria-expanded') !== 'true') {
-        return;
-      }
-
-      try {
-        await this.plugins[link.getAttribute('aria-controls').replace('attrib-', '')].Deactivate(this.imagePreview);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-
-      link.click();
-      try {
-        await this.activate(link.getAttribute('aria-controls').replace('attrib-', ''));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.imagePreview.setAttribute('width', this.imagePreview.naturalWidth);
+        this.imagePreview.setAttribute('height', this.imagePreview.naturalHeight);
+      });
     });
   }
 

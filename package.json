@@ -54,7 +54,7 @@
     "punycode": "^2.1.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
-    "short-and-sweet": "^1.0.2",
+    "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.0",
     "tinymce": "^5.8.2",
     "vue": "^3.1.2",

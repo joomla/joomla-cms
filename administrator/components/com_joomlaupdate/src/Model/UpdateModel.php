@@ -1707,6 +1707,6 @@ ENDDATA;
 		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
-		$item->name = Text::_($item->name);
+		$item->name = strip_tags(Text::_($item->name));
 	}
 }
