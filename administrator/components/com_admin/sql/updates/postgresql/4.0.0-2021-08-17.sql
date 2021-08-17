@@ -1,9 +1,9 @@
 INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 ('search', 'package', 'pkg_search', '', 0, 1, 1, 0, '', '', '', 0, NULL, 0, 0);
 
-UPDATE "#__extensions" a
- CROSS JOIN (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS b
-   SET a."package_id" = b."extension_id"
+UPDATE "#__extensions"
+   SET "package_id" = b."extension_id"
+  FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS b
  WHERE ("type" = 'component' AND "element" = 'com_search')
     OR ("type" = 'module' AND "element" = 'mod_search' AND "client_id" = 0)
     OR ("type" = 'plugin' AND "element" IN ('categories', 'contacts', 'content', 'newsfeeds','tags') AND "folder" = 'search');
