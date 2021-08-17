@@ -38,7 +38,8 @@ class CleanupModel extends BaseInstallationModel
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
 
-		if (function_exists('opcache_reset')) {
+		if (function_exists('opcache_reset'))
+		{
 			\opcache_reset();
 		}
 
