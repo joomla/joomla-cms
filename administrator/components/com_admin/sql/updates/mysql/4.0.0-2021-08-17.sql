@@ -1,13 +1,12 @@
 INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 ('search', 'package', 'pkg_search', '', 0, 1, 1, 0, '', '', '', 0, NULL, 0, 0);
 
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'com_search' AND `type` = 'component';
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'mod_search' AND `type` = 'module' AND `client_id` = 0;
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'categories' AND `type` = 'plugin' AND `folder` = 'search';
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'contacts' AND `type` = 'plugin' AND `folder` = 'search';
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'content' AND `type` = 'plugin' AND `folder` = 'search';
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'newsfeeds' AND `type` = 'plugin' AND `folder` = 'search';
-UPDATE `#__extensions` SET `package_id` = (SELECT a.`extension_id` FROM `#__extensions` a WHERE a.`type`='package' AND a.`element`='pkg_search') WHERE `element` = 'tags' AND `type` = 'plugin' AND `folder` = 'search';
+UPDATE `#__extensions` a
+ CROSS JOIN (SELECT `extension_id` FROM `#__extensions` WHERE `type`='package' AND `element`='pkg_search') AS b
+   SET a.`package_id` = b.`extension_id`
+ WHERE (`type` = 'component' AND `element` = 'com_search')
+    OR (`type` = 'module' AND `element` = 'mod_search' AND `client_id` = 0)
+    OR (`type` = 'plugin' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds','tags') AND `folder` = 'search');
 
 INSERT INTO `#__update_sites` (`name`, `type`, `location`, `enabled`) VALUES
 ('Search Update Site', 'extension', 'https://raw.githubusercontent.com/joomla-extensions/search/main/manifest.xml', 1);
