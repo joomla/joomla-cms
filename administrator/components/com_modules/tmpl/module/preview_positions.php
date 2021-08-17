@@ -33,10 +33,11 @@ echo $this->form->renderField($templateField);
 ?>
 <div class="jviewport-height90">
 	<iframe 
-		src=<?php echo $iframeBaseURL . '?pm=1&edit=1&templateStyle='; ?>
+		src="<?php echo $iframeBaseURL . '?pm=1&edit=1&templateStyle='; ?>
 		id="module-position-select" 
 		name="module-position-select" 
 		title="module-position-select"
-		height="100%"width="100%">
+		height="100%"
+		width="100%">
 	</iframe>
 </div>
