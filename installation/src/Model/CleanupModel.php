@@ -14,9 +14,6 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 
-use function clearstatcache;
-use function function_exists;
-
 /**
  * Cleanup model for the Joomla Core Installer.
  *
