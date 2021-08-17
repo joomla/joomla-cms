@@ -599,7 +599,7 @@ class JoomlaInstallerScript
 		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
 		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
 		{
-			$extensions[] = ExtensionHelper::getExtensionRecord('pkg_search', 'package')->extension_id;
+			$extensions[] = ExtensionHelper::getExtensionRecord('pkg_search', 'package');
 		}
 
 		$installer = new Installer;
