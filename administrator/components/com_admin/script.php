@@ -7392,12 +7392,10 @@ class JoomlaInstallerScript
 		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
 		 * but an update has put the files back. In that case it exists even if they don't believe in it!
 		 */
-		if (!File::exists(JPATH_ADMINISTRATOR . '/components/com_search/search.php'))
+		if (!File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
+			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
 		{
-			if (File::exists(JPATH_MANIFESTS . '/packages/pkg_search.xml'))
-			{
-				File::delete(JPATH_MANIFESTS . '/packages/pkg_search.xml');
-			}
+			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
 		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
