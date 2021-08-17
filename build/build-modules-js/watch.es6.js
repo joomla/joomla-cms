@@ -32,12 +32,12 @@ module.exports.watching = (path) => {
   const watchingPath = path ? join(RootPath, path) : join(RootPath, 'build/media_source');
   const watcher = chokidar.watch(watchingPath, {
     ignored: /(^|[\/\\])\../, // ignore dotfiles
-    persistent: true
+    persistent: true,
   });
 
   watcher
-  .on('add', (file) => processFile(file))
-  .on('change', (file) => processFile(file));
+    .on('add', (file) => processFile(file))
+    .on('change', (file) => processFile(file));
   // @todo Handle this case as well
   // .on('unlink', path => log(`File ${path} has been removed`));
 };
