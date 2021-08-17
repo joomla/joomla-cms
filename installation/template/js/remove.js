@@ -45,7 +45,7 @@ const completeInstallationOptions = document.querySelectorAll('.complete-install
 
 completeInstallationOptions.forEach(function(item) {
     item.addEventListener('click', function (e) {
-        // Evil voodoo. Once a button is clicked ensure they don't spam click it...
+        // Once a button is clicked ensure they can't click it again...
         completeInstallationOptions.forEach(function(nestedItem) {
             nestedItem.disabled = true;
         });
