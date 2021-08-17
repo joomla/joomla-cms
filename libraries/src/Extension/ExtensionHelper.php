@@ -131,6 +131,7 @@ class ExtensionHelper
 
 		// Core package extensions
 		array('package', 'pkg_en-GB', '', 0),
+		array('package', 'pkg_search', '', 0),
 
 		// Core plugin extensions - actionlog
 		array('plugin', 'joomla', 'actionlog', 0),

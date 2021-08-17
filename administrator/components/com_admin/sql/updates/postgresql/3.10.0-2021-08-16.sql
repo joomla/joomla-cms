@@ -1,0 +1,10 @@
+INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+('search', 'package', 'pkg_search', '', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'com_search' AND "type" = 'component';
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'mod_search' AND "type" = 'module' AND "client_id" = 0;
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'categories' AND "type" = 'plugin' AND "folder" = 'search';
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'contacts' AND "type" = 'plugin' AND "folder" = 'search';
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'content' AND "type" = 'plugin' AND "folder" = 'search';
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'newsfeeds' AND "type" = 'plugin' AND "folder" = 'search';
+UPDATE "#__extensions" SET "package_id" = sub.extension_id FROM (SELECT "extension_id" FROM "#__extensions" WHERE "type"='package' AND "element"='pkg_search') AS sub WHERE "element" = 'tags' AND "type" = 'plugin' AND "folder" = 'search';
