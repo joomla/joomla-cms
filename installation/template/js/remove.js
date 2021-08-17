@@ -73,11 +73,11 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
             const successresponse = JSON.parse(response);
             if (successresponse.error === true) {
                 if (successresponse.messages) {
-                    Joomla.renderMessages(successresponse.messages, '#system-message-container');
+                    Joomla.renderMessages(successresponse.messages);
                     Joomla.loadOptions({'csrf.token': successresponse.token});
                 } else {
                     // Stuff went wrong. No error messages. Just panic bail!
-                    Joomla.renderMessages('Unknown error deleting the installation folder.', '#system-message-container');
+                    Joomla.renderMessages({error:['Unknown error deleting the installation folder.']});
                 }
             } else {
                 const customInstallation = document.getElementById('customInstallation');
@@ -95,7 +95,7 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
             }
         },
         onError: function (xhr) {
-            Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
         }
     });
 }
@@ -143,7 +143,7 @@ if (document.getElementById('defaultLanguagesButton')) {
           Joomla.loadOptions({'csrf.token': successresponse.token});
         },
         onError(xhr) {
-          Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
         },
       });
 
