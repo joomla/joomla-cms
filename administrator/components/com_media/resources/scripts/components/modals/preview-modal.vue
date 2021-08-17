@@ -5,6 +5,7 @@
     class="media-preview-modal"
     label-element="previewTitle"
     :show-close="false"
+    @open="open()"
     @close="close()"
   >
     <template #header>
@@ -17,20 +18,6 @@
     </template>
     <template #body>
       <div class="image-background">
-        <audio
-          v-if="isAudio()"
-          controls
-          :src="item.url"
-        />
-        <video
-          v-if="isVideo()"
-          controls
-        >
-          <source
-            :src="item.url"
-            :type="item.mime_type"
-          >
-        </video>
         <object
           v-if="isDoc()"
           :type="item.mime_type"
@@ -43,6 +30,32 @@
           :src="item.url"
           :type="item.mime_type"
         >
+      </div>
+      <div
+        v-if="isVideo()"
+        class="player-wrapper"
+      >
+        <video
+          id="video-player"
+          width="100%"
+          height="100%"
+          style="width: 100%; height: 300px;"
+          :src="item.url"
+          :type="item.mime_type"
+        />
+      </div>
+      <div
+        v-if="isAudio()"
+        class="player-wrapper"
+      >
+        <audio
+          id="audio-player"
+          width="100%"
+          height="100%"
+          style="width: 100%;"
+          :src="item.url"
+          :type="item.mime_type"
+        />
       </div>
     </template>
     <template #backdrop-close>
@@ -69,10 +82,39 @@ export default {
       return this.$store.state.previewItem;
     },
   },
+  watch: {
+    // Handle item change from ordinary to potentially playable
+    item(newItem, oldItem) {
+      if (oldItem && oldItem.mime_type !== newItem.mime_type) {
+        setTimeout(() => this.initPlayer());
+      }
+    },
+  },
   methods: {
+    open() {
+      this.initPlayer();
+    },
     /* Close the modal */
     close() {
       this.$store.commit(types.HIDE_PREVIEW_MODAL);
+    },
+    initPlayer() {
+      /* eslint-disable no-undef */
+      if (typeof MediaElementPlayer !== 'undefined') {
+        // Start player depending on media type
+        if (this.isVideo()) {
+          this.player = new MediaElementPlayer('video-player');
+        } else if (this.isAudio()) {
+          this.player = new MediaElementPlayer('audio-player');
+        }
+      }
+      /* eslint-enable no-undef */
+    },
+    destroyPlayer() {
+      if (this.player) {
+        this.player.remove();
+        this.player = null;
+      }
     },
     isImage() {
       return this.item.mime_type.indexOf('image/') === 0;

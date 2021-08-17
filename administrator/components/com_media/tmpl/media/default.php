@@ -20,6 +20,8 @@ $input  = Factory::getApplication()->input;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useStyle('mediaelement')
+	->useScript('mediaelement')
 	->useStyle('com_media.mediamanager')
 	->useScript('com_media.mediamanager');
 

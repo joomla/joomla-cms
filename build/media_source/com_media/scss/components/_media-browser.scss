@@ -211,6 +211,14 @@
   border-radius: $grid-item-border-radius;
 }
 
+.player-wrapper {
+  width: 500px;
+
+  @media screen and (max-width: 576px) {
+    width: 300px;
+  }
+}
+
 .file-background, .folder-background {
   padding-bottom: 100%;
   background-color: hsl(var(--hue), 20%, 97%);
