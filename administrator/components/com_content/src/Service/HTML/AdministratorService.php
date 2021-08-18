@@ -26,7 +26,6 @@ use Joomla\Database\ParameterType;
  */
 class AdministratorService
 {
-
 	/**
 	 * Render the list of associated items
 	 *

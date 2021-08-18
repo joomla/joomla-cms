@@ -24,7 +24,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-
 	/**
 	 * Execute and display a template script.
 	 *

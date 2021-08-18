@@ -18,5 +18,4 @@ defined('_JEXEC') or die;
  */
 class InstallerHelper extends \Joomla\Component\Installer\Administrator\Helper\InstallerHelper
 {
-
 }

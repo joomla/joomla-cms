@@ -17,5 +17,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class UnknownAssetException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }

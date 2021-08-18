@@ -21,7 +21,6 @@ use Joomla\CMS\Language\Text;
  */
 abstract class WorkflowStage
 {
-
 	/**
 	 * Get a list of the available workflow stages.
 	 *

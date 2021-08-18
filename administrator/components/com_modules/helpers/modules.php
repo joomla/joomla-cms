@@ -18,5 +18,4 @@ defined('_JEXEC') or die;
  */
 abstract class ModulesHelper extends \Joomla\Component\Modules\Administrator\Helper\ModulesHelper
 {
-
 }

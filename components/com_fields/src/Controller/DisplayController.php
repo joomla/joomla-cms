@@ -21,7 +21,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  */
 class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 {
-
 	/**
 	 * Constructor.
 	 *
