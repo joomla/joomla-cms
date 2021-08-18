@@ -28,7 +28,7 @@ $groups = $user->getAuthorisedViewLevels();
 			<div class="com-content-category__children">
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
-					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
+					<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 						<span class="badge bg-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
@@ -43,7 +43,7 @@ $groups = $user->getAuthorisedViewLevels();
 				<?php else : ?>
 				<h3 class="page-header item-title"><a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
-					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
+					<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 						<span class="badge bg-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>

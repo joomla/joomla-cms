@@ -32,7 +32,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				$target = $url[2];
 				$id = $url[3];
 
-				if ( ! $link) :
+				if (! $link) :
 					continue;
 				endif;
 

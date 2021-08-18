@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 <div class="com-contact-featured blog-featured">
-<?php if ($this->params->get('show_page_heading') != 0 ) : ?>
+<?php if ($this->params->get('show_page_heading') != 0) : ?>
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>

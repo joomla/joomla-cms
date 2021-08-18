@@ -20,7 +20,7 @@ $canEdit = $displayData->params->get('access-edit');
 
 $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
-<?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
+<?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author))) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
 			<h2 itemprop="name">

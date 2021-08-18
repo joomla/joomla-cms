@@ -165,7 +165,7 @@ class Users
 	 *
 	 * @since  3.0
 	 */
-	public function blockStates( $self = false)
+	public function blockStates($self = false)
 	{
 		if ($self)
 		{

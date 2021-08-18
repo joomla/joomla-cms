@@ -29,7 +29,7 @@ $template = '{{statusCode_statusText}}';
 // Joomla supplied fatal error page
 if (file_exists(__DIR__ . '/fatal-error.html'))
 {
-	$template = file_get_contents( __DIR__ . '/fatal-error.html');
+	$template = file_get_contents(__DIR__ . '/fatal-error.html');
 }
 
 /**

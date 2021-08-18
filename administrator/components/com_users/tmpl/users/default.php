@@ -151,7 +151,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</td>
 								<td class="text-center d-md-table-cell">
 									<?php
-									$activated = empty( $item->activation) ? 0 : 1;
+									$activated = empty($item->activation) ? 0 : 1;
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>

@@ -599,7 +599,7 @@ class ModuleModel extends AdminModel
 		 * Modify the form based on Edit State access controls.
 		 */
 		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))		)
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
