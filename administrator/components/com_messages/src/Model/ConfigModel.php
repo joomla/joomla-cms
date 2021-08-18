@@ -168,7 +168,7 @@ class ConfigModel extends FormModel
 						implode(
 							',',
 							$query->bindArray(
-								[$userId , $k, $v],
+								[$userId, $k, $v],
 								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
 							)
 						)

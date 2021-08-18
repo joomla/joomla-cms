@@ -57,7 +57,7 @@ class El extends Language
 	public function tokenise($input)
 	{
 		// Replace Greek calligraphic double quotes (various styles) to dumb double quotes
-		$input = str_replace(['“', '”', '„', '«' ,'»'], '"', $input);
+		$input = str_replace(['“', '”', '„', '«','»'], '"', $input);
 
 		// Replace Greek calligraphic single quotes (various styles) to dumb single quotes
 		$input = str_replace(['‘','’','‚'], "'", $input);
