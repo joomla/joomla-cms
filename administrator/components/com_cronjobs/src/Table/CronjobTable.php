@@ -12,17 +12,18 @@
 namespace Joomla\Component\Cronjobs\Administrator\Table;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use function defined;
 
 /**
- * The main DB Table object for com_cronjobs
+ * The main DB Table class for com_cronjobs
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class CronjobTable extends Table
 {
@@ -30,14 +31,15 @@ class CronjobTable extends Table
 	 * Indicates that columns do not fully support the NULL value in the database
 	 *
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_supportNullValue = false;
 
 	/**
 	 * Ensure params are json encoded by the bind method
+	 *
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
 
@@ -45,7 +47,7 @@ class CronjobTable extends Table
 	 * Injected into the 'created' column
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $created;
 
@@ -53,7 +55,7 @@ class CronjobTable extends Table
 	 * Injected into the 'title' column
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $title;
 
@@ -63,7 +65,7 @@ class CronjobTable extends Table
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object (?)
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -83,9 +85,9 @@ class CronjobTable extends Table
 	 * @return boolean  True if checks were successful
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function check() : bool
+	public function check(): bool
 	{
 		try
 		{
@@ -98,7 +100,7 @@ class CronjobTable extends Table
 			return false;
 		}
 
-		$this->title  = htmlspecialchars_decode($this->title, ENT_QUOTES);
+		$this->title = htmlspecialchars_decode($this->title, ENT_QUOTES);
 
 		// Set created date if not set.
 		// ? Might not need since the constructor already sets this
@@ -117,10 +119,10 @@ class CronjobTable extends Table
 	 *
 	 * @return boolean  True if successful [yes?]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 * @throws Exception
 	 */
-	public function store($updateNulls = false) : bool
+	public function store($updateNulls = false): bool
 	{
 		$date = Factory::getDate()->toSql();
 		$userId = Factory::getApplication()->getIdentity();
@@ -147,7 +149,7 @@ class CronjobTable extends Table
 	 *
 	 * @return string  The asset name
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetName(): string
 	{

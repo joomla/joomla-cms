@@ -24,19 +24,19 @@ use SimpleXMLElement;
  * The ExecutionRulesRule Class.
  * Validates execution rules, with input for other fields as context.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class ExecutionRulesRule extends FormRule
 {
 	/**
 	 * @var string  RULE_TYPE_FIELD   The field containing the rule type to test against
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const RULE_TYPE_FIELD = "execution_rules.rule-type";
 
 	/**
 	 * @var string CUSTOM_RULE_GROUP  The field group containing custom execution rules
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const CUSTOM_RULE_GROUP = "execution_rules.custom";
 
@@ -51,7 +51,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
 	{
@@ -74,7 +74,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @return boolean  True if field is valid
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function validateField(SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
 	{
@@ -87,7 +87,7 @@ class ExecutionRulesRule extends FormRule
 			$optionsTest = (new OptionsRule)->test($element, $value, $group, null, $form);
 		}
 
-		// ? Does the numeric IntervalField need validation
+		// ? Does the numeric IntervalField need validation [YES]
 
 		return $value && $optionsTest;
 	}

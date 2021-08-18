@@ -25,7 +25,7 @@ use function array_map;
 /**
  * A list field with all available job types
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JobTypeField extends ListField
 {
@@ -43,7 +43,7 @@ class JobTypeField extends ListField
 	 * @return array
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getOptions(): array
 	{

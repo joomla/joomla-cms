@@ -30,7 +30,7 @@ class CronOptions
 	 * An array of CronOptions
 	 *
 	 * @var CronOption[]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $options = [];
 
@@ -44,7 +44,7 @@ class CronOptions
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function addOptions(array $jobsArray): void
 	{
@@ -59,7 +59,7 @@ class CronOptions
 	 *
 	 * @return  ?CronOption  A matching CronOption if available, null otherwise
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function findOption(?string $jobType): ?CronOption
 	{

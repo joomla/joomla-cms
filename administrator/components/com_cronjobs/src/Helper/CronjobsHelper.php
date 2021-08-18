@@ -35,7 +35,7 @@ final class CronjobsHelper
 	 * Cached CronOptions object
 	 *
 	 * @var CronOptions
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $cronOptionsCache = null;
 

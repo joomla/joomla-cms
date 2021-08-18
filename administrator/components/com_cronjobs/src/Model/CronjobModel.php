@@ -37,7 +37,7 @@ use function sort;
  * MVC Model to interact with the Cronjobs DB.
  * Implements methods to add, remove, edit cronjobs.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class CronjobModel extends AdminModel
 {
@@ -46,7 +46,7 @@ class CronjobModel extends AdminModel
 	 * ? Do we end up using this?
 	 *
 	 * @var array
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $STATES = [
 		'enabled' => 1,
@@ -58,7 +58,7 @@ class CronjobModel extends AdminModel
 	 * Prefix used with controller messages
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_CRONJOBS';
 
@@ -66,7 +66,7 @@ class CronjobModel extends AdminModel
 	 * Type alias for content type
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_cronjobs.cronjob';
 
@@ -74,7 +74,7 @@ class CronjobModel extends AdminModel
 	 * The Application object, for convenience
 	 *
 	 * @var AdministratorApplication $app
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -87,7 +87,7 @@ class CronjobModel extends AdminModel
 	 * @param   FormFactoryInterface|null  $formFactory  The form factory [?]
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
@@ -114,7 +114,7 @@ class CronjobModel extends AdminModel
 	 * @return Form|boolean  A JForm object on success, false on failure.
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -162,7 +162,7 @@ class CronjobModel extends AdminModel
 	 * @return  boolean  True if the record may be deleted
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record): bool
 	{
@@ -181,7 +181,7 @@ class CronjobModel extends AdminModel
 	 * @return  void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState(): void
 	{
@@ -212,7 +212,7 @@ class CronjobModel extends AdminModel
 	 * @return Table
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTable($name = 'Cronjob', $prefix = 'Table', $options = array()): Table
 	{
@@ -225,7 +225,7 @@ class CronjobModel extends AdminModel
 	 * @return object  Associative array of form data.
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -261,7 +261,7 @@ class CronjobModel extends AdminModel
 	 * @return  object|boolean  Object on success, false on failure
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItem($pk = null)
 	{
@@ -291,7 +291,7 @@ class CronjobModel extends AdminModel
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data): bool
 	{
@@ -333,7 +333,7 @@ class CronjobModel extends AdminModel
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function processExecutionRules(array &$data): void
 	{
@@ -367,7 +367,7 @@ class CronjobModel extends AdminModel
 	 * @return void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function buildExecExpression(array &$data): void
 	{
@@ -422,7 +422,7 @@ class CronjobModel extends AdminModel
 	 *
 	 * @return string  A wildcard string if $target is fully populated, else $target itself.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function wildcardIfMatch(array $target, array $reference, bool $targetToInt = false): string
 	{

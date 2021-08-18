@@ -1,38 +1,38 @@
 <?php
 /**
- * Declares the MVC View for CronjobsModel.
+ * Declares the MVC View for the Cronjobs list view.
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
+ * @package       Joomla.Administrator
+ * @subpackage    com_cronjobs
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license   GPL v3
+ * @license       GPL v3
  */
 
 namespace Joomla\Component\Cronjobs\Administrator\View\Cronjobs;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
-use JObject;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
+use function count;
+use function defined;
 
 /**
- * The MVC View AddCronjob
+ * The MVC View for Cronjobs list view
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
- *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -40,7 +40,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of items
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
@@ -48,23 +48,23 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var   Pagination
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var   JObject
-	 * @since __DEPLOY_VERSION__
+	 * @var   CMSObject
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
-	 * Form object for search filters
+	 * A Form object for search filters
 	 *
-	 * @var   \JForm
-	 * @since __DEPLOY_VERSION__
+	 * @var   Form
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
 
@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var   array
-	 * @since 4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
@@ -80,27 +80,27 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var   boolean
-	 * @since 4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $isEmptyState = false;
 
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return mixed   A string if successful, otherwise an Error object.
 	 */
 
 
 	/**
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return void
 	 *
 	 * @throws Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
 	{
@@ -112,13 +112,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('empty_state');
 		}
 
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @throws Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar(): void
 	{
@@ -153,8 +153,7 @@ class HtmlView extends BaseHtmlView
 		*/
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		// TODO : 'cronjobs' icon
-			ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'clock');
+		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'clock');
 
 		if ($canDo->get('core.create'))
 		{

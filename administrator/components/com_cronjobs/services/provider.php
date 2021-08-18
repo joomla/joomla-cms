@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares how component is to be initialised.
+ * Returns the service provider class for com_cronjobs.
  *
  * @package    Joomla.Administrator
  * @subpackage com_cronjobs
@@ -27,7 +27,7 @@ use Joomla\DI\ServiceProviderInterface;
  * used to register the components initializers into it's DI container
  * created by Joomla.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 return new class implements ServiceProviderInterface
 {
@@ -38,7 +38,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function register(Container $container)
 	{

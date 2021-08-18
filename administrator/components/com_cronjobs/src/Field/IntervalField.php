@@ -19,7 +19,7 @@ use SimpleXMLElement;
 /**
  * Select style field for interval(s) in minutes, hours, days and months.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class IntervalField extends NumberField
 {
@@ -35,7 +35,7 @@ class IntervalField extends NumberField
 	 * The subtypes supported by this field type => [minVal, maxVal]
 	 *
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const SUBTYPES = [
 		'minutes' => [1, 59],

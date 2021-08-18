@@ -12,11 +12,7 @@ namespace Joomla\Component\Cronjobs\Administrator\Field;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Form\Field\PredefinedlistField;
-use Joomla\CMS\Form\Field\RadioField;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * A select list containing valid Cron interval types.
@@ -35,6 +31,7 @@ class ExecutionRuleField extends PredefinedlistField
 
 	/**
 	 * Available execution rules
+	 *
 	 * @var string[]
 	 * @since  __DEPLOY_VERSION__
 	 */

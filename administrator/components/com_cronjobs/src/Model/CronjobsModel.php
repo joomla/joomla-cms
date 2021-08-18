@@ -31,9 +31,9 @@ use function stripos;
 use function substr;
 
 /**
- * MVC Model to deal with operations concerning multiple 'Cronjob' entries.
+ * MVC Model to deal with operations concerning multiple `#__cronjobs` entries.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class CronjobsModel extends ListModel
 {
@@ -80,7 +80,7 @@ class CronjobsModel extends ListModel
 	 *
 	 * @return array|boolean  An array of data items on success, false on failure.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -98,7 +98,7 @@ class CronjobsModel extends ListModel
 	 *
 	 * @return string  A store id.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = ''): string
 	{
@@ -155,7 +155,7 @@ class CronjobsModel extends ListModel
 		 * @param   array   $conditions
 		 * @param   string  $innerGlue
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since  __DEPLOY_VERSION__
 		 */
 		$extendIfFiltered = function (
 			string $outerGlue, array $conditions, string $innerGlue
@@ -229,7 +229,7 @@ class CronjobsModel extends ListModel
 			// Search by type is handled exceptionally in _getList() [TODO: remove refs]
 			elseif (stripos($searchStr, 'type:') !== 0)
 			{
-				$searchStr = "%${searchStr}%";
+				$searchStr = "%$searchStr%";
 
 				// Bind keys to query
 				$query->bind(':title', $searchStr)
@@ -273,7 +273,7 @@ class CronjobsModel extends ListModel
 	 * @return object[]
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 * @codingStandardsIgnoreStart
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
@@ -347,13 +347,13 @@ class CronjobsModel extends ListModel
 	 * @return void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function attachCronOptions(array &$items): void
 	{
 		$cronOptions = CronjobsHelper::getCronOptions();
 
-		foreach ($items as &$item)
+		foreach ($items as $item)
 		{
 			$item->cronOption = $cronOptions->findOption($item->type);
 			$item->safeTypeTitle = $item->cronOption->title ?? Text::_('COM_CRONJOBS_NA');
@@ -368,7 +368,7 @@ class CronjobsModel extends ListModel
 	 * @param   ?string  $direction  Direction in which to sort list
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
 	{

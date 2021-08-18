@@ -23,15 +23,15 @@ use function defined;
 
 
 /**
- * Default controller for com_cronjobs
+ * Default controller for com_cronjobs.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class DisplayController extends BaseController
 {
 	/**
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'cronjobs';
 
@@ -71,7 +71,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return boolean  True is entry is valid
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function validateEntry(string $layout = 'edit'): bool
 	{

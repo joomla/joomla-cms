@@ -33,26 +33,26 @@ class ExecRuleHelper
 	 * The execution rule type
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $type;
 
 	/**
 	 * @var array
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cronjob;
 
 	/**
 	 * @var object
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $rule;
 
 	/**
 	 * @param   array|object  $cronjob  A cronjob entry
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($cronjob)
 	{
@@ -72,7 +72,7 @@ class ExecRuleHelper
 	 *
 	 * @return mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function getFromCronjob(string $property, $default = null)
 	{
@@ -87,7 +87,7 @@ class ExecRuleHelper
 	 * @return ?Date|string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function nextExec(bool $string = true)
 	{
@@ -121,7 +121,7 @@ class ExecRuleHelper
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function dateTimeToSql(DateTime $dateTime): string
 	{

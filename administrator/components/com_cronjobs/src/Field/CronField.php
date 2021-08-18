@@ -21,7 +21,7 @@ use function range;
 
 /**
  * Multi-select form field, supporting inputs of:
- * minutes, hours, .
+ * minutes, hours, days of week, days of month and months.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -31,7 +31,7 @@ class CronField extends ListField
 	 * The subtypes supported by this field type.
 	 *
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const SUBTYPES = [
 		'minutes',
@@ -45,7 +45,7 @@ class CronField extends ListField
 	 * Count of predefined options for each subtype
 	 *
 	 * @var int[][]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const OPTIONS_RANGE = [
 		'minutes' => [0, 59],
@@ -56,10 +56,11 @@ class CronField extends ListField
 	];
 
 	/**
-	 * Response labels for the 'month' and 'days_week' subtypes
+	 * Response labels for the 'month' and 'days_week' subtypes.
+	 * The labels are language constants translated when needed.
 	 *
 	 * @var string[][]
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private const PREPARED_RESPONSE_LABELS = [
 		'months' => [
@@ -84,7 +85,7 @@ class CronField extends ListField
 	 * The subtype of the CronIntervals field
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $subtype;
 
@@ -92,7 +93,7 @@ class CronField extends ListField
 	 * If true, field options will include a wildcard
 	 *
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $wildcard;
 
@@ -100,7 +101,7 @@ class CronField extends ListField
 	 * If true, field will only have numeric labels (for days_week and months)
 	 *
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $onlyNumericLabels;
 
@@ -142,7 +143,7 @@ class CronField extends ListField
 	 *
 	 * @return   array  Array of objects representing options in the options list
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getOptions(): array
 	{
@@ -161,6 +162,7 @@ class CronField extends ListField
 
 		[$optionLower, $optionUpper] = self::OPTIONS_RANGE[$subtype];
 
+		// If we need text labels, we translate them first
 		if (array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels)
 		{
 			$labels = array_map(
