@@ -21,7 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
-
 /**
  * View class for a list of search terms.
  *

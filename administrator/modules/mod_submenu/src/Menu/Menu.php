@@ -19,7 +19,6 @@ use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
-
 /**
  * Helper class to handle permissions in mod_submenu
  *

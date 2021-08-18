@@ -421,4 +421,3 @@ abstract class AbstractMenu
 		return null;
 	}
 }
-

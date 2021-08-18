@@ -76,4 +76,3 @@ if (!$isMail)
 	// Close the container
 	echo '</dl>';
 }
-

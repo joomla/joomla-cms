@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-
 /**
  * Profile controller class for Users.
  *

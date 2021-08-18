@@ -243,5 +243,3 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 		return $this->_name;
 	}
 }
-
-

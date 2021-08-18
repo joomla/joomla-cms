@@ -44,4 +44,3 @@ extract($displayData);
  */
 
 echo '<div class="alert alert-info">' . $privacynote . '</div>';
-
