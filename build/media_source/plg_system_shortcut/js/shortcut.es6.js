@@ -169,12 +169,12 @@ class JoomlaShortcuts {
       const shiftKey = this.options[action].hasShift;
       const ctrlKey = this.options[action].hasControl;
       if (
-        (altKey == false
-          || (altKey == true
+        (Number(altKey) === false
+          || (Number(altKey) === true
             && (navigator.platform.match('Mac') ? e.metaKey : e.altKey)))
-        && (shiftKey == false || (shiftKey == true && e.shiftKey))
-        && (ctrlKey == false || (ctrlKey == true && e.ctrlKey))
-        && e.key.toLowerCase() == keyEvent
+        && (Number(shiftKey) === false || (Number(shiftKey) === true && e.shiftKey))
+        && (Number(ctrlKey) === false || (Number(ctrlKey) === true && e.ctrlKey))
+        && e.key.toLowerCase() === keyEvent
       ) {
         this.execCommand(e, this.options[action].selector);
       }
