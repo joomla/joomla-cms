@@ -53,7 +53,7 @@ class CalendarField extends FormField
 	/**
 	 * Whether format should be translated
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $translateFormat;
