@@ -224,7 +224,7 @@ abstract class AKAbstractObject
 			// Default, return the last item
 			$item = end($array);
 		}
-		else if (!array_key_exists($i, $array))
+		elseif (!array_key_exists($i, $array))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -4509,7 +4509,7 @@ class AKEncryptionAES
 					$temp[$t] ^= self::$Rcon[$rConIndex][$t];
 				}
 			}
-			else if ($Nk > 6 && $i % $Nk == 4)
+			elseif ($Nk > 6 && $i % $Nk == 4)
 			{
 				$temp = self::SubWord($temp);
 			}
