@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `#__cookiemanager_scripts` (
 
 CREATE TABLE IF NOT EXISTS `#__cookiemanager_consents` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `uuid` varchar(100) NOT NULL,
-  `ccuuid` varchar(100) NOT NULL,
+  `uuid` varchar(32) NOT NULL,
+  `ccuuid` varchar(64) NOT NULL,
   `consent_opt_in` varchar(255) NOT NULL,
   `consent_opt_out` varchar(255) NOT NULL,
   `consent_date` varchar(100) NOT NULL,
