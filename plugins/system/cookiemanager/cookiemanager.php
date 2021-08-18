@@ -79,7 +79,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	  * @since  __DEPLOY_VERSION__
 	  */
 	 protected $category;
-	 
+
 	/**
 	 * Add assets for the modal.
 	 *
