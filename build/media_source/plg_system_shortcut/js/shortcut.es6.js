@@ -130,11 +130,7 @@ class JoomlaShortcuts {
       // Editor Option
       const selectorArr = selector.split('~');
       if (selectorArr[1] !== undefined) {
-        if (selectorArr[1] === 'read_more') {
-          // ! Why this line
-          //   const element = Joomla.getOptions('xtd-pagebreak').editor;
-          // this.insertReadmore(element);
-        } else {
+        if (selectorArr[1] !== 'read_more') {
           Object.entries(this.bootstrapModals).forEach((eModal) => {
             if (eModal.includes(selectorArr[1])) {
               const modalElement = document.getElementById(
