@@ -46,7 +46,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -74,6 +73,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
