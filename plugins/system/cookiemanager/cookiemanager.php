@@ -27,7 +27,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    ApplicationCms
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
@@ -79,6 +79,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	  * @since  __DEPLOY_VERSION__
 	  */
 	 protected $category;
+
 	/**
 	 * Add assets for the modal.
 	 *
@@ -89,32 +90,42 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		ob_start();
-		ob_implicit_flush(false);
-
 		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
 
-		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript('plg_system_cookiemanager.script', 'plg_system_cookiemanager/cookiemanager.min.js', [], ['defer' => true], ['core'])
-			->registerAndUseStyle('plg_system_cookiemanager.style', 'plg_system_cookiemanager/cookiemanager.min.css');
+		ob_start();
+		ob_implicit_flush(false);
 
-		$lang = Factory::getLanguage();
-		$lang->load('com_cookiemanager', JPATH_ADMINISTRATOR);
+		$assets = $this->app->getDocument()->getWebAssetManager();
+		$assets->registerAndUseScript(
+			'plg_system_cookiemanager.script',
+			'plg_system_cookiemanager/cookiemanager.min.js',
+			[],
+			['defer' => true],
+			['core']
+		);
+		$assets->registerAndUseStyle(
+			'plg_system_cookiemanager.style',
+			'plg_system_cookiemanager/cookiemanager.min.css'
+		);
+
+		HTMLHelper::_('bootstrap.collapse');
+
+		$this->app->getLanguage()->load('com_cookiemanager', JPATH_ADMINISTRATOR);
 
 		Text::script('COM_COOKIEMANAGER_PREFERENCES_LESS_BUTTON_TEXT');
 		Text::script('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT');
 
 		$params = ComponentHelper::getParams('com_cookiemanager');
 		$sitemenu = $this->app->getMenu();
-		$menuitem = $sitemenu->getItem($params->get('policylink'));
+		$menuitem = $sitemenu->getItem($params->get('policylink', '101'));
 
-		$config = [];
-		$config['expiration'] = $params->get('consent_expiration');
-		$config['position'] = $params->get('modal_position');
-		$this->app->getDocument()->addScriptOptions('config', $config);
+		$cookieManagerConfig = [];
+		$cookieManagerConfig['expiration'] = $params->get('consent_expiration', 30);
+		$cookieManagerConfig['position'] = $params->get('modal_position', null);
+		$this->app->getDocument()->addScriptOptions('config', $cookieManagerConfig);
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
@@ -127,8 +138,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			)
 			->order($db->quoteName('lft'));
 
-		$db->setQuery($query);
-		$this->category = $db->loadObjectList();
+		$this->category = $db->setQuery($query)->loadObjectList();
 
 		$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
@@ -148,17 +158,15 @@ class PlgSystemCookiemanager extends CMSPlugin
 			[
 					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
 					'footer' => '<button type="button" id="bannerConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
-					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
+					. Text::_('COM_COOKIEMANAGER_CONFIRM_MY_CHOICES_BUTTON_TEXT') . '</button>'
 					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
 					. Text::_('COM_COOKIEMANAGER_MORE_DETAILS') . '</button>'
 					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
-					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>',
+					. Text::_('COM_COOKIEMANAGER_ACCEPT_ALL_COOKIES_BUTTON_TEXT') . '</button>',
 
 				],
 			$bannerBody
 		);
-
-		HTMLHelper::_('bootstrap.collapse');
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['c.id','c.alias','a.cookie_name','a.cookie_desc','a.exp_period','a.exp_value']))
@@ -169,11 +177,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 			)
 			->order($db->quoteName('lft'));
 
-		$db->setQuery($query);
-		$cookies = $db->loadObjectList();
+		$cookies = $db->setQuery($query)->loadObjectList();
 
 		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
 		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
+		$prefBody .= '<p> Consent: <span id="consent-opt-in"></span></p><p> Consent ID: <span id="ccuuid"></span></p><p> Consent Date: <span id="consent-date"></span></p>';
 
 		foreach ($this->category as $catKey => $catValue)
 		{
@@ -220,9 +228,9 @@ class PlgSystemCookiemanager extends CMSPlugin
 			[
 				'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
 				'footer' => '<button type="button" id="prefConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
-					. Text::_('COM_COOKIEMANAGER_CONFIRM_CHOICE_BUTTON_TEXT') . '</button>'
+					. Text::_('COM_COOKIEMANAGER_CONFIRM_MY_CHOICES_BUTTON_TEXT') . '</button>'
 					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
-					. Text::_('COM_COOKIEMANAGER_ACCEPT_BUTTON_TEXT') . '</button>'
+					. Text::_('COM_COOKIEMANAGER_ACCEPT_ALL_COOKIES_BUTTON_TEXT') . '</button>'
 			],
 			$prefBody
 		);
@@ -235,8 +243,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 				$db->quoteName('#__cookiemanager_scripts', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
 			);
 
-			$db->setQuery($query);
-			$this->scripts = $db->loadObjectList();
+			$this->scripts = $db->setQuery($query)->loadObjectList();
 
 		foreach ($this->category as $catKey => $catValue)
 		{
@@ -256,6 +263,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 				$this->app->getDocument()->addScriptOptions('code', $this->script);
 
+		if (!$this->app->input->cookie->get('uuid'))
+		{
+			$uuid = bin2hex(random_bytes(16));
+			$cookieLifetime = $params->get('consent_expiration', 30) * 24 * 60 * 60;
+			$this->app->input->cookie->set('uuid', $uuid, time() + $cookieLifetime, '/');
+		}
 	}
 
 	/**
@@ -274,6 +287,12 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		echo $this->cookieBanner;
 		echo $this->preferences;
+
+		if ($this->app->input->get('format') === 'json')
+		{
+			return;
+		}
+
 		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
 		foreach ($this->category as $catKey => $catValue)
@@ -338,5 +357,26 @@ class PlgSystemCookiemanager extends CMSPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * AJAX Handler
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAjaxCookiemanager()
+	{
+		$cookieConsentsData = $this->app->input->get('data', '', 'STRING');
+
+		$cookieConsentsData = json_decode($cookieConsentsData);
+		$ccuuid = bin2hex(random_bytes(32));
+		$cookieConsentsData->ccuuid = $ccuuid;
+		$cookieConsentsData->user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		$this->db->insertObject('#__cookiemanager_consents', $cookieConsentsData);
+
+		return $ccuuid;
 	}
 }
