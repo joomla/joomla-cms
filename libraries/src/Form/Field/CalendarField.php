@@ -198,7 +198,7 @@ class CalendarField extends FormField
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
 			$this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
 			$this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
-			$this->translateFormat = ((string) $element['translateformat']) !== 'false';
+			$this->translateFormat = (string) $element['translateformat'] && ((string) $element['translateformat']) !== 'false';
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
