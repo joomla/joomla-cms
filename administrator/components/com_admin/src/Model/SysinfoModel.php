@@ -685,7 +685,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 */
 	private function addDirectory(string $name, string $path, string $message = ''): void
 	{
-		$this->directories[$name] = ['writable' => is_writable($path), 'message' => $message,];
+		$this->directories[$name] = ['writable' => is_writable($path), 'message' => $message, ];
 	}
 
 	/**
@@ -742,7 +742,7 @@ class SysinfoModel extends BaseDatabaseModel
 					// 3cols
 					if (preg_match($p2, $val, $matchs))
 					{
-						$r[$name][trim($matchs[1])] = [trim($matchs[2]), trim($matchs[3]),];
+						$r[$name][trim($matchs[1])] = [trim($matchs[2]), trim($matchs[3]), ];
 					}
 					// 2cols
 					elseif (preg_match($p3, $val, $matchs))

@@ -225,7 +225,7 @@ class ContactsModel extends ListModel
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
 
-		if (in_array($featured, ['0','1']))
+		if (in_array($featured, ['0', '1']))
 		{
 			$query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
 		}

@@ -198,7 +198,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$query->whereIn($db->quoteName('c.published'), [0,1,2]);
+			$query->whereIn($db->quoteName('c.published'), [0, 1, 2]);
 		}
 
 		// Filter by start and end dates.

@@ -53,7 +53,7 @@ $blockEnd    = $isBtnGroup ? '' : '</div>';
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
 		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
-	) . '"',];
+	) . '"', ];
 
 if (!empty($disabled))
 {

@@ -221,6 +221,6 @@ class TemplatesModel extends ListModel
 	 */
 	public function getLanguages()
 	{
-		return LanguageHelper::getContentLanguages(array(0,1));
+		return LanguageHelper::getContentLanguages(array(0, 1));
 	}
 }

@@ -38,7 +38,7 @@ class StagesModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 's.id',
 				'title', 's.title',
-				'ordering','s.ordering',
+				'ordering', 's.ordering',
 				'published', 's.published'
 			);
 		}

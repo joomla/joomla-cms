@@ -62,7 +62,7 @@ abstract class TemplateHelper
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
+			'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'jar',
 			'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
 			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'

@@ -158,7 +158,7 @@ class LinksModel extends ListModel
 		}
 		elseif ($state === '')
 		{
-			$query->whereIn($db->quoteName('a.published'), [0,1]);
+			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
 
 		// Filter the items over the HTTP status code header.

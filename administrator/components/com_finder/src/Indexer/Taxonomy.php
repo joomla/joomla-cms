@@ -440,7 +440,7 @@ class Taxonomy
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+			$query->select(array('id', 'parent_id', 'lft', 'rgt', 'level', 'path', 'title', 'alias', 'state', 'access', 'language'))
 				->from($db->quoteName('#__finder_taxonomy'))
 				->order($db->quoteName('lft'));
 

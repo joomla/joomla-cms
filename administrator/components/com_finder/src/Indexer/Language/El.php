@@ -57,10 +57,10 @@ class El extends Language
 	public function tokenise($input)
 	{
 		// Replace Greek calligraphic double quotes (various styles) to dumb double quotes
-		$input = str_replace(['“', '”', '„', '«','»'], '"', $input);
+		$input = str_replace(['“', '”', '„', '«', '»'], '"', $input);
 
 		// Replace Greek calligraphic single quotes (various styles) to dumb single quotes
-		$input = str_replace(['‘','’','‚'], "'", $input);
+		$input = str_replace(['‘', '’', '‚'], "'", $input);
 
 		// Replace the middle dot (ano teleia) with a comma, adequate for the purpose of stemming
 		$input = str_replace('·', ',', $input);
