@@ -1117,7 +1117,6 @@ abstract class HTMLHelper
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
-	 *
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{

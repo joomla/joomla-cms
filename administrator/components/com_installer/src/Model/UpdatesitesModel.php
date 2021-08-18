@@ -76,7 +76,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.4
-	 *
 	 */
 	public function publish(&$eid = [], $value = 1)
 	{
@@ -121,7 +120,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.6
-	 *
 	 */
 	public function delete($ids = [])
 	{
@@ -254,7 +252,6 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 * @since   3.6
-	 *
 	 */
 	public function rebuild(): void
 	{

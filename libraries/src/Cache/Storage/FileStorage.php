@@ -35,7 +35,6 @@ class FileStorage extends CacheStorage
 	 *
 	 * @var    array
 	 * @since  3.7.0
-	 *
 	 */
 	protected $_locked_files = array();
 

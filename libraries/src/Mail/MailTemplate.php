@@ -51,14 +51,12 @@ class MailTemplate
 	protected $language;
 
 	/**
-	 *
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
 	protected $data = array();
 
 	/**
-	 *
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
