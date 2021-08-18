@@ -30,7 +30,7 @@ use function is_file;
 /**
  * Utility trait for plugins that support com_cronjobs jobs
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 trait CronjobPluginTrait
 {
@@ -38,7 +38,7 @@ trait CronjobPluginTrait
 	 * Stores the job state.
 	 *
 	 * @var array
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $snapshot = [];
 
@@ -60,7 +60,7 @@ trait CronjobPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function jobStart(): void
 	{
@@ -84,7 +84,7 @@ trait CronjobPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function jobEnd(CronRunEvent $event, int $exitCode, bool $log = true): void
 	{
@@ -121,7 +121,7 @@ trait CronjobPluginTrait
 	 * @return boolean
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function enhanceCronjobItemForm(Form $form, $data): bool
 	{
@@ -151,7 +151,7 @@ trait CronjobPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function advertiseJobs(Event $event): void
 	{
@@ -173,7 +173,7 @@ trait CronjobPluginTrait
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getJobId(Form $form, $data): string
 	{
@@ -199,7 +199,7 @@ trait CronjobPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addJobLog(string $message, string $priority = 'info'): void
 	{

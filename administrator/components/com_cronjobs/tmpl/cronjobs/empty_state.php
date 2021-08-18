@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
+ * @package       Joomla.Administrator
+ * @subpackage    com_cronjobs
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -14,9 +14,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
 	'textPrefix' => 'COM_CRONJOBS',
-	'formURL'    => 'index.php?option=com_cronjobs&task=cronjob.add',
-	'helpURL'    => 'https://github.com/joomla-projects/soc21_website-cronjob',
-	'icon'       => 'icon-clock clock',
+	'formURL' => 'index.php?option=com_cronjobs&task=cronjob.add',
+	'helpURL' => 'https://github.com/joomla-projects/soc21_website-cronjob',
+	'icon' => 'icon-clock clock',
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_cronjobs'))

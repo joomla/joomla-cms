@@ -14,8 +14,8 @@ namespace Joomla\Component\Cronjobs\Administrator\Event;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\AbstractEvent;
 use BadMethodCallException;
+use Joomla\CMS\Event\AbstractEvent;
 
 /**
  * Event class for onCronRun event.
@@ -32,7 +32,7 @@ class CronRunEvent extends AbstractEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -40,7 +40,7 @@ class CronRunEvent extends AbstractEvent
 
 		if (!isset($arguments['jobId']))
 		{
-			throw new \BadMethodCallException("No jobId given for $name event");
+			throw new BadMethodCallException("No jobId given for $name event");
 		}
 
 		parent::__construct($name, $arguments);
@@ -49,11 +49,11 @@ class CronRunEvent extends AbstractEvent
 	/**
 	 * Sets the job result snapshot and stops event propagation.
 	 *
-	 * @param   array  $snapshot   The job snapshot.
+	 * @param   array  $snapshot  The job snapshot.
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setResult(array $snapshot = []): void
 	{
@@ -70,7 +70,7 @@ class CronRunEvent extends AbstractEvent
 	 *
 	 * @return  string  The jobId of the job
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getJobId(): string
 	{
@@ -82,7 +82,7 @@ class CronRunEvent extends AbstractEvent
 	 *
 	 * @return array   The job snapshot if available, else null
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getResultSnapshot(): array
 	{

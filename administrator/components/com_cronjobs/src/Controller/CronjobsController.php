@@ -2,32 +2,31 @@
 /**
  * Declares the MVC controller for CronJobsModel.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cronjobs
+ * @package         Joomla.Administrator
+ * @subpackage      com_cronjobs
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- namespace Joomla\Component\Cronjobs\Administrator\Controller;
+namespace Joomla\Component\Cronjobs\Administrator\Controller;
 
 // Restrict direct access
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Cronjobs\Administrator\Model\CronjobModel;
 use function defined;
 
 /**
- * The CronjobsModel controller.
+ * MVC Controller for CronjobsView.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class CronjobsController extends AdminController
 {
 	/**
-	 * Proxy for the parent method, set
+	 * Proxy for the parent method.
 	 *
 	 * @param   string  $name    The name of the model.
 	 * @param   string  $prefix  The prefix for the PHP class name.

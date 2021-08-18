@@ -15,7 +15,7 @@ namespace Joomla\Component\Cronjobs\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -26,15 +26,15 @@ use function defined;
 /**
  * MVC Model for SelectView
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class SelectModel extends ListModel
 {
 	/**
-	 * The Application object. Due removal.
+	 * The Application object, due removal.
 	 *
-	 * @var CMSApplication
-	 * @since __DEPLOY_VERSION__
+	 * @var AdministratorApplication
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -46,7 +46,7 @@ class SelectModel extends ListModel
 	 * @param   ?MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
 	{
@@ -59,7 +59,7 @@ class SelectModel extends ListModel
 	 * @return CronOption[]  An array of CronOption objects
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItems(): array
 	{

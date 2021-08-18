@@ -22,7 +22,6 @@ use Joomla\Component\Cronjobs\Administrator\View\Cronjob\HtmlView;
 
 /** @var HtmlView $this */
 
-
 $wa = $this->document->getWebAssetManager();
 
 $wa->useScript('keepalive');

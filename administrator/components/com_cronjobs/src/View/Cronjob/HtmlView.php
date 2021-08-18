@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC View for CronjobModel.
+ * Declares the MVC View for the Cronjob form.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_cronjobs
@@ -12,63 +12,61 @@
 namespace Joomla\Component\Cronjobs\Administrator\View\Cronjob;
 
 // Restrict direct access
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Exception;
-use JForm;
-use JObject;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use function defined;
 
 /**
- * The MVC View AddCronjob
+ * The MVC View for the Cronjob form
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
- *
- * @since      __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var AdministratorApplication $app
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
 	/**
 	 * The Form object
 	 *
-	 * @var   JForm
-	 * @since __DEPLOY__VERSION__
+	 * @var Form
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var   object
-	 * @since __DEPLOY__VERSION__
+	 * @var object
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var   JObject
-	 * @since __DEPLOY__VERSION__
+	 * @var CMSObject
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
-	 * @since  4.0.0
+	 * @var  CMSObject
+	 * @since  __DEPLOY__VERSION__
 	 */
 	protected $canDo;
 
@@ -86,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 *                          layout: the layout (optional) to use to display the view
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -100,7 +98,7 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
 	{
@@ -123,13 +121,12 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar(): void
 	{
 		$app = Factory::getApplication();
 
-		/** @noinspection SpellCheckingInspection */
 		$app->getInput()->set('hidemainmenu', true);
 		$user = $app->getIdentity();
 		$userId = $user->id;
@@ -162,8 +159,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
+			$toolbarButtons
 		);
 
 		ToolbarHelper::cancel('cronjob.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

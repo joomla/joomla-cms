@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC View for SelectPluginModel.
+ * Declares the MVC View for Cronjob type selection.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_cronjobs
@@ -15,63 +15,53 @@ namespace Joomla\Component\Cronjobs\Administrator\View\Select;
 defined('_JEXEC') or die;
 
 use Exception;
-use JObject;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
 use function defined;
 
 /**
  * The MVC View Select
- * Should let the user choose from a list of plugin defined Jobs or a CLI job.
+ * Lets the user choose from a list of plugin defined Job routines.
  *
- * @package    Joomla.Administrator
- * @subpackage com_cronjobs
- *
- * @since      __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var AdministratorApplication
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
-	 * @since __DEPLOY_VERSION__
+	 * @var  CMSObject
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * An array of items
 	 *
-	 * @var  array
-	 * @since __DEPLOY_VERSION__
+	 * @var  CronOption[]
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
-
-	/**
-	 * Will be used for the "CLI" / "Script" type job
-	 *
-	 * @var object
-	 * @since version
-	 */
-	protected $specialItem;
 
 	/**
 	 * A suffix for links for modal use [?]
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $modalLink;
 
@@ -88,9 +78,9 @@ class HtmlView extends BaseHtmlView
 	 *                          layout: the layout (optional) to use to display the view
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		$this->app = Factory::getApplication();
 		parent::__construct($config);
@@ -102,7 +92,7 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
 	{
@@ -125,7 +115,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar(): void
 	{
@@ -136,27 +126,24 @@ class HtmlView extends BaseHtmlView
 		* TODO : Replace usage with ToolbarFactoryInterface. but how?
 		 *       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
 		*/
-		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance();
 
-		/*
-		 * Add page title
-		 * TODO: 'cronjobs' icon
-		 */
+		 // Add page title
 		ToolbarHelper::title(Text::_('COM_CRONJOBS_MANAGER_CRONJOBS'), 'clock');
 
 		$toolbar->linkButton('cancel')
+			->url('index.php?option=com_cronjobs')
 			->buttonClass('btn btn-danger')
 			->icon('icon-times')
-			->text(Text::_('JCANCEL'))
-			->url('index.php?option=com_cronjobs');
+			->text(Text::_('JCANCEL'));
 
-		// Adds preferences button if user has privileges
+		// Add preferences button if user has privileges
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			$toolbar->preferences('com_cronjobs');
 		}
 
-		// Adds help button
+		// Add help button
 		$toolbar->help('JHELP_COMPONENTS_CRONJOBS_MANAGER');
 
 	}
