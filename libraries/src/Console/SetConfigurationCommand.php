@@ -463,7 +463,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0.0
 	 */
-	public function sanitizeOptions(Array $options): array
+	public function sanitizeOptions(array $options): array
 	{
 		foreach ($options as $key => $value)
 		{

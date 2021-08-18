@@ -215,7 +215,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0.0
 	 */
-	public function formatConfig(Array $configs): array
+	public function formatConfig(array $configs): array
 	{
 		$newConfig = [];
 

@@ -62,7 +62,7 @@ class FieldgroupsField extends ListField
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		foreach ($options AS $option)
+		foreach ($options as $option)
 		{
 			if ($option->state == 0)
 			{

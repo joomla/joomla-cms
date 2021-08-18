@@ -369,7 +369,7 @@ class El extends Language
 
 		// Step 1
 		// step1list is used in Step 1. 41 stems
-		$step1list             = Array();
+		$step1list             = array();
 		$step1list["ΦΑΓΙΑ"]    = "ΦΑ";
 		$step1list["ΦΑΓΙΟΥ"]   = "ΦΑ";
 		$step1list["ΦΑΓΙΩΝ"]   = "ΦΑ";

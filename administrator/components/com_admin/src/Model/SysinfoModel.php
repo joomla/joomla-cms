@@ -737,7 +737,7 @@ class SysinfoModel extends BaseDatabaseModel
 				$name = trim($matchs[1]);
 				$vals = explode("\n", $t[$i + 1]);
 
-				foreach ($vals AS $val)
+				foreach ($vals as $val)
 				{
 					// 3cols
 					if (preg_match($p2, $val, $matchs))
