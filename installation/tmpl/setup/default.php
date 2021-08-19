@@ -25,8 +25,7 @@ HTMLHelper::_('behavior.formvalidator');
 			</legend>
 			<div class="j-install-step-form">
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('language'); ?>
-					<?php echo $this->form->getInput('language'); ?>
+					<?php echo $this->form->renderField('language'); ?>
 				</div>
 				<input type="hidden" name="task" value="language.set">
 				<input type="hidden" name="format" value="json">
@@ -41,8 +40,7 @@ HTMLHelper::_('behavior.formvalidator');
 			</legend>
 			<div class="j-install-step-form">
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('site_name'); ?>
-					<?php echo $this->form->getInput('site_name'); ?>
+					<?php echo $this->form->renderField('site_name'); ?>
 				</div>
 				<div class="mb-3 mt-4">
 					<button class="btn btn-primary w-100" id="step1"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
@@ -55,20 +53,16 @@ HTMLHelper::_('behavior.formvalidator');
 			</legend>
 			<div class="j-install-step-form">
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('admin_user'); ?>
-					<?php echo $this->form->getInput('admin_user'); ?>
+					<?php echo $this->form->renderField('admin_user'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('admin_username'); ?>
-					<?php echo $this->form->getInput('admin_username'); ?>
+					<?php echo $this->form->renderField('admin_username'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('admin_password'); ?>
-					<?php echo $this->form->getInput('admin_password'); ?>
+					<?php echo $this->form->renderField('admin_password'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('admin_email'); ?>
-					<?php echo $this->form->getInput('admin_email'); ?>
+					<?php echo $this->form->renderField('admin_email'); ?>
 				</div>
 				<div class="mb-3 mt-4">
 					<button class="btn btn-primary w-100" id="step2"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
@@ -81,35 +75,41 @@ HTMLHelper::_('behavior.formvalidator');
 			</legend>
 			<div class="j-install-step-form">
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_type'); ?>
-					<?php echo $this->form->getInput('db_type'); ?>
+					<?php echo $this->form->renderField('db_type'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_host'); ?>
-					<?php echo $this->form->getInput('db_host'); ?>
+					<?php echo $this->form->renderField('db_host'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_user'); ?>
-					<?php echo $this->form->getInput('db_user'); ?>
+					<?php echo $this->form->renderField('db_user'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_pass'); ?>
-					<?php echo $this->form->getInput('db_pass'); ?>
+					<?php echo $this->form->renderField('db_pass'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_name'); ?>
-					<?php echo $this->form->getInput('db_name'); ?>
+					<?php echo $this->form->renderField('db_name'); ?>
 				</div>
 				<div class="mb-3">
-					<?php echo $this->form->getLabel('db_prefix'); ?>
-					<?php echo $this->form->getInput('db_prefix'); ?>
+					<?php echo $this->form->renderField('db_prefix'); ?>
 				</div>
-				<?php echo $this->form->getField('db_encryption')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslkey')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslcert')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslverifyservercert')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslca')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslcipher')->renderField(); ?>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_encryption'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslkey'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslcert'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslverifyservercert'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslca'); ?>
+				</div>
+				<div class="mb-3">
+					<?php echo $this->form->renderField('db_sslcipher'); ?>
+				</div>
 				<div class="mb-3">
 					<?php //echo $this->form->getLabel('db_old'); ?>
 					<?php echo $this->form->getInput('db_old'); ?>
