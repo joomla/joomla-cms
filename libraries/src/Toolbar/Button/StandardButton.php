@@ -100,6 +100,8 @@ class StandardButton extends BasicButton
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
+			// TODO: HERE
+			case 'save-draft':
 			case 'save-close':
 			case 'publish':
 				return 'btn btn-success';
@@ -131,7 +133,7 @@ class StandardButton extends BasicButton
 		Text::script('ERROR');
 
 		$cmd = "Joomla.submitbutton('" . $this->getTask() . "');";
-
+			
 		if ($this->getListCheck())
 		{
 			$messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";

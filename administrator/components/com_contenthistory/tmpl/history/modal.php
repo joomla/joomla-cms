@@ -49,6 +49,10 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
+					<!-- TODO: HERE -->
+					<th scope="col" class="w-15 d-none d-md-table-cell">
+						<?php echo "Draft"; ?>
+					</th>
 					<th scope="col" class="w-10">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
@@ -78,6 +82,9 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					</th>
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->version_note); ?>
+					</td>
+					<td>
+						Draft
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>

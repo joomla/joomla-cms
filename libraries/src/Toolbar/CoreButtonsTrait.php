@@ -409,6 +409,25 @@ trait CoreButtonsTrait
 			->formValidation(true);
 	}
 
+	// TODO: HERE
+	/**
+	 * Writes a save-as-draft button for a given option.
+	 * Save operation leads to a save and then close action.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   4.0.0
+	 */
+	public function saveAsDraft(string $task, string $text = 'JTOOLBAR_SAVE_AS_DRAFT'): StandardButton
+	{
+		return $this->standardButton('save-draft', $text)
+			->task($task)
+			->formValidation(true);
+	}
+
 	/**
 	 * Writes a checkin button for a given option.
 	 *

@@ -134,6 +134,7 @@ $assoc = Associations::isEnabled();
 								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
+								<th></th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
@@ -326,6 +327,14 @@ $assoc = Associations::isEnabled();
 										</div>
 									</div>
 								</th>
+								<!--TODO: HERE--> 
+								<td class="small d-none d-md-table-cell">
+									<?php 
+										$draft = (rand() % 2 ? '<span class="badge rounded-pill bg-success">Draft</span>': "");
+										echo $draft;
+										echo ($draft && rand() % 2) ? '<span class="badge rounded-pill bg-warning">Shared</span>' : '';
+									?>
+								</td>
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>

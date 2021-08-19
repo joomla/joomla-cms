@@ -241,6 +241,11 @@ class HtmlView extends BaseHtmlView
 					->listCheck(true);
 			}
 		}
+		// TODO: HERE
+		$toolbar->saveAsDraft('com_content')
+			->icon('icon-project-diagram')
+			->task('articles.saveAsDraft')
+			->listCheck(true);
 
 		if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{

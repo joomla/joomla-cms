@@ -79,6 +79,8 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
+			<!-- TODO: HERE -->	
+			<option value="3">JDRAFTED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
 

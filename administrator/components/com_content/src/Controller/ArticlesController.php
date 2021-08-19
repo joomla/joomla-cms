@@ -153,4 +153,10 @@ class ArticlesController extends AdminController
 
 		echo new JsonResponse($result);
 	}
+
+	// TODO: HERE
+	public function saveAsDraft()
+	{
+		echo "<script>alert('Hallo Welt');</script>";
+	}
 }
