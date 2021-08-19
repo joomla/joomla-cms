@@ -1806,7 +1806,7 @@ ENDDATA;
 	 *
 	 * @param   string  $template  The template name to be checked
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
