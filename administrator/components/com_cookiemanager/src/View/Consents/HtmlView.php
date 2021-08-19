@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cookiemanager\Administrator\View\Scripts;
+namespace Joomla\Component\Cookiemanager\Administrator\View\Consents;
 
 \defined('_JEXEC') or die;
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View class for a list of scripts.
+ * View class for a list of cookiemanager group.
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -110,47 +110,16 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$user  = Factory::getApplication()->getIdentity();
-		$canDo = ContentHelper::getActions('com_cookiemanager', 'category', $this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions('com_cookiemanager');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_SCRIPTS'), 'code');
+		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_CONSENTS'), 'lock');
 
-		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_cookiemanager', 'core.create')) > 0)
+		if (!$this->isEmptyState && $canDo->get('core.delete'))
 		{
-			$toolbar->addNew('script.add');
-		}
-
-		if (!$this->isEmptyState && $canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
-
-			$childBar = $dropdown->getChildToolbar();
-
-			$childBar->publish('scripts.publish')->listCheck(true);
-
-			$childBar->unpublish('scripts.unpublish')->listCheck(true);
-
-			$childBar->archive('scripts.archive')->listCheck(true);
-
-			if ($this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('scripts.trash')->listCheck(true);
-			}
-		}
-
-		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('scripts.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'consents.delete');
 		}
 
 		if ($user->authorise('core.admin', 'com_cookiemanager'))
@@ -158,6 +127,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_cookiemanager');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_SCRIPTS');
+		$toolbar->help('JHELP_COMPONENTS_COOKIEMANAGER_CONSENTS');
 	}
 }

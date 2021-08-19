@@ -6,7 +6,10 @@
 ((document) => {
   'use strict';
 
+  let consentsOptIn = [];
+  let consentsOptOut = [];
   const cookie = document.cookie.split('; ');
+  const uuid = cookie.find((c) => c.startsWith('uuid=')).split('=')[1];
   const config = Joomla.getOptions('config');
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
@@ -18,6 +21,16 @@
     if (cookie.indexOf('cookieBanner=shown') === -1) {
       const Banner = new bootstrap.Modal(document.querySelector('#cookieBanner'));
       Banner.show();
+    }
+
+    if (cookie.find((c) => c.startsWith('consents_opt_in=')) !== undefined) {
+      const consentOptIn = cookie.find((c) => c.startsWith('consents_opt_in=')).split('=')[1];
+      const consentDate = cookie.find((c) => c.startsWith('consent_date=')).split('=')[1];
+      const ccuuid = cookie.find((c) => c.startsWith('ccuuid=')).split('=')[1];
+
+      document.getElementById('ccuuid').innerHTML = ccuuid;
+      document.getElementById('consent-date').innerHTML = consentDate;
+      document.getElementById('consent-opt-in').innerHTML = consentOptIn;
     }
 
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
@@ -66,13 +79,48 @@
     });
   });
 
-  function getExpiration() {
+  const getExpiration = () => {
     const exp = config.expiration;
     const d = new Date();
     d.setTime(d.getTime() + (exp * 24 * 60 * 60 * 1000));
     const expires = d.toUTCString();
     return expires;
-  }
+  };
+
+  const storingConsents = () => {
+    const consentsIn = consentsOptIn.join(', ');
+    const consentsOut = consentsOptOut.join(', ');
+
+    consentsOptIn = [];
+    consentsOptOut = [];
+
+    const date = Date();
+    document.cookie = `consents_opt_in=${consentsIn}; path=/;`;
+    document.cookie = `consent_date=${date}; path=/;`;
+    const consentDetails = {
+      uuid,
+      consent_date: date,
+      url: window.location.href,
+      consent_opt_in: consentsIn,
+      consent_opt_out: consentsOut,
+    };
+    const data = JSON.stringify(consentDetails);
+
+    Joomla.request({
+      url: `index.php?option=com_ajax&plugin=cookiemanager&group=system&format=json&data=${data}`,
+      method: 'POST',
+      onSuccess: (r) => {
+        const res = JSON.parse(r);
+        const ccuuid = res.data[0];
+
+        document.cookie = `ccuuid=${ccuuid}; path=/;`;
+
+        document.getElementById('ccuuid').innerHTML = ccuuid;
+        document.getElementById('consent-date').innerHTML = consentDetails.consent_date;
+        document.getElementById('consent-opt-in').innerHTML = consentDetails.consent_opt_in;
+      },
+    });
+  };
 
   document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
@@ -116,14 +164,17 @@
 
               document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
             });
+            consentsOptIn.push(key);
           }
         });
       } else {
         const key = item.getAttribute('data-cookiecategory');
         document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
+        consentsOptOut.push(key);
       }
     });
     document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
+    storingConsents();
   });
 
   document.getElementById('prefConfirmChoice').addEventListener('click', () => {
@@ -168,14 +219,17 @@
 
               document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
             });
+            consentsOptIn.push(key);
           }
         });
       } else {
         const key = item.getAttribute('data-cookie-category');
         document.cookie = `cookie_category_${key}=false; expires=${exp}; path=/;`;
+        consentsOptOut.push(key);
       }
     });
     document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
+    storingConsents();
   });
 
   document.querySelectorAll('[data-button="acceptAllCookies"]').forEach((btn) => {
@@ -217,9 +271,11 @@
           }
           document.cookie = `cookie_category_${key}=true; expires=${exp}; path=/;`;
         });
+        consentsOptIn.push(key);
       });
 
       document.cookie = `cookieBanner=shown; expires=${exp}; path=/;`;
+      storingConsents();
     });
   });
 

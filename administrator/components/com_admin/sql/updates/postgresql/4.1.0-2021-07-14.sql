@@ -42,6 +42,22 @@ CREATE TABLE IF NOT EXISTS "#__cookiemanager_scripts" (
 CREATE INDEX "#__cookiemanager_scripts_idx_state" on "#__cookiemanager_scripts" ("published");
 CREATE INDEX "#__cookiemanager_scripts_idx_catid" on "#__cookiemanager_scripts" ("catid");
 
+--
+-- Table structure for table "#__cookiemanager_consents"
+--
+
+CREATE TABLE IF NOT EXISTS "#__cookiemanager_consents" (
+  "id" serial NOT NULL,
+  "uuid" varchar(32) NOT NULL,
+  "ccuuid" varchar(64) NOT NULL,
+  "consent_opt_in" varchar(255) NOT NULL,
+  "consent_opt_out" varchar(255) NOT NULL,
+  "consent_date" varchar(100) NOT NULL,
+  "user_agent" varchar(150) NOT NULL,
+  "url" varchar(100) NOT NULL,
+  PRIMARY KEY ("id")
+);
+
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
 (0, 'com_cookiemanager', 'component', 'com_cookiemanager', '', 1, 1, 1, 0, 1, '', '{"policylink":"","modal_position":"","consent_expiration":"30"}', '', 0, 0),
 (0, 'plg_system_cookiemanager', 'plugin', 'cookiemanager', 'system', 0, 1, 1, 0, 1, '', '', '', 0, 0);

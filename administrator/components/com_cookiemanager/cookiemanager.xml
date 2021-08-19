@@ -15,10 +15,12 @@
 		<submenu>
 			<menu link="option=com_cookiemanager&amp;view=cookies" img="class:cookie"
 				alt="Cookiemanager/Cookies">COM_COOKIEMANAGER_COOKIES</menu>
-			<menu link="option=com_categories&amp;extension=com_cookiemanager"
+			<menu link="option=com_categories&amp;extension=com_cookiemanager" img="class:cookies-cat" 
 				view="categories" alt="Cookiemanager/Categories">COM_COOKIEMANAGER_CATEGORIES</menu>
 			<menu link="option=com_cookiemanager&amp;view=scripts" img="class:code"
 				alt="Cookiemanager/Scripts">COM_COOKIEMANAGER_SCRIPTS</menu>
+			<menu link="option=com_cookiemanager&amp;view=consents" img="class:lock"
+				alt="Cookiemanager/Consents">COM_COOKIEMANAGER_CONSENTS</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="uuid"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_UUID_LABEL"
+			size="80"
+			readonly="true"
+		/>
+
+        <field
+			name="ccuuid"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_CCUUID_LABEL"
+			size="80"
+			readonly="true"
+		/>
+
+		<field
+			name="consent_opt_in"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_CONSENT_OPT_IN_LABEL"
+			size="80"
+			readonly="true"
+		/>
+
+		<field
+			name="consent_opt_out"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_CONSENT_OPT_OUT_LABEL"
+			size="80"
+			readonly="true"
+		/>
+
+        <field
+            name="consent_date"
+            type="text"
+            label="COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL"
+            size="80"
+			readonly="true"
+            showtime="true"
+        />
+
+		<field
+			name="url"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_URL_LABEL"
+			size="80"
+			readonly="true"
+		/>
+
+        <field
+            name="user_agent"
+            type="textarea"
+            label="COM_COOKIEMANAGER_FIELD_USER_AGENT_LABEL"
+            rows="2"
+			readonly="true"
+        />
+	</fieldset>
+</form>
