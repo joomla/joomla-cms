@@ -696,7 +696,7 @@ class HtmlDocument extends Document
 			if (empty($module->contentRendered))
 			{
 				// Preserve content if loaded from cache
-				$module->content = $renderer->render($module, ['countOnly' => true]);
+				$module->content = $renderer->render($module, ['contentOnly' => true]);
 				$module->contentRendered = true;
 			}
 

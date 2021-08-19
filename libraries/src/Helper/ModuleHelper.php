@@ -213,8 +213,8 @@ abstract class ModuleHelper
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
-		// Don't apply chromes if we count only
-		if ($module === null || !isset($module->content) || !empty($attribs['countOnly']))
+		// Don't apply chromes if we only need the content
+		if ($module === null || !isset($module->content) || !empty($attribs['contentOnly']))
 		{
 			return '';
 		}
