@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 
 /**
- * Item Model for a script to edit.
+ * Consent Model for a consent to view.
  *
  * @since   __DEPLOY_VERSION__
  */

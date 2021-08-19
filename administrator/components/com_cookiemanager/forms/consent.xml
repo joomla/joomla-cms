@@ -18,7 +18,7 @@
 			readonly="true"
 		/>
 
-        <field
+		<field
 			name="ccuuid"
 			type="text"
 			label="COM_COOKIEMANAGER_FIELD_CCUUID_LABEL"
@@ -42,13 +42,12 @@
 			readonly="true"
 		/>
 
-        <field
-            name="consent_date"
-            type="text"
-            label="COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL"
-            size="80"
+		<field
+			name="consent_date"
+			type="text"
+			label="COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL"
+			size="80"
 			readonly="true"
-            showtime="true"
         />
 
 		<field
@@ -59,11 +58,11 @@
 			readonly="true"
 		/>
 
-        <field
-            name="user_agent"
-            type="textarea"
-            label="COM_COOKIEMANAGER_FIELD_USER_AGENT_LABEL"
-            rows="2"
+		<field
+			name="user_agent"
+			type="textarea"
+			label="COM_COOKIEMANAGER_FIELD_USER_AGENT_LABEL"
+			rows="2"
 			readonly="true"
         />
 	</fieldset>

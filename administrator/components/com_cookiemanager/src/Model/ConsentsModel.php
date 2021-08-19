@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Methods supporting a list of cookie manager groups.
+ * Methods supporting a list of consents records.
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -115,7 +115,7 @@ class ConsentsModel extends ListModel
 			);
 			$query->from($db->quoteName('#__cookiemanager_consents', 'a'));
 
-		// Filter by search in title.
+		// Filter by search in ccuuid.
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))

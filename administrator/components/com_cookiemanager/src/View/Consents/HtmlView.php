@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View class for a list of cookiemanager group.
+ * View class for a list of consents.
  *
  * @since   __DEPLOY_VERSION__
  */

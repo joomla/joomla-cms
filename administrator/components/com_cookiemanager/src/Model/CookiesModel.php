@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Methods supporting a list of cookie manager groups.
+ * Methods supporting a list of cookies records.
  *
  * @since   __DEPLOY_VERSION__
  */

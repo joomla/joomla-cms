@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_COOKIEMANAGER_XML_DESCRIPTION</description>
-	<files>
-    <filename plugin="cookiemanager">cookiemanager.php</filename>
-  </files>
-  <languages>
-    <language tag="en-GB">en-GB.plg_system_cookiemanager.ini</language>
-    <language tag="en-GB">en-GB.plg_system_cookiemanager.sys.ini</language>
-  </languages>
+    <files>
+        <filename plugin="cookiemanager">cookiemanager.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">en-GB.plg_system_cookiemanager.ini</language>
+        <language tag="en-GB">en-GB.plg_system_cookiemanager.sys.ini</language>
+    </languages>
 </extension>

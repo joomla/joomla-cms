@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View to edit a group.
+ * View to edit a cookie.
  *
  * @since   __DEPLOY_VERSION__
  */

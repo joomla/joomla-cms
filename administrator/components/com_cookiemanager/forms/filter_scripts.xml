@@ -55,7 +55,7 @@
 			<option value="category_title DESC">JCATEGORY_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
-    	</field>
+		</field>
 
 		<field
 			name="limit"

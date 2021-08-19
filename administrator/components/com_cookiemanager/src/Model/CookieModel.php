@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 
 /**
- * Item Model for a group to edit.
+ * Cookie Model for a cookie to edit.
  *
  * @since   __DEPLOY_VERSION__
  */

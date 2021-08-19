@@ -14,7 +14,7 @@ namespace Joomla\Component\Cookiemanager\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
- * Cookie manager list controller class.
+ * Cookies list controller class.
  *
  * @since   __DEPLOY_VERSION__
  */

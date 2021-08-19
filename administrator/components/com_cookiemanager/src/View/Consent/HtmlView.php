@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View to edit an consent.
+ * View to view a consent.
  *
  * @since   __DEPLOY_VERSION__
  */

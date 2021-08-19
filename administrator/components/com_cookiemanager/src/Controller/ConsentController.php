@@ -14,7 +14,7 @@ namespace Joomla\Component\Cookiemanager\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * Controller for a single group to edit
+ * Controller for a consent to view.
  *
  * @since   __DEPLOY_VERSION__
  */

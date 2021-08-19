@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Methods supporting a list of cookie manager groups.
+ * Methods supporting a list of scripts records.
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -183,7 +183,7 @@ class ScriptsModel extends ListModel
 	}
 
 	/**
-	 * Method to get a list of cookies.
+	 * Method to get a list of scripts.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
