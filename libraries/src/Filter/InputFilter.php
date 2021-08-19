@@ -46,7 +46,7 @@ class InputFilter extends BaseInputFilter
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
-	 * @since  __DEPOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $instances = array();
 	/**
