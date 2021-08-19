@@ -4,6 +4,7 @@ import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
 import Audio from './audio.vue';
+import Pdf from './pdf.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
 import { api } from '../../../app/Api.es6';
@@ -36,6 +37,11 @@ export default {
       // Render audio items
       if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
         return Audio;
+      }
+
+      // Render pdf items
+      if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase()) && this.item.extension.toLowerCase() === api.documentExtensions[4]) {
+        return Pdf;
       }
 
       // Render document items
