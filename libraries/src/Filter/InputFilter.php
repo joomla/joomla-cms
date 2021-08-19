@@ -27,7 +27,7 @@ class InputFilter extends BaseInputFilter
 	 * An array containing a list of extensions for files that are typically
 	 * executable directly in the webserver context, potentially resulting in code executions
 	 *
-	 * @since __DEPOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public const FORBIDDEN_FILE_EXTENSIONS = [
 		'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
