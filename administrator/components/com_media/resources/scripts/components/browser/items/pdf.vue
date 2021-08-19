@@ -23,7 +23,12 @@
       class="media-browser-actions"
       :class="{'active': showActions}"
     >
-      <media-browser-action-item-toggle :openActions="openActions" :focused="focused" :openLastActions="openLastActions" />
+      <media-browser-action-item-toggle
+          ref="actionToggle"
+          :focused="focused"
+          :openActions="openActions"
+          :openLastActions="openLastActions"
+      />
       <div
         v-if="showActions"
         class="media-browser-actions-list"
@@ -186,19 +191,16 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      console.log(`showActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionPreview.focus());
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
-      console.log(`openLastActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionDelete.focus());
     },
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      console.log(`hideActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },

@@ -1,6 +1,6 @@
 <template>
     <button
-        ref="actionToggle"
+        ref="actionToggleButton"
         type="button"
         class="action-toggle"
         :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
@@ -28,11 +28,14 @@ export default {
         openActions: function() {
             this.openActions();
         },
-        focused: function(focused) {
-            this.focused(focused);
-        },
         openLastActions: function() {
             this.openLastActions();
+        },
+        focus: function() {
+            this.$refs.actionToggleButton.focus()
+        },
+        focused: function(bool) {
+            this.focused()
         }
     },
 }
