@@ -41,7 +41,7 @@
 }
 
 .new-job:hover .new-job-link {
-  background: var(--atum-bg-dark);
+  background: var(--template-bg-dark);
 }
 
 .new-job-link span {
@@ -55,10 +55,4 @@
 
 .new-jobs .card-columns {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
-}
-
-#cli-job .new-job {
-  width: clamp(20em, 25vw, 50em);
-  margin: auto;
-  height: 12em;
 }

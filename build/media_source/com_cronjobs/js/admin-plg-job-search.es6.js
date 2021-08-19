@@ -43,20 +43,20 @@ const elCards = [].slice.call(document.querySelectorAll('.comCronjobsSelectCard'
 
 if (elSearch && elSearchContainer) {
   // Add the keyboard event listener which performs the live search in the cards
-  elSearch.addEventListener('keyup', event => {
+  elSearch.addEventListener('keyup', ({ target }) => {
     /** @type {KeyboardEvent} event */
-    const partialSearch = event.target.value;
+    const partialSearch = target.value;
     let hasSearchResults = false; // Save the search string into session storage
 
     if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('Joomla.com_cronjobs.new.search', partialSearch);
     } // Iterate all the job cards
 
-
-    elCards.forEach(card => {
+    elCards.forEach((card) => {
       // First remove the class which hide the job cards
-      card.classList.remove('d-none'); // An empty search string means that we should show everything
+      card.classList.remove('d-none');
 
+      // An empty search string means that we should show everything
       if (!partialSearch) {
         return;
       }
@@ -64,9 +64,11 @@ if (elSearch && elSearchContainer) {
       const cardHeader = card.querySelector('.new-job-title');
       const cardBody = card.querySelector('.card-body');
       const title = cardHeader ? cardHeader.textContent : '';
-      const description = cardBody ? cardBody.textContent : ''; // If the job title and description don’t match add a class to hide it.
+      const description = cardBody ? cardBody.textContent : '';
 
-      if (title && !title.toLowerCase().includes(partialSearch.toLowerCase()) && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
+      // If the job title and description don’t match add a class to hide it.
+      if (title && !title.toLowerCase().includes(partialSearch.toLowerCase())
+          && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
         card.classList.add('d-none');
       } else {
         hasSearchResults = true;
@@ -82,19 +84,23 @@ if (elSearch && elSearchContainer) {
       elSearchHeader.classList.add('d-none');
       elSearchResults.classList.add('d-none');
     }
-  }); // For reasons of progressive enhancement the search box is hidden by default.
+  });
 
-  elSearchContainer.classList.remove('d-none'); // Focus the just show element
+  // For reasons of progressive enhancement the search box is hidden by default.
+  elSearchContainer.classList.remove('d-none');
 
+  // Focus the just show element
   elSearch.focus();
 
   try {
     if (typeof sessionStorage !== 'undefined') {
       // Load the search string from session storage
-      elSearch.value = sessionStorage.getItem('Joomla.com_cronjobs.new.search') || ''; // Trigger the keyboard handler event manually to initiate the search
+      elSearch.value = sessionStorage.getItem('Joomla.com_cronjobs.new.search') || '';
 
+      // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));
     }
-  } catch (e) {// This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
+  } catch (e) {
+    // This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
   }
 }
