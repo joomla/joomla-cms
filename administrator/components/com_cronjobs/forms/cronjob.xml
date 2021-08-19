@@ -1,26 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- @todo : Replace all labels with translatable strings. -->
-<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field"
-	  addruleprefix="Joomla\Component\Cronjobs\Administrator\Rule">
+<?xml version="1.0" encoding="utf-8"?><!-- @todo : Replace all labels with translatable strings. -->
+<form
+	addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field"
+	addruleprefix="Joomla\Component\Cronjobs\Administrator\Rule"
+>
 	<fields>
-		<!-- Cronjob title -->
-		<field
-				name="title"
-				type="text"
-				label="JGLOBAL_TITLE"
-				size="40"
-				maxlength="100"
-				required="true"
+		<field name="title"
+					 type="text"
+					 label="JGLOBAL_TITLE"
+					 size="40"
+					 maxlength="100"
+					 required="true"
 		/>
-
 		<fieldset name="basic">
 			<field name="trigger"
-				   type="list"
-				   label="COM_CRONJOBS_SELECT_TRIGGER"
-				   validate="options"
-				   required="true"
-			>
+						 type="list"
+						 label="COM_CRONJOBS_SELECT_TRIGGER"
+						 validate="options"
+						 required="true"
+				>
 				<option value="pseudo_cron">COM_CRONJOBS_TRIGGER_PSEUDOCRON</option>
 				<option value="cron">COM_CRONJOBS_TRIGGER_CRON</option>
 				<option value="visit_count">COM_CRONJOBS_TRIGGER_XVISITS</option>
@@ -28,236 +25,216 @@
 		</fieldset>
 
 		<fieldset name="aside">
-			<!-- State field -->
-			<field name="state"
-				   type="CronjobState"
-				   label="JSTATUS"
-				   default="1"
-				   class="form-select-color-state"
-				   size="1"
-				   validate="options"
-				   optionsFilter="-2,0,1"
+			<field
+				name="state"
+				type="CronjobState"
+				label="JSTATUS"
+				default="1"
+				class="form-select-color-state"
+				size="1"
+				validate="options"
+				optionsFilter="-2,0,1"
 			/>
-			<!-- Note -->
-			<field name="note"
-				   type="text"
-				   label="COM_CRONJOBS_LABEL_NOTES"
-				   maxlength="255"
+			<field
+				name="note"
+				type="text"
+				label="COM_CRONJOBS_LABEL_NOTES"
+				maxlength="255"
 			/>
 		</fieldset>
 
-		<!-- Fieldset for execution history	-->
 		<fieldset name="exec_hist">
 			<!-- Last exit code -->
-			<field name="last_exit_code"
-				   type="number"
-				   label="COM_CRONJOBS_LABEL_EXIT_CODE"
-				   default="0"
-				   disabled="true"
-				   filter="unset"
+			<field
+				name="last_exit_code"
+				type="number"
+				label="COM_CRONJOBS_LABEL_EXIT_CODE"
+				default="0"
+				disabled="true"
+				filter="unset"
 			/>
-			<!-- Last execution -->
-			<field name="last_execution"
-				   type="text"
-				   label="COM_CRONJOBS_LABEL_LAST_EXEC"
-				   disabled="true"
-				   filter="unset"
+			<field
+				name="last_execution"
+				type="text"
+				label="COM_CRONJOBS_LABEL_LAST_EXEC"
+				disabled="true"
+				filter="unset"
 			/>
-			<!-- Next execution -->
-			<field name="next_execution"
-				   type="text"
-				   label="COM_CRONJOBS_LABEL_NEXT_EXEC"
-				   disabled="true"
-				   filter="unset"
+			<field
+				name="next_execution"
+				type="text"
+				label="COM_CRONJOBS_LABEL_NEXT_EXEC"
+				disabled="true"
+				filter="unset"
 			/>
-			<!-- Times executed -->
-			<field name="times_executed"
-				   type="number"
-				   label="COM_CRONJOBS_LABEL_TIMES_EXEC"
-				   disabled="true"
-				   filter="unset"
+			<field
+				name="times_executed"
+				type="number"
+				label="COM_CRONJOBS_LABEL_TIMES_EXEC"
+				disabled="true"
+				filter="unset"
 			/>
-			<!-- Times failed -->
-			<field name="times_failed"
-				   type="number"
-				   label="COM_CRONJOBS_LABEL_TIMES_FAIL"
-				   disabled="true"
-				   filter="unset"
+			<field
+				name="times_failed"
+				type="number"
+				label="COM_CRONJOBS_LABEL_TIMES_FAIL"
+				disabled="true"
+				filter="unset"
 			/>
 		</fieldset>
 
-		<!-- Fieldset for creation details -->
 		<fieldset name="details">
-			<!-- Cronjob ID -->
 			<field
-					name="id"
-					type="text"
-					label="JGLOBAL_FIELD_ID_LABEL"
-					default="0"
-					class="readonly"
-					readonly="true"
+				name="id"
+				type="text"
+				label="JGLOBAL_FIELD_ID_LABEL"
+				default="0"
+				class="readonly"
+				readonly="true"
 			/>
-			<!-- Job type, unique identifier for jobs used by job implementing plugins -->
-			<field name="type"
-				   type="text"
-				   label="COM_CRONJOBS_FIELD_JOB_TYPE"
-				   required="true"
-				   readonly="true"
-				   maxlength="1024"
-			/>
-			<!-- Cronjob asset_id (used by Joomla for per-item access control) -->
-			<field name="asset_id"
-				   type="hidden"
-				   filter="unset"
-			/>
-			<!-- Creation date -->
 			<field
-					name="created"
-					type="calendar"
-					label="COM_CRONJOBS_FIELD_CREATED_LABEL"
-					size="22"
-					translateformat="true"
-					showtime="true"
-					filter="user_utc"
+				name="type"
+				type="text"
+				label="COM_CRONJOBS_FIELD_JOB_TYPE"
+				required="true"
+				readonly="true"
+				maxlength="1024"
 			/>
-			<!-- Created by -->
 			<field
-					name="created_by"
-					type="user"
-					label="COM_CRONJOBS_FIELD_CREATED_BY_LABEL"
-					validate="UserId"
+				name="asset_id" type="hidden" filter="unset"
+			/>
+			<field
+				name="created"
+				type="calendar"
+				label="COM_CRONJOBS_FIELD_CREATED_LABEL"
+				size="22"
+				translateformat="true"
+				showtime="true"
+				filter="user_utc"
+			/>
+			<field
+				name="created_by"
+				type="user"
+				label="COM_CRONJOBS_FIELD_CREATED_BY_LABEL"
+				validate="UserId"
 			/>
 		</fieldset>
 
 		<field
-				name="rules"
-				type="rules"
-				label="JFIELD_RULES_LABEL"
-				translate_label="false"
-				filter="rules"
-				component="com_cronjobs"
-				section="cronjob"
-				validate="rules"
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			component="com_cronjobs"
+			section="cronjob"
+			validate="rules"
 		/>
 	</fields>
 
-	<!-- Cron Options field group, for time based triggers -->
 	<fields name="execution_rules">
 		<fieldset name="basic">
-			<!-- The interval type, we only need this as a way to switch between interval inputs -->
-			<field name="rule-type"
-				   type="ExecutionRule"
-				   label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE"
-				   required="true"
-				   validate="options"
+			<field
+				name="rule-type"
+				type="ExecutionRule"
+				label="COM_CRONJOBS_FIELD_LABEL_EXEC_RULE"
+				required="true"
+				validate="options"
 			/>
-			<!-- Interval (minutes), starting at user time -->
-			<field name="interval-minutes"
-				   type="interval"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MINUTES"
-				   subtype="minutes"
-				   validate="ExecutionRules"
-				   showon="rule-type:interval-minutes">
-				<option value=""
-						disabled="true"
-						hidden="true">COM_CRONJOBS_SELECT_INTERVAL_MINUTES
+			<field
+				name="interval-minutes"
+				type="interval"
+				label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MINUTES"
+				subtype="minutes"
+				validate="ExecutionRules"
+				showon="rule-type:interval-minutes">
+				<option value="" disabled="true" hidden="true">
+					COM_CRONJOBS_SELECT_INTERVAL_MINUTES
 				</option>
 			</field>
-			<!-- Interval (hours), starting at user time -->
-			<field name="interval-hours"
-				   type="interval"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS"
-				   subtype="hours"
-				   validate="ExecutionRules"
-				   showon="rule-type:interval-hours">
-				<option value=""
-						disabled="true"
-						hidden="true">COM_CRONJOBS_SELECT_INTERVAL_HOURS
-				</option>
-			</field>
-			<!-- Interval (days), starting at 1st of month -->
-			<field name="interval-days"
-				   type="interval"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS"
-				   subtype="days"
-				   validate="ExecutionRules"
-				   showon="rule-type:interval-days">
-				<option value=""
-						disabled="true"
-						hidden="true"
-				>
-					COM_CRONJOBS_SELECT_INTERVAL_DAYS
-				</option>
-			</field>
-			<!-- Interval (months), starting at 1st month-->
-			<field name="interval-months"
-				   type="interval"
-				   label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS"
-				   subtype="months"
-				   onlyNumericLabels="true"
-				   validate="ExecutionRules"
-				   showon="rule-type:interval-months">
-				<option value=""
-						disabled="true"
-						hidden="true"
-				>
-					COM_CRONJOBS_SELECT_INTERVAL_MONTHS
-				</option>
-			</field>
-			<!-- The day of execution (UTC), needed for interval-months -->
-			<field name="exec-day"
-				   type="number"
-				   label="COM_CRONJOBS_LABEL_EXEC_DAY"
-				   min="1"
-				   max="31"
-				   step="1"
-				   showon="rule-type:interval-months"
+			<field
+				name="interval-hours"
+				type="interval"
+				label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_HOURS"
+				subtype="hours"
+				validate="ExecutionRules"
+				showon="rule-type:interval-hours"
 			/>
-			<!-- The time of execution (UTC), needed for interval-days and interval-months -->
-			<field name="exec-time"
-				   type="time"
-				   label="COM_CRONJOBS_LABEL_EXEC_TIME"
-				   showon="rule-type:interval-days[OR]rule-type:interval-months"/>
+			<field
+				name="interval-days"
+				type="interval"
+				label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_DAYS"
+				subtype="days"
+				validate="ExecutionRules"
+				showon="rule-type:interval-days"
+			/>
+			<field
+				name="interval-months"
+				type="interval"
+				label="COM_CRONJOBS_FIELD_LABEL_INTERVAL_MONTHS"
+				subtype="months"
+				onlyNumericLabels="true"
+				validate="ExecutionRules"
+				showon="rule-type:interval-months"
+			/>
+			<field
+				name="exec-day"
+				type="number"
+				label="COM_CRONJOBS_LABEL_EXEC_DAY"
+				min="1"
+				max="31"
+				step="1"
+				showon="rule-type:interval-months"
+			/>
+			<field
+				name="exec-time"
+				type="time"
+				label="COM_CRONJOBS_LABEL_EXEC_TIME"
+				showon="rule-type:interval-days[OR]rule-type:interval-months"
+			/>
 		</fieldset>
 
-		<fieldset name="custom-cron-rules"
-				  label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
-			<!-- The custom interval fields -->
+		<fieldset name="custom-cron-rules" label="COM_CRONJOBS_LABEL_EXEC_INTERVAL">
 			<fields name="custom">
-				<field name="minutes"
-					   type="cron"
-					   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES"
-					   subtype="minutes"
-					   multiple="true"
-					   validate="ExecutionRules"
+				<field
+					name="minutes"
+					type="cron"
+					label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MINUTES"
+					subtype="minutes"
+					multiple="true"
+					validate="ExecutionRules"
 				/>
-				<field name="hours"
-					   type="cron"
-					   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS"
-					   subtype="hours"
-					   multiple="true"
-					   validate="ExecutionRules"
+				<field
+					name="hours"
+					type="cron"
+					label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_HOURS"
+					subtype="hours"
+					multiple="true"
+					validate="ExecutionRules"
 				/>
-				<field name="days_month"
-					   type="cron"
-					   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_M"
-					   subtype="days_month"
-					   multiple="true"
-					   validate="ExecutionRules"
+				<field
+					name="days_month"
+					type="cron"
+					label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_M"
+					subtype="days_month"
+					multiple="true"
+					validate="ExecutionRules"
 				/>
-				<field name="months"
-					   type="cron"
-					   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MONTHS"
-					   subtype="months"
-					   multiple="true"
-					   validate="ExecutionRules"
+				<field
+					name="months"
+					type="cron"
+					label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_MONTHS"
+					subtype="months"
+					multiple="true"
+					validate="ExecutionRules"
 				/>
-				<field name="days_week"
-					   type="cron"
-					   label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_W"
-					   subtype="days_week"
-					   multiple="true"
-					   validate="ExecutionRules"
+				<field
+					name="days_week"
+					type="cron"
+					label="COM_CRONJOBS_FIELD_OPTION_INTERVAL_MATCH_DAYS_W"
+					subtype="days_week"
+					multiple="true"
+					validate="ExecutionRules"
 				/>
 			</fields>
 		</fieldset>
@@ -266,8 +243,9 @@
 	<!-- The 'params' field group -->
 	<fields name="params">
 		<!-- ! Fieldset should be removed, once the issue with
-		     ! joomla.edit.params is resolved in the template -->
+				 ! joomla.edit.params is resolved in the template -->
 		<fieldset name="params-fs">
+
 		</fieldset>
 	</fields>
 </form>
