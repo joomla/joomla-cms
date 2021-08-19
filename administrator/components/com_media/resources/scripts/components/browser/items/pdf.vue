@@ -23,7 +23,7 @@
       class="media-browser-actions"
       :class="{'active': showActions}"
     >
-      <button
+      <!-- <button
         ref="actionToggle"
         type="button"
         class="action-toggle"
@@ -41,7 +41,8 @@
           aria-hidden="true"
           @click.stop="openActions()"
         />
-      </button>
+      </button> -->
+      <media-browser-action-item-toggle :openActions="openActions" :focused="focused" :openLastActions="openLastActions" />
       <div
         v-if="showActions"
         class="media-browser-actions-list"
