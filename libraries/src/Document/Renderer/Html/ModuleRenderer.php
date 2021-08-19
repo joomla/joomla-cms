@@ -92,7 +92,10 @@ class ModuleRenderer extends DocumentRenderer
 			$cacheparams->methodparams = array($module, $attribs);
 			$cacheparams->cachesuffix = $attribs['contentOnly'] ?? false;
 
-			return ModuleHelper::moduleCache($module, $params, $cacheparams);
+			// It need to be done here because the cache controller does not keep reference to the module object
+			$module->content = ModuleHelper::moduleCache($module, $params, $cacheparams);
+
+			return $module->content;
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);

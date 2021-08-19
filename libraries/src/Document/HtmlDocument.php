@@ -693,12 +693,7 @@ class HtmlDocument extends Document
 
 		foreach ($modules as $module)
 		{
-			if (empty($module->contentRendered))
-			{
-				// Preserve content if loaded from cache
-				$module->content = $renderer->render($module, ['contentOnly' => true]);
-				$module->contentRendered = true;
-			}
+			$renderer->render($module, ['contentOnly' => true]);
 
 			if (trim($module->content) !== '')
 			{
