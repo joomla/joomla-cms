@@ -109,7 +109,7 @@ class CronjobTable extends Table
 			$this->created = Factory::getDate()->toSql();
 		}
 
-		// TODO : Add more checks if needed
+		// @todo : Add more checks if needed
 
 		return true;
 	}
@@ -133,7 +133,7 @@ class CronjobTable extends Table
 			$this->created = $date;
 		}
 
-		// TODO : Should we add modified, modified_by fields? [ ]
+		// @todo : Should we add modified, modified_by fields? [ ]
 
 		// Set created_by if needed
 		if (empty($this->created_by))

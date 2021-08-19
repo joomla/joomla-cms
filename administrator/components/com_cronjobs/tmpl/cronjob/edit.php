@@ -74,7 +74,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 						</h2>
 						<p id="cronOptionDesc">
 							<?php
-							// TODO: For long descriptions, we'll want a "read more" functionality like com_modules
+							// @todo: For long descriptions, we'll want a "read more" functionality like com_modules
 							$desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($cronOption->desc)), 250);
 							echo $desc;
 							?>
@@ -101,7 +101,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 				<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_PARAMS_FS'); ?></legend>
 					<?php
-					// TODO: Render [all] fieldsets with the Joomla params template
+					// @todo: Render [all] fieldsets with the Joomla params template
 					// ! Investigate why `render('joomla.edit.params', $this)` fails
 					echo $this->form->renderFieldset('params-fs');
 					?>

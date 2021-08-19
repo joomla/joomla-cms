@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- TODO : Replace all labels with translatable strings-->
+<!-- @todo : Replace all labels with translatable strings. -->
 <form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field"
 	  addruleprefix="Joomla\Component\Cronjobs\Administrator\Rule">
 	<fields>
