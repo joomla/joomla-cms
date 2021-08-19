@@ -30,7 +30,7 @@ class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @return boolean
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function manages(Exception $e)
 	{
