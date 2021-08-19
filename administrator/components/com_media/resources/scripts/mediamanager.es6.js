@@ -20,8 +20,7 @@ import Infobar from './components/infobar/infobar.vue';
 import Upload from './components/upload/upload.vue';
 import translate from './plugins/translate.es6';
 import store from './store/store.es6';
-import Toggle from './components/browser/actionItems/toggle.vue';
-import Preview from './components/browser/actionItems/preview.vue';
+import { Rename, Toggle, Preview, Download } from './components/browser/actionItems/export.es6';
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};
@@ -53,5 +52,7 @@ app.component('MediaInfobar', Infobar);
 app.component('MediaUpload', Upload);
 app.component('MediaBrowserActionItemToggle', Toggle);
 app.component('MediaBrowserActionItemPreview', Preview);
+app.component('MediaBrowserActionItemDownload', Download);
+app.component('MediaBrowserActionItemRename', Rename);
 
 app.mount('#com-media');

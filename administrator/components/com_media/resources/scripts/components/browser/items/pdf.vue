@@ -43,51 +43,19 @@
               :actionDelete="$refs.actionDelete"
               :actionDownload="$refs.actionDownload"
             />
-            <!-- <button
-              ref="actionPreview"
-              type="button"
-              class="action-preview"
-              :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
-              :title="translate('COM_MEDIA_ACTION_PREVIEW')"
-              @keyup.enter="openPreview()"
-              @keyup.space="openPreview()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionDelete.focus()"
-              @keyup.down="$refs.actionDownload.focus()"
-            >
-              <span
-                class="image-browser-action icon-search-plus"
-                aria-hidden="true"
-                @click.stop="openPreview()"
-              />
-            </button> -->
           </li>
           <li>
-            <button
+            <media-browser-action-item-download
               ref="actionDownload"
-              type="button"
-              class="action-download"
-              :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')"
-              :title="translate('COM_MEDIA_ACTION_DOWNLOAD')"
-              @keyup.enter="download()"
-              @keyup.space="download()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionPreview.focus()"
-              @keyup.down="$refs.actionRename.focus()"
-            >
-              <span
-                class="image-browser-action icon-download"
-                aria-hidden="true"
-                @click.stop="download()"
-              />
-            </button>
+              :focused="focused"
+              :download="download"
+              :hideActions="hideActions"
+              :actionPreview="$refs.actionPreview"
+              :actionRename="$refs.actionRename"
+            />
           </li>
           <li>
-            <button
+            <!-- <button
               ref="actionRename"
               type="button"
               class="action-rename"
@@ -106,7 +74,15 @@
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
-            </button>
+            </button> -->
+            <media-browser-action-item-rename
+              ref="actioactionRenamenDownload"
+              :focused="focused"
+              :openRenameModal="openRenameModal"
+              :hideActions="hideActions"
+              :actionDownload="$refs.actionPreview"
+              :actionShare="$refs.actionRename"
+            />
           </li>
           <li>
             <button
