@@ -148,8 +148,10 @@ final class ApiApplication extends CMSApplication
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
 
-		// Check we aren't in offline mode. In which case for users who can't access the site the API is disabled
-		// and we won't show anything!
+		/**
+		 * Check we aren't in offline mode. In which case for users who can't access the site the API is disabled
+		 * and we won't show anything!
+		 */
 		if ($this->get('offline') && !$this->getIdentity()->authorise('core.login.offline'))
 		{
 			$offlineMessage = '';
