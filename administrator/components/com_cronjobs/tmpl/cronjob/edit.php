@@ -126,11 +126,11 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<!-- Tab to show creation details-->
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_CRONJOBS_FIELDSET_DETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 		<div class="row">
 			<div class="col-lg-9">
 				<fieldset class="options-form">
-					<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_DETAILS'); ?></legend>
+					<legend><?php echo Text::_('JDETAILS'); ?></legend>
 					<?php echo $this->form->renderFieldset('details'); ?>
 				</fieldset>
 			</div>
@@ -139,9 +139,9 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 
 		<!-- Item permissions tab, if user has admin privileges -->
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CRONJOBS_FIELDSET_RULES')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('JCONFIG_PERMISSIONS_LABEL')); ?>
 			<fieldset id="fieldset-permissions" class="options-form">
-				<legend><?php echo Text::_('COM_CRONJOBS_FIELDSET_RULES'); ?></legend>
+				<legend><?php echo Text::_('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
 				<div>
 					<?php echo $this->form->getInput('rules'); ?>
 				</div>

@@ -356,7 +356,7 @@ class CronjobsModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->cronOption = $cronOptions->findOption($item->type);
-			$item->safeTypeTitle = $item->cronOption->title ?? Text::_('COM_CRONJOBS_NA');
+			$item->safeTypeTitle = $item->cronOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
 		}
 	}
 

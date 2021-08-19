@@ -106,7 +106,7 @@
 			<field
 				name="created"
 				type="calendar"
-				label="COM_CRONJOBS_FIELD_CREATED_LABEL"
+				label="JGLOBAL_CREATED"
 				size="22"
 				translateformat="true"
 				showtime="true"
@@ -115,7 +115,7 @@
 			<field
 				name="created_by"
 				type="user"
-				label="COM_CRONJOBS_FIELD_CREATED_BY_LABEL"
+				label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 				validate="UserId"
 			/>
 		</fieldset>
