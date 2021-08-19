@@ -35,7 +35,15 @@
       >
         <ul>
           <li>
-            <button
+            <media-browser-action-item-preview
+              ref="actionPreview"
+              :focused="focused"
+              :openPreview="openPreview"
+              :hideActions="hideActions"
+              :actionDelete="$refs.actionDelete"
+              :actionDownload="$refs.actionDownload"
+            />
+            <!-- <button
               ref="actionPreview"
               type="button"
               class="action-preview"
@@ -54,7 +62,7 @@
                 aria-hidden="true"
                 @click.stop="openPreview()"
               />
-            </button>
+            </button> -->
           </li>
           <li>
             <button

@@ -21,6 +21,7 @@ import Upload from './components/upload/upload.vue';
 import translate from './plugins/translate.es6';
 import store from './store/store.es6';
 import Toggle from './components/browser/actionItems/toggle.vue';
+import Preview from './components/browser/actionItems/preview.vue';
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};
@@ -51,5 +52,6 @@ app.component('MediaConfirmDeleteModal', ConfirmDeleteModal);
 app.component('MediaInfobar', Infobar);
 app.component('MediaUpload', Upload);
 app.component('MediaBrowserActionItemToggle', Toggle);
+app.component('MediaBrowserActionItemPreview', Preview);
 
 app.mount('#com-media');
