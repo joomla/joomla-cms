@@ -4,42 +4,30 @@
 	<creationDate>July 2021</creationDate>
 	<author>Joomla! Projects</author>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>4.0.0</version>
+	<version>4.1.0</version>
 	<description>
 		COM_CRONJOBS_XML_DESCRIPTION
 	</description>
 	<namespace path="src">Joomla\Component\Cronjobs</namespace>
-
-	<install> <!-- Runs on install -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/mysql/install.sql</file>
-			<file drive="postgresql" charset="utf8">sql/postgresql/install.sql</file>
-		</sql>
-	</install>
-	<uninstall> <!-- Runs on uninstall -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/mysql/uninstall.sql</file>
-			<file driver="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
-		</sql>
-	</uninstall>
-	<update>
-		<schemas>
-			<schemapath type="mysql">sql/updates/mysql</schemapath>
-			<schemapath type="postgresql">sql/updates/postgresql</schemapath>
-		</schemas>
-	</update>
 	<media destination="com_cronjobs" folder="media">
 		<folder>js</folder>
 		<folder>css</folder>
 	</media>
 	<administration>
-		<menu link="index.php?option=com_cronjobs">Cronjobs</menu>
+		<filename>access.xml</filename>
+		<filename>config.xml</filename>
+		<filename>cronjobs.xml</filename>
+		<folder>forms</folder>
+		<folder>services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_cronjobs.ini</language>
 			<language tag="en-GB">language/en-GB/com_cronjobs.sys.ini</language>
 		</languages>
+		<menu link="index.php?option=com_cronjobs">com_cronjobs</menu>
 	</administration>
 	<dashboards>
-		<dashboard title="COM_CRONJOBS_DASHBOARD_TITLE" icon="icon-list">cronjobs</dashboard>
+		<dashboard title="COM_CRONJOBS_DASHBOARD_TITLE" icon="icon-clock">com_cronjobs</dashboard>
 	</dashboards>
 </extension>
