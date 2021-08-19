@@ -18,7 +18,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for the site being in offline mode
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
 {
