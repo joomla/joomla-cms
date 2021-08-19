@@ -44,7 +44,7 @@ class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function handle(Exception $e)
 	{
