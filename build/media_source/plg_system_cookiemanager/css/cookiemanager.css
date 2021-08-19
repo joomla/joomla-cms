@@ -11,23 +11,17 @@ li.cookie-cat {
     font-size: 1.2rem;
 }
 
-.modal-dialog-left{
+.modal-dialog-left {
     margin: 10px;
     position: absolute;
     top: 30%;
 }
 
-.modal-dialog-right{
+.modal-dialog-right {
     margin: 10px;
     position: absolute;
     top: 30%;
     right: 0;
-}
-
-@media (min-width: 576px){
-    .modal-dialog-bottom {
-        min-height: calc(100% - 3.5rem);
-    }
 }
 
 .modal-dialog-bottom {
@@ -35,30 +29,36 @@ li.cookie-cat {
     align-items: flex-end;
 }
 
-.modal-dialog-top-left{
+.modal-dialog-top-left {
     position: fixed;
     top: 0px;
     left: 0px;
     margin: 10px;
 }
 
-.modal-dialog-top-right{
+.modal-dialog-top-right {
     position: fixed;
     top: 0px;
     right: 0px;
     margin: 10px;
 }
 
-.modal-dialog-bottom-left{
+.modal-dialog-bottom-left {
     position: fixed;
     bottom: 0px;
     left: 0px;
     margin: 10px;
 }
 
-.modal-dialog-bottom-right{
+.modal-dialog-bottom-right {
     position: fixed;
     bottom: 0px;
     right: 0px;
     margin: 10px;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog-bottom {
+        min-height: calc(100% - 3.5rem);
+    }
 }

@@ -6,10 +6,13 @@
 ((document) => {
   'use strict';
 
+  // Array for consents
   let consentsOptIn = [];
   let consentsOptOut = [];
+
   const cookie = document.cookie.split('; ');
   const uuid = cookie.find((c) => c.startsWith('uuid=')).split('=')[1];
+
   const config = Joomla.getOptions('config');
   const code = Joomla.getOptions('code');
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
@@ -18,11 +21,13 @@
     document.querySelector('#cookieBanner .modal-dialog').classList.add(config.position);
     document.querySelector('#preferences .modal-dialog').classList.add('modal-dialog-scrollable');
 
+    // Show cookie consent banner
     if (cookie.indexOf('cookieBanner=shown') === -1) {
       const Banner = new bootstrap.Modal(document.querySelector('#cookieBanner'));
       Banner.show();
     }
 
+    // Add consent details to the cookie settings banner
     if (cookie.find((c) => c.startsWith('consents_opt_in=')) !== undefined) {
       const consentOptIn = cookie.find((c) => c.startsWith('consents_opt_in=')).split('=')[1];
       const consentDate = cookie.find((c) => c.startsWith('consent_date=')).split('=')[1];
@@ -33,6 +38,7 @@
       document.getElementById('consent-opt-in').innerHTML = consentOptIn;
     }
 
+    // Block cookie setting code on the users' first visit
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
       cookie.forEach((i) => {
         if (i.match(`${item.getAttribute('data-cookiecategory')}=true`)) {
@@ -79,6 +85,7 @@
     });
   });
 
+  // Calculate cookie expiration period
   const getExpiration = () => {
     const exp = config.expiration;
     const d = new Date();
@@ -87,6 +94,7 @@
     return expires;
   };
 
+  // Function for storing cookie consents
   const storingConsents = () => {
     const consentsIn = consentsOptIn.join(', ');
     const consentsOut = consentsOptOut.join(', ');
@@ -114,14 +122,17 @@
         const ccuuid = res.data[0];
 
         document.cookie = `ccuuid=${ccuuid}; path=/;`;
-
         document.getElementById('ccuuid').innerHTML = ccuuid;
         document.getElementById('consent-date').innerHTML = consentDetails.consent_date;
         document.getElementById('consent-opt-in').innerHTML = consentDetails.consent_opt_in;
       },
+      onError(xhr) {
+        Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+      },
     });
   };
 
+  // Accepting cookies from the consent banner
   document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
@@ -177,6 +188,7 @@
     storingConsents();
   });
 
+  // Accepting cookies from the settings banner
   document.getElementById('prefConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
     document.querySelectorAll('[data-cookie-category]').forEach((item) => {
@@ -232,6 +244,7 @@
     storingConsents();
   });
 
+  // Accepting all cookies
   document.querySelectorAll('[data-button="acceptAllCookies"]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const exp = getExpiration();
