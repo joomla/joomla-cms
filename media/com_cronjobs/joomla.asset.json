@@ -3,7 +3,7 @@
   "name": "com_cronjobs",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL v3",
+  "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
       "name": "com_cronjobs.admin-plg-job-search.es5",

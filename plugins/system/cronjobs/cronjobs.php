@@ -4,7 +4,7 @@
  * @subpackage      System.Cronjobs
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GPL v3
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Restrict direct access

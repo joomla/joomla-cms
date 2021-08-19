@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the main component class
+ * Implements the Cronjobs component class
  *
  * @package       Joomla.Administrator
  * @subpackage    com_cronjobs

@@ -3,7 +3,7 @@
 	<name>Cronjobs</name>
 	<author>Joomla! Projects</author>
 	<creationDate>August 2021</creationDate>
-	<license>GPL v3</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1</version>
 	<description>PLG_SYSTEM_CRONJOBS_XML_DESCRIPTION</description>
 	<files>
