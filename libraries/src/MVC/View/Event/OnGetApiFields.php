@@ -176,7 +176,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
 	 */
 	public function getAllPropertiesToRender(): array
 	{
-		return array_merge($this->getArgument('fields'), $this->extraAttributes);
+		return array_merge($this->getArgument('fields', []), $this->extraAttributes);
 	}
 
 	/**
@@ -186,6 +186,6 @@ final class OnGetApiFields extends AbstractImmutableEvent
 	 */
 	public function getAllRelationsToRender(): array
 	{
-		return array_merge($this->getArgument('relations'), $this->extraRelations);
+		return array_merge($this->getArgument('relations', []), $this->extraRelations);
 	}
 }
