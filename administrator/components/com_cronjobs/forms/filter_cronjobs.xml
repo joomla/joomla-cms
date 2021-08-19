@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field">
 	<fields name="filter">
-
-		<!-- Search Box -->
 		<field
-				name="search"
-				type="text"
-				label="COM_CRONJOBS_FILTER_SEARCH_LABEL"
-				description="COM_CRONJOBS_FILTER_SEARCH_DESC"
-				inputmode="search"
-				hint="JSEARCH_FILTER"
+			name="search"
+			type="text"
+			label="COM_CRONJOBS_FILTER_SEARCH_LABEL"
+			description="COM_CRONJOBS_FILTER_SEARCH_DESC"
+			inputmode="search"
+			hint="JSEARCH_FILTER"
 		/>
-
-		<!-- Job state filter -->
 		<field
-				name="state"
-				type="CronjobState"
-				label="JSTATUS"
-				onchange="this.form.submit();"
-				validate="options"
-		>
+			name="state"
+			type="CronjobState"
+			label="JSTATUS"
+			onchange="this.form.submit();"
+			validate="options"
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
-
 		<field
-				name="type"
-				type="JobType"
-				label="COM_CRONJOBS_HEADING_JOB_TYPE"
-				onchange="this.form.submit();"
-		>
+			name="type"
+			type="JobType"
+			label="COM_CRONJOBS_HEADING_JOB_TYPE"
+			onchange="this.form.submit();"
+			>
 			<option value="">COM_CRONJOBS_SELECT_TYPE</option>
 		</field>
-
-		<!-- Switch to show/hide jobs with the "orphan" pseudo-state-->
 		<field
-				name="show_orphaned"
-				type="list"
-				label="COM_CRONJOBS_FIELD_LABEL_SHOW_ORPHANED"
-				default="0"
-				onchange="this.form.submit()"
-		>
+			name="show_orphaned"
+			type="list"
+			label="COM_CRONJOBS_FIELD_LABEL_SHOW_ORPHANED"
+			default="0"
+			onchange="this.form.submit()"
+			>
 			<option value="0">COM_CRONJOBS_OPTION_ORPHANED_HIDE</option>
 			<option value="1">COM_CRONJOBS_OPTION_ORPHANED_SHOW</option>
 		</field>
 	</fields>
 
-	<!-- List ordering -->
 	<fields name="list">
 		<!-- @todo: Add options for execution date(s) -->
 		<field
-				name="fullordering"
-				type="list"
-				label="JGLOBAL_SORT_BY"
-				onchange="this.form.submit();"
-				default="a.title DESC"
-				validate="options"
-		>
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.title DESC"
+			validate="options"
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
@@ -68,14 +60,12 @@
 			<option value="j.type_title ASC">COM_CRONJOBS_JOB_TYPE_ASC</option>
 			<option value="j.type_title DESC">COM_CRONJOBS_JOB_TYPE_DESC</option>
 		</field>
-
-		<!-- Limit for pagination -->
 		<field
-				name="limit"
-				type="limitbox"
-				label="JGLOBAL_LIST_LIMIT"
-				default="25"
-				onchange="this.form.submit();"
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

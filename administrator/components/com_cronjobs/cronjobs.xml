@@ -28,6 +28,8 @@
 		<menu link="index.php?option=com_cronjobs">com_cronjobs</menu>
 	</administration>
 	<dashboards>
-		<dashboard title="COM_CRONJOBS_DASHBOARD_TITLE" icon="icon-clock">com_cronjobs</dashboard>
+		<dashboard title="COM_CRONJOBS_DASHBOARD_TITLE" icon="icon-clock">
+			com_cronjobs
+		</dashboard>
 	</dashboards>
 </extension>
