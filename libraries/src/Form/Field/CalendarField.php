@@ -51,12 +51,12 @@ class CalendarField extends FormField
 	protected $format;
 
 	/**
-	 * Whether format should be translated
+	 * The format will be used to filter submitted date and time.
 	 *
-	 * @var    boolean
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $translateFormat;
+	protected $filterFormat;
 
 	/**
 	 * The filter.
@@ -113,6 +113,7 @@ class CalendarField extends FormField
 		{
 			case 'maxlength':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'timeformat':
 			case 'todaybutton':
@@ -122,7 +123,6 @@ class CalendarField extends FormField
 			case 'filltable':
 			case 'minyear':
 			case 'maxyear':
-			case 'translateFormat':
 				return $this->$name;
 		}
 
@@ -153,13 +153,11 @@ class CalendarField extends FormField
 			case 'showtime':
 			case 'filltable':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'minyear':
 			case 'maxyear':
 				$this->$name = (string) $value;
-				break;
-			case 'translateFormat':
-				$this->$name = (bool) $value;
 				break;
 
 			default:
@@ -198,11 +196,33 @@ class CalendarField extends FormField
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
 			$this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
 			$this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
-			$this->translateFormat = (string) $element['translateformat'] && ((string) $element['translateformat']) !== 'false';
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
 				$this->todaybutton = 'false';
+			}
+
+			$translateFormat = (string) $this->element['translateformat'];
+
+			if ($translateFormat && $translateFormat !== 'false')
+			{
+				$showTime              = (string) $this->element['showtime'];
+
+				$lang  = Factory::getLanguage();
+				$debug = $lang->setDebug(false);
+
+				if ($showTime && $showTime !== 'false')
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATETIME');
+				}
+				else
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATE');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATE');
+				}
+
+				$lang->setDebug($debug);
 			}
 		}
 
@@ -218,27 +238,7 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$user = Factory::getUser();
-
-		// Translate the format if requested
-		if ($this->translateFormat)
-		{
-			$showTime = (string) $this->element['showtime'];
-
-			$lang  = Factory::getLanguage();
-			$debug = $lang->setDebug(false);
-
-			if ($showTime && $showTime !== 'false')
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
-			}
-			else
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
-			}
-
-			$lang->setDebug($debug);
-		}
+		$user = Factory::getApplication()->getIdentity();
 
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
@@ -350,52 +350,39 @@ class CalendarField extends FormField
 			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
-		if (!(int) $value > 0)
+		if ((int) $value <= 0)
 		{
 			return '';
 		}
 
-		// Get the field filter type.
-		$filter = strtoupper((string) $this->element['filter']);
-		$offset = null;
-		$tmpVal = null;
-		$return = $value;
-		$app    = Factory::getApplication();
-
-		// Check if we have a localised date format
-		if ($this->translateFormat && $filter)
+		if ($this->filterFormat)
 		{
-			$showTime = $this->showtime !== 'false';
-			$format   = ($showTime) ? Text::_('DATE_FORMAT_FILTER_DATETIME') : Text::_('DATE_FORMAT_FILTER_DATE');
-			$tmpVal   = DateTime::createFromFormat($format, $value)->format('Y-m-d H:i:s');
+			$value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
 		}
 
-		switch ($filter)
+		$app = Factory::getApplication();
+
+		// Get the field filter type.
+		$filter = strtoupper((string) $this->element['filter']);
+
+		$return = $value;
+
+		switch (strtoupper($filter))
 		{
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				// Get the server timezone setting.
-				$offset = $app->get('offset');
+				// Return an SQL formatted datetime string in UTC.
+				$return = Factory::getDate($value, $app->get('offset'))->toSql();
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
 				// Get the user timezone setting defaulting to the server timezone setting.
-				$offset = Factory::getUser()->getParam('timezone', $app->get('offset'));
-				break;
-		}
+				$offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 
-		if ($offset)
-		{
-			// Return an SQL formatted datetime string in UTC.
-			if ($tmpVal)
-			{
-				$return = Factory::getDate($tmpVal, $offset)->toSql();
-			}
-			else
-			{
+				// Return an SQL formatted datetime string in UTC.
 				$return = Factory::getDate($value, $offset)->toSql();
-			}
+				break;
 		}
 
 		return $return;
