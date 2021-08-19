@@ -84,26 +84,15 @@ class ModuleRenderer extends DocumentRenderer
 
 		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode !== 'id' && $cachemode !== 'safeuri')
 		{
-			// Check if a raw style is requested, which should render only a content, without chrome style
-			$isRawStyle = !empty($attribs['style']) && $attribs['style'] === 'raw';
-
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = ModuleHelper::class;
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
-			$cacheparams->cachesuffix = $isRawStyle ? 'style-raw' : '';
+			$cacheparams->cachesuffix = $attribs['countOnly'] ?? false;
 
 			$result = ModuleHelper::moduleCache($module, $params, $cacheparams);
-
-			// For a raw style set the content to the module, so it will not be rendered again next time, see ModuleHelper::renderRawModule
-			// It need to be done here because the cache controller does not keep reference to the module object
-			if ($isRawStyle)
-			{
-				$module->content = $result;
-				$module->contentRendered = true;
-			}
 
 			return $result;
 		}

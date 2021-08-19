@@ -165,13 +165,6 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
-		// Check for a "raw" style: render module content only.
-		// This style only for internal use, and should not be used within template markup.
-		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
-		{
-			return $module->content;
-		}
-
 		if (JDEBUG)
 		{
 			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -220,7 +213,8 @@ abstract class ModuleHelper
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
-		if ($module === null || !isset($module->content))
+		// Don't apply chromes if we count only
+		if ($module === null || !isset($module->content) || !empty($attribs['countOnly']))
 		{
 			return '';
 		}
