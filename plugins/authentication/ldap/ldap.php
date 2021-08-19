@@ -42,7 +42,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 		{
 			return false;
 		}
-		
+
 		// For JLog
 		$response->type = 'LDAP';
 
