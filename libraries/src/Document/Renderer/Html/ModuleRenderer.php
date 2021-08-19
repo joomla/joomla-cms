@@ -94,6 +94,7 @@ class ModuleRenderer extends DocumentRenderer
 
 			// It need to be done here because the cache controller does not keep reference to the module object
 			$module->content = ModuleHelper::moduleCache($module, $params, $cacheparams);
+			$module->contentRendered = true;
 
 			return $module->content;
 		}

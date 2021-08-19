@@ -165,6 +165,12 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
+		// Return early if only the content is required
+		if (!empty($attribs['contentOnly']))
+		{
+			return $module->content;
+		}
+
 		if (JDEBUG)
 		{
 			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -213,8 +219,7 @@ abstract class ModuleHelper
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
-		// Don't apply chromes if we only need the content
-		if ($module === null || !isset($module->content) || !empty($attribs['contentOnly']))
+		if ($module === null || !isset($module->content))
 		{
 			return '';
 		}
