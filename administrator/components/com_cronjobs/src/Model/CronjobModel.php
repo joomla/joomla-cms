@@ -140,7 +140,7 @@ class CronjobModel extends AdminModel
 			$form->setValue('type', null, $this->getState('cronjob.type'));
 		}
 
-		// TODO : Check if this is working as expected for new items (id == 0)
+		// @todo : Check if this is working as expected for new items (id == 0)
 		if (!$user->authorise('core.edit.state', 'com_cronjobs.cronjob.' . $this->getState('job.id')))
 		{
 			// Disable fields
@@ -237,7 +237,7 @@ class CronjobModel extends AdminModel
 			/** @var CMSObject $data */
 			$data = $this->getItem();
 
-			// TODO : further data processing goes here
+			// @todo : further data processing goes here
 
 			// For a fresh object, set exec-day and exec-time
 			if (!$id = $data->id ?? 0)

@@ -40,7 +40,6 @@ $mode = false;
 
 if ($saveOrder && !empty($this->items))
 {
-	// TODO : Check if this works
 	$saveOrderingUrl = 'index.php?option=com_cronjobs&task=cronjobs.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
@@ -116,7 +115,6 @@ if ($saveOrder && !empty($this->items))
 				<tbody <?php if ($saveOrder): ?>
 					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php endif; ?>>
 				<?php foreach ($this->items as $i => $item):
-					// TODO : Check if $user->authorise() calls work as they should
 					$canCreate = $user->authorise('core.create', 'com_cronjobs');
 					$canEdit = $user->authorise('core.edit', 'com_cronjobs');
 					$canChange = $user->authorise('core.edit.state', 'com_cronjobs');
@@ -160,7 +158,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'cronjobs.', $canChange); ?>
 						</td>
 
-						<!-- Item name, edit link, and note (TODO: should it be moved?) -->
+						<!-- Item name, edit link, and note (@todo: should it be moved?) -->
 						<th scope="row">
 							<?php if ($canEdit): ?>
 								<a href="<?php echo Route::_('index.php?option=com_cronjobs&task=cronjob.edit&id=' . $item->id); ?>"
@@ -192,7 +190,7 @@ if ($saveOrder && !empty($this->items))
 				</tbody>
 			</table>
 
-			<?php // Load the pagination. (TODO: testing)
+			<?php // Load the pagination. (@todo: testing)
 			?>
 			<?php echo $this->pagination->getListFooter(); ?>
 

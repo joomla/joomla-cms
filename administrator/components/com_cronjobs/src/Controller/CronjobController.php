@@ -4,7 +4,7 @@
  *
  * * : Model implicitly defaults to CronjobModel through a call to parent::getModel()
  *
- * TODO : Check if the controller needs more overrides
+ * @todo : Check if the controller needs more overrides
  *
  * @package       Joomla.Administrator
  * @subpackage    com_cronjobs
@@ -69,7 +69,7 @@ class CronjobController extends FormController
 		$app->setUserState('com_cronjobs.add.cronjob.cronjob_type', $jobType);
 		$app->setUserState('com_cronjobs.add.cronjob.cronjob_option', $jobOption);
 
-		// TODO : Parameter array handling below?
+		// @todo : Parameter array handling below?
 
 		return $canAdd;
 	}
@@ -110,7 +110,7 @@ class CronjobController extends FormController
 	 */
 	public function edit($key = null, $urlVar = null): bool
 	{
-		// TODO: Change or remove
+		// @todo: Change or remove
 		return parent::edit($key, $urlVar);
 	}
 
@@ -128,7 +128,7 @@ class CronjobController extends FormController
 	 */
 	protected function allowAdd($data = array()): bool
 	{
-		// TODO: Change or remove
+		// @todo: Change or remove
 		return parent::allowAdd($data);
 	}
 
@@ -156,7 +156,7 @@ class CronjobController extends FormController
 			return parent::allowEdit($data, $key);
 		}
 
-		// TODO : Check if this works as expected
+		// @todo : Check if this works as expected
 		return $this->app->getIdentity()->authorise('core.edit', 'com_cronjobs.cronjob.' . $recordId);
 
 	}

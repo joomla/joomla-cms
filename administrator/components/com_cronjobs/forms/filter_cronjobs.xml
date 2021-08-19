@@ -47,7 +47,7 @@
 
 	<!-- List ordering -->
 	<fields name="list">
-		<!-- TODO: Add options for execution date(s) -->
+		<!-- @todo: Add options for execution date(s) -->
 		<field
 				name="fullordering"
 				type="list"

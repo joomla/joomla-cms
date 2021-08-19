@@ -101,7 +101,7 @@ class ExecRuleHelper
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
 				break;
 			case 'cron':
-				// TODO: testing
+				// @todo: testing
 				$cExp = new CronExpression((string) $this->rule->exp);
 				$nextExec = $cExp->getNextRunDate('now', 0, false, 'GMT');
 				$nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
@@ -125,7 +125,7 @@ class ExecRuleHelper
 	 */
 	private function dateTimeToSql(DateTime $dateTime): string
 	{
-		// TODO: Get DBO from DI container
+		// @todo: Get DBO from DI container
 		static $db;
 		$db = $db ?? Factory::getDbo();
 

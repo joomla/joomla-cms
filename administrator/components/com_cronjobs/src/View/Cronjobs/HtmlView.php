@@ -104,8 +104,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null): void
 	{
-		// ! TODO : testing
-
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
@@ -149,7 +147,7 @@ class HtmlView extends BaseHtmlView
 
 		/*
 		* Get the toolbar object instance
-		* !! TODO : Replace usage with ToolbarFactoryInterface
+		* !! @todo : Replace usage with ToolbarFactoryInterface
 		*/
 		$toolbar = Toolbar::getInstance('toolbar');
 

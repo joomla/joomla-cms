@@ -190,7 +190,7 @@ class CronjobsModel extends ListModel
 				->bind(':type', $typeFilter);
 		}
 
-		// TODO: Filter over trigger
+		// @todo: Filter over trigger
 
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
@@ -226,7 +226,7 @@ class CronjobsModel extends ListModel
 				$query->where($db->quoteName('a.id') . '= :id')
 					->bind(':id', $id, ParameterType::INTEGER);
 			}
-			// Search by type is handled exceptionally in _getList() [TODO: remove refs]
+			// Search by type is handled exceptionally in _getList() [@todo: remove refs]
 			elseif (stripos($searchStr, 'type:') !== 0)
 			{
 				$searchStr = "%$searchStr%";
@@ -252,7 +252,7 @@ class CronjobsModel extends ListModel
 			// If ordering by type or state, also order by title.
 			if (in_array($orderCol, ['a.type', 'a.state']))
 			{
-				// TODO : Test if things are working as expected
+				// @todo : Test if things are working as expected
 				$query->order($db->quoteName('a.title') . ' ' . $orderDir);
 			}
 
@@ -289,7 +289,7 @@ class CronjobsModel extends ListModel
 		$this->getDbo()->setQuery($query);
 
 		// Return optionally an extended class.
-		// TODO: Use something other than CMSObject..
+		// @todo: Use something other than CMSObject..
 		if ($customObj = $this->getState('list.customClass'))
 		{
 			$responseList = array_map(
@@ -321,7 +321,7 @@ class CronjobsModel extends ListModel
 		}
 
 		// Filter out orphaned jobs if the state allows
-		// ! This breaks pagination at the moment [TODO: fix]
+		// ! This breaks pagination at the moment [@todo: fix]
 		$showOrphaned = $this->getState('filter.show_orphaned');
 
 		if (!$showOrphaned)
