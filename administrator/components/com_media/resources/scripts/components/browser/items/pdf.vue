@@ -23,25 +23,6 @@
       class="media-browser-actions"
       :class="{'active': showActions}"
     >
-      <!-- <button
-        ref="actionToggle"
-        type="button"
-        class="action-toggle"
-        :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
-        :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
-        @keyup.enter="openActions()"
-        @focus="focused(true)"
-        @blur="focused(false)"
-        @keyup.space="openActions()"
-        @keyup.down="openActions()"
-        @keyup.up="openLastActions()"
-      >
-        <span
-          class="image-browser-action icon-ellipsis-h"
-          aria-hidden="true"
-          @click.stop="openActions()"
-        />
-      </button> -->
       <media-browser-action-item-toggle :openActions="openActions" :focused="focused" :openLastActions="openLastActions" />
       <div
         v-if="showActions"
@@ -205,16 +186,19 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
+      console.log(`showActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionPreview.focus());
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
+      console.log(`openLastActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionDelete.focus());
     },
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
+      console.log(`hideActions ${this.$refs.actionPreview}`)
       this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },

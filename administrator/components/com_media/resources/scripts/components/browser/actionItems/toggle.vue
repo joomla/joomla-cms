@@ -28,7 +28,7 @@ export default {
         openActions: function() {
             this.openActions();
         },
-        focused: function(focused: bool) {
+        focused: function(focused) {
             this.focused(focused);
         },
         openLastActions: function() {
