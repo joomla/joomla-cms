@@ -33,20 +33,20 @@ class PlgSystemCookiemanager extends CMSPlugin
 	protected $app;
 
 	/**
-	 * For cookie banner
+	 * Cookie consent banner
 	 *
-	 * @var    CookieBanner
+	 * @var    ConsentBanner
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $cookieBanner;
+	protected $consentBanner;
 
 	/**
-	 * For preferences banner
+	 * Cookie settings banner
 	 *
-	 * @var    Preferences
+	 * @var    SettingsBanner
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $preferences;
+	protected $settingsBanner;
 
 	/**
 	 * Database object
@@ -81,12 +81,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 protected $category;
 
 	/**
-	 * Add assets for the modal.
+	 * Add assets for the cookie banners.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-
 	 */
 	public function onBeforeCompileHead()
 	{
@@ -98,6 +97,9 @@ class PlgSystemCookiemanager extends CMSPlugin
 		ob_start();
 		ob_implicit_flush(false);
 
+		HTMLHelper::_('bootstrap.collapse');
+
+		// Load required assets
 		$assets = $this->app->getDocument()->getWebAssetManager();
 		$assets->registerAndUseScript(
 			'plg_system_cookiemanager.script',
@@ -111,8 +113,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 			'plg_system_cookiemanager/cookiemanager.min.css'
 		);
 
-		HTMLHelper::_('bootstrap.collapse');
-
+		// Load cookiemanager component language file
 		$this->app->getLanguage()->load('com_cookiemanager', JPATH_ADMINISTRATOR);
 
 		Text::script('COM_COOKIEMANAGER_PREFERENCES_LESS_BUTTON_TEXT');
@@ -140,32 +141,32 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$this->category = $db->setQuery($query)->loadObjectList();
 
-		$bannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
+		$consentBannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
 			. '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5><ul>';
 
 		foreach ($this->category as $key => $value)
 		{
-			$bannerBody .= '<li class="cookie-cat form-check form-check-inline"><label>' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" data-cookiecategory="'
+			$consentBannerBody .= '<li class="cookie-cat form-check form-check-inline"><label>' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" data-cookiecategory="'
 			. $value->alias . '" type=checkbox></span></label></li>';
 		}
 
-		$bannerBody .= '</ul>';
+		$consentBannerBody .= '</ul>';
 
-		$this->cookieBanner = HTMLHelper::_(
+		$this->consentBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
-			'cookieBanner',
+			'consentBanner',
 			[
 					'title' => Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_TITLE'),
-					'footer' => '<button type="button" id="bannerConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
+					'footer' => '<button type="button" id="consentConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_MY_CHOICES_BUTTON_TEXT') . '</button>'
-					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#preferences">'
+					. '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#settingsBanner">'
 					. Text::_('COM_COOKIEMANAGER_MORE_DETAILS') . '</button>'
 					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_ALL_COOKIES_BUTTON_TEXT') . '</button>',
 
 				],
-			$bannerBody
+			$consentBannerBody
 		);
 
 		$query = $db->getQuery(true)
@@ -179,16 +180,17 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$cookies = $db->setQuery($query)->loadObjectList();
 
-		$prefBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>';
-		$prefBody .= '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>';
-		$prefBody .= '<p> Consent: <span id="consent-opt-in"></span></p><p> Consent ID: <span id="ccuuid"></span></p><p> Consent Date: <span id="consent-date"></span></p>';
+		$settingsBannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_PREFERENCES_DESCRIPTION') . '</p>'
+		 . '<p><a  href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
+		 . '<p> Consent: <span id="consent-opt-in"></span></p><p> Consent ID: <span id="ccuuid"></span></p>'
+		 . '<p> Consent Date: <span id="consent-date"></span></p>';
 
 		foreach ($this->category as $catKey => $catValue)
 		{
-			$prefBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
+			$settingsBannerBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
 			'<input class="form-check-input " type="checkbox" data-cookie-category="' . $catValue->alias . '"></span></h4>' . $catValue->description;
 
-			$prefBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" role="button" aria-expanded="false" '
+			$settingsBannerBody .= '<a class="text-decoration-none" data-bs-toggle="collapse" href="#' . $catValue->alias . '" role="button" aria-expanded="false" '
 			. 'aria-controls="' . $catValue->alias . '">' . Text::_('COM_COOKIEMANAGER_PREFERENCES_MORE_BUTTON_TEXT') . '</a><div class="collapse" id="' . $catValue->alias . '">';
 			$table = '<table class="table"><thead><tr><th scope="col">' . Text::_('COM_COOKIEMANAGER_TABLE_HEAD_COOKIENAME') . '</th><th scope="col">' . Text::_('COM_COOKIEMANAGER_TABLE_HEAD_DESCRIPTION') . '</th><th scope="col">' . Text::_('COM_COOKIEMANAGER_TABLE_HEAD_EXPIRATION') . '</th></tr></thead><tbody>';
 
@@ -219,20 +221,20 @@ class PlgSystemCookiemanager extends CMSPlugin
 			}
 
 			$table .= '</tbody></table>';
-			$prefBody .= $table . '</div>';
+			$settingsBannerBody .= $table . '</div>';
 		}
 
-		$this->preferences = HTMLHelper::_(
+		$this->settingsBanner = HTMLHelper::_(
 			'bootstrap.renderModal',
-			'preferences',
+			'settingsBanner',
 			[
 				'title' => Text::_('COM_COOKIEMANAGER_PREFERENCES_TITLE'),
-				'footer' => '<button type="button" id="prefConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
+				'footer' => '<button type="button" id="settingsConfirmChoice" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_CONFIRM_MY_CHOICES_BUTTON_TEXT') . '</button>'
 					. '<button type="button" data-button="acceptAllCookies" class="btn btn-info" data-bs-dismiss="modal">'
 					. Text::_('COM_COOKIEMANAGER_ACCEPT_ALL_COOKIES_BUTTON_TEXT') . '</button>'
 			],
-			$prefBody
+			$settingsBannerBody
 		);
 
 		$query = $db->getQuery(true)
@@ -272,7 +274,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	}
 
 	/**
-	 * Echo the modal and button.
+	 * Echo the cookie banners, button and scripts.
 	 *
 	 * @return  void
 	 *
@@ -285,15 +287,16 @@ class PlgSystemCookiemanager extends CMSPlugin
 			return;
 		}
 
-		echo $this->cookieBanner;
-		echo $this->preferences;
+		echo $this->consentBanner;
+		echo $this->settingsBanner;
 
+		// Return early in case of AJAX request
 		if ($this->app->input->get('format') === 'json')
 		{
 			return;
 		}
 
-		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#cookieBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
+		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#consentBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
 		foreach ($this->category as $catKey => $catValue)
 		{

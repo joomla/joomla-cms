@@ -18,12 +18,12 @@
   const parse = Range.prototype.createContextualFragment.bind(document.createRange());
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#cookieBanner .modal-dialog').classList.add(config.position);
-    document.querySelector('#preferences .modal-dialog').classList.add('modal-dialog-scrollable');
+    document.querySelector('#consentBanner .modal-dialog').classList.add(config.position);
+    document.querySelector('#settingsBanner .modal-dialog').classList.add('modal-dialog-scrollable');
 
     // Show cookie consent banner
     if (cookie.indexOf('cookieBanner=shown') === -1) {
-      const Banner = new bootstrap.Modal(document.querySelector('#cookieBanner'));
+      const Banner = new bootstrap.Modal(document.querySelector('#consentBanner'));
       Banner.show();
     }
 
@@ -133,7 +133,7 @@
   };
 
   // Accepting cookies from the consent banner
-  document.getElementById('bannerConfirmChoice').addEventListener('click', () => {
+  document.getElementById('consentConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
     document.querySelectorAll('[data-cookiecategory]').forEach((item) => {
       if (item.checked) {
@@ -189,7 +189,7 @@
   });
 
   // Accepting cookies from the settings banner
-  document.getElementById('prefConfirmChoice').addEventListener('click', () => {
+  document.getElementById('settingsConfirmChoice').addEventListener('click', () => {
     const exp = getExpiration();
     document.querySelectorAll('[data-cookie-category]').forEach((item) => {
       if (item.checked) {
