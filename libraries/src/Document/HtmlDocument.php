@@ -695,6 +695,8 @@ class HtmlDocument extends Document
 		{
 			if (empty($module->contentRendered))
 			{
+				// Use style "raw", that will render only the content of the module, and precache it, see ModuleHelper::renderRawModule
+				// This style only for internal use, and should not be used within template markup.
 				$renderer->render($module, array('style' => 'raw'));
 			}
 

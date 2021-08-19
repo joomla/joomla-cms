@@ -165,6 +165,8 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
+		// Check for a "raw" style: render module content only.
+		// This style only for internal use, and should not be used within template markup.
 		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
 		{
 			return $module->content;
@@ -592,6 +594,11 @@ abstract class ModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
+		if (!isset($cacheparams->cachesuffix))
+		{
+			$cacheparams->cachesuffix = '';
+		}
+
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
@@ -622,7 +629,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$cacheparams->modeparams,
+					$cacheparams->modeparams . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -652,7 +659,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $secureid,
+					$module->id . $view_levels . $secureid . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -662,7 +669,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->module . md5(serialize($cacheparams->methodparams)),
+					$module->module . md5(serialize($cacheparams->methodparams)) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -673,7 +680,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $app->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
