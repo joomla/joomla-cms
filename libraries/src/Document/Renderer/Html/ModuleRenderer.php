@@ -92,9 +92,7 @@ class ModuleRenderer extends DocumentRenderer
 			$cacheparams->methodparams = array($module, $attribs);
 			$cacheparams->cachesuffix = $attribs['countOnly'] ?? false;
 
-			$result = ModuleHelper::moduleCache($module, $params, $cacheparams);
-
-			return $result;
+			return ModuleHelper::moduleCache($module, $params, $cacheparams);
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);
