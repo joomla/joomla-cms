@@ -32,7 +32,10 @@ WorkflowServiceInterface
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
 
-	/** @var array Supported functionality */
+	/** 
+	 * @since  __DEPLOY_VERSION_
+	 * @var array 
+	 */
 	protected $supportedFunctionality = [
 		'core.state' => true,
 	];
@@ -99,9 +102,9 @@ WorkflowServiceInterface
 	{
 		Factory::getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
 
-		$contexts = array(
+		$contexts = [
 			'com_modules.module'    => Text::_('COM_MODULES')
-		);
+		];
 
 		return $contexts;
 	}
@@ -146,8 +149,6 @@ WorkflowServiceInterface
 	 */
 	public function getCategoryWorkflowContext(?string $section = null): string
 	{
-		$context = $this->getWorkflowContexts();
-
-		return array_key_first($context);
+		return array_key_first($this->getWorkflowContexts());
 	}
 }
