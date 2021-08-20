@@ -223,7 +223,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Array default values for php simple types
 	 *
 	 * @var array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $_defaultValuesProperty = [
 		'bool' => false,
