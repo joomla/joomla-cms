@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface TablePropertyInterface // SqlDataInterface //TablePropertyInterface
+interface TablePropertyInterface
 {
 	/**
 	 * Class constructor, overridden in descendant classes.
