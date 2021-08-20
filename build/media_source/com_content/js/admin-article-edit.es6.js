@@ -5,14 +5,14 @@
 (() => {
   'use strict';
 
-   /**
-    * Javascript to (1) Display the modal when user clicks on the
-    * module edit button. The modal is initialized by the id
-    * of the module found using data-module-id attribute of
-    * the button. (2) Remove imported modules by id or by
-    * position and (3) To delete the importOnSave cookie when
-    * the module modal is clsoed.
-    */
+  /**
+   * Javascript to (1) Display the modal when user clicks on the
+   * module edit button. The modal is initialized by the id
+   * of the module found using data-module-id attribute of
+   * the button. (2) Remove imported modules by id or by
+   * position and (3) To delete the importOnSave cookie when
+   * the module modal is clsoed.
+   */
 
   document.addEventListener('DOMContentLoaded', () => {
     const baseLink = 'index.php?option=com_modules&client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
