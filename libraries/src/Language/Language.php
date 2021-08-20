@@ -194,9 +194,9 @@ class Language
 		$this->setDebug($debug);
 
 		/*
-		Let's load the default override once, so we can profit from that, too
-		But make sure, that we don't enforce it on each language file load.
-		So don't put it in $this->override
+		* Let's load the default override once, so we can profit from that, too
+		* But make sure, that we don't enforce it on each language file load.
+		* So don't put it in $this->override
 		*/
 		if (!$this->debug && $lang !== $this->default)
 		{
