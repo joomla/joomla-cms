@@ -28,7 +28,7 @@ class PlgContentPagenavigation extends CMSPlugin
 	 * The application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
