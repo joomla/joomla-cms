@@ -473,14 +473,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Expression to search for (positions)
 		$regex = '/{loadposition\s(.*?)}/i';
 
-		// Expression to search for(modules)
+		// Expression to search for (modules)
 		$regexmod = '/{loadmodule\s(.*?)}/i';
 
-		// Expression to search for(id)
+		// Expression to search for (id)
 		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
-		// Find all instances of plugin and put in $matches for loadposition
-		// $matches[0] is full pattern match, $matches[1] is the position
+		/**
+		 * Find all instances of plugin and put in $matches for loadposition
+		 * $matches[0] is full pattern match, $matches[1] is the position
+		 */
 		preg_match_all($regex, $item->articletext, $matches, PREG_SET_ORDER);
 		$item->importedPositions = [];
 
@@ -520,7 +522,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				 */
 				if (!isset($mod))
 				{
-					$mod  = ModuleHelper::getModule('mod_' . $module, $name);
+					$mod = ModuleHelper::getModule('mod_' . $module, $name);
 				}
 
 				if (isset($mod))
@@ -553,7 +555,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					]
 				)
 				->from($db->quoteName('#__modules'));
-			$query->where($db->quoteName('id') . 'IN (' . implode(',', $query->bindArray(array_values($importedModules))) . ')');
+			$query->where($db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($importedModules))) . ')');
 
 			$item->importedModules = $db->setQuery($query)->loadObjectList();
 		}

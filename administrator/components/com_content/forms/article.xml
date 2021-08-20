@@ -355,6 +355,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+
 			</fieldset>
 
 			<fieldset name="category" label="JCATEGORY">
