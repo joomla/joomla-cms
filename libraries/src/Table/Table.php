@@ -143,7 +143,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * The \DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    \DateTimeZone
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_tz = null;
 
