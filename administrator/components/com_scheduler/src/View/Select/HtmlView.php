@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC View for Cronjob type selection.
+ * Declares the MVC View for Task type selection.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -24,7 +24,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
 use function defined;
 
 /**
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of items
 	 *
-	 * @var  CronOption[]
+	 * @var  TaskOption[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;

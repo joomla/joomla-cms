@@ -23,7 +23,7 @@ use function defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobsController extends AdminController
+class TasksController extends AdminController
 {
 	/**
 	 * Proxy for the parent method.
@@ -36,7 +36,7 @@ class CronjobsController extends AdminController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Cronjob', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
+	public function getModel($name = 'Task', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

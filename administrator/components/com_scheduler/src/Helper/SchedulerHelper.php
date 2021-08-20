@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the CronjobsHelper class
+ * Implements the SchedulerHelper class
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -20,21 +20,21 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOptions;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOptions;
 use function defined;
 
 /**
- * The CronjobsHelper class.
+ * The SchedulerHelper class.
  * Provides static methods used across com_scheduler
  *
  * @since  __DEPLOY_VERSION__
  */
-final class CronjobsHelper
+final class SchedulerHelper
 {
 	/**
-	 * Cached CronOptions object
+	 * Cached TaskOptions object
 	 *
-	 * @var CronOptions
+	 * @var TaskOptions
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $cronOptionsCache = null;
@@ -49,13 +49,13 @@ final class CronjobsHelper
 	}
 
 	/**
-	 * Returns available jobs as a CronOptions object
+	 * Returns available jobs as a TaskOptions object
 	 *
-	 * @return CronOptions  A CronOptions object populated with jobs offered by plugins
+	 * @return TaskOptions  A TaskOptions object populated with jobs offered by plugins
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getCronOptions(): CronOptions
+	public static function getCronOptions(): TaskOptions
 	{
 		if (self::$cronOptionsCache !== null)
 		{
@@ -64,7 +64,7 @@ final class CronjobsHelper
 
 		/**@var AdministratorApplication $app */
 		$app = Factory::getApplication();
-		$options = new CronOptions;
+		$options = new TaskOptions;
 		$event = AbstractEvent::create(
 			'onCronOptionsList',
 			[

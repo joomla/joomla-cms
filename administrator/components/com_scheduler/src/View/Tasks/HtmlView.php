@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC View for the Cronjobs list view.
+ * Declares the MVC View for the Tasks list view.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -30,7 +30,7 @@ use function count;
 use function defined;
 
 /**
- * The MVC View for Cronjobs list view
+ * The MVC View for Tasks list view
  *
  * @since  __DEPLOY_VERSION__
  */

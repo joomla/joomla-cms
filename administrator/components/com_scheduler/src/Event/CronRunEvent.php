@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronjobsModel MVC Model.
+ * Declares the CronRunEvent Event.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler

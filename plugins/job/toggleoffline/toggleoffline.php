@@ -18,7 +18,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
-use Joomla\Component\Scheduler\Administrator\Traits\CronjobPluginTrait;
+use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -30,7 +30,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 {
-	use CronjobPluginTrait;
+	use TaskPluginTrait;
 
 	/**
 	 * @var string[]

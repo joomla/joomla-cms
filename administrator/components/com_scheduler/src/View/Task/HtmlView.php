@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC View for the Cronjob form.
+ * Declares the MVC View for the Task form.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -26,7 +26,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use function defined;
 
 /**
- * The MVC View for the Cronjob form
+ * The MVC View for the Task form
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null): void
 	{
 		/*
-		 * Will call the getForm() method of CronjobModel
+		 * Will call the getForm() method of TaskModel
 		 */
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
 		// For a new cronjob, check if user has 'core.create' access
 		if ($isNew && $canDo->get('core.create'))
 		{
-			// The cronjob.apply task maps to the save() method in CronjobController
+			// The cronjob.apply task maps to the save() method in TaskController
 			ToolbarHelper::apply('cronjob.apply');
 
 			$toolbarButtons[] = ['save', 'cronjob.save'];

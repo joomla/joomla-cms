@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
-use Joomla\Component\Scheduler\Administrator\Traits\CronjobPluginTrait;
+use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -26,7 +26,7 @@ use Joomla\Event\SubscriberInterface;
  */
 class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 {
-	use CronjobPluginTrait;
+	use TaskPluginTrait;
 
 	/**
 	 * @var string[]

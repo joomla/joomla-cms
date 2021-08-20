@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the CronOption class, used by com_scheduler to refer to plugin defined jobs.
+ * Implements the TaskOption class, used by com_scheduler to refer to plugin defined jobs.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -17,13 +17,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 /**
- * The CronOption class.
- * Each plugin supporting jobs calls the CronOptions addOptions() method with an array of CronOption constructor argument pairs as argument.
- * Internally, the CronOption object generates the job title and description from the language constant prefix.
+ * The TaskOption class.
+ * Each plugin supporting jobs calls the TaskOptions addOptions() method with an array of TaskOption constructor argument pairs as argument.
+ * Internally, the TaskOption object generates the job title and description from the language constant prefix.
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronOption
+class TaskOption
 {
 	/**
 	 * Job title
@@ -52,7 +52,7 @@ class CronOption
 	protected $langConstPrefix;
 
 	/**
-	 * CronOption constructor.
+	 * TaskOption constructor.
 	 *
 	 * @param   string  $type             A unique string for the job routine used internally by the job plugin.
 	 * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.

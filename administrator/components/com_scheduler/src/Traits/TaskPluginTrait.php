@@ -32,7 +32,7 @@ use function is_file;
  *
  * @since  __DEPLOY_VERSION__
  */
-trait CronjobPluginTrait
+trait TaskPluginTrait
 {
 	/**
 	 * Stores the job state.
