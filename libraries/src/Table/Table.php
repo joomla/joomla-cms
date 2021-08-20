@@ -152,7 +152,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Only properties declared in table class
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_propertyTypes = [];
 
