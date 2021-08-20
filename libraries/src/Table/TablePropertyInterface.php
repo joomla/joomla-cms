@@ -33,8 +33,7 @@ interface TablePropertyInterface // SqlDataInterface //TablePropertyInterface
 	 *
 	 * @return  number|string|boolean  The date string in SQL datetime format.
 	 *
-	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function toSql();
 }
