@@ -248,7 +248,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
 	 * @param   DatabaseDriver|null  $db          DatabaseDriver object.
-	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
+	 * @param   DispatcherInterface|null  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since  1.7.0
 	 */
