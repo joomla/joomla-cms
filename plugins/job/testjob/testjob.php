@@ -94,6 +94,9 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 			$params = $event->getArgument('params');
 
 			// Plugin does whatever it wants
+			$this->addJobLog('Starting 20s timeout');
+			sleep(20);
+			$this->addJobLog('20s timeout over!');
 
 			$this->jobEnd($event, 0);
 		}
