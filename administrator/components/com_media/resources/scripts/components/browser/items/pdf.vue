@@ -18,7 +18,8 @@
       ref="container"
       :focused="focused"
       :item="item"
-    /> 
+      :editItem="editItem"
+    />
   </div>
 </template>
 
@@ -42,7 +43,10 @@ export default {
     },
     /* Edit an item */
     editItem() {
-      this.$refs.container.editItem();
+      // TODO should we use relative urls here?
+      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
+
+      window.location.href = fileBaseUrl + this.item.path;
     },
   },
 };

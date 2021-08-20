@@ -91,7 +91,7 @@ import * as types from '../../../store/mutation-types.es6';
 export default {
   name: 'MediaBrowserActionItemsContainer',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: ['item', 'focused', 'editItem'],
   data() {
     return {
       showActions: false,
@@ -104,13 +104,6 @@ export default {
     },
   },
   methods: {
-    /* Edit an item */
-    editItem() {
-      // TODO should we use relative urls here?
-      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
-
-      window.location.href = fileBaseUrl + this.item.path;
-    },
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
@@ -151,6 +144,9 @@ export default {
       this.showActions = true;
       this.$nextTick(() => this.$refs.actionDelete.focus());
     },
+    editItem() {
+      this.editItem();
+    }
   },
 }
 </script>

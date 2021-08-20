@@ -37,6 +37,9 @@ export default {
     },
     focused: function(bool) {
       this.focused()
+    },
+    editItem: function () {
+      this.mainAction();
     }
   },
 }
