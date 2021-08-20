@@ -514,8 +514,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				$mod = ModuleHelper::getModule($module, $name);
 
-				// If the module without the mod_ isn't found, try it with mod_.
-				// This allows people to enter it either way in the content
+				/**
+				 * If the module without the mod_ isn't found, try it with mod_.
+				 * This allows people to enter it either way in the content
+				 */
 				if (!isset($mod))
 				{
 					$mod  = ModuleHelper::getModule('mod_' . $module, $name);
