@@ -2201,8 +2201,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	/**
 	 * Convert(preparation) $this object to data array for save to BD.
 	 *
-	 * @return  stdClass
-	 * @since  4.0.0
+	 * @return  \stdClass
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function toSqlData() : object
 	{
