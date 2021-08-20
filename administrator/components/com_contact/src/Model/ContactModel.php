@@ -171,8 +171,6 @@ class ContactModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = Factory::getApplication();
-
 		Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.

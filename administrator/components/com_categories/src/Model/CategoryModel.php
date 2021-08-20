@@ -554,7 +554,7 @@ class CategoryModel extends AdminModel
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load($app->input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['title'] == $origTable->title)
 			{
