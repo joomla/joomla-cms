@@ -392,7 +392,8 @@
   &[data-type="jpeg" i],
   &[data-type="tiff" i],
   &[data-type="bmp" i],
-  &[data-type="svg" i] {
+  &[data-type="svg" i],
+  &[data-type="webp" i] {
     &::before {
       content: $icon-type-images;
     }

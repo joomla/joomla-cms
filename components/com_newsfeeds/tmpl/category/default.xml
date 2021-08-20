@@ -149,18 +149,6 @@
 			</field>
 
 			<field
-				name="show_headings"
-				type="list"
-				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="show_articles"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"

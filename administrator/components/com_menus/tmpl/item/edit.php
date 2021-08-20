@@ -133,11 +133,6 @@ if ($clientId === 1)
 						$this->form->setFieldAttribute('publish_up', 'showon', '');
 						$this->form->setFieldAttribute('publish_down', 'showon', '');
 					}
-
-					if (!$isModal && $this->item->type == 'container')
-					{
-						echo $this->loadTemplate('container');
-					}
 					?>
 				<?php
 					// Set main fields.

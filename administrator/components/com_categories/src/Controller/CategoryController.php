@@ -45,7 +45,6 @@ class CategoryController extends FormController
 	 * @param   Input|null                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
 	 * @throws \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)

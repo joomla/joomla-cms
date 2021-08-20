@@ -129,14 +129,14 @@ class MenusController extends BaseController
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(Text::_('JTOOLBAR_REBUILD_SUCCESS'));
+			$this->setMessage(Text::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(Text::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED', $model->getError()), 'error');
 
 			return false;
 		}

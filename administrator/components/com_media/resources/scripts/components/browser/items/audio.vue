@@ -1,6 +1,6 @@
 <template>
   <div
-    class="media-browser-image"
+    class="media-browser-audio"
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
@@ -167,7 +167,7 @@
 import * as types from '../../../store/mutation-types.es6';
 
 export default {
-  name: 'MediaBrowserItemVideo',
+  name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
   data() {

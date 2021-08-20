@@ -8,6 +8,7 @@
     ],
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0-or-later",
+    "non-feature-branches": ["staging"],
     "config": {
         "optimize-autoloader": true,
         "platform": {
@@ -81,7 +82,8 @@
         "ext-simplexml": "*",
         "psr/log": "~1.0",
         "ext-gd": "*",
-        "web-auth/webauthn-lib": "2.1.*"
+        "web-auth/webauthn-lib": "2.1.*",
+        "composer/ca-bundle": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",

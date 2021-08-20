@@ -537,13 +537,39 @@ class ApiModel extends BaseDatabaseModel
 				'upload_extensions',
 				'bmp,csv,doc,gif,ico,jpg,jpeg,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,MP3,MP4,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
 			);
+			$videos = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'video_extensions',
+						'mp4,mp4v,mpeg,mov,webm'
+					)
+				)
+			);
+			$documents = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'doc_extensions',
+						'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
+					)
+				)
+			);
+
+			foreach ($types as $type) {
+				if (in_array($type, ['images', 'audios', 'videos', 'documents'])) {
+					$extensions = array_merge($extensions, ${$type});
+				}
+			}
 
 			// Make them an array
-			$this->allowedExtensions = explode(',', $this->allowedExtensions);
+			$this->allowedExtensions = $extensions;
 		}
 
 		// Extract the extension
-		$extension = substr($path, strrpos($path, '.') + 1);
+		$extension = strtolower(substr($path, strrpos($path, '.') + 1));
 
 		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);
