@@ -1475,7 +1475,7 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed unused fields so they do not cause javascript errors during pre-update check
+			// Remove unused fields so they do not cause javascript errors during pre-update check
 			unset($decode->description);
 			unset($decode->copyright);
 			unset($decode->creationDate);
@@ -1551,7 +1551,7 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed unused fields so they do not cause javascript errors during pre-update check
+			// Remove unused fields so they do not cause javascript errors during pre-update check
 			unset($decode->description);
 			unset($decode->copyright);
 			unset($decode->creationDate);
