@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-start">
-				<span class="divider icon-location" aria-hidden="true"></span>
+				<span class="divider icon-location" aria-hidden="true"></span>&nbsp;
 			</li>
 		<?php endif; ?>
 
