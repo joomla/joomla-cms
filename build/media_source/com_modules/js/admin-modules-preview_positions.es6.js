@@ -10,7 +10,6 @@
  * (the browser can load it whenever) and it doesn't need an on DOMContentLoaded event handler
  * because the browser is guaranteed to execute it only after the DOM content has loaded, the
  * whole point of it being deferred.
- *
  */
 
 const elIframe = document.getElementById('module-position-select');

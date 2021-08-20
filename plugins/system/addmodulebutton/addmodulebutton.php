@@ -4,7 +4,8 @@
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license GNU General Public License version 2 or later; see LICENSE.txt
- * @since  __DEPLOY_VERSION__
+ *
+ * @since  __DEPLOY_VERSION__ 
  */
 
 defined('_JEXEC') or die;
@@ -12,6 +13,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\WebAsset\WebAssetManager;
+
 /**
  * Displays the Add Module button for Frontend Placement.
  *
@@ -23,7 +25,7 @@ class PlgSystemAddModuleButton extends CMSPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  3.9.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -31,7 +33,7 @@ class PlgSystemAddModuleButton extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -40,7 +42,7 @@ class PlgSystemAddModuleButton extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onBeforeRender()
 	{
