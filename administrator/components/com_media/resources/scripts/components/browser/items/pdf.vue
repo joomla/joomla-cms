@@ -55,28 +55,8 @@
             />
           </li>
           <li>
-            <!-- <button
-              ref="actionRename"
-              type="button"
-              class="action-rename"
-              :aria-label="translate('COM_MEDIA_ACTION_RENAME')"
-              :title="translate('COM_MEDIA_ACTION_RENAME')"
-              @keyup.enter="openRenameModal()"
-              @keyup.space="openRenameModal()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionDownload.focus()"
-              @keyup.down="$refs.actionShare.focus()"
-            >
-              <span
-                class="image-browser-action icon-text-width"
-                aria-hidden="true"
-                @click.stop="openRenameModal()"
-              />
-            </button> -->
             <media-browser-action-item-rename
-              ref="actioactionRenamenDownload"
+              ref="actionRename"
               :focused="focused"
               :openRenameModal="openRenameModal"
               :hideActions="hideActions"
@@ -85,48 +65,24 @@
             />
           </li>
           <li>
-            <button
+            <media-browser-action-item-share
               ref="actionShare"
-              type="button"
-              class="action-url"
-              :aria-label="translate('COM_MEDIA_ACTION_SHARE')"
-              :title="translate('COM_MEDIA_ACTION_SHARE')"
-              @keyup.enter="openShareUrlModal()"
-              @keyup.space="openShareUrlModal()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionRename.focus()"
-              @keyup.down="$refs.actionDelete.focus()"
-            >
-              <span
-                class="image-browser-action icon-link"
-                aria-hidden="true"
-                @click.stop="openShareUrlModal()"
-              />
-            </button>
+              :openShareUrlModal="openShareUrlModal"
+              :actionRename="$refs.actionRename"
+              :actionDelete="$refs.actionDelete"
+              :focused="focused"
+              :hideActions="hideActions"
+            />
           </li>
           <li>
-            <button
+            <media-browser-action-item-delete
               ref="actionDelete"
-              type="button"
-              class="action-delete"
-              :aria-label="translate('COM_MEDIA_ACTION_DELETE')"
-              :title="translate('COM_MEDIA_ACTION_DELETE')"
-              @keyup.enter="openConfirmDeleteModal()"
-              @keyup.space="openConfirmDeleteModal()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionShare.focus()"
-              @keyup.down="$refs.actionPreview.focus()"
-            >
-              <span
-                class="image-browser-action icon-trash"
-                aria-hidden="true"
-                @click.stop="openConfirmDeleteModal()"
-              />
-            </button>
+              :openConfirmDeleteModal="openConfirmDeleteModal"
+              :actionRename="$refs.actionRename"
+              :actionDelete="$refs.actionDelete"
+              :focused="focused"
+              :hideActions="hideActions"
+            />
           </li>
         </ul>
       </div>
