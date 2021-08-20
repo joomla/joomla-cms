@@ -14,8 +14,8 @@ use Joomla\CMS\Language\Text;
 $list = $displayData['list'];
 
 ?>
-<nav role="navigation" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-	<ul class="pagination ml-0 mb-4">
+<nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+	<ul class="pagination ms-0 mb-4">
 		<?php echo $list['start']['data']; ?>
 		<?php echo $list['previous']['data']; ?>
 

@@ -13,6 +13,7 @@ namespace Joomla\CMS\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
+use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 
 /**
@@ -20,7 +21,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-class Module implements ModuleInterface
+class Module implements ModuleInterface, HelperFactoryInterface
 {
 	/**
 	 * The dispatcher factory.
@@ -32,15 +33,26 @@ class Module implements ModuleInterface
 	private $dispatcherFactory;
 
 	/**
+	 * The helper factory.
+	 *
+	 * @var HelperFactoryInterface
+	 *
+	 * @since  4.0.0
+	 */
+	private $helperFactory;
+
+	/**
 	 * Module constructor.
 	 *
 	 * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 * @param   HelperFactoryInterface            $helperFactory      The helper factory
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory)
+	public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
+		$this->helperFactory     = $helperFactory;
 	}
 
 	/**
@@ -57,5 +69,20 @@ class Module implements ModuleInterface
 	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
 		return $this->dispatcherFactory->createDispatcher($module, $application, $input);
+	}
+
+	/**
+	 * Returns a helper instance for the given name.
+	 *
+	 * @param   string  $name    The name
+	 * @param   array   $config  The config
+	 *
+	 * @return  \stdClass
+	 *
+	 * @since   4.0.0
+	 */
+	public function getHelper(string $name, array $config = [])
+	{
+		return $this->helperFactory->getHelper($name, $config);
 	}
 }

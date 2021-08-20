@@ -22,7 +22,6 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
@@ -35,7 +34,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -73,7 +72,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messages = [];
 
@@ -126,10 +125,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 				->alias(\Joomla\Session\Session::class, 'session.cli')
 				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 		}
-
-		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-		$extensionLoader = new \JNamespacePsr4Map;
-		$extensionLoader->load();
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
@@ -243,6 +238,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 

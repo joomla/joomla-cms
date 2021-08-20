@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_related_items.ini</language>
-		<language tag="en-GB">en-GB.mod_related_items.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_related_items.ini</language>
+		<language tag="en-GB">language/en-GB/mod_related_items.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_RELATED" />
 	<config>
@@ -48,7 +48,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

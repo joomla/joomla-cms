@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
 <a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
-	<?php echo HTMLHelper::_('image', 'system/livemarks.png', '', null, true); ?>
-	<?php $class = $params->get('display_text', 1) ? '' : 'class="sr-only"'; ?>
+	<span class="icon-feed" aria-hidden="true"></span>
+	<?php $class = $params->get('display_text', 1) ? '' : 'class="visually-hidden"'; ?>
 	<span <?php echo $class; ?>>
 		<?php if (str_replace(' ', '', $text) !== '') : ?>
 			<?php echo $text; ?>

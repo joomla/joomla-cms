@@ -109,6 +109,9 @@ class TracksController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, 'raw'))
 		{
+			// Check for request forgeries.
+			$this->checkToken('GET');
+
 			// Get the model for the view.
 			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);

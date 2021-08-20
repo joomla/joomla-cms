@@ -70,7 +70,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 
 	/**
 	 * Returns a hash where keys are control names and their values
-	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  4.0.0
 	 * @return array
@@ -84,7 +84,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 				'widget'  => 'PhpDebugBar.Widgets.InfoWidget',
 				'map'     => $this->name,
 				'default' => '{}',
-			]
+			],
 		];
 	}
 
@@ -168,7 +168,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	private function getResponseInfo(ResponseInterface $response): array
 	{
 		return [
-			'status_code' => $response->getStatusCode()
+			'status_code' => $response->getStatusCode(),
 		];
 	}
 

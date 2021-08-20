@@ -92,7 +92,14 @@ elseif ($input->get('module'))
 
 		$method = $input->get('method') ?: 'get';
 
-		if (is_file($helperFile))
+		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+
+		if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3)))
+		{
+			$results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+		}
+
+		if ($results === null && is_file($helperFile))
 		{
 			JLoader::register($class, $helperFile);
 
@@ -120,7 +127,7 @@ elseif ($input->get('module'))
 			}
 		}
 		// The helper file does not exist
-		else
+		elseif ($results === null)
 		{
 			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}

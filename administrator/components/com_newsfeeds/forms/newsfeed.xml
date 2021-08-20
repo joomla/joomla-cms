@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -34,7 +34,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 			>
@@ -100,6 +100,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -107,6 +108,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -209,6 +211,15 @@
 			showtime="true"
 			size="22"
 			filter="user_utc"
+		/>
+
+		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
 		/>
 
 		<field
@@ -334,6 +345,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -341,6 +353,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -396,6 +409,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -403,7 +417,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				class="custom-select"
+				class="form-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"
@@ -446,15 +460,6 @@
 				rows="2"
 				cols="30"
 				filter="string"
-			/>
-
-			<field
-				name="hits"
-				type="number"
-				label="JGLOBAL_HITS"
-				class="readonly"
-				readonly="true"
-				filter="unset"
 			/>
 		</fieldset>
 	</fields>

@@ -13,15 +13,19 @@ namespace Joomla\Component\Finder\Administrator\View\Searches;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
+
 
 /**
  * View class for a list of search terms.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -78,11 +82,18 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
+	 * @var boolean
+	 *
+	 * @since  4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -94,6 +105,14 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->enabled       = $this->state->params->get('gather_search_statistics', 0);
 		$this->canDo         = ContentHelper::getActions('com_finder');
+		$uri                 = Uri::getInstance();
+		$link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
+		$output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
+
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -101,16 +120,16 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Check if plugin is enabled
+		// Check if component is enabled
 		if (!$this->enabled)
 		{
-			$app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
 		}
 
 		// Prepare the view.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -126,12 +145,15 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
-		if ($canDo->get('core.edit.state'))
+		if (!$this->isEmptyState)
 		{
-			ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
-		}
+			if ($canDo->get('core.edit.state'))
+			{
+				ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
+			}
 
-		ToolbarHelper::divider();
+			ToolbarHelper::divider();
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{

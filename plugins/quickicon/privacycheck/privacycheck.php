@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -48,7 +49,9 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'update_quickicon')
+			|| !$this->app->getIdentity()->authorise('core.admin', 'com_privacy')
+			|| !ComponentHelper::isEnabled('com_privacy'))
 		{
 			return array();
 		}
@@ -63,7 +66,9 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST'),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND'),
 				"ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR'),
-			)
+				"REQUESTFOUND_MESSAGE" => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE'),
+				"REQUESTFOUND_BUTTON"  => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON'),
+			),
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-privacy-check', $options);
@@ -78,8 +83,8 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
-				'group' => 'MOD_QUICKICON_USERS'
-			)
+				'group' => 'MOD_QUICKICON_USERS',
+			),
 		);
 	}
 }

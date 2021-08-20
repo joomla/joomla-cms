@@ -49,7 +49,7 @@ class Templates
 
 			if (file_exists($preview))
 			{
-				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left" data-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				$html = '<button type="button" data-bs-target="#' . $template . '-Modal" class="thumbnail" data-bs-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 
@@ -78,7 +78,7 @@ class Templates
 		if (file_exists($thumb) && file_exists($preview))
 		{
 			$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-			$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+			$footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 				. Text::_('JTOOLBAR_CLOSE') . '</button>';
 
 			$html .= HTMLHelper::_(

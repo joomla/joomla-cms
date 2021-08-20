@@ -737,7 +737,7 @@ class StyleModel extends AdminModel
 	 * Custom clean cache method
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

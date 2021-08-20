@@ -18,7 +18,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for permission errors that should give a 403
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class NotAllowedExceptionHandler implements ExceptionHandlerInterface
 {

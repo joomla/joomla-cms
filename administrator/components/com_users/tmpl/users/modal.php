@@ -38,12 +38,12 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 		<table class="table table-sm">
-			<caption class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -83,14 +83,18 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 						<td>
 							<?php echo $this->escape($item->username); ?>
 						</td>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+							</span>
 						</td>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+							</span>
 						</td>
 						<td>
-							<?php echo nl2br($item->group_names); ?>
+							<?php echo nl2br($item->group_names, false); ?>
 						</td>
 						<td>
 							<?php echo (int) $item->id; ?>

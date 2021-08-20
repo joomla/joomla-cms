@@ -39,11 +39,9 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
 		id="<?php echo $id; ?>"
 		readonly
 		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-	<div class="input-group-append">
-		<button
-			class="btn btn-primary"
-			type="button"
-			id="token-copy"
-			title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
-	</div>
+	<button
+		class="btn btn-primary"
+		type="button"
+		id="token-copy"
+		title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
 </div>

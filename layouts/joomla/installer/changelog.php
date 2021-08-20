@@ -23,26 +23,26 @@ array_walk(
 		switch ($changeType)
 		{
 			case 'security':
-				$class = 'badge-danger';
+				$class = 'bg-danger';
 				break;
 			case 'fix':
-				$class = 'badge-dark';
+				$class = 'bg-dark';
 				break;
 			case 'language':
-				$class = 'badge-jlanguage';
+				$class = 'bg-primary';
 				break;
 			case 'addition':
-				$class = 'badge-success';
+				$class = 'bg-success';
 				break;
 			case 'change':
-				$class = 'badge-warning';
+				$class = 'bg-warning text-dark';
 				break;
 			case 'remove':
-				$class = 'badge-light';
+				$class = 'bg-secondary';
 				break;
 			default:
 			case 'note':
-				$class = 'badge-info';
+				$class = 'bg-info';
 				break;
 		}
 

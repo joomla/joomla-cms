@@ -53,7 +53,7 @@ trait AdditionalLoginButtons
 	 */
 	private function mustDisplayButton(): bool
 	{
-		if (is_null($this->allowButtonDisplay))
+		if (\is_null($this->allowButtonDisplay))
 		{
 			$this->allowButtonDisplay = false;
 
@@ -146,6 +146,15 @@ trait AdditionalLoginButtons
 		// Set up the JavaScript callback
 		$url = $uri->toString();
 
+		// Get local path to image
+		$image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+
+		// If you can't find the image then skip it
+		$image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
+
+		// Extract image if it exists
+		$image = file_exists($image) ? file_get_contents($image) : '';
+
 		return [
 			[
 				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
@@ -153,7 +162,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'svg'                => HTMLHelper::_('icons.svg', 'plg_system_webauthn/webauthn.svg', true),
+				'svg'                => $image,
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];

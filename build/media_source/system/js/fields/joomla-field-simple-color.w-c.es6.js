@@ -237,7 +237,7 @@
         el.style.backgroundColor = color;
         el.setAttribute('type', 'button');
         const a11yColor = color === 'transparent' ? this.textTransp : this.getColorName(color);
-        el.innerHTML = `<span class="sr-only">${a11yColor}</span>`;
+        el.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${a11yColor}</span>`);
 
         this.buttons.push(el);
       });
@@ -246,7 +246,7 @@
       const close = document.createElement('button');
       close.setAttribute('class', 'btn-close');
       close.setAttribute('type', 'button');
-      close.innerHTML = this.textClose;
+      close.innerHTML = Joomla.sanitizeHtml(this.textClose);
 
       this.buttons.push(close);
 
@@ -268,7 +268,7 @@
       this.icon.setAttribute('type', 'button');
       this.icon.setAttribute('tabindex', '0');
       this.icon.style.backgroundColor = color;
-      this.icon.innerHTML = `<span class="sr-only">${this.textSelect}</span>`;
+      this.icon.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${this.textSelect}</span>`);
       this.icon.id = uniqueId;
       this.select.insertAdjacentElement('beforebegin', this.icon);
       this.icon.addEventListener('click', this.show.bind(this));
@@ -364,6 +364,13 @@
       this.icon.classList.remove('nocolor');
       this.icon.setAttribute('class', clss);
       this.icon.style.backgroundColor = bgcolor;
+
+      // trigger change event both on the select and on the custom element
+      this.select.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value: color },
+        bubbles: true,
+      }));
 
       // Hide the panel
       this.hide();

@@ -327,8 +327,6 @@ class IndexModel extends ListModel
 			->from($db->quoteName('#__finder_links'));
 		$db->setQuery($query);
 
-		$db->execute();
-
 		return (int) $db->loadResult();
 	}
 

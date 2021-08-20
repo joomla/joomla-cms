@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 ?>
 <ul class="mod-stats list-group">
 <?php foreach ($list as $item) : ?>
-	<li class="list-group-item justify-content-between">
+	<li class="list-group-item">
 		<?php echo $item->title; ?>
-		<span class="badge badge-secondary badge-pill"><?php echo $item->data; ?></span>
+		<span class="badge bg-secondary float-end rounded-pill"><?php echo $item->data; ?></span>
 	</li>
 <?php endforeach; ?>
 </ul>

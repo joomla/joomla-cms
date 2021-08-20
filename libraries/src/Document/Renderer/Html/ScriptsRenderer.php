@@ -291,7 +291,7 @@ class ScriptsRenderer extends DocumentRenderer
 		$buffer = '';
 
 		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-		$html5NoValueAttributes = array('defer', 'async');
+		$html5NoValueAttributes = array('defer', 'async', 'nomodule');
 
 		foreach ($attributes as $attrib => $value)
 		{
@@ -307,19 +307,22 @@ class ScriptsRenderer extends DocumentRenderer
 				continue;
 			}
 
-			// B/C: If defer and async is false or empty don't render the attribute.
-			if (\in_array($attrib, array('defer', 'async')) && !$value)
+			// B/C: If defer and async is false or empty don't render the attribute. Also skip if value is bool:false.
+			if (\in_array($attrib, array('defer', 'async')) && !$value || $value === false)
 			{
 				continue;
 			}
+
+			// NoValue attribute, if it have bool:true
+			$isNoValueAttrib = $value === true || \in_array($attrib, $html5NoValueAttributes);
 
 			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
 			if ($attrib === 'mime')
 			{
 				$attrib = 'type';
 			}
-			// B/C defer and async can be set to yes when using the old method.
-			elseif (\in_array($attrib, array('defer', 'async')) && $value === true)
+			// NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
+			elseif ($isNoValueAttrib)
 			{
 				$value = $attrib;
 			}
@@ -327,7 +330,7 @@ class ScriptsRenderer extends DocumentRenderer
 			// Add attribute to script tag output.
 			$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
 
-			if (!($this->_doc->isHtml5() && \in_array($attrib, $html5NoValueAttributes)))
+			if (!($this->_doc->isHtml5() && $isNoValueAttrib))
 			{
 				// Json encode value if it's an array.
 				$value = !is_scalar($value) ? json_encode($value) : $value;

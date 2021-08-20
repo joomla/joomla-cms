@@ -36,7 +36,7 @@ use Joomla\CMS\Language\Text;
 					?>
 				</th>
 				<td>
-					<span class="badge badge-info"><?php echo number_format($type->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
+					<span class="badge bg-info"><?php echo number_format($type->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -45,7 +45,7 @@ use Joomla\CMS\Language\Text;
 					<strong><?php echo Text::_('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
 				</td>
 				<td>
-					<span class="badge badge-info"><?php echo number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
+					<span class="badge bg-info"><?php echo number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
 				</td>
 			</tr>
 		</tbody>

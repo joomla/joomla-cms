@@ -28,14 +28,15 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'core:check-updates';
 
 	/**
 	 * Stores the Update Information
-	 * @var UpdateModel
-	 * @since 4.0
+	 *
+	 * @var    UpdateModel
+	 * @since  4.0.0
 	 */
 	private $updateInfo;
 
@@ -60,7 +61,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getUpdateInformationFromModel()
 	{
@@ -77,7 +78,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getUpdateInfo()
 	{
@@ -96,7 +97,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setUpdateInfo($info = null): void
 	{

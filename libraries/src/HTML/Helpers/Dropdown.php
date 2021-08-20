@@ -95,7 +95,7 @@ abstract class Dropdown
 		}
 
 		$dropDownList = '<div class="btn-group" style="margin-left:6px;display:none">
-							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-secondary btn-sm">
+							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-secondary btn-sm">
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';

@@ -81,15 +81,18 @@ if ($lock)
 	Text::script('JCANCEL');
 
 	$disabled = true;
-	$hint = str_repeat('&#x2022;', strlen($value));
+	$hint = str_repeat('•', 10);
 	$value = '';
 }
 
+$ariaDescribedBy = $rules ? $name . '-rules ' : '';
+$ariaDescribedBy .= !empty($description) ? $name . '-desc' : '';
+
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -105,7 +108,7 @@ $attributes = array(
 	$dataAttribute,
 );
 
-if ($rules && !empty($description))
+if ($rules)
 {
 	$requirements = [];
 
@@ -135,13 +138,9 @@ if ($rules && !empty($description))
 	}
 }
 ?>
-<?php if (!empty($description)) : ?>
-	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
-		<?php if ($rules) : ?>
-			<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
-		<?php else : ?>
-			<?php echo Text::_($description); ?>
-		<?php endif; ?>
+<?php if ($rules) : ?>
+	<div id="<?php echo $name . '-rules'; ?>" class="small text-muted">
+		<?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
 	</div>
 <?php endif; ?>
 
@@ -153,17 +152,15 @@ if ($rules && !empty($description))
 			id="<?php echo $id; ?>"
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
-		<span class="input-group-append">
-			<?php if (!$lock): ?>
-			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="icon-eye icon-fw" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+		<?php if (!$lock): ?>
+		<button type="button" class="btn btn-secondary input-password-toggle">
+			<span class="icon-eye icon-fw" aria-hidden="true"></span>
+			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+		</button>
+		<?php else: ?>
+			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify locked">
+				<?php echo Text::_('JMODIFY'); ?>
 			</button>
-			<?php else: ?>
-				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
-					<?php echo Text::_('JMODIFY'); ?>
-				</button>
-			<?php endif; ?>
-		</span>
+		<?php endif; ?>
 	</div>
 </div>

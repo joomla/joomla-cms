@@ -150,7 +150,6 @@ abstract class AuthenticationHelper
 					'tooltip' => '',
 					'icon'    => '',
 					'image'   => '',
-					'svg'     => '',
 					'class'   => '',
 					'id'      => '',
 					'onclick' => '',

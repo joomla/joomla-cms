@@ -19,6 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentHtml $this */
 
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$extraButtons     = AuthenticationHelper::getLoginButtons('form-login');
 $app              = Factory::getApplication();
 $wa               = $this->getWebAssetManager();
 
@@ -49,7 +50,15 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 	->useStyle('template.offline')
 	->useStyle('template.active.language')
 	->useStyle('template.user')
-	->useScript('template.user');
+	->useScript('template.user')
+	->addInlineStyle(':root {
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001B4C;
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -64,7 +73,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . htmlspecialchars(Uri::root() . $this->params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -75,12 +84,16 @@ else
 	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
+	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<jdoc:include type="head" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 <body class="site">
 	<div class="outer">
@@ -125,6 +138,35 @@ else
 						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						<input name="secretkey" autocomplete="one-time-code" class="form-control" id="secretkey" type="text">
 						<?php endif; ?>
+
+						<?php foreach($extraButtons as $button):
+							$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+								return substr($key, 0, 5) == 'data-';
+							});
+							?>
+							<div class="mod-login__submit form-group">
+								<button type="button"
+										class="btn btn-secondary w-100 mt-4 <?php echo $button['class'] ?? '' ?>"
+								<?php foreach ($dataAttributeKeys as $key): ?>
+									<?php echo $key ?>="<?php echo $button[$key] ?>"
+								<?php endforeach; ?>
+								<?php if ($button['onclick']): ?>
+									onclick="<?php echo $button['onclick'] ?>"
+								<?php endif; ?>
+								title="<?php echo Text::_($button['label']) ?>"
+								id="<?php echo $button['id'] ?>"
+								>
+								<?php if (!empty($button['icon'])): ?>
+									<span class="<?php echo $button['icon'] ?>"></span>
+								<?php elseif (!empty($button['image'])): ?>
+									<?php echo $button['image']; ?>
+								<?php elseif (!empty($button['svg'])): ?>
+									<?php echo $button['svg']; ?>
+								<?php endif; ?>
+								<?php echo Text::_($button['label']) ?>
+								</button>
+							</div>
+						<?php endforeach; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
 

@@ -198,8 +198,8 @@ abstract class JGrid
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
-			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
+			$publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
@@ -270,7 +270,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-color-unfeatured icon-star')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')
 	{
 		if (is_array($prefix))
 		{
@@ -296,7 +296,7 @@ abstract class JGrid
 	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
 	 *                          These pairs determine which values are displayed.
 	 *
-	 * @return  string  The HTML markup
+	 * @return  array  The array of standard published state filter options
 	 *
 	 * @since   1.6
 	 */

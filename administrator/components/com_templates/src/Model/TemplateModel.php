@@ -1647,6 +1647,9 @@ class TemplateModel extends FormModel
 
 				switch ($properties->mime)
 				{
+					case 'image/webp':
+						$imageType = \IMAGETYPE_WEBP;
+						break;
 					case 'image/png':
 						$imageType = \IMAGETYPE_PNG;
 						break;
@@ -1696,6 +1699,9 @@ class TemplateModel extends FormModel
 
 				switch ($properties->mime)
 				{
+					case 'image/webp':
+						$imageType = \IMAGETYPE_WEBP;
+						break;
 					case 'image/png':
 						$imageType = \IMAGETYPE_PNG;
 						break;
@@ -1974,8 +1980,9 @@ class TemplateModel extends FormModel
 			$archiveTypes = explode(',', $params->get('compressed_formats'));
 
 			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+			$this->allowedFormats = array_map('strtolower', $this->allowedFormats);
 		}
 
-		return in_array($ext, $this->allowedFormats);
+		return in_array(strtolower($ext), $this->allowedFormats);
 	}
 }

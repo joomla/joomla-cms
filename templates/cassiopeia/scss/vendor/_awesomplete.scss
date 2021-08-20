@@ -4,18 +4,14 @@
   flex-wrap: nowrap;
   .awesomplete {
     input {
-      @include border-right-radius(0);
+      @include border-end-radius(0);
     }
   }
-  .input-group-append button {
+  button {
     display: flex;
     align-items: center;
     .icon-search {
-      margin-right: .2em;
-      [dir=rtl] & {
-        margin-right: 0;
-        margin-left: .2em;
-      }
+      margin-inline-end: .2em;
     }
   }
 }

@@ -11,6 +11,9 @@ namespace Joomla\Component\Installer\Administrator\View\Install;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -33,6 +36,11 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		if (!Factory::getUser()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$paths        = new \stdClass;
 		$paths->first = '';
 

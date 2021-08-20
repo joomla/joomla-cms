@@ -12,7 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -92,8 +92,8 @@ class InstalledController extends BaseController
 			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
 		}
 
-		$info         = Installer::parseXMLInstallFile($file);
-		$languageName = $info['name'];
+		$info         = LanguageHelper::parseXMLLanguageFile($file);
+		$languageName = $info['nativeName'];
 
 		if ($model->switchAdminLanguage($cid))
 		{

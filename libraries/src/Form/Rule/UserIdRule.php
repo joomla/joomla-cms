@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class UserIdRule extends FormRule
 {
@@ -36,7 +36,7 @@ class UserIdRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

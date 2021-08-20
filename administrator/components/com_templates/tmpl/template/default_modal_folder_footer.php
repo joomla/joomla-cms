@@ -18,7 +18,7 @@ $input = Factory::getApplication()->input;
 ?>
 <form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 	<fieldset>
-		<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 		<input type="hidden" class="address" name="address">
 		<?php echo HTMLHelper::_('form.token'); ?>
 		<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>

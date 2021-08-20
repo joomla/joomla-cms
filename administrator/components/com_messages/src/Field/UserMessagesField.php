@@ -73,7 +73,6 @@ class UserMessagesField extends UserField
 			if (!Access::checkGroup($group, 'core.login.admin'))
 			{
 				unset($groups[$i]);
-				continue;
 			}
 		}
 

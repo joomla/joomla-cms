@@ -457,7 +457,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 *
 	 * @param   boolean  $modifiedUser  Returns the modified_user when set to true
 	 *
-	 * @return  \JUser  A \JUser object containing a userid
+	 * @return  \Joomla\CMS\User\User  A User object containing a userid
 	 *
 	 * @since   1.6
 	 */

@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$title = Text::_($component_title_key);
 		}
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')

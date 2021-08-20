@@ -3,8 +3,9 @@
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
-  background-color: var(--atum-sidebar-bg);
-  box-shadow: $atum-box-shadow;
+  overflow: hidden;
+  background-color: var(--template-sidebar-bg);
+  box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
 
   .sidebar-sticky {
     position: sticky;
@@ -20,13 +21,13 @@
     a,
     .menu-dashboard,
     .menu-quicktask {
-      color: var(--atum-sidebar-link-color);
+      color: $white;
       text-decoration: none;
 
       &:hover {
-        color: var(--atum-text-light);
+        color: var(--template-text-light);
         text-decoration: none;
-        background-color: var(--atum-link-color);
+        background-color: var(--template-bg-dark-65);
       }
     }
 
@@ -35,23 +36,14 @@
       display: flex;
       flex-grow: 1;
       align-items: center;
-      min-height: 44px;
-      font-size: .9rem;
+      min-height: 40px;
 
       [class^="#{$jicon-css-prefix}-"],
       [class*=" #{$jicon-css-prefix}-"],
       [class^="#{$fa-css-prefix}-"],
       [class*=" #{$fa-css-prefix}-"] {
         margin: 0 .85rem;
-        transform: scale(1.3);
-      }
-    }
-
-    &-level-1 > a {
-      font-size: 1rem;
-
-      &:hover {
-        background-color: var(--atum-sidebar-link-color);
+        transform: scale(1.2);
       }
     }
 
@@ -70,17 +62,17 @@
     transition: all .3s ease;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     &.sidebar-menu {
       top: auto;
     }
   }
 
   .sidebar-toggle {
-    background: var(--atum-link-color);
+    background: var(--template-bg-dark-60);
 
     a {
-      color: var(--atum-text-light);
+      color: $white;
     }
 
     .sidebar-item-title {
@@ -92,8 +84,10 @@
 // Sidebar navigation
 .main-nav {
   width: $sidebar-width;
+  padding: 0;
+  font-size: .95rem;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     width: 100%;
   }
 
@@ -105,7 +99,9 @@
       > a {
         display: inline-flex;
         align-items: center;
-        padding: .9rem;
+        justify-content: center;
+        width: 40px;
+        height: 100%;
       }
     }
   }
@@ -114,19 +110,24 @@
   ul {
     width: 100%;
     padding: 0;
+    background-color: var(--template-bg-dark-75);
   }
 
   .divider {
     height: 1px;
-    margin: 4px 18px;
+    margin: 0 0 0 48px;
     list-style: none;
-    background-color: $gray-500;
+    background-color: var(--template-bg-dark-60);
   }
 
   .menuitem-group {
     margin-top: .65rem;
     font-size: .75rem;
     padding-inline-start: 3rem;
+
+    .sidebar-item-title {
+      color: var(--template-bg-dark-30);
+    }
   }
 
   // Dropdown indicator
@@ -154,7 +155,11 @@
   }
 
   a.mm-active {
-    background-color: $gray-300;
+    background-color: var(--template-bg-dark-70);
+  }
+
+  a.mm-active + .menu-quicktask {
+    background-color: var(--template-bg-dark-60);
   }
 
   .mm-active > .has-arrow::after {
@@ -180,6 +185,7 @@
   .badge {
     align-self: center;
     margin: 0 .3rem .25rem;
+    background-color: var(--template-bg-dark-60);
   }
 }
 
@@ -188,6 +194,7 @@
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
+    overflow: visible;
   }
 
   .sidebar-item-title,
@@ -208,15 +215,20 @@
 
   .main-nav a:hover .sidebar-item-title {
     position: absolute;
-    top: .5rem;
-    left: 3.5rem;
-    display: inline-block;
-    padding: .2rem;
-    font-size: .875rem;
-    white-space: pre;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+    white-space: nowrap;
     pointer-events: none;
-    background-color: var(--atum-sidebar-link-color);
-    border-radius: .3rem;
+    background-color: var(--template-bg-dark-60);
+    border-radius: 0 $border-radius $border-radius 0;
+    [dir=rtl] & {
+      right: 100%;
+      left: unset;
+      border-radius: $border-radius 0 0 $border-radius;
+    }
   }
 
   .main-nav > li > ul {
@@ -233,33 +245,31 @@
 }
 
 // Mobile
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
-    background: var(--atum-bg-dark-50);
+    background: var(--template-bg-dark-50);
   }
 
   .toggler-burger {
     position: fixed;
-    bottom: 20px;
+    right: 0;
+    bottom: 0;
     z-index: $zindex-mobile-toggle;
-    display: block;
-    width: 70px;
-    height: 70px;
-    background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
-    border-radius: 40px;
-
-    [dir="ltr"] & {
-      right: 10px;
-    }
+    padding: 10px 15px;
 
     [dir="rtl"] & {
-      left: 10px;
+      right: auto;
+      left: 0;
+    }
+
+    &:focus {
+      box-shadow: none;
     }
 
     .navbar-toggler-icon::before {
-      font: normal normal 900 30px/1 "Font Awesome 5 Free";
+      display: inline-block;
+      font: normal normal 900 28px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

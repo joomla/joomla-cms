@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -35,6 +35,7 @@
 			label="JCATEGORY"
 			extension="com_content"
 			multiple="true"
+			showon="only_use_in_subform:0"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="0">JALL</option>
@@ -77,6 +78,17 @@
 		</field>
 
 		<field
+			name="only_use_in_subform"
+			type="radio"
+			label="COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="type!:subform"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
@@ -87,7 +99,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			size="1"
 			validate="options"
@@ -307,7 +319,7 @@
 					name="layout"
 					type="fieldLayout"
 					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field

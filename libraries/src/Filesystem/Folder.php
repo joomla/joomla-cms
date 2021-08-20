@@ -381,7 +381,7 @@ abstract class Folder
 		}
 		else
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', __METHOD__, $path), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 			$ret = false;
 		}
 

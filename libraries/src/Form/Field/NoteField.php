@@ -71,7 +71,7 @@ class NoteField extends FormField
 		if ($close)
 		{
 			$close = $close === 'true' ? 'alert' : $close;
-			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
+			$html[] = '<button type="button" class="btn-close" data-dismiss="' . $close . '">&times;</button>';
 		}
 
 		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';

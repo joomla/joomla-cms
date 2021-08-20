@@ -569,7 +569,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', __METHOD__, $path), Log::WARNING, 'jerror');
+		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -593,7 +593,7 @@ class FileStorage extends CacheStorage
 			return $this->_root;
 		}
 
-		// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 		$path = preg_replace('#[/\\\\]+#', $ds, $path);
 
 		return $path;

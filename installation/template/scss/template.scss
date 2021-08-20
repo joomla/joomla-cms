@@ -30,7 +30,11 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
-  background: var(--atum-bg-light);
+  background: var(--template-bg-light);
+}
+
+.form-select {
+  @extend .form-select;
 }
 
 *,
@@ -44,6 +48,10 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
+  .logo {
+    max-width: 270px;
+  }
+
   img.logo-small,
   svg.logo-small {
     width: 2rem;
@@ -54,7 +62,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
   }
 }
@@ -84,10 +92,6 @@ body {
     width: 100%;
     margin-left: 0 !important;
   }
-
-  .btn-block {
-    margin-top: 40px;
-  }
 }
 
 .j-install-step-header {
@@ -109,15 +113,20 @@ body {
 .j-install-step-form {
   padding: .65rem 1.2rem;
 
-  .btn-block + .btn-block {
-    margin-top: .5rem;
+  // Remove default bootstrap margins in the installer forms.
+  .control-group {
+    margin-bottom: 0;
+
+    .control-label {
+      padding: 0;
+    }
   }
 }
 
 .languageForm {
   padding: 0 0 30px;
 
-  .custom-select {
+  .form-select {
     width: 100%;
   }
 }
@@ -154,6 +163,10 @@ body {
 
 }
 
+label {
+  margin-bottom: .5rem;
+}
+
 .control-group {
   margin-bottom: 18px;
 
@@ -174,7 +187,7 @@ body {
   width: 380px;
 }
 
-.card .custom-select {
+.card .form-select {
   width: 100%;
 }
 
@@ -203,7 +216,7 @@ legend {
 }
 
 // Possibly temporary until Bootstrap support it themselves
-.custom-select[multiple] {
+.form-select[multiple] {
   height: auto;
   background: none;
 }
@@ -219,7 +232,7 @@ caption {
   caption-side: top;
 }
 
-.badge-warning {
+.bg-warning {
   color: #292b2c;
 }
 
@@ -231,4 +244,8 @@ caption {
   z-index: $zindex-header;
   background-color: $white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
+}
+
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: $table-border-color;
 }
