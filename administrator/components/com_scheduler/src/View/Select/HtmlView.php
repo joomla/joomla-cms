@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance();
 
 		 // Add page title
-		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_CRONJOBS'), 'clock');
+		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
 		$toolbar->linkButton('cancel')
 			->url('index.php?option=com_scheduler')

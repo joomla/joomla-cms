@@ -57,8 +57,8 @@
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="j.type_title ASC">COM_SCHEDULER_JOB_TYPE_ASC</option>
-			<option value="j.type_title DESC">COM_SCHEDULER_JOB_TYPE_DESC</option>
+			<option value="j.type_title ASC">COM_SCHEDULER_TASK_TYPE_ASC</option>
+			<option value="j.type_title DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
 		</field>
 		<field
 			name="limit"

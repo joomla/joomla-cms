@@ -95,7 +95,7 @@
 			<field
 				name="type"
 				type="text"
-				label="COM_SCHEDULER_FIELD_JOB_TYPE"
+				label="COM_SCHEDULER_FIELD_TASK_TYPE"
 				required="true"
 				readonly="true"
 				maxlength="1024"

@@ -63,7 +63,7 @@ $wa->useScript('com_scheduler.admin-plg-job-search');
 		<div class="jobs-alert alert alert-info d-none">
 			<span class="icon-info-circle" aria-hidden="true"></span><span
 					class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-			<?php echo Text::_('COM_SCHEDULER_MSG_MANAGE_NO_JOB_PLUGINS'); ?>
+			<?php echo Text::_('COM_SCHEDULER_MSG_MANAGE_NO_TASK_PLUGINS'); ?>
 		</div>
 		<h2 class="pb-3 ms-3" id="comCronjobsSelectTypeHeader">
 			<?php echo Text::_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
@@ -81,7 +81,7 @@ $wa->useScript('com_scheduler.admin-plg-job-search');
 				<!-- The job card begins -->
 				<a href="<?php echo Route::_($link); ?>" class="new-job mb-3 comCronjobsSelectCard"
 				   data-function="' . $this->escape($function) : ''; ?>"
-				   aria-label="<?php echo Text::sprintf('COM_SCHEDULER_SELECT_PLG_JOB', $name); ?>">
+				   aria-label="<?php echo Text::sprintf('COM_SCHEDULER_SELECT_TASK_TYPE', $name); ?>">
 					<div class="new-job-details">
 						<h3 class="new-job-title"><?php echo $name; ?></h3>
 						<p class="card-body new-job-caption p-0">

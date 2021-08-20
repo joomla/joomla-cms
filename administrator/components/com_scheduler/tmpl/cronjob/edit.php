@@ -59,7 +59,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		<?php echo
 		HTMLHelper::_('uitab.addTab',
 				'myTab', 'general',
-				empty($this->item->id) ? Text::_('COM_SCHEDULER_NEW_CRONJOB') : Text::_('COM_SCHEDULER_EDIT_CRONJOB')
+				empty($this->item->id) ? Text::_('COM_SCHEDULER_NEW_TASK') : Text::_('COM_SCHEDULER_EDIT_TASK')
 		);
 		?>
 		<div class="row">

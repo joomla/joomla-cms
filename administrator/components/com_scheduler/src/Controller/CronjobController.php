@@ -62,7 +62,7 @@ class CronjobController extends FormController
 			// ? : Is this the right redirect [review]
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
 			$this->setRedirect(Route::_($redirectUrl, false));
-			$app->enqueueMessage(Text::_('COM_SCHEDULER_ERROR_INVALID_JOB_TYPE'), 'warning');
+			$app->enqueueMessage(Text::_('COM_SCHEDULER_ERROR_INVALID_TASK_TYPE'), 'warning');
 			$canAdd = false;
 		}
 

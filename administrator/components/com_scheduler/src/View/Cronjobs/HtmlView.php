@@ -151,7 +151,7 @@ class HtmlView extends BaseHtmlView
 		*/
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_CRONJOBS'), 'clock');
+		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
 		if ($canDo->get('core.create'))
 		{
