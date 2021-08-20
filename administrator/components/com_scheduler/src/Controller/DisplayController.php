@@ -1,0 +1,109 @@
+<?php
+/**
+ * Declares the default controller (DisplayController) for com_scheduler
+ *
+ * @package       Joomla.Administrator
+ * @subpackage    com_scheduler
+ *
+ * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Cronjobs\Administrator\Controller;
+
+// Restrict direct access
+defined('_JEXEC') or die;
+
+use Exception;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use function count;
+use function defined;
+
+
+/**
+ * Default controller for com_scheduler.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+class DisplayController extends BaseController
+{
+	/**
+	 * @var   string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $default_view = 'cronjobs';
+
+	/**
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+	 *
+	 * @return BaseController|boolean  Returns either a BaseController object to support chaining, or false on failure
+	 *
+	 * @throws Exception
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		$layout = $this->input->get('layout', 'default');
+
+		// Check for edit form.
+		if ($layout === 'edit')
+		{
+			if (!$this->validateEntry())
+			{
+				$cronjobsViewUrl = Route::_('index.php?option=com_scheduler&view=cronjobs');
+				$this->setRedirect($cronjobsViewUrl);
+
+				return false;
+			}
+		}
+
+		// Let the parent method take over
+		return parent::display($cachable, $urlparams);
+	}
+
+	/**
+	 * Validates entry to the view
+	 *
+	 * @param   string  $layout  The layout to validate entry for (defaults to 'edit')
+	 *
+	 * @return boolean  True is entry is valid
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function validateEntry(string $layout = 'edit'): bool
+	{
+		$context = 'com_scheduler';
+		$id = $this->input->getInt('id');
+		$isValid = true;
+
+		switch ($layout)
+		{
+			case 'edit':
+
+				// True if controller was called and verified permissions
+				$canEdit = $this->checkEditId("${context}.edit.cronjob", $id);
+				$isNew = ($id == 0);
+
+				// For new item, entry is invalid if job type was not selected through SelectView
+				if ($isNew && !$this->app->getUserState("${context}.add.cronjob.cronjob_type"))
+				{
+					$this->setMessage((Text::_('COM_SCHEDULER_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
+					$isValid = false;
+				}
+				// For existing item, entry is invalid if CronjobController has not granted access
+				elseif (!$canEdit && !count($this->app->getMessageQueue()))
+				{
+					$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+					$isValid = false;
+				}
+				break;
+			default:
+				break;
+		}
+
+		return $isValid;
+	}
+}

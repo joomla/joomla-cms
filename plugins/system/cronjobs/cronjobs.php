@@ -115,8 +115,8 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 */
 	public function __construct(&$subject, $config = [])
 	{
-		// Make sure com_cronjobs is installed and enabled
-		if (! ComponentHelper::isEnabled('com_cronjobs'))
+		// Make sure com_scheduler is installed and enabled
+		if (! ComponentHelper::isEnabled('com_scheduler'))
 		{
 			return;
 		}
@@ -158,7 +158,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$this->snapshot['startTime'] = microtime(true);
 
 		/** @var MVCComponent $component */
-		$component = $this->app->bootComponent('com_cronjobs');
+		$component = $this->app->bootComponent('com_scheduler');
 
 		/** @var CronjobsModel $model */
 		$model = $component->getMVCFactory()->createModel('Cronjobs', 'Administrator');

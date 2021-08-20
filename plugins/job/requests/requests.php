@@ -58,7 +58,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_cronjobs.cronjob'
+		'com_scheduler.cronjob'
 	];
 
 	/**
@@ -113,7 +113,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 
 		$context = $form->getName();
 
-		if ($context === 'com_cronjobs.cronjob')
+		if ($context === 'com_scheduler.cronjob')
 		{
 			$this->enhanceCronjobItemForm($form, $data);
 		}

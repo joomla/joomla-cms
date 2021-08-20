@@ -167,9 +167,9 @@
 		<menuitem
 				title="MOD_MENU_MANAGE_CRONJOBS"
 				type="component"
-				element="com_cronjobs"
-				link="index.php?option=com_cronjobs&amp;view=cronjobs"
-				permission="core.manage;com_cronjobs"
+				element="com_scheduler"
+				link="index.php?option=com_scheduler&amp;view=cronjobs"
+				permission="core.manage;com_scheduler"
 		/>
 
 		<menuitem
