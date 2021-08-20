@@ -24,7 +24,7 @@ interface TablePropertyInterface // SqlDataInterface //TablePropertyInterface
 	 *
 	 * @param   mixed  $value  Value geted from cell BaseData
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($value = null);
 
