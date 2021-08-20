@@ -172,29 +172,29 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	</header>
 
 	<div class="site-grid">
-    <?php if ($this->countModules('banner', true) || $showAllPositions) : ?>
-      <div class="container-banner full-width">
-        <jdoc:include type="modules" name="banner" style="none" />
-      </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('banner', true) || $showAllPositions) : ?>
+			<div class="container-banner full-width">
+				<jdoc:include type="modules" name="banner" style="none" />
+			</div>
+		<?php endif; ?>
 
-    <?php if ($this->countModules('top-a', true) || $showAllPositions) : ?>
-    <div class="grid-child container-top-a">
-      <jdoc:include type="modules" name="top-a" style="card" />
-    </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('top-a', true) || $showAllPositions) : ?>
+			<div class="grid-child container-top-a">
+				<jdoc:include type="modules" name="top-a" style="card" />
+			</div>
+		<?php endif; ?>
 
-    <?php if ($this->countModules('top-b', true) || $showAllPositions) : ?>
-    <div class="grid-child container-top-b">
-      <jdoc:include type="modules" name="top-b" style="card" />
-    </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('top-b', true) || $showAllPositions) : ?>
+			<div class="grid-child container-top-b">
+				<jdoc:include type="modules" name="top-b" style="card" />
+			</div>
+		<?php endif; ?>
 
-    <?php if ($this->countModules('sidebar-left', true) || $showAllPositions) : ?>
-    <div class="grid-child container-sidebar-left">
-      <jdoc:include type="modules" name="sidebar-left" style="card" />
-    </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('sidebar-left', true) || $showAllPositions) : ?>
+			<div class="grid-child container-sidebar-left">
+				<jdoc:include type="modules" name="sidebar-left" style="card" />
+			</div>
+		<?php endif; ?>
 
 		<div class="grid-child container-component">
 			<jdoc:include type="modules" name="breadcrumbs" style="none" />
@@ -206,21 +206,21 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			<jdoc:include type="modules" name="main-bottom" style="card" />
 		</div>
 
-    <?php if ($this->countModules('sidebar-right', true) || $showAllPositions) : ?>
-    <div class="grid-child container-sidebar-right">
-      <jdoc:include type="modules" name="sidebar-right" style="card" />
-    </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('sidebar-right', true) || $showAllPositions) : ?>
+		<div class="grid-child container-sidebar-right">
+			<jdoc:include type="modules" name="sidebar-right" style="card" />
+		</div>
+		<?php endif; ?>
 
-    <?php if ($this->countModules('bottom-a', true) || $showAllPositions) : ?>
-    <div class="grid-child container-bottom-a">
-      <jdoc:include type="modules" name="bottom-a" style="card" />
-    </div>
-    <?php endif; ?>
+		<?php if ($this->countModules('bottom-a', true) || $showAllPositions) : ?>
+		<div class="grid-child container-bottom-a">
+			<jdoc:include type="modules" name="bottom-a" style="card" />
+		</div>
+		<?php endif; ?>
 
-    <?php if ($this->countModules('bottom-b', true) || $showAllPositions) : ?>
-    <div class="grid-child container-bottom-b">
-      <jdoc:include type="modules" name="bottom-b" style="card" />
+		<?php if ($this->countModules('bottom-b', true) || $showAllPositions) : ?>
+		<div class="grid-child container-bottom-b">
+			<jdoc:include type="modules" name="bottom-b" style="card" />
 		</div>
 		<?php endif; ?>
 	</div>
