@@ -2330,8 +2330,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Get type PHP property from DB type column
 	 *
 	 * @param string $typeDB
+	 *	 
 	 * @return string
-	 * @since  4.0.0
+	 *	 
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getTypeProperty($typeDB)
 	{
