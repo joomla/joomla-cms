@@ -424,6 +424,7 @@ class ResponsiveImagesHelper
 
 				// Create an array that contains only sizes (not titles)
 				$sizes = [];
+
 				foreach ($customSizes as $item)
 				{
 					$sizes[] = $item->size;
