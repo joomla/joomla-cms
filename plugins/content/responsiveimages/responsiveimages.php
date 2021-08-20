@@ -122,14 +122,18 @@ class PlgContentResponsiveImages extends CMSPlugin
 		if ($article instanceof Table)
 		{
 			// Generate responsive images for form and content
-			if ($formImages = $this->_getFormImages($context, (array) $article))
+			$formImages = $this->_getFormImages($context, (array) $article);
+
+			if (!is_null($formImages))
 			{
 				$unusedFormImages = ResponsiveImagesHelper::getUnusedFormImages($this->initFormImages, $formImages);
 
 				ResponsiveImagesHelper::generateFormImages($formImages);
 			}
 
-			if ($content = $article->{$this->_getContentKey($context)})
+			$content = $article->{$this->_getContentKey($context)};
+
+			if (!is_null($content))
 			{
 				$unusedContentImages = ResponsiveImagesHelper::getUnusedContentImages($this->initContent, $content);
 
@@ -152,7 +156,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 * @param   string  $context  The context for the data
 	 * @param   array   $data     The validated data
 	 *
-	 * @return  mixed   Array of form images or false if they don't exist
+	 * @return  mixed   Array of form images or null if they don't exist
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -170,31 +174,45 @@ class PlgContentResponsiveImages extends CMSPlugin
 				return array(
 					'image_intro' => (object) [
 						'name'   => $data['images']['image_intro'],
-						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_intro_sizes'], $data['images']['image_intro_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
+							$data['images']['image_intro_sizes'], $data['images']['image_intro_size_options']
+						),
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['images']['image_intro_sizes'], $data['images']['image_intro_method']
+						)
 					],
 					'image_fulltext' => (object) [
 						'name'   => $data['images']['image_fulltext'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
 							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_size_options']
 						),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method'])
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method']
+						)
 					],
 				);
 			case "com_banners.banner":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['imageurl'],
-						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['params']['imageurl_sizes'], $data['params']['imageurl_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
+							$data['params']['imageurl_sizes'], $data['params']['imageurl_size_options']
+						),
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['params']['imageurl_sizes'], $data['params']['imageurl_method']
+						)
 					]
 				);
 			case "com_categories.category":
 				return array(
 					'image' => (object) [
 						'name'   => $data['params']['image'],
-						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['params']['image_sizes'], $data['params']['image_size_options']),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['params']['image_sizes'], $data['params']['image_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
+							$data['params']['image_sizes'], $data['params']['image_size_options']
+						),
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['params']['image_sizes'], $data['params']['image_method']
+						)
 					]
 				);
 			case "com_contact.contact":
@@ -209,17 +227,25 @@ class PlgContentResponsiveImages extends CMSPlugin
 				return array(
 					'image_first' => (object) [
 						'name'   => $data['images']['image_first'],
-						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_first_sizes'], $data['images']['image_first_size_options']),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_first_sizes'], $data['images']['image_first_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
+							$data['images']['image_first_sizes'], $data['images']['image_first_size_options']
+						),
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['images']['image_first_sizes'], $data['images']['image_first_method']
+						)
 					],
 					'image_second' => (object) [
 						'name'   => $data['images']['image_second'],
-						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['images']['image_second_sizes'], $data['images']['image_second_size_options']),
-						'method' => ResponsiveImagesHelper::getDefaultMethod($data['images']['image_second_sizes'], $data['images']['image_second_method'])
+						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
+							$data['images']['image_second_sizes'], $data['images']['image_second_size_options']
+						),
+						'method' => ResponsiveImagesHelper::getDefaultMethod(
+							$data['images']['image_second_sizes'], $data['images']['image_second_method']
+						)
 					],
 				);
 			default:
-				return false;
+				return null;
 		}
 	}
 

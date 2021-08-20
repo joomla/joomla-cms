@@ -114,10 +114,17 @@ class ResponsiveImagesHelper
 	 */
 	public static function getUnusedImages($initImages, $finalImages)
 	{
-		// Final version empty means that image is deleted
+		$unusedImages = [];
+
+		// Final versions empty means that image is deleted
 		if (empty($finalImages))
 		{
-			return $initImages;
+			foreach ($initImages as $initImage)
+			{
+				$unusedImages[] = explode('/', $initImage->getPath(), 2)[1];
+			}
+
+			return $unusedImages;
 		}
 
 		// Get final image paths
@@ -125,8 +132,6 @@ class ResponsiveImagesHelper
 		{
 			$finalImagePaths[] = $finalImage->getPath();
 		}
-
-		$unusedImages = [];
 
 		// Check if initial image path exists in final image paths
 		foreach ($initImages as $initImage)
@@ -165,16 +170,21 @@ class ResponsiveImagesHelper
 			$initImage->name  = HTMLHelper::cleanImageURL($initImage->name)->url;
 			$finalImage->name = HTMLHelper::cleanImageURL($finalImage->name)->url;
 
-			if (is_file(JPATH_ROOT . '/' . $initImage->name) && is_file(JPATH_ROOT . '/' . $finalImage->name))
+			if (is_file(JPATH_ROOT . '/' . $initImage->name))
 			{
 				$initImgObj  = new Image(JPATH_ROOT . '/' . $initImage->name);
-				$finalImgObj = new Image(JPATH_ROOT . '/' . $finalImage->name);
 
-				// Get initial and final image sizes
 				$initRespImages  = $initImgObj->generateMultipleSizes($initImage->sizes, $initImage->method);
-				$finalRespImages = $finalImgObj->generateMultipleSizes($finalImage->sizes, $finalImage->method);
+				$finalRespImages = [];
 
-				$unusedImages = static::getUnusedImages($initRespImages, $finalRespImages);
+				// If image exists in final, get final responsive versions
+				if (is_file(JPATH_ROOT . '/' . $finalImage->name))
+				{
+					$finalImgObj = new Image(JPATH_ROOT . '/' . $finalImage->name);
+					$finalRespImages = $finalImgObj->generateMultipleSizes($finalImage->sizes, $finalImage->method);
+				}
+
+				$unusedImages = array_merge($unusedImages, static::getUnusedImages($initRespImages, $finalRespImages));
 			}
 		}
 
@@ -193,27 +203,36 @@ class ResponsiveImagesHelper
 	 */
 	public static function getUnusedContentImages($initContent, $finalContent)
 	{
-		// Get initial and final image sizes
-		$initImages  = HTMLHelper::getContentImageSources($initContent);
+		// Get initial images
+		$initImages = HTMLHelper::getContentImageSources($initContent);
 
 		$unusedImages = [];
 
 		foreach ($initImages as $initImage)
 		{
-			$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
+			if (is_file(JPATH_ROOT . '/' . $initImage))
+			{
+				$imgObj = new Image(JPATH_ROOT . '/' . $initImage);
 
-			// Get initial and final image sizes
-			$initRespImages = $imgObj->generateMultipleSizes(
-				static::getContentSizes($initContent, $initImage),
-				static::getContentMethod($initContent, $initImage)
-			);
-			$finalRespImages = $imgObj->generateMultipleSizes(
-				static::getContentSizes($finalContent, $initImage),
-				static::getContentMethod($finalContent, $initImage)
-			);
+				// Get initial sizes
+				$initRespImages = $imgObj->generateMultipleSizes(
+					static::getContentSizes($initContent, $initImage),
+					static::getContentMethod($initContent, $initImage)
+				);
+				$finalRespImages = [];
 
-			// Compare initial and final sizes of images
-			$unusedImages = static::getUnusedImages($initRespImages, $finalRespImages);
+				// If image exists in final, get final responsive versions
+				if (HTMLHelper::getContentImage($finalContent, $initImage))
+				{
+					$finalRespImages = $imgObj->generateMultipleSizes(
+						static::getContentSizes($finalContent, $initImage),
+						static::getContentMethod($finalContent, $initImage)
+					);
+				}
+
+				// Compare initial and final sizes of images
+				$unusedImages = array_merge($unusedImages, static::getUnusedImages($initRespImages, $finalRespImages));
+			}
 		}
 
 		return $unusedImages;
@@ -390,7 +409,7 @@ class ResponsiveImagesHelper
 	 */
 	public static function getContentSizes($content, $image)
 	{
-		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
+		$imgTag = HTMLHelper::getContentImage($content, $image);
 
 		if (!is_null($imgTag))
 		{

@@ -82,6 +82,11 @@
         checkmark: '<svg width="24" height="24"><path d="M18.2 5.4a1 1 0 011.6 1.2l-8 12a1 1 0 01-1.5.1l-5-5a1 1 0 111.4-1.4l4.1 4.1 7.4-11z" fill-rule="nonzero"></path></svg>'
       },
       dialogBody: null,
+      getCurrentImage: function () {
+        // Current node is figure if it exists
+        return editor.selection.getNode().nodeName.toLowerCase() === 'figure' ?
+          editor.selection.getNode().querySelector('img') : editor.selection.getNode();
+      },
       renderField: function (field) {
         if (field.type === 'checkbox') {
           return `
@@ -167,19 +172,19 @@
             id: "jimage_sizes_title_" + id,
             type: "text",
             label: Joomla.Text._('PLG_TINY_JIMAGE_TITLE'),
-            value: title ?? '',
+            value: title || '',
           },
           width: {
             id: "jimage_sizes_width_" + id,
             type: "number",
             label: Joomla.Text._('PLG_TINY_JIMAGE_WIDTH'),
-            value: width ?? "",
+            value: width || "",
           },
           height: {
             id: "jimage_sizes_height" + id,
             type: "number",
             label: Joomla.Text._('PLG_TINY_JIMAGE_HEIGHT'),
-            value: height ?? "",
+            value: height || "",
           },
         };
       },
@@ -248,7 +253,7 @@
         });
       },
       updateImageAttrs: function () {
-        var image = editor.selection.getNode();
+        var image = jimage.getCurrentImage();
 
         // Edit or delete image size and title attributes
         if (responsiveSizes.setCustom.value) {
@@ -297,15 +302,15 @@
             // Insert content to advanced tabpanel
             if (e.target.innerText === tinymce.util.I18n.translate('Advanced') && e.target.getAttribute('aria-selected') === 'false') {
               setTimeout(function () {
-                var image = editor.selection.getNode();
+                var image = jimage.getCurrentImage();
 
                 // Set image detail initial values
-                imageDetails.imgClass.value = image.className ?? '';
+                imageDetails.imgClass.value = image.className || '';
                 imageDetails.lazyLoading.value = image.getAttribute('loading') === 'lazy';
 
                 if (image.parentElement.nodeName.toLowerCase() === 'figure') {
-                  imageDetails.figClass.value = image.parentElement.className ?? '';
-                  imageDetails.figCaption.value = image.parentElement.querySelector('figcaption').innerText ?? '';
+                  imageDetails.figClass.value = image.parentElement.className || '';
+                  imageDetails.figCaption.value = image.parentElement.querySelector('figcaption').innerText || '';
                 }
 
                 // Custom sizes initial default values
@@ -332,7 +337,7 @@
                 if (image.getAttribute('data-jimage-method')) {
                   responsiveSizes.setCustom.value = true;
 
-                  var methodValue = +image.getAttribute('data-jimage-method') ?? 0;
+                  var methodValue = +image.getAttribute('data-jimage-method') || 0;
                   responsiveSizes.creationMethod.activeItem.value = methodValue;
                   responsiveSizes.creationMethod.activeItem.name = responsiveSizes.creationMethod.items.find(function (item) {
                     return item.value === methodValue;
@@ -422,7 +427,8 @@
     // Event that fires on dialog form submit
     editor.on('ExecCommand', function (e) {
       if (e.command === 'mceUpdateImage' && jimage.dialogBody) {
-        var image = e.target.contentDocument.body.querySelector(`img[src="` + e.value.src + `"]`);
+        // var image = e.target.contentDocument.body.querySelector(`img[src="` + e.value.src + `"]`);
+        var image = jimage.getCurrentImage();
         var figure = null;
         var figCaption = null;
 

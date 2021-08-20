@@ -396,7 +396,6 @@
 					label="COM_TAGS_FIELD_METHOD_LABEL"
 					default="0"
 					filter="integer"
-					filter="integer"
 					validate="options"
 					showon="image_fulltext_sizes:1"
 					>

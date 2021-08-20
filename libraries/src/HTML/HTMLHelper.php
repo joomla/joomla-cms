@@ -1339,7 +1339,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Method that gets HTML as string and finds all image sources
+	 * Method that takes HTML as string and finds all image sources
 	 *
 	 * @param   string  $content  HTML content
 	 *
@@ -1349,15 +1349,27 @@ abstract class HTMLHelper
 	 */
 	public static function getContentImageSources($content)
 	{
-		if (is_null($content))
-		{
-			return false;
-		}
-
 		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
 		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
 
 		return $images;
+	}
+
+	/**
+	 * Method that takes HTML as string and image source then returns img tag of specified image
+	 *
+	 * @param   string  $content  HTML content
+	 * @param   string  $image    image source
+	 *
+	 * @return  string  img tag of given image or null if not found
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getContentImage($content, $image)
+	{
+		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
+
+		return $imgTag;
 	}
 
 	/**
