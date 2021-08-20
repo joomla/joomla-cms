@@ -80,7 +80,7 @@ class TemplatesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setDefault()
 	{
