@@ -219,6 +219,6 @@ trait CronjobPluginTrait
 			$langLoaded = true;
 		}
 
-		Log::add(Text::_('COM_SCHEDULER_JOB_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'cronjobs');
+		Log::add(Text::_('COM_SCHEDULER_TASK_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'cronjobs');
 	}
 }

@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_CRONJOB_NEW') : Text::_('COM_SCHEDULER_MANAGER_CRONJOB_EDIT'), 'clock');
+		ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');
 
 		// Goes into ToolbarHelper::saveGroup()
 		$toolbarButtons = [];

@@ -101,7 +101,7 @@ if ($saveOrder && !empty($this->items))
 
 					<!-- Job type header -->
 					<th scope="col">
-						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_JOB_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
 					</th>
 
 					<!-- Job ID -->
