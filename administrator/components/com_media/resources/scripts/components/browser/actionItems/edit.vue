@@ -10,8 +10,8 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @keyup.up="$refs.actionRename.focus()"
-    @keyup.down="$refs.actionShare.focus()"
+    @keyup.up="focusUp.focus()"
+    @keyup.down="focusDown.focus()"
   >
     <span
       class="image-browser-action icon-pencil-alt"
@@ -23,14 +23,14 @@
 
 <script>
 export default {
-  name: 'MediaBrowserActionItemPreview',
-  props: ['focused', 'hideActions', 'actionRename', 'editItem', 'actionDelete'],
+  name: 'MediaBrowserActionItemEdit',
+  props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
   methods: {
     openRenameModal: function() {
-      this.openRenameModal();
+      this.mainAction();
     },
     hideActions: function() {
-      this.hideActions();
+      this.closingAction();
     },
     focus: function() {
       this.$refs.actionPreviewButton.focus()

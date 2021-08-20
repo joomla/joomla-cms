@@ -10,8 +10,8 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @keyup.up="$refs.actionShare.focus()"
-    @keyup.down="$refs.actionPreview.focus()"
+    @keyup.up="focusUp.focus()"
+    @keyup.down="focusDown.focus()"
   >
     <span
       class="image-browser-action icon-trash"
@@ -23,17 +23,17 @@
 
 <script>
 export default {
-  name: 'MediaBrowserActionItemPreview',
-  props: ['focused', 'hideActions', 'actionRename', 'openConfirmDeleteModal', 'actionDelete'],
+  name: 'MediaBrowserActionItemDelete',
+  props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
   methods: {
-    openRenameModal: function() {
-      this.openRenameModal();
+    openConfirmDeleteModal: function() {
+      this.mainAction();
     },
     hideActions: function() {
       this.hideActions();
     },
     focus: function() {
-      this.$refs.actionPreviewButton.focus()
+      this.$refs.actionDeleteButton.focus()
     },
     focused: function(bool) {
       this.focused()

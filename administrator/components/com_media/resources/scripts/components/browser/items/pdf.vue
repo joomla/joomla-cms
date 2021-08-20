@@ -26,8 +26,8 @@
       <media-browser-action-item-toggle
           ref="actionToggle"
           :focused="focused"
-          :openActions="openActions"
-          :openLastActions="openLastActions"
+          :mainAction="openActions"
+          :focusUp="openLastActions"
       />
       <div
         v-if="showActions"
@@ -38,60 +38,60 @@
             <media-browser-action-item-preview
               ref="actionPreview"
               :focused="focused"
-              :openPreview="openPreview"
-              :hideActions="hideActions"
-              :actionDelete="$refs.actionDelete"
-              :actionDownload="$refs.actionDownload"
+              :mainAction="openPreview"
+              :closingAction="hideActions"
+              :focusUp="$refs.actionDelete"
+              :focusDown="$refs.actionDownload"
             />
           </li>
           <li>
             <media-browser-action-item-download
               ref="actionDownload"
               :focused="focused"
-              :download="download"
-              :hideActions="hideActions"
-              :actionPreview="$refs.actionPreview"
-              :actionRename="$refs.actionRename"
+              :mainAction="download"
+              :closingAction="hideActions"
+              :focusUp="$refs.actionPreview"
+              :focusDown="$refs.actionRename"
             />
           </li>
           <li>
             <media-browser-action-item-rename
               ref="actionRename"
               :focused="focused"
-              :openRenameModal="openRenameModal"
-              :hideActions="hideActions"
-              :actionDownload="$refs.actionPreview"
-              :actionShare="$refs.actionRename"
+              :mainAction="openRenameModal"
+              :closingAction="hideActions"
+              :focusUp="$refs.actionDownload"
+              :focusDown="canEdit ? $refs.actionEdit : $refs.actionShare"
             />
           </li>
           <li v-if="canEdit">
             <media-browser-action-item-edit
               ref="actionEdit"
               :focused="focused"
-              :editItem="editItem"
-              :hideActions="hideActions"
-              :actionDownload="$refs.actionPreview"
-              :actionShare="$refs.actionRename"
+              :mainAction="editItem"
+              :closingAction="hideActions"
+              :focusUp="$refs.actionRename"
+              :focusDown="$refs.actionShare"
             />
           </li>
           <li>
             <media-browser-action-item-share
               ref="actionShare"
-              :openShareUrlModal="openShareUrlModal"
-              :actionRename="$refs.actionRename"
-              :actionDelete="$refs.actionDelete"
               :focused="focused"
-              :hideActions="hideActions"
+              :mainAction="openShareUrlModal"
+              :focusUp="canEdit ? $refs.actionEdit : $refs.actionRename"
+              :focusDown="$refs.actionDelete"              
+              :closingAction="hideActions"
             />
           </li>
           <li>
             <media-browser-action-item-delete
               ref="actionDelete"
-              :openConfirmDeleteModal="openConfirmDeleteModal"
-              :actionRename="$refs.actionRename"
-              :actionDelete="$refs.actionDelete"
               :focused="focused"
+              :mainAction="openConfirmDeleteModal"
               :hideActions="hideActions"
+              :focusUp="$refs.actionShare"
+              :focusDown="$refs.actionPreview"              
             />
           </li>
         </ul>

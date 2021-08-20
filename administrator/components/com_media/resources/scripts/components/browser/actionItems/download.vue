@@ -1,6 +1,6 @@
 <template>
     <button
-        ref="actionDownload"
+        ref="actionDownloadButton"
         type="button"
         class="action-download"
         :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')"
@@ -10,8 +10,8 @@
         @focus="focused(true)"
         @blur="focused(false)"
         @keyup.esc="hideActions()"
-        @keyup.up="actionPreview.focus()"
-        @keyup.down="actionRename.focus()"
+        @keyup.up="focusUp.focus()"
+        @keyup.down="focusDown.focus()"
     >
         <span
             class="image-browser-action icon-download"
@@ -24,16 +24,16 @@
 <script>
 export default {
     name: 'MediaBrowserActionItemDownload',
-    props: ['download', 'focused', 'hideActions', 'actionPreview', 'actionRename'],
+    props: ['mainAction', 'focused', 'closingAction', 'focusUp', 'focusDown'],
     methods: {
         download: function() {
-            this.download();
+            this.mainAction();
         },
         hideActions: function() {
-            this.hideActions();
+            this.closingAction();
         },
         focus: function() {
-            this.$refs.actionPreviewButton.focus()
+            this.$refs.actionDownloadButton.focus()
         },
         focused: function(bool) {
             this.focused()

@@ -23,13 +23,13 @@
 <script>
 export default {
     name: 'MediaBrowserActionItemToggle',
-    props: ['openActions', 'focused', 'openLastActions'],
+    props: ['mainAction', 'focused', 'focusUp'],
     methods: {
         openActions: function() {
-            this.openActions();
+            this.mainAction();
         },
         openLastActions: function() {
-            this.openLastActions();
+            this.focusUp();
         },
         focus: function() {
             this.$refs.actionToggleButton.focus()

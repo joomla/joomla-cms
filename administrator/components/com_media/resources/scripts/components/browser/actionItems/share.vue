@@ -10,8 +10,8 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @keyup.up="actionRename.focus()"
-    @keyup.down="actionDelete.focus()"
+    @keyup.up="focusUp.focus()"
+    @keyup.down="focusDown.focus()"
   >
     <span
       class="image-browser-action icon-link"
@@ -23,17 +23,17 @@
 
 <script>
 export default {
-  name: 'MediaBrowserActionItemPreview',
-  props: ['focused', 'hideActions', 'actionRename', 'openShareUrlModal', 'actionDelete'],
+  name: 'MediaBrowserActionItemShare',
+  props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
   methods: {
-    openRenameModal: function() {
-      this.openRenameModal();
+    openShareUrlModal: function() {
+      this.mainAction();
     },
     hideActions: function() {
-      this.hideActions();
+      this.closingAction();
     },
     focus: function() {
-      this.$refs.actionPreviewButton.focus()
+      this.$refs.actionShareButton.focus()
     },
     focused: function(bool) {
       this.focused()

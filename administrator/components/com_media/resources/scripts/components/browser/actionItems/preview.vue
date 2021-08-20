@@ -10,8 +10,8 @@
         @focus="focused(true)"
         @blur="focused(false)"
         @keyup.esc="hideActions()"
-        @keyup.up="actionDelete.focus()"
-        @keyup.down="actionDownload.focus()"
+        @keyup.up="focusUp.focus()"
+        @keyup.down="focusDown.focus()"
     >
         <span
             class="image-browser-action icon-search-plus"
@@ -24,13 +24,13 @@
 <script>
 export default {
     name: 'MediaBrowserActionItemPreview',
-    props: ['openPreview', 'focused', 'hideActions', 'actionDelete', 'actionDownload'],
+    props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
     methods: {
         openPreview: function() {
-            this.openPreview();
+            this.mainAction();
         },
         hideActions: function() {
-            this.hideActions();
+            this.closingAction();
         },
         focus: function() {
             this.$refs.actionPreviewButton.focus()

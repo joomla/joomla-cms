@@ -1,6 +1,6 @@
 <template>
     <button
-        ref="actionRename"
+        ref="actionRenameButton"
         type="button"
         class="action-rename"
         :aria-label="translate('COM_MEDIA_ACTION_RENAME')"
@@ -10,8 +10,8 @@
         @focus="focused(true)"
         @blur="focused(false)"
         @keyup.esc="hideActions()"
-        @keyup.up="actionDownload.focus()"
-        @keyup.down="actionShare.focus()"
+        @keyup.up="focusUp.focus()"
+        @keyup.down="focusDown.focus()"
     >
         <span
         class="image-browser-action icon-text-width"
@@ -23,17 +23,17 @@
 
 <script>
 export default {
-    name: 'MediaBrowserActionItemPreview',
-    props: ['openRenameModal', 'focused', 'hideActions', 'actionDownload', 'actionShare'],
+    name: 'MediaBrowserActionItemRename',
+    props: ['mainAction', 'focused', 'closingAction', 'focusUp', 'focusDown'],
     methods: {
         openRenameModal: function() {
-            this.openRenameModal();
+            this.mainAction();
         },
         hideActions: function() {
-            this.hideActions();
+            this.closingAction();
         },
         focus: function() {
-            this.$refs.actionPreviewButton.focus()
+            this.$refs.actionRenameButton.focus()
         },
         focused: function(bool) {
             this.focused()
