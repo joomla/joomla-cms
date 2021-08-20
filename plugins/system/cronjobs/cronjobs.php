@@ -19,9 +19,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
-use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
-use Joomla\Component\Cronjobs\Administrator\Model\CronjobsModel;
+use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
+use Joomla\Component\Scheduler\Administrator\Model\CronjobsModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -285,7 +285,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$event = AbstractEvent::create(
 			'onCronRun',
 			[
-				'eventClass' => 'Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent',
+				'eventClass' => 'Joomla\Component\Scheduler\Administrator\Event\CronRunEvent',
 				'subject' => $this,
 				'jobId' => $cronjob->type,
 				'langConstPrefix' => $cronjob->cronOption->langConstPrefix,

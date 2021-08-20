@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Traits;
+namespace Joomla\Component\Scheduler\Administrator\Traits;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 use ReflectionClass;

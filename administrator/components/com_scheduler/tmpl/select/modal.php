@@ -13,7 +13,7 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\Component\Cronjobs\Administrator\View\Select\HtmlView;
+use Joomla\Component\Scheduler\Administrator\View\Select\HtmlView;
 
 /** @var HtmlView $this */
 

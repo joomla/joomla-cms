@@ -17,7 +17,7 @@ use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Cronjobs\Administrator\Extension\CronjobsComponent;
+use Joomla\Component\Scheduler\Administrator\Extension\CronjobsComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 

@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Model;
+namespace Joomla\Component\Scheduler\Administrator\Model;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -19,8 +19,8 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
-use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
 use function defined;
 
 /**

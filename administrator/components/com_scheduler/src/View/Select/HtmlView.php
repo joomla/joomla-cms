@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\View\Select;
+namespace Joomla\Component\Scheduler\Administrator\View\Select;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -24,7 +24,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
 use function defined;
 
 /**
