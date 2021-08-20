@@ -1,76 +1,87 @@
 <template>
-  <media-browser-action-item-toggle
-    ref="actionToggle"
-    :focused="focused"
-    :mainAction="openActions"
-    :focusUp="openLastActions"
+  <span
+    class="media-browser-select"
+    :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+    :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
   />
   <div
-    v-if="showActions"
-    class="media-browser-actions-list"
+    class="media-browser-actions"
+    :class="{'active': showActions}"
   >
-    <ul>
-      <li>
-        <media-browser-action-item-preview
-          ref="actionPreview"
-          :focused="focused"
-          :mainAction="openPreview"
-          :closingAction="hideActions"
-          :focusUp="$refs.actionDelete"
-          :focusDown="$refs.actionDownload"
-        />
-      </li>
-      <li>
-        <media-browser-action-item-download
-          ref="actionDownload"
-          :focused="focused"
-          :mainAction="download"
-          :closingAction="hideActions"
-          :focusUp="$refs.actionPreview"
-          :focusDown="$refs.actionRename"
-        />
-      </li>
-      <li>
-        <media-browser-action-item-rename
-          ref="actionRename"
-          :focused="focused"
-          :mainAction="openRenameModal"
-          :closingAction="hideActions"
-          :focusUp="$refs.actionDownload"
-          :focusDown="canEdit ? $refs.actionEdit : $refs.actionShare"
-        />
-      </li>
-      <li v-if="canEdit">
-        <media-browser-action-item-edit
-          ref="actionEdit"
-          :focused="focused"
-          :mainAction="editItem"
-          :closingAction="hideActions"
-          :focusUp="$refs.actionRename"
-          :focusDown="$refs.actionShare"
-        />
-      </li>
-      <li>
-        <media-browser-action-item-share
-          ref="actionShare"
-          :focused="focused"
-          :mainAction="openShareUrlModal"
-          :focusUp="canEdit ? $refs.actionEdit : $refs.actionRename"
-          :focusDown="$refs.actionDelete"
-          :closingAction="hideActions"
-        />
-      </li>
-      <li>
-        <media-browser-action-item-delete
-          ref="actionDelete"
-          :focused="focused"
-          :mainAction="openConfirmDeleteModal"
-          :hideActions="hideActions"
-          :focusUp="$refs.actionShare"
-          :focusDown="$refs.actionPreview"
-        />
-      </li>
-    </ul>
+    <media-browser-action-item-toggle
+      ref="actionToggle"
+      :focused="focused"
+      :mainAction="openActions"
+      :focusUp="openLastActions"
+      :item="item"
+    />
+    <div
+      v-if="showActions"
+      class="media-browser-actions-list"
+    >
+      <ul>
+        <li>
+          <media-browser-action-item-preview
+            ref="actionPreview"
+            :focused="focused"
+            :mainAction="openPreview"
+            :closingAction="hideActions"
+            :focusUp="$refs.actionDelete"
+            :focusDown="$refs.actionDownload"
+          />
+        </li>
+        <li>
+          <media-browser-action-item-download
+            ref="actionDownload"
+            :focused="focused"
+            :mainAction="download"
+            :closingAction="hideActions"
+            :focusUp="$refs.actionPreview"
+            :focusDown="$refs.actionRename"
+          />
+        </li>
+        <li>
+          <media-browser-action-item-rename
+            ref="actionRename"
+            :focused="focused"
+            :mainAction="openRenameModal"
+            :closingAction="hideActions"
+            :focusUp="$refs.actionDownload"
+            :focusDown="canEdit ? $refs.actionEdit : $refs.actionShare"
+          />
+        </li>
+        <li>
+          <media-browser-action-item-edit
+            ref="actionEdit"
+            :focused="focused"
+            :mainAction="editItem"
+            :closingAction="hideActions"
+            :focusUp="$refs.actionRename"
+            :focusDown="$refs.actionShare"
+          />
+        </li>
+        <li>
+          <media-browser-action-item-share
+            ref="actionShare"
+            :focused="focused"
+            :mainAction="openShareUrlModal"
+            :focusUp="canEdit ? $refs.actionEdit : $refs.actionRename"
+            :focusDown="$refs.actionDelete"
+            :closingAction="hideActions"
+          />
+        </li>
+        <li>
+          <media-browser-action-item-delete
+            ref="actionDelete"
+            :focused="focused"
+            :mainAction="openConfirmDeleteModal"
+            :hideActions="hideActions"
+            :focusUp="$refs.actionShare"
+            :focusDown="$refs.actionPreview"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -78,9 +89,9 @@
 import * as types from '../../../store/mutation-types.es6';
 
 export default {
-  name: 'MediaBrowserItemPdf',
+  name: 'MediaBrowserActionItemsContainer',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused', 'canEdit'],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,
@@ -89,10 +100,22 @@ export default {
   computed: {
     /* Check if the item is an document to edit */
     canEdit() {
-      return this.canEdit();
+      return ['pdf'].includes(this.item.extension.toLowerCase());
     },
   },
   methods: {
+    /* Edit an item */
+    editItem() {
+      // TODO should we use relative urls here?
+      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
+
+      window.location.href = fileBaseUrl + this.item.path;
+    },
+    /* Hide actions dropdown */
+    hideActions() {
+      this.showActions = false;
+      this.$nextTick(() => this.$refs.actionToggle.focus());
+    },
     /* Preview an item */
     openPreview() {
       this.$store.commit(types.SHOW_PREVIEW_MODAL);
@@ -128,20 +151,6 @@ export default {
       this.showActions = true;
       this.$nextTick(() => this.$refs.actionDelete.focus());
     },
-    /* Hide actions dropdown */
-    hideActions() {
-      this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
-    },
-    editItem() {
-      // TODO should we use relative urls here?
-      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
-
-      window.location.href = fileBaseUrl + this.item.path;
-    },
-    focused() {
-      this.focused();
-    }
   },
-};
+}
 </script>

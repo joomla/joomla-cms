@@ -26,6 +26,7 @@ export default {
     props: ['mainAction', 'focused', 'focusUp'],
     methods: {
         openActions: function() {
+            console.log(this)
             this.mainAction();
         },
         openLastActions: function() {
