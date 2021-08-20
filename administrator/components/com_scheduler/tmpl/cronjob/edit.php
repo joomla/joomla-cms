@@ -17,8 +17,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
-use Joomla\Component\Cronjobs\Administrator\View\Cronjob\HtmlView;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\View\Cronjob\HtmlView;
 
 /** @var HtmlView $this */
 

@@ -10,7 +10,7 @@
  *
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Helper;
+namespace Joomla\Component\Scheduler\Administrator\Helper;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -20,7 +20,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOptions;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOptions;
 use function defined;
 
 /**

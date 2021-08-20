@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Joomla\Component\Cronjobs\Administrator\Field">
+<form addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"

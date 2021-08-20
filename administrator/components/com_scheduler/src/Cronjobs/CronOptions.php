@@ -10,7 +10,7 @@
  *
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Cronjobs;
+namespace Joomla\Component\Scheduler\Administrator\Cronjobs;
 
 // Restrict direct access
 defined('_JEXEC') or die;

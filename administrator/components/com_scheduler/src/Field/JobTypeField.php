@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Field;
+namespace Joomla\Component\Scheduler\Administrator\Field;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -17,8 +17,8 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Cronjobs\Administrator\Cronjobs\CronOption;
-use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
 use Joomla\Utilities\ArrayHelper;
 use function array_map;
 

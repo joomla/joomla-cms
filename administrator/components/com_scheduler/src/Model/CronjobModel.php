@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cronjobs\Administrator\Model;
+namespace Joomla\Component\Scheduler\Administrator\Model;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -25,8 +25,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Cronjobs\Administrator\Helper\CronjobsHelper;
-use Joomla\Component\Cronjobs\Administrator\Helper\ExecRuleHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use function array_diff;
 use function defined;
 use function gmdate;

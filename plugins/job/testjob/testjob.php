@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Cronjobs\Administrator\Event\CronRunEvent;
-use Joomla\Component\Cronjobs\Administrator\Traits\CronjobPluginTrait;
+use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Traits\CronjobPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
