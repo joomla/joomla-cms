@@ -2175,7 +2175,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * @return  \DateTimeZone
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
 	public function setTimezone($tz = null)
