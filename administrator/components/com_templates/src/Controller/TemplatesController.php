@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Template templates list controller class.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class TemplatesController extends AdminController
 {
