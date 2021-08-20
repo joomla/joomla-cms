@@ -35,7 +35,7 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $featured  = $this->state->get('filter.featured');
-$orderName = $featured === "1" ? 'fp.ordering' : 'a.ordering';
+$orderName = $featured === '1' ? 'fp.ordering' : 'a.ordering';
 $saveOrder = $listOrder == $orderName;
 
 if (strpos($listOrder, 'publish_up') !== false)
@@ -110,7 +110,7 @@ $assoc = Associations::isEnabled();
 				<?php else : ?>
 					<table class="table itemList" id="articleList">
 						<caption class="visually-hidden">
-							<?php echo $featured === "1" ? Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION') : Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
+							<?php echo $featured === '1' ? Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION') : Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
@@ -128,7 +128,7 @@ $assoc = Associations::isEnabled();
 									</th>
 								<?php endif; ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo $featured === "1" ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+									<?php echo $featured === '1' ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -394,7 +394,7 @@ $assoc = Associations::isEnabled();
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
-					<?php if ($featured === "1"): ?>
+					<?php if ($featured === '1'): ?>
 						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'stageModal',

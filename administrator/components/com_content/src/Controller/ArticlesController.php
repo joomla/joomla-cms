@@ -168,7 +168,7 @@ class ArticlesController extends AdminController
 		$articlesModel = $this->getModel('articles');
 		$featured = $articlesModel->isFeatured();
 
-		if ($featured === "1")
+		if ($featured === '1')
 		{
 			// Check for request forgeries
 			$this->checkToken();
