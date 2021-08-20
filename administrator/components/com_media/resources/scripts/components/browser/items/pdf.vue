@@ -23,11 +23,19 @@
       class="media-browser-actions"
       :class="{'active': showActions}"
     >
-      <media-browser-action-item-toggle
+      <media-browser-action-items-container
+        ref="container"
+        focused="focused"
+        :mainAction="openActions"
+        :focusUp="openLastActions"
+        :canEdit="canEdit"
+      />
+    <!--  <media-browser-action-item-toggle
           ref="actionToggle"
           :focused="focused"
           :mainAction="openActions"
           :focusUp="openLastActions"
+          :item="item"
       />
       <div
         v-if="showActions"
@@ -80,7 +88,7 @@
               :focused="focused"
               :mainAction="openShareUrlModal"
               :focusUp="canEdit ? $refs.actionEdit : $refs.actionRename"
-              :focusDown="$refs.actionDelete"              
+              :focusDown="$refs.actionDelete"
               :closingAction="hideActions"
             />
           </li>
@@ -91,11 +99,12 @@
               :mainAction="openConfirmDeleteModal"
               :hideActions="hideActions"
               :focusUp="$refs.actionShare"
-              :focusDown="$refs.actionPreview"              
+              :focusDown="$refs.actionPreview"
             />
           </li>
         </ul>
       </div>
+      -->
     </div>
   </div>
 </template>

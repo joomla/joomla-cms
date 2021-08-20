@@ -5,6 +5,7 @@ import Download from './download.vue';
 import Share from './share.vue';
 import Delete from './delete.vue';
 import Edit from './edit.vue';
+import Container from './actionItemsContainer.vue';
 
 export {
     Rename,
@@ -13,5 +14,6 @@ export {
     Download,
     Share,
     Delete,
-    Edit
+    Edit,
+    Container
 }
