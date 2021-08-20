@@ -1475,8 +1475,10 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			// Removed unused fields so they do not cause javascript errors during pre-update check
 			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)
@@ -1549,8 +1551,10 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Removed unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($plugin);
 			$plugin->version = isset($decode->version)
