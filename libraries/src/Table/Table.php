@@ -2281,7 +2281,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			return $value->toSql();
 		}
 
-		// Convert field with type \Joomla\CMS\Date\Date(and Others) to SQL format
+		// Convert field with type \Joomla\CMS\Date\Date (and others) to SQL format
 		if (is_object($value) && in_array($typeLower, ['tosql','string']) && method_exists($value, 'toSql'))
 		{
 			return $value->toSql();
