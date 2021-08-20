@@ -5,13 +5,13 @@ INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description
 (NULL, 0, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0);
 
 --
--- Inserting the default stage for the new worklfow
+-- Inserting the default stage for the new workflow
 --
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out")
 SELECT NULL, 0, 1, "id", 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0 FROM "#__workflows" WHERE "title" = 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES';
 
 --
--- Inserting the transitions for the new worklfow
+-- Inserting the transitions for the new workflow
 --
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options")
 SELECT NULL, 0, 1, NULL, "w"."id", 'Unpublish', '', -1, "s"."id", '{"publishing":"0"}' FROM "#__workflows" as "w" INNER JOIN "#__workflow_stages" as "s" ON "w"."title" = 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES' AND "s"."title" = 'COM_WORKFLOW_BASIC_STAGE' AND "s"."extension" = 'com_modules.module';
