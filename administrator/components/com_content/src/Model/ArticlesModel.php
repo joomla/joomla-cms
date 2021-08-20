@@ -266,6 +266,8 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.metadesc'),
 					$db->quoteName('a.metadata'),
 					$db->quoteName('a.version'),
+					$db->quoteName('a.draft'),
+					$db->quoteName('a.shared')
 				]
 			)
 		)

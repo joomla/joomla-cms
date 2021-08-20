@@ -158,6 +158,7 @@ class HtmlView extends BaseHtmlView
 					}
 
 					$childBar->save2new('article.save2new');
+					$childBar->saveAsDraft('article.saveAsDraft');
 				}
 			);
 
@@ -200,6 +201,7 @@ class HtmlView extends BaseHtmlView
 					if ($canDo->get('core.create'))
 					{
 						$childBar->save2copy('article.save2copy');
+						$childBar->saveAsDraft('article.saveAsDraft');
 					}
 				}
 			);
@@ -231,6 +233,9 @@ class HtmlView extends BaseHtmlView
 				}
 			}
 		}
+		$toolbar->standardButton('article.shareAsDraft', "Share as Draft")
+			->icon('icon-project-diagram')
+			->task('article.saveAsDraft');
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');

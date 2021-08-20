@@ -185,6 +185,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `hits` int unsigned NOT NULL DEFAULT 0,
   `metadata` text NOT NULL,
   `featured` tinyint unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `draft` tinyint unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is drafted.',
+  `shared` tinyint unsigned NOT NULL DEFAULT 0 COMMENT 'Set if draft is shared.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `note` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),

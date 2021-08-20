@@ -182,4 +182,10 @@ class ArticleController extends FormController
 
 		return parent::batch($model);
 	}
+
+
+	public function saveAsDraft()
+	{
+		echo "<script>alert('save as draft');</script>";
+	}
 }
