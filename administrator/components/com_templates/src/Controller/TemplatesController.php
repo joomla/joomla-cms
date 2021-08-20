@@ -68,7 +68,7 @@ class TemplatesController extends AdminController
 	 *
 	 * @return  BaseDatabaseModel
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Style', $prefix = 'Administrator', $config = array())
 	{
