@@ -20,6 +20,7 @@ use DateTime;
 use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -125,9 +126,8 @@ class ExecRuleHelper
 	 */
 	private function dateTimeToSql(DateTime $dateTime): string
 	{
-		// @todo: Get DBO from DI container
 		static $db;
-		$db = $db ?? Factory::getDbo();
+		$db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
 
 		return $dateTime->format($db->getDateFormat());
 	}
