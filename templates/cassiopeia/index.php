@@ -179,21 +179,21 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php endif; ?>
 
 		<?php if ($this->countModules('top-a', true) || $showAllPositions) : ?>
-			<div class="grid-child container-top-a">
-				<jdoc:include type="modules" name="top-a" style="card" />
-			</div>
+		<div class="grid-child container-top-a">
+			<jdoc:include type="modules" name="top-a" style="card" />
+		</div>
 		<?php endif; ?>
 
 		<?php if ($this->countModules('top-b', true) || $showAllPositions) : ?>
-			<div class="grid-child container-top-b">
-				<jdoc:include type="modules" name="top-b" style="card" />
-			</div>
+		<div class="grid-child container-top-b">
+			<jdoc:include type="modules" name="top-b" style="card" />
+		</div>
 		<?php endif; ?>
 
 		<?php if ($this->countModules('sidebar-left', true) || $showAllPositions) : ?>
-			<div class="grid-child container-sidebar-left">
-				<jdoc:include type="modules" name="sidebar-left" style="card" />
-			</div>
+		<div class="grid-child container-sidebar-left">
+			<jdoc:include type="modules" name="sidebar-left" style="card" />
+		</div>
 		<?php endif; ?>
 
 		<div class="grid-child container-component">
