@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,33 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $methodSelectUpload = null;
 
 	/**
+	 * PHP options.
+	 *
+	 * @var   array  Array of PHP config options
+	 *
+	 * @since 3.10.0
+	 */
+	protected $phpOptions = null;
+
+	/**
+	 * PHP settings.
+	 *
+	 * @var   array  Array of PHP settings
+	 *
+	 * @since 3.10.0
+	 */
+	protected $phpSettings = null;
+
+	/**
+	 * Non Core Extensions.
+	 *
+	 * @var   array  Array of Non-Core-Extensions
+	 *
+	 * @since 3.10.0
+	 */
+	protected $nonCoreExtensions = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -69,6 +96,19 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
+
+		// Get results of pre update check evaluations
+		$this->phpOptions             = $model->getPhpOptions();
+		$this->phpSettings            = $model->getPhpSettings();
+		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+
+		// Disable the critical plugins check for non-major updates.
+		$this->nonCoreCriticalPlugins = false;
+
+		if (version_compare($this->updateInfo['latest'], '4', '>='))
+		{
+			$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		}
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
@@ -214,5 +254,21 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 			return true;
 		}
+	}
+
+	/**
+	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
+	 *
+	 * @return boolean
+	 *
+	 * @since 3.10.0
+	 */
+	public function shouldDisplayPreUpdateCheck()
+	{
+		return isset($this->updateInfo['object']->downloadurl->_data)
+			&& $this->getModel()->isDatabaseTypeSupported()
+			&& $this->getModel()->isPhpVersionSupported();
 	}
 }

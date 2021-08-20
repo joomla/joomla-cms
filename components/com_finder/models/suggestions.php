@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ class FinderModelSuggestions extends JModelList
 		// Limit term count to a reasonable number of results to reduce main query join size
 		$termIdQuery->select('ti.term_id')
 			->from($db->quoteName('#__finder_terms', 'ti'))
-			->where('ti.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%', false))
+			->where('ti.term LIKE ' . $db->quote($db->escape(StringHelper::strtolower($this->getState('input')), true) . '%', false))
 			->where('ti.common = 0')
 			->where('ti.language IN (' . $db->quote($this->getState('language')) . ', ' . $db->quote('*') . ')')
 			->order('ti.links DESC')
@@ -96,7 +96,7 @@ class FinderModelSuggestions extends JModelList
 			->order('t.weight DESC');
 
 		// Determine the relevant mapping table suffix by inverting the logic from drivers
-		$mappingTableSuffix = StringHelper::substr(md5(StringHelper::substr($this->getState('input'), 0, 1)), 0, 1);
+		$mappingTableSuffix = StringHelper::substr(md5(StringHelper::substr(StringHelper::strtolower($this->getState('input')), 0, 1)), 0, 1);
 
 		// Join mapping table for term <-> link relation
 		$mappingTable = $db->quoteName('#__finder_links_terms' . $mappingTableSuffix);
