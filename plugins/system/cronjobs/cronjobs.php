@@ -21,7 +21,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
-use Joomla\Component\Scheduler\Administrator\Model\CronjobsModel;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -108,15 +108,15 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * Override parent constructor.
 	 * Prevents the plugin from attaching to the subject if conditions are not met.
 	 *
-	 * @param   DispatcherInterface  $subject The object to observe
-	 * @param   array                $config  An optional associative array of configuration settings.
+	 * @param   DispatcherInterface  $subject  The object to observe
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct(&$subject, $config = [])
 	{
 		// Make sure com_scheduler is installed and enabled
-		if (! ComponentHelper::isEnabled('com_scheduler'))
+		if (!ComponentHelper::isEnabled('com_scheduler'))
 		{
 			return;
 		}
@@ -160,8 +160,8 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		/** @var MVCComponent $component */
 		$component = $this->app->bootComponent('com_scheduler');
 
-		/** @var CronjobsModel $model */
-		$model = $component->getMVCFactory()->createModel('Cronjobs', 'Administrator');
+		/** @var TasksModel $model */
+		$model = $component->getMVCFactory()->createModel('Tasks', 'Administrator');
 
 		if (!$model)
 		{
@@ -214,17 +214,17 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Fetches due jobs from CronjobsModel
+	 * Fetches due jobs from TasksModel
 	 * ! Orphan filtering + pagination issues in the Model will break this if orphaned jobs exist [TODO]
 	 *
-	 * @param   CronjobsModel  $model   The CronjobsModel
-	 * @param   boolean        $single  If true, only a single job is returned
+	 * @param   TasksModel  $model   The TasksModel
+	 * @param   boolean     $single  If true, only a single job is returned
 	 *
 	 * @return object[]
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getDueJobs(CronjobsModel $model, bool $single = true): array
+	private function getDueJobs(TasksModel $model, bool $single = true): array
 	{
 		$model->set('__state_set', true);
 

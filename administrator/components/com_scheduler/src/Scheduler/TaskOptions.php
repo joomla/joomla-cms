@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the CronOptions class used by com_scheduler as the subject arg for the `OnCronOptionsList` event.
+ * Implements the TaskOptions class used by com_scheduler as the subject arg for the `OnCronOptionsList` event.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -18,18 +18,18 @@ defined('_JEXEC') or die;
 use function defined;
 
 /**
- * The CronOptions class.
+ * The TaskOptions class.
  * Used as the subject argument for the `OnCronOptionsList` event, plugins that support jobs must add them to the object
  * through the addOptions() method.
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronOptions
+class TaskOptions
 {
 	/**
-	 * An array of CronOptions
+	 * An array of TaskOptions
 	 *
-	 * @var CronOption[]
+	 * @var TaskOption[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $options = [];
@@ -39,7 +39,7 @@ class CronOptions
 	 * A plugin can support several jobs
 	 * This method is used by a plugin's OnCronOptionsList subscriber to advertise supported jobs.
 	 *
-	 * @param   array  $jobsArray   An associative array of {@var CronOption} constructor argument pairs:
+	 * @param   array  $jobsArray   An associative array of {@var TaskOption} constructor argument pairs:
 	 *                              [ 'jobId' => 'languageConstantPrefix', ... ]
 	 *
 	 * @return void
@@ -50,18 +50,18 @@ class CronOptions
 	{
 		foreach ($jobsArray as $jobId => $langConstPrefix)
 		{
-			$this->options[] = new CronOption($jobId, $langConstPrefix);
+			$this->options[] = new TaskOption($jobId, $langConstPrefix);
 		}
 	}
 
 	/**
 	 * @param   ?string  $jobType  A unique identifier for the job routine offered by a plugin
 	 *
-	 * @return  ?CronOption  A matching CronOption if available, null otherwise
+	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function findOption(?string $jobType): ?CronOption
+	public function findOption(?string $jobType): ?TaskOption
 	{
 		if ($jobType === null)
 		{

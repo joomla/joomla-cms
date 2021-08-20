@@ -1,8 +1,8 @@
 <?php
 /**
- * Declares the MVC controller for CronjobModel.
+ * Declares the MVC controller for TaskModel.
  *
- * * : Model implicitly defaults to CronjobModel through a call to parent::getModel()
+ * * : Model implicitly defaults to TaskModel through a call to parent::getModel()
  *
  * @todo : Check if the controller needs more overrides
  *
@@ -23,7 +23,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use function defined;
 
 /**
@@ -31,7 +31,7 @@ use function defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobController extends FormController
+class TaskController extends FormController
 {
 	/**
 	 * Add a new record
@@ -45,7 +45,7 @@ class CronjobController extends FormController
 		/** @var AdministratorApplication $app */
 		$app = $this->app;
 		$input = $app->getInput();
-		$validJobOptions = CronjobsHelper::getCronOptions();
+		$validJobOptions = SchedulerHelper::getCronOptions();
 
 		$canAdd = parent::add();
 

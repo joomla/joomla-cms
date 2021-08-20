@@ -19,8 +19,8 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
-use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use function defined;
 
 /**
@@ -56,13 +56,13 @@ class SelectModel extends ListModel
 
 	/**
 	 *
-	 * @return CronOption[]  An array of CronOption objects
+	 * @return TaskOption[]  An array of TaskOption objects
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItems(): array
 	{
-		return CronjobsHelper::getCronOptions()->options;
+		return SchedulerHelper::getCronOptions()->options;
 	}
 }

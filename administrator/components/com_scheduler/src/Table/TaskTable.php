@@ -25,7 +25,7 @@ use function defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobTable extends Table
+class TaskTable extends Table
 {
 	/**
 	 * Indicates that columns do not fully support the NULL value in the database

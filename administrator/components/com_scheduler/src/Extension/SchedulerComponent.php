@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the Cronjobs component class
+ * Implements the Scheduler component class
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -26,7 +26,7 @@ use function defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobsComponent extends MVCComponent implements BootableExtensionInterface
+class SchedulerComponent extends MVCComponent implements BootableExtensionInterface
 {
 	use HTMLRegistryAwareTrait;
 

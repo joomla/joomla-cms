@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronjobModel MVC Model.
+ * Declares the TaskModel MVC Model.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -25,7 +25,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use function array_diff;
 use function defined;
@@ -34,12 +34,12 @@ use function is_object;
 use function sort;
 
 /**
- * MVC Model to interact with the Cronjobs DB.
+ * MVC Model to interact with the Scheduler DB.
  * Implements methods to add, remove, edit cronjobs.
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobModel extends AdminModel
+class TaskModel extends AdminModel
 {
 	/**
 	 * Maps logical states to their values in the DB
@@ -80,7 +80,7 @@ class CronjobModel extends AdminModel
 
 
 	/**
-	 * CronjobModel constructor. Needed just to set $app
+	 * TaskModel constructor. Needed just to set $app
 	 *
 	 * @param   array                      $config       An array of configuration options
 	 * @param   MVCFactoryInterface|null   $factory      The factory [?]
@@ -214,7 +214,7 @@ class CronjobModel extends AdminModel
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTable($name = 'Cronjob', $prefix = 'Table', $options = array()): Table
+	public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -276,7 +276,7 @@ class CronjobModel extends AdminModel
 		$item->set('execution_rules', json_decode($item->get('execution_rules')));
 		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
-		$cronOption = CronjobsHelper::getCronOptions()->findOption(
+		$cronOption = SchedulerHelper::getCronOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('cronjob.type')
 		);
 

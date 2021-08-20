@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronjobsModel MVC Model.
+ * Declares the TasksModel MVC Model.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -35,7 +35,7 @@ use function substr;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobsModel extends ListModel
+class TasksModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -264,7 +264,7 @@ class CronjobsModel extends ListModel
 
 	/**
 	 * Overloads the parent _getList() method.
-	 * Takes care of attaching CronOption objects and sorting by type titles.
+	 * Takes care of attaching TaskOption objects and sorting by type titles.
 	 *
 	 * @param   DatabaseQuery  $query       The database query to get the list with
 	 * @param   int            $limitstart  The list offset
@@ -311,7 +311,7 @@ class CronjobsModel extends ListModel
 			$responseList = $this->getDbo()->loadObjectList();
 		}
 
-		// Attach CronOptions objects and a safe type title
+		// Attach TaskOptions objects and a safe type title
 		$this->attachCronOptions($responseList);
 
 		// If ordering by non-db fields, we need to sort here in code
@@ -340,7 +340,7 @@ class CronjobsModel extends ListModel
 	}
 
 	/**
-	 * For an array of items, attaches CronOption objects and (safe) type titles to each.
+	 * For an array of items, attaches TaskOption objects and (safe) type titles to each.
 	 *
 	 * @param   array  $items  Array of items, passed by reference
 	 *
@@ -351,7 +351,7 @@ class CronjobsModel extends ListModel
 	 */
 	private function attachCronOptions(array &$items): void
 	{
-		$cronOptions = CronjobsHelper::getCronOptions();
+		$cronOptions = SchedulerHelper::getCronOptions();
 
 		foreach ($items as $item)
 		{

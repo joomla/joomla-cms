@@ -17,8 +17,8 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
-use Joomla\Component\Scheduler\Administrator\Helper\CronjobsHelper;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Utilities\ArrayHelper;
 use function array_map;
 
@@ -51,12 +51,12 @@ class JobTypeField extends ListField
 
 		// Get all available job types and sort by title
 		$types = ArrayHelper::sortObjects(
-			CronjobsHelper::getCronOptions()->options,
+			SchedulerHelper::getCronOptions()->options,
 			'title', 1
 		);
 
-		// Closure to add a CronOption as a <select> option in $options: array
-		$addTypeAsOption = function (CronOption $type) use (&$options) {
+		// Closure to add a TaskOption as a <select> option in $options: array
+		$addTypeAsOption = function (TaskOption $type) use (&$options) {
 			$options[] = HTMLHelper::_('select.option', $type->type, $type->title);
 		};
 

@@ -93,7 +93,7 @@ class DisplayController extends BaseController
 					$this->setMessage((Text::_('COM_SCHEDULER_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
 					$isValid = false;
 				}
-				// For existing item, entry is invalid if CronjobController has not granted access
+				// For existing item, entry is invalid if TaskController has not granted access
 				elseif (!$canEdit && !count($this->app->getMessageQueue()))
 				{
 					$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');

@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\CronOption;
+use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
 use Joomla\Component\Scheduler\Administrator\View\Cronjob\HtmlView;
 
 /** @var HtmlView $this */
@@ -66,7 +66,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 			<div class="col-lg-9">
 				<!-- Job type title, description go here -->
 				<?php if ($this->item->cronOption):
-					/** @var CronOption $cronOption */
+					/** @var TaskOption $cronOption */
 					$cronOption = $this->item->cronOption; ?>
 					<div id="cronOptionInfo">
 						<h2 id="cronOptionTitle">

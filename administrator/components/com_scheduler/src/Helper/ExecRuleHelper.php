@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronjobsModel MVC Model.
+ * Declares the helper class ExecRuleHelper.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
