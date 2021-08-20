@@ -15,7 +15,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Table property class interface.
  *
- * @since  3.2
+ * @since  __DEPLOY_VERSION__
  */
 interface TablePropertyInterface // SqlDataInterface //TablePropertyInterface
 {
