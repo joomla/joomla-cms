@@ -6,12 +6,12 @@
 (() => {
   'use strict';
 
-   /**
-    * Javascript to insert the onclick event
-    * We get the position associated to the button that has been clicked
-    * and we use it to set the position of joomla field fancy select element
-    * of the parent window.
-    */
+  /**
+   * Javascript to insert the onclick event
+   * We get the position associated to the button that has been clicked
+   * and we use it to set the position of joomla field fancy select element
+   * of the parent window.
+   */
 
   document.addEventListener('DOMContentLoaded', () => {
     // Get the elements
