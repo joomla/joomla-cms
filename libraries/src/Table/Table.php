@@ -160,7 +160,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Array types convert type BD to type PHP
 	 *
 	 * @var array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $_typesVeluesProperty = [
 		// 'This type SQL' => 'This type PHP'
