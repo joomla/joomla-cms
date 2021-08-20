@@ -1,6 +1,6 @@
 <?php
 /**
- * A test plugin for com_cronjobs.
+ * A test plugin for com_scheduler.
  *
  * @package       Joomla.Plugins
  * @subpackage    System.TestJob
@@ -58,7 +58,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_cronjobs.cronjob'
+		'com_scheduler.cronjob'
 	];
 
 	/**
@@ -118,7 +118,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 
 		$context = $form->getName();
 
-		if ($context === 'com_cronjobs.cronjob')
+		if ($context === 'com_scheduler.cronjob')
 		{
 			$this->enhanceCronjobItemForm($form, $data);
 		}

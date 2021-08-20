@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>com_scheduler</name>
+	<creationDate>July 2021</creationDate>
+	<author>Joomla! Projects</author>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>4.1.0</version>
+	<description>
+		COM_SCHEDULER_XML_DESCRIPTION
+	</description>
+	<namespace path="src">Joomla\Component\Cronjobs</namespace>
+	<media destination=">" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+	</media>
+	<administration>
+		<filename>access.xml</filename>
+		<filename>config.xml</filename>
+		<filename>scheduler.xml</filename>
+		<folder>forms</folder>
+		<folder>services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_scheduler.ini</language>
+			<language tag="en-GB">language/en-GB/com_scheduler.sys.ini</language>
+		</languages>
+		<menu link="index.php?option=>">com_scheduler</menu>
+	</administration>
+	<dashboards>
+		<dashboard title="COM_SCHEDULER_DASHBOARD_TITLE" icon="icon-clock">
+			com_scheduler
+		</dashboard>
+	</dashboards>
+</extension>

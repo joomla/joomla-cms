@@ -5,7 +5,7 @@
 	<creationDate>July 2021</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1</version>
-	<description>Test jobs for com_cronjobs</description>
+	<description>Test jobs for com_scheduler</description>
 	<files>
 		<filename plugin="testjob">testjob.php</filename>
 	</files>

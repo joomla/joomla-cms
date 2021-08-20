@@ -77,7 +77,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_cronjobs.cronjob'
+		'com_scheduler.cronjob'
 	];
 
 	/**
