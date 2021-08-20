@@ -211,21 +211,6 @@
   border-radius: $grid-item-border-radius;
 }
 
-.player-wrapper,
-.doc-wrapper {
-  width: 500px;
-
-  @media screen and (max-width: 576px) {
-    width: 300px;
-  }
-}
-
-.doc-wrapper iframe {
-  width: 100%;
-  height: 300px;
-  border: none;
-}
-
 .file-background, .folder-background {
   padding-bottom: 100%;
   background-color: hsl(var(--hue), 20%, 97%);

@@ -5,7 +5,6 @@
     class="media-preview-modal"
     label-element="previewTitle"
     :show-close="false"
-    @open="open()"
     @close="close()"
   >
     <template #header>
@@ -60,14 +59,8 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
-
 export default {
   name: 'MediaPreviewModal',
-  data() {
-    return {
-      player: null,
-    };
-  },
   computed: {
     /* Get the item to show in the modal */
     item() {
@@ -75,40 +68,10 @@ export default {
       return this.$store.state.previewItem;
     },
   },
-  watch: {
-    // Handle item change from ordinary to potentially playable
-    item(newItem, oldItem) {
-      if (oldItem && oldItem.mime_type !== newItem.mime_type) {
-        setTimeout(() => this.initPlayer());
-      }
-    },
-  },
   methods: {
-    open() {
-      this.initPlayer();
-    },
     /* Close the modal */
     close() {
       this.$store.commit(types.HIDE_PREVIEW_MODAL);
-      this.destroyPlayer();
-    },
-    initPlayer() {
-      /* eslint-disable no-undef */
-      if (typeof MediaElementPlayer !== 'undefined') {
-        // Start player depending on media type
-        if (this.isVideo()) {
-          this.player = new MediaElementPlayer('video-player');
-        } else if (this.isAudio()) {
-          this.player = new MediaElementPlayer('audio-player');
-        }
-      }
-      /* eslint-enable no-undef */
-    },
-    destroyPlayer() {
-      if (this.player) {
-        this.player.remove();
-        this.player = null;
-      }
     },
     isImage() {
       return this.item.mime_type.indexOf('image/') === 0;

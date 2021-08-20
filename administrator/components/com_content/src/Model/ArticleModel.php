@@ -702,6 +702,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			$registry = new Registry($data['images']);
+
 			$data['images'] = (string) $registry;
 		}
 

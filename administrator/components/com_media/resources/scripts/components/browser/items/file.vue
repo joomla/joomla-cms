@@ -1,8 +1,6 @@
 <template>
   <div
     class="media-browser-item-file"
-    v-on="{ dblclick: previewSupported() ? openPreview : null }"
-    @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
     <div class="media-browser-item-preview">
@@ -49,28 +47,6 @@
         class="media-browser-actions-list"
       >
         <ul>
-          <li v-if="previewSupported()">
-            <button
-              ref="actionPreview"
-              type="button"
-              class="action-preview"
-              :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
-              :title="translate('COM_MEDIA_ACTION_PREVIEW')"
-              @keyup.enter="openPreview()"
-              @keyup.space="openPreview()"
-              @focus="focused(true)"
-              @blur="focused(false)"
-              @keyup.esc="hideActions()"
-              @keyup.up="$refs.actionDelete.focus()"
-              @keyup.down="$refs.actionDownload.focus()"
-            >
-              <span
-                class="image-browser-action icon-search-plus"
-                aria-hidden="true"
-                @click.stop="openPreview()"
-              />
-            </button>
-          </li>
           <li>
             <button
               ref="actionDownload"
@@ -164,7 +140,6 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
-
 export default {
   name: 'MediaBrowserItemFile',
   // eslint-disable-next-line vue/require-prop-types
@@ -176,12 +151,6 @@ export default {
   },
   methods: {
     /* Preview an item */
-    openPreview() {
-      if (this.previewSupported()) {
-        this.$store.commit(types.SHOW_PREVIEW_MODAL);
-        this.$store.dispatch('getFullContents', this.item);
-      }
-    },
     download() {
       this.$store.dispatch('download', this.item);
     },
@@ -215,12 +184,6 @@ export default {
     hideActions() {
       this.showActions = false;
       this.$nextTick(() => this.$refs.actionToggle.focus());
-    },
-    previewSupported() {
-      const previewTypes = ['application/pdf'];
-
-      // Show preview modal is preview is supported for current item
-      return previewTypes.includes(this.item.mime_type);
     },
   },
 };

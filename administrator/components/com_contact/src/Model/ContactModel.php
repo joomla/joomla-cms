@@ -13,9 +13,7 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;

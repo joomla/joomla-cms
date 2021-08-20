@@ -13,8 +13,6 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -37,7 +35,7 @@ class MediaHelper
 	 */
 	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -129,7 +127,7 @@ class MediaHelper
 		{
 			$allowedMime = $params->get(
 				'upload_mime',
-				'image/jpeg,image/gif,image/png,image/bmp,video/mp4,application/msword,application/excel,' .
+				'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
 					'application/pdf,application/powerpoint,text/plain,application/x-zip'
 			);
 
@@ -209,12 +207,7 @@ class MediaHelper
 
 		$filetype = array_pop($filetypes);
 
-		$allowable = $params->get(
-			'upload_extensions',
-			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,mp4,BMP,' .
-				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS,MP4'
-		);
-		$allowable = array_map('trim', explode(',', $allowable));
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
@@ -235,9 +228,9 @@ class MediaHelper
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = array_map('trim', explode(',', $params->get('image_extensions')));
+			$allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions')));
 
-			if (\in_array($filetype, $images))
+			if (\in_array($filetype, $allowedExtensions))
 			{
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))

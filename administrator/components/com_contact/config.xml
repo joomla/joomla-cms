@@ -822,7 +822,6 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
-			filter="integer"
 			validate="options"
 			>
 			<option value="0">JHIDE</option>
