@@ -22,6 +22,9 @@ class Argon2idHandler extends BaseArgon2idHandler implements CheckIfRehashNeeded
 	/**
 	 * Check if the password requires rehashing
 	 *
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
+	 *       It is also only available as of PHP 7.3.0.
+	 *
 	 * @param   string  $hash  The password hash to check
 	 *
 	 * @return  boolean
@@ -30,6 +33,6 @@ class Argon2idHandler extends BaseArgon2idHandler implements CheckIfRehashNeeded
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
-		return password_needs_rehash($hash, PASSWORD_ARGON2ID);
+		return password_needs_rehash($hash, 'argon2id');
 	}
 }
