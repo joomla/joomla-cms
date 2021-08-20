@@ -23,7 +23,7 @@
 				<field
 					name="custom_sizes"
 					type="radio"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_SET_SIZES_LABEL"
+					label="JGLOBAL_FIELD_CREATION_METHOD_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
@@ -35,21 +35,21 @@
 				<field
 					name="creation_method"
 					type="list"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_METHOD_LABEL"
+					label="JGLOBAL_FIELD_CREATION_METHOD_LABEL"
 					default="2"
 					filter="integer"
 					validate="options"
 					showon="custom_sizes:1"
 					>
-					<option value="2">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_RESIZE</option>
-					<option value="4">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_CROP</option>
-					<option value="5">PLG_CONTENT_RESPONSIVEIMAGES_METHOD_OPTION_RESIZE_CROP</option>
+					<option value="2">JGLOBAL_FIELD_CREATION_METHOD_OPTION_RESIZE</option>
+					<option value="4">JGLOBAL_FIELD_CREATION_METHOD_OPTION_CROP</option>
+					<option value="5">JGLOBAL_FIELD_CREATION_METHOD_OPTION_RESIZE_CROP</option>
 				</field>
 
 				<field
 					name="custom_size_options"
 					type="subform"
-					label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_LABEL"
+					label="PLG_CONTENT_RESPONSIVEIMAGES_SET_SIZES_LABEL"
 					description="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list"
@@ -60,14 +60,14 @@
 						<field
 							name="title"
 							type="text"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_TITLE_LABEL"
-							hint="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_TITLE_PLACEHOLDER"
+							label="JGLOBAL_TITLE"
+							hint="JGLOBAL_FIELD_RESPONSIVE_SIZES_TITLE_DESC"
 						/>
 
 						<field
 							name="width"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_WIDTH_LABEL"
+							label="JGLOBAL_WIDTH"
 							filter="integer"
 							validate="number"
 							required="true"
@@ -76,7 +76,7 @@
 						<field
 							name="height"
 							type="number"
-							label="PLG_CONTENT_RESPONSIVEIMAGES_SIZES_HEIGHT_LABEL"
+							label="JGLOBAL_HEIGHT"
 							filter="integer"
 							validate="number"
 							required="true"
