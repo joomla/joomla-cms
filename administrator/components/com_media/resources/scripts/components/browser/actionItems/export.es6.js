@@ -4,6 +4,7 @@ import Preview from './preview.vue';
 import Download from './download.vue';
 import Share from './share.vue';
 import Delete from './delete.vue';
+import Edit from './edit.vue';
 
 export {
     Rename,
@@ -11,5 +12,6 @@ export {
     Preview,
     Download,
     Share,
-    Delete
+    Delete,
+    Edit
 }

@@ -64,6 +64,16 @@
               :actionShare="$refs.actionRename"
             />
           </li>
+          <li v-if="canEdit">
+            <media-browser-action-item-edit
+              ref="actionEdit"
+              :focused="focused"
+              :editItem="editItem"
+              :hideActions="hideActions"
+              :actionDownload="$refs.actionPreview"
+              :actionShare="$refs.actionRename"
+            />
+          </li>
           <li>
             <media-browser-action-item-share
               ref="actionShare"
@@ -101,6 +111,12 @@ export default {
     return {
       showActions: false,
     };
+  },
+  computed: {
+    /* Check if the item is an document to edit */
+    canEdit() {
+      return ['pdf'].includes(this.item.extension.toLowerCase());
+    },
   },
   methods: {
     /* Preview an item */
@@ -142,6 +158,12 @@ export default {
     hideActions() {
       this.showActions = false;
       this.$nextTick(() => this.$refs.actionToggle.focus());
+    },
+    editItem() {
+      // TODO should we use relative urls here?
+      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
+
+      window.location.href = fileBaseUrl + this.item.path;
     },
   },
 };
