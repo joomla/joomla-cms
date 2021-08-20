@@ -50,7 +50,7 @@ $isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
-// If the module is already created then display the transition field else display the workflow selection field
+// If the module is already created then display the transition field else display the workflow selection field.
 $workflowField = empty($input->get('id')) ? 'workflow_id' : 'transition';
 
 ?>
