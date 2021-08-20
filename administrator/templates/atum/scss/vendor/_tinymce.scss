@@ -7,7 +7,7 @@
   }
 
   .mce-tinymce {
-    border: 1px solid var(--atum-bg-dark);
+    border: 1px solid var(--template-bg-dark);
   }
 
   .mce-btn,
@@ -55,6 +55,6 @@
 
   .mce-statusbar .mce-container-body {
     background-color: $white;
-    border-top: var(--atum-bg-light) 1px solid;
+    border-top: var(--template-bg-light) 1px solid;
   }
 }

@@ -6,7 +6,7 @@
 ((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', () => {
+  const checkPrivacy = () => {
     const variables = Joomla.getOptions('js-privacy-check');
     const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
     const url = variables.plg_quickicon_privacycheck_url;
@@ -67,5 +67,10 @@
         link.textContent = text.ERROR;
       },
     });
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(checkPrivacy, 360);
   });
 })(document);

@@ -58,7 +58,7 @@ if ($this->type == 'font')
 ?>
 
 <div class="main-card">
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 	<div class="row mt-2">
 		<div class="col-md-8" id="conditional-section">

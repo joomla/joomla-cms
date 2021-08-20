@@ -50,7 +50,6 @@ class TagModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -285,7 +284,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 
 			$idsArray = explode(',', $pk);
@@ -350,7 +349,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 			$table->hit($pk);
 

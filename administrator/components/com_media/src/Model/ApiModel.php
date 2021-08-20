@@ -100,14 +100,7 @@ class ApiModel extends BaseDatabaseModel
 
 		if (isset($options['url']) && $options['url'] && $file->type == 'file')
 		{
-			if (isset($options['temp']) && $options['temp'])
-			{
-				$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
-			}
-			else
-			{
-				$file->url = $this->getUrl($adapter, $file->path);
-			}
+			$file->url = $this->getUrl($adapter, $file->path);
 		}
 
 		if (isset($options['content']) && $options['content'] && $file->type == 'file')
@@ -168,14 +161,7 @@ class ApiModel extends BaseDatabaseModel
 			// Check if we need more information
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
-				if (isset($options['temp']) && $options['temp'])
-				{
-					$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
-				}
-				else
-				{
-					$file->url = $this->getUrl($adapter, $file->path);
-				}
+				$file->url = $this->getUrl($adapter, $file->path);
 			}
 
 			if (isset($options['content']) && $options['content'] && $file->type == 'file')
@@ -490,29 +476,6 @@ class ApiModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $adapter  The adapter
-	 * @param   string  $path     The path to file
-	 *
-	 * @return string
-	 *
-	 * @since   4.0.0
-	 * @throws \Exception
-	 */
-	public function getTemporaryUrl($adapter, $path)
-	{
-		// Check if it is a media file
-		if (!$this->isMediaFile($path))
-		{
-			throw new InvalidPathException;
-		}
-
-		return $this->getAdapter($adapter)->getTemporaryUrl($path);
-	}
-
-	/**
 	 * Checks if the given path is an allowed media file.
 	 *
 	 * @param   string  $path  The path to file
@@ -600,7 +563,7 @@ class ApiModel extends BaseDatabaseModel
 					',',
 					ComponentHelper::getParams('com_media')->get(
 						'doc_extensions',
-						'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+						'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
 					)
 				)
 			);

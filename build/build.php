@@ -6,8 +6,13 @@
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
@@ -110,8 +115,14 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
 	system('rm -rf libraries/vendor/bin');
 
+	// aldo26-matthias/idna-convert
+	system('rm -rf libraries/vendor/algo26-matthias/idna-convert/tests');
+
 	// defuse/php-encryption
 	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
+
+	// doctrine/inflector
+	system('rm -rf libraries/vendor/doctrine/inflector/docs');
 
 	// fig/link-util
 	system('rm -rf libraries/vendor/fig/link-util/test');
@@ -119,6 +130,9 @@ function clean_checkout(string $dir)
 	// google/recaptcha
 	system('rm -rf libraries/vendor/google/recaptcha/examples');
 	system('rm -rf libraries/vendor/google/recaptcha/tests');
+
+	// jakeasmith/http_build_url
+	system ('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
 	// joomla/*
 	system('rm -rf libraries/vendor/joomla/*/docs');
@@ -148,6 +162,9 @@ function clean_checkout(string $dir)
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
+
+	// willdurand/negotiation
+	system('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
 	echo "Cleanup complete.\n";
 
@@ -528,6 +545,9 @@ for ($num = $release - 1; $num >= 0; $num--)
 echo "Build full package files.\n";
 chdir($time);
 
+// The search package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
+
 // Create full archive packages.
 if (!$excludeBzip2)
 {
@@ -575,6 +595,9 @@ system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
+// Move the search manifest back
+system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
+
 if (!$excludeBzip2)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
@@ -613,7 +636,7 @@ if (!$excludeZstd)
 
 chdir('..');
 
-// Thats only needed when we release a version
+// This is only needed when we release a version
 if ($includeExtraTextfiles)
 {
 

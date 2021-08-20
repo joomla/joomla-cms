@@ -7,11 +7,11 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - Asserts
-        - JoomlaBrowser
+        - Joomla\Browser\JoomlaBrowser
         - Helper\Acceptance
         - Helper\JoomlaDb
     config:
-        JoomlaBrowser:
+        Joomla\Browser\JoomlaBrowser:
             url: 'http://localhost/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
             window_size: 1920x1080
@@ -50,7 +50,7 @@ env:
     postgres:
         modules:
             config:
-                JoomlaBrowser:
+                Joomla\Browser\JoomlaBrowser:
                     database host: 'postgres'
                     database type: 'pgsql'
                 Helper\JoomlaDb:
@@ -58,7 +58,7 @@ env:
     mysql8:
         modules:
             config:
-                JoomlaBrowser:
+                Joomla\Browser\JoomlaBrowser:
                     database host: 'mysql8'
     mysql:
     # Nothing to change

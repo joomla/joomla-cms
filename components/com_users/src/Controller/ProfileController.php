@@ -10,7 +10,6 @@ namespace Joomla\Component\Users\Site\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -34,7 +33,7 @@ class ProfileController extends BaseController
 	public function edit()
 	{
 		$app         = $this->app;
-		$user        = Factory::getUser();
+		$user        = $this->app->getIdentity();
 		$loginUserId = (int) $user->get('id');
 
 		// Get the current user id.
@@ -87,7 +86,7 @@ class ProfileController extends BaseController
 
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
-		$user   = Factory::getUser();
+		$user   = $this->app->getIdentity();
 		$userId = (int) $user->get('id');
 
 		// Get the user data.
