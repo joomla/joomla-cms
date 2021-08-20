@@ -169,7 +169,7 @@ class TemplatesController extends AdminController
 	 *
 	 * @return  boolean     true on success, false otherwise
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @deprecated 5.0.0
 	 */
