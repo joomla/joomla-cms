@@ -2242,8 +2242,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @param mixed $value Value converting in new type
 	 * @param string $type New type for value
 	 * @param  mixed  $tz  Time zone to be used for the date. Might be a string or a DateTimeZone object.
+	 *
 	 * @return mixed
-	 * @since  4.0.0
+	 *	 
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function TypeConvert($value = null, $type = '', $tz = null)
 	{
