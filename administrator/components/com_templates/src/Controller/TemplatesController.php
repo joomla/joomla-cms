@@ -278,7 +278,7 @@ class TemplatesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getExtensionLayouts()
 	{
