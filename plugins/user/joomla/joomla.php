@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -112,23 +111,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Only execute this if the session metadata is tracked
 		if ($this->app->get('session_metadata', true))
 		{
-			// Fetch all session IDs for the user account so they can be destroyed
-			try
-			{
-				$sessionIds = $this->getSessionIds($userId);
-
-				/** @var SessionManager $sessionManager */
-				$sessionManager = Factory::getContainer()->get('session.manager');
-
-				if (!$sessionManager->destroySessions($sessionIds))
-				{
-					return;
-				}
-			}
-			catch (ExecutionFailureException $e)
-			{
-				// Continue.
-			}
+			UserHelper::destroyUserSessions($userId, true);
 		}
 
 		try
@@ -394,23 +377,8 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
-			try
-			{
-				$clientId = $sharedSessions ? null : (int) $options['clientid'];
-				$sessionIds = $this->getSessionIds($userid, $clientId);
-			}
-			catch (ExecutionFailureException $e)
-			{
-				return false;
-			}
-
-			/** @var SessionManager $sessionManager */
-			$sessionManager = Factory::getContainer()->get('session.manager');
-
-			if (!$sessionManager->destroySessions($sessionIds))
-			{
-				return false;
-			}
+			$clientId = $sharedSessions ? null : (int) $options['clientid'];
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
@@ -478,40 +446,5 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return $instance;
-	}
-
-	/**
-	 * Fetch all session IDs for the user account
-	 *
-	 * @param  int   $userId The User id
-	 * @param  int|null  $clientId The client id
-	 *
-	 * @return array
-	 */
-	private function getSessionIds(int $userId, $clientId = null): array
-	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('session_id'))
-			->from($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = :userid')
-			->bind(':userid', $userId, ParameterType::INTEGER);
-
-		if ($clientId !== null)
-		{
-			$query->where($this->db->quoteName('client_id') . ' = :clientId')
-				->bind(':clientId', $clientId, ParameterType::INTEGER);
-		}
-
-		$sessionIds = $this->db->setQuery($query)->loadColumn();
-
-		foreach ($sessionIds as &$sessionId)
-		{
-			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
-			{
-				$sessionId = stream_get_contents($sessionId);
-			}
-		}
-
-		return $sessionIds;
 	}
 }

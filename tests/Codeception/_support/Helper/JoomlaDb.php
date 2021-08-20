@@ -190,6 +190,6 @@ class JoomlaDb extends Db
 	 */
 	public function getConfig($value)
 	{
-		return $this->getModule('JoomlaBrowser')->_getConfig($value);
+		return $this->getModule('Joomla\Browser\JoomlaBrowser')->_getConfig($value);
 	}
 }

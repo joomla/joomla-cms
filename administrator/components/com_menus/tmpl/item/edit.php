@@ -67,7 +67,7 @@ if ($clientId === 1)
 
 	<div class="main-card">
 
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
@@ -132,11 +132,6 @@ if ($clientId === 1)
 						$this->fields = array_diff($this->fields, array('home'));
 						$this->form->setFieldAttribute('publish_up', 'showon', '');
 						$this->form->setFieldAttribute('publish_down', 'showon', '');
-					}
-
-					if (!$isModal && $this->item->type == 'container')
-					{
-						echo $this->loadTemplate('container');
 					}
 					?>
 				<?php

@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 
 /**
@@ -170,6 +171,69 @@ class UpdateModel extends BaseDatabaseModel
 		{
 			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
 		}
+	}
+
+	/**
+	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
+	 *
+	 * @return  boolean  True if there is an update else false
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCheckForSelfUpdate()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
+		$db->setQuery($query);
+
+		try
+		{
+			// Get the component extension ID
+			$joomlaUpdateComponentId = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			// Something is wrong here!
+			$joomlaUpdateComponentId = 0;
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		// Try the update only if we have an extension id
+		if ($joomlaUpdateComponentId != 0)
+		{
+			// Always force to check for an update!
+			$cache_timeout = 0;
+
+			$updater = Updater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
+
+			// Fetch the update information from the database.
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
+			$db->setQuery($query);
+
+			try
+			{
+				$joomlaUpdateComponentObject = $db->loadObject();
+			}
+			catch (\RuntimeException $e)
+			{
+				// Something is wrong here!
+				$joomlaUpdateComponentObject = null;
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+
+			return !empty($joomlaUpdateComponentObject);
+		}
+
+		return false;
 	}
 
 	/**
@@ -1056,9 +1120,12 @@ ENDDATA;
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
+		$updateInformation = $this->getUpdateInformation();
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		// Check if configured database is compatible with the next major version of Joomla
+		$nextMajorVersion = Version::MAJOR_VERSION + 1;
+
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$option = new \stdClass;
 			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1170,7 +1237,11 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+		$nextMajorVersion  = Version::MAJOR_VERSION + 1;
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1204,8 +1275,10 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1331,6 +1404,10 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
+
+			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			unset($decode->description);
+
 			$this->translateExtensionName($extension);
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1348,9 +1425,9 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = array())
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1387,6 +1464,10 @@ ENDDATA;
 		foreach ($rows as $plugin)
 		{
 			$decode = json_decode($plugin->manifest_cache);
+
+			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			$decode->description = '';
+
 			$this->translateExtensionName($plugin);
 			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($plugin->manifest_cache);
@@ -1576,9 +1657,11 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$update = new \Joomla\CMS\Updater\Update;
+		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+
+		$update = new Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXml($updateFileUrl);
+		$update->loadFromXml($updateFileUrl, $minimumStability);
 
 		$downloadUrl = $update->get('downloadurl');
 
@@ -1634,6 +1717,6 @@ ENDDATA;
 		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
-		$item->name = Text::_($item->name);
+		$item->name = strip_tags(Text::_($item->name));
 	}
 }

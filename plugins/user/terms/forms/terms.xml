@@ -9,7 +9,6 @@
 				name="terms"
 				type="terms"
 				label="PLG_USER_TERMS_FIELD_LABEL"
-				description="PLG_USER_TERMS_FIELD_DESC"
 				default="0"
 				filter="integer"
 				required="true"

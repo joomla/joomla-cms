@@ -93,7 +93,7 @@ class ArticleController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = Factory::getUser();
+		$user       = $this->app->getIdentity();
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
@@ -127,7 +127,7 @@ class ArticleController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)

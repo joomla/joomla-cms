@@ -31,6 +31,6 @@ catch (RuntimeException $e)
 $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 // Load the com_postinstall language file
-$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR);
 
 require ModuleHelper::getLayoutPath('mod_post_installation_messages', $params->get('layout', 'default'));

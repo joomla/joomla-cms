@@ -418,6 +418,7 @@ class MailTemplate
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
+		$template->attachments = '';
 		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
@@ -495,6 +496,10 @@ class MailTemplate
 			return '';
 		}
 
+		// Replace any placeholders.
+		$name = $this->replaceTags($name, $this->data);
+
+		// Get the file extension.
 		$ext = File::getExt($file);
 
 		// Strip off extension from $name and append extension of $file, if any

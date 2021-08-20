@@ -12,7 +12,7 @@ $fa-css-prefix:    fa;
   padding: $gutter-width;
   overflow-y: auto;
   background-color: $info-bg;
-  border-left: 1px solid $border-color;
+  border-inline-start: 1px solid $border-color;
   h2 {
     padding: 8px ($gutter-width + 15px) 8px ($gutter-width - 5px);
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
