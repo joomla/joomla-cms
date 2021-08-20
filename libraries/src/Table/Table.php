@@ -2244,7 +2244,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @param  mixed  $tz  Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
 	 * @return mixed
-	 *	 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function TypeConvert($value = null, $type = '', $tz = null)
@@ -2330,9 +2330,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Get type PHP property from DB type column
 	 *
 	 * @param string $typeDB
-	 *	 
+	 *
 	 * @return string
-	 *	 
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getTypeProperty($typeDB)
