@@ -316,10 +316,7 @@ class StandardRules implements RulesInterface
 	{
 		foreach ($query as $key => $value)
 		{
-			 /*
-			 ** These keys are either needed by other build rules or
-			 ** handled exceptionally
-			 */
+			 // These keys are either needed by other build rules or handled exceptionally
 			if ($key === 'option' || $key === 'Itemid' || $key === 'view')
 			{
 				continue;
