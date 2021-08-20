@@ -130,8 +130,10 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			// In article associations modal we need to remove language filter if forcing a language.
-			// We also need to change the category filter to show show categories with All or the forced language.
+			/*
+			 * In article associations modal we need to remove language filter if forcing a language.
+			 * We also need to change the category filter to show show categories with All or the forced language.
+			 */
 			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
@@ -271,13 +273,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		if ($featured === '1')
-		{
-			$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
-		}
-		else
-		{
-			ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
-		}
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 }
