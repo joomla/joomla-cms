@@ -363,7 +363,7 @@ class CalendarField extends FormField
 		$app = Factory::getApplication();
 
 		// Get the field filter type.
-		$filter = strtoupper((string) $this->element['filter']);
+		$filter = (string) $this->element['filter'];
 
 		$return = $value;
 
