@@ -157,7 +157,7 @@ class TemplatesController extends AdminController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowEdit()
 	{
