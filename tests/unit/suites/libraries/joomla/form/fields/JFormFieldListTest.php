@@ -52,6 +52,8 @@ class JFormFieldListTest extends TestCase
 	 * Test for JFormFieldList::addOption method.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testAddOption()
 	{
