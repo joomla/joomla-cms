@@ -20,7 +20,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Scheduler\Administrator\Tasks\TaskOptions;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
 use function defined;
 
 /**
