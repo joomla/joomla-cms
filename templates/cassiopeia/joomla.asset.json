@@ -53,9 +53,9 @@
       "name": "template.cassiopeia",
       "description": "The file containing the javascript for this template.",
       "type": "script",
-      "uri": "template.js",
+      "uri": "media/templates/site/cassiopeia/js/template.min.js",
       "attributes" : {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core"
