@@ -849,10 +849,10 @@ CREATE INDEX "#__action_logs_users_idx_notify" ON "#__action_logs_users" ("notif
 -- --------------------------------------------------------
 
 --
--- Table structure for table "#__cronjobs"
+-- Table structure for table "#__scheduler_tasks"
 --
 
-CREATE TABLE IF NOT EXISTS "#__cronjobs"
+CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
 (
     "id" int GENERATED ALWAYS AS IDENTITY,
     "asset_id" bigint NOT NULL DEFAULT '0',

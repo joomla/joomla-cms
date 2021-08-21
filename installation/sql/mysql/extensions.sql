@@ -886,10 +886,10 @@ CREATE TABLE IF NOT EXISTS `#__action_logs_users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__cronjobs`
+-- Table structure for table `#__scheduler_tasks`
 --
 
-CREATE TABLE IF NOT EXISTS `#__cronjobs` (
+CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `asset_id` int NOT NULL UNIQUE DEFAULT '0',
   `title` varchar(128) NOT NULL UNIQUE,

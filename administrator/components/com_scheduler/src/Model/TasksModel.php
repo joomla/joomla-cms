@@ -31,7 +31,7 @@ use function stripos;
 use function substr;
 
 /**
- * MVC Model to deal with operations concerning multiple `#__cronjobs` entries.
+ * MVC Model to deal with operations concerning multiple `#__scheduler_tasks` entries.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -142,8 +142,8 @@ class TasksModel extends ListModel
 			)
 		);
 
-		// From the #__cronjobs table as 'a'
-		$query->from($db->quoteName('#__cronjobs', 'a'));
+		// From the #__scheduler_tasks table as 'a'
+		$query->from($db->quoteName('#__scheduler_tasks', 'a'));
 
 		// Filters go below
 		$filterCount = 0;
