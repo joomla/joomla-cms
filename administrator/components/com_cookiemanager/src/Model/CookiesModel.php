@@ -33,11 +33,11 @@ class CookiesModel extends ListModel
 	 * @since   __DEPLOY_VERSION__
 	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'id', 'a.id',
 				'title', 'a.title',
 				'alias', 'a.alias',
@@ -52,7 +52,7 @@ class CookiesModel extends ListModel
 				'created_by', 'a.created_by',
 				'modified', 'a.modified_on',
 				'modified_by', 'a.modified_by',
-			);
+			];
 		}
 
 		parent::__construct($config);

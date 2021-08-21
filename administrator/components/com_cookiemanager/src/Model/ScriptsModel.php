@@ -33,11 +33,11 @@ class ScriptsModel extends ListModel
 	 * @since   __DEPLOY_VERSION__
 	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'id', 'a.id',
 				'title', 'a.title',
 				'alias', 'a.alias',
@@ -47,7 +47,7 @@ class ScriptsModel extends ListModel
 				'catid', 'a.catid', 'category_id', 'category_title',
 				'published', 'a.published',
 				'ordering', 'a.ordering',
-			);
+			];
 		}
 
 		parent::__construct($config);

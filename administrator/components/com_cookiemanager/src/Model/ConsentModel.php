@@ -45,7 +45,7 @@ class ConsentModel extends AdminModel
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = '', $options = [])
 	{
 		$name = 'consent';
 		$prefix = 'Table';
@@ -68,7 +68,7 @@ class ConsentModel extends AdminModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_cookiemanager.consent', 'consent', array('control' => 'jform', 'load_data' => $loadData));
@@ -92,7 +92,7 @@ class ConsentModel extends AdminModel
 	{
 		// Check the session for previously entered form data.
 		$app = Factory::getApplication();
-		$data = $app->getUserState('com_cookiemanager.edit.cookie.data', array());
+		$data = $app->getUserState('com_cookiemanager.edit.cookie.data', []);
 
 		if (empty($data))
 		{

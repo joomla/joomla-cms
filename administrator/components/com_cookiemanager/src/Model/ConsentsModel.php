@@ -33,11 +33,11 @@ class ConsentsModel extends ListModel
 	 * @since   __DEPLOY_VERSION__
 	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'id', 'a.id',
 				'uuid', 'a.uuid',
 				'ccuuid', 'a.ccuuid',
@@ -46,7 +46,7 @@ class ConsentsModel extends ListModel
 				'consent_date', 'a.consent_date',
 				'user_agent', 'a.user_agent',
 				'url', 'a.url',
-			);
+			];
 		}
 
 		parent::__construct($config);
