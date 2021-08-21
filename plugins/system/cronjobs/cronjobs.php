@@ -178,7 +178,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		// Log events -- should we use action logger  or this or both?
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_cronjobs.php';
-		Log::addLogger($options, Log::INFO, ['cronjobs']);
+		Log::addLogger($options, Log::INFO, ['scheduler']);
 
 		$jobId = $dueJob->id;
 		$jobTitle = $dueJob->title;
@@ -187,7 +187,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		Log::add(
 			Text::sprintf('PLG_SYSTEM_CRONJOBS_START', $jobId, $jobTitle),
 			Log::INFO,
-			'cronjobs'
+			'scheduler'
 		);
 
 		$jobRun = $this->runJob($dueJob);
@@ -200,7 +200,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			Log::add(
 				Text::sprintf(self::LOG_TEXT[$status], $jobId, 0),
 				Log::INFO,
-				'cronjobs'
+				'scheduler'
 			);
 
 			return;
@@ -209,7 +209,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		Log::add(
 			Text::sprintf(self::LOG_TEXT[$status], $jobId, $duration, 0),
 			LOG::INFO,
-			'cronjobs'
+			'scheduler'
 		);
 	}
 

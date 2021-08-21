@@ -19,7 +19,7 @@ use function defined;
 
 /**
  * The TaskOptions class.
- * Used as the subject argument for the `OnCronOptionsList` event, plugins that support jobs must add them to the object
+ * Used as the subject argument for the `OnCronOptionsList` event, plugins that support tasks must add them to the object
  * through the addOptions() method.
  *
  * @since  __DEPLOY_VERSION__
@@ -36,26 +36,26 @@ class TaskOptions
 
 
 	/**
-	 * A plugin can support several jobs
-	 * This method is used by a plugin's OnCronOptionsList subscriber to advertise supported jobs.
+	 * A plugin can support several task routines
+	 * This method is used by a plugin's OnCronOptionsList subscriber to advertise supported routines.
 	 *
-	 * @param   array  $jobsArray   An associative array of {@var TaskOption} constructor argument pairs:
-	 *                              [ 'jobId' => 'languageConstantPrefix', ... ]
+	 * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
+	 *                              [ 'taskId' => 'languageConstantPrefix', ... ]
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function addOptions(array $jobsArray): void
+	public function addOptions(array $taskRoutines): void
 	{
-		foreach ($jobsArray as $jobId => $langConstPrefix)
+		foreach ($taskRoutines as $routineId => $langConstPrefix)
 		{
-			$this->options[] = new TaskOption($jobId, $langConstPrefix);
+			$this->options[] = new TaskOption($routineId, $langConstPrefix);
 		}
 	}
 
 	/**
-	 * @param   ?string  $taskType  A unique identifier for the job routine offered by a plugin
+	 * @param   ?string  $taskType  A unique identifier for a plugin task routine
 	 *
 	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
 	 *

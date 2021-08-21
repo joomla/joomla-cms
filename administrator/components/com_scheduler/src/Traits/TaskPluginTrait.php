@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronjobsPluginTrait.
+ * Declares the TaskPluginTrait.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -28,14 +28,14 @@ use function array_key_exists;
 use function is_file;
 
 /**
- * Utility trait for plugins that support com_scheduler jobs
+ * Utility trait for plugins that support com_scheduler compatible task routines
  *
  * @since  __DEPLOY_VERSION__
  */
 trait TaskPluginTrait
 {
 	/**
-	 * Stores the job state.
+	 * Stores the task state.
 	 *
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
@@ -56,13 +56,13 @@ trait TaskPluginTrait
 	];
 
 	/**
-	 * Sets boilerplate to snapshot when starting a job
+	 * Sets boilerplate to the snapshot when initializing a routine
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function jobStart(): void
+	private function taskStart(): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
@@ -78,7 +78,7 @@ trait TaskPluginTrait
 	 * Sets exit code and duration to snapshot. Writes to log.
 	 *
 	 * @param   CronRunEvent  $event     The event
-	 * @param   ?int          $exitCode  The job exit code
+	 * @param   ?int          $exitCode  The task exit code
 	 * @param   boolean       $log       If true, the method adds a log. Requires the plugin to
 	 *                                   have the language strings.
 	 *
@@ -86,7 +86,7 @@ trait TaskPluginTrait
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function jobEnd(CronRunEvent $event, int $exitCode, bool $log = true): void
+	private function taskEnd(CronRunEvent $event, int $exitCode, bool $log = true): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
@@ -102,18 +102,18 @@ trait TaskPluginTrait
 		{
 			$langConstPrefix = strtoupper($event->getArgument('langConstPrefix'));
 			Log::add(
-				Text::sprintf($langConstPrefix . '_JOB_LOG_MESSAGE',
+				Text::sprintf($langConstPrefix . '_TASK_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
 				),
 				Log::INFO,
-				'cronjobs'
+				'scheduler'
 			);
 		}
 	}
 
 	/**
-	 * Enhance the cronjob form with a job specific form.
-	 * Expects the JOBS_MAP class constant to have the relevant information.
+	 * Enhance the task form with task specific fields.
+	 * Expects the TASKS_MAP class constant to have relevant information.
 	 *
 	 * @param   Form   $form  The form
 	 * @param   mixed  $data  The data
@@ -123,13 +123,13 @@ trait TaskPluginTrait
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function enhanceCronjobItemForm(Form $form, $data): bool
+	protected function enhanceTaskItemForm(Form $form, $data): bool
 	{
-		$jobId = $this->getJobId($form, $data);
+		$routineId = $this->getRoutineId($form, $data);
 
-		$isSupported = array_key_exists($jobId, self::JOBS_MAP);
+		$isSupported = array_key_exists($routineId, self::TASKS_MAP);
 
-		if (!$isSupported || !$enhancementForm = self::JOBS_MAP[$jobId]['form'] ?? '')
+		if (!$isSupported || !$enhancementForm = self::TASKS_MAP[$routineId]['form'] ?? '')
 		{
 			return false;
 		}
@@ -145,7 +145,8 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Advertises jobs supported by this plugin.
+	 * Advertises the task routines supported by the parent plugin.
+	 * Expects the TASKS_MAP class constant to have relevant information.
 	 *
 	 * @param   Event  $event  onCronOptionsList Event
 	 *
@@ -153,13 +154,13 @@ trait TaskPluginTrait
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function advertiseJobs(Event $event): void
+	public function advertiseRoutines(Event $event): void
 	{
 		$options = [];
 
-		foreach (self::JOBS_MAP as $job => $details)
+		foreach (self::TASKS_MAP as $routineId => $details)
 		{
-			$options[$job] = $details['langConstPrefix'];
+			$options[$routineId] = $details['langConstPrefix'];
 		}
 
 		$subject = $event->getArgument('subject');
@@ -175,22 +176,22 @@ trait TaskPluginTrait
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function getJobId(Form $form, $data): string
+	protected function getRoutineId(Form $form, $data): string
 	{
-		$jobId = $data->cronOption->type ?? $data['cronOption']->type ?? $form->getValue('type');
+		$routineId = $data->cronOption->type ?? $data['cronOption']->type ?? $form->getValue('type');
 
-		if (!$jobId)
+		if (!$routineId)
 		{
 			$app = $this->app ?? Factory::getApplication();
 			$form = $app->getInput()->get('jform', []);
-			$jobId = ArrayHelper::getValue($form, 'type', '', 'STRING');
+			$routineId = ArrayHelper::getValue($form, 'type', '', 'STRING');
 		}
 
-		return $jobId;
+		return $routineId;
 	}
 
 	/**
-	 * Add a log message to the `cronjobs` category.
+	 * Add a log message to the `scheduler` category.
 	 * ! This might change
 	 * ? Maybe use a PSR3 logger instead?
 	 *
@@ -199,9 +200,10 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function addJobLog(string $message, string $priority = 'info'): void
+	protected function addTaskLog(string $message, string $priority = 'info'): void
 	{
 		static $langLoaded;
 		static $priorityMap = [
@@ -219,6 +221,6 @@ trait TaskPluginTrait
 			$langLoaded = true;
 		}
 
-		Log::add(Text::_('COM_SCHEDULER_TASK_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'cronjobs');
+		Log::add(Text::_('COM_SCHEDULER_TASK_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'scheduler');
 	}
 }
