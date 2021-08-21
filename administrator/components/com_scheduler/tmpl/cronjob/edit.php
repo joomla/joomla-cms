@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\View\Cronjob\HtmlView;
 
 /** @var HtmlView $this */

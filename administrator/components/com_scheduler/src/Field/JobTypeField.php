@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Utilities\ArrayHelper;
 use function array_map;

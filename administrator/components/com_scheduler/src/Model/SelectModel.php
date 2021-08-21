@@ -19,7 +19,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use function defined;
 
