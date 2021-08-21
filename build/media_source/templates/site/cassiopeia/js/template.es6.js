@@ -5,10 +5,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
+
+// Prevent clicks on buttons within a disabled fieldset
 const initTemplate = (event = { target: document }) => {
-  /**
-   * Prevent clicks on buttons within a disabled fieldset
-   */
   [].slice.call(event.target.querySelectorAll('fieldset.btn-group'))
     .forEach((field) => {
       if (field.hasAttribute('disabled') === true) {
@@ -23,15 +22,10 @@ const initTemplate = (event = { target: document }) => {
 
 // Execute on load
 initTemplate();
-
-/**
- * Initialize when a part of the page was updated
- */
+// Execute when a part of the page was updated
 document.addEventListener('joomla:updated', initTemplate);
 
-/**
- * Back to top button
- */
+// Back to top button
 const backToTopButton = document.getElementById('back-top');
 if (backToTopButton) {
   backToTopButton.addEventListener('click', (event) => {
