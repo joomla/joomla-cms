@@ -20,19 +20,6 @@
   }
 }
 
-.container-header header .site {
-  background-color: $gray-100;
-
-  > .full-width {
-    max-width: none;
-  }
-
-  .container-footer,
-  .system-debug {
-    display: block;
-  }
-}
-
 .container-banner {
   display: block;
   margin: 0 0 2rem;
@@ -45,7 +32,7 @@
   position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2) 0;
   }
 
   @include media-breakpoint-down(md) {

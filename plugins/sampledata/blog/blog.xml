@@ -13,8 +13,8 @@
 		<filename plugin="blog">blog.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_sampledata_blog.ini</language>
-		<language tag="en-GB">en-GB.plg_sampledata_blog.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_sampledata_blog.ini</language>
+		<language tag="en-GB">language/en-GB/plg_sampledata_blog.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

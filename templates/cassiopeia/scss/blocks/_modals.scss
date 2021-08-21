@@ -17,25 +17,6 @@
 
 .modal-header {
   padding: 0 15px;
-
-  .close {
-    width: $modal-header-height;
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 2rem;
-    line-height: $modal-header-height;
-
-    [dir=ltr] & {
-      margin-right: -15px;
-      border-left: 1px solid $cassiopeia-border-color;
-    }
-
-    [dir=rtl] & {
-      margin-left: -15px;
-      border-right: 1px solid $cassiopeia-border-color;
-    }
-  }
 }
 
 .modal-title {

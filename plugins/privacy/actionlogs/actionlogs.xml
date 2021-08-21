@@ -13,7 +13,7 @@
 		<filename plugin="actionlogs">actionlogs.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_privacy_actionlogs.ini</language>
-		<language tag="en-GB">en-GB.plg_privacy_actionlogs.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_privacy_actionlogs.ini</language>
+		<language tag="en-GB">language/en-GB/plg_privacy_actionlogs.sys.ini</language>
 	</languages>
 </extension>

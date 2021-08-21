@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

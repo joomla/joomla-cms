@@ -105,7 +105,7 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * redefine the function an add some properties to make the styling more easy
+	 * redefine the function and add some properties to make the styling easier
 	 *
 	 * @return mixed An array of data items on success, false on failure.
 	 */

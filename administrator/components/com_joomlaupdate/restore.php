@@ -2768,8 +2768,6 @@ class AKCoreTimer extends AKAbstractObject
 
 	/**
 	 * Public constructor, creates the timer object and calculates the execution time limits
-	 *
-	 * @return AECoreTimer
 	 */
 	public function __construct()
 	{

@@ -3,14 +3,6 @@
 	<fieldset
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
-		<field
-			name="upload_extensions"
-			type="text"
-			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
-			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
-		/>
 
 		<field
 			name="upload_maxsize"
@@ -57,6 +49,16 @@
 		</field>
 
 		<field
+			name="restrict_uploads_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_DESC"
+			size="50"
+			default="bmp,gif,jpg,jpeg,png,webp,ico,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
+			showon="restrict_uploads:1"
+		/>
+
+		<field
 			name="check_mime"
 			type="radio"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
@@ -75,8 +77,34 @@
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,gif,jpg,jpeg,png"
-			showon="restrict_uploads:1"
+			default="bmp,gif,jpg,jpeg,png,webp"
+		/>
+
+		<field
+			name="audio_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_DESC"
+			size="50"
+			default="mp3,m4a,mp4a,ogg"
+		/>
+
+		<field
+			name="video_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_DESC"
+			size="50"
+			default="mp4,mp4v,mpeg,mov,webm"
+		/>
+
+		<field
+			name="doc_extensions"
+			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_DESC"
+			size="50"
+			default="doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
 		/>
 
 		<field
@@ -93,7 +121,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
-			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			showon="restrict_uploads:1"
 		/>
 

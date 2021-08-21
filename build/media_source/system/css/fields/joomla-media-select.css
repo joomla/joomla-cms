@@ -1,0 +1,23 @@
+joomla-field-mediamore details {
+  position: absolute;
+  bottom: 0;
+  background: #f5f5f5;
+  border-radius: 0.25rem;
+  border: 1px solid #c9c9c9;
+  margin: 0 0 0 .5rem;
+}
+
+joomla-field-mediamore label.input-group-text {
+  width: auto;
+}
+
+joomla-field-mediamore summary {
+  padding: 1rem;
+  background-color: #e3e3e3;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+joomla-field-mediamore details .form-group {
+  margin: 1rem !important;
+}
