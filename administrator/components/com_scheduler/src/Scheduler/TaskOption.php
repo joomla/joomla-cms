@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the TaskOption class, used by com_scheduler to refer to plugin defined jobs.
+ * Implements the TaskOption class, used by com_scheduler to refer to plugin task routines.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -19,14 +19,14 @@ use Joomla\CMS\Language\Text;
 /**
  * The TaskOption class.
  * Each plugin supporting tasks calls the TaskOptions addOptions() method with an array of TaskOption constructor argument pairs as argument.
- * Internally, the TaskOption object generates the job title and description from the language constant prefix.
+ * Internally, the TaskOption object generates the routine title and description from the language constant prefix.
  *
  * @since  __DEPLOY_VERSION__
  */
 class TaskOption
 {
 	/**
-	 * Job title
+	 * Task routine title
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -34,12 +34,16 @@ class TaskOption
 	protected $title;
 
 	/**
+	 * Task routine description
+	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $desc;
 
 	/**
+	 * Routine type-ID
+	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -54,7 +58,7 @@ class TaskOption
 	/**
 	 * TaskOption constructor.
 	 *
-	 * @param   string  $type             A unique string for the job routine used internally by the job plugin.
+	 * @param   string  $type             A unique ID string for a plugin task routine.
 	 * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
 	 *
 	 * @since  __DEPLOY_VERSION__

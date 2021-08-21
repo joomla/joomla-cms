@@ -36,7 +36,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected const JOBS_MAP = [
+	protected const TASKS_MAP = [
 		'plg_job_toggle_offline' => [
 			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE',
 			'toggle' => true
@@ -104,16 +104,16 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 */
 	public function toggleOffline(CronRunEvent $event): void
 	{
-		if (!array_key_exists($event->getJobId(), self::JOBS_MAP))
+		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
-		$this->jobStart();
+		$this->taskStart();
 
 		$config = ArrayHelper::fromObject(new JConfig);
 
-		$toggle = self::JOBS_MAP[$event->getJobId()]['toggle'];
+		$toggle = self::TASKS_MAP[$event->getJobId()]['toggle'];
 		$oldStatus = $config['offline'] ? 'offline' : 'online';
 
 		if ($toggle)
@@ -122,15 +122,15 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$offline = self::JOBS_MAP[$event->getJobId()]['offline'];
+			$offline = self::TASKS_MAP[$event->getJobId()]['offline'];
 			$config['offline'] = $offline;
 		}
 
 		$newStatus = $config['offline'] ? 'offline' : 'online';
 		$exit = $this->writeConfigFile(new Registry($config));
-		$this->addJobLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $oldStatus, $newStatus));
+		$this->addTaskLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $oldStatus, $newStatus));
 
-		$this->jobEnd($event, $exit);
+		$this->taskEnd($event, $exit);
 	}
 
 	/**
@@ -140,6 +140,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  integer  The job exit code
 	 *
+	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private function writeConfigFile(Registry $config): int
@@ -150,7 +151,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		// Attempt to make the file writeable.
 		if (Path::isOwner($file) && !Path::setPermissions($file))
 		{
-			$this->addJobLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
@@ -158,7 +159,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 
 		if (!File::write($file, $configuration))
 		{
-			$this->addJobLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_WRITE_FAILED'), 'error');
+			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_WRITE_FAILED'), 'error');
 
 			return self::$STATUS['KO_RUN'];
 		}
@@ -172,7 +173,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		// Attempt to make the file un-writeable.
 		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
-			$this->addJobLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return self::$STATUS['OK_RUN'];

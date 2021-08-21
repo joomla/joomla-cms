@@ -32,7 +32,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	private const JOBS_MAP = [
+	private const TASKS_MAP = [
 		'job1' => [
 			'langConstPrefix' => 'PLG_JOB_TESTJOB_JOB1',
 			'form' => 'testJobForm'
@@ -82,23 +82,24 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION
 	 */
 	public function cronSampleRoutine(CronRunEvent $event): void
 	{
-		if (array_key_exists($event->getJobId(), self::JOBS_MAP))
+		if (array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{
-			$this->jobStart();
+			$this->taskStart();
 
 			// Access to job parameters
 			$params = $event->getArgument('params');
 
 			// Plugin does whatever it wants
-			$this->addJobLog('Starting 20s timeout');
+			$this->addTaskLog('Starting 20s timeout');
 			sleep(20);
-			$this->addJobLog('20s timeout over!');
+			$this->addTaskLog('20s timeout over!');
 
-			$this->jobEnd($event, 0);
+			$this->taskEnd($event, 0);
 		}
 	}
 
@@ -120,7 +121,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 
 		if ($context === 'com_scheduler.cronjob')
 		{
-			$this->enhanceCronjobItemForm($form, $data);
+			$this->enhanceTaskItemForm($form, $data);
 		}
 	}
 }

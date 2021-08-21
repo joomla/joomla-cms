@@ -35,7 +35,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected const JOBS_MAP = [
+	protected const TASKS_MAP = [
 		'plg_job_requests_job_get' => [
 			'langConstPrefix' => 'PLG_JOB_REQUESTS_JOB_GET_REQUEST',
 			'form' => 'get_requests',
@@ -86,15 +86,15 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 */
 	public function makeRequest(CronRunEvent $event): void
 	{
-		if (!array_key_exists($event->getJobId(), self::JOBS_MAP))
+		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
-		$this->jobStart();
+		$this->taskStart();
 		$jobId = $event->getJobId();
-		$exitCode = $this->{self::JOBS_MAP[$jobId]['call']}($event);
-		$this->jobEnd($event, $exitCode);
+		$exitCode = $this->{self::TASKS_MAP[$jobId]['call']}($event);
+		$this->taskEnd($event, $exitCode);
 	}
 
 	/**
@@ -115,7 +115,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 
 		if ($context === 'com_scheduler.cronjob')
 		{
-			$this->enhanceCronjobItemForm($form, $data);
+			$this->enhanceTaskItemForm($form, $data);
 		}
 	}
 
@@ -124,6 +124,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The exit code
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected function makeGetRequest(CronRunEvent $event): int
@@ -155,7 +156,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 		}
 
 		$responseCode = $response->code;
-		$this->addJobLog(Text::sprintf('PLG_JOB_REQUESTS_JOB_GET_REQUEST_LOG_RESPONSE', $responseCode));
+		$this->addTaskLog(Text::sprintf('PLG_JOB_REQUESTS_JOB_GET_REQUEST_LOG_RESPONSE', $responseCode));
 
 		if ($response->code !== 200)
 		{
