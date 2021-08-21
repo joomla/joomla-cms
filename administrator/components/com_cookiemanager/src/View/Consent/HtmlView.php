@@ -92,8 +92,6 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = ContentHelper::getActions('com_cookiemanager');
-
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 

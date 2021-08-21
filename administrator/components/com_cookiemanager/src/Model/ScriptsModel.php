@@ -191,8 +191,6 @@ class ScriptsModel extends ListModel
 	 */
 	public function getItems()
 	{
-		$items = parent::getItems();
-
-		return $items;
+		return parent::getItems();
 	}
 }

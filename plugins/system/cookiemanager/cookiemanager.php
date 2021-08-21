@@ -33,6 +33,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Cookie consent banner
 	 *
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $consentBanner;
@@ -40,6 +41,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Cookie settings banner
 	 *
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $settingsBanner;
@@ -55,6 +57,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 /**
 	  * Cookie settings scripts
 	  *
+	  * @var    object
 	  * @since  __DEPLOY_VERSION__
 	  */
 	 protected $cookieScripts;
@@ -62,6 +65,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 /**
 	  * Cookie categories
 	  *
+	  * @var    object
 	  * @since  __DEPLOY_VERSION__
 	  */
 	  protected $cookieCategories;
