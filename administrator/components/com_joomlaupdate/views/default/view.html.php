@@ -103,7 +103,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
 
 		// Disable the critical plugins check for non-major updates.
-		$this->nonCoreCriticalPlugins = false;
+		$this->nonCoreCriticalPlugins = array();
 
 		if (version_compare($this->updateInfo['latest'], '4', '>='))
 		{
