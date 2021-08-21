@@ -29,28 +29,32 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var  \JForm
+	 * @var    \JForm
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var    object
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    object
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var    \JObject
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
 
@@ -60,6 +64,9 @@ class HtmlView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
+	 * @throws \Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -82,7 +89,6 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
