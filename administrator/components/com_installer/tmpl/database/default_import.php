@@ -54,8 +54,8 @@ use Joomla\CMS\Utility\Utility;
 <script>
 function checkSize(inputFile) {
 	let nBytes = 0,
-	    sizeLimit = 0,
-	    oFiles = document.getElementById("zip_file").files;
+		sizeLimit = 0,
+		oFiles = document.getElementById("zip_file").files;
 	nBytes = oFiles[0].size;
 	sizeLimit = parseInt(document.getElementById("max-size").value);
 
