@@ -237,9 +237,9 @@ class Mail extends \PHPMailer
 			else
 			{
 				// If it is neither, we log a message and throw an exception
-				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from, $from), Log::WARNING, 'jerror');
+				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-				throw new \UnexpectedValueException(sprintf('Invalid email Sender: %1$s, Mail::setSender(%1$s)', $from));
+				throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
 			}
 
 			// Check for boolean false return if exception handling is disabled
