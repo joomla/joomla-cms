@@ -56,8 +56,6 @@ class ScriptTable extends Table
 	 */
 	public function store($updateNulls = true)
 	{
-		$userId = Factory::getUser()->id;
-
 		// Verify that the alias is unique
 		$table = Table::getInstance('ScriptTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
 
@@ -76,7 +74,7 @@ class ScriptTable extends Table
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     \JTable::check
+	 * @see     Table::check
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()

@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.id'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

@@ -43,6 +43,7 @@ class CookieModel extends AdminModel
 	 * @return  Table  A Table object
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @throws  \Exception
 	 */
 	public function getTable($name = '', $prefix = '', $options = [])
@@ -126,7 +127,7 @@ class CookieModel extends AdminModel
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   \Joomla\CMS\Table\Table  $table  The Table object
+	 * @param   Table  $table  The Table object
 	 *
 	 * @return  void
 	 *

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -26,7 +25,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    ApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
@@ -34,7 +33,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Cookie consent banner
 	 *
-	 * @var    ConsentBanner
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $consentBanner;
@@ -42,7 +40,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Cookie settings banner
 	 *
-	 * @var    SettingsBanner
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $settingsBanner;
@@ -50,7 +47,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    DatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  __DEPLOY_VERSION__
 	 */
 	 protected $db;
@@ -58,7 +55,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 /**
 	  * Cookie settings scripts
 	  *
-	  * @var    CookieScripts
 	  * @since  __DEPLOY_VERSION__
 	  */
 	 protected $cookieScripts;
@@ -66,7 +62,6 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 /**
 	  * Cookie categories
 	  *
-	  * @var    CookieCategories
 	  * @since  __DEPLOY_VERSION__
 	  */
 	  protected $cookieCategories;

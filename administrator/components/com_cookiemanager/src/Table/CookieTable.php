@@ -57,7 +57,7 @@ class CookieTable extends Table
 	public function store($updateNulls = true)
 	{
 		$date   = Factory::getDate()->toSql();
-		$userId = Factory::getUser()->id;
+		$userId = Factory::getApplication()->getIdentity()->id;
 
 		// Set created date if not set.
 		if (!(int) $this->created)
@@ -106,7 +106,7 @@ class CookieTable extends Table
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     \JTable::check
+	 * @see     Table::check
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()

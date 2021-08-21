@@ -64,7 +64,7 @@ class ConsentTable extends Table
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     \JTable::check
+	 * @see     Table::check
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
