@@ -28,9 +28,9 @@ class DisplayController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication|null  $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   \JInput|null              $input    Input
 	 *
 	 * @since   3.0
 	 */
