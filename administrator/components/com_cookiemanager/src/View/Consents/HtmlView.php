@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_cookiemanager');
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_CONSENTS'), 'lock');
 

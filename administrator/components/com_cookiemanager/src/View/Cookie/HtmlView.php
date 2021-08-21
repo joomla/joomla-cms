@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIE_NEW') : Text::_('COM_COOKIEMANAGER_COOKIE_EDIT'), 'cookie-bite');
 
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->save('cookie.save');
 		}
 
-		$toolbar->cancel('cookie.cancel', 'JTOOLBAR_CLOSE');
+		$toolbar->cancel('cookie.cancel');
 
 		ToolbarHelper::help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES_EDIT');
 	}

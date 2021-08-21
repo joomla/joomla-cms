@@ -90,11 +90,11 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title(Text::_('COM_COOKIEMANAGER_REVIEW_CONSENT'), 'lock');
 
-		$toolbar->cancel('consent.cancel', 'JTOOLBAR_CLOSE');
+		$toolbar->cancel('consent.cancel');
 
 		ToolbarHelper::help('JHELP_COMPONENTS_COOKIEMANAGER_CONSENTS_EDIT');
 	}
