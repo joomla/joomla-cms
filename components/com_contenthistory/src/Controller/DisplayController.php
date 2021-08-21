@@ -31,7 +31,7 @@ class DisplayController extends BaseController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
-	 * @param   \JInput|null              $input    Input
+	 * @param   Input|null              $input    Input
 	 *
 	 * @since   3.0
 	 */
