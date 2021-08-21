@@ -57,28 +57,20 @@ class PlgSystemCookiemanager extends CMSPlugin
 	 protected $db;
 
 	 /**
-	  * For script in DOM
+	  * Cookie settings scripts
 	  *
-	  * @var    Script
+	  * @var    CookieScripts
 	  * @since  __DEPLOY_VERSION__
 	  */
-	 protected $script = [];
+	 protected $cookieScripts;
 
 	 /**
-	  * For scripts in DOM
+	  * Cookie categories
 	  *
-	  * @var    Scripts
+	  * @var    CookieCategories
 	  * @since  __DEPLOY_VERSION__
 	  */
-	 protected $scripts;
-
-	 /**
-	  * For cookie category
-	  *
-	  * @var    Category
-	  * @since  __DEPLOY_VERSION__
-	  */
-	 protected $category;
+	  protected $cookieCategories;
 
 	/**
 	 * Add assets for the cookie banners.
@@ -139,13 +131,13 @@ class PlgSystemCookiemanager extends CMSPlugin
 			)
 			->order($db->quoteName('lft'));
 
-		$this->category = $db->setQuery($query)->loadObjectList();
+		$this->cookieCategories = $db->setQuery($query)->loadObjectList();
 
 		$consentBannerBody = '<p>' . Text::_('COM_COOKIEMANAGER_COOKIE_BANNER_DESCRIPTION') . '</p><p><a '
 			. ' href="' . $menuitem->link . '">' . Text::_('COM_COOKIEMANAGER_VIEW_COOKIE_POLICY') . '</a></p>'
 			. '<h5>' . Text::_('COM_COOKIEMANAGER_MANAGE_CONSENT_PREFERENCES') . '</h5><ul>';
 
-		foreach ($this->category as $key => $value)
+		foreach ($this->cookieCategories as $key => $value)
 		{
 			$consentBannerBody .= '<li class="cookie-cat form-check form-check-inline"><label>' . $value->title . '<span class="ms-4 form-check-inline form-switch"><input class="form-check-input" data-cookiecategory="'
 			. $value->alias . '" type=checkbox></span></label></li>';
@@ -186,7 +178,7 @@ class PlgSystemCookiemanager extends CMSPlugin
 		 . '<p> ' . Text::_('COM_COOKIEMANAGER_CONSENT_ID') . ': <span id="ccuuid"></span></p>'
 		 . '<p>' . Text::_('COM_COOKIEMANAGER_FIELD_CONSENT_DATE_LABEL') . ': <span id="consent-date"></span></p>';
 
-		foreach ($this->category as $catKey => $catValue)
+		foreach ($this->cookieCategories as $catKey => $catValue)
 		{
 			$settingsBannerBody .= '<h4>' . $catValue->title . '<span class="form-check-inline form-switch float-end">' .
 			'<input class="form-check-input " type="checkbox" data-cookie-category="' . $catValue->alias . '"></span></h4>' . $catValue->description;
@@ -240,31 +232,34 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['a.type','a.position','a.code','a.catid']))
-			->from($db->quoteName('#__categories', 'c'))
+			->from($db->quoteName('#__cookiemanager_scripts', 'a'))
+			->where($db->quoteName('a.published') . ' =  1')
 			->join(
-				'RIGHT',
-				$db->quoteName('#__cookiemanager_scripts', 'a') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . 'AND' . $db->quoteName('a.published') . ' =  1'
+				'LEFT',
+				$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
 			);
 
-			$this->scripts = $db->setQuery($query)->loadObjectList();
+		$this->cookieScripts = $db->setQuery($query)->loadObjectList();
 
-		foreach ($this->category as $catKey => $catValue)
+		$cookieCodes = [];
+
+		foreach ($this->cookieCategories as $catKey => $catValue)
 		{
 			if (!isset($_COOKIE['cookie_category_' . $catValue->alias]) || $_COOKIE['cookie_category_' . $catValue->alias] === 'false')
 			{
-				$this->script[$catValue->alias] = [];
+				$cookieCodes[$catValue->alias] = [];
 
-				foreach ($this->scripts as $key => $value)
+				foreach ($this->cookieScripts as $key => $value)
 				{
 					if ($catValue->id == $value->catid)
 					{
-						array_push($this->script[$catValue->alias], $value);
+						array_push($cookieCodes[$catValue->alias], $value);
 					}
 				}
 			}
 		}
 
-				$this->app->getDocument()->addScriptOptions('code', $this->script);
+		$this->app->getDocument()->addScriptOptions('code', $cookieCodes);
 
 		if (!$this->app->input->cookie->get('uuid'))
 		{
@@ -299,13 +294,11 @@ class PlgSystemCookiemanager extends CMSPlugin
 
 		echo '<button class="preview btn btn-info" data-bs-toggle="modal" data-bs-target="#consentBanner">' . Text::_('COM_COOKIEMANAGER_PREVIEW_BUTTON_TEXT') . '</button>';
 
-		foreach ($this->category as $catKey => $catValue)
+		foreach ($this->cookieCategories as $catKey => $catValue)
 		{
 			if (isset($_COOKIE['cookie_category_' . $catValue->alias]) && $_COOKIE['cookie_category_' . $catValue->alias] === 'true')
 			{
-				$this->script[$catValue->alias] = [];
-
-				foreach ($this->scripts as $key => $value)
+				foreach ($this->cookieScripts as $key => $value)
 				{
 					if ($catValue->id == $value->catid)
 					{
