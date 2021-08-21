@@ -11,10 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 HTMLHelper::_('bootstrap.dropdown');
 
@@ -31,6 +34,32 @@ Text::script('COM_TEMPLATES_CREATE_OVERRIDE');
 $wa->useStyle('com_templates.admin-templates')
 	->useScript('com_templates.admin-templates')
 	->useScript('keepalive');
+
+// Toolbar
+$canDo = ContentHelper::getActions('com_templates');
+
+// Get the toolbar object instance
+$toolbar = Toolbar::getInstance('toolbar');
+
+// Set the title.
+if ((int) $this->get('State')->get('client_id') === 1)
+{
+	ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'brush');
+}
+else
+{
+	ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'brush');
+}
+
+// Install new template
+ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');
+
+if ($canDo->get('core.admin') || $canDo->get('core.options'))
+{
+	ToolbarHelper::preferences('com_templates');
+}
+
+ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 
 //$document->addScriptOptions('override.paths', json_encode($this->overridePaths($clientId)));
 ?>
