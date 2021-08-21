@@ -1,9 +1,9 @@
 <?php
 /**
- * A job plugin to make GET requests.
+ * A task plugin to make requests.
  *
  * @package       Joomla.Plugins
- * @subpackage    Job.Requests
+ * @subpackage    Task.Requests
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
@@ -27,7 +27,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgJobRequests extends CMSPlugin implements SubscriberInterface
+class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -36,8 +36,8 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected const TASKS_MAP = [
-		'plg_job_requests_job_get' => [
-			'langConstPrefix' => 'PLG_JOB_REQUESTS_JOB_GET_REQUEST',
+		'plg_task_requests_task_get' => [
+			'langConstPrefix' => 'PLG_TASK_REQUESTS_TASK_GET_REQUEST',
 			'form' => 'get_requests',
 			'call' => 'makeGetRequest'
 		]
@@ -58,7 +58,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_scheduler.cronjob'
+		'com_scheduler.task'
 	];
 
 	/**
@@ -71,7 +71,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseJobs',
+			'onCronOptionsList' => 'advertiseRoutines',
 			'onCronRun' => 'makeRequest',
 			'onContentPrepareForm' => 'enhanceForm'
 		];
@@ -113,7 +113,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 
 		$context = $form->getName();
 
-		if ($context === 'com_scheduler.cronjob')
+		if ($context === 'com_scheduler.task')
 		{
 			$this->enhanceTaskItemForm($form, $data);
 		}
@@ -156,7 +156,7 @@ class PlgJobRequests extends CMSPlugin implements SubscriberInterface
 		}
 
 		$responseCode = $response->code;
-		$this->addTaskLog(Text::sprintf('PLG_JOB_REQUESTS_JOB_GET_REQUEST_LOG_RESPONSE', $responseCode));
+		$this->addTaskLog(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
 
 		if ($response->code !== 200)
 		{

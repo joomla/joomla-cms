@@ -5,7 +5,7 @@
 			<field
 				name="url"
 				type="url"
-				label="PLG_JOB_REQUESTS_LABEL_REQUEST_URL"
+				label="PLG_TASK_REQUESTS_LABEL_REQUEST_URL"
 				required="true"
 				validate="url"
 				filter="url"
@@ -13,7 +13,7 @@
 			<field
 				name="timeout"
 				type="number"
-				label="PLG_JOB_REQUESTS_LABEL_REQUEST_TIMEOUT"
+				label="PLG_TASK_REQUESTS_LABEL_REQUEST_TIMEOUT"
 				min="1"
 				step="1"
 				default="120"
@@ -24,7 +24,7 @@
 			<field
 				name="auth"
 				type="radio"
-				label="PLG_JOB_REQUESTS_LABEL_AUTH"
+				label="PLG_TASK_REQUESTS_LABEL_AUTH"
 				layout="joomla.form.field.radio.switcher"
 				default="0"
 				required="true"
@@ -36,16 +36,16 @@
 			<field
 				name="authType"
 				type="list"
-				label="PLG_JOB_REQUESTS_LABEL_AUTH_HEADER"
+				label="PLG_TASK_REQUESTS_LABEL_AUTH_HEADER"
 				showon="auth:1"
 				>
-				<option value="Bearer">PLG_JOB_REQUESTS_BEARER</option>
-				<option value="X-Joomla-Token">PLG_JOB_REQUESTS_JOOMLA_TOKEN</option>
+				<option value="Bearer">PLG_TASK_REQUESTS_BEARER</option>
+				<option value="X-Joomla-Token">PLG_TASK_REQUESTS_JOOMLA_TOKEN</option>
 			</field>
 			<field
 				name="authKey"
 				type="text"
-				label="PLG_JOB_REQUESTS_LABEL_AUTH_KEY"
+				label="PLG_TASK_REQUESTS_LABEL_AUTH_KEY"
 				showon="auth:1"
 			/>
 		</fieldset>

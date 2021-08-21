@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension version="4.1" type="plugin" group="job" method="upgrade">
-	<name>Test Job!</name>
+<extension version="4.1" type="plugin" group="task" method="upgrade">
+	<name>Test Tasks!</name>
 	<author>Joomla! Projects</author>
 	<creationDate>July 2021</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1</version>
-	<description>Test jobs for com_scheduler</description>
+	<description>Test task routines for com_scheduler</description>
 	<files>
-		<filename plugin="testjob">testjob.php</filename>
+		<filename plugin="testtasks">testtasks.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_job_testjob.ini</language>
-		<language tag="en-GB">en-GB.plg_job_testjob.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_task_testtasks.ini</language>
+		<language tag="en-GB">en-GB.plg_task_testtasks.sys.ini</language>
 	</languages>
 </extension>

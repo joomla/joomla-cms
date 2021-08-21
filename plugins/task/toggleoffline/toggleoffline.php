@@ -1,9 +1,9 @@
 <?php
 /**
- * A job plugin to toggle the offline status of the site.
+ * A task plugin to toggle the offline status of the site.
  *
  * @package       Joomla.Plugins
- * @subpackage    Job.ToggleOffline
+ * @subpackage    Task.ToggleOffline
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
@@ -28,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
+class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -37,17 +37,17 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected const TASKS_MAP = [
-		'plg_job_toggle_offline' => [
-			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE',
+		'plg_task_toggle_offline' => [
+			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE',
 			'toggle' => true
 		],
-		'plg_job_toggle_offline_set_online' => [
-			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE_SET_ONLINE',
+		'plg_task_toggle_offline_set_online' => [
+			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE_SET_ONLINE',
 			'toggle' => false,
 			'offline' => false
 		],
-		'plg_job_toggle_offline_set_offline' => [
-			'langConstPrefix' => 'PLG_JOB_TOGGLE_OFFLINE_SET_OFFLINE',
+		'plg_task_toggle_offline_set_offline' => [
+			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE_SET_OFFLINE',
 			'toggle' => false,
 			'offline' => true
 		],
@@ -77,7 +77,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_scheduler.cronjob'
+		'com_scheduler.task'
 	];
 
 	/**
@@ -90,7 +90,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseJobs',
+			'onCronOptionsList' => 'advertiseRoutines',
 			'onCronRun' => 'toggleOffline',
 		];
 	}
@@ -128,7 +128,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 
 		$newStatus = $config['offline'] ? 'offline' : 'online';
 		$exit = $this->writeConfigFile(new Registry($config));
-		$this->addTaskLog(Text::sprintf('PLG_JOB_TOGGLE_OFFLINE_JOB_LOG_SITE_STATUS', $oldStatus, $newStatus));
+		$this->addTaskLog(Text::sprintf('PLG_TASK_TOGGLE_OFFLINE_TASK_LOG_SITE_STATUS', $oldStatus, $newStatus));
 
 		$this->taskEnd($event, $exit);
 	}
@@ -138,7 +138,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   Registry  $config  A Registry object containing all global config data.
 	 *
-	 * @return  integer  The job exit code
+	 * @return  integer  The task exit code
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
@@ -151,7 +151,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		// Attempt to make the file writeable.
 		if (Path::isOwner($file) && !Path::setPermissions($file))
 		{
-			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+			$this->addTaskLog(Text::_('PLG_TASK_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
@@ -159,7 +159,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 
 		if (!File::write($file, $configuration))
 		{
-			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_WRITE_FAILED'), 'error');
+			$this->addTaskLog(Text::_('PLG_TASK_TOGGLE_OFFLINE_ERROR_WRITE_FAILED'), 'error');
 
 			return self::$STATUS['KO_RUN'];
 		}
@@ -173,7 +173,7 @@ class PlgJobToggleoffline extends CMSPlugin implements SubscriberInterface
 		// Attempt to make the file un-writeable.
 		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
-			$this->addTaskLog(Text::_('PLG_JOB_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+			$this->addTaskLog(Text::_('PLG_TASK_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return self::$STATUS['OK_RUN'];
