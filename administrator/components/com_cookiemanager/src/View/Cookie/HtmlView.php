@@ -55,14 +55,11 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
-	 * Execute and display a template script.
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -77,7 +74,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
