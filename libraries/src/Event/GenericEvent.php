@@ -13,7 +13,7 @@ namespace Joomla\CMS\Event;
 /**
  * This class gives a concrete implementation of the AbstractEvent class.
  *
- * @see    Joomla\CMS\Event\AbstractEvent
+ * @see    \Joomla\CMS\Event\AbstractEvent
  * @since  4.0.0
  */
 class GenericEvent extends AbstractEvent

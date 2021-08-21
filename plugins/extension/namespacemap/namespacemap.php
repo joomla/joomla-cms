@@ -35,7 +35,7 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
 	 *                                          (this list is not meant to be comprehensive).
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{

@@ -45,7 +45,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * The language tag for the package
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $tag;
 

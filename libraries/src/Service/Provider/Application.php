@@ -17,7 +17,9 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
@@ -46,7 +48,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Application service provider
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Application implements ServiceProviderInterface
 {
@@ -57,7 +59,7 @@ class Application implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -158,7 +160,9 @@ class Application implements ServiceProviderInterface
 						CheckJoomlaUpdatesCommand::getDefaultName()        => CheckJoomlaUpdatesCommand::class,
 						ExtensionRemoveCommand::getDefaultName()           => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()          => ExtensionInstallCommand::class,
+						ExtensionDiscoverCommand::getDefaultName()  	   => ExtensionDiscoverCommand::class,
 						ExtensionDiscoverInstallCommand::getDefaultName()  => ExtensionDiscoverInstallCommand::class,
+						ExtensionDiscoverListCommand::getDefaultName()     => ExtensionDiscoverListCommand::class,
 						UpdateCoreCommand::getDefaultName()                => UpdateCoreCommand::class,
 						FinderIndexCommand::getDefaultName()               => FinderIndexCommand::class,
 					];

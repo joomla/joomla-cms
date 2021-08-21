@@ -39,7 +39,6 @@ WHERE (`type` = 'component' AND `element` IN (
 	'com_privacy',
 	'com_actionlogs',
 	'com_workflow',
-	'com_csp',
 	'com_mails'
 ))
 OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (

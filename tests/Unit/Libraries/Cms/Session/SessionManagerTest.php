@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Test class for Joomla\CMS\Session\SessionManager.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SessionManagerTest extends UnitTestCase
 {
@@ -24,7 +24,7 @@ class SessionManagerTest extends UnitTestCase
 	 * Session manager being tested.
 	 *
 	 * @var    SessionManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $manager;
 
@@ -32,7 +32,7 @@ class SessionManagerTest extends UnitTestCase
 	 * Session handler in use by the manager.
 	 *
 	 * @var    \SessionHandlerInterface|MockObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $sessionHandler;
 
@@ -42,7 +42,7 @@ class SessionManagerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp(): void
 	{
@@ -56,7 +56,7 @@ class SessionManagerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testDestroySession()
 	{
@@ -75,7 +75,7 @@ class SessionManagerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testDestroySessionsAllDestroyed()
 	{
@@ -96,7 +96,7 @@ class SessionManagerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testDestroySessionsWithFailure()
 	{

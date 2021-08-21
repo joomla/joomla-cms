@@ -58,7 +58,15 @@ if ($paramsFontScheme)
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
 	->useStyle('template.user')
-	->useScript('template.user');
+	->useScript('template.user')
+	->addInlineStyle(':root {
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001B4C;
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -107,7 +115,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="site-grid site <?php echo $option
+<body class="site <?php echo $option
 	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
@@ -125,28 +133,29 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
-		<div class="grid-child">
-			<div class="navbar-brand">
-				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
+		<?php if ($this->countModules('below-top')) : ?>
+			<div class="grid-child container-below-top">
+				<jdoc:include type="modules" name="below-top" style="none" />
 			</div>
-		</div>
+		<?php endif; ?>
+
+		<?php if ($this->params->get('brand', 1)) : ?>
+			<div class="grid-child">
+				<div class="navbar-brand">
+					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>
-					<nav class="navbar navbar-expand-md">
-						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
-						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-							<span class="icon-menu" aria-hidden="true"></span>
-						</button>
-						<div class="collapse navbar-collapse" id="navbar">
-							<jdoc:include type="modules" name="menu" style="none" />
-						</div>
-					</nav>
+					<jdoc:include type="modules" name="menu" style="none" />
 				<?php endif; ?>
 				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
@@ -157,57 +166,59 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 		<?php endif; ?>
 	</header>
 
-	<?php if ($this->countModules('banner', true)) : ?>
-		<div class="container-banner full-width">
-			<jdoc:include type="modules" name="banner" style="none" />
+	<div class="site-grid">
+		<?php if ($this->countModules('banner', true)) : ?>
+			<div class="container-banner full-width">
+				<jdoc:include type="modules" name="banner" style="none" />
+			</div>
+		<?php endif; ?>
+
+		<?php if ($this->countModules('top-a', true)) : ?>
+		<div class="grid-child container-top-a">
+			<jdoc:include type="modules" name="top-a" style="card" />
 		</div>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('top-a', true)) : ?>
-	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('top-b', true)) : ?>
+		<div class="grid-child container-top-b">
+			<jdoc:include type="modules" name="top-b" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('top-b', true)) : ?>
-	<div class="grid-child container-top-b">
-		<jdoc:include type="modules" name="top-b" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('sidebar-left', true)) : ?>
+		<div class="grid-child container-sidebar-left">
+			<jdoc:include type="modules" name="sidebar-left" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left', true)) : ?>
-	<div class="grid-child container-sidebar-left">
-		<jdoc:include type="modules" name="sidebar-left" style="card" />
-	</div>
-	<?php endif; ?>
+		<div class="grid-child container-component">
+			<jdoc:include type="modules" name="breadcrumbs" style="none" />
+			<jdoc:include type="modules" name="main-top" style="card" />
+			<jdoc:include type="message" />
+			<main>
+			<jdoc:include type="component" />
+			</main>
+			<jdoc:include type="modules" name="main-bottom" style="card" />
+		</div>
 
-	<div class="grid-child container-component">
-		<jdoc:include type="modules" name="breadcrumbs" style="none" />
-		<jdoc:include type="modules" name="main-top" style="card" />
-		<jdoc:include type="message" />
-		<main>
-		<jdoc:include type="component" />
-		</main>
-		<jdoc:include type="modules" name="main-bottom" style="card" />
-	</div>
+		<?php if ($this->countModules('sidebar-right', true)) : ?>
+		<div class="grid-child container-sidebar-right">
+			<jdoc:include type="modules" name="sidebar-right" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-right', true)) : ?>
-	<div class="grid-child container-sidebar-right">
-		<jdoc:include type="modules" name="sidebar-right" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('bottom-a', true)) : ?>
+		<div class="grid-child container-bottom-a">
+			<jdoc:include type="modules" name="bottom-a" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-a', true)) : ?>
-	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="card" />
+		<?php if ($this->countModules('bottom-b', true)) : ?>
+		<div class="grid-child container-bottom-b">
+			<jdoc:include type="modules" name="bottom-b" style="card" />
+		</div>
+		<?php endif; ?>
 	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('bottom-b', true)) : ?>
-	<div class="grid-child container-bottom-b">
-		<jdoc:include type="modules" name="bottom-b" style="card" />
-	</div>
-	<?php endif; ?>
 
 	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
@@ -218,11 +229,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('backTop') == 1) : ?>
-		<div class="back-to-top-wrapper">
-			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-				<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-			</a>
-		</div>
+		<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+			<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+		</a>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />

@@ -193,6 +193,13 @@ class LanguagesModel extends BaseInstallationModel
 			// Download the package to the tmp folder.
 			$package = $this->downloadPackage($package_url);
 
+			if (!$package)
+			{
+				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_DOWNLOAD_PACKAGE', $package_url), 'error');
+
+				continue;
+			}
+
 			// Install the package.
 			if (!$installer->install($package['dir']))
 			{

@@ -39,59 +39,59 @@ Joomla = window.Joomla || {};
             }
           });
           if (updMenus === '-') {
-            tmpMenu.innerHTML = `<span class="badge bg-danger">${Joomla.JText._('JNO')}</span>`;
+            tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-danger">${Joomla.Text._('JNO')}</span>`);
             if (!tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.add('no'); }
           }
           if (parseInt(updMenus, 10) === 0) {
-            tmpMenu.innerHTML = `<span class="badge bg-info">${Joomla.JText._('JALL')}</span>`;
+            tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-info">${Joomla.Text._('JALL')}</span>`);
             if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
           }
           if (parseInt(updMenus, 10) > 0) {
             if (window.parent.inMenus.indexOf(window.parent.menuId) >= 0) {
               if (window.parent.numMenus === window.parent.inMenus.length) {
-                tmpMenu.innerHTML = `<span class="badge bg-info">${Joomla.JText._('JALL')}</span>`;
+                tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-info">${Joomla.Text._('JALL')}</span>`);
                 if (tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.remove('no'); }
               } else {
-                tmpMenu.innerHTML = `<span class="badge bg-success">${Joomla.JText._('JYES')}</span>`;
+                tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-success">${Joomla.Text._('JYES')}</span>`);
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
               }
             }
             if (window.parent.inMenus.indexOf(window.parent.menuId) < 0) {
-              tmpMenu.innerHTML = `<span class="badge bg-danger">${Joomla.JText._('JNO')}</span>`;
+              tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-danger">${Joomla.Text._('JNO')}</span>`);
               if (!tmpRow.classList.contains('no')) { tmpRow.classList.add('no'); }
             }
           }
           if (parseInt(updMenus, 10) < 0) {
             if (window.parent.inMenus.indexOf(window.parent.menuId) >= 0) {
               if (window.parent.numMenus === window.parent.inMenus.length) {
-                tmpMenu.innerHTML = `<span class="badge bg-info">${Joomla.JText._('JALL')}</span>`;
+                tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-info">${Joomla.Text._('JALL')}</span>`);
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
               } else {
-                tmpMenu.innerHTML = `<span class="badge bg-success">${Joomla.JText._('JYES')}</span>`;
+                tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-success">${Joomla.Text._('JYES')}</span>`);
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
               }
             }
             if (window.parent.inMenus.indexOf(window.parent.menuId) < 0) {
-              tmpMenu.innerHTML = `<span class="badge bg-danger">${Joomla.JText._('JNO')}</span>`;
+              tmpMenu.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-danger">${Joomla.Text._('JNO')}</span>`);
               if (!tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.add('no'); }
             }
           }
           if (parseInt(updStatus, 10) === 1) {
-            tmpStatus.innerHTML = `<span class="badge bg-success">${Joomla.JText._('JYES')}</span>`;
+            tmpStatus.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-success">${Joomla.Text._('JYES')}</span>`);
             if (tmpRow.classList.contains('unpublished')) { tmpRow.classList.remove('unpublished'); }
           }
           if (parseInt(updStatus, 10) === 0) {
-            tmpStatus.innerHTML = `<span class="badge bg-danger">${Joomla.JText._('JNO')}</span>`;
+            tmpStatus.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-danger">${Joomla.Text._('JNO')}</span>`);
             if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished'); }
           }
           if (parseInt(updStatus, 10) === -2) {
-            tmpStatus.innerHTML = `<span class="badge bg-secondary">${Joomla.JText._('JTRASHED')}</span>`;
+            tmpStatus.innerHTML = Joomla.sanitizeHtml(`<span class="badge bg-secondary">${Joomla.Text._('JTRASHED')}</span>`);
             if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished'); }
           }
           if (document.formvalidator.isValid(document.getElementById('module-form'))) {
             window.parent.document.querySelector(`#title-${options.itemId}`).innerText = updTitle;
             window.parent.document.querySelector(`#position-${options.itemId}`).innerText = updPosition;
-            window.parent.document.querySelector(`#access-${options.itemId}`).innerHTML = window.parent.viewLevels[updAccess];
+            window.parent.document.querySelector(`#access-${options.itemId}`).innerHTML = Joomla.sanitizeHtml(window.parent.viewLevels[updAccess]);
           }
         }
 

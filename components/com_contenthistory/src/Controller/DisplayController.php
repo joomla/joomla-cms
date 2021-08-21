@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * History manager master display controller.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class DisplayController extends BaseController
 {

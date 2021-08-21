@@ -24,7 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
 /**
- * Rest model class for Users.
+ * Reset model class for Users.
  *
  * @since  1.5
  */
@@ -240,6 +240,9 @@ class ResetModel extends FormModel
 		{
 			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
+
+		// Destroy all active sessions for the user
+		UserHelper::destroyUserSessions($user->id);
 
 		// Flush the user data from the session.
 		$app->setUserState('com_users.reset.token', null);

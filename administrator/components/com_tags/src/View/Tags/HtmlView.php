@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('tags.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

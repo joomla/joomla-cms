@@ -47,7 +47,7 @@ if (!$saveHistory)
 }
 
 $html   = array();
-$html[] = '<fieldset><ul class="horizontal-buttons list-unstyled">';
+$html[] = '<fieldset><ul class="list-unstyled">';
 
 foreach ($fields as $field)
 {

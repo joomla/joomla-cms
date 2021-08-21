@@ -59,7 +59,7 @@ class UserListCest
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
 
-		$I->clickToolbarButton("Save");
+		$I->clickToolbarButton("Save & Close");
 		$I->waitForText(UserListPage::$pageTitleText);
 		$I->seeSystemMessage(UserListPage::$successMessage);
 
@@ -138,7 +138,7 @@ class UserListCest
 	 *
 	 * @return  void  The user's form will be filled with given detail
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 *
 	 * @throws Exception
 	 */
@@ -147,7 +147,7 @@ class UserListCest
 		$I->amOnPage('/administrator/index.php?option=com_config');
 		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
 		$I->comment('I open the Server Tab');
-		$I->click('Server');
+		$I->click(['xpath' => "//joomla-tab[@id='configTabs']/div[@role='tablist']/button[@aria-controls='page-server']"]);
 		$I->comment('I click on the switcher to disable sending mails');
 		$I->waitForJS('document.evaluate("//input[@type=\'radio\' and @value=0 and @name=\'jform[mailonline]\']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();return true;');
 		$I->comment('I click on save');

@@ -28,8 +28,8 @@
       minTermLength: 3,
       afterTypeDelay: 500,
       jsonTermKey: "term",
-      keepTypingMsg: Joomla.JText._('JGLOBAL_KEEP_TYPING'),
-      lookingForMsg: Joomla.JText._('JGLOBAL_LOOKING_FOR')
+      keepTypingMsg: Joomla.Text._('JGLOBAL_KEEP_TYPING'),
+      lookingForMsg: Joomla.Text._('JGLOBAL_LOOKING_FOR')
     };
     select = this;
     chosenXhr = null;

@@ -102,22 +102,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php else : ?>
 										<?php echo Text::_($item->update_site_name); ?>
 									<?php endif; ?>
-									<br>
-									<span class="small break-word">
+									<div class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-										<?php if ($item->extra_query): ?>
-											<br><pre><?php echo $item->extra_query; ?></pre>
-										<?php endif; ?>
-									</span>
-									<br>
-									<span class="small break-word">
+									</div>
+									<div class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge bg-info">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge bg-warning text-dark">
+										<span class="badge bg-danger">
 											<span class="hasPopover"
 													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
@@ -126,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											</span>
 										</span>
 										<?php endif; ?>
-									</span>
+									</div>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">

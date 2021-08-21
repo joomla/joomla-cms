@@ -18,7 +18,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for routing errors that should give a 406
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
 {

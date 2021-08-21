@@ -14,24 +14,21 @@ use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-if ($hideLinks)
+if ($hideLinks || $countUnread < 1)
 {
 	return;
 }
 
 $route = 'index.php?option=com_messages&view=messages';
 ?>
-
-<div class="header-item-content">
-	<a class="d-flex align-items-stretch" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
-		<div class="d-flex align-items-end mx-auto">
-			<span class="icon-envelope" aria-hidden="true"></span>
+<a class="header-item-content" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
+	<div class="header-item-icon">
+		<div class="w-auto">
+			<span class="icon-envelope icon-fw" aria-hidden="true"></span>
+			<small class="header-item-count"><?php echo $countUnread; ?></small>
 		</div>
-		<div class="tiny">
-			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
-		</div>
-		<?php if ($countUnread > 0) : ?>
-			<span class="badge bg-danger"><?php echo $countUnread; ?></span>
-		<?php endif; ?>
-	</a>
-</div>
+	</div>
+	<div class="header-item-text">
+		<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
+	</div>
+</a>

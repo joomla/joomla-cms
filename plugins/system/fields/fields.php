@@ -130,7 +130,10 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -219,7 +222,9 @@ class PlgSystemFields extends CMSPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 		$model->cleanupValues($context, $item->id);
 	}
 

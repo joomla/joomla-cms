@@ -57,6 +57,10 @@
 			<option value="t.published DESC">JSTATUS_DESC</option>
 			<option value="t.title ASC">JGLOBAL_NAME_ASC</option>
 			<option value="t.title DESC">JGLOBAL_NAME_DESC</option>
+			<option value="from_stage ASC">COM_WORKFLOW_FROM_STAGE_FILTER_ASC</option>
+			<option value="from_stage DESC">COM_WORKFLOW_FROM_STAGE_FILTER_DESC</option>
+			<option value="to_stage ASC">COM_WORKFLOW_TO_STAGE_FILTER_ASC</option>
+			<option value="to_stage DESC">COM_WORKFLOW_TO_STAGE_FILTER_DESC</option>
 			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

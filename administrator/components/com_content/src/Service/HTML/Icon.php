@@ -68,7 +68,14 @@ class Icon
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
-		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
+		$text = '';
+
+		if ($params->get('show_icons'))
+		{
+			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
+		}
+
+		$text .= Text::_('COM_CONTENT_NEW_ARTICLE');
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -82,9 +89,7 @@ class Icon
 
 		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
-
-		return $output;
+		return $button;
 	}
 
 	/**

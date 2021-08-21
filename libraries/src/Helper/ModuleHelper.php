@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -338,9 +339,9 @@ abstract class ModuleHelper
 		try
 		{
 			// Build the template and base path for the layout
-			$tPath = \JPath::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
-			$iPath = \JPath::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
-			$bPath = \JPath::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
+			$tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
+			$iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
+			$bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
 		}
 		catch (\Exception $e)
 		{

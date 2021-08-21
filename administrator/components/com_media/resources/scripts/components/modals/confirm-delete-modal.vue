@@ -15,7 +15,7 @@
       </h3>
     </template>
     <template #body>
-      <div>
+      <div class="p-3">
         <div class="desc">
           {{ translate('JGLOBAL_CONFIRM_DELETE') }}
         </div>

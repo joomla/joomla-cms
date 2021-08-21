@@ -176,7 +176,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 											<ul><li><?php echo str_replace("\n", '</li><li>', $item->group_names); ?></li></ul>
 										</div>
 									<?php else : ?>
-										<?php echo nl2br($item->group_names); ?>
+										<?php echo nl2br($item->group_names, false); ?>
 									<?php endif; ?>
 								</td>
 								<td class="d-none d-xl-table-cell break-word">

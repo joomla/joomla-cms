@@ -532,17 +532,6 @@
 		/>
 
 		<field
-			name="show_category_heading_title_text"
-			type="radio"
-			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -606,6 +595,17 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -725,7 +725,6 @@
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			filter="integer"
 			default="1"
-			parentclass="stack span-1"
 		/>
 
 		<field
@@ -733,7 +732,6 @@
 			type="text"
 			label="JGLOBAL_BLOG_CLASS_LEADING"
 			validate="CssIdentifier"
-			parentclass="stack span-2-inline"
 		/>
 
 		<field
@@ -742,7 +740,14 @@
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			filter="integer"
 			default="4"
-			parentclass="stack span-1"
+		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
+			validate="CssIdentifier"
 		/>
 
 		<field
@@ -751,7 +756,6 @@
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			filter="integer"
 			default="1"
-			parentclass="stack span-1-inline"
 		/>
 
 		<field
@@ -759,19 +763,11 @@
 			type="list"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			default="0"
-			parentclass="stack span-1-inline"
+			validate="options"
 			>
 			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
 		</field>
-
-		<field
-			name="blog_class"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS"
-			validate="CssIdentifier"
-			parentclass="stack span-2 offset-1"
-		/>
 
 		<field
 			name="num_links"
@@ -779,7 +775,6 @@
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			filter="integer"
 			default="4"
-			parentclass="stack span-1"
 		/>
 
 		<field
@@ -788,7 +783,6 @@
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			default="0"
 			validate="options"
-			parentclass="span-2"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -805,7 +799,6 @@
 			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			parentclass="span-2"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -838,7 +831,7 @@
 			<option value="hide">JHIDE</option>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="author">JAUTHOR</option>
-			<option value="hits">JGLOBAL_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_HITS</option>
 			<option value="tag">JTAG</option>
 			<option value="month">JMONTH_PUBLISHED</option>
 		</field>
@@ -950,8 +943,8 @@
 			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 			<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-			<option value="hits">JGLOBAL_MOST_HITS</option>
-			<option value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+			<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 			<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 			<option value="rorder">JGLOBAL_ARTICLE_MANAGER_REVERSE_ORDER</option>
 			<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
@@ -964,7 +957,6 @@
 			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			showon="orderby_sec:rdate,date"
 			default="published"
 			validate="options"
 			>

@@ -136,11 +136,11 @@ if (count($this->filterForm->getField('context')->options) > 1)
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php if ($item->note) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</span>
+											</div>
 										</div>
 									</th>
 									<td class="small d-none d-md-table-cell">

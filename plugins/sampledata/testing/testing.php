@@ -64,7 +64,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -312,8 +312,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[2],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
-			// TODO: Link invalid now
-			'clickurl'    => 'http://shop.joomla.org/amazoncom-bookstores.html',
+			'clickurl'    => 'https://community.joomla.org/the-joomla-shop.html',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
 			'ordering'    => 1,

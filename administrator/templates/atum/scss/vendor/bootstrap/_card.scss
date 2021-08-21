@@ -19,6 +19,21 @@
   }
 }
 
-.card {
-  box-shadow: $atum-box-shadow;
+.content {
+  .card {
+    box-shadow: $atum-box-shadow;
+  }
+
+  .card-header {
+    display: flex;
+    padding: 1rem 1rem .75rem;
+    font-weight: $font-weight-bold;
+    color: var(--template-bg-dark);
+    background: var(--card-bg);
+
+    > [class^="icon-"],
+    > img {
+      margin-inline-end: .5rem;
+    }
+  }
 }

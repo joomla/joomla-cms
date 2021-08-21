@@ -20,18 +20,12 @@ HTMLHelper::_('behavior.keepalive');
 $this->useCoreUI = true;
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" aria-label="<?php echo Text::_('COM_USERS_GROUP_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" aria-label="<?php echo Text::_('COM_USERS_GROUP_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate">
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USERGROUP_DETAILS')); ?>
-	<div class="card">
-		<div class="card-body">
-			<div class="row">
-				<div class="form-grid">
-					<?php echo $this->form->renderField('title'); ?>
-					<?php echo $this->form->renderField('parent_id'); ?>
-				</div>
-			</div>
-		</div>
+	<div class="form-grid">
+		<?php echo $this->form->renderField('title'); ?>
+		<?php echo $this->form->renderField('parent_id'); ?>
 	</div>
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php $this->ignore_fieldsets = array('group_details'); ?>

@@ -14,7 +14,7 @@ namespace Joomla\CMS\MVC\View;
 /**
  * Exception class defining an error getting data from a model into a view
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class GenericDataException extends \RuntimeException
 {

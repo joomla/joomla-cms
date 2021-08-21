@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -84,7 +84,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @throws  GenericDataException
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -139,7 +141,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -177,7 +179,7 @@ class HtmlView extends BaseHtmlView
 			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}

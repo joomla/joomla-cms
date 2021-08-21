@@ -30,7 +30,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
-  background: var(--atum-bg-light);
+  background: var(--template-bg-light);
 }
 
 .form-select {
@@ -48,6 +48,10 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
+  .logo {
+    max-width: 270px;
+  }
+
   img.logo-small,
   svg.logo-small {
     width: 2rem;
@@ -58,7 +62,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
   }
 }
@@ -108,6 +112,15 @@ body {
 
 .j-install-step-form {
   padding: .65rem 1.2rem;
+
+  // Remove default bootstrap margins in the installer forms.
+  .control-group {
+    margin-bottom: 0;
+
+    .control-label {
+      padding: 0;
+    }
+  }
 }
 
 .languageForm {

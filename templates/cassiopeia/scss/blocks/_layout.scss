@@ -12,23 +12,11 @@
   position: relative;
 }
 
-.container-topbar {
+.container-topbar,
+.container-below-top {
   color: $white;
   a {
     color: currentColor;
-  }
-}
-
-.container-header header .site {
-  background-color: $gray-100;
-
-  > .full-width {
-    max-width: none;
-  }
-
-  .container-footer,
-  .system-debug {
-    display: block;
   }
 }
 
@@ -44,7 +32,7 @@
   position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2) 0;
   }
 
   @include media-breakpoint-down(md) {
@@ -111,4 +99,22 @@
 
 .system-debug {
   display: block;
+}
+
+.options-form {
+  width: 100%;
+  padding: 1vw 2vw;
+  margin-bottom: 1rem;
+  color: #495057;
+  background-color: $white;
+  border: 1px solid #b2bfcd;
+
+  > legend {
+    float: none;
+    width: auto;
+    padding: 0 .5rem;
+    font-weight: 700;
+    color: #495057;
+    background-color: $white;
+  }
 }

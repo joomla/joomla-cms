@@ -109,7 +109,7 @@ class CategoryView extends HtmlView
 	 * The flag to mark if the active menu item is linked to the category being displayed
 	 *
 	 * @var bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $menuItemMatchCategory = false;
 

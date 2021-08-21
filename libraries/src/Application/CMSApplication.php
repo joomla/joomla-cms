@@ -76,7 +76,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $clientId = null;
 
@@ -84,7 +84,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messageQueue = array();
 
@@ -92,7 +92,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The name of the application.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $name = null;
 
@@ -422,7 +422,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
@@ -1391,6 +1391,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
 		}
+
+		// We only log errors unless Site Debug is enabled
+		$logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
+
+		if ($this->get('debug'))
+		{
+			$logLevels = Log::ALL;
+		}
+
+		Log::addLogger(['text_file' => 'joomla_core_errors.php'], $logLevels, ['system']);
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->get('log_everything'))

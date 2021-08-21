@@ -44,18 +44,6 @@
 				/>
 
 				<field
-					name="show_category_heading_title_text"
-					type="list"
-	 				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-					useglobal="true"
-					class="form-select-color-state"
-					validate="options"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
 					name="show_category_title"
 					type="list"
 					label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -124,6 +112,18 @@
 					name="show_no_articles"
 					type="list"
 					label="COM_CONTENT_NO_ARTICLES_LABEL"
+					useglobal="true"
+					class="form-select-color-state"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category_heading_title_text"
+					type="list"
+	 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 					useglobal="true"
 					class="form-select-color-state"
 					validate="options"
@@ -224,6 +224,7 @@
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 				parentclass="stack span-1-inline"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
@@ -310,8 +311,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
 				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>

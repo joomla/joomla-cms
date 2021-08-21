@@ -55,18 +55,16 @@ class ContactController extends ApiController
 	protected $default_view = 'contacts';
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -78,9 +76,7 @@ class ContactController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 
 	/**

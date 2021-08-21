@@ -38,7 +38,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-text">
 						<span class="icon-user" aria-hidden="true"></span>
 						<label for="mod-login-username" class="visually-hidden">
@@ -51,7 +51,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-text">
 						<span class="icon-lock" aria-hidden="true"></span>
 						<label for="mod-login-password" class="visually-hidden">

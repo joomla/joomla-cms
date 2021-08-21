@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_usergrouplist.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_usergrouplist.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_usergrouplist.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_usergrouplist.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -100,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
 										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']); ?>
-										<span class="badge bg-warning text-dark">
+										<span class="badge bg-danger">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
@@ -124,7 +124,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->changelogurl)) : ?>
-										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-bs-toggle="modal">
+										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-sm changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-bs-toggle="modal">
 											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 										</a>
 										<?php
