@@ -33,7 +33,7 @@ class DisplayController extends BaseController
 	 * @var   string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $default_view = 'cronjobs';
+	protected $default_view = 'tasks';
 
 	/**
 	 * @param   boolean  $cachable   If true, the view output will be cached
@@ -53,8 +53,8 @@ class DisplayController extends BaseController
 		{
 			if (!$this->validateEntry())
 			{
-				$cronjobsViewUrl = Route::_('index.php?option=com_scheduler&view=cronjobs');
-				$this->setRedirect($cronjobsViewUrl);
+				$tasksViewUrl = Route::_('index.php?option=com_scheduler&view=tasks');
+				$this->setRedirect($tasksViewUrl);
 
 				return false;
 			}
@@ -84,11 +84,11 @@ class DisplayController extends BaseController
 			case 'edit':
 
 				// True if controller was called and verified permissions
-				$canEdit = $this->checkEditId("${context}.edit.cronjob", $id);
+				$canEdit = $this->checkEditId("$context.edit.task", $id);
 				$isNew = ($id == 0);
 
-				// For new item, entry is invalid if job type was not selected through SelectView
-				if ($isNew && !$this->app->getUserState("${context}.add.cronjob.cronjob_type"))
+				// For new item, entry is invalid if task type was not selected through SelectView
+				if ($isNew && !$this->app->getUserState("$context.add.task.task_type"))
 				{
 					$this->setMessage((Text::_('COM_SCHEDULER_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
 					$isValid = false;

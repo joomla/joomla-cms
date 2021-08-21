@@ -45,7 +45,7 @@ class TaskController extends FormController
 		/** @var AdministratorApplication $app */
 		$app = $this->app;
 		$input = $app->getInput();
-		$validJobOptions = SchedulerHelper::getCronOptions();
+		$validTaskOptions = SchedulerHelper::getTaskOptions();
 
 		$canAdd = parent::add();
 
@@ -54,10 +54,10 @@ class TaskController extends FormController
 			return false;
 		}
 
-		$jobType = $input->get('type');
-		$jobOption = $validJobOptions->findOption($jobType) ?: null;
+		$taskType = $input->get('type');
+		$taskOption = $validTaskOptions->findOption($taskType) ?: null;
 
-		if (!$jobOption)
+		if (!$taskOption)
 		{
 			// ? : Is this the right redirect [review]
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
@@ -66,8 +66,8 @@ class TaskController extends FormController
 			$canAdd = false;
 		}
 
-		$app->setUserState('com_scheduler.add.cronjob.cronjob_type', $jobType);
-		$app->setUserState('com_scheduler.add.cronjob.cronjob_option', $jobOption);
+		$app->setUserState('com_scheduler.add.task.task_type', $taskType);
+		$app->setUserState('com_scheduler.add.task.task_option', $taskOption);
 
 		// @todo : Parameter array handling below?
 
@@ -87,8 +87,8 @@ class TaskController extends FormController
 	{
 		$result = parent::cancel($key);
 
-		$this->app->setUserState('com_scheduler.add.cronjob.cronjob_type', null);
-		$this->app->setUserState('com_scheduler.add.cronjob.cronjob_option', null);
+		$this->app->setUserState('com_scheduler.add.task.task_type', null);
+		$this->app->setUserState('com_scheduler.add.task.task_option', null);
 
 		// ? Do we need to redirect based on URL's 'return' param? {@see ModuleController}
 
@@ -157,7 +157,7 @@ class TaskController extends FormController
 		}
 
 		// @todo : Check if this works as expected
-		return $this->app->getIdentity()->authorise('core.edit', 'com_scheduler.cronjob.' . $recordId);
+		return $this->app->getIdentity()->authorise('core.edit', 'com_scheduler.task.' . $recordId);
 
 	}
 }

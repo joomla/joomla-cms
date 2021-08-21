@@ -20,7 +20,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOptions;
+use Joomla\Component\Scheduler\Administrator\Tasks\TaskOptions;
 use function defined;
 
 /**
@@ -55,7 +55,7 @@ final class SchedulerHelper
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getCronOptions(): TaskOptions
+	public static function getTaskOptions(): TaskOptions
 	{
 		if (self::$cronOptionsCache !== null)
 		{

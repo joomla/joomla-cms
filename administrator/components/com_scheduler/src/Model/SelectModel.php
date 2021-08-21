@@ -19,7 +19,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use function defined;
 
@@ -63,6 +63,6 @@ class SelectModel extends ListModel
 	 */
 	public function getItems(): array
 	{
-		return SchedulerHelper::getCronOptions()->options;
+		return SchedulerHelper::getTaskOptions()->options;
 	}
 }

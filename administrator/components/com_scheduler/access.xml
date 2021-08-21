@@ -9,7 +9,7 @@
 		<action name="core.edit" title="JACTION_EDIT"/>
 		<action name="core.edit.state" title="JACTION_EDITSTATE"/>
 	</section>
-	<section name="cronjob">
+	<section name="task">
 		<action name="core.delete" title="JACTION_DELETE"/>
 		<action name="core.edit" title="JACTION_EDIT"/>
 		<action name="core.edit.state" title="JACTION_EDITSTATE"/>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the MVC controller for CronJobsModel.
+ * Declares the MVC controller for TasksView.
  *
  * @package         Joomla.Administrator
  * @subpackage      com_scheduler
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use function defined;
 
 /**
- * MVC Controller for CronjobsView.
+ * MVC Controller for TasksView.
  *
  * @since  __DEPLOY_VERSION__
  */

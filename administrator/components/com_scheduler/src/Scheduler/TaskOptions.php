@@ -10,7 +10,7 @@
  *
  */
 
-namespace Joomla\Component\Scheduler\Administrator\Cronjobs;
+namespace Joomla\Component\Scheduler\Administrator\Tasks;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -55,24 +55,24 @@ class TaskOptions
 	}
 
 	/**
-	 * @param   ?string  $jobType  A unique identifier for the job routine offered by a plugin
+	 * @param   ?string  $taskType  A unique identifier for the job routine offered by a plugin
 	 *
 	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function findOption(?string $jobType): ?TaskOption
+	public function findOption(?string $taskType): ?TaskOption
 	{
-		if ($jobType === null)
+		if ($taskType === null)
 		{
 			return null;
 		}
 
-		foreach ($this->options as $job)
+		foreach ($this->options as $task)
 		{
-			if ($job->type === $jobType)
+			if ($task->type === $taskType)
 			{
-				return $job;
+				return $task;
 			}
 		}
 

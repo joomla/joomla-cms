@@ -35,7 +35,7 @@ use function sort;
 
 /**
  * MVC Model to interact with the Scheduler DB.
- * Implements methods to add, remove, edit cronjobs.
+ * Implements methods to add, remove, edit tasks.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -68,7 +68,7 @@ class TaskModel extends AdminModel
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $typeAlias = 'com_scheduler.cronjob';
+	public $typeAlias = 'com_scheduler.task';
 
 	/**
 	 * The Application object, for convenience
@@ -125,7 +125,7 @@ class TaskModel extends AdminModel
 		 *  loadFormData() : $data [implemented here] and binds it to the form by calling
 		 *  $form->bind($data).
 		*/
-		$form = $this->loadForm('com_scheduler.cronjob', 'cronjob', ['control' => 'jform', 'load_data' => $loadData]);
+		$form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -134,14 +134,14 @@ class TaskModel extends AdminModel
 
 		$user = $this->app->getIdentity();
 
-		// If new entry, set job type from state
-		if ($this->getState('cronjob.id', 0) === 0 && $this->getState('cronjob.type') !== null)
+		// If new entry, set task type from state
+		if ($this->getState('task.id', 0) === 0 && $this->getState('task.type') !== null)
 		{
-			$form->setValue('type', null, $this->getState('cronjob.type'));
+			$form->setValue('type', null, $this->getState('task.type'));
 		}
 
 		// @todo : Check if this is working as expected for new items (id == 0)
-		if (!$user->authorise('core.edit.state', 'com_scheduler.cronjob.' . $this->getState('job.id')))
+		if (!$user->authorise('core.edit.state', 'com_scheduler.task.' . $this->getState('task.id')))
 		{
 			// Disable fields
 			$form->setFieldAttribute('state', 'disabled', 'true');
@@ -172,7 +172,7 @@ class TaskModel extends AdminModel
 			return false;
 		}
 
-		return $this->app->getIdentity()->authorise('core.delete', 'com.cronjobs.cronjob.' . $record->id);
+		return $this->app->getIdentity()->authorise('core.delete', 'com_scheduler.task.' . $record->id);
 	}
 
 	/**
@@ -187,13 +187,15 @@ class TaskModel extends AdminModel
 	{
 		$app = $this->app;
 
-		$jobId = $app->getInput()->getInt('id');
-		$jobType = $app->getUserState('com_scheduler.add.cronjob.cronjob_type');
-		$jobOption = $app->getUserState('com_scheduler.add.cronjob.cronjob_option');
+		$taskId = $app->getInput()->getInt('id');
+		$taskType = $app->getUserState('com_scheduler.add.task.task_type');
 
-		$this->setState('cronjob.id', $jobId);
-		$this->setState('cronjob.type', $jobType);
-		$this->setState('cronjob.option', $jobOption);
+		// @todo: Remove this. Get the option through a helper call.
+		$taskOption = $app->getUserState('com_scheduler.add.task.task_option');
+
+		$this->setState('task.id', $taskId);
+		$this->setState('task.type', $taskType);
+		$this->setState('task.option', $taskOption);
 
 		// Load component params, though com_scheduler does not (yet) have any params
 		$cParams = ComponentHelper::getParams($this->option);
@@ -229,7 +231,7 @@ class TaskModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		$data = $this->app->getUserState('com_scheduler.edit.cronjob.data', array());
+		$data = $this->app->getUserState('com_scheduler.edit.task.data', array());
 
 		// If the data from UserState is empty, we fetch it with getItem()
 		if (empty($data))
@@ -248,7 +250,7 @@ class TaskModel extends AdminModel
 		}
 
 		// Let plugins manipulate the data
-		$this->preprocessData('com_scheduler.cronjob', $data, 'job');
+		$this->preprocessData('com_scheduler.task', $data, 'job');
 
 		return $data;
 	}
@@ -276,8 +278,8 @@ class TaskModel extends AdminModel
 		$item->set('execution_rules', json_decode($item->get('execution_rules')));
 		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
-		$cronOption = SchedulerHelper::getCronOptions()->findOption(
-			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('cronjob.type')
+		$cronOption = SchedulerHelper::getTaskOptions()->findOption(
+			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
 		);
 
 		$item->set('cronOption', $cronOption);

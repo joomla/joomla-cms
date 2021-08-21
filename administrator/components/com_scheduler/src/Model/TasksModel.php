@@ -312,7 +312,7 @@ class TasksModel extends ListModel
 		}
 
 		// Attach TaskOptions objects and a safe type title
-		$this->attachCronOptions($responseList);
+		$this->attachTaskOptions($responseList);
 
 		// If ordering by non-db fields, we need to sort here in code
 		if ($listOrder == 'j.type_title')
@@ -320,7 +320,7 @@ class TasksModel extends ListModel
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
 		}
 
-		// Filter out orphaned jobs if the state allows
+		// Filter out orphaned tasks if the state allows
 		// ! This breaks pagination at the moment [@todo: fix]
 		$showOrphaned = $this->getState('filter.show_orphaned');
 
@@ -330,7 +330,7 @@ class TasksModel extends ListModel
 				array_filter(
 					$responseList,
 					function (object $c) {
-						return isset($c->cronOption);
+						return isset($c->taskOption);
 					}
 				)
 			);
@@ -349,9 +349,9 @@ class TasksModel extends ListModel
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function attachCronOptions(array &$items): void
+	private function attachTaskOptions(array &$items): void
 	{
-		$cronOptions = SchedulerHelper::getCronOptions();
+		$cronOptions = SchedulerHelper::getTaskOptions();
 
 		foreach ($items as $item)
 		{
