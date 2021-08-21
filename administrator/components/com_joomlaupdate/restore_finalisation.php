@@ -121,8 +121,8 @@ namespace Joomla\CMS\Filesystem
 			/**
 			 * Proxies moving a file to the restore.php version
 			 *
-			 * @param   string   $src         The path to the source file
-			 * @param   string   $dest        The path to the destination file
+			 * @param   string   $src   The path to the source file
+			 * @param   string   $dest  The path to the destination file
 			 *
 			 * @return  boolean  True on success
 			 *
