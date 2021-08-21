@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="4.1" type="plugin" group="system" method="upgrade">
-	<name>Cronjobs</name>
+	<name>PLG_SYSTEM_SCHEDULE_RUNNER</name>
 	<author>Joomla! Projects</author>
 	<creationDate>August 2021</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1</version>
-	<description>PLG_SYSTEM_CRONJOBS_XML_DESCRIPTION</description>
+	<description>PLG_SYSTEM_SCHEDULE_RUNNER_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="cronjobs">cronjobs.php</filename>
+		<filename plugin="schedulerunner">schedulerunner.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_cronjobs.ini</language>
-		<language tag="en-GB">en-GB.plg_system_cronjobs.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_system_schedulerunner.ini</language>
+		<language tag="en-GB">en-GB.plg_system_schedulerunner.sys.ini</language>
 	</languages>
 </extension>

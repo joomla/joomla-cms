@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Joomla.Plugin
- * @subpackage      System.Cronjobs
+ * @subpackage      System.ScheduleRunner
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
@@ -29,11 +29,11 @@ use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * The plugin class for Plg_System_Cronjobs.
+ * The plugin class for Plg_System_Schedulerunner.
  *
  * @since __DEPLOY_VERSION__
  */
-class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
+class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 {
 
 	/**
@@ -41,36 +41,36 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public const JOB_NO_TIME = 1;
+	public const TASK_NO_TIME = 1;
 
 	/**
 	 * Exit Code For lock failure
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public const JOB_NO_LOCK = 2;
+	public const TASK_NO_LOCK = 2;
 
 	/**
 	 * Exit Code For execution failure
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public const JOB_NO_RUN = 3;
+	public const TASK_NO_RUN = 3;
 
 	/**
 	 * Exit Code For execution success
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public const JOB_OK_RUN = 0;
+	public const TASK_OK_RUN = 0;
 
 	/**
-	 * Replacement exit code for job with no exit code
+	 * Replacement exit code for task with no exit code
 	 * ! Removal due
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public const JOB_NO_EXIT = -1;
+	public const TASK_NO_EXIT = -1;
 
 	/**
 	 * @var CMSApplication
@@ -91,7 +91,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Stores the pseudo-cron status
+	 * Stores the schedule runner status
 	 *
 	 * @var string[]
 	 * @since __DEPLOY_VERSION__
@@ -99,9 +99,9 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	protected $snapshot = [];
 
 	private const LOG_TEXT = [
-		self::JOB_OK_RUN => 'PLG_SYSTEM_CRONJOBS_RUN_COMPLETE',
-		self::JOB_NO_LOCK => 'PLG_SYSTEM_CRONJOBS_LOCKED',
-		self::JOB_NO_RUN => 'PLG_SYSTEM_CRONJOBS_UNLOCKED'
+		self::TASK_OK_RUN => 'PLG_SYSTEM_SCHEDULE_RUNNER_RUN_COMPLETE',
+		self::TASK_NO_LOCK => 'PLG_SYSTEM_SCHEDULE_RUNNER_LOCKED',
+		self::TASK_NO_RUN => 'PLG_SYSTEM_SCHEDULE_RUNNER_UNLOCKED'
 	];
 
 	/**
@@ -134,7 +134,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onAfterRespond' => 'executeDueJob'
+			'onAfterRespond' => 'executeDueTask'
 		];
 	}
 
@@ -145,7 +145,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception|RuntimeException
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function executeDueJob(Event $event): void
+	public function executeDueTask(Event $event): void
 	{
 		// We only act on site requests
 		if (!$this->app->isClient('site'))
@@ -168,37 +168,37 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			throw new RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
-		$dueJob = $this->getDueJobs($model)[0] ?? null;
+		$dueTask = $this->getDueTasks($model)[0] ?? null;
 
-		if (!$dueJob)
+		if (!$dueTask)
 		{
 			return;
 		}
 
 		// Log events -- should we use action logger  or this or both?
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-		$options['text_file'] = 'joomla_cronjobs.php';
+		$options['text_file'] = 'joomla_scheduler.php';
 		Log::addLogger($options, Log::INFO, ['scheduler']);
 
-		$jobId = $dueJob->id;
-		$jobTitle = $dueJob->title;
+		$taskId = $dueTask->id;
+		$taskTitle = $dueTask->title;
 
-		// Add job ID, Title etc
+		// Add task ID, Title etc
 		Log::add(
-			Text::sprintf('PLG_SYSTEM_CRONJOBS_START', $jobId, $jobTitle),
+			Text::sprintf('PLG_SYSTEM_SCHEDULE_RUNNER_START', $taskId, $taskTitle),
 			Log::INFO,
 			'scheduler'
 		);
 
-		$jobRun = $this->runJob($dueJob);
+		$taskRun = $this->runTask($dueTask);
 		$status = $this->snapshot['status'];
 		$duration = $this->snapshot['duration'];
 
-		if (!$jobRun)
+		if (!$taskRun)
 		{
 			// TODO: Exit code ?
 			Log::add(
-				Text::sprintf(self::LOG_TEXT[$status], $jobId, 0),
+				Text::sprintf(self::LOG_TEXT[$status], $taskId, 0),
 				Log::INFO,
 				'scheduler'
 			);
@@ -207,24 +207,24 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		}
 
 		Log::add(
-			Text::sprintf(self::LOG_TEXT[$status], $jobId, $duration, 0),
+			Text::sprintf(self::LOG_TEXT[$status], $taskId, $duration, 0),
 			LOG::INFO,
 			'scheduler'
 		);
 	}
 
 	/**
-	 * Fetches due jobs from TasksModel
-	 * ! Orphan filtering + pagination issues in the Model will break this if orphaned jobs exist [TODO]
+	 * Fetches due tasks from TasksModel
+	 * ! Orphan filtering + pagination issues in the Model will break this if orphaned tasks exist [TODO]
 	 *
 	 * @param   TasksModel  $model   The TasksModel
-	 * @param   boolean     $single  If true, only a single job is returned
+	 * @param   boolean     $single  If true, only a single task is returned
 	 *
 	 * @return object[]
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getDueJobs(TasksModel $model, bool $single = true): array
+	private function getDueTasks(TasksModel $model, bool $single = true): array
 	{
 		$model->set('__state_set', true);
 
@@ -255,7 +255,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   object   $cronjob     The cronjob entry
+	 * @param   object   $task        The task entry
 	 * @param   boolean  $scheduling  Respect scheduling settings and state
 	 *                                ! Does nothing
 	 *
@@ -264,17 +264,17 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function runJob(object $cronjob, bool $scheduling = true): bool
+	private function runTask(object $task, bool $scheduling = true): bool
 	{
-		$this->snapshot['jobId'] = $cronjob->id;
-		$this->snapshot['jobTitle'] = $cronjob->title;
-		$this->snapshot['status'] = self::JOB_NO_TIME;
+		$this->snapshot['taskId'] = $task->id;
+		$this->snapshot['taskTitle'] = $task->title;
+		$this->snapshot['status'] = self::TASK_NO_TIME;
 		$this->snapshot['startTime'] = $this->snapshot['startTime'] ?? microtime(true);
 		$this->snapshot['duration'] = 0;
 
-		if (!$setLock = $this->setLock($cronjob))
+		if (!$setLock = $this->setLock($task))
 		{
-			$this->snapshot['status'] = self::JOB_NO_LOCK;
+			$this->snapshot['status'] = self::TASK_NO_LOCK;
 
 			return false;
 		}
@@ -287,47 +287,47 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 			[
 				'eventClass' => 'Joomla\Component\Scheduler\Administrator\Event\CronRunEvent',
 				'subject' => $this,
-				'jobId' => $cronjob->type,
-				'langConstPrefix' => $cronjob->cronOption->langConstPrefix,
-				'params' => json_decode($cronjob->params),
+				'TaskId' => $task->type,
+				'langConstPrefix' => $task->taskOption->langConstPrefix,
+				'params' => json_decode($task->params),
 			]
 		);
 
-		// TODO: test -- can use exception handling here to prevent locked jobs
-		PluginHelper::importPlugin('job');
+		// TODO: test -- can use exception handling here to prevent locked tasks
+		PluginHelper::importPlugin('task');
 		$app->getDispatcher()->dispatch('onCronRun', $event);
 
-		if (!$this->releaseLock($cronjob, $event->getResultSnapshot()))
+		if (!$this->releaseLock($task, $event->getResultSnapshot()))
 		{
-			$this->snapshot['status'] = self::JOB_NO_RUN;
+			$this->snapshot['status'] = self::TASK_NO_RUN;
 
 			return false;
 		}
 
 		$this->snapshot['endTime'] = microtime(true);
-		$this->snapshot['status'] = self::JOB_OK_RUN;
+		$this->snapshot['status'] = self::TASK_OK_RUN;
 		$this->snapshot['duration'] = $this->snapshot['endTime'] - $this->snapshot['startTime'];
 
 		return true;
 	}
 
 	/**
-	 * @param   object  $cronjob  The cronjob entry
+	 * @param   object  $task  The task entry
 	 *
 	 * @return boolean  True on success
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function setLock(object $cronjob): bool
+	private function setLock(object $task): bool
 	{
 		$db = $this->db;
 		$query = $db->getQuery(true);
 
-		$query->update($db->qn('#__scheduler_tasks', 'j'))
-			->set('j.locked = 1')
-			->where($db->qn('j.id') . ' = :jobId')
-			->where($db->qn('j.locked') . ' = 0')
-			->bind(':jobId', $cronjob->id, ParameterType::INTEGER);
+		$query->update($db->qn('#__scheduler_tasks', 't'))
+			->set('t.locked = 1')
+			->where($db->qn('t.id') . ' = :taskId')
+			->where($db->qn('t.locked') . ' = 0')
+			->bind(':taskId', $task->id, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
@@ -339,8 +339,8 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   object   $cronjob     The cronjob entry
-	 * @param   ?array   $snapshot    The job snapshot, optional
+	 * @param   object   $task        The task entry
+	 * @param   ?array   $snapshot    The task snapshot, optional
 	 * @param   boolean  $scheduling  Respect scheduling settings and state
 	 *                                ! Does nothing
 	 *
@@ -349,16 +349,16 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function releaseLock(object $cronjob, array $snapshot = null, bool $scheduling = true): bool
+	private function releaseLock(object $task, array $snapshot = null, bool $scheduling = true): bool
 	{
 		$db = $this->db;
 
 		$releaseQuery = $db->getQuery(true);
 		$releaseQuery->update($db->qn('#__scheduler_tasks', 'j'))
-			->set('locked = 0')
-			->where($db->qn('id') . ' = :jobId')
-			->where($db->qn('locked') . ' = 1')
-			->bind(':jobId', $cronjob->id, ParameterType::INTEGER);
+			->set('j.locked = 0')
+			->where($db->qn('j.id') . ' = :taskId')
+			->where($db->qn('j.locked') . ' = 1')
+			->bind(':taskId', $task->id, ParameterType::INTEGER);
 		$db->setQuery($releaseQuery)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
@@ -369,29 +369,29 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 
 		$updateQuery = $db->getQuery(true);
 
-		$jobId = $cronjob->get('id');
-		$ruleType = $cronjob->get('cron_rules');
-		$nextExec = (new ExecRuleHelper($cronjob))->nextExec();
-		$exitCode = $snapshot['status'] ?? self::JOB_NO_EXIT;
+		$taskId = $task->get('id');
+		$ruleType = $task->get('cron_rules');
+		$nextExec = (new ExecRuleHelper($task))->nextExec();
+		$exitCode = $snapshot['status'] ?? self::TASK_NO_EXIT;
 		$now = Factory::getDate('now', 'GMT')->toSql();
 
 		/*
-		 * [TODO] Failed status - should go in runJob()
+		 * [TODO] Failed status - should go in runTask()
 		 */
-		$updateQuery->update($db->qn('#__scheduler_tasks', 'j'))
+		$updateQuery->update($db->qn('#__scheduler_tasks', 't'))
 			->set(
 				[
-					'j.last_execution = :now',
-					'j.next_execution = :nextExec',
-					'j.last_exit_code = :exitCode',
-					'j.times_executed = j.times_executed + 1'
+					't.last_execution = :now',
+					't.next_execution = :nextExec',
+					't.last_exit_code = :exitCode',
+					't.times_executed = t.times_executed + 1'
 				]
 			)
-			->where('j.id = :jobId')
+			->where('t.id = :taskId')
 			->bind(':nextExec', $nextExec)
 			->bind(':exitCode', $exitCode, ParameterType::INTEGER)
 			->bind(':now', $now)
-			->bind(':jobId', $jobId, ParameterType::INTEGER);
+			->bind(':taskId', $taskId, ParameterType::INTEGER);
 		$db->setQuery($updateQuery)->execute();
 
 		if (!$affRow = $db->getAffectedRows())
