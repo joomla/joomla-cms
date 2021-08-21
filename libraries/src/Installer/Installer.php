@@ -1709,10 +1709,10 @@ class Installer extends Adapter
 
 				if (!file_exists($filesource))
 				{
-					// The source file / folder does not exist. Nothing to copy so set an error
+					// The source file / folder does not exist. Nothing to copy so set an error.
 					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), Log::WARNING, 'jerror');
 
-					// Okay to ignore missing folder - it maybe an empty folder in the zip file
+					// Okay to ignore missing folder - it maybe an empty folder in the zip file.
 					if ($filetype === 'folder')
 					{
 						continue;
