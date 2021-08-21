@@ -34,22 +34,20 @@ document.addEventListener('joomla:updated', initTemplate);
  */
 const backToTopButton = document.getElementById('back-top');
 if (backToTopButton) {
-  const toggleBackToTopButton = () => {
-    if (backToTopButton) {
-      backToTopButton.classList.toggle('visible');
-    }
-  };
-
   backToTopButton.addEventListener('click', (event) => {
     event.preventDefault();
     window.scrollTo(0, 0);
   });
 
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(toggleBackToTopButton);
-    observer.observe(document.querySelector('.header.container-header'));
+    (new IntersectionObserver(() => { backToTopButton.classList.toggle('visible'); }))
+    .observe(document.querySelector('.header.container-header'));
   } else {
-    backToTopButton.classList.add('visible');
+    // Remove once 2018 browsers are the minimum supported on Joomla
+    window.addEventListener('scroll', () => {
+      const method = document.body.scrollTop > 20 || document.documentElement.scrollTop > 20 ? 'add' : 'remove';
+      backToTopButton.classList[method]('visible');
+    }, { passive: true });
   }
 }
 
