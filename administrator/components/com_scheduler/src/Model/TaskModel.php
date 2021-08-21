@@ -94,8 +94,8 @@ class TaskModel extends AdminModel
 		$config['events_map'] = $config['events_map'] ?? [];
 		$config['events_map'] = array_merge(
 			[
-				'save' => 'job',
-				'validate' => 'job'
+				'save' => 'task',
+				'validate' => 'task'
 			],
 			$config['events_map']
 		);
@@ -250,7 +250,7 @@ class TaskModel extends AdminModel
 		}
 
 		// Let plugins manipulate the data
-		$this->preprocessData('com_scheduler.task', $data, 'job');
+		$this->preprocessData('com_scheduler.task', $data, 'task');
 
 		return $data;
 	}
@@ -457,8 +457,8 @@ class TaskModel extends AdminModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content'): void
 	{
-		// Load the 'job' plugin group
-		PluginHelper::importPlugin('job');
+		// Load the 'task' plugin group
+		PluginHelper::importPlugin('task');
 
 		// Let the parent method take over
 		parent::preprocessForm($form, $data, $group);

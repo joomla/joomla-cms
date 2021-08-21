@@ -28,15 +28,15 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use function defined;
 
 /**
- * The MVC View Select
- * Lets the user choose from a list of plugin defined Job routines.
+ * The MVC View SelectView
+ * Lets the user choose from a list of plugin defined task routines.
  *
  * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var AdministratorApplication
+	 * @var  AdministratorApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
 	 *                          layout: the layout (optional) to use to display the view
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = [])
@@ -89,9 +89,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null): void
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 		/*
 		* Get the global Toolbar instance
 		* @todo : Replace usage with ToolbarFactoryInterface. but how?
-		 *       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
+		*       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
 		*/
 		$toolbar = Toolbar::getInstance();
 
@@ -144,7 +144,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add help button
-		$toolbar->help('JHELP_COMPONENTS_CRONJOBS_MANAGER');
-
+		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
 }

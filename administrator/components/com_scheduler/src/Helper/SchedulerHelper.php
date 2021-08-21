@@ -7,7 +7,6 @@
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
- *
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
@@ -34,35 +33,35 @@ final class SchedulerHelper
 	/**
 	 * Cached TaskOptions object
 	 *
-	 * @var TaskOptions
+	 * @var  TaskOptions
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $cronOptionsCache = null;
+	protected static $taskOptionsCache = null;
 
 	/**
 	 * Private constructor to prevent instantiation
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function __construct()
 	{
 	}
 
 	/**
-	 * Returns available jobs as a TaskOptions object
+	 * Returns available task routines as a TaskOptions object.
 	 *
-	 * @return TaskOptions  A TaskOptions object populated with jobs offered by plugins
-	 * @throws Exception
+	 * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
+	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getTaskOptions(): TaskOptions
 	{
-		if (self::$cronOptionsCache !== null)
+		if (self::$taskOptionsCache !== null)
 		{
-			return self::$cronOptionsCache;
+			return self::$taskOptionsCache;
 		}
 
-		/**@var AdministratorApplication $app */
+		/**@var  AdministratorApplication  $app */
 		$app = Factory::getApplication();
 		$options = new TaskOptions;
 		$event = AbstractEvent::create(
@@ -72,10 +71,10 @@ final class SchedulerHelper
 			]
 		);
 
-		PluginHelper::importPlugin('job');
+		PluginHelper::importPlugin('task');
 		$app->getDispatcher()->dispatch('onCronOptionsList', $event);
 
-		self::$cronOptionsCache = $options;
+		self::$taskOptionsCache = $options;
 
 		return $options;
 	}

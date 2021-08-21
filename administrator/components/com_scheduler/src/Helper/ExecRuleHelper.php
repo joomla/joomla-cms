@@ -42,7 +42,7 @@ class ExecRuleHelper
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $cronjob;
+	private $task;
 
 	/**
 	 * @var object
@@ -51,14 +51,14 @@ class ExecRuleHelper
 	private $rule;
 
 	/**
-	 * @param   array|object  $cronjob  A cronjob entry
+	 * @param   array|object  $task  A task entry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($cronjob)
+	public function __construct($task)
 	{
-		$this->cronjob = is_array($cronjob) ? $cronjob : ArrayHelper::fromObject($cronjob);
-		$rule = $this->getFromCronjob('cron_rules');
+		$this->task = is_array($task) ? $task : ArrayHelper::fromObject($task);
+		$rule = $this->getFromTask('cron_rules');
 		$this->rule = is_string($rule)
 			? json_decode($rule)
 			: (is_array($rule) ? (object) $rule : $rule);
@@ -66,7 +66,7 @@ class ExecRuleHelper
 	}
 
 	/**
-	 * Get a property from the cronjob array
+	 * Get a property from the task array
 	 *
 	 * @param   string  $property  The property to get
 	 * @param   mixed   $default   The default value returned if property does not exist
@@ -75,9 +75,9 @@ class ExecRuleHelper
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function getFromCronjob(string $property, $default = null)
+	private function getFromTask(string $property, $default = null)
 	{
-		$property = ArrayHelper::getValue($this->cronjob, $property);
+		$property = ArrayHelper::getValue($this->task, $property);
 
 		return $property ?? $default;
 	}
@@ -96,7 +96,7 @@ class ExecRuleHelper
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = Factory::getDate($this->getFromCronjob('last_execution'), 'GMT');
+				$lastExec = Factory::getDate($this->getFromTask('last_execution'), 'GMT');
 				$interval = new DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;

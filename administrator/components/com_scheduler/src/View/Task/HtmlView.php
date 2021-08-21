@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Scheduler\Administrator\View\Cronjob;
+namespace Joomla\Component\Scheduler\Administrator\View\Task;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -107,9 +107,8 @@ class HtmlView extends BaseHtmlView
 		 */
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
-
 		$this->state = $this->get('State');
-		$this->canDo = ContentHelper::getActions('com_scheduler', 'cronjob', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_scheduler', 'task', $this->item->id);
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -120,12 +119,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar(): void
 	{
-		$app = Factory::getApplication();
+		$app = $this->app;
 
 		$app->getInput()->set('hidemainmenu', true);
 		$user = $app->getIdentity();
@@ -138,20 +136,20 @@ class HtmlView extends BaseHtmlView
 		// Goes into ToolbarHelper::saveGroup()
 		$toolbarButtons = [];
 
-		// For a new cronjob, check if user has 'core.create' access
+		// For a new task, check if user has 'core.create' access
 		if ($isNew && $canDo->get('core.create'))
 		{
-			// The cronjob.apply task maps to the save() method in TaskController
-			ToolbarHelper::apply('cronjob.apply');
+			// The task.apply task maps to the save() method in TaskController
+			ToolbarHelper::apply('task.apply');
 
-			$toolbarButtons[] = ['save', 'cronjob.save'];
+			$toolbarButtons[] = ['save', 'task.save'];
 		}
 		else
 		{
 			if (!$isNew && $canDo->get('core.edit'))
 			{
-				ToolbarHelper::apply('cronjob.apply');
-				$toolbarButtons[] = ['save', 'cronjob.save'];
+				ToolbarHelper::apply('task.apply');
+				$toolbarButtons[] = ['save', 'task.save'];
 
 				// @todo | ? : Do we need save2new and save2copy? If yes, need to support in the Model,
 				// 			  here and the Controller.
@@ -162,7 +160,7 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons
 		);
 
-		ToolbarHelper::cancel('cronjob.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		ToolbarHelper::cancel('task.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		ToolbarHelper::help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
-
 }
