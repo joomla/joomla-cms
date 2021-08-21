@@ -74,7 +74,7 @@ class TaskTable extends Table
 
 		$this->setColumnAlias('published', 'state');
 
-		parent::__construct('#__cronjobs', 'id', $db);
+		parent::__construct('#__scheduler_tasks', 'id', $db);
 	}
 
 	/**

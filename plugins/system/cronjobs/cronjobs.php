@@ -323,7 +323,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$db = $this->db;
 		$query = $db->getQuery(true);
 
-		$query->update($db->qn('#__cronjobs', 'j'))
+		$query->update($db->qn('#__scheduler_tasks', 'j'))
 			->set('j.locked = 1')
 			->where($db->qn('j.id') . ' = :jobId')
 			->where($db->qn('j.locked') . ' = 0')
@@ -354,7 +354,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		$db = $this->db;
 
 		$releaseQuery = $db->getQuery(true);
-		$releaseQuery->update($db->qn('#__cronjobs', 'j'))
+		$releaseQuery->update($db->qn('#__scheduler_tasks', 'j'))
 			->set('locked = 0')
 			->where($db->qn('id') . ' = :jobId')
 			->where($db->qn('locked') . ' = 1')
@@ -378,7 +378,7 @@ class PlgSystemCronjobs extends CMSPlugin implements SubscriberInterface
 		/*
 		 * [TODO] Failed status - should go in runJob()
 		 */
-		$updateQuery->update($db->qn('#__cronjobs', 'j'))
+		$updateQuery->update($db->qn('#__scheduler_tasks', 'j'))
 			->set(
 				[
 					'j.last_execution = :now',
