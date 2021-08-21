@@ -21,7 +21,7 @@
 		<field
 			name="type"
 			type="JobType"
-			label="COM_SCHEDULER_HEADING_JOB_TYPE"
+			label="COM_SCHEDULER_HEADING_TASK_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_SCHEDULER_SELECT_TYPE</option>

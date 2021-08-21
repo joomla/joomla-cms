@@ -3,7 +3,7 @@
  * A test plugin for com_scheduler.
  *
  * @package       Joomla.Plugins
- * @subpackage    System.TestJob
+ * @subpackage    Task.Testtasks
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
@@ -24,7 +24,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since __DEPLOY__VERSION__
  */
-class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
+class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -33,13 +33,13 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private const TASKS_MAP = [
-		'job1' => [
-			'langConstPrefix' => 'PLG_JOB_TESTJOB_JOB1',
-			'form' => 'testJobForm'
+		'routine_1' => [
+			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_1',
+			'form' => 'testTaskForm'
 		],
-		'job2' => [
-			'langConstPrefix' => 'PLG_JOB_TESTJOB_JOB2',
-			'form' => 'testJobForm'
+		'routine_2' => [
+			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_2',
+			'form' => 'testTaskForm'
 		]
 	];
 
@@ -58,7 +58,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_scheduler.cronjob'
+		'com_scheduler.task'
 	];
 
 	/**
@@ -71,7 +71,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseJobs',
+			'onCronOptionsList' => 'advertiseRoutines',
 			'onCronRun' => 'cronSampleRoutine',
 			'onContentPrepareForm' => 'manipulateForms'
 		];
@@ -80,10 +80,10 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	/**
 	 * @param   CronRunEvent  $event  onCronRun Event
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @throws Exception
-	 * @since __DEPLOY_VERSION
+	 * @throws  Exception
+	 * @since  __DEPLOY_VERSION
 	 */
 	public function cronSampleRoutine(CronRunEvent $event): void
 	{
@@ -91,7 +91,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 		{
 			$this->taskStart();
 
-			// Access to job parameters
+			// Access to task parameters
 			$params = $event->getArgument('params');
 
 			// Plugin does whatever it wants
@@ -106,10 +106,10 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 	/**
 	 * @param   Event  $event  The onContentPrepareForm event.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function manipulateForms(Event $event): void
 	{
@@ -119,7 +119,7 @@ class PlgJobTestjob extends CMSPlugin implements SubscriberInterface
 
 		$context = $form->getName();
 
-		if ($context === 'com_scheduler.cronjob')
+		if ($context === 'com_scheduler.task')
 		{
 			$this->enhanceTaskItemForm($form, $data);
 		}

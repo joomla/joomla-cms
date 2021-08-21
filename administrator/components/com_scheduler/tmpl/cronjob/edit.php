@@ -18,9 +18,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
-use Joomla\Component\Scheduler\Administrator\View\Cronjob\HtmlView;
+use Joomla\Component\Scheduler\Administrator\View\Task\HtmlView;
 
-/** @var HtmlView $this */
+/** @var  HtmlView  $this */
 
 $wa = $this->document->getWebAssetManager();
 
@@ -82,7 +82,7 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 					</div>
 					<!-- If JobOption does not exist -->
 				<?php else:
-					$app->enqueueMessage(Text::_('COM_SCHEDULER_WARNING_EXISTING_JOB_TYPE_NOT_FOUND'), 'warning');
+					$app->enqueueMessage(Text::_('COM_SCHEDULER_WARNING_EXISTING_TASK_TYPE_NOT_FOUND'), 'warning');
 					?>
 				<?php endif; ?>
 				<fieldset class="options-form">

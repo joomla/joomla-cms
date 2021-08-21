@@ -69,7 +69,7 @@ class TaskTable extends Table
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_scheduler.cronjob';
+		$this->typeAlias = 'com_scheduler.task';
 		$this->created = Factory::getDate()->toSql();
 
 		$this->setColumnAlias('published', 'state');
@@ -155,7 +155,7 @@ class TaskTable extends Table
 	{
 		$k = $this->_tbl_key;
 
-		return 'com_scheduler.cronjob.' . (int) $this->$k;
+		return 'com_scheduler.task.' . (int) $this->$k;
 	}
 
 }

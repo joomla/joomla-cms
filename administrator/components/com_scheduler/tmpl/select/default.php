@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\View\Select\HtmlView;
 
-/** @var HtmlView $this */
+/** @var  HtmlView  $this */
 
 $app = $this->app;
 
