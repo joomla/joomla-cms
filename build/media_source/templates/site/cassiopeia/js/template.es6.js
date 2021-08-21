@@ -5,7 +5,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
- const initTemplate = (event = { target: document }) => {
+const initTemplate = (event = { target: document }) => {
   /**
    * Prevent clicks on buttons within a disabled fieldset
    */
