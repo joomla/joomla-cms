@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Scheduler\Administrator\View\Cronjobs;
+namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of items
 	 *
-	 * @var   array
+	 * @var  array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var   Pagination
+	 * @var  Pagination
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var   CMSObject
+	 * @var  CMSObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * A Form object for search filters
 	 *
-	 * @var   Form
+	 * @var  Form
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active search filters
 	 *
-	 * @var   array
+	 * @var  array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var   boolean
+	 * @var  boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $isEmptyState = false;
@@ -96,9 +96,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -134,9 +134,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -149,7 +149,7 @@ class HtmlView extends BaseHtmlView
 		* Get the toolbar object instance
 		* !! @todo : Replace usage with ToolbarFactoryInterface
 		*/
-		$toolbar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
@@ -163,7 +163,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
-			/** @var DropdownButton $dropdown */
+			/** @var  DropdownButton  $dropdown */
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->toggleSplit(false)
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -176,13 +176,13 @@ class HtmlView extends BaseHtmlView
 			// Add the batch Enable, Disable and Trash buttons if privileged
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->addNew('cronjobs.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
-				$childBar->addNew('cronjobs.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
+				$childBar->addNew('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
+				$childBar->addNew('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
 
 				// We don't want the batch Trash button if displayed entries are all trashed
 				if ($this->state->get('filter.state') != -2)
 				{
-					$childBar->trash('cronjobs.trash')->listCheck(true);
+					$childBar->trash('tasks.trash')->listCheck(true);
 				}
 			}
 		}
@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
 		// Add "Empty Trash" button if filtering by trashed.
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$toolbar->delete('cronjobs.delete')
+			$toolbar->delete('tasks.delete')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->listCheck(true);
@@ -202,6 +202,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_scheduler');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_CRONJOBS_MANAGER');
+		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
 }
