@@ -9,7 +9,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Scheduler\Administrator\Cronjobs;
+namespace Joomla\Component\Scheduler\Administrator\Tasks;
 
 // Restrict direct access
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 
 /**
  * The TaskOption class.
- * Each plugin supporting jobs calls the TaskOptions addOptions() method with an array of TaskOption constructor argument pairs as argument.
+ * Each plugin supporting tasks calls the TaskOptions addOptions() method with an array of TaskOption constructor argument pairs as argument.
  * Internally, the TaskOption object generates the job title and description from the language constant prefix.
  *
  * @since  __DEPLOY_VERSION__

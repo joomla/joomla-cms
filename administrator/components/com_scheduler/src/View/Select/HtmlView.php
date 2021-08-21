@@ -24,7 +24,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
 use function defined;
 
 /**

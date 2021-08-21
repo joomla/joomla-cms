@@ -8,7 +8,7 @@
 	<description>
 		COM_SCHEDULER_XML_DESCRIPTION
 	</description>
-	<namespace path="src">Joomla\Component\Cronjobs</namespace>
+	<namespace path="src">Joomla\Component\Scheduler</namespace>
 	<media destination=">" folder="media">
 		<folder>js</folder>
 		<folder>css</folder>

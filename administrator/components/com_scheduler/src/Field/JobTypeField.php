@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Scheduler\Administrator\Cronjobs\TaskOption;
+use Joomla\Component\Scheduler\Administrator\Tasks\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Utilities\ArrayHelper;
 use function array_map;
@@ -51,7 +51,7 @@ class JobTypeField extends ListField
 
 		// Get all available job types and sort by title
 		$types = ArrayHelper::sortObjects(
-			SchedulerHelper::getCronOptions()->options,
+			SchedulerHelper::getTaskOptions()->options,
 			'title', 1
 		);
 

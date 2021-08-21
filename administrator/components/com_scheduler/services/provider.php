@@ -22,10 +22,10 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The cronjobs service provider.
+ * The com_scheduler service provider.
  * Returns an instance of the Component's Service Provider Interface
- * used to register the components initializers into it's DI container
- * created by Joomla.
+ * used to register the components initializers into a DI container
+ * created by the application.
  *
  * @since  __DEPLOY_VERSION__
  */
