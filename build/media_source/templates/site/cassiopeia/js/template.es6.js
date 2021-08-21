@@ -35,7 +35,7 @@ if (backToTopButton) {
 
   if ('IntersectionObserver' in window) {
     (new IntersectionObserver(() => { backToTopButton.classList.toggle('visible'); }))
-    .observe(document.querySelector('.header.container-header'));
+      .observe(document.querySelector('.header.container-header'));
   } else {
     // Remove once 2018 browsers are the minimum supported on Joomla
     window.addEventListener('scroll', () => {
