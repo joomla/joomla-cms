@@ -40,14 +40,17 @@ if (backToTopButton) {
     }
   };
 
-  const observer = new IntersectionObserver(toggleBackToTopButton);
-
   backToTopButton.addEventListener('click', (event) => {
     event.preventDefault();
     window.scrollTo(0, 0);
   });
 
-  observer.observe(document.querySelector('.header.container-header'));
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(toggleBackToTopButton);
+    observer.observe(document.querySelector('.header.container-header'));
+  } else {
+    backToTopButton.classList.add('visible');
+  }
 }
 
 // Lazyloaded stylesheets
