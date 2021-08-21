@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access as AccessCheck;
 use Joomla\CMS\Factory;
@@ -178,8 +178,8 @@ abstract class Access
 				// Build the HTML for the item.
 				$html[] = '	<div class="control-group">';
 				$html[] = '		<div class="controls">';
-				$html[] = '			<label class="checkbox" for="' . $eid . '">';
-				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
+				$html[] = '			<label class="form-check-label checkbox" for="' . $eid . '">';
+				$html[] = '			<input class="form-check-input" type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 				$html[] = '					' . $checked . $rel . '>';
 				$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
 				$html[] = '			</label>';

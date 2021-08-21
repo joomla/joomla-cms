@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,12 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
+use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
@@ -44,7 +48,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Application service provider
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Application implements ServiceProviderInterface
 {
@@ -55,7 +59,7 @@ class Application implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -144,19 +148,23 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						SessionGcCommand::getDefaultName()          => SessionGcCommand::class,
-						SessionMetadataGcCommand::getDefaultName()  => SessionMetadataGcCommand::class,
-						ExportCommand::getDefaultName()             => ExportCommand::class,
-						ImportCommand::getDefaultName()             => ImportCommand::class,
-						SiteDownCommand::getDefaultName()           => SiteDownCommand::class,
-						SiteUpCommand::getDefaultName()             => SiteUpCommand::class,
-						SetConfigurationCommand::getDefaultName()   => SetConfigurationCommand::class,
-						GetConfigurationCommand::getDefaultName()   => GetConfigurationCommand::class,
-						ExtensionsListCommand::getDefaultName()     => ExtensionsListCommand::class,
-						CheckJoomlaUpdatesCommand::getDefaultName() => CheckJoomlaUpdatesCommand::class,
-						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
-						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
-						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
+						SessionGcCommand::getDefaultName()                 => SessionGcCommand::class,
+						SessionMetadataGcCommand::getDefaultName()         => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()                    => ExportCommand::class,
+						ImportCommand::getDefaultName()                    => ImportCommand::class,
+						SiteDownCommand::getDefaultName()                  => SiteDownCommand::class,
+						SiteUpCommand::getDefaultName()                    => SiteUpCommand::class,
+						SetConfigurationCommand::getDefaultName()          => SetConfigurationCommand::class,
+						GetConfigurationCommand::getDefaultName()          => GetConfigurationCommand::class,
+						ExtensionsListCommand::getDefaultName()            => ExtensionsListCommand::class,
+						CheckJoomlaUpdatesCommand::getDefaultName()        => CheckJoomlaUpdatesCommand::class,
+						ExtensionRemoveCommand::getDefaultName()           => ExtensionRemoveCommand::class,
+						ExtensionInstallCommand::getDefaultName()          => ExtensionInstallCommand::class,
+						ExtensionDiscoverCommand::getDefaultName()  	   => ExtensionDiscoverCommand::class,
+						ExtensionDiscoverInstallCommand::getDefaultName()  => ExtensionDiscoverInstallCommand::class,
+						ExtensionDiscoverListCommand::getDefaultName()     => ExtensionDiscoverListCommand::class,
+						UpdateCoreCommand::getDefaultName()                => UpdateCoreCommand::class,
+						FinderIndexCommand::getDefaultName()               => FinderIndexCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

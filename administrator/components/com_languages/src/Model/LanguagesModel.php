@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -224,14 +224,14 @@ class LanguagesModel extends ListModel
 	/**
 	 * Custom clean cache method, 2 places for 2 clients.
 	 *
-	 * @param   string   $group      Optional cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Optional cache group name.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('_system');
 		parent::cleanCache('com_languages');

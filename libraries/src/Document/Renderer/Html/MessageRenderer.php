@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,14 +46,17 @@ class MessageRenderer extends DocumentRenderer
 		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 		}
 
 		if (\function_exists('renderMessage'))
 		{
-			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'renderMessage() is deprecated. Override system message rendering with layouts instead.',
+				E_USER_DEPRECATED
+			);
 
 			return renderMessage($msgList);
 		}

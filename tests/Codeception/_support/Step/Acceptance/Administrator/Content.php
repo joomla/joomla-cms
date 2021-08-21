@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -137,7 +137,7 @@ class Content extends Admin
 			$I->clickToolbarButton('unpublish');
 		}
 
-		$I->filterByCondition($title, "Unpublished");
+		$I->filterByCondition($title, "0");
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Content extends Admin
 			$I->clickToolbarButton('publish');
 		}
 
-		$I->filterByCondition($title, "Published");
+		$I->filterByCondition($title, "1");
 	}
 
 	/**
@@ -202,7 +202,7 @@ class Content extends Admin
 			$I->clickToolbarButton('trash');
 		}
 
-		$I->filterByCondition($title, "Trashed");
+		$I->filterByCondition($title, "-2");
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Content extends Admin
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
 		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
-		$I->filterByCondition($title, "Trashed");
+		$I->filterByCondition($title, "-2");
 		$I->searchForArticle($title);
 		$I->checkAllResults();
 		$I->clickToolbarButton('empty trash');
@@ -241,9 +241,15 @@ class Content extends Admin
 	public function filterByCondition($title, $condition)
 	{
 		$I = $this;
-		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
+
+		// Make sure that the class js-stools-container-filters is visible. 
+		// Filter is a toggle button and I never know what happened before.
+		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+			el.classList.add('js-stools-container-filters-visible');
+		  });");
+		$I->selectOption('//*[@id="filter_published"]', $condition);
 		$I->wait(2);
-		$I->selectOptionInChosenByIdUsingJs('filter_published', $condition);
+
 		$I->see($title);
 	}
 }

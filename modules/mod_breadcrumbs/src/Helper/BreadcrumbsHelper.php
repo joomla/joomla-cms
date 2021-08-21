@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 /**
@@ -38,7 +37,7 @@ class BreadcrumbsHelper
 	{
 		// Get the PathWay object from the application
 		$pathway = $app->getPathway();
-		$items   = $pathway->getPathWay();
+		$items   = $pathway->getPathway();
 		$lang    = $app->getLanguage();
 		$menu    = $app->getMenu();
 
@@ -57,18 +56,18 @@ class BreadcrumbsHelper
 		// Don't use $items here as it references JPathway properties directly
 		$crumbs = array();
 
-		for ($i = 0; $i < $count; $i ++)
+		for ($i = 0; $i < $count; $i++)
 		{
 			$crumbs[$i]       = new \stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = Route::_($items[$i]->link);
+			$crumbs[$i]->link = $items[$i]->link;
 		}
 
 		if ($params->get('showHome', 1))
 		{
 			$item       = new \stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-			$item->link = Route::_('index.php?Itemid=' . $home->id);
+			$item->link = 'index.php?Itemid=' . $home->id;
 			array_unshift($crumbs, $item);
 		}
 

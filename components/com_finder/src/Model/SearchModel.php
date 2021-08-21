@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -260,7 +260,7 @@ class SearchModel extends ListModel
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->includedTerms) && $this->searchquery->empty)
+		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			// Return the results.
 			return $query;
@@ -269,8 +269,11 @@ class SearchModel extends ListModel
 		/*
 		 * If there are no optional or required search terms in the query and
 		 * empty searches are not allowed, we return an empty query.
+		 * If the search term is not empty and empty searches are allowed,
+		 * but no terms were found, we return an empty query as well.
 		 */
-		if (empty($this->includedTerms) && !$this->searchquery->empty)
+		if (empty($this->includedTerms)
+			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
 		{
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
@@ -283,7 +286,7 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$included = call_user_func_array('array_merge', $this->includedTerms);
+		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
 		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 
@@ -391,7 +394,7 @@ class SearchModel extends ListModel
 		$options['filter'] = $request->getInt('f', $params->get('f', ''));
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = $request->get('t', $params->get('t', array()), '', 'array');
+		$options['filters'] = $request->get('t', $params->get('t', array()), 'array');
 
 		// Get the query string.
 		$options['input'] = $request->getString('q', $params->get('q', ''));
@@ -417,7 +420,7 @@ class SearchModel extends ListModel
 
 		// Load the list state.
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
-		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
+		$this->setState('list.limit', $input->get('limit', $params->get('list_limit', $app->get('list_limit', 20)), 'uint'));
 
 		/*
 		 * Load the sort ordering.
@@ -470,7 +473,6 @@ class SearchModel extends ListModel
 				break;
 
 			default:
-			case 'desc':
 				$this->setState('list.direction', 'DESC');
 				break;
 		}

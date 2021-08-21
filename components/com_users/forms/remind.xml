@@ -5,18 +5,16 @@
 			name="email"
 			type="email"
 			label="COM_USERS_FIELD_REMIND_EMAIL_LABEL"
-			description="COM_USERS_FIELD_REMIND_EMAIL_DESC"
 			required="true"
 			size="30"
 			validate="email"
 			autocomplete="email"
 		/>
-		
+
 		<field
 			name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
-			description="COM_USERS_CAPTCHA_DESC"
 			validate="captcha"
 		/>
 	</fieldset>

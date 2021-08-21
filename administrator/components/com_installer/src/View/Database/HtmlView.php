@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,7 +133,7 @@ class HtmlView extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
+		ToolbarHelper::custom('database.fix', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
 		ToolbarHelper::divider();
 		ToolbarHelper::custom('database.export', 'download', 'download', 'COM_INSTALLER_TOOLBAR_DATABASE_EXPORT', false);
 		ToolbarHelper::divider();

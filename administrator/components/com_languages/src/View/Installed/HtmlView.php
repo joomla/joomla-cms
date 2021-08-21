@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,13 +25,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * True, if FTP settings should be shown, or an exception.
-	 *
-	 * @var boolean|\Exception
-	 */
-	protected $ftp = null;
-
 	/**
 	 * Option (component) name
 	 *
@@ -86,7 +79,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp           = $this->get('Ftp');
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');
@@ -140,7 +132,7 @@ class HtmlView extends BaseHtmlView
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', true);
+				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', '', 'COM_LANGUAGES_SWITCH_ADMIN', true);
 				ToolbarHelper::divider();
 			}
 

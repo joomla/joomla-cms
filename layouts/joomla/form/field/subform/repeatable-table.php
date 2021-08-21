@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,7 @@ extract($displayData);
  * @var   int     $max              Count of maximum repeating in multiple mode
  * @var   string  $name             Name of the input field.
  * @var   string  $fieldname        The field name
+ * @var   string  $fieldId          The field ID
  * @var   string  $control          The forms control
  * @var   string  $label            The field label
  * @var   string  $description      The field description
@@ -44,11 +45,11 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th scope="col" style="width:45%">' . Text::_($fieldset->label);
+		$table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
 		if ($fieldset->description)
 		{
-			$table_head .= '<span class="fas fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -63,7 +64,7 @@ else
 
 		if ($field->description)
 		{
-			$table_head .= '<span class="fas fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -78,44 +79,45 @@ else
 }
 ?>
 
-	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
-			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
-			repeatable-element=".subform-repeatable-group"
-			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-		<table class="table table-responsive" id="subfieldList">
-			<caption id="captionTable" class="sr-only">
-				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
-			</caption>
-			<thead>
-				<tr>
-					<?php echo $table_head; ?>
-					<?php if (!empty($buttons)) : ?>
+<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
+	<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
+		button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
+		repeatable-element=".subform-repeatable-group"
+		rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
+		<div class="table-responsive">
+			<table class="table" id="subfieldList_<?php echo $fieldId; ?>">
+				<caption class="visually-hidden">
+					<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
+				</caption>
+				<thead>
+					<tr>
+						<?php echo $table_head; ?>
+						<?php if (!empty($buttons)) : ?>
 						<td style="width:8%;">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
-									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-										<span class="fas fa-plus" aria-hidden="true"></span>
+									<button type="button" class="group-add btn btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+										<span class="icon-plus" aria-hidden="true"></span>
 									</button>
 								</div>
 							<?php endif; ?>
 						</td>
-					<?php endif; ?>
-				</tr>
-			</thead>
-			<tbody class="subform-repeatable-container">
-			<?php
-			foreach ($forms as $k => $form) :
-				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
-			endforeach;
-			?>
-			</tbody>
-		</table>
+						<?php endif; ?>
+					</tr>
+				</thead>
+				<tbody class="subform-repeatable-container">
+				<?php
+				foreach ($forms as $k => $form) :
+					echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
+				endforeach;
+				?>
+				</tbody>
+			</table>
+		</div>
 		<?php if ($multiple) : ?>
 		<template class="subform-repeatable-template-section hidden">
-		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
+			<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
 		</template>
 		<?php endif; ?>
-		</joomla-field-subform>
-	</div>
-
+	</joomla-field-subform>
+</div>

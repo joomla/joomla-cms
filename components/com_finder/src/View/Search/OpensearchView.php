@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,18 +61,18 @@ class OpensearchView extends AbstractView
 		}
 
 		// Add the HTML result view
-		$htmlSearch           = new OpenSearchUrl;
+		$htmlSearch           = new OpensearchUrl;
 		$htmlSearch->template = $baseUrl . Route::_($searchUri, false);
 		$this->document->addUrl($htmlSearch);
 
 		// Add the RSS result view
-		$htmlSearch           = new OpenSearchUrl;
+		$htmlSearch           = new OpensearchUrl;
 		$htmlSearch->template = $baseUrl . Route::_($searchUri . '&format=feed&type=rss', false);
 		$htmlSearch->type     = 'application/rss+xml';
 		$this->document->addUrl($htmlSearch);
 
 		// Add the Atom result view
-		$htmlSearch           = new OpenSearchUrl;
+		$htmlSearch           = new OpensearchUrl;
 		$htmlSearch->template = $baseUrl . Route::_($searchUri . '&format=feed&type=atom', false);
 		$htmlSearch->type     = 'application/atom+xml';
 		$this->document->addUrl($htmlSearch);
@@ -80,7 +80,7 @@ class OpensearchView extends AbstractView
 		// Add suggestions URL
 		if ($params->get('show_autosuggest', 1))
 		{
-			$htmlSearch           = new OpenSearchUrl;
+			$htmlSearch           = new OpensearchUrl;
 			$htmlSearch->template = $baseUrl . Route::_($suggestionsUri, false);
 			$htmlSearch->type     = 'application/x-suggestions+json';
 			$this->document->addUrl($htmlSearch);

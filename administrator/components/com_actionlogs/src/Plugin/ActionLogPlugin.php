@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 
 /**
  * Abstract Action Log Plugin
@@ -25,7 +24,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -33,7 +32,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -94,8 +93,10 @@ abstract class ActionLogPlugin extends CMSPlugin
 			$messages[$index] = $message;
 		}
 
-		/** @var ActionlogModel $model */
-		$model = new ActionlogModel;
+		/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
+		$model = $this->app->bootComponent('com_actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
 }

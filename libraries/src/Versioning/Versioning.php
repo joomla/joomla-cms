@@ -2,17 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Versioning;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
 /**
@@ -92,10 +95,31 @@ class Versioning
 		$historyTable = Table::getInstance('Contenthistory', 'JTable');
 		$historyTable->item_id = $typeAlias . '.' . $id;
 
+		$aliasParts = explode('.', $typeAlias);
+
 		// Don't store unless we have a non-zero item id
 		if (!$historyTable->item_id)
 		{
 			return true;
+		}
+
+		// We should allow workflow items interact with the versioning
+		$component = Factory::getApplication()->bootComponent($aliasParts[0]);
+
+		if ($component instanceof WorkflowServiceInterface && $component->isWorkflowActive($typeAlias))
+		{
+			PluginHelper::importPlugin('workflow');
+
+			// Pre-processing by observers
+			$event = AbstractEvent::create(
+				'onContentVersioningPrepareTable',
+				[
+					'subject'	=> $historyTable,
+					'extension'	=> $typeAlias
+				]
+			);
+
+			Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
 		}
 
 		$historyTable->version_data = json_encode($data);
@@ -120,8 +144,6 @@ class Versioning
 		$result = $historyTable->store();
 
 		// Load history_limit config from extension.
-		$aliasParts = explode('.', $typeAlias);
-
 		$context = $aliasParts[1] ?? '';
 
 		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit_' . $context, 0);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ class TagTable extends Nested implements VersionableTableInterface
 		// Check for valid name.
 		if (trim($this->title) == '')
 		{
-			throw new \UnexpectedValueException(sprintf('The title is empty'));
+			throw new \UnexpectedValueException('The title is empty');
 		}
 
 		if (empty($this->alias))
@@ -97,7 +97,7 @@ class TagTable extends Nested implements VersionableTableInterface
 		// Check the publish down date is not earlier than publish up.
 		if (!empty($this->publish_down) && !empty($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
-			throw new \UnexpectedValueException(sprintf('End publish date is before start publish date.'));
+			throw new \UnexpectedValueException('End publish date is before start publish date.');
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
@@ -256,6 +256,6 @@ class TagTable extends Nested implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_tags.tag';
+		return $this->typeAlias;
 	}
 }

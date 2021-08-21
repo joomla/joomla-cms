@@ -1,18 +1,20 @@
 // Custom Forms
 
 .custom-select {
+  @extend .form-select;
+}
+
+.form-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $custom-select-background;
-  background-color: $custom-select-bg;
+  background: $form-select-background;
+  background-color: $form-select-bg;
   border: $input-border;
-  // var needed
-  box-shadow: $input-box-shadow;
 
   [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background: $custom-select-background-rtl;
-    background-color: $custom-select-bg;
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
   }
 
   &[multiple] {
@@ -20,38 +22,37 @@
     background-color: var(--white-offset);
 
     option {
-      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
       background-color: var(--white-offset);
 
       &:checked {
-        color: var(--atum-text-light);
-        background-color: var(--atum-bg-dark) !important;
+        color: var(--template-text-light);
+        background-color: var(--template-bg-dark) !important;
       }
     }
   }
 
-  &.custom-select-color-state {
+  &.form-select-success,
+  &.custom-select-success {
+    color: var(--success);
+    background-color: var(--success);
+    border-color: var(--success);
 
-    &.custom-select-success {
-      color: theme-color("success");
-      background-color: theme-color("success");
-      border-color: theme-color("success");
-
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
     }
+  }
 
-    &.custom-select-danger {
-      color: theme-color("danger");
-      background-color: theme-color("danger");
-      border-color: theme-color("danger");
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: var(--danger);
+    background-color: var(--danger);
+    border-color: var(--danger);
 
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
     }
   }
 
@@ -62,11 +63,14 @@
 
   &:disabled {
     cursor: default;
+    background: $gray-200;
+    border: 0;
+    box-shadow: none;
   }
 
   optgroup,
   option {
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background-color: $white;
   }
 }

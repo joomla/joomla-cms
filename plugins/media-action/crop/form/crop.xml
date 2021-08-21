@@ -10,6 +10,7 @@
 			max="100"
 			step="1"
 			default="80"
+			filter="integer"
 		/>
 
 		<field

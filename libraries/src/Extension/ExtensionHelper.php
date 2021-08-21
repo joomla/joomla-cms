@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,6 @@ class ExtensionHelper
 		array('component', 'com_content', '', 1),
 		array('component', 'com_contenthistory', '', 1),
 		array('component', 'com_cpanel', '', 1),
-		array('component', 'com_csp', '', 1),
 		array('component', 'com_fields', '', 1),
 		array('component', 'com_finder', '', 1),
 		array('component', 'com_installer', '', 1),
@@ -182,7 +181,6 @@ class ExtensionHelper
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
 		array('plugin', 'finder', 'content', 0),
-		array('plugin', 'imagelazyload', 'content', 0),
 		array('plugin', 'joomla', 'content', 0),
 		array('plugin', 'loadmodule', 'content', 0),
 		array('plugin', 'pagebreak', 'content', 0),
@@ -220,7 +218,7 @@ class ExtensionHelper
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
-		array('plugin', 'subfields', 'fields', 0),
+		array('plugin', 'subform', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
 		array('plugin', 'textarea', 'fields', 0),
 		array('plugin', 'url', 'fields', 0),
@@ -394,18 +392,18 @@ class ExtensionHelper
 	/**
 	 * Check if an extension is core or not
 	 *
-	 * @param   string   $type       The extension's type.
-	 * @param   string   $element    The extension's element name.
-	 * @param   integer  $client_id  The extension's client ID. Default 0.
-	 * @param   string   $folder     The extension's folder. Default ''.
+	 * @param   string   $type      The extension's type.
+	 * @param   string   $element   The extension's element name.
+	 * @param   integer  $clientId  The extension's client ID. Default 0.
+	 * @param   string   $folder    The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   3.7.4
 	 */
-	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
+	public static function checkIfCoreExtension($type, $element, $clientId = 0, $folder = '')
 	{
-		return \in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return \in_array(array($type, $element, $folder, $clientId), self::$coreExtensions);
 	}
 
 	/**

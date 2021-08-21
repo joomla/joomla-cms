@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 	{
 		$path = JPATH_BASE . '/modules/' . $this->module->module . '/' . $this->module->module . '.php';
 
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			return;
 		}

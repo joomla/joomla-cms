@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,6 +131,7 @@ class ModuleorderField extends FormField
 		$extraData = array(
 			'ordering' => $this->form->getValue('ordering'),
 			'clientId' => $this->form->getValue('client_id'),
+			'moduleId' => $this->form->getValue('id'),
 			'name'     => $this->name,
 			'token'    => Session::getFormToken() . '=1',
 			'element'  => $this->form->getName() . '_' . $this->linked

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset id="com-users-profile__core users-profile-core">
+<fieldset id="users-profile-core" class="com-users-profile__core">
 	<legend>
 		<?php echo Text::_('COM_USERS_PROFILE_CORE_LEGEND'); ?>
 	</legend>

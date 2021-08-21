@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,18 +42,16 @@ class UsersController extends ApiController
 	protected $default_view = 'users';
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_users.user') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -65,9 +63,7 @@ class UsersController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 
 	/**
@@ -106,7 +102,7 @@ class UsersController extends ApiController
 		if (array_key_exists('registrationDateStart', $apiFilterInfo))
 		{
 			$registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
-			$registrationStartDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationStartInput);
+			$registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
 
 			if (!$registrationStartDate)
 			{
@@ -122,7 +118,7 @@ class UsersController extends ApiController
 		if (array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
 			$registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
-			$registrationEndDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationEndInput);
+			$registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
 
 			if (!$registrationEndDate)
 			{
@@ -143,7 +139,7 @@ class UsersController extends ApiController
 		if (array_key_exists('lastVisitDateStart', $apiFilterInfo))
 		{
 			$lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
-			$lastVisitStartDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitStartInput);
+			$lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
 
 			if (!$lastVisitStartDate)
 			{
@@ -158,7 +154,7 @@ class UsersController extends ApiController
 		if (array_key_exists('lastVisitDateEnd', $apiFilterInfo))
 		{
 			$lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
-			$lastVisitEndDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitEndInput);
+			$lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
 
 			if (!$lastVisitEndDate)
 			{

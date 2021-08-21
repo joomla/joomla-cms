@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,24 +107,29 @@ class CheckinModel extends ListModel
 				continue;
 			}
 
+			$query = $db->getQuery(true)
+				->update($db->quoteName($tn))
+				->set($db->quoteName('checked_out') . ' = DEFAULT');
+
 			if ($fields['checked_out_time']->Null === 'YES')
 			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = NULL')
-					->where($db->quoteName('checked_out') . ' > 0');
+				$query->set($db->quoteName('checked_out_time') . ' = NULL');
 			}
 			else
 			{
 				$nullDate = $db->getNullDate();
 
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = :checkouttime')
-					->where($db->quoteName('checked_out') . ' > 0')
+				$query->set($db->quoteName('checked_out_time') . ' = :checkouttime')
 					->bind(':checkouttime', $nullDate);
+			}
+
+			if ($fields['checked_out']->Null === 'YES')
+			{
+				$query->where($db->quoteName('checked_out') . ' IS NOT NULL');
+			}
+			else
+			{
+				$query->where($db->quoteName('checked_out') . ' > 0');
 			}
 
 			$db->setQuery($query);
@@ -169,56 +174,50 @@ class CheckinModel extends ListModel
 		{
 			$db     = $this->getDbo();
 			$tables = $db->getTableList();
+			$prefix = Factory::getApplication()->get('dbprefix');
 
 			// This array will hold table name as key and checked in item count as value.
 			$results = array();
 
-			foreach ($tables as $i => $tn)
+			foreach ($tables as $tn)
 			{
 				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
+				if (stripos($tn, $prefix) !== 0)
 				{
-					unset($tables[$i]);
 					continue;
 				}
 
 				if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false)
 				{
-					unset($tables[$i]);
 					continue;
 				}
 
-				$fields = $db->getTableColumns($tn);
+				$fields = $db->getTableColumns($tn, false);
 
 				if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 				{
-					unset($tables[$i]);
 					continue;
 				}
-			}
 
-			foreach ($tables as $tn)
-			{
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from($db->quoteName($tn))
-					->where('checked_out > 0');
+					->from($db->quoteName($tn));
 
-				$db->setQuery($query);
-
-				if ($db->execute())
+				if ($fields['checked_out']->Null === 'YES')
 				{
-					$results[$tn] = $db->loadResult();
-
-					// Show only tables with items to checkin.
-					if ((int) $results[$tn] === 0)
-					{
-						unset($results[$tn]);
-					}
+					$query->where($db->quoteName('checked_out') . ' IS NOT NULL');
 				}
 				else
 				{
-					continue;
+					$query->where($db->quoteName('checked_out') . ' > 0');
+				}
+
+				$db->setQuery($query);
+				$count = $db->loadResult();
+
+				if ($count)
+				{
+					$results[$tn] = $count;
 				}
 			}
 

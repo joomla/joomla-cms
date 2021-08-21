@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,16 +15,12 @@ $message2 = $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?>
-	<div class="container-fluid">
-		<div class="col-md-12">
-			<strong><?php echo $message1; ?></strong>
-		</div>
-	</div> 
-<?php endif; ?> 
-<?php if ($message2) : ?> 
-	<div class="container-fluid">
-		<div class="col-md-12">
-			<?php echo $message2; ?>
-		</div> 
+	<div class="alert alert-info">
+		<strong><?php echo $message1; ?></strong>
+	</div>
+<?php endif; ?>
+<?php if ($message2) : ?>
+	<div class="alert alert-info">
+		<?php echo $message2; ?>
 	</div>
 <?php endif; ?>

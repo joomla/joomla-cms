@@ -1,18 +1,21 @@
 // Alerts
 
 .j-main-container {
-
   .alert {
-    margin: 10px;
+    margin: .75rem;
   }
 
+}
+
+.alert-heading {
+  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
 
   from {
     opacity: 0;
-    transform: translateY(-15px);
+    transform: translateY(-1rem);
   }
 
   to {

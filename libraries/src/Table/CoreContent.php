@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class CoreContent extends Table
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 
 		$this->setColumnAlias('published', 'core_state');
-		$this->setColumnAlias('checked_out', 'core_checked_out');
+		$this->setColumnAlias('checked_out', 'core_checked_out_user_id');
 		$this->setColumnAlias('checked_out_time', 'core_checked_out_time');
 	}
 

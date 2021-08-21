@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -220,7 +220,7 @@ class Language
 
 		while (!class_exists($class) && $path)
 		{
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
@@ -324,7 +324,7 @@ class Language
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = Factory::getApplication()->get('debug_lang_const', 1) == 0 ? $key : $string;
+				$value = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
 				$string = '**' . $value . '**';
 
 				$caller = $this->getCallerInfo();
@@ -388,18 +388,28 @@ class Language
 	 */
 	public function transliterate($string)
 	{
-		// Override custom and core transliterate method with native php function if enabled
-		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		// First check for transliterator provided by translation
+		if ($this->transliterator !== null)
+		{
+			$string = \call_user_func($this->transliterator, $string);
+
+			// Check if all symbols were transliterated (contains only ASCII), otherwise continue
+			if (!preg_match('/[\\x80-\\xff]/', $string))
+			{
+				return $string;
+			}
+		}
+
+		// Run our transliterator for common symbols,
+		// This need to be executed before native php transliterator, because it may not have all required transliterators
+		$string = Transliterate::utf8_latin_to_ascii($string);
+
+		// Check if all symbols were transliterated (contains only ASCII),
+		// Otherwise try to use native php function if available
+		if (preg_match('/[\\x80-\\xff]/', $string) && function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
 			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
 		}
-
-		if ($this->transliterator !== null)
-		{
-			return \call_user_func($this->transliterator, $string);
-		}
-
-		$string = Transliterate::utf8_latin_to_ascii($string);
 
 		return StringHelper::strtolower($string);
 	}
@@ -792,7 +802,7 @@ class Language
 		$strings = LanguageHelper::parseIniFile($fileName, $this->debug);
 
 		// Debug the ini file if needed.
-		if ($this->debug === true && file_exists($fileName))
+		if ($this->debug === true && is_file($fileName))
 		{
 			$this->debugFile($fileName);
 		}
@@ -813,7 +823,7 @@ class Language
 	public function debugFile($filename)
 	{
 		// Make sure our file actually exists
-		if (!file_exists($filename))
+		if (!is_file($filename))
 		{
 			throw new \InvalidArgumentException(
 				sprintf('Unable to locate file "%s" for debugging', $filename)

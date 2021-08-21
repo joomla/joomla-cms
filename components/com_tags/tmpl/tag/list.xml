@@ -52,7 +52,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -64,7 +64,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -76,7 +76,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -87,6 +87,20 @@
 				name="tag_list_image"
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
+			/>
+
+			<field
+				name="tag_list_image_alt"
+				type="text"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="tag_list_image_alt_empty"
+				type="checkbox"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_LABEL"
+				description="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_DESC"
 			/>
 
 			<field
@@ -134,7 +148,7 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -146,7 +160,7 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -167,7 +181,19 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_headings"
+				type="list"
+				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -179,7 +205,7 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -190,7 +216,7 @@
 				name="display_num"
 				type="list"
 				label="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_LABEL"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -210,7 +236,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -223,7 +249,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -235,7 +261,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -288,7 +314,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>

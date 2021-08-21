@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -34,7 +34,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 			>
@@ -100,6 +100,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -107,6 +108,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -131,6 +133,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -159,6 +162,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -210,10 +214,20 @@
 		/>
 
 		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -264,6 +278,13 @@
 				/>
 
 				<field
+					name="image_first_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
 					name="image_first_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
@@ -302,6 +323,13 @@
 				/>
 
 				<field
+					name="image_second_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
 					name="image_second_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
@@ -317,6 +345,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -324,6 +353,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -379,6 +409,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -386,7 +417,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				class="custom-select"
+				class="form-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"
@@ -416,10 +447,10 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 
 			<field
@@ -429,15 +460,6 @@
 				rows="2"
 				cols="30"
 				filter="string"
-			/>
-
-			<field
-				name="hits"
-				type="number"
-				label="JGLOBAL_HITS"
-				class="readonly"
-				readonly="true"
-				filter="unset"
 			/>
 		</fieldset>
 	</fields>

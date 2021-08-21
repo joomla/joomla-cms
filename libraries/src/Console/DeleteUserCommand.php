@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\ParameterType;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -73,8 +74,10 @@ class DeleteUserCommand extends AbstractCommand
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO($input, $output);
-		$this->username = $this->getStringFromOption('username', 'Please enter a username');
+
 		$this->ioStyle->title('Delete users');
+
+		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 
 		$userId = UserHelper::getUserId($this->username);
 		$db = Factory::getDbo();
@@ -83,14 +86,14 @@ class DeleteUserCommand extends AbstractCommand
 		{
 			$this->ioStyle->error($this->username . ' does not exist!');
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		if ($input->isInteractive() && !$this->ioStyle->confirm('Are you sure you want to delete this user?', false))
 		{
 			$this->ioStyle->note('User not deleted');
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$groups = UserHelper::getUserGroups($userId);
@@ -120,7 +123,7 @@ class DeleteUserCommand extends AbstractCommand
 					{
 						$this->ioStyle->error("You can't delete the last active Super User");
 
-						return 1;
+						return Command::FAILURE;
 					}
 				}
 			}
@@ -131,14 +134,14 @@ class DeleteUserCommand extends AbstractCommand
 
 		if (!$result)
 		{
-			$this->ioStyle->error("Can't remove " . $this->username . ' form usertable');
+			$this->ioStyle->error("Can't remove " . $this->username . ' from usertable');
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		$this->ioStyle->success('User ' . $this->username . ' deleted!');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

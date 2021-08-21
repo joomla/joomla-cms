@@ -26,12 +26,12 @@
 }
 
 .choices__inner {
-  padding: .4rem 1rem;
+  min-height: 42px;
+  padding: .1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   .is-focused & {
     border-color: $focuscolor;
@@ -59,16 +59,20 @@
   z-index: $zindex-popover;
 }
 
+.choices__list--single {
+  padding: 7px 16px 0 4px;
+}
+
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
 
   &.is-highlighted {
-    background-color: var(--atum-bg-dark);
+    background-color: var(--template-bg-dark);
     opacity: .9;
   }
 }
@@ -119,14 +123,14 @@
 .choices[data-type*="select-one"],
 .choices[data-type*="select-multiple"] {
   .choices__inner {
-    padding-inline-end: $custom-select-indicator-padding;
+    padding-inline-end: $form-select-indicator-padding;
     cursor: pointer;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-    background-color: $custom-select-bg;
+    background-color: $form-select-bg;
 
     [dir="rtl"] & {
       background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-      background-color: $custom-select-bg;
+      background-color: $form-select-bg;
     }
   }
 }
@@ -137,6 +141,35 @@
     justify-content: space-between;
   }
 
+  .choices__button_joomla {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-top: -10px;
+    margin-right: 50px;
+    border-radius: 10em;
+    opacity: .5;
+
+    [dir=rtl] & {
+      right: auto;
+      left: 0;
+      margin-right: 0;
+      margin-left: 50px;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
+  }
+
   &::after {
     display: none;
   }
@@ -145,6 +178,10 @@
 .choices[data-type*="select-multiple"],
 .choices[data-type*="text"] {
   .choices__input {
-    padding: .2rem 0;
+    padding: .35rem 0;
   }
+}
+
+.choices__heading {
+  font-size: 1.2rem;
 }

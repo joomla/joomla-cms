@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ class AtomRenderer extends DocumentRenderer
 		// Gets and sets timezone offset from site configuration
 		$tz  = new \DateTimeZone($app->get('offset'));
 		$now = Factory::getDate();
-		$now->setTimeZone($tz);
+		$now->setTimezone($tz);
 
 		$data = $this->_doc;
 
@@ -78,7 +78,7 @@ class AtomRenderer extends DocumentRenderer
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
-		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
+		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
 
 		if ($data->getLanguage() != '')
 		{
@@ -151,7 +151,7 @@ class AtomRenderer extends DocumentRenderer
 			}
 
 			$itemDate = Factory::getDate($data->items[$i]->date);
-			$itemDate->setTimeZone($tz);
+			$itemDate->setTimezone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 

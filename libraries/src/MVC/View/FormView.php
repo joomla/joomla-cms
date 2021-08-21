@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  View
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
@@ -29,7 +28,7 @@ class FormView extends HtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 

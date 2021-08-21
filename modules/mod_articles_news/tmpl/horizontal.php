@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,21 +11,20 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (!$list)
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('mod_modules', 'mod_articles_news/template.css');
+
+if (empty($list))
 {
 	return;
 }
 
 ?>
 <ul class="mod-articlesnews-horizontal newsflash-horiz mod-list">
-	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
-		<?php $item = $list[$i]; ?>
-		<li>
+	<?php foreach ($list as $item) : ?>
+		<li itemscope itemtype="https://schema.org/Article">
 			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
-
-			<?php if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
-				<span class="article-separator">&#160;</span>
-			<?php endif; ?>
 		</li>
-	<?php endfor; ?>
+	<?php endforeach; ?>
 </ul>

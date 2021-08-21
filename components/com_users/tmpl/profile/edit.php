@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
@@ -55,19 +55,7 @@ $wa->useScript('keepalive')
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
 					<?php foreach ($fields as $field) : ?>
-					<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</fieldset>
 			<?php endif; ?>
@@ -85,7 +73,7 @@ $wa->useScript('keepalive')
 						</label>
 					</div>
 					<div class="controls">
-						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
@@ -103,12 +91,12 @@ $wa->useScript('keepalive')
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
 				</div>
 				<?php if (empty($this->otpConfig->otep)) : ?>
 					<div class="alert alert-warning">
-						<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+						<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
 					</div>
 				<?php else : ?>
@@ -125,9 +113,11 @@ $wa->useScript('keepalive')
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
+					<span class="icon-check" aria-hidden="true"></span>
 					<?php echo Text::_('JSAVE'); ?>
 				</button>
 				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
+					<span class="icon-times" aria-hidden="true"></span>
 					<?php echo Text::_('JCANCEL'); ?>
 				</button>
 				<input type="hidden" name="option" value="com_users">

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,5 +48,7 @@ extract($displayData);
  * @var   array    $statsData       Statistics that will be sent to the stats server
  */
 ?>
-<a href="#" id="js-pstats-data-details-toggler"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
-<?php echo $field->render('stats', compact('statsData'));
+<?php if (count($statsData)): ?>
+	<a href="#" id="js-pstats-data-details-toggler"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+	<?php echo $field->render('stats', compact('statsData')); ?>
+<?php endif; ?>

@@ -2,15 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * HTML utility class for building a dropdown menu
@@ -38,12 +40,12 @@ abstract class ActionsDropdown
 	{
 		$html = array();
 
-		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
+		$html[] = '<button data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
 		$html[] = '<span class="caret"></span>';
 
 		if ($item)
 		{
-			$html[] = '<span class="sr-only">' . Text::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="visually-hidden">' . Text::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';
@@ -226,10 +228,13 @@ abstract class ActionsDropdown
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
 		static::$dropDownList[] = '<li>'
-			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
-			. $label
-			. '</a>'
+			. HTMLHelper::link(
+				'javascript://',
+				($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
+				[
+					'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
+				]
+			)
 			. '</li>';
 	}
 }

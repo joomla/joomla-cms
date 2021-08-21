@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,8 +13,12 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
+use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
@@ -31,7 +35,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's console services
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Console implements ServiceProviderInterface
 {
@@ -42,7 +46,7 @@ class Console implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -162,10 +166,46 @@ class Console implements ServiceProviderInterface
 		);
 
 		$container->share(
+			ExtensionDiscoverCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverCommand;
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverInstallCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverInstallCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverListCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverListCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
 			UpdateCoreCommand::class,
 			function (Container $container)
 			{
 				return new UpdateCoreCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			FinderIndexCommand::class,
+			function (Container $container)
+			{
+				return new FinderIndexCommand($container->get('db'));
 			},
 			true
 		);

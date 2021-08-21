@@ -5,24 +5,14 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
-    depends_on: [ restore-cache ]
+    image: joomlaprojects/docker-images:php7.3
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - apk add patch
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
@@ -34,22 +24,10 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:current-alpine
+    image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -142,28 +120,16 @@ steps:
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+      - npm run lint:css
 
   - name: javascript-cs
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx eslint "**/*.js"
-
-  - name: javascript-tests
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run test
+      - npm run lint:js
 
   - name: system-tests-mysql
-    depends_on: [ javascript-tests ]
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -217,6 +183,7 @@ steps:
 
   - name: analysis4x
     image: rips/rips-cli:3.2.2
+    failure: ignore
     depends_on: [ api-tests ]
     when:
       repo:
@@ -237,12 +204,9 @@ branches:
   exclude: [ l10n_* ]
 
 volumes:
-- name: cache
+- name: composer-cache
   host:
-    path: /tmp/cache
-- name: reference
-  host:
-    path: /tmp/reference
+    path: /tmp/composer-cache
 
 services:
   - name: mysql
@@ -261,12 +225,6 @@ services:
       MYSQL_PASSWORD: joomla_ut
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
-
-  - name: memcached
-    image: memcached:alpine
-
-  - name: redis
-    image: redis:alpine
 
   - name: postgres
     image: postgres:11-alpine
@@ -307,11 +265,11 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.0-dev
+        - 4.1-dev
 
 
 ---
 kind: signature
-hmac: 413db223fcb4ced2a650d336799dcca6920a1b3b7f2a89bf4a5e0d48b0755c99
+hmac: d9dd36c1bf3ac28d03a3a2e7593357ed2f5dd87a098be4115fb4c844b9304eab
 
 ...

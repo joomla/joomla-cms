@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,6 +82,14 @@ class CalendarField extends FormField
 	protected $layout = 'joomla.form.field.calendar';
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -149,9 +157,9 @@ class CalendarField extends FormField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -275,32 +283,16 @@ class CalendarField extends FormField
 	protected function getLayoutData()
 	{
 		$data      = parent::getLayoutData();
-		$tag       = Factory::getLanguage()->getTag();
-		$calendar  = Factory::getLanguage()->getCalendar();
+		$lang      = Factory::getApplication()->getLanguage();
+		$calendar  = $lang->getCalendar();
 		$direction = strtolower(Factory::getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$extraData = array(
@@ -315,10 +307,12 @@ class CalendarField extends FormField
 			'timeformat'   => $this->timeformat,
 			'singleheader' => ($this->singleheader === 'true') ? 1 : 0,
 			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
 			'minYear'      => $this->minyear,
 			'maxYear'      => $this->maxyear,
 			'direction'    => $direction,
+			'calendar'     => $calendar,
+			'firstday'     => $lang->getFirstDay(),
+			'weekend'      => explode(',', $lang->getWeekEnd()),
 		);
 
 		return array_merge($data, $extraData);

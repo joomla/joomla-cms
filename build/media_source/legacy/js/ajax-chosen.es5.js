@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,8 +28,8 @@
       minTermLength: 3,
       afterTypeDelay: 500,
       jsonTermKey: "term",
-      keepTypingMsg: Joomla.JText._('JGLOBAL_KEEP_TYPING'),
-      lookingForMsg: Joomla.JText._('JGLOBAL_LOOKING_FOR')
+      keepTypingMsg: Joomla.Text._('JGLOBAL_KEEP_TYPING'),
+      lookingForMsg: Joomla.Text._('JGLOBAL_LOOKING_FOR')
     };
     select = this;
     chosenXhr = null;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,19 +29,30 @@ if (!empty($options['showonEnabled']))
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('showon');
 }
-$class = empty($options['class']) ? '' : ' ' . $options['class'];
-$rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id    = $name . '-desc';
-$hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
+
+$class           = empty($options['class']) ? '' : ' ' . $options['class'];
+$rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
+$id              = $name . '-desc';
+$hideLabel       = !empty($options['hiddenLabel']);
+$hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+
+if (!empty($parentclass))
+{
+	$class .= ' ' . $parentclass;
+}
 
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
+	<?php if ($hideLabel) : ?>
+		<div class="visually-hidden"><?php echo $label; ?></div>
+	<?php else : ?>
+		<div class="control-label"><?php echo $label; ?></div>
+	<?php endif; ?>
 	<div class="controls">
 		<?php echo $input; ?>
-		<?php if (!empty($description)) : ?>
+		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
-				<small class="form-text text-muted">
+				<small class="form-text">
 					<?php echo $description; ?>
 				</small>
 			</div>

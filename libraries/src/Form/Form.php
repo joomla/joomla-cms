@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,8 @@ use Joomla\Utilities\ArrayHelper;
  * It uses XML definitions to construct form fields and a variety of field and rule classes to
  * render and validate the form.
  *
- * @link   http://www.w3.org/TR/html4/interact/forms.html
- * @link   http://www.w3.org/TR/html5/forms.html
+ * @link   https://www.w3.org/TR/html4/interact/forms.html
+ * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
 class Form
@@ -79,7 +79,7 @@ class Form
 	protected static $forms = array();
 
 	/**
-	 * Alows extensions to implement repeating elements
+	 * Allows extensions to implement repeating elements
 	 *
 	 * @var    boolean
 	 * @since  3.2
@@ -618,16 +618,16 @@ class Form
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
 	 * method will move on to the next field to load.
 	 *
-	 * @param   string  $data     The name of an XML string or object.
-	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                            already exists with the same group/name.
-	 * @param   string  $xpath    An optional xpath to search for the fields.
+	 * @param   string   $data     The name of an XML string or object.
+	 * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
+	 *                             already exists with the same group/name.
+	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function load($data, $replace = true, $xpath = false)
+	public function load($data, $replace = true, $xpath = null)
 	{
 		// If the data to load isn't already an XML element or string return false.
 		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
@@ -736,16 +736,16 @@ class Form
 	 * fields in the new XML file unless the $reset parameter has been set
 	 * to false.
 	 *
-	 * @param   string  $file   The filesystem path of an XML file.
-	 * @param   string  $reset  Flag to toggle whether form fields should be replaced if a field
-	 *                          already exists with the same group/name.
-	 * @param   string  $xpath  An optional xpath to search for the fields.
+	 * @param   string   $file   The filesystem path of an XML file.
+	 * @param   boolean  $reset  Flag to toggle whether form fields should be replaced if a field
+	 *                           already exists with the same group/name.
+	 * @param   string   $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFile($file, $reset = true, $xpath = false)
+	public function loadFile($file, $reset = true, $xpath = null)
 	{
 		// Check to see if the path is an absolute path.
 		if (!is_file($file))
@@ -1255,7 +1255,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function postProcess($data, $group = null)
 	{

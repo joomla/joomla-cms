@@ -220,7 +220,7 @@
 		<field
 			name="opensearch_description"
 			type="textarea"
-			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
+			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTION_LABEL"
 			default=""
 			cols="30"
 			rows="2"

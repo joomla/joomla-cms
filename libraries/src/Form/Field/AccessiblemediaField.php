@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,9 +120,9 @@ class AccessiblemediaField extends SubformField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -148,7 +148,7 @@ class AccessiblemediaField extends SubformField
 				 * it is most likely a custom field created in Joomla 3 and
 				 * the value is a string that contains the file name.
 				*/
-				if (file_exists(JPATH_ROOT . '/' . $value))
+				if (is_file(JPATH_ROOT . '/' . $value))
 				{
 					$value = '{"imagefile":"' . $value . '","alt_text":""}';
 				}
@@ -196,6 +196,13 @@ class AccessiblemediaField extends SubformField
 			name="alt_text"
 			type="text"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
+		/>
+
+		<field
+			name="alt_empty"
+			type="checkbox"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_LABEL"
+			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC"
 		/>
 	</fieldset>
 </form>

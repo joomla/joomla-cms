@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,7 +112,10 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (\array_key_exists('charset', $config))
 		{
-			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
+				E_USER_DEPRECATED
+			);
 			$this->_charset = $config['charset'];
 		}
 
@@ -372,7 +375,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = Factory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate(true);
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -385,14 +388,15 @@ class HtmlView extends AbstractView
 
 		// Load the language file for the template
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE)
-		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+		$lang->load('tpl_' . $template->template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
+			|| $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
+		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template)
 		{
 			$this->_path['template'] = str_replace(
-				JPATH_THEMES . DIRECTORY_SEPARATOR . $template,
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template,
 				JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
 				$this->_path['template']
 			);
@@ -491,6 +495,9 @@ class HtmlView extends AbstractView
 		// Actually add the user-specified directories
 		$this->_addPath($type, $path);
 
+		// Get the active template object
+		$template = $app->getTemplate(true);
+
 		// Always add the fallback directories as last resort
 		switch (strtolower($type))
 		{
@@ -499,8 +506,20 @@ class HtmlView extends AbstractView
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
-					$this->_addPath('template', $fallback);
+					$name = $this->getName();
+
+					if (!empty($template->parent))
+					{
+						// Parent template's overrides
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
+
+						// Child template's overrides
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
+
+						break;
+					}
+
+					$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
 				}
 				break;
 		}

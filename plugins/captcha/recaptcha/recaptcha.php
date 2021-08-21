@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		return array(
 			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
 				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-			)
+			),
 		);
 	}
 
@@ -115,6 +115,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
 
 		$dom->appendChild($ele);
+
 		return $dom->saveHTML($ele);
 	}
 

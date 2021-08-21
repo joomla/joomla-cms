@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -104,9 +104,15 @@ class Field extends Admin
 		$I = $this;
 		$I->amOnPage(FieldListPage::$url);
 		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
-		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
+
+		// Make sure that the class js-stools-container-filters is visible. 
+		// Filter is a toggle button and I never know what happened before.
+		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+			el.classList.add('js-stools-container-filters-visible');
+		  });");
+		$I->selectOption('//*[@id="filter_state"]', "-2");
 		$I->wait(2);
-		$I->selectOptionInChosenByIdUsingJs('filter_state', "Trashed");
+
 		$I->fillField(FieldListPage::$searchField, $title);
 		$I->Click(FieldListPage::$filterSearch);
 		$I->checkAllResults();

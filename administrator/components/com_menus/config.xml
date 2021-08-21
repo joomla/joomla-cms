@@ -36,7 +36,7 @@
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-			default=""
+			validate="CssIdentifier"
 		/>
 
 	</fieldset>
