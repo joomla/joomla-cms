@@ -9,16 +9,6 @@
  * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
 define('_AKEEBA_RESTORATION', 1);
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
@@ -146,16 +136,6 @@ function debugMsg($msg)
 		echo $msg . "\n";
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * The base class of Akeeba Engine objects. Allows for error and warnings logging
@@ -402,16 +382,6 @@ abstract class AKAbstractObject
 	}
 
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * The superclass of all Akeeba Kickstart parts. The "parts" are intelligent stateful
@@ -773,16 +743,6 @@ abstract class AKAbstractPart extends AKAbstractObject
 		}
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * The base class of unarchiver classes
@@ -1396,16 +1356,6 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * File post processor engines base class
  */
 abstract class AKAbstractPostproc extends AKAbstractObject
@@ -1452,17 +1402,6 @@ abstract class AKAbstractPostproc extends AKAbstractObject
 	abstract public function rename($from, $to);
 }
 
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
 /**
  * Descendants of this class can be used in the unarchiver's observer methods (attach, detach and notify)
  *
@@ -1473,17 +1412,6 @@ abstract class AKAbstractPartObserver
 {
 	abstract public function update($object, $message);
 }
-
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * Direct file writer
@@ -1609,16 +1537,6 @@ class AKPostprocDirect extends AKAbstractPostproc
 	}
 
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * JPA archive extraction class
@@ -2397,16 +2315,6 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * ZIP archive extraction class
  *
  * Since the file data portion of ZIP and JPA are similarly structured (it's empty for dirs,
@@ -2723,16 +2631,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * Timer class
  */
 class AKCoreTimer extends AKAbstractObject
@@ -2920,16 +2818,6 @@ class AKCoreTimer extends AKAbstractObject
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * A filesystem scanner which uses opendir()
  */
 class AKUtilsLister extends AKAbstractObject
@@ -3024,16 +2912,6 @@ class AKUtilsLister extends AKAbstractObject
 		return $arr;
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * A simple INI-based i18n engine
@@ -3529,16 +3407,6 @@ class AKText extends AKAbstractObject
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * The Akeeba Kickstart Factory class
  * This class is reponssible for instanciating all Akeeba Kicsktart classes
  */
@@ -3822,16 +3690,6 @@ class AKFactory
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * Interface for AES encryption adapters
  */
 interface AKEncryptionAESAdapterInterface
@@ -3860,16 +3718,6 @@ interface AKEncryptionAESAdapterInterface
 	 */
 	public function isSupported();
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * Abstract AES encryption class
@@ -3948,16 +3796,6 @@ abstract class AKEncryptionAESAdapterAbstract
 		return str_repeat("\0", $blockSize - $paddingBytes);
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 class Mcrypt extends AKEncryptionAESAdapterAbstract implements AKEncryptionAESAdapterInterface
 {
@@ -4050,16 +3888,6 @@ class Mcrypt extends AKEncryptionAESAdapterAbstract implements AKEncryptionAESAd
 		return mcrypt_get_iv_size($this->cipherType, $this->cipherMode);
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 class OpenSSL extends AKEncryptionAESAdapterAbstract implements AKEncryptionAESAdapterInterface
 {
@@ -4155,16 +3983,6 @@ class OpenSSL extends AKEncryptionAESAdapterAbstract implements AKEncryptionAESA
 		return openssl_cipher_iv_length($this->method);
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 /**
  * AES implementation in PHP (c) Chris Veness 2005-2016.
@@ -5006,16 +4824,6 @@ class AKEncryptionAES
 }
 
 /**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
-
-/**
  * The Master Setup will read the configuration parameters from restoration.php or
  * the JSON-encoded "configuration" input variable and return the status.
  *
@@ -5202,16 +5010,6 @@ function masterSetup()
 		}
 	}
 }
-
-/**
- * Akeeba Restore
- * A JSON-powered JPA, JPS and ZIP archive extraction library
- *
- * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
- * @license     GNU GPL v2 or - at your option - any later version
- * @package     akeebabackup
- * @subpackage  kickstart
- */
 
 // Mini-controller for restore.php
 if (!defined('KICKSTART'))
