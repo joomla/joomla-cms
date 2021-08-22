@@ -54,9 +54,6 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="text-center d-none d-md-table-cell">
-									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
-								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
@@ -115,29 +112,27 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
 									</div>
-									<div class="btn-group">
-										<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
-										<?php if ($item->note_count > 0) : ?>
-										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+									<div class="dropdown mt-2">
+										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+											<span class="fa fa-user-cog" aria-hidden="true"></span>
+											<?php echo Text::_('INFO'); ?>
 										</button>
 										<div class="dropdown-menu">
-											<?php echo HTMLHelper::_('users.filterNotes', $item->note_count, $item->id); ?>
-											<?php echo HTMLHelper::_('users.notes', $item->note_count, $item->id); ?>
+											<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+												<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
+											</a>
+											<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
+											<?php if ($item->note_count > 0) : ?>
+												<?php echo HTMLHelper::_('users.filterNotes', $item->note_count, $item->id); ?>
+												<?php echo HTMLHelper::_('users.notes', $item->note_count, $item->id); ?>
+											<?php endif; ?>
 										</div>
-										<?php endif; ?>
 									</div>
 									<?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
 									<?php if ($item->requireReset == '1') : ?>
 										<span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
 								</th>
-								<td class="text-center btns d-none d-md-table-cell">
-									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="icon-list" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
-									</a>
-								</td>
 								<td class="break-word d-none d-md-table-cell">
 									<?php echo $this->escape($item->username); ?>
 								</td>

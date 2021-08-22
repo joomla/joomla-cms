@@ -66,8 +66,7 @@ class Users
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="btn btn-secondary btn-sm"><span class="icon-plus pe-1" aria-hidden="true">'
-			. '</span>' . $title . '</a>';
+			. '" class="dropdown-item">' . $title . '</a>';
 	}
 
 	/**
@@ -90,7 +89,7 @@ class Users
 		$title = Text::_('COM_USERS_FILTER_NOTES');
 
 		return '<a href="' . Route::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
-			. '" class="dropdown-item"><span class="icon-list pe-1" aria-hidden="true"></span>' . $title . '</a>';
+			. '" class="dropdown-item">' . $title . '</a>';
 	}
 
 	/**
@@ -113,7 +112,7 @@ class Users
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<button  type="button" data-bs-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-bs-toggle="modal" class="dropdown-item"><span class="icon-eye pe-1" aria-hidden="true"></span>' . $title . '</button>';
+			. '" data-bs-toggle="modal" class="dropdown-item">' . $title . '</button>';
 	}
 
 	/**
