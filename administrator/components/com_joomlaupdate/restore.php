@@ -173,29 +173,6 @@ abstract class AKAbstractObject
 	private $_warnings = array();
 
 	/**
-	 * Public constructor, makes sure we are instantiated only by the factory class
-	 */
-	public function __construct()
-	{
-		/*
-		// Assisted Singleton pattern
-		if(function_exists('debug_backtrace'))
-		{
-			$caller=debug_backtrace();
-			if(
-				($caller[1]['class'] != 'AKFactory') &&
-				($caller[2]['class'] != 'AKFactory') &&
-				($caller[3]['class'] != 'AKFactory') &&
-				($caller[4]['class'] != 'AKFactory')
-			) {
-				var_dump(debug_backtrace());
-				trigger_error("You can't create direct descendants of ".__CLASS__, E_USER_ERROR);
-			}
-		}
-		*/
-	}
-
-	/**
 	 * Get the most recent error message
 	 *
 	 * @param    integer $i Optional error index
