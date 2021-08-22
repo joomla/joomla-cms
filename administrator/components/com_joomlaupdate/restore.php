@@ -3688,17 +3688,8 @@ class AKFactory
 			{
 				// In restore.php mode we have to exclude the restoration.php files
 				$moreSkippedFiles     = array(
-					// Akeeba Backup for Joomla!
-					'administrator/components/com_akeeba/restoration.php',
 					// Joomla! Update
 					'administrator/components/com_joomlaupdate/restoration.php',
-					// Akeeba Backup for WordPress
-					'wp-content/plugins/akeebabackupwp/app/restoration.php',
-					'wp-content/plugins/akeebabackupcorewp/app/restoration.php',
-					'wp-content/plugins/akeebabackup/app/restoration.php',
-					'wp-content/plugins/akeebabackupwpcore/app/restoration.php',
-					// Akeeba Solo
-					'app/restoration.php',
 				);
 				$config['skip_files'] = array_merge($config['skip_files'], $moreSkippedFiles);
 			}
