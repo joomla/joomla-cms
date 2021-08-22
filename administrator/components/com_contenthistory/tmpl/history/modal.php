@@ -70,7 +70,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
-							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC3')); ?>
+							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC2')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
 							<span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>

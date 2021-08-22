@@ -92,7 +92,7 @@ trait VersionableControllerTrait
 		$this->setMessage(
 			Text::sprintf(
 				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY',
-				HTMLHelper::_('date', $model->getState('save_date'), Text::_('DATE_FORMAT_LC3')),
+				HTMLHelper::_('date', $model->getState('save_date'), Text::_('DATE_FORMAT_LC2')),
 				$model->getState('version_note') ? $model->getState('version_note') : Text::_('JLIB_APPLICATION_INFO_NO_VERSION_NOTE')
 			)
 		);
