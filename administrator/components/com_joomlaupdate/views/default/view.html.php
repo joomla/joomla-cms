@@ -270,9 +270,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$nextMinor = JVersion::MAJOR_VERSION . '.' . (JVersion::MINOR_VERSION + 1);
 		$nextMajor = (JVersion::MAJOR_VERSION + 1);
 
-		// Show only when we found a download URL, we have an update and when we update to the next minor or major.
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& $this->updateInfo['hasUpdate']
+		// Show only when we have an update and when we update to the next minor or major.
+		return $this->updateInfo['hasUpdate']
 			&& (version_compare($this->updateInfo['latest'], $nextMajor, '>=')
 				|| version_compare($this->updateInfo['latest'], $nextMinor, '>='));
 	}
