@@ -567,6 +567,12 @@ class JoomlaInstallerScript
 	{
 		$extensions = ExtensionHelper::getCoreExtensions();
 
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = array('package', 'pkg_search', '', 0);
+		}
+
 		// Attempt to refresh manifest caches
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -7385,6 +7391,18 @@ class JoomlaInstallerScript
 		}
 
 		$this->fixFilenameCasing();
+
+		/*
+		 * Needed for updates from 3.10
+		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
+		 * but an update has put the files back. In that case it exists even if they don't believe in it!
+		 */
+		if (!File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
+			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
+		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{

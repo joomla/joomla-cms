@@ -30,6 +30,21 @@ class CleanupModel extends BaseInstallationModel
 	 */
 	public function deleteInstallationFolder()
 	{
+		// TODO: Move this to the generic library method once #32915 is merged
+		if (ini_get('opcache.enable')
+			&& function_exists('opcache_invalidate')
+			&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0))
+		{
+			try
+			{
+				\opcache_invalidate(JPATH_INSTALLATION . '/index.php', true);
+			}
+			catch (\Exception $e)
+			{
+				// Silently accept invalidation error
+			}
+		}
+
 		$return = Folder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || File::delete(JPATH_ROOT . '/joomla.xml'));
 
 		// Rename the robots.txt.dist file if robots.txt doesn't exist
@@ -37,6 +52,8 @@ class CleanupModel extends BaseInstallationModel
 		{
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
+
+		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
 
 		return $return;
 	}

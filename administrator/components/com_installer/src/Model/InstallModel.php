@@ -370,7 +370,7 @@ class InstallModel extends BaseDatabaseModel
 	/**
 	 * Install an extension from a URL.
 	 *
-	 * @return  Package details or false on failure.
+	 * @return  bool|array  Package details or false on failure.
 	 *
 	 * @since   1.5
 	 */
