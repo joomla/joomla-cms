@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements the TaskOptions class used by com_scheduler as the subject arg for the `OnCronOptionsList` event.
+ * Implements the TaskOptions class used by com_scheduler as the subject arg for the `onTaskOptionsList` event.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -19,7 +19,7 @@ use function defined;
 
 /**
  * The TaskOptions class.
- * Used as the subject argument for the `OnCronOptionsList` event, plugins that support tasks must add them to the object
+ * Used as the subject argument for the `onTaskOptionsList` event, plugins that support tasks must add them to the object
  * through the addOptions() method.
  *
  * @since  __DEPLOY_VERSION__
@@ -37,7 +37,7 @@ class TaskOptions
 
 	/**
 	 * A plugin can support several task routines
-	 * This method is used by a plugin's OnCronOptionsList subscriber to advertise supported routines.
+	 * This method is used by a plugin's onTaskOptionsList subscriber to advertise supported routines.
 	 *
 	 * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
 	 *                              [ 'taskId' => 'languageConstantPrefix', ... ]

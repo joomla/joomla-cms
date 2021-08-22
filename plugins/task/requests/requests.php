@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -71,20 +71,20 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseRoutines',
-			'onCronRun' => 'makeRequest',
+			'onTaskOptionsList' => 'advertiseRoutines',
+			'onExecuteTask' => 'makeRequest',
 			'onContentPrepareForm' => 'enhanceForm'
 		];
 	}
 
 	/**
-	 * @param   CronRunEvent  $event  The onCronRun event
+	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function makeRequest(CronRunEvent $event): void
+	public function makeRequest(ExecuteTaskEvent $event): void
 	{
 		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{
@@ -120,14 +120,14 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   CronRunEvent  $event  The onCronRun event
+	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
 	 *
 	 * @return integer  The exit code
 	 *
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function makeGetRequest(CronRunEvent $event): int
+	protected function makeGetRequest(ExecuteTaskEvent $event): int
 	{
 		$params = $event->getArgument('params');
 

@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Database\DatabaseInterface;
@@ -281,11 +281,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		$app = $this->app;
 
-		/** @var CronRunEvent $event */
+		/** @var ExecuteTaskEvent $event */
 		$event = AbstractEvent::create(
-			'onCronRun',
+			'onExecuteTask',
 			[
-				'eventClass' => 'Joomla\Component\Scheduler\Administrator\Event\CronRunEvent',
+				'eventClass' => 'Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent',
 				'subject' => $this,
 				'TaskId' => $task->type,
 				'langConstPrefix' => $task->taskOption->langConstPrefix,
@@ -295,7 +295,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		// TODO: test -- can use exception handling here to prevent locked tasks
 		PluginHelper::importPlugin('task');
-		$app->getDispatcher()->dispatch('onCronRun', $event);
+		$app->getDispatcher()->dispatch('onExecuteTask', $event);
 
 		if (!$this->releaseLock($task, $event->getResultSnapshot()))
 		{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -71,21 +71,21 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseRoutines',
-			'onCronRun' => 'cronSampleRoutine',
+			'onTaskOptionsList' => 'advertiseRoutines',
+			'onExecuteTask' => 'cronSampleRoutine',
 			'onContentPrepareForm' => 'manipulateForms'
 		];
 	}
 
 	/**
-	 * @param   CronRunEvent  $event  onCronRun Event
+	 * @param   ExecuteTaskEvent  $event  onExecuteTask Event
 	 *
 	 * @return  void
 	 *
 	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION
 	 */
-	public function cronSampleRoutine(CronRunEvent $event): void
+	public function cronSampleRoutine(ExecuteTaskEvent $event): void
 	{
 		if (array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{
