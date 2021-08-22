@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Scheduler\Administrator\View\Select\HtmlView;
 
-/** @var HtmlView $this */
+/** @var  HtmlView  $this */
 
 // Is this needed?
 $this->modalLink = '&tmpl=component&view=select&layout=modal';

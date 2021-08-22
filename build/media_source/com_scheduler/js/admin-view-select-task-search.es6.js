@@ -4,7 +4,7 @@
  */
 
 /**
- * Add a keyboard event listener to the Select a Job Type search element.
+ * Add a keyboard event listener to the Select a Task Type search element.
  *
  * IMPORTANT! This script is meant to be loaded deferred. This means that a. it's non-blocking
  * (the browser can load it whenever) and b. it doesn't need an on DOMContentLoaded event handler
@@ -12,12 +12,12 @@
  * whole point of it being deferred.
  *
  * The search box has a keyboard handler that fires every time you press a keyboard button or send
- * a keypress with a touch / virtual keyboard. We then iterate all job type cards and check if
- * the plain text (HTML stripped out) representation of the job title or description partially
+ * a keypress with a touch / virtual keyboard. We then iterate all task type cards and check if
+ * the plain text (HTML stripped out) representation of the task title or description partially
  * matches the text you entered in the search box. If it doesn't we add a Bootstrap class to hide
- * the job.
+ * the task.
  *
- * This way we limit the displayed jobs only to those searched.
+ * This way we limit the displayed tasks only to those searched.
  *
  * This feature follows progressive enhancement. The search box is hidden by default and only
  * displayed when this JavaScript here executes. Furthermore, session storage is only used if it
@@ -29,17 +29,17 @@
  * and accessibility.
  *
  * Finally, the search string is saved into session storage on the assumption that the user is
- * probably going to be creating multiple instances of the same job, one after another, as is
+ * probably going to be creating multiple instances of the same task, one after another, as is
  * typical when building a new Joomla! site.
  * @codingStandardsIgnoreStart
  */
 // Make sure the element exists i.e. a template override has not removed it.
-const elSearch = document.getElementById('comCronjobsSelectSearch');
-const elSearchContainer = document.getElementById('comCronjobsSelectSearchContainer');
-const elSearchHeader = document.getElementById('comCronjobsSelectTypeHeader');
-const elSearchResults = document.getElementById('comCronjobsSelectResultsContainer');
-const alertElement = document.querySelector('.jobs-alert');
-const elCards = [].slice.call(document.querySelectorAll('.comCronjobsSelectCard'));
+const elSearch = document.getElementById('comSchedulerSelectSearch');
+const elSearchContainer = document.getElementById('comSchedulerSelectSearchContainer');
+const elSearchHeader = document.getElementById('comSchedulerSelectTypeHeader');
+const elSearchResults = document.getElementById('comSchedulerSelectResultsContainer');
+const alertElement = document.querySelector('.tasks-alert');
+const elCards = [].slice.call(document.querySelectorAll('.comSchedulerSelectCard'));
 
 if (elSearch && elSearchContainer) {
   // Add the keyboard event listener which performs the live search in the cards
@@ -50,10 +50,11 @@ if (elSearch && elSearchContainer) {
 
     if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('Joomla.com_scheduler.new.search', partialSearch);
-    } // Iterate all the job cards
+    }
 
+    // Iterate over all the task cards
     elCards.forEach((card) => {
-      // First remove the class which hide the job cards
+      // First remove the class which hide the task cards
       card.classList.remove('d-none');
 
       // An empty search string means that we should show everything
@@ -61,12 +62,12 @@ if (elSearch && elSearchContainer) {
         return;
       }
 
-      const cardHeader = card.querySelector('.new-job-title');
+      const cardHeader = card.querySelector('.new-task-title');
       const cardBody = card.querySelector('.card-body');
       const title = cardHeader ? cardHeader.textContent : '';
       const description = cardBody ? cardBody.textContent : '';
 
-      // If the job title and description don’t match add a class to hide it.
+      // If the task title and description don’t match add a class to hide it.
       if (title && !title.toLowerCase().includes(partialSearch.toLowerCase())
           && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
         card.classList.add('d-none');

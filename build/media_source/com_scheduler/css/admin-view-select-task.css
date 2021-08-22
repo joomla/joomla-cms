@@ -1,4 +1,4 @@
-.new-job {
+.new-task {
   display: flex;
   overflow: hidden;
   color: hsl(var(--hue), 30%, 40%);
@@ -7,13 +7,13 @@
   border-radius: .25rem;
 }
 
-.new-job-title {
+.new-task-title {
   margin-bottom: .25rem;
   font-size: 1rem;
   font-weight: 700;
 }
 
-.new-job-link {
+.new-task-link {
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -22,7 +22,7 @@
   background: hsl(var(--hue), 50%, 93%);
 }
 
-.new-job-caption {
+.new-task-caption {
   display: box;
   margin: 0;
   overflow: hidden;
@@ -31,28 +31,28 @@
   -webkit-line-clamp: 3;
 }
 
-.new-job-details {
+.new-task-details {
   flex: 1 0;
   padding: 1rem;
 }
 
-.new-job * {
+.new-task * {
   transition: all .25s ease;
 }
 
-.new-job:hover .new-job-link {
+.new-task:hover .new-task-link {
   background: var(--template-bg-dark);
 }
 
-.new-job-link span {
+.new-task-link span {
   margin-bottom: 10px;
   color: hsl(var(--hue), 30%, 40%);
 }
 
-.new-job:hover .new-job-link span {
+.new-task:hover .new-task-link span {
   color: #fff;
 }
 
-.new-jobs .card-columns {
+.new-tasks .card-columns {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
 }

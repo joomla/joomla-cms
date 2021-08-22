@@ -39,16 +39,16 @@ $this->ignore_fieldsets = [];
 // ? : Are these of use here?
 $isModal = $input->get('layout') === 'modal';
 $layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <!-- Form begins -->
 <form action="<?php echo Route::_('index.php?option=com_scheduler&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
-	  method="post" name="adminForm" id="cronjob-form"
+	  method="post" name="adminForm" id="task-form"
 	  aria-label="<?php echo Text::_('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
 	  class="form-validate">
 
-	<!-- The cronjob title field -->
+	<!-- The task title field -->
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<!-- The main form card -->
@@ -64,23 +64,23 @@ $tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=comp
 		?>
 		<div class="row">
 			<div class="col-lg-9">
-				<!-- Job type title, description go here -->
-				<?php if ($this->item->cronOption):
-					/** @var TaskOption $cronOption */
-					$cronOption = $this->item->cronOption; ?>
-					<div id="cronOptionInfo">
-						<h2 id="cronOptionTitle">
-							<?php echo $cronOption->title ?>
+				<!-- Task type title, description go here -->
+				<?php if ($this->item->taskOption):
+					/** @var TaskOption $taskOption */
+					$taskOption = $this->item->taskOption; ?>
+					<div id="taskOptionInfo">
+						<h2 id="taskOptionTitle">
+							<?php echo $taskOption->title ?>
 						</h2>
-						<p id="cronOptionDesc">
+						<p id="taskOptionDesc">
 							<?php
 							// @todo: For long descriptions, we'll want a "read more" functionality like com_modules
-							$desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($cronOption->desc)), 250);
+							$desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($taskOption->desc)), 250);
 							echo $desc;
 							?>
 						</p>
 					</div>
-					<!-- If JobOption does not exist -->
+					<!-- If TaskOption does not exist -->
 				<?php else:
 					$app->enqueueMessage(Text::_('COM_SCHEDULER_WARNING_EXISTING_TASK_TYPE_NOT_FOUND'), 'warning');
 					?>

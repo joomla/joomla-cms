@@ -278,11 +278,11 @@ class TaskModel extends AdminModel
 		$item->set('execution_rules', json_decode($item->get('execution_rules')));
 		$item->set('cron_rules', json_decode($item->get('cron_rules')));
 
-		$cronOption = SchedulerHelper::getTaskOptions()->findOption(
+		$taskOption = SchedulerHelper::getTaskOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
 		);
 
-		$item->set('cronOption', $cronOption);
+		$item->set('taskOption', $taskOption);
 
 		return $item;
 	}

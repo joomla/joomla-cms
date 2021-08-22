@@ -178,7 +178,7 @@ trait TaskPluginTrait
 	 */
 	protected function getRoutineId(Form $form, $data): string
 	{
-		$routineId = $data->cronOption->type ?? $data['cronOption']->type ?? $form->getValue('type');
+		$routineId = $data->taskOption->type ?? $data['taskOption']->type ?? $form->getValue('type');
 
 		if (!$routineId)
 		{
