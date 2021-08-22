@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,8 @@ class WebApplication extends BaseApplication
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
-		'feature-policy',
+		'feature-policy', // @deprecated - see: https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/
+		'permissions-policy',
 	);
 
 	/**

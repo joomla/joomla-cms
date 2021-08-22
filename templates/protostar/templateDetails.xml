@@ -6,7 +6,7 @@
 	<creationDate>4/30/2012</creationDate>
 	<author>Kyle Ledbetter</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<description>TPL_PROTOSTAR_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>

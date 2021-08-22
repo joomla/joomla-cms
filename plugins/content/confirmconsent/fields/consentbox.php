@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.confirmconsent
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -161,15 +161,13 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	}
 
 	/**
-	 * Method to get a control group with label and input.
+	 * Method to get the field input markup.
 	 *
-	 * @param   array  $options  Options to be passed into the rendering of the field
+	 * @return  string  The field input markup.
 	 *
-	 * @return  string  A string containing the html for the control group
-	 *
-	 * @since   3.9.1
+	 * @since   3.9.2
 	 */
-	public function renderField($options = array())
+	protected function getInput()
 	{
 		$modalHtml  = '';
 		$layoutData = $this->getLayoutData();
@@ -183,7 +181,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
 		}
 
-		return $modalHtml . parent::renderField($options);
+		return $modalHtml . parent::getInput();
 	}
 
 	/**

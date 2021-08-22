@@ -6,6 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -36,7 +37,7 @@ elseif (version_compare(JVERSION, '2.5.0', 'lt'))
 class FOFInput extends JInput
 {
 	/**
-	 * Public constructor. Overriden to allow specifying the global input array
+	 * Public constructor. Overridden to allow specifying the global input array
 	 * to use as a string and instantiate from an objetc holding variables.
 	 *
 	 * @param   array|string|object|null  $source   Source data; set null to use $_REQUEST
@@ -109,7 +110,7 @@ class FOFInput extends JInput
 	}
 
 	/**
-	 * Gets a value from the input data. Overriden to allow specifying a filter
+	 * Gets a value from the input data. Overridden to allow specifying a filter
 	 * mask.
 	 *
 	 * @param   string  $name     Name of the value to get.

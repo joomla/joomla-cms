@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,7 +114,7 @@ JLoader::registerAlias('JErrorPage',                        '\\Joomla\\CMS\\Exce
 JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\CMS\\Helper\\AuthenticationHelper', '5.0');
 JLoader::registerAlias('JHelper',                           '\\Joomla\\CMS\\Helper\\CMSHelper', '5.0');
 JLoader::registerAlias('JHelperContent',                    '\\Joomla\\CMS\\Helper\\ContentHelper', '5.0');
-JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\CMS\\Helper\\ContentHistoryHelper', '5.0');
+JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\CMS\\Helper\\ContentHistoryHelper', '4.0');
 JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Helper\\LibraryHelper', '5.0');
 JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Helper\\MediaHelper', '5.0');
 JLoader::registerAlias('JModuleHelper',                     '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
@@ -435,3 +435,6 @@ JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\File
 JLoader::registerAlias('JFilesystemWrapperFile',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\FileWrapper', '5.0');
 JLoader::registerAlias('JFilesystemWrapperFolder',          '\\Joomla\\CMS\\Filesystem\\Wrapper\\FolderWrapper', '5.0');
 JLoader::registerAlias('JFilesystemWrapperPath',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\PathWrapper', '5.0');
+
+JLoader::registerAlias('JAdapter',                          '\\Joomla\\CMS\\Adapter\\Adapter', '5.0');
+JLoader::registerAlias('JAdapterInstance',                  '\\Joomla\\CMS\\Adapter\\AdapterInstance', '5.0');

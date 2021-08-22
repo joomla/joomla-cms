@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -153,6 +153,11 @@ class ConfigModelComponent extends ConfigModelForm
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
+			if (!JFactory::getUser()->authorise('core.admin', $data['option']))
+			{
+				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			}
+
 			$rules = new JAccessRules($data['params']['rules']);
 			$asset = JTable::getInstance('asset');
 

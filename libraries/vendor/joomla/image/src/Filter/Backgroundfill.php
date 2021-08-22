@@ -8,8 +8,8 @@
 
 namespace Joomla\Image\Filter;
 
-use Joomla\Image\ImageFilter;
 use InvalidArgumentException;
+use Joomla\Image\ImageFilter;
 
 /**
  * Image Filter class fill background with color;
@@ -41,40 +41,38 @@ class Backgroundfill extends ImageFilter
 		$colorCode = (!empty($options['color'])) ? $options['color'] : null;
 
 		// Get resource dimensions
-		$width = imagesX($this->handle);
-		$height = imagesY($this->handle);
+		$width  = imagesx($this->handle);
+		$height = imagesy($this->handle);
 
 		// Sanitize color
 		$rgba = $this->sanitizeColor($colorCode);
 
 		// Enforce alpha on source image
-		if (imageIsTrueColor($this->handle))
+		if (imageistruecolor($this->handle))
 		{
-			imageAlphaBlending($this->handle, false);
-			imageSaveAlpha($this->handle, true);
+			imagealphablending($this->handle, false);
+			imagesavealpha($this->handle, true);
 		}
 
 		// Create background
-		$bg = imageCreateTruecolor($width, $height);
-		imageSaveAlpha($bg, empty($rgba['alpha']));
+		$bg = imagecreatetruecolor($width, $height);
+		imagesavealpha($bg, empty($rgba['alpha']));
 
 		// Allocate background color.
-		$color = imageColorAllocateAlpha($bg, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+		$color = imagecolorallocatealpha($bg, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 		// Fill background
-		imageFill($bg, 0, 0, $color);
+		imagefill($bg, 0, 0, $color);
 
 		// Apply image over background
-		imageCopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
+		imagecopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
 
 		// Move flattened result onto curent handle.
 		// If handle was palette-based, it'll stay like that.
-		imageCopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
+		imagecopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
 
 		// Free up memory
-		imageDestroy($bg);
-
-		return;
+		imagedestroy($bg);
 	}
 
 	/**
@@ -97,33 +95,33 @@ class Backgroundfill extends ImageFilter
 		$colors = array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0);
 
 		// Make sure all values are in
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			$colors = array_merge($colors, $input);
 		}
-		elseif (is_string($input))
-		// Convert RGBA 6-9 char string
+		elseif (\is_string($input))
 		{
+			// Convert RGBA 6-9 char string
 			$hex = ltrim($input, '#');
 
 			$hexValues = array(
-				'red' => substr($hex, 0, 2),
+				'red'   => substr($hex, 0, 2),
 				'green' => substr($hex, 2, 2),
-				'blue' => substr($hex, 4, 2),
+				'blue'  => substr($hex, 4, 2),
 				'alpha' => substr($hex, 6, 2),
 			);
 
 			$colors = array_map('hexdec', $hexValues);
 
 			// Convert Alpha to 0..127 when provided
-			if (strlen($hex) > 6)
+			if (\strlen($hex) > 6)
 			{
 				$colors['alpha'] = floor((255 - $colors['alpha']) / 2);
 			}
 		}
 		else
-		// Cannot sanitize such type
 		{
+			// Cannot sanitize such type
 			return $colors;
 		}
 

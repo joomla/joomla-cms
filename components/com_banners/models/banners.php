@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class BannersModelBanners extends JModelList
 			->where('a.state=1')
 			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
-			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
 
 		if ($cid)
 		{

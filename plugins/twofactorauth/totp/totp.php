@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,14 +79,14 @@ class PlgTwofactorauthTotp extends JPlugin
 	 * Shows the configuration page for this two factor authentication method.
 	 *
 	 * @param   object   $otpConfig  The two factor auth configuration object
-	 * @param   integer  $user_id    The numeric user ID of the user whose form we'll display
+	 * @param   integer  $userId     The numeric user ID of the user whose form we'll display
 	 *
 	 * @return  boolean|string  False if the method is not ours, the HTML of the configuration page otherwise
 	 *
 	 * @see     UsersModelUser::getOtpConfig
 	 * @since   3.2
 	 */
-	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
+	public function onUserTwofactorShowConfiguration($otpConfig, $userId = null)
 	{
 		// Create a new TOTP class with Google Authenticator compatible settings
 		$totp = new FOFEncryptTotp(30, 6, 10);
@@ -103,7 +103,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// These are used by Google Authenticator to tell accounts apart
-		$username = JFactory::getUser($user_id)->username;
+		$username = JFactory::getUser($userId)->username;
 		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
@@ -223,7 +223,7 @@ class PlgTwofactorauthTotp extends JPlugin
 			return false;
 		}
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig = (object) array(
 			'method'   => 'totp',
 			'config'   => array(

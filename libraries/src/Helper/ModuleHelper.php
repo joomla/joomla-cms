@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -302,10 +302,19 @@ abstract class ModuleHelper
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+
+		try
+		{
+			// Build the template and base path for the layout
+			$tPath = \JPath::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
+			$bPath = \JPath::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
+		}
+		catch (\Exception $e)
+		{
+			// On error fallback to the default path
+			return $dPath;
+		}
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
@@ -665,7 +674,7 @@ abstract class ModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the id of the module
-			if ($modules[$i]->id === $id)
+			if ((string) $modules[$i]->id === $id)
 			{
 				// Found it
 				return $modules[$i];

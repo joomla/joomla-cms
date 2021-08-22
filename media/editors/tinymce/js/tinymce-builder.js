@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,12 +37,12 @@
         this.options    = options;
 
         // Find source containers
-        this.$sourceMenu    = this.$container.find('.timymce-builder-menu.source');
-        this.$sourceToolbar = this.$container.find('.timymce-builder-toolbar.source');
+        this.$sourceMenu    = this.$container.find('.tinymce-builder-menu.source');
+        this.$sourceToolbar = this.$container.find('.tinymce-builder-toolbar.source');
 
         // Find target containers
-        this.$targetMenu    = this.$container.find('.timymce-builder-menu.target');
-        this.$targetToolbar = this.$container.find('.timymce-builder-toolbar.target');
+        this.$targetMenu    = this.$container.find('.tinymce-builder-menu.target');
+        this.$targetToolbar = this.$container.find('.tinymce-builder-toolbar.target');
 
         // Render Source elements
         this.$sourceMenu.each(function(i, element){

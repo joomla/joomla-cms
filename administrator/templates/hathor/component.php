@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @var JDocumentHtml $this */
 
 // Get additional language strings prefixed with TPL_HATHOR
-// @todo: Do we realy need this?
+// @todo: Do we really need this?
 $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 || $lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language');

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class ContactViewContact extends JViewLegacy
 	protected $item;
 
 	/**
-	 * The page to return to on sumission
+	 * The page to return to on submission
 	 *
 	 * @var         string
 	 * @since       1.6
@@ -71,6 +71,7 @@ class ContactViewContact extends JViewLegacy
 
 		$item = $this->get('Item');
 		$state = $this->get('State');
+		$contacts = array();
 
 		// Get submitted values
 		$data = $app->getUserState('com_contact.contact.data', array());
@@ -112,7 +113,8 @@ class ContactViewContact extends JViewLegacy
 			$item->params = $temp;
 		}
 
-		if ($item)
+		// Collect extra contact information when this information is required
+		if ($item && $item->params->get('show_contact_list'))
 		{
 			// Get Category Model data
 			$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));

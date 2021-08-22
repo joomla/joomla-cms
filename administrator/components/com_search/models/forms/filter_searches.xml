@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_SEARCH_SEARCH_IN_PHRASE"
 			description="COM_SEARCH_SEARCH_IN_PHRASE"
 			hint="JSEARCH_FILTER"

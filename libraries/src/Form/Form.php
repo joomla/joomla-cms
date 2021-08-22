@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\Factory\LegacyFormFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -78,7 +77,7 @@ class Form
 	protected static $forms = array();
 
 	/**
-	 * Alows extensions to implement repeating elements
+	 * Allows extensions to implement repeating elements
 	 *
 	 * @var    boolean
 	 * @since  3.2
@@ -620,7 +619,7 @@ class Form
 	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since      3.2
 	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
@@ -637,7 +636,7 @@ class Form
 	 *
 	 * @param   string  $name  The name of the fieldset for which to get the values.
 	 *
-	 * @return  string  A string containing the html for the control goups
+	 * @return  string  A string containing the html for the control groups
 	 *
 	 * @since      3.2
 	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
@@ -1546,27 +1545,7 @@ class Form
 
 				break;
 			default:
-				if ($element['type'] == 'subform')
-				{
-					$field   = $this->loadField($element);
-					$subForm = $field->loadSubForm();
 
-					if ($field->multiple && !empty($value))
-					{
-						$return = array();
-
-						foreach ($value as $key => $val)
-						{
-							$return[$key] = $subForm->filter($val);
-						}
-					}
-					else
-					{
-						$return = $subForm->filter($value);
-					}
-
-					break;
-				}
 				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
@@ -1577,6 +1556,43 @@ class Form
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
+				}
+
+				elseif ((string) $element['type'] === 'subform')
+				{
+					$field   = $this->loadField($element);
+					$subForm = $field->loadSubForm();
+
+					// Subform field may have a default value, that is a JSON string
+					if ($value && is_string($value))
+					{
+						$value = json_decode($value, true);
+
+						// The string is invalid json
+						if (!$value)
+						{
+							return null;
+						}
+					}
+
+					if ($field->multiple)
+					{
+						$return = array();
+
+						if ($value)
+						{
+							foreach ($value as $key => $val)
+							{
+								$return[$key] = $subForm->filter($val);
+							}
+						}
+					}
+					else
+					{
+						$return = $subForm->filter($value);
+					}
+
+					break;
 				}
 
 				// Check for empty value and return empty string if no value is required,
@@ -2148,38 +2164,18 @@ class Form
 			}
 		}
 
-		if ($valid !== false && $element['type'] == 'subform')
+		if ($valid !== false && (string) $element['type'] === 'subform')
 		{
-			$field   = $this->loadField($element);
-			$subForm = $field->loadSubForm();
+			// Load the subform validation rule.
+			$rule = $this->loadRuleType('SubForm');
 
-			if ($field->multiple)
+			// Run the field validation rule test.
+			$valid = $rule->test($element, $value, $group, $input, $this);
+
+			// Check for an error in the validation test.
+			if ($valid instanceof \Exception)
 			{
-				foreach ($value as $key => $val)
-				{
-					$val = (array) $val;
-
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
-					{
-						break;
-					}
-				}
-			}
-			else
-			{
-				$valid = $subForm->validate($value);
-			}
-
-			if ($valid === false)
-			{
-				$errors = $subForm->getErrors();
-
-				foreach ($errors as $error)
-				{
-					return $error;
-				}
+				return $valid;
 			}
 		}
 

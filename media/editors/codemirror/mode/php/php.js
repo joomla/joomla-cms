@@ -53,7 +53,7 @@
           [["]", null]]
         ], closing, escapes);
       }
-      if (stream.match(/\-\>\w/, false)) {
+      if (stream.match(/^->\w/, false)) {
         // Match object operator
         state.tokenize = matchSequence([
           [["->", null]],
@@ -106,7 +106,7 @@
       },
       "<": function(stream, state) {
         var before;
-        if (before = stream.match(/<<\s*/)) {
+        if (before = stream.match(/^<<\s*/)) {
           var quoted = stream.eat(/['"]/);
           stream.eatWhile(/[\w\.]/);
           var delim = stream.current().slice(before[0].length + (quoted ? 2 : 1));
@@ -160,7 +160,7 @@
       if (!isPHP) {
         if (stream.match(/^<\?\w*/)) {
           state.curMode = phpMode;
-          if (!state.php) state.php = CodeMirror.startState(phpMode, htmlMode.indent(state.html, ""))
+          if (!state.php) state.php = CodeMirror.startState(phpMode, htmlMode.indent(state.html, "", ""))
           state.curState = state.php;
           return "meta";
         }
@@ -213,11 +213,11 @@
 
       token: dispatch,
 
-      indent: function(state, textAfter) {
+      indent: function(state, textAfter, line) {
         if ((state.curMode != phpMode && /^\s*<\//.test(textAfter)) ||
             (state.curMode == phpMode && /^\?>/.test(textAfter)))
-          return htmlMode.indent(state.html, textAfter);
-        return state.curMode.indent(state.curState, textAfter);
+          return htmlMode.indent(state.html, textAfter, line);
+        return state.curMode.indent(state.curState, textAfter, line);
       },
 
       blockCommentStart: "/*",

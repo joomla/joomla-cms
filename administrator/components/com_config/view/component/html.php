@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,6 +98,11 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+
+		$helpUrl = $this->form->getData()->get('helpURL');
+		$helpKey = (string) $this->form->getXml()->config->help['key'];
+		$helpKey = $helpKey ?: 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+
+		JToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
 	}
 }

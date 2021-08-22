@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Română (România)</name>
 	<version>3.7.0</version>
-	<creationDate>01-05-2017</creationDate>
+	<creationDate>2017-05-01</creationDate>
 	<author>Horia Negura - Quanta</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ro-RO.ini</filename>

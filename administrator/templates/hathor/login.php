@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,7 +105,9 @@ else
 					<div class="login-inst">
 					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
 					<div id="lock"></div>
-					<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+					<a href="<?php echo htmlspecialchars($frontEndUri->toString(), ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+						<?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?>
+					</a>
 					</div>
 					<!-- Login Component -->
 					<div class="login-box">

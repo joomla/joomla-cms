@@ -18,7 +18,7 @@ media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000
 
 # Statistics Server
-plugins/system/stats/*  @mbabker @wilsonge
+plugins/system/stats/*  @wilsonge
 
 # Release Tools
 build.xml  @wilsonge
@@ -48,6 +48,3 @@ phpunit.xml.dist  @rdeutz
 RoboFile.dist.ini  @rdeutz
 RoboFile.php  @rdeutz
 travis-phpunit.xml  @rdeutz
-
-# Core JS
-media/*/js/*  @wilsonge

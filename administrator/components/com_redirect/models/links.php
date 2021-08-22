@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,11 +191,11 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param   array  $batch_urls  Array of URLs to enter into the database
+	 * @param   array  $batchUrls  Array of URLs to enter into the database
 	 *
 	 * @return boolean
 	 */
-	public function batchProcess($batch_urls)
+	public function batchProcess($batchUrls)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -215,7 +215,7 @@ class RedirectModelLinks extends JModelList
 
 		$query->columns($columns);
 
-		foreach ($batch_urls as $batch_url)
+		foreach ($batchUrls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 

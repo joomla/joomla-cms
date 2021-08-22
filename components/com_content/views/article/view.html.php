@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -252,7 +252,7 @@ class ContentViewArticle extends JViewLegacy
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
-				|| $id != $category->id) && $category->id > 1)
+				|| $id != $category->id) && $category->id !== 'root')
 			{
 				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
