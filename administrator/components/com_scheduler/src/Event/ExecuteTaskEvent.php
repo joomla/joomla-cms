@@ -1,6 +1,6 @@
 <?php
 /**
- * Declares the CronRunEvent Event.
+ * Declares the ExecuteTaskEvent Event.
  *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
@@ -18,11 +18,11 @@ use BadMethodCallException;
 use Joomla\CMS\Event\AbstractEvent;
 
 /**
- * Event class for onCronRun event.
+ * Event class for onExecuteTask event.
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronRunEvent extends AbstractEvent
+class ExecuteTaskEvent extends AbstractEvent
 {
 	/**
 	 * Constructor.

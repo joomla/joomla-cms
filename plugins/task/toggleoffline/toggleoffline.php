@@ -17,7 +17,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -90,19 +90,19 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onCronOptionsList' => 'advertiseRoutines',
-			'onCronRun' => 'toggleOffline',
+			'onTaskOptionsList' => 'advertiseRoutines',
+			'onExecuteTask' => 'toggleOffline',
 		];
 	}
 
 	/**
-	 * @param   CronRunEvent  $event  The onCronRun event
+	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function toggleOffline(CronRunEvent $event): void
+	public function toggleOffline(ExecuteTaskEvent $event): void
 	{
 		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
 		{

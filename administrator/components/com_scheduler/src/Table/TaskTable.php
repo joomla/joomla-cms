@@ -60,8 +60,8 @@ class TaskTable extends Table
 	public $title;
 
 	/**
-	 * CronjobTable constructor.
-	 * Just passes the DB table name and primary key name to parent constructor.
+	 * TaskTable constructor.
+	 * Just passes the DB table name and primary key name to the parent constructor.
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object (?)
 	 *

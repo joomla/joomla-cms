@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
 	-- Job type. Can execute a script or plugin routine
 	`type` varchar(1024) NOT NULL COMMENT 'unique identifier for job defined by plugin',
 	-- Trigger type, default to PseudoCron (compatible everywhere).
-	`trigger` enum ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
+	`trigger` enum ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how the task is triggered',
 	`execution_rules` text COMMENT 'Execution Rules, Unprocessed',
 	`cron_rules` text COMMENT 'Processed execution rules, crontab-like JSON form',
 	`state` tinyint NOT NULL DEFAULT FALSE,

@@ -65,14 +65,14 @@ final class SchedulerHelper
 		$app = Factory::getApplication();
 		$options = new TaskOptions;
 		$event = AbstractEvent::create(
-			'onCronOptionsList',
+			'onTaskOptionsList',
 			[
 				'subject' => $options
 			]
 		);
 
 		PluginHelper::importPlugin('task');
-		$app->getDispatcher()->dispatch('onCronOptionsList', $event);
+		$app->getDispatcher()->dispatch('onTaskOptionsList', $event);
 
 		self::$taskOptionsCache = $options;
 

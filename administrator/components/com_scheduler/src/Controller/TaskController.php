@@ -27,7 +27,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use function defined;
 
 /**
- * MVC Controller for CronjobView.
+ * MVC Controller for TaskView.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -75,7 +75,7 @@ class TaskController extends FormController
 	}
 
 	/**
-	 * Override parent cancel method to reset the add cronjob state
+	 * Override parent cancel method to reset the add task state
 	 *
 	 * @param   ?string  $key  Primary key from the URL param
 	 *

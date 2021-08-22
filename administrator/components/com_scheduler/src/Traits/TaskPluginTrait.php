@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Scheduler\Administrator\Event\CronRunEvent;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 use ReflectionClass;
@@ -77,16 +77,16 @@ trait TaskPluginTrait
 	/**
 	 * Sets exit code and duration to snapshot. Writes to log.
 	 *
-	 * @param   CronRunEvent  $event     The event
-	 * @param   ?int          $exitCode  The task exit code
-	 * @param   boolean       $log       If true, the method adds a log. Requires the plugin to
+	 * @param   ExecuteTaskEvent  $event     The event
+	 * @param   ?int              $exitCode  The task exit code
+	 * @param   boolean           $log       If true, the method adds a log. Requires the plugin to
 	 *                                   have the language strings.
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function taskEnd(CronRunEvent $event, int $exitCode, bool $log = true): void
+	private function taskEnd(ExecuteTaskEvent $event, int $exitCode, bool $log = true): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
@@ -148,7 +148,7 @@ trait TaskPluginTrait
 	 * Advertises the task routines supported by the parent plugin.
 	 * Expects the TASKS_MAP class constant to have relevant information.
 	 *
-	 * @param   Event  $event  onCronOptionsList Event
+	 * @param   Event  $event  onTaskOptionsList Event
 	 *
 	 * @return void
 	 *
