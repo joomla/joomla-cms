@@ -115,6 +115,7 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
+				/** @var \AKPostprocDirect $postproc */
 				$postproc = \AKFactory::getPostProc();
 				$postproc->unlink($fileName);
 			}
@@ -130,6 +131,7 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function move($src, $dest)
 			{
+				/** @var \AKPostprocDirect $postproc */
 				$postproc = \AKFactory::getPostProc();
 				$postproc->rename($src, $dest);
 			}
