@@ -287,7 +287,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			[
 				'eventClass' => 'Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent',
 				'subject' => $this,
-				'TaskId' => $task->type,
+				'taskId' => $task->type,
 				'langConstPrefix' => $task->taskOption->langConstPrefix,
 				'params' => json_decode($task->params),
 			]

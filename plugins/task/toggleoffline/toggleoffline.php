@@ -100,11 +100,12 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function toggleOffline(ExecuteTaskEvent $event): void
 	{
-		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
+		if (!array_key_exists($event->getTaskId(), self::TASKS_MAP))
 		{
 			return;
 		}
@@ -113,7 +114,7 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 
 		$config = ArrayHelper::fromObject(new JConfig);
 
-		$toggle = self::TASKS_MAP[$event->getJobId()]['toggle'];
+		$toggle = self::TASKS_MAP[$event->getTaskId()]['toggle'];
 		$oldStatus = $config['offline'] ? 'offline' : 'online';
 
 		if ($toggle)
@@ -122,7 +123,7 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$offline = self::TASKS_MAP[$event->getJobId()]['offline'];
+			$offline = self::TASKS_MAP[$event->getTaskId()]['offline'];
 			$config['offline'] = $offline;
 		}
 
