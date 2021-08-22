@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
 	'textPrefix' => 'COM_SCHEDULER',
-	'formURL' => 'index.php?option=com_scheduler&task=cronjob.add',
+	'formURL' => 'index.php?option=com_scheduler&task=task.add',
 	'helpURL' => 'https://github.com/joomla-projects/soc21_website-cronjob',
 	'icon' => 'icon-clock clock',
 ];

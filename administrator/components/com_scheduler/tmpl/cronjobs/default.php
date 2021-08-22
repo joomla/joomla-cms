@@ -43,12 +43,12 @@ $mode = false;
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_scheduler&task=cronjobs.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_scheduler&view=cronjobs'); ?>" method="post" name="adminForm"
+<form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
 	  id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php
@@ -56,9 +56,9 @@ if ($saveOrder && !empty($this->items))
 		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 
-		<!-- If no cronjobs -->
+		<!-- If no tasks -->
 		<?php if (empty($this->items)): ?>
-			<!-- No cronjobs -->
+			<!-- No tasks -->
 			<div class="alert alert-info">
 				<span class="icon-info-circle" aria-hidden="true"></span><span
 						class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -66,9 +66,9 @@ if ($saveOrder && !empty($this->items))
 			</div>
 		<?php endif; ?>
 
-		<!-- If there are cronjobs, we start with the table -->
+		<!-- If there are tasks, we start with the table -->
 		<?php if (!empty($this->items)): ?>
-			<!-- Cronjobs table starts here -->
+			<!-- Tasks table starts here -->
 			<table class="table" id="categoryList">
 
 				<caption class="visually-hidden">
@@ -77,7 +77,7 @@ if ($saveOrder && !empty($this->items))
 					<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 
-				<!-- Cronjobs table header -->
+				<!-- Tasks table header -->
 				<thead>
 				<tr>
 
@@ -92,22 +92,22 @@ if ($saveOrder && !empty($this->items))
 						<!-- Might need to adjust method args here -->
 						<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 					</th>
-					<!-- Job State -->
+					<!-- Task State -->
 					<th scope="col" class="w-1 text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 
-					<!-- Job title header -->
+					<!-- Task title header -->
 					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 
-					<!-- Job type header -->
+					<!-- Task type header -->
 					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
 					</th>
 
-					<!-- Job ID -->
+					<!-- Task ID -->
 					<th scope="col" class="w-5 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
@@ -158,13 +158,13 @@ if ($saveOrder && !empty($this->items))
 
 						<!-- Item State -->
 						<td class="text-center">
-							<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'cronjobs.', $canChange); ?>
+							<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'tasks.', $canChange); ?>
 						</td>
 
 						<!-- Item name, edit link, and note (@todo: should it be moved?) -->
 						<th scope="row">
 							<?php if ($canEdit): ?>
-								<a href="<?php echo Route::_('index.php?option=com_scheduler&task=cronjob.edit&id=' . $item->id); ?>"
+								<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
 								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
 							<?php else: ?>
 								<?php echo $this->escape($item->title); ?>

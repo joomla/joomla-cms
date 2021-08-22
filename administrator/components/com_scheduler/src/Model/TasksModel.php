@@ -351,12 +351,12 @@ class TasksModel extends ListModel
 	 */
 	private function attachTaskOptions(array &$items): void
 	{
-		$cronOptions = SchedulerHelper::getTaskOptions();
+		$taskOptions = SchedulerHelper::getTaskOptions();
 
 		foreach ($items as $item)
 		{
-			$item->cronOption = $cronOptions->findOption($item->type);
-			$item->safeTypeTitle = $item->cronOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
+			$item->taskOption = $taskOptions->findOption($item->type);
+			$item->safeTypeTitle = $item->taskOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
 		}
 	}
 

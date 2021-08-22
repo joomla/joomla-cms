@@ -16,6 +16,6 @@ use Joomla\CMS\Language\Text;
 		data-bs-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>
 </button>
-<button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('cronjob.batch');return false;">
+<button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('task.batch');return false;">
 	<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>
