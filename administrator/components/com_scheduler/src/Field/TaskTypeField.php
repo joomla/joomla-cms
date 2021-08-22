@@ -27,7 +27,7 @@ use function array_map;
  *
  * @since  __DEPLOY_VERSION__
  */
-class JobTypeField extends ListField
+class TaskTypeField extends ListField
 {
 	/**
 	 * The form field type.
@@ -35,7 +35,7 @@ class JobTypeField extends ListField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'jobType';
+	protected $type = 'TaskType';
 
 	/**
 	 * Method to get field options

@@ -6,9 +6,9 @@
   "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
-      "name": "com_scheduler.admin-plg-job-search.es5",
+      "name": "com_scheduler.admin-view-select-task-search.es5",
       "type": "script",
-      "uri": "com_scheduler/admin-plg-job-search-es5.js",
+      "uri": "com_scheduler/admin-view-select-task-search-es5.js",
       "dependencies": [
         "core"
       ],
@@ -18,25 +18,25 @@
       }
     },
     {
-      "name": "com_scheduler.admin-plg-job-search",
+      "name": "com_scheduler.admin-view-select-task-search",
       "type": "script",
-      "uri": "com_scheduler/admin-plg-job-search.js",
+      "uri": "com_scheduler/admin-view-select-task-search.js",
       "dependencies": [
-        "com_scheduler.admin-plg-job-search.es5"
+        "com_scheduler.admin-view-select-task-search.es5"
       ],
       "attributes": {
         "type" : "module"
       }
     },
     {
-      "name": "com_scheduler.admin-plg-job-css",
+      "name": "com_scheduler.admin-view-select-task-css",
       "type": "style",
-      "uri": "com_scheduler/admin-plg-job.css"
+      "uri": "com_scheduler/admin-view-select-task.css"
     },
     {
-      "name": "com_scheduler.admin-view-cronjob-css",
+      "name": "com_scheduler.admin-view-task-css",
       "type": "style",
-      "uri": "com_scheduler/admin-view-cronjob.css"
+      "uri": "com_scheduler/admin-view-task.css"
     }
   ]
 }

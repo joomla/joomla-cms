@@ -27,8 +27,8 @@ $app = $this->app;
 // $function  = $app->getInput()->get('function');
 
 $wa = $this->document->getWebAssetManager();
-$wa->useStyle('com_scheduler.admin-plg-job-css');
-$wa->useScript('com_scheduler.admin-plg-job-search');
+$wa->useStyle('com_scheduler.admin-view-select-task-css');
+$wa->useScript('com_scheduler.admin-view-select-task-search');
 
 /*
  * if ($function) :
