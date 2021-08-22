@@ -26,7 +26,7 @@ $wa = $this->document->getWebAssetManager();
 
 $wa->useScript('keepalive');
 $wa->useScript('form.validate');
-$wa->useStyle('com_scheduler.admin-view-cronjob-css');
+$wa->useStyle('com_scheduler.admin-view-task-css');
 
 /** @var AdministratorApplication $app */
 $app = $this->app;

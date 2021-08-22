@@ -21,7 +21,7 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CronjobStateField extends PredefinedlistField
+class TaskStateField extends PredefinedlistField
 {
 	/**
 	 * The form field type.
@@ -29,7 +29,7 @@ class CronjobStateField extends PredefinedlistField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $type = 'CronjobState';
+	public $type = 'TaskState';
 
 	/**
 	 * Available states
