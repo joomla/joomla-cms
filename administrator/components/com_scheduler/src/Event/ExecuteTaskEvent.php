@@ -38,18 +38,18 @@ class ExecuteTaskEvent extends AbstractEvent
 	{
 		$arguments['resultSnapshot'] = null;
 
-		if (!isset($arguments['jobId']))
+		if (!isset($arguments['taskId']))
 		{
-			throw new BadMethodCallException("No jobId given for $name event");
+			throw new BadMethodCallException("No taskId given for $name event");
 		}
 
 		parent::__construct($name, $arguments);
 	}
 
 	/**
-	 * Sets the job result snapshot and stops event propagation.
+	 * Sets the task result snapshot and stops event propagation.
 	 *
-	 * @param   array  $snapshot  The job snapshot.
+	 * @param   array  $snapshot  The task snapshot.
 	 *
 	 * @return void
 	 *
@@ -66,21 +66,19 @@ class ExecuteTaskEvent extends AbstractEvent
 	}
 
 	/**
-	 * Returns the jobId of the job.
-	 *
-	 * @return  string  The jobId of the job
+	 * @return  string  The task's taskId.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getJobId(): string
+	public function getTaskId(): string
 	{
-		return $this->arguments['jobId'];
+		return $this->arguments['taskId'];
 	}
 
 	/**
-	 * Returns the snapshot of the triggered job if available, else an empty array
+	 * Returns the snapshot of the triggered task if available, else an empty array
 	 *
-	 * @return array   The job snapshot if available, else null
+	 * @return array   The task snapshot if available, else null
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

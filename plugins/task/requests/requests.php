@@ -86,13 +86,13 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 */
 	public function makeRequest(ExecuteTaskEvent $event): void
 	{
-		if (!array_key_exists($event->getJobId(), self::TASKS_MAP))
+		if (!array_key_exists($event->getTaskId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
 		$this->taskStart();
-		$jobId = $event->getJobId();
+		$jobId = $event->getTaskId();
 		$exitCode = $this->{self::TASKS_MAP[$jobId]['call']}($event);
 		$this->taskEnd($event, $exitCode);
 	}

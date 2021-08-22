@@ -87,7 +87,7 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	 */
 	public function cronSampleRoutine(ExecuteTaskEvent $event): void
 	{
-		if (array_key_exists($event->getJobId(), self::TASKS_MAP))
+		if (array_key_exists($event->getTaskId(), self::TASKS_MAP))
 		{
 			$this->taskStart();
 
