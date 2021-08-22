@@ -103,7 +103,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
 
 		// Disable the critical plugins check for non-major updates.
-		$this->nonCoreCriticalPlugins = false;
+		$this->nonCoreCriticalPlugins = array();
 
 		if (version_compare($this->updateInfo['latest'], '4', '>='))
 		{
@@ -267,8 +267,12 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& $this->getModel()->isDatabaseTypeSupported()
-			&& $this->getModel()->isPhpVersionSupported();
+		$nextMinor = JVersion::MAJOR_VERSION . '.' . (JVersion::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+				&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
+	}
 	}
 }
+
