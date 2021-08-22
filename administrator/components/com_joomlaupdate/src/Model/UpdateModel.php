@@ -61,7 +61,6 @@ class UpdateModel extends BaseDatabaseModel
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -89,6 +88,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -1405,8 +1405,10 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			// Remove unused fields so they do not cause javascript errors during pre-update check
 			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($extension);
 			$extension->version
@@ -1465,8 +1467,10 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($plugin);
 			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
