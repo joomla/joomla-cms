@@ -147,7 +147,7 @@ module.exports.createErrorPages = async (options) => {
     await writeFile(
       `${RootPath}${options.settings.errorPages[name].destFile}`,
       template,
-      { encoding: 'utf8', mode: 0o2644 },
+      { encoding: 'utf8', mode: 0o644 },
     );
 
     // eslint-disable-next-line no-console

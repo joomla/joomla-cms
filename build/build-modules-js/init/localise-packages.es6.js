@@ -145,6 +145,6 @@ module.exports.localisePackages = async (options) => {
   await writeFile(
     join(mediaVendorPath, 'joomla.asset.json'),
     JSON.stringify(registry, null, 2),
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 };
