@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * MenuItem by Component field.
  *
- * @since  4.0.0
+ * @since __DEPLOY_VERSION__
  */
 class MenuItemByComponentField extends ListField
 {
