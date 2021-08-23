@@ -162,12 +162,11 @@ class SearchModel extends ListModel
 		);
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
-		$termIds = 'term_id IN (' . implode(',', $included) . ')';
 		$amount = count($included) - 1 > 0 ? count($included) - 1 : 0;
 
 		$query->from('(SELECT link_id, SUM(weight) as weight
     						FROM #__finder_links_terms
-    						WHERE ' . $termIds . '
+    						WHERE term_id IN (' . implode(',', $included) . ')
     						GROUP BY link_id
     						HAVING COUNT(link_id) > ' . $amount . ' ) AS m'
 		);
@@ -197,7 +196,7 @@ class SearchModel extends ListModel
 			$groups = array_values($this->searchquery->filters);
 			$taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
-			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = m.link_id')
 				->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
 			// Iterate through each taxonomy group.
@@ -287,7 +286,11 @@ class SearchModel extends ListModel
 		 */
 		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
-			// Return the results.
+			$query->clear('from')
+				->clear('join')
+				->from('#__finder_links AS l')
+				->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+				->group('l.link_id,l.object');
 			return $query;
 		}
 
@@ -302,7 +305,7 @@ class SearchModel extends ListModel
 				->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
 			$query->where('l.link_id NOT IN (' . $query2 . ')');
 		}
-		
+
 		return $query;
 	}
 
