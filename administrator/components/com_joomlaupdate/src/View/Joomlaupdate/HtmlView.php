@@ -187,7 +187,6 @@ class HtmlView extends BaseHtmlView
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -209,6 +208,7 @@ class HtmlView extends BaseHtmlView
 			 * "Minor & Patch Release for Current version (recommended and default)".
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
+			 * case 'sts':
 			 * case 'lts':
 			 * case 'nochange':
 			 */
