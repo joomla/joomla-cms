@@ -335,6 +335,7 @@ $assoc = Associations::isEnabled();
 										if($item->draft == 1){
 											echo '<span class="badge rounded-pill bg-success">Draft</span>';
 										}
+										echo '<span> </span>';
 										if($item->shared == 1) {
 											echo '<span class="badge rounded-pill bg-warning">Shared</span>';
 										}
