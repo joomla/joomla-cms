@@ -52,6 +52,7 @@
         </li>
         <li>
           <media-browser-action-item-edit
+            v-if="canEdit"
             ref="actionEdit"
             :focused="focused"
             :mainAction="editItem"
@@ -91,7 +92,7 @@ import * as types from '../../../store/mutation-types.es6';
 export default {
   name: 'MediaBrowserActionItemsContainer',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused', 'editItem'],
+  props: ['item', 'focused', 'editItem', 'canEdit'],
   data() {
     return {
       showActions: false,
@@ -100,7 +101,8 @@ export default {
   computed: {
     /* Check if the item is an document to edit */
     canEdit() {
-      return ['pdf'].includes(this.item.extension.toLowerCase());
+      console.log(this.canEdit())
+      return this.canEdit()
     },
   },
   methods: {

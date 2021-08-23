@@ -19,6 +19,7 @@
       :focused="focused"
       :item="item"
       :editItem="editItem"
+      :canEdit="canEdit"
     />
   </div>
 </template>
@@ -30,13 +31,11 @@ export default {
   name: 'MediaBrowserItemPdf',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
-  computed: {
+  methods: {
     /* Check if the item is an document to edit */
     canEdit() {
-      return ['pdf'].includes(this.item.extension.toLowerCase());
+      return [].includes(this.item.extension.toLowerCase());
     },
-  },
-  methods: {
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
