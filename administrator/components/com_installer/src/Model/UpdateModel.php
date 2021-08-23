@@ -360,6 +360,12 @@ class UpdateModel extends ListModel
 				continue;
 			}
 
+      // append extra_query, if set
+      if ($extra_query = $instance->extra_query) { 
+        $instance->detailsurl .= (strpos($instance->detailsurl, '?') === false) ? '?' : '&'; 
+        $instance->detailsurl .= $instance->extra_query; 
+      }
+      
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 
 			// Find and use extra_query from update_site if available
