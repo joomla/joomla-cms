@@ -69,5 +69,5 @@ module.exports.recreateMediaFolder = async (options) => {
     return true;
   };
 
-  await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc });
+  await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc, preserveTimestamps: true });
 };
