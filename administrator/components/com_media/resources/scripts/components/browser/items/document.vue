@@ -53,7 +53,7 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$ref.container.openPreview();
-    }
+    },
     /* Edit an item */
     editItem() {},
   },

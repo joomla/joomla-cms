@@ -94,7 +94,16 @@ import * as types from "../../../store/mutation-types.es6";
 export default {
   name: "MediaBrowserActionItemsContainer",
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused", "editItem", "canEdit"],
+  // props: ["item", "focused", "editItem", "canEdit"],
+  props: {
+    item: Object,
+    focused: Function,
+    editItem: { type: Function, default: () => {} },
+    canEdit: { type: Function, default: () => false },
+    isPreviwable: { type: Boolean, default: false },
+    isDownloadable: { type: Boolean, default: false },
+    isShareable: { type: Boolean, default: false },
+  },
   data() {
     return {
       showActions: false,

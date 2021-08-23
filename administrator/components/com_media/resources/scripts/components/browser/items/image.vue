@@ -61,9 +61,14 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$ref.container.openPreview();
-    }
+    },
     /* Edit an item */
-    editItem() {},
+    editItem() {
+      // TODO should we use relative urls here?
+      const fileBaseUrl = `${Joomla.getOptions("com_media").editViewUrl}&path=`;
+
+      window.location.href = fileBaseUrl + this.item.path;
+    },
   },
 };
 </script>

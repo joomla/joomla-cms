@@ -26,22 +26,18 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import * as types from "../../../store/mutation-types.es6";
 
 export default {
-  name: 'MediaBrowserItemFile',
+  name: "MediaBrowserItemFile",
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: ["item", "focused"],
   data() {
     return {
       showActions: false,
     };
   },
   methods: {
-    /* Check if the item is an document to edit */
-    canEdit() {
-      return [].includes(this.item.extension.toLowerCase());
-    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
@@ -49,9 +45,7 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$ref.container.openPreview();
-    }
-    /* Edit an item */
-    editItem() {},
+    },
   },
 };
 </script>
