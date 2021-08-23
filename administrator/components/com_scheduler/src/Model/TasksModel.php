@@ -157,7 +157,7 @@ class TasksModel extends ListModel
 		 *
 		 * @since  __DEPLOY_VERSION__
 		 */
-		$extendIfFiltered = function (
+		$extendWhereIfFiltered = function (
 			string $outerGlue, array $conditions, string $innerGlue
 		) use ($query, &$filterCount) {
 			if ($filterCount)
@@ -180,6 +180,11 @@ class TasksModel extends ListModel
 			$state = (int) $state;
 			$query->where($db->quoteName('a.state') . '= :state')
 				->bind(':state', $state);
+		}
+		elseif ($state == null)
+		{
+			$filterCount++;
+			$query->whereIn($db->quoteName('a.state'), [0, 1]);
 		}
 
 		// Filter over type ----
@@ -238,7 +243,7 @@ class TasksModel extends ListModel
 					$db->quoteName('a.title') . ' LIKE :title',
 					$db->quoteName('a.note') . ' LIKE :note'
 				];
-				$extendIfFiltered('AND', $conditions, 'OR');
+				$extendWhereIfFiltered('AND', $conditions, 'OR');
 			}
 		}
 
