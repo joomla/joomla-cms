@@ -279,11 +279,11 @@ class TasksModel extends ListModel
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
-	 * @codingStandardsIgnoreStart
+	 * phpcs:disable
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-		/** @codingStandardsIgnoreEnd */
+		// phpcs:enable
 
 		// Get stuff from the model state
 		$listOrder = $this->getState('list.ordering', 'a.title');
