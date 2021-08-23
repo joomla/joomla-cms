@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>Danish (Danmark)</name>
+	<name>Greek (el-GR)</name>
 	<version>4.0.1</version>
 	<creationDate>August 2021</creationDate>
-	<author>Danish Translation Team (Transl.: Ronny Buelund)</author>
+	<author>Ομάδα Μετάφρασης στα Ελληνικά: joomla. gr</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Dansk (da-DK)</name>
-		<nativeName>Danish (Danmark)</nativeName>
-		<tag>da-DK</tag>
+		<name>Greek (el-GR)</name>
+		<nativeName>Greek (el-GR)</nativeName>
+		<tag>el-GR</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
