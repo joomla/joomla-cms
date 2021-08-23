@@ -127,6 +127,12 @@ class PlgContentPagenavigation extends CMSPlugin
 					case 'rhits':
 						$orderby = $db->quoteName('a.hits') . ' DESC';
 						break;
+					case 'draft':
+						$orderby = $db->quoteName('a.draft');
+						break;
+					case 'rdraft':
+						$orderby = $db->quoteName('a.draft') . ' DESC';
+						break;
 					case 'author':
 						$orderby = $db->quoteName(['a.created_by_alias', 'u.name']);
 						break;
