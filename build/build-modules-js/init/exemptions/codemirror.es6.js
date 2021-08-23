@@ -15,7 +15,7 @@ const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 module.exports.codeMirror = async (packageName, version) => {
   const itemvendorPath = join(RootPath, `media/vendor/${packageName}`);
   if (!await existsSync(itemvendorPath)) {
-    await mkdir(itemvendorPath, { recursive: true });
+    await mkdir(itemvendorPath, { recursive: true, mode: 0o755 });
     await mkdir(join(itemvendorPath, 'addon'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'lib'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'mode'), { mode: 0o755 });
