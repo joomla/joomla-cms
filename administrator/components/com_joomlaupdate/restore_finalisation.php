@@ -87,7 +87,7 @@ namespace
 namespace Joomla\CMS\Filesystem
 {
 	// Fake the JFile class, mapping it to Restore's post-processing class
-	if (!class_exists('File'))
+	if (!class_exists('\Joomla\CMS\Filesystem\File'))
 	{
 		/**
 		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -128,7 +128,7 @@ namespace Joomla\CMS\Filesystem
 	}
 
 	// Fake the Folder class, mapping it to Restore's post-processing class
-	if (!class_exists('Folder'))
+	if (!class_exists('\Joomla\CMS\Filesystem\Folder'))
 	{
 		/**
 		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -171,7 +171,7 @@ namespace Joomla\CMS\Filesystem
 namespace Joomla\CMS\Language
 {
 	// Fake the Text class - we aren't going to show errors to people anyhow
-	if (!class_exists('Text'))
+	if (!class_exists('\Joomla\CMS\Language\Text'))
 	{
 		/**
 		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
