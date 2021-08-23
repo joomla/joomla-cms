@@ -947,6 +947,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
