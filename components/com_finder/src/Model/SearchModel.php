@@ -131,9 +131,27 @@ class SearchModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
+
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+
+		/*
+		 * If there are no optional or required search terms in the query and
+		 * empty searches are not allowed, we return an empty query.
+		 * If the search term is not empty and empty searches are allowed,
+		 * but no terms were found, we return an empty query as well.
+		 */
+		if (empty($this->includedTerms)
+			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
+		{
+			// Since we need to return a query, we simplify this one.
+			$query->select('*')
+				->from('#__finder_links')
+				->where('false');
+
+			return $query;
+		}
 
 		// Select the required fields from the table.
 		$query->select(
@@ -143,7 +161,16 @@ class SearchModel extends ListModel
 			)
 		);
 
-		$query->from('#__finder_links AS l');
+		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
+		$termIds = 'term_id IN (' . implode(',', $included) . ')';
+		$amount = count($included) - 1 > 0 ? count($included) - 1 : 0;
+
+		$query->from('(SELECT link_id, SUM(weight) as weight
+    						FROM #__finder_links_terms
+    						WHERE ' . $termIds . '
+    						GROUP BY link_id
+    						HAVING COUNT(link_id) > ' . $amount . ' ) AS m'
+		);
 
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
@@ -157,9 +184,6 @@ class SearchModel extends ListModel
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= ' . $nowDate . ')')
 			->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
-
-		$query->group('l.link_id');
-		$query->group('l.object');
 
 		/*
 		 * Add the taxonomy filters to the query. We have to join the taxonomy
@@ -239,10 +263,11 @@ class SearchModel extends ListModel
 		 * If we are ordering by relevance we have to add up the relevance
 		 * scores that are contained in the ordering field.
 		 */
-		if ($ordering === 'm.weight')
+
+		If ($ordering === 'm.weight')
 		{
 			// Get the base query and add the ordering information.
-			$query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
+			 $query->select('' . $db->escape($ordering) . ' AS ordering');
 		}
 		/*
 		 * If we are not ordering by relevance, we just have to add
@@ -250,7 +275,7 @@ class SearchModel extends ListModel
 		 */
 		else
 		{
-			// Get the base query and add the ordering information.
+			//Get the base query and add the ordering information.
 			$query->select($db->escape($ordering) . ' AS ordering');
 		}
 
@@ -266,29 +291,7 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		/*
-		 * If there are no optional or required search terms in the query and
-		 * empty searches are not allowed, we return an empty query.
-		 * If the search term is not empty and empty searches are allowed,
-		 * but no terms were found, we return an empty query as well.
-		 */
-		if (empty($this->includedTerms)
-			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
-		{
-			// Since we need to return a query, we simplify this one.
-			$query->clear('join')
-				->clear('where')
-				->clear('bounded')
-				->clear('having')
-				->clear('group')
-				->where('false');
-
-			return $query;
-		}
-
-		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
-		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
-			->where('m.term_id IN (' . implode(',', $included) . ')');
+		$query->join('INNER', $this->_db->quoteName('#__finder_links') . ' AS l ON l.link_id = m.link_id');
 
 		// Check if there are any excluded terms to deal with.
 		if (count($this->excludedTerms))
@@ -299,26 +302,7 @@ class SearchModel extends ListModel
 				->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
 			$query->where('l.link_id NOT IN (' . $query2 . ')');
 		}
-
-		/*
-		 * The query contains required search terms.
-		 */
-		if (count($this->requiredTerms))
-		{
-			foreach ($this->requiredTerms as $terms)
-			{
-				if (count($terms))
-				{
-					$query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
-				}
-				else
-				{
-					$query->where('false');
-					break;
-				}
-			}
-		}
-
+		
 		return $query;
 	}
 
