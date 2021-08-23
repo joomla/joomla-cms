@@ -4,21 +4,15 @@
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
   />
-  <div
-    class="media-browser-actions"
-    :class="{'active': showActions}"
-  >
+  <div class="media-browser-actions" :class="{ active: showActions }">
     <media-browser-action-item-toggle
       ref="actionToggle"
       :focused="focused"
       :mainAction="openActions"
-      :focusUp="openLastActions"
-      :item="item"
+      @keyup.up="openLastActions()"
+      @keyup.down="openActions()"
     />
-    <div
-      v-if="showActions"
-      class="media-browser-actions-list"
-    >
+    <div v-if="showActions" class="media-browser-actions-list">
       <ul>
         <li>
           <media-browser-action-item-preview
@@ -26,8 +20,8 @@
             :focused="focused"
             :mainAction="openPreview"
             :closingAction="hideActions"
-            :focusUp="$refs.actionDelete"
-            :focusDown="$refs.actionDownload"
+            @keyup.up="$refs.actionDelete.$el.focus()"
+            @keyup.down="$refs.actionDownload.$el.focus()"
           />
         </li>
         <li>
@@ -36,8 +30,8 @@
             :focused="focused"
             :mainAction="download"
             :closingAction="hideActions"
-            :focusUp="$refs.actionPreview"
-            :focusDown="$refs.actionRename"
+            @keyup.up="$refs.actionPreview.$el.focus()"
+            @keyup.down="$refs.actionRename.$el.focus()"
           />
         </li>
         <li>
@@ -46,8 +40,12 @@
             :focused="focused"
             :mainAction="openRenameModal"
             :closingAction="hideActions"
-            :focusUp="$refs.actionDownload"
-            :focusDown="canEdit ? $refs.actionEdit : $refs.actionShare"
+            @keyup.up="$refs.actionDownload.$el.focus()"
+            @keyup.down="
+              canEdit
+                ? $refs.actionEdit.$el.focus()
+                : $refs.actionShare.$el.focus()
+            "
           />
         </li>
         <li>
@@ -57,8 +55,8 @@
             :focused="focused"
             :mainAction="editItem"
             :closingAction="hideActions"
-            :focusUp="$refs.actionRename"
-            :focusDown="$refs.actionShare"
+            @keyup.up="$refs.actionRename.$el.focus()"
+            @keyup.down="$refs.actionShare.$el.focus()"
           />
         </li>
         <li>
@@ -66,9 +64,13 @@
             ref="actionShare"
             :focused="focused"
             :mainAction="openShareUrlModal"
-            :focusUp="canEdit ? $refs.actionEdit : $refs.actionRename"
-            :focusDown="$refs.actionDelete"
             :closingAction="hideActions"
+            @keyup.up="
+              canEdit
+                ? $refs.actionEdit.$el.focus()
+                : $refs.actionRename.$el.focus()
+            "
+            @keyup.down="$refs.actionDelete.$el.focus()"
           />
         </li>
         <li>
@@ -77,8 +79,8 @@
             :focused="focused"
             :mainAction="openConfirmDeleteModal"
             :hideActions="hideActions"
-            :focusUp="$refs.actionShare"
-            :focusDown="$refs.actionPreview"
+            @keyup.up="$refs.actionShare.$el.focus()"
+            @keyup.down="$refs.actionPreview.$el.focus()"
           />
         </li>
       </ul>
@@ -87,12 +89,12 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import * as types from "../../../store/mutation-types.es6";
 
 export default {
-  name: 'MediaBrowserActionItemsContainer',
+  name: "MediaBrowserActionItemsContainer",
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused', 'editItem', 'canEdit'],
+  props: ["item", "focused", "editItem", "canEdit"],
   data() {
     return {
       showActions: false,
@@ -101,24 +103,23 @@ export default {
   computed: {
     /* Check if the item is an document to edit */
     canEdit() {
-      console.log(this.canEdit())
-      return this.canEdit()
+      return this.canEdit();
     },
   },
   methods: {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
+      this.$nextTick(() => this.$refs.actionToggle.$el.focus());
     },
     /* Preview an item */
     openPreview() {
       this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
+      this.$store.dispatch("getFullContents", this.item);
     },
     /* Preview an item */
     download() {
-      this.$store.dispatch('download', this.item);
+      this.$store.dispatch("download", this.item);
     },
     /* Opening confirm delete modal */
     openConfirmDeleteModal() {
@@ -139,16 +140,16 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
+      this.$nextTick(() => this.$refs.actionPreview.$el.focus());
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
+      this.$nextTick(() => this.$refs.actionDelete.$el.focus());
     },
     editItem() {
       this.editItem();
-    }
+    },
   },
-}
+};
 </script>

@@ -1,6 +1,5 @@
 <template>
   <button
-    ref="actionShareButton"
     type="button"
     class="action-url"
     :aria-label="translate('COM_MEDIA_ACTION_SHARE')"
@@ -10,8 +9,6 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @keyup.up="focusUp.focus()"
-    @keyup.down="focusDown.focus()"
   >
     <span
       class="image-browser-action icon-link"
@@ -23,21 +20,18 @@
 
 <script>
 export default {
-  name: 'MediaBrowserActionItemShare',
-  props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
+  name: "MediaBrowserActionItemShare",
+  props: ["focused", "mainAction", "closingAction"],
   methods: {
-    openShareUrlModal: function() {
+    openShareUrlModal: function () {
       this.mainAction();
     },
-    hideActions: function() {
+    hideActions: function () {
       this.closingAction();
     },
-    focus: function() {
-      this.$refs.actionShareButton.focus()
+    focused: function (bool) {
+      this.focused(bool);
     },
-    focused: function(bool) {
-      this.focused()
-    }
   },
-}
+};
 </script>

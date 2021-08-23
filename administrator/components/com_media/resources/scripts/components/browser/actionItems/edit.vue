@@ -1,6 +1,5 @@
 <template>
   <button
-    ref="actionEditButton"
     type="button"
     class="action-edit"
     :aria-label="translate('COM_MEDIA_ACTION_EDIT')"
@@ -10,8 +9,6 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @keyup.up="focusUp.focus()"
-    @keyup.down="focusDown.focus()"
   >
     <span
       class="image-browser-action icon-pencil-alt"
@@ -23,24 +20,21 @@
 
 <script>
 export default {
-  name: 'MediaBrowserActionItemEdit',
-  props: ['focused', 'focusUp', 'focusDown', 'mainAction', 'closingAction'],
+  name: "MediaBrowserActionItemEdit",
+  props: ["focused", "mainAction", "closingAction"],
   methods: {
-    openRenameModal: function() {
+    openRenameModal: function () {
       this.mainAction();
     },
-    hideActions: function() {
+    hideActions: function () {
       this.closingAction();
     },
-    focus: function() {
-      this.$refs.actionPreviewButton.focus()
-    },
-    focused: function(bool) {
-      this.focused()
+    focused: function (bool) {
+      this.focused(bool);
     },
     editItem: function () {
       this.mainAction();
-    }
+    },
   },
-}
+};
 </script>
