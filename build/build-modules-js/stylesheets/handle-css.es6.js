@@ -14,7 +14,7 @@ module.exports.handleCssFile = async (file) => {
     await ensureDir(dirname(outputFile), { recursive: true, mode: 0o2644 });
 
     if (file !== outputFile) {
-      await copy(file, outputFile, { overwrite: true });
+      await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
     }
 
     const content = await readFile(file, { encoding: 'utf8' });
