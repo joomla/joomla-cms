@@ -16,7 +16,6 @@
 	<administration>
 		<menu img="class:joomlaupdate">com_joomlaupdate</menu>
 		<files folder="admin">
-			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>joomlaupdate.xml</filename>
 			<filename>restore.php</filename>

@@ -90,10 +90,10 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Flag if the update component itself has to be updated
 	 *
-	 * @var    boolean|\stdClass[]  True when update is available otherwise false
+	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
-	protected $nonCoreCriticalPlugins = false;
+	protected $nonCoreCriticalPlugins = [];
 
 	/**
 	 * Renders the view
@@ -270,7 +270,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& !empty($this->updateInfo['hasUpdate']);
+		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+			&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
 	}
 }

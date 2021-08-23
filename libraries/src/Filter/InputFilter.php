@@ -27,7 +27,7 @@ class InputFilter extends BaseInputFilter
 	 * An array containing a list of extensions for files that are typically
 	 * executable directly in the webserver context, potentially resulting in code executions
 	 *
-	 * @since __DEPOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public const FORBIDDEN_FILE_EXTENSIONS = [
 		'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
@@ -46,7 +46,7 @@ class InputFilter extends BaseInputFilter
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
-	 * @since  __DEPOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $instances = array();
 	/**
@@ -204,7 +204,7 @@ class InputFilter extends BaseInputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content

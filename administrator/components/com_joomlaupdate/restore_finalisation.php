@@ -74,12 +74,6 @@ namespace
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
 			}
-
-			// Clear OPcache
-			if (function_exists('opcache_reset'))
-			{
-				\opcache_reset();
-			}
 		}
 	}
 }
@@ -87,7 +81,7 @@ namespace
 namespace Joomla\CMS\Filesystem
 {
 	// Fake the JFile class, mapping it to Restore's post-processing class
-	if (!class_exists('File'))
+	if (!class_exists('\Joomla\CMS\Filesystem\File'))
 	{
 		/**
 		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -97,7 +91,7 @@ namespace Joomla\CMS\Filesystem
 		abstract class File
 		{
 			/**
-			 * Proxies checking a folder exists to the native php version
+			 * Proxies checking a file exists to the native php version
 			 *
 			 * @param   string  $fileName  The path to the file to be checked
 			 *
@@ -121,14 +115,31 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
+				/** @var \AKPostprocDirect $postproc */
 				$postproc = \AKFactory::getPostProc();
 				$postproc->unlink($fileName);
+			}
+			/**
+			 * Proxies moving a file to the restore.php version
+			 *
+			 * @param   string  $src   The path to the source file
+			 * @param   string  $dest  The path to the destination file
+			 *
+			 * @return  boolean  True on success
+			 *
+			 * @since   __DEPLOY_VERSION__
+			 */
+			public static function move($src, $dest)
+			{
+				/** @var \AKPostprocDirect $postproc */
+				$postproc = \AKFactory::getPostProc();
+				$postproc->rename($src, $dest);
 			}
 		}
 	}
 
 	// Fake the Folder class, mapping it to Restore's post-processing class
-	if (!class_exists('Folder'))
+	if (!class_exists('\Joomla\CMS\Filesystem\Folder'))
 	{
 		/**
 		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -171,7 +182,7 @@ namespace Joomla\CMS\Filesystem
 namespace Joomla\CMS\Language
 {
 	// Fake the Text class - we aren't going to show errors to people anyhow
-	if (!class_exists('Text'))
+	if (!class_exists('\Joomla\CMS\Language\Text'))
 	{
 		/**
 		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
