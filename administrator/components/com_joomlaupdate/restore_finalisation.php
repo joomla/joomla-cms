@@ -127,7 +127,7 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @return  boolean  True on success
 			 *
-			 * @since   __DEPLOY_VERSION__
+			 * @since   4.0.1
 			 */
 			public static function move($src, $dest)
 			{
