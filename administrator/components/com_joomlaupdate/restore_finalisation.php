@@ -74,12 +74,6 @@ namespace
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
 			}
-
-			// Clear OPcache
-			if (function_exists('opcache_reset'))
-			{
-				\opcache_reset();
-			}
 		}
 	}
 }
@@ -97,7 +91,7 @@ namespace Joomla\CMS\Filesystem
 		abstract class File
 		{
 			/**
-			 * Proxies checking a folder exists to the native php version
+			 * Proxies checking a file exists to the native php version
 			 *
 			 * @param   string  $fileName  The path to the file to be checked
 			 *
@@ -121,8 +115,25 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
+				/** @var \AKPostprocDirect $postproc */
 				$postproc = \AKFactory::getPostProc();
 				$postproc->unlink($fileName);
+			}
+			/**
+			 * Proxies moving a file to the restore.php version
+			 *
+			 * @param   string  $src   The path to the source file
+			 * @param   string  $dest  The path to the destination file
+			 *
+			 * @return  boolean  True on success
+			 *
+			 * @since   __DEPLOY_VERSION__
+			 */
+			public static function move($src, $dest)
+			{
+				/** @var \AKPostprocDirect $postproc */
+				$postproc = \AKFactory::getPostProc();
+				$postproc->rename($src, $dest);
 			}
 		}
 	}

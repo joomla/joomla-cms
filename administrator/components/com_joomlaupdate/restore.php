@@ -1494,6 +1494,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 				// Is this a file instead of a directory?
 				if (is_file($root . $path))
 				{
+					$this->clearFileInOPCache($root . $path);
 					@unlink($root . $path);
 					$ret = @mkdir($root . $path);
 				}
@@ -1523,6 +1524,8 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 	public function unlink($file)
 	{
+		$this->clearFileInOPCache($file);
+
 		return @unlink($file);
 	}
 
@@ -1533,7 +1536,20 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 	public function rename($from, $to)
 	{
-		return @rename($from, $to);
+		$this->clearFileInOPCache($from);
+		$ret = @rename($from, $to);
+		$this->clearFileInOPCache($to);
+
+		return $ret;
+	}
+
+	public function clearFileInOPCache($file){
+		if (ini_get('opcache.enable')
+			&& function_exists('opcache_invalidate')
+			&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0))
+		{
+			\opcache_invalidate($file, true);
+		}
 	}
 
 }
@@ -5105,10 +5121,13 @@ if (!defined('KICKSTART'))
 				$filename = dirname(__FILE__) . '/restore_finalisation.php';
 				if (file_exists($filename))
 				{
-					// opcode cache busting before including the filename
-					if (function_exists('opcache_invalidate'))
+					// We cannot use the Filesystem API here.
+					if (ini_get('opcache.enable')
+						&& function_exists('opcache_invalidate')
+						&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0)
+					)
 					{
-						\opcache_invalidate($filename);
+						\opcache_invalidate($filename, true);
 					}
 					if (function_exists('apc_compile_file'))
 					{

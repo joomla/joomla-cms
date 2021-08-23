@@ -863,28 +863,13 @@ ENDDATA;
 		$tempdir = $app->get('tmp_path');
 
 		$file = $app->getUserState('com_joomlaupdate.file', null);
-		$target = $tempdir . '/' . $file;
-
-		if (!@unlink($target))
-		{
-			File::delete($target);
-		}
+		File::delete($tempdir . '/' . $file);
 
 		// Remove the restoration.php file.
-		$target = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
-
-		if (!@unlink($target))
-		{
-			File::delete($target);
-		}
+		File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
 
 		// Remove joomla.xml from the site's root.
-		$target = JPATH_ROOT . '/joomla.xml';
-
-		if (!@unlink($target))
-		{
-			File::delete($target);
-		}
+		File::delete(JPATH_ROOT . '/joomla.xml');
 
 		// Unset the update filename from the session.
 		$app = Factory::getApplication();
@@ -1044,10 +1029,7 @@ ENDDATA;
 		{
 			if (File::exists($file))
 			{
-				if (!@unlink($file))
-				{
-					File::delete($file);
-				}
+				File::delete($file);
 			}
 		}
 	}
