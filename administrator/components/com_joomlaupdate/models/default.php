@@ -73,7 +73,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
-			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
