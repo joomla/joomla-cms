@@ -29,7 +29,7 @@ jobs:
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
           git checkout --progress --force -B translation refs/remotes/origin/translation          
-          git rebase upstream/4.0-dev
+          git rebase --force-rebase upstream/4.0-dev
 
       - name: Fetch and extract translations
         run: |
