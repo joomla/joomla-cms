@@ -15,7 +15,6 @@ services:
   #     JOOMLA_DB_USER: ${DATABASE_USER:-joomla}
   #     JOOMLA_DB_PASSWORD: ${DATABASE_PASS:-password}
   #     JOOMLA_DB_NAME: ${DATABASE_NAME:-joomla}
-
   joomla-db:
     image: jbergstroem/mariadb-alpine:latest
     command: mysqld --default-authentication-plugin=mysql_native_password
