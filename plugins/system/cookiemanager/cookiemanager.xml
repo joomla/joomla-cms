@@ -11,6 +11,7 @@
 	<description>PLG_SYSTEM_COOKIEMANAGER_XML_DESCRIPTION</description>
     <files>
         <filename plugin="cookiemanager">cookiemanager.php</filename>
+        <folder>tmpl</folder>
     </files>
     <languages>
         <language tag="en-GB">en-GB.plg_system_cookiemanager.ini</language>
