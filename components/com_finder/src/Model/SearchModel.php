@@ -162,7 +162,13 @@ class SearchModel extends ListModel
 		);
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
+
 		$amount = count($included) - 1 > 0 ? count($included) - 1 : 0;
+
+		if (!count($this->requiredTerms))
+		{
+			$amount = 0;
+		}
 
 		$query->from('(SELECT link_id, SUM(weight) as weight
     						FROM #__finder_links_terms
@@ -263,7 +269,7 @@ class SearchModel extends ListModel
 		 * scores that are contained in the ordering field.
 		 */
 
-		If ($ordering === 'm.weight')
+		if ($ordering === 'm.weight')
 		{
 			// Get the base query and add the ordering information.
 			 $query->select('' . $db->escape($ordering) . ' AS ordering');
@@ -274,7 +280,7 @@ class SearchModel extends ListModel
 		 */
 		else
 		{
-			//Get the base query and add the ordering information.
+			// Get the base query and add the ordering information.
 			$query->select($db->escape($ordering) . ' AS ordering');
 		}
 
@@ -287,10 +293,11 @@ class SearchModel extends ListModel
 		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			$query->clear('from')
-				->clear('join')
 				->from('#__finder_links AS l')
+				->clear('join')
 				->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
 				->group('l.link_id,l.object');
+
 			return $query;
 		}
 
