@@ -60,7 +60,7 @@ class ExecutionRulesRule extends FormRule
 
 		if ($ruleType === $fieldName || ($ruleType === 'custom' && $group === self::CUSTOM_RULE_GROUP))
 		{
-			return self::validateField($element, $value, $group, $form);
+			return $this->validateField($element, $value, $group, $form);
 		}
 
 		return true;
@@ -79,16 +79,14 @@ class ExecutionRulesRule extends FormRule
 	private function validateField(SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
 	{
 		$elementType = (string) $element['type'];
-		$optionsTest = true;
 
-		// Test that the option is valid
+		// If element is of cron type, we test against options and return
 		if ($elementType === 'cron')
 		{
-			$optionsTest = (new OptionsRule)->test($element, $value, $group, null, $form);
+			return (new OptionsRule)->test($element, $value, $group, null, $form);
 		}
 
-		// ? Does the numeric IntervalField need validation [YES]
-
-		return $value && $optionsTest;
+		// Test for a positive integer value and return
+		return filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 	}
 }
