@@ -14,7 +14,7 @@ const updateSettings = async () => {
   const extensionsScanned = await readdir(`${RootPath}/build/media_source`, { withFileTypes: true });
 
   const extensions = [...extensionsScanned]
-    .filter((x) => x.name !== '.DS_Store' && !['templates', 'vendor', 'cache'].includes(x.name) && x.isDirectory())
+    .filter((x) => !['.DS_Store', 'templates', 'vendor', 'cache'].includes(x.name) && x.isDirectory())
     .map((x) => x.name);
 
   const settingsRaw = await readFile(`${RootPath}/build/build-modules-js/settings.json`, { encode: 'utf8' });
