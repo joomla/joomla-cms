@@ -1,5 +1,5 @@
 const { existsSync } = require('fs');
-const { readdir, readFile } = require('fs').promises;
+const { readdir } = require('fs').promises;
 const { stat, copy, emptyDirSync } = require('fs-extra');
 const { join, extname } = require('path');
 
@@ -20,7 +20,6 @@ const updateSettings = async (options) => {
 
   options.settings.cleanUpFolders = [...extensions, ...knownDirs];
 };
-
 
 /**
  * Method to recreate the basic media folder structure
