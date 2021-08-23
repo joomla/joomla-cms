@@ -28,7 +28,7 @@ class MenuItemByComponentField extends ListField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $type = 'MenuItemByComponent';
 
