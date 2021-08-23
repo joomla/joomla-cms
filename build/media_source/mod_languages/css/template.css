@@ -19,14 +19,11 @@ div.mod-languages .dropdown-menu {
 div.mod-languages ul.lang-block li {
   display: block;
   padding: .5rem 0;
+  text-align: start;
 }
 
 div.mod-languages ul li.lang-active {
   background-color: #f0f0f0;
-}
-
-html[dir=rtl] div.mod-languages ul.lang-block li {
-  text-align: right;
 }
 
 div.mod-languages img {

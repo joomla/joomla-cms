@@ -115,10 +115,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
-					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>"
-						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
+						<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 					</a>
 				<?php endif; ?>
 			</div>

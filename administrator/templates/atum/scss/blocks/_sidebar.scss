@@ -59,7 +59,7 @@
   @include media-breakpoint-up(sm) {
     flex: 1 0 $sidebar-width;
     max-width: $sidebar-width;
-    transition: all .3s ease;
+    transition: all .3s ease-in-out;
   }
 
   @include media-breakpoint-down(sm) {
@@ -224,6 +224,11 @@
     pointer-events: none;
     background-color: var(--template-bg-dark-60);
     border-radius: 0 $border-radius $border-radius 0;
+    [dir=rtl] & {
+      right: 100%;
+      left: unset;
+      border-radius: $border-radius 0 0 $border-radius;
+    }
   }
 
   .main-nav > li > ul {
@@ -254,6 +259,7 @@
     padding: 10px 15px;
 
     [dir="rtl"] & {
+      right: auto;
       left: 0;
     }
 

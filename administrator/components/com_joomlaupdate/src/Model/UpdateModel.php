@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 
 /**
@@ -60,7 +61,6 @@ class UpdateModel extends BaseDatabaseModel
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -88,6 +88,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -646,7 +647,7 @@ ENDDATA;
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -713,7 +714,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		if ($id)
 		{
@@ -806,7 +807,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update(Factory::getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDbo());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -1119,9 +1120,12 @@ ENDDATA;
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
+		$updateInformation = $this->getUpdateInformation();
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		// Check if configured database is compatible with the next major version of Joomla
+		$nextMajorVersion = Version::MAJOR_VERSION + 1;
+
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$option = new \stdClass;
 			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1233,7 +1237,11 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+		$nextMajorVersion  = Version::MAJOR_VERSION + 1;
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1267,8 +1275,10 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1395,8 +1405,10 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($extension);
 			$extension->version
@@ -1455,8 +1467,10 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($plugin);
 			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1647,9 +1661,11 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$update = new \Joomla\CMS\Updater\Update;
+		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+
+		$update = new Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXml($updateFileUrl);
+		$update->loadFromXml($updateFileUrl, $minimumStability);
 
 		$downloadUrl = $update->get('downloadurl');
 
@@ -1705,6 +1721,6 @@ ENDDATA;
 		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
-		$item->name = Text::_($item->name);
+		$item->name = strip_tags(Text::_($item->name));
 	}
 }

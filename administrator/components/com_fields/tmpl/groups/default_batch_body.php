@@ -8,17 +8,19 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
-
 ?>
 
 <div class="p-3">
 	<div class="row">
-		<div class="form-group col-md-6">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
+		<?php if (Multilanguage::isEnabled()) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>

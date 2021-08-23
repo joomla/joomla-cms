@@ -18,7 +18,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
@@ -239,7 +239,7 @@ $updatePossible = true;
 				<div class="w-100">
 					<?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
 					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?> compatibilityTable" id="compatibilityTable<?php echo (int) $data['group']; ?>">
-						<h4 class="text-<?php echo $data['class']; ?> d-flex align-items-center">
+						<h4 class="text-<?php echo $data['class']; ?> align-items-center">
 							<span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
 							<?php echo Text::_($compatibilityType); ?>
 							<?php if ($data['group'] > 0) : ?>

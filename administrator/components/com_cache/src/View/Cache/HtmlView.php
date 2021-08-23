@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
