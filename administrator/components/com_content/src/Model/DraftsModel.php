@@ -236,341 +236,276 @@ class DraftsModel extends ListModel
 		$params = ComponentHelper::getParams('com_content');
 
 		// Select the required fields from the table.
+		// $query->select(
+		// 	$this->getState(
+		// 		'list.select',
+		// 		[
+		// 			$db->quoteName('a.id'),
+		// 			$db->quoteName('a.article_id'),
+		// 			$db->quoteName('a.state'),
+		// 			$db->quoteName('a.url'),
+		// 			$db->quoteName('a.shared_date'),
+		// 		]
+		// 	)
+		// )
 		$query->select(
-			$this->getState(
-				'list.select',
-				[
-					$db->quoteName('a.id'),
-					$db->quoteName('a.asset_id'),
-					$db->quoteName('a.title'),
-					$db->quoteName('a.alias'),
-					$db->quoteName('a.checked_out'),
-					$db->quoteName('a.checked_out_time'),
-					$db->quoteName('a.catid'),
-					$db->quoteName('a.state'),
-					$db->quoteName('a.access'),
-					$db->quoteName('a.created'),
-					$db->quoteName('a.created_by'),
-					$db->quoteName('a.created_by_alias'),
-					$db->quoteName('a.modified'),
-					$db->quoteName('a.ordering'),
-					$db->quoteName('a.featured'),
-					$db->quoteName('a.language'),
-					$db->quoteName('a.hits'),
-					$db->quoteName('a.publish_up'),
-					$db->quoteName('a.publish_down'),
-					$db->quoteName('a.introtext'),
-					$db->quoteName('a.fulltext'),
-					$db->quoteName('a.note'),
-					$db->quoteName('a.images'),
-					$db->quoteName('a.metakey'),
-					$db->quoteName('a.metadesc'),
-					$db->quoteName('a.metadata'),
-					$db->quoteName('a.version'),
-					$db->quoteName('a.draft'),
-					$db->quoteName('a.shared')
-				]
-			)
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.article_id'),
+				$db->quoteName('a.state'),
+				$db->quoteName('a.url'),
+				$db->quoteName('a.shared_date')
+			]
 		)
-			->select(
-				[
-					$db->quoteName('fp.featured_up'),
-					$db->quoteName('fp.featured_down'),
-					$db->quoteName('l.title', 'language_title'),
-					$db->quoteName('l.image', 'language_image'),
-					$db->quoteName('uc.name', 'editor'),
-					$db->quoteName('ag.title', 'access_level'),
-					$db->quoteName('c.title', 'category_title'),
-					$db->quoteName('c.created_user_id', 'category_uid'),
-					$db->quoteName('c.level', 'category_level'),
-					$db->quoteName('parent.title', 'parent_category_title'),
-					$db->quoteName('parent.id', 'parent_category_id'),
-					$db->quoteName('parent.created_user_id', 'parent_category_uid'),
-					$db->quoteName('parent.level', 'parent_category_level'),
-					$db->quoteName('ua.name', 'author_name'),
-					$db->quoteName('wa.stage_id', 'stage_id'),
-					$db->quoteName('ws.title', 'stage_title'),
-					$db->quoteName('ws.workflow_id', 'workflow_id'),
-					$db->quoteName('w.title', 'workflow_title'),
-				]
-			)
-			->from($db->quoteName('#__content', 'a'))
-			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
-			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
-			->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
-			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
-			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
-			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
-			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
-			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
+			->from($db->quoteName('#__draft', 'a'));
+		// ->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
+		// ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+		// ->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
+		// ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+		// ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+		// ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+		// ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+		// ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+		// ->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+		// ->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+		// ->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
-		if (PluginHelper::isEnabled('content', 'vote'))
-		{
-			$query->select(
-				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
-						. ' AS ' . $db->quoteName('rating'),
-					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
-				]
-			)
-				->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
-		}
 
-		// Join over the associations.
-		if (Associations::isEnabled())
-		{
-			$subQuery = $db->getQuery(true)
-				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
-				->from($db->quoteName('#__associations', 'asso1'))
-				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
-				->where(
-					[
-						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
-						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
-					]
-				);
+		// // Filter by access level.
+		// $access = $this->getState('filter.access');
 
-			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
-		}
+		// if (is_numeric($access))
+		// {
+		// 	$access = (int) $access;
+		// 	$query->where($db->quoteName('a.access') . ' = :access')
+		// 		->bind(':access', $access, ParameterType::INTEGER);
+		// }
+		// elseif (is_array($access))
+		// {
+		// 	$access = ArrayHelper::toInteger($access);
+		// 	$query->whereIn($db->quoteName('a.access'), $access);
+		// }
 
-		// Filter by access level.
-		$access = $this->getState('filter.access');
+		// // Filter by featured.
+		// $featured = (string) $this->getState('filter.featured');
 
-		if (is_numeric($access))
-		{
-			$access = (int) $access;
-			$query->where($db->quoteName('a.access') . ' = :access')
-				->bind(':access', $access, ParameterType::INTEGER);
-		}
-		elseif (is_array($access))
-		{
-			$access = ArrayHelper::toInteger($access);
-			$query->whereIn($db->quoteName('a.access'), $access);
-		}
+		// if (in_array($featured, ['0', '1']))
+		// {
+		// 	$featured = (int) $featured;
+		// 	$query->where($db->quoteName('a.featured') . ' = :featured')
+		// 		->bind(':featured', $featured, ParameterType::INTEGER);
+		// }
 
-		// Filter by featured.
-		$featured = (string) $this->getState('filter.featured');
+		// // Filter by access level on categories.
+		// if (!$user->authorise('core.admin'))
+		// {
+		// 	$groups = $user->getAuthorisedViewLevels();
+		// 	$query->whereIn($db->quoteName('a.access'), $groups);
+		// 	$query->whereIn($db->quoteName('c.access'), $groups);
+		// }
 
-		if (in_array($featured, ['0', '1']))
-		{
-			$featured = (int) $featured;
-			$query->where($db->quoteName('a.featured') . ' = :featured')
-				->bind(':featured', $featured, ParameterType::INTEGER);
-		}
+		// // Filter by published state
+		// $workflowStage = (string) $this->getState('filter.stage');
 
-		// Filter by access level on categories.
-		if (!$user->authorise('core.admin'))
-		{
-			$groups = $user->getAuthorisedViewLevels();
-			$query->whereIn($db->quoteName('a.access'), $groups);
-			$query->whereIn($db->quoteName('c.access'), $groups);
-		}
+		// if ($params->get('workflow_enabled') && is_numeric($workflowStage))
+		// {
+		// 	$workflowStage = (int) $workflowStage;
+		// 	$query->where($db->quoteName('wa.stage_id') . ' = :stage')
+		// 		->bind(':stage', $workflowStage, ParameterType::INTEGER);
+		// }
 
-		// Filter by published state
-		$workflowStage = (string) $this->getState('filter.stage');
+		// $published = (string) $this->getState('filter.published');
 
-		if ($params->get('workflow_enabled') && is_numeric($workflowStage))
-		{
-			$workflowStage = (int) $workflowStage;
-			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
-				->bind(':stage', $workflowStage, ParameterType::INTEGER);
-		}
+		// if ($published !== '*')
+		// {
+		// 	if (is_numeric($published))
+		// 	{
+		// 		$state = (int) $published;
+		// 		$query->where($db->quoteName('a.state') . ' = :state')
+		// 			->bind(':state', $state, ParameterType::INTEGER);
+		// 	}
+		// 	elseif (!is_numeric($workflowStage))
+		// 	{
+		// 		$query->whereIn(
+		// 			$db->quoteName('a.state'),
+		// 			[
+		// 				ContentComponent::CONDITION_PUBLISHED,
+		// 				ContentComponent::CONDITION_UNPUBLISHED,
+		// 			]
+		// 		);
+		// 	}
+		// }
 
-		$published = (string) $this->getState('filter.published');
+		// // Filter by categories and by level
+		// $categoryId = $this->getState('filter.category_id', array());
+		// $level      = (int) $this->getState('filter.level');
 
-		if ($published !== '*')
-		{
-			if (is_numeric($published))
-			{
-				$state = (int) $published;
-				$query->where($db->quoteName('a.state') . ' = :state')
-					->bind(':state', $state, ParameterType::INTEGER);
-			}
-			elseif (!is_numeric($workflowStage))
-			{
-				$query->whereIn(
-					$db->quoteName('a.state'),
-					[
-						ContentComponent::CONDITION_PUBLISHED,
-						ContentComponent::CONDITION_UNPUBLISHED,
-					]
-				);
-			}
-		}
+		// if (!is_array($categoryId))
+		// {
+		// 	$categoryId = $categoryId ? array($categoryId) : array();
+		// }
 
-		// Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id', array());
-		$level      = (int) $this->getState('filter.level');
+		// // Case: Using both categories filter and by level filter
+		// if (count($categoryId))
+		// {
+		// 	$categoryId = ArrayHelper::toInteger($categoryId);
+		// 	$categoryTable = Table::getInstance('Category', 'JTable');
+		// 	$subCatItemsWhere = array();
 
-		if (!is_array($categoryId))
-		{
-			$categoryId = $categoryId ? array($categoryId) : array();
-		}
+		// 	foreach ($categoryId as $key => $filter_catid)
+		// 	{
+		// 		$categoryTable->load($filter_catid);
 
-		// Case: Using both categories filter and by level filter
-		if (count($categoryId))
-		{
-			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryTable = Table::getInstance('Category', 'JTable');
-			$subCatItemsWhere = array();
+		// 		// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
+		// 		$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
 
-			foreach ($categoryId as $key => $filter_catid)
-			{
-				$categoryTable->load($filter_catid);
+		// 		if ($level)
+		// 		{
+		// 			$valuesToBind[] = $level + $categoryTable->level - 1;
+		// 		}
 
-				// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
-				$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
+		// 		// Bind values and get parameter names.
+		// 		$bounded = $query->bindArray($valuesToBind);
 
-				if ($level)
-				{
-					$valuesToBind[] = $level + $categoryTable->level - 1;
-				}
+		// 		$categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
 
-				// Bind values and get parameter names.
-				$bounded = $query->bindArray($valuesToBind);
+		// 		if ($level)
+		// 		{
+		// 			$categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
+		// 		}
 
-				$categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
+		// 		$subCatItemsWhere[] = '(' . $categoryWhere . ')';
+		// 	}
 
-				if ($level)
-				{
-					$categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
-				}
+		// 	$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+		// }
 
-				$subCatItemsWhere[] = '(' . $categoryWhere . ')';
-			}
+		// // Case: Using only the by level filter
+		// elseif ($level = (int) $level)
+		// {
+		// 	$query->where($db->quoteName('c.level') . ' <= :level')
+		// 		->bind(':level', $level, ParameterType::INTEGER);
+		// }
 
-			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-		}
+		// // Filter by author
+		// $authorId = $this->getState('filter.author_id');
 
-		// Case: Using only the by level filter
-		elseif ($level = (int) $level)
-		{
-			$query->where($db->quoteName('c.level') . ' <= :level')
-				->bind(':level', $level, ParameterType::INTEGER);
-		}
+		// if (is_numeric($authorId))
+		// {
+		// 	$authorId = (int) $authorId;
+		// 	$type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+		// 	$query->where($db->quoteName('a.created_by') . $type . ':authorId')
+		// 		->bind(':authorId', $authorId, ParameterType::INTEGER);
+		// }
+		// elseif (is_array($authorId))
+		// {
+		// 	$authorId = ArrayHelper::toInteger($authorId);
+		// 	$query->whereIn($db->quoteName('a.created_by'), $authorId);
+		// }
 
-		// Filter by author
-		$authorId = $this->getState('filter.author_id');
+		// // Filter by search in title.
+		// $search = $this->getState('filter.search');
 
-		if (is_numeric($authorId))
-		{
-			$authorId = (int) $authorId;
-			$type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
-			$query->where($db->quoteName('a.created_by') . $type . ':authorId')
-				->bind(':authorId', $authorId, ParameterType::INTEGER);
-		}
-		elseif (is_array($authorId))
-		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$query->whereIn($db->quoteName('a.created_by'), $authorId);
-		}
+		// if (!empty($search))
+		// {
+		// 	if (stripos($search, 'id:') === 0)
+		// 	{
+		// 		$search = (int) substr($search, 3);
+		// 		$query->where($db->quoteName('a.id') . ' = :search')
+		// 			->bind(':search', $search, ParameterType::INTEGER);
+		// 	}
+		// 	elseif (stripos($search, 'author:') === 0)
+		// 	{
+		// 		$search = '%' . substr($search, 7) . '%';
+		// 		$query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
+		// 			->bind([':search1', ':search2'], $search);
+		// 	}
+		// 	elseif (stripos($search, 'content:') === 0)
+		// 	{
+		// 		$search = '%' . substr($search, 8) . '%';
+		// 		$query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
+		// 			->bind([':search1', ':search2'], $search);
+		// 	}
+		// 	else
+		// 	{
+		// 		$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+		// 		$query->where(
+		// 			'(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
+		// 				. ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
+		// 		)
+		// 			->bind([':search1', ':search2', ':search3'], $search);
+		// 	}
+		// }
 
-		// Filter by search in title.
-		$search = $this->getState('filter.search');
+		// // Filter on the language.
+		// if ($language = $this->getState('filter.language'))
+		// {
+		// 	$query->where($db->quoteName('a.language') . ' = :language')
+		// 		->bind(':language', $language);
+		// }
 
-		if (!empty($search))
-		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$search = (int) substr($search, 3);
-				$query->where($db->quoteName('a.id') . ' = :search')
-					->bind(':search', $search, ParameterType::INTEGER);
-			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = '%' . substr($search, 7) . '%';
-				$query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
-					->bind([':search1', ':search2'], $search);
-			}
-			elseif (stripos($search, 'content:') === 0)
-			{
-				$search = '%' . substr($search, 8) . '%';
-				$query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
-					->bind([':search1', ':search2'], $search);
-			}
-			else
-			{
-				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
-				$query->where(
-					'(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
-						. ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
-				)
-					->bind([':search1', ':search2', ':search3'], $search);
-			}
-		}
+		// // Filter by a single or group of tags.
+		// $tag = $this->getState('filter.tag');
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
-		{
-			$query->where($db->quoteName('a.language') . ' = :language')
-				->bind(':language', $language);
-		}
+		// // Run simplified query when filtering by one tag.
+		// if (\is_array($tag) && \count($tag) === 1)
+		// {
+		// 	$tag = $tag[0];
+		// }
 
-		// Filter by a single or group of tags.
-		$tag = $this->getState('filter.tag');
+		// if ($tag && \is_array($tag))
+		// {
+		// 	$tag = ArrayHelper::toInteger($tag);
 
-		// Run simplified query when filtering by one tag.
-		if (\is_array($tag) && \count($tag) === 1)
-		{
-			$tag = $tag[0];
-		}
+		// 	$subQuery = $db->getQuery(true)
+		// 		->select('DISTINCT ' . $db->quoteName('content_item_id'))
+		// 		->from($db->quoteName('#__contentitem_tag_map'))
+		// 		->where(
+		// 			[
+		// 				$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
+		// 				$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+		// 			]
+		// 		);
 
-		if ($tag && \is_array($tag))
-		{
-			$tag = ArrayHelper::toInteger($tag);
+		// 	$query->join(
+		// 		'INNER',
+		// 		'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+		// 		$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+		// 	);
+		// }
+		// elseif ($tag = (int) $tag)
+		// {
+		// 	$query->join(
+		// 		'INNER',
+		// 		$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+		// 		$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+		// 	)
+		// 		->where(
+		// 			[
+		// 				$db->quoteName('tagmap.tag_id') . ' = :tag',
+		// 				$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
+		// 			]
+		// 		)
+		// 		->bind(':tag', $tag, ParameterType::INTEGER);
+		// }
 
-			$subQuery = $db->getQuery(true)
-				->select('DISTINCT ' . $db->quoteName('content_item_id'))
-				->from($db->quoteName('#__contentitem_tag_map'))
-				->where(
-					[
-						$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
-						$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
-					]
-				);
+		// // Add the list ordering clause.
+		// $orderCol  = $this->state->get('list.ordering', 'a.id');
+		// $orderDirn = $this->state->get('list.direction', 'DESC');
 
-			$query->join(
-				'INNER',
-				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
-				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-			);
-		}
-		elseif ($tag = (int) $tag)
-		{
-			$query->join(
-				'INNER',
-				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
-				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-			)
-				->where(
-					[
-						$db->quoteName('tagmap.tag_id') . ' = :tag',
-						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
-					]
-				)
-				->bind(':tag', $tag, ParameterType::INTEGER);
-		}
+		// if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
+		// {
+		// 	$ordering = [
+		// 		$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+		// 		$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+		// 	];
+		// }
+		// else
+		// {
+		// 	$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
+		// }
 
-		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'a.id');
-		$orderDirn = $this->state->get('list.direction', 'DESC');
-
-		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
-		{
-			$ordering = [
-				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
-				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
-			];
-		}
-		else
-		{
-			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
-		}
-
-		$query->order($ordering);
+		// $query->order($ordering);
 
 		return $query;
 	}

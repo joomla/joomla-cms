@@ -135,14 +135,14 @@ $assoc = Associations::isEnabled();
                       'disabled' => !$canChange,
                       'id' => 'state-' . $item->id
                     ];
-
+                    // TODO: HERE showing draft is shared or not
                     echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
                     ?>
                   </td>
 
 
                   <td class="d-none d-lg-table-cell">
-                    <?php echo '<a href="http://localhost:3000/index.php/article123123">index.php/article123123</a>' ?>
+                    <?php echo $item->url;  ?>
                   </td>
 
                   <th scope="row" class="has-context">
@@ -221,7 +221,7 @@ $assoc = Associations::isEnabled();
 
                   <td class="small d-none d-md-table-cell text-center">
                     <?php
-                    $date = $item->{$orderingColumn};
+                    $date = $item->shared_date;
                     echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
                     ?>
                   </td>
