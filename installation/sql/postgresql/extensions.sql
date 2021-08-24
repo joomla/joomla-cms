@@ -875,6 +875,12 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
     "created_by" bigint NOT NULL DEFAULT '0'
 );
 
+CREATE INDEX "#__scheduler_tasks_idx_type" ON "#__scheduler_tasks" ("type");
+CREATE INDEX "#__scheduler_tasks_idx_state" ON "#__scheduler_tasks" ("state");
+CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_exit_code");
+CREATE INDEX "#__scheduler_tasks_idx_next_exec" ON "#__scheduler_tasks" ("next_execution");
+CREATE INDEX "#__scheduler_tasks_idx_locked" ON "#__scheduler_tasks" ("locked");
+
 -- --------------------------------------------------------
 
 --

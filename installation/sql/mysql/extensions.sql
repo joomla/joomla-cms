@@ -911,7 +911,12 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `note` text,
   `created` datetime NOT NULL,
   `created_by` int UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY `idx_type` (`type`),
+  KEY `idx_state` (`state`),
+  KEY `idx_last_exit` (`last_exit_code`),
+  KEY `idx_next_exec` (`next_execution`),
+  KEY `idx_locked` (`locked`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
