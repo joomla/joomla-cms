@@ -86,18 +86,10 @@ abstract class HTMLHelper
 
 		if (\count($parts) === 3)
 		{
-			try
-			{
-				Log::add(
-					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational message only, continue on
-			}
+			@trigger_error(
+				'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				E_USER_DEPRECATED
+			);
 		}
 
 		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
@@ -207,18 +199,10 @@ abstract class HTMLHelper
 	 */
 	public static function register($key, callable $function)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -239,18 +223,10 @@ abstract class HTMLHelper
 	 */
 	public static function unregister($key)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -1220,18 +1196,10 @@ abstract class HTMLHelper
 	 */
 	public static function addIncludePath($path = '')
 	{
-		try
-		{
-			Log::add(
-				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		// Loop through the path directories
 		foreach ((array) $path as $dir)

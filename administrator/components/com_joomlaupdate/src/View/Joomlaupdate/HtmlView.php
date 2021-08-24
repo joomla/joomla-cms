@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Version;
 
 /**
  * Joomla! Update's Default View
@@ -87,6 +88,14 @@ class HtmlView extends BaseHtmlView
 	protected $messagePrefix = '';
 
 	/**
+	 * Flag if the update component itself has to be updated
+	 *
+	 * @var    boolean|\stdClass[]  True when update is available otherwise false
+	 * @since  4.0.0
+	 */
+	protected $nonCoreCriticalPlugins = false;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -104,7 +113,13 @@ class HtmlView extends BaseHtmlView
 		$this->phpOptions             = $this->get('PhpOptions');
 		$this->phpSettings            = $this->get('PhpSettings');
 		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		$nextMajorVersion             = Version::MAJOR_VERSION + 1;
+
+		// The critical plugins check is only available for major updates.
+		if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>='))
+		{
+			$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		}
 
 		// Set to true if a required PHP option is not ok
 		$isCritical = false;
