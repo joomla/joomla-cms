@@ -90,6 +90,8 @@ class UpdateController extends BaseController
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
+
+		// Default = 12 hours.
 		$cache_timeout = (int) $params->get('cachetimeout', 12);
 		$cache_timeout = 3600 * $cache_timeout;
 
@@ -152,6 +154,7 @@ class UpdateController extends BaseController
 
 		if ($cache_timeout == 0)
 		{
+			// Default = 12 hours.
 			$cache_timeout = (int) $params->get('cachetimeout', 12);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
