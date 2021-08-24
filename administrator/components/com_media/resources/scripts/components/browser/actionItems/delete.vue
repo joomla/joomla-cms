@@ -20,17 +20,21 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemDelete",
-  props: ["focused", "mainAction", "closingAction"],
+  name: 'MediaBrowserActionItemDelete',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
   methods: {
-    openConfirmDeleteModal: function () {
+    openConfirmDeleteModal() {
       this.mainAction();
     },
-    hideActions: function () {
+    hideActions() {
       this.hideActions();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };

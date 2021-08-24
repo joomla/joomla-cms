@@ -20,17 +20,21 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemShare",
-  props: ["focused", "mainAction", "closingAction"],
+  name: 'MediaBrowserActionItemShare',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
   methods: {
-    openShareUrlModal: function () {
+    openShareUrlModal() {
       this.mainAction();
     },
-    hideActions: function () {
+    hideActions() {
       this.closingAction();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };

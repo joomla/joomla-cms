@@ -19,14 +19,17 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemToggle",
-  props: ["mainAction", "focused"],
+  name: 'MediaBrowserActionItemToggle',
+  props: {
+    mainAction: { type: Function, default: () => {} },
+    onFocused: { type: Function, default: () => {} },
+  },
   methods: {
-    openActions: function () {
+    openActions() {
       this.mainAction();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };

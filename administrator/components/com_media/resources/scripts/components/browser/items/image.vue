@@ -6,7 +6,10 @@
   >
     <div class="media-browser-item-preview">
       <div class="image-background">
-        <div class="image-cropped" :style="{ backgroundImage: getHashedURL }" />
+        <div
+          class="image-cropped"
+          :style="{ backgroundImage: getHashedURL }"
+        />
       </div>
     </div>
     <div class="media-browser-item-info">
@@ -21,20 +24,22 @@
       ref="container"
       :focused="focused"
       :item="item"
-      :editItem="editItem"
-      :canEdit="canEdit"
+      :edit="editItem"
+      :editable="canEdit"
+      :previewable="true"
+      :downloadable="true"
+      :shareable="true"
     />
   </div>
 </template>
 
 <script>
-import { api } from "../../../app/Api.es6";
-import * as types from "../../../store/mutation-types.es6";
+import { api } from '../../../app/Api.es6';
 
 export default {
-  name: "MediaBrowserItemImage",
+  name: 'MediaBrowserItemImage',
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,
@@ -43,7 +48,7 @@ export default {
   computed: {
     /* Get the hashed URL */
     getHashedURL() {
-      if (this.item.adapter.startsWith("local-")) {
+      if (this.item.adapter.startsWith('local-')) {
         return `url(${this.item.thumb_path}?${api.mediaVersion})`;
       }
       return `url(${this.item.thumb_path})`;
@@ -52,7 +57,7 @@ export default {
   methods: {
     /* Check if the item is an document to edit */
     canEdit() {
-      return ["jpg", "jpeg", "png"].includes(this.item.extension.toLowerCase());
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
     /* Hide actions dropdown */
     hideActions() {
@@ -65,7 +70,7 @@ export default {
     /* Edit an item */
     editItem() {
       // TODO should we use relative urls here?
-      const fileBaseUrl = `${Joomla.getOptions("com_media").editViewUrl}&path=`;
+      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
     },

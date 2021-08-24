@@ -21,17 +21,21 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemRename",
-  props: ["mainAction", "focused", "closingAction"],
+  name: 'MediaBrowserActionItemRename',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
   methods: {
-    openRenameModal: function () {
+    openRenameModal() {
       this.mainAction();
     },
-    hideActions: function () {
+    hideActions() {
       this.closingAction();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };

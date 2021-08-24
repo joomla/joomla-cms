@@ -18,22 +18,18 @@
       ref="container"
       :focused="focused"
       :item="item"
-      :editItem="editItem"
-      :canEdit="canEdit"
-      :isPreviwable="true"
-      :isDownloadable="true"
-      :isShareable="true"
+      :previewable="true"
+      :downloadable="true"
+      :shareable="true"
     />
   </div>
 </template>
 
 <script>
-import * as types from "../../../store/mutation-types.es6";
-
 export default {
-  name: "MediaBrowserItemAudio",
+  name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,

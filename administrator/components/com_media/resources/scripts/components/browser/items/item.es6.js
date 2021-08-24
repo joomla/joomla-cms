@@ -1,15 +1,15 @@
-import { h } from "vue";
-import Directory from "./directory.vue";
-import File from "./file.vue";
-import Image from "./image.vue";
-import Video from "./video.vue";
-import Audio from "./audio.vue";
-import Doc from "./document.vue";
-import * as types from "../../../store/mutation-types.es6";
-import { api } from "../../../app/Api.es6";
+import { h } from 'vue';
+import Directory from './directory.vue';
+import File from './file.vue';
+import Image from './image.vue';
+import Video from './video.vue';
+import Audio from './audio.vue';
+import Doc from './document.vue';
+import * as types from '../../../store/mutation-types.es6';
+import { api } from '../../../app/Api.es6';
 
 export default {
-  props: ["item"],
+  props: ['item'],
   data() {
     return {
       hoverActive: false,
@@ -21,36 +21,36 @@ export default {
      */
     itemType() {
       // Render directory items
-      if (this.item.type === "dir") return Directory;
+      if (this.item.type === 'dir') return Directory;
 
       // Render image items
       if (
-        this.item.extension &&
-        api.imagesExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension
+        && api.imagesExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Image;
       }
 
       // Render video items
       if (
-        this.item.extension &&
-        api.videoExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension
+        && api.videoExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Video;
       }
 
       // Render audio items
       if (
-        this.item.extension &&
-        api.audioExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension
+        && api.audioExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Audio;
       }
 
       // Render document items
       if (
-        this.item.extension &&
-        api.documentExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension
+        && api.documentExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Doc;
       }
@@ -75,7 +75,7 @@ export default {
      */
     isSelected() {
       return this.$store.state.selectedItems.some(
-        (selected) => selected.path === this.item.path
+        (selected) => selected.path === this.item.path,
       );
     },
 
@@ -106,9 +106,9 @@ export default {
      * @param event
      */
     handleClick(event) {
-      if (this.item.path && this.item.type === "file") {
+      if (this.item.path && this.item.type === 'file') {
         window.parent.document.dispatchEvent(
-          new CustomEvent("onMediaFileSelected", {
+          new CustomEvent('onMediaFileSelected', {
             bubbles: true,
             cancelable: false,
             detail: {
@@ -119,17 +119,17 @@ export default {
               width: this.item.width ? this.item.width : 0,
               height: this.item.height ? this.item.height : 0,
             },
-          })
+          }),
         );
       }
 
-      if (this.item.type === "dir") {
+      if (this.item.type === 'dir') {
         window.parent.document.dispatchEvent(
-          new CustomEvent("onMediaFileSelected", {
+          new CustomEvent('onMediaFileSelected', {
             bubbles: true,
             cancelable: false,
             detail: {},
-          })
+          }),
         );
       }
 
@@ -143,13 +143,13 @@ export default {
         this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         return;
       }
-      this.$store.dispatch("toggleBrowserItemSelect", this.item);
+      this.$store.dispatch('toggleBrowserItemSelect', this.item);
       window.parent.document.dispatchEvent(
-        new CustomEvent("onMediaFileSelected", {
+        new CustomEvent('onMediaFileSelected', {
           bubbles: true,
           cancelable: false,
           detail: {},
-        })
+        }),
       );
 
       // If more than one item was selected and the user clicks again on the selected item,
@@ -171,10 +171,10 @@ export default {
   },
   render() {
     return h(
-      "div",
+      'div',
       {
         class: {
-          "media-browser-item": true,
+          'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
         },
@@ -188,7 +188,7 @@ export default {
           item: this.item,
           focused: this.focused,
         }),
-      ]
+      ],
     );
   },
 };

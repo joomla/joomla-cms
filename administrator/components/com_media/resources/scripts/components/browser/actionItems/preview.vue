@@ -20,17 +20,21 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemPreview",
-  props: ["focused", "mainAction", "closingAction"],
+  name: 'MediaBrowserActionItemPreview',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
   methods: {
-    openPreview: function () {
+    openPreview() {
       this.mainAction();
     },
-    hideActions: function () {
+    hideActions() {
       this.closingAction();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };

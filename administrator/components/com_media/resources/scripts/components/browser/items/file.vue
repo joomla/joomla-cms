@@ -1,5 +1,8 @@
 <template>
-  <div class="media-browser-item-file" @mouseleave="hideActions()">
+  <div
+    class="media-browser-item-file"
+    @mouseleave="hideActions()"
+  >
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
@@ -19,19 +22,18 @@
       ref="container"
       :focused="focused"
       :item="item"
-      :editItem="editItem"
-      :canEdit="canEdit"
+      :previewable="true"
+      :downloadable="true"
+      :shareable="true"
     />
   </div>
 </template>
 
 <script>
-import * as types from "../../../store/mutation-types.es6";
-
 export default {
-  name: "MediaBrowserItemFile",
+  name: 'MediaBrowserItemFile',
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,

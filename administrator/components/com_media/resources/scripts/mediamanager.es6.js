@@ -20,7 +20,9 @@ import Infobar from './components/infobar/infobar.vue';
 import Upload from './components/upload/upload.vue';
 import translate from './plugins/translate.es6';
 import store from './store/store.es6';
-import { Rename, Toggle, Preview, Download, Share, Delete, Edit, Container } from './components/browser/actionItems/export.es6';
+import {
+  Rename, Toggle, Preview, Download, Share, Delete, Edit, Container,
+} from './components/browser/actionItems/export.es6';
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};

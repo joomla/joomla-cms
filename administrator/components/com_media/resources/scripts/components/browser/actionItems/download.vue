@@ -20,17 +20,21 @@
 
 <script>
 export default {
-  name: "MediaBrowserActionItemDownload",
-  props: ["mainAction", "focused", "closingAction"],
+  name: 'MediaBrowserActionItemDownload',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
   methods: {
-    download: function () {
+    download() {
       this.mainAction();
     },
-    hideActions: function () {
+    hideActions() {
       this.closingAction();
     },
-    focused: function (bool) {
-      this.focused(bool);
+    focused(bool) {
+      this.onFocused(bool);
     },
   },
 };
