@@ -80,6 +80,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		/** @var \Joomla\Registry\Registry $params */
 		$params        = $component->getParams();
+
+		// Default = 12 hours.
 		$cache_timeout = (int) $params->get('cachetimeout', 12);
 		$cache_timeout = 3600 * $cache_timeout;
 
