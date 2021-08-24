@@ -121,14 +121,8 @@ $assoc = Associations::isEnabled();
                 $canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
                 $canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
                 $canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
-
-                $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
-
-                $transition_ids = ArrayHelper::getColumn($transitions, 'value');
-                $transition_ids = ArrayHelper::toInteger($transition_ids);
-
               ?>
-                <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>" data-transitions="<?php echo implode(',', $transition_ids); ?>">
+                <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
 
                   <td class="text-center">
                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
@@ -138,7 +132,7 @@ $assoc = Associations::isEnabled();
                     <?php
                     $options = [
                       'task_prefix' => 'drafts.',
-                      'disabled' => $workflow_state || !$canChange,
+                      'disabled' => !$canChange,
                       'id' => 'state-' . $item->id
                     ];
 
