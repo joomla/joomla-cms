@@ -792,14 +792,6 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	protected $ignoreDirectories = array();
 
 	/**
-	 * Public constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Wakeup function, called whenever the class is unserialized
 	 */
 	public function __wakeup()
@@ -857,8 +849,6 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	final protected function _prepare()
 	{
-		parent::__construct();
-
 		if (count($this->_parametersArray) > 0)
 		{
 			foreach ($this->_parametersArray as $key => $value)
@@ -2662,8 +2652,6 @@ class AKCoreTimer extends AKAbstractObject
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-
 		// Initialize start time
 		$this->start_time = $this->microtime_float();
 
