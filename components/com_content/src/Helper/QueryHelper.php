@@ -91,6 +91,14 @@ class QueryHelper
 				$orderby = 'a.title DESC';
 				break;
 
+			case 'draft':
+				$orderby = 'a.draft DESC';
+				break;
+
+			case 'rdraft':
+				$orderby = 'a.draft';
+				break;
+
 			case 'hits':
 				$orderby = 'a.hits DESC';
 				break;

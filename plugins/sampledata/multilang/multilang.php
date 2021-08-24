@@ -1109,6 +1109,8 @@ class PlgSampledataMultilang extends CMSPlugin
 			'language'         => $itemLanguage->language,
 			'state'            => 1,
 			'featured'         => 1,
+			'draft'	           => 1,
+			'shared'           => 0,
 			'attribs'          => array(),
 			'rules'            => array(),
 		);
