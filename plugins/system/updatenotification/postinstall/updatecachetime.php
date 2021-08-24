@@ -21,7 +21,8 @@ use Joomla\CMS\Table\Table;
  */
 function updatecachetime_postinstall_condition()
 {
-	$cacheTimeout = (int) ComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
+	// Default = 12 hours.
+	$cacheTimeout = (int) ComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 12);
 
 	// Check if cachetimeout is eq zero
 	if ($cacheTimeout === 0 && PluginHelper::isEnabled('system', 'updatenotification'))
@@ -33,7 +34,7 @@ function updatecachetime_postinstall_condition()
 }
 
 /**
- * Sets the cachtimeout back to the default (6 hours)
+ * Sets the cachtimeout back to the default (12 hours)
  *
  * @return  void
  *
@@ -43,8 +44,8 @@ function updatecachetime_postinstall_action()
 {
 	$installer = ComponentHelper::getComponent('com_installer');
 
-	// Sets the cachtimeout back to the default (6 hours)
-	$installer->params->set('cachetimeout', 6);
+	// Sets the cachtimeout back to the default (12 hours)
+	$installer->params->set('cachetimeout', 12);
 
 	// Save the new parameters back to com_installer
 	$table = Table::getInstance('extension');

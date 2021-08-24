@@ -80,7 +80,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		/** @var \Joomla\Registry\Registry $params */
 		$params        = $component->getParams();
-		$cache_timeout = (int) $params->get('cachetimeout', 6);
+		$cache_timeout = (int) $params->get('cachetimeout', 12);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
