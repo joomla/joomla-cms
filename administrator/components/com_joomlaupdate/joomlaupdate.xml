@@ -14,10 +14,8 @@
 		<folder>js</folder>
 	</media>
 	<administration>
-		<menu img="class:joomlaupdate">com_joomlaupdate</menu>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>joomlaupdate.xml</filename>
 			<filename>restore.php</filename>
 			<filename>restore_finalisation.php</filename>
 			<folder>services</folder>

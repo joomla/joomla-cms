@@ -135,6 +135,30 @@ namespace Joomla\CMS\Filesystem
 				$postproc = \AKFactory::getPostProc();
 				$postproc->rename($src, $dest);
 			}
+
+			/**
+			 * Invalidate opcache for a newly written/deleted file immediately, if opcache* functions exist and if this was a PHP file.
+			 *
+			 * @param   string  $filepath   The path to the file just written to, to flush from opcache
+			 * @param   boolean $force      If set to true, the script will be invalidated regardless of whether invalidation is necessary
+			 *
+			 * @return  boolean TRUE if the opcode cache for script was invalidated/nothing to invalidate,
+			 *                  or FALSE if the opcode cache is disabled or other conditions returning
+			 *                  FALSE from opcache_invalidate (like file not found).
+			 *
+			 * @since  4.0.2
+			 */
+			public static function invalidateFileCache($filepath, $force = true)
+			{
+				if ('.php' === strtolower(substr($filepath, -4)))
+				{
+					$postproc = \AKFactory::getPostProc();
+					$postproc->clearFileInOPCache($filepath);
+				}
+
+				return false;
+			}
+
 		}
 	}
 
