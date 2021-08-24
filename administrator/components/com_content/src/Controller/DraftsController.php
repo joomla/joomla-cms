@@ -156,8 +156,8 @@ class DraftsController extends AdminController
 	}
 
 	// TODO: HERE
-	public function saveAsDraft()
+	public function unshareDrafts()
 	{
-		echo "<script>alert('Hallo Welt');</script>";
+		echo "<script>alert('function unshare drafts is not implemented');</script>";
 	}
 }

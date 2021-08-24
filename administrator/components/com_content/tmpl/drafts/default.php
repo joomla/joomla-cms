@@ -57,43 +57,10 @@ if ($saveOrder && !empty($this->items))
   HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
-$workflow_state    = false;
-$workflow_featured = false;
-
-if ($workflow_enabled) :
-
-  // @todo move the script to a file
-  $js = <<<JS
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
-
-	  elements.forEach(function (element) {
-		element.addEventListener('click', function(event) {
-			event.stopPropagation();
-		});
-	  });
-	});
-})();
-JS;
-
-  /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-  $wa = $this->document->getWebAssetManager();
-
-  $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-  $wa->useScript('com_workflow.admin-items-workflow-buttons')
-    ->addInlineScript($js, [], ['type' => 'module']);
-
-  $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
-  $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
-
-endif;
-
 $assoc = Associations::isEnabled();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_content&view=drafts'); ?>" method="post" name="adminForm" id="adminForm">
   <div class="row">
     <div class="col-md-12">
       <div id="j-main-container" class="j-main-container">
@@ -118,59 +85,29 @@ $assoc = Associations::isEnabled();
                 <td class="w-1 text-center">
                   <?php echo HTMLHelper::_('grid.checkall'); ?>
                 </td>
-                <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                  <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+
+                <th scope="col" class="w-1 d-none d-md-table-cell text-center">
+                  <?php echo HTMLHelper::_('searchtools.sort', 'JSHARED_DRAFT', 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
                 </th>
-                <?php if ($workflow_enabled) : ?>
-                  <th scope="col" class="w-1 text-center">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-                  </th>
-                <?php endif; ?>
-                <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                  <?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+
+
+                <th scope="col" style="min-width:100px">
+                  <?php echo HTMLHelper::_('searchtools.sort', 'JLINK_DRAFT', 'a.title', $listDirn, $listOrder); ?>
                 </th>
-                <th scope="col" class="w-1 text-center">
-                  <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
-                </th>
+
                 <th scope="col" style="min-width:100px">
                   <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                 </th>
-                <th></th>
-                <th scope="col" class="w-10 d-none d-md-table-cell">
-                  <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-                </th>
-                <th scope="col" class="w-10 d-none d-md-table-cell">
-                  <?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-                </th>
-                <?php if ($assoc) : ?>
-                  <th scope="col" class="w-5 d-none d-md-table-cell">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-                  </th>
-                <?php endif; ?>
-                <?php if (Multilanguage::isEnabled()) : ?>
-                  <th scope="col" class="w-10 d-none d-md-table-cell">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-                  </th>
-                <?php endif; ?>
+
                 <th scope="col" class="w-10 d-none d-md-table-cell text-center">
-                  <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
+                  <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_SHARED_DRAFT_DATE', 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
                 </th>
-                <?php if ($this->hits) : ?>
-                  <th scope="col" class="w-3 d-none d-lg-table-cell text-center">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-                  </th>
-                <?php endif; ?>
-                <?php if ($this->vote) : ?>
-                  <th scope="col" class="w-3 d-none d-md-table-cell text-center">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-                  </th>
-                  <th scope="col" class="w-3 d-none d-md-table-cell text-center">
-                    <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
-                  </th>
-                <?php endif; ?>
+
+
                 <th scope="col" class="w-3 d-none d-lg-table-cell">
                   <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
                 </th>
+
               </tr>
             </thead>
             <tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php endif; ?>>
@@ -192,60 +129,15 @@ $assoc = Associations::isEnabled();
 
               ?>
                 <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>" data-transitions="<?php echo implode(',', $transition_ids); ?>">
+
                   <td class="text-center">
                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
                   </td>
-                  <td class="text-center d-none d-md-table-cell">
-                    <?php
-                    $iconClass = '';
-                    if (!$canChange)
-                    {
-                      $iconClass = ' inactive';
-                    }
-                    elseif (!$saveOrder)
-                    {
-                      $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-                    }
-                    ?>
-                    <span class="sortable-handler<?php echo $iconClass ?>">
-                      <span class="icon-ellipsis-v" aria-hidden="true"></span>
-                    </span>
-                    <?php if ($canChange && $saveOrder) : ?>
-                      <input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
-                    <?php endif; ?>
-                  </td>
-                  <?php if ($workflow_enabled) : ?>
-                    <td class="article-stage text-center">
-                      <?php
-                      $options = [
-                        'transitions' => $transitions,
-                        'title' => Text::_($item->stage_title),
-                        'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-                        'id' => 'workflow-' . $item->id,
-                        'task' => 'articles.runTransition'
-                      ];
 
-                      echo (new TransitionButton($options))
-                        ->render(0, $i);
-                      ?>
-                    </td>
-                  <?php endif; ?>
-                  <td class="text-center d-none d-md-table-cell">
-                    <?php
-                    $options = [
-                      'task_prefix' => 'articles.',
-                      'disabled' => $workflow_featured || !$canChange,
-                      'id' => 'featured-' . $item->id
-                    ];
-
-                    echo (new FeaturedButton)
-                      ->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
-                    ?>
-                  </td>
                   <td class="article-status text-center">
                     <?php
                     $options = [
-                      'task_prefix' => 'articles.',
+                      'task_prefix' => 'drafts.',
                       'disabled' => $workflow_state || !$canChange,
                       'id' => 'state-' . $item->id
                     ];
@@ -253,6 +145,12 @@ $assoc = Associations::isEnabled();
                     echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
                     ?>
                   </td>
+
+
+                  <td class="d-none d-lg-table-cell">
+                    <?php echo '<a href="http://localhost:3000/index.php/article123123">index.php/article123123</a>' ?>
+                  </td>
+
                   <th scope="row" class="has-context">
                     <div class="break-word">
                       <?php if ($item->checked_out) : ?>
@@ -326,69 +224,18 @@ $assoc = Associations::isEnabled();
                       </div>
                     </div>
                   </th>
-                  <!--TODO: HERE-->
-                  <td class="small d-none d-md-table-cell">
-                    <?php
-                    $draft = (rand() % 2 ? '<span class="badge rounded-pill bg-success">Draft</span>' : "");
-                    echo $draft;
-                    echo ($draft && rand() % 2) ? '<span class="badge rounded-pill bg-warning">Shared</span>' : '';
-                    ?>
-                  </td>
-                  <td class="small d-none d-md-table-cell">
-                    <?php echo $this->escape($item->access_level); ?>
-                  </td>
-                  <td class="small d-none d-md-table-cell">
-                    <?php if ((int) $item->created_by != 0) : ?>
-                      <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
-                        <?php echo $this->escape($item->author_name); ?>
-                      </a>
-                    <?php else : ?>
-                      <?php echo Text::_('JNONE'); ?>
-                    <?php endif; ?>
-                    <?php if ($item->created_by_alias) : ?>
-                      <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-                    <?php endif; ?>
-                  </td>
-                  <?php if ($assoc) : ?>
-                    <td class="d-none d-md-table-cell">
-                      <?php if ($item->association) : ?>
-                        <?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
-                      <?php endif; ?>
-                    </td>
-                  <?php endif; ?>
-                  <?php if (Multilanguage::isEnabled()) : ?>
-                    <td class="small d-none d-md-table-cell">
-                      <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-                    </td>
-                  <?php endif; ?>
+
                   <td class="small d-none d-md-table-cell text-center">
                     <?php
                     $date = $item->{$orderingColumn};
                     echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
                     ?>
                   </td>
-                  <?php if ($this->hits) : ?>
-                    <td class="d-none d-lg-table-cell text-center">
-                      <span class="badge bg-info">
-                        <?php echo (int) $item->hits; ?>
-                      </span>
-                    </td>
-                  <?php endif; ?>
-                  <?php if ($this->vote) : ?>
-                    <td class="d-none d-md-table-cell text-center">
-                      <span class="badge bg-success">
-                        <?php echo (int) $item->rating_count; ?>
-                      </span>
-                    </td>
-                    <td class="d-none d-md-table-cell text-center">
-                      <span class="badge bg-warning text-dark">
-                        <?php echo (int) $item->rating; ?>
-                      </span>
-                    </td>
-                  <?php endif; ?>
+
                   <td class="d-none d-lg-table-cell">
                     <?php echo (int) $item->id; ?>
                   </td>
+
                 </tr>
               <?php endforeach; ?>
               </tbody>
@@ -415,10 +262,6 @@ $assoc = Associations::isEnabled();
               $this->loadTemplate('batch_body')
             ); ?>
           <?php endif; ?>
-        <?php endif; ?>
-
-        <?php if ($workflow_enabled) : ?>
-          <input type="hidden" name="transition_id" value="">
         <?php endif; ?>
 
         <input type="hidden" name="task" value="">
