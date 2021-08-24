@@ -682,6 +682,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 *
 	 * @since   1.6
 	 */
+
 	public function save($data)
 	{
 		$input  = Factory::getApplication()->input;
@@ -693,6 +694,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
 		}
+
+		if(!isset($data['draft']) || $data['state'] != 1)
+		{
+			$data['draft'] = 1;
+		}
+
+		if($data['state'] == 1)
+		{
+			$data['draft'] = 0;
+		}
+
 
 		if (isset($data['created_by_alias']))
 		{

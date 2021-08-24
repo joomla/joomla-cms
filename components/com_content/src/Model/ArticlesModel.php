@@ -230,6 +230,8 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.metakey'),
 					$db->quoteName('a.metadesc'),
 					$db->quoteName('a.access'),
+					$db->quoteName('a.draft'),
+					$db->quoteName('a.shared'),
 					$db->quoteName('a.hits'),
 					$db->quoteName('a.featured'),
 					$db->quoteName('a.language'),
