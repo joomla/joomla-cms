@@ -2662,8 +2662,6 @@ class AKCoreTimer extends AKAbstractObject
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-
 		// Initialize start time
 		$this->start_time = $this->microtime_float();
 
