@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -428,6 +429,14 @@ trait CoreButtonsTrait
 			->formValidation(true);
 	}
 
+	public function unshare(string $task, string $text = 'JTOOLBAR_UNSHARE'): StandardButton
+	{
+		return $this->standardButton('user-slash', $text)
+			->task($task)
+			->formValidation(true);
+	}
+
+
 	/**
 	 * Writes a checkin button for a given option.
 	 *
@@ -496,7 +505,11 @@ trait CoreButtonsTrait
 	 *
 	 * @since   4.0.0
 	 */
-	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
+	public function versions(
+		string $typeAlias,
+		int $itemId,
+		int $height = 800,
+		int $width = 500,
 		string $text = 'JTOOLBAR_VERSIONS'
 	): CustomButton
 	{
