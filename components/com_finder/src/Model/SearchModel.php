@@ -135,6 +135,7 @@ class SearchModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+		$subQuery = $db->getQuery(true);
 
 		/*
 		 * If there are no optional or required search terms in the query and
@@ -142,8 +143,9 @@ class SearchModel extends ListModel
 		 * If the search term is not empty and empty searches are allowed,
 		 * but no terms were found, we return an empty query as well.
 		 */
-		if (empty($this->includedTerms)
-			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
+		if ((empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '' && empty($this->searchquery->filters))
+			|| (empty($this->includedTerms) && !$this->searchquery->empty)
+			|| (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input != ''))
 		{
 			// Since we need to return a query, we simplify this one.
 			$query->select('*')
@@ -170,12 +172,13 @@ class SearchModel extends ListModel
 			$amount = 0;
 		}
 
-		$query->from('(SELECT link_id, SUM(weight) as weight
-    						FROM #__finder_links_terms
-    						WHERE term_id IN (' . implode(',', $included) . ')
-    						GROUP BY link_id
-    						HAVING COUNT(link_id) > ' . $amount . ' ) AS m'
-		);
+		$subQuery->select('link_id, SUM(weight) as weight')
+			->from('#__finder_links_terms')
+			->where('term_id IN (' . implode(',', $included) . ')')
+			->group('link_id')
+			->having('COUNT(link_id) > ' . $amount);
+
+		$query->from('(' . $subQuery . ') AS m');
 
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
@@ -209,6 +212,20 @@ class SearchModel extends ListModel
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
 				$query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
+			}
+
+			/*
+			 * If there are no optional or required search terms in the query,
+			 * we need to modify the query to exclude the $subQuery,
+			 * since it's expecting a search term.
+			 */
+			if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
+			{
+				$query->clear('from')
+					->from('#__finder_links AS l')
+					->clear('join')
+					->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+					->group('l.link_id,l.object');
 			}
 		}
 
@@ -292,12 +309,6 @@ class SearchModel extends ListModel
 		 */
 		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
-			$query->clear('from')
-				->from('#__finder_links AS l')
-				->clear('join')
-				->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
-				->group('l.link_id,l.object');
-
 			return $query;
 		}
 
@@ -314,6 +325,7 @@ class SearchModel extends ListModel
 		}
 
 		return $query;
+
 	}
 
 	/**
