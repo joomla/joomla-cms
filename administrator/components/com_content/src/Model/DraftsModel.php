@@ -28,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ArticlesModel extends ListModel
+class DraftsModel extends ListModel
 {
 	/**
 	 * Constructor.

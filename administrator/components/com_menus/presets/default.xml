@@ -38,6 +38,13 @@
 		/>
 
 		<menuitem
+			title="COM_CONTENT_MENUS_DRAFT_MANAGER"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=drafts"
+		/>
+
+		<menuitem
 			title="COM_CONTENT_MENUS_FEATURED"
 			type="component"
 			element="com_content"
