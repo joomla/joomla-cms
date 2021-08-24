@@ -42,7 +42,7 @@ export default {
     },
     /* Preview an item */
     openPreview() {
-      this.$ref.container.openPreview();
+      this.$refs.container.openPreview();
     },
   },
 };
