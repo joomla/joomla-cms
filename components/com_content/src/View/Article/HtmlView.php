@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -137,11 +138,13 @@ class HtmlView extends BaseHtmlView
 
 		// Check to see which parameters should take priority. If the active menu item link to the current article, then
 		// the menu item params take priority
-		if ($active
+		if (
+			$active
 			&& $active->component == 'com_content'
 			&& isset($active->query['view'], $active->query['id'])
 			&& $active->query['view'] == 'article'
-			&& $active->query['id'] == $item->id)
+			&& $active->query['id'] == $item->id
+		)
 		{
 			$this->menuItemMatchArticle = true;
 
@@ -291,8 +294,10 @@ class HtmlView extends BaseHtmlView
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
 			// Get ID of the category from active menu item
-			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
-				&& in_array($menu->query['view'], ['categories', 'category']))
+			if (
+				$menu && $menu->component == 'com_content' && isset($menu->query['view'])
+				&& in_array($menu->query['view'], ['categories', 'category'])
+			)
 			{
 				$id = $menu->query['id'];
 			}

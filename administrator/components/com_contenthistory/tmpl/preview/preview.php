@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
@@ -36,28 +37,28 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->item->data as $name => $value) : ?>
-			<?php if (is_object($value->value)) : ?>
-				<tr>
-					<td colspan="2">
-						<?php echo $value->label; ?>
-					</td>
-				</tr>
-				<?php foreach ($value->value as $subName => $subValue) : ?>
-					<?php if ($subValue) : ?>
-						<tr>
-							<th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
-							<td><?php echo $subValue->value; ?></td>
-						</tr>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			<?php else : ?>
-				<tr>
-					<th scope="row"><?php echo $value->label; ?></th>
-					<td><?php echo $value->value; ?></td>
-				</tr>
-			<?php endif; ?>
-		<?php endforeach; ?>
+			<?php foreach ($this->item->data as $name => $value) : ?>
+				<?php if (is_object($value->value)) : ?>
+					<tr>
+						<td colspan="2">
+							<?php echo $value->label; ?>
+						</td>
+					</tr>
+					<?php foreach ($value->value as $subName => $subValue) : ?>
+						<?php if ($subValue) : ?>
+							<tr>
+								<th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
+								<td><?php echo $subValue->value; ?></td>
+							</tr>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else : ?>
+					<tr>
+						<th scope="row"><?php echo $value->label; ?></th>
+						<td><?php echo $value->value; ?></td>
+					</tr>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>
