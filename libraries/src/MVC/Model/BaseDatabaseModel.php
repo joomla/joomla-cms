@@ -177,7 +177,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
-		
+
 		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
