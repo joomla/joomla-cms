@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -164,6 +165,7 @@ class ArticlesController extends AdminController
 	// TODO: HERE
 	public function saveAsDraft()
 	{
+
 		$this->checkToken();
 
 		$user        = $this->app->getIdentity();

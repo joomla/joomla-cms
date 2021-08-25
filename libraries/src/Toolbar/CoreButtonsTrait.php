@@ -431,7 +431,7 @@ trait CoreButtonsTrait
 
 	public function unshare(string $task, string $text = 'JTOOLBAR_UNSHARE'): StandardButton
 	{
-		return $this->standardButton('user-slash', $text)
+		return $this->standardButton('icon-eye-slash', $text)
 			->task($task)
 			->formValidation(true);
 	}

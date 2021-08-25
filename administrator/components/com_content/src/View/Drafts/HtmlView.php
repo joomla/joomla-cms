@@ -167,7 +167,7 @@ class HtmlView extends BaseHtmlView
 		// TODO: HERE
 		$toolbar->unshare('com_content')
 			->text('JTOOLBAR_UNSHARE')
-			->icon('user-slash')
+			->icon('icon-eye-slash')
 			->task('drafts.unshareDrafts')
 			->listCheck(true);
 
