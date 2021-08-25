@@ -149,7 +149,7 @@ class SearchModel extends ListModel
 		{
 			// Since we need to return a query, we simplify this one.
 			$query->select('*')
-				->from('#__finder_links')
+				->from($db->quoteName('#__finder_links'))
 				->where('false');
 
 			return $query;
@@ -172,14 +172,15 @@ class SearchModel extends ListModel
 			$amount = 0;
 		}
 
-		$instantView->select('link_id, SUM(weight) as weight')
-			->from('#__finder_links_terms')
-			->where('term_id IN (' . implode(',', $included) . ')')
-			->group('link_id')
-			->having('COUNT(link_id) > ' . $amount);
+
+
+		$instantView->select($db->quoteName('link_id') . ', SUM(' . $db->quoteName('weight') . ') AS ' . $db->quoteName('weight'))
+			->from($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('term_id') . 'IN (' . implode(',', $included) . ')')
+			->group($db->quoteName('link_id'))
+			->having('COUNT(' . $db->quoteName('link_id') . ') > ' . $amount);
 
 		$query->from('(' . $instantView . ') AS m');
-
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
 		$query->whereIn($db->quoteName('l.access'), $groups)
@@ -222,9 +223,9 @@ class SearchModel extends ListModel
 			if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 			{
 				$query->clear('from')
-					->from('#__finder_links AS l')
+					->from($db->quoteName('#__finder_links', 'l'))
 					->clear('join')
-					->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+					->join('INNER', $db->quoteName('#__finder_taxonomy_map', 't') . ' ON t.link_id = l.link_id')
 					->group('l.link_id,l.object');
 			}
 		}
@@ -312,7 +313,8 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$query->join('INNER', $this->_db->quoteName('#__finder_links') . ' AS l ON l.link_id = m.link_id');
+		$query->join('INNER', $this->_db->quoteName('#__finder_links', 'l') . ' ON '. $db->quoteName('l.link_id') . '=' . $db->quoteName('m.link_id'));
+
 
 		// Check if there are any excluded terms to deal with.
 		if (count($this->excludedTerms))
