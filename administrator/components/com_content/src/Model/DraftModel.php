@@ -266,7 +266,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__draft'))
 				->set($db->quoteName('state') . ' = :state')
-				->whereIn($db->quoteName('id'), $pks)
+				->whereIn($db->quoteName('article_id'), $pks)
 				->bind(':state', $value, ParameterType::INTEGER);
 
 			$db->setQuery($query);

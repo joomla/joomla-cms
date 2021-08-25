@@ -235,18 +235,19 @@ class DraftsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			[
-				$db->quoteName('a.id'),
-				$db->quoteName('a.article_id'),
+				$db->quoteName('a.article_id', 'id'),
 				$db->quoteName('a.state'),
-				$db->quoteName('a.url'),
+				$db->quoteName('a.hashval'),
 				$db->quoteName('a.shared_date'),
 				$db->quoteName('b.title'),
 				$db->quoteName('b.alias'),
+				$db->quoteName('h.version_id'),
 				$db->quoteName('c.title', 'category_title')
 			]
 		)
 			->from($db->quoteName('#__draft', 'a'))
 			->join('INNER', $db->quoteName('#__content', 'b'), $db->quoteName('a.article_id') . ' = ' . $db->quoteName('b.id'))
+			->join('INNER', $db->quoteName('#__history', 'h'), $db->quoteName('a.version_id') . ' = ' . $db->quoteName('h.version_id'))
 			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('b.catid'));
 
 		return $query;

@@ -139,7 +139,10 @@ $assoc = Associations::isEnabled();
 
 
                   <td class="d-none d-lg-table-cell">
-                    <?php echo $item->url;  ?>
+                    <?php
+                    $it = $item->hashval;
+                    echo '/joomla-cms/index.php?draft=' . $it;
+                    ?>
                   </td>
 
                   <th scope="row" class="has-context">
@@ -224,7 +227,7 @@ $assoc = Associations::isEnabled();
                   </td>
 
                   <td class="d-none d-lg-table-cell">
-                    <?php echo (int) $item->article_id; ?>
+                    <?php echo (int) $item->id; ?>
                   </td>
 
                 </tr>

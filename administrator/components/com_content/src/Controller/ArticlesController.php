@@ -191,26 +191,19 @@ class ArticlesController extends AdminController
 		{
 			// Get the model.
 			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 			$model = $this->getModel();
-			if (!$model->draft($ids))
-			{
-				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
 
-				return;
+			foreach ($ids as $id)
+			{
+				$model->storeHistory($id);
+				$model->storeDraft($id);
 			}
 
 			$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
 		}
-		$this->setRedirect(Route::_($redirectUrl, false), $message);
 
-		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-		$model = $this->getModel();
 
-		foreach ($ids as $id)
-		{
-			$data = $model->getItem($id);
-			Versioning::store($data->typeAlias, $id, $data);
-		}
 
 		$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
 		$this->setRedirect(Route::_($redirectUrl, false), $message);

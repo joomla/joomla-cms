@@ -292,6 +292,98 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		return true;
 	}
 
+	public function storeDraft($pk)
+	{
+		try
+		{
+			$db = $this->getDbo();
+			$item_id = "com_content.article." . $pk;
+
+			$query = $db->getQuery(true)
+				->select(
+					[
+						$db->quoteName('h.version_id')
+					]
+				)
+				->from($db->quoteName('#__history', 'h'))
+				->where($db->quoteName('item_id') . ' = :item_id')
+				->bind(':item_id', $item_id, ParameterType::STRING)
+				->order('version_id DESC')->setLimit(1);
+
+			$version_id = $db->setQuery($query)->loadObject();
+			$hashval = 'aslkdjalskdjlk12j3';
+
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__draft'))
+				->columns(
+					[
+						$db->quoteName('article_id'),
+						$db->quoteName('version_id'),
+						$db->quoteName('hashval'),
+					]
+				)
+				->values(':article_id, :version_id, :hashval')
+				->bind(':article_id', $pk, ParameterType::INTEGER)
+				->bind(':version_id', $version_id, ParameterType::INTEGER)
+				->bind(':hashval', $hashval, ParameterType::STRING);
+			$db->setQuery($query)->execute();
+			return true;
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+	}
+	/**
+	 * Batch move categories to a new category.
+	 *
+	 * @param   integer  $value     The new category ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.8.6
+	 */
+	public function storeHistory($pk)
+	{
+		// Set some needed variables.
+		$this->table = $this->getTable();
+		$this->tableClassName = get_class($this->table);
+
+		// Check that the row actually exists
+		if (!$this->table->load($pk))
+		{
+			if ($error = $this->table->getError())
+			{
+				// Fatal error
+				$this->setError($error);
+
+				return false;
+			}
+			else
+			{
+				// Not fatal error
+				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+			}
+
+			// Store the row.
+			if (!$this->table->store())
+			{
+				$this->setError($this->table->getError());
+
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
@@ -701,7 +793,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if (!isset($data['draft']) || $data['state'] == -3)
 
 			if (!isset($data['draft']) || $data['state'] != 1)
-
 			{
 				$data['draft'] = 1;
 			}
@@ -709,7 +800,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if ($data['state'] != -3)
 
 			if ($data['state'] == 1)
-
 			{
 				$data['draft'] = 0;
 			}
