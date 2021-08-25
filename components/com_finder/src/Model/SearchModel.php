@@ -135,7 +135,7 @@ class SearchModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$subQuery = $db->getQuery(true);
+		$instantView = $db->getQuery(true);
 
 		/*
 		 * If there are no optional or required search terms in the query and
@@ -172,13 +172,13 @@ class SearchModel extends ListModel
 			$amount = 0;
 		}
 
-		$subQuery->select('link_id, SUM(weight) as weight')
+		$instantView->select('link_id, SUM(weight) as weight')
 			->from('#__finder_links_terms')
 			->where('term_id IN (' . implode(',', $included) . ')')
 			->group('link_id')
 			->having('COUNT(link_id) > ' . $amount);
 
-		$query->from('(' . $subQuery . ') AS m');
+		$query->from('(' . $instantView . ') AS m');
 
 		$user = Factory::getUser();
 		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
