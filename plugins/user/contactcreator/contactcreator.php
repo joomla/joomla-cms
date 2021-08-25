@@ -3,12 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 
 /**
@@ -35,7 +38,7 @@ class PlgUserContactCreator extends JPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  boolean
@@ -69,7 +72,7 @@ class PlgUserContactCreator extends JPlugin
 
 		if (empty($categoryId))
 		{
-			JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
+			JError::raiseWarning('', Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
 
 			return false;
 		}
@@ -89,7 +92,7 @@ class PlgUserContactCreator extends JPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) JFactory::getConfig()->get('access');
+			$contact->access   = (int) Factory::getConfig()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 
@@ -122,7 +125,7 @@ class PlgUserContactCreator extends JPlugin
 			}
 		}
 
-		JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'));
+		JError::raiseWarning('', Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'));
 
 		return false;
 	}
@@ -164,8 +167,8 @@ class PlgUserContactCreator extends JPlugin
 	 */
 	protected function getContactTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
 
-		return JTable::getInstance('contact', 'ContactTable');
+		return Table::getInstance('contact', 'ContactTable');
 	}
 }

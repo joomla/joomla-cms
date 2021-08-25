@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -124,6 +124,11 @@ abstract class FieldsPlugin extends JPlugin
 		// Get the path for the layout file
 		$path = JPluginHelper::getLayoutPath('fields', $field->type, $field->type);
 
+		if (!file_exists($path))
+		{
+			$path = JPluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+		}
+
 		// Render the layout
 		ob_start();
 		include $path;
@@ -152,14 +157,8 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
-		$app = JFactory::getApplication();
-
-		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
-		{
-			return;
-		}
-		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		// Detect if the field is configured to be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
 		{
 			return null;
 		}
@@ -171,6 +170,7 @@ abstract class FieldsPlugin extends JPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,19 +123,19 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php echo $this->escape($item->username); ?>
 						</td>
 						<td class="center">
-							<?php if ($canChange) : ?>
-								<?php
-								$self = $loggeduser->id == $item->id;
-								echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
-								?>
-							<?php else : ?>
-								<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
-							<?php endif; ?>
+							<?php
+							$self = $loggeduser->id == $item->id;
+
+							if ($canChange) :
+								echo JHtml::_('jgrid.state', JHtml::_('users.blockStates', $self), $item->block, $i, 'users.', !$self);
+							else :
+								echo JHtml::_('jgrid.state', JHtml::_('users.blockStates', $self), $item->block, $i, 'users.', false);
+							endif; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php
 							$activated = empty( $item->activation) ? 0 : 1;
-							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
+							echo JHtml::_('jgrid.state', JHtml::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 							?>
 						</td>
 						<td>
@@ -150,13 +150,13 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
-								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+								<?php echo JHtml::_('date', $item->lastvisitDate, JText::_('DATE_FORMAT_LC6')); ?>
 							<?php else : ?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
+							<?php echo JHtml::_('date', $item->registerDate, JText::_('DATE_FORMAT_LC6')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>

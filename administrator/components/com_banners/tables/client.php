@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class BannersTableClient extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
@@ -29,6 +29,8 @@ class BannersTableClient extends JTable
 	{
 		$this->checked_out_time = $db->getNullDate();
 		parent::__construct('#__banner_clients', 'id', $db);
+
+		$this->setColumnAlias('published', 'state');
 
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.client'));
 	}

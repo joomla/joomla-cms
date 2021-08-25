@@ -3,17 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.html.bootstrap');
-
-$cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
-
 ?>
 
 <div class="contact<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Person">
@@ -84,7 +80,7 @@ $tparams = $this->item->params;
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
 			<div class="thumbnail pull-right">
-				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
+				<?php echo JHtml::_('image', $this->contact->image, htmlspecialchars($this->contact->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 

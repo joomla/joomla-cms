@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -269,7 +269,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
+		<input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64');?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

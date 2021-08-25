@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -786,7 +786,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test getting the script class name for an extension
 	 *
-	 * @param   string  $element         The element name to set in the clas
+	 * @param   string  $element         The element name to set in the class
 	 * @param   string  $element         The expected script name
 	 * @param   string  $failureMessage  The failure message
 	 *

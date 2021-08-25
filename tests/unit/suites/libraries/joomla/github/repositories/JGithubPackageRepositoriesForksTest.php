@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 /*
@@ -17,37 +17,37 @@ require_once JPATH_PLATFORM . '/joomla/github/forks.php';
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JGithubPackageRepositoriesForksTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPackageRepositoriesForks  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 

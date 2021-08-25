@@ -159,6 +159,15 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+
+			<field
+				name="page_subheading"
+				type="text"
+				label="JGLOBAL_SUBHEADING_LABEL"
+				description="JGLOBAL_SUBHEADING_DESC"
+				size="20"
+			/>
+
 	</fieldset>
 
 	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
@@ -362,7 +371,7 @@
 				name="show_item_navigation" 
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
+				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>

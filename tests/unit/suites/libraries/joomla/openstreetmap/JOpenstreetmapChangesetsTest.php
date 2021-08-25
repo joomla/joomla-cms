@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapChangesetsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapChangesets Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,7 +58,7 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  13.1
+	* @since  3.2.0
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
@@ -128,7 +128,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateChangeset()
 	{
@@ -169,7 +169,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCreateChangesetFailure()
@@ -207,7 +207,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testReadChangeset()
 	{
@@ -236,7 +236,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testReadChangesetFailure()
@@ -263,7 +263,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testUpdateChangeset()
 	{
@@ -296,7 +296,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testUpdateChangesetFailure()
@@ -327,7 +327,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCloseChangeset()
 	{
@@ -352,7 +352,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCloseChangesetFailure()
@@ -378,7 +378,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDownloadChangeset()
 	{
@@ -407,7 +407,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testDownloadChangesetFailure()
@@ -434,7 +434,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testExpandBBoxChangeset()
 	{
@@ -463,7 +463,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testExpandBBoxChangesetFailure()
@@ -490,7 +490,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testQueryChangeset()
 	{
@@ -519,7 +519,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testQueryChangesetFailure()
@@ -546,7 +546,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDiffUploadChangeset()
 	{
@@ -581,7 +581,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testDiffUploadChangesetFailure()

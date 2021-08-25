@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Field for assigning permissions to groups for a given asset
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldRules extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldRules extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Rules';
 
@@ -131,7 +131,7 @@ class JFormFieldRules extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo:   Add access check.
 	 */
 	protected function getInput()
@@ -306,7 +306,13 @@ class JFormFieldRules extends JFormField
 				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
-					. ' title="' . strip_tags(JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text))) . '">';
+					. ' title="' . strip_tags(
+						JText::sprintf(
+							'JLIB_RULES_SELECT_ALLOW_DENY_GROUP',
+							JText::_($action->title),
+							htmlspecialchars(trim($group->text), ENT_QUOTES, 'UTF-8')
+						)
+					) . '">';
 
 				/**
 				 * Possible values:
@@ -424,11 +430,11 @@ class JFormFieldRules extends JFormField
 
 		if ($section === 'component' || !$section)
 		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
+			$html[] = JText::alt('JLIB_RULES_SETTING_NOTES', $component);
 		}
 		else
 		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
+			$html[] = JText::alt('JLIB_RULES_SETTING_NOTES_ITEM', $component . '_' . $section);
 		}
 
 		$html[] = '</div>';
@@ -441,7 +447,7 @@ class JFormFieldRules extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getUserGroups()
 	{

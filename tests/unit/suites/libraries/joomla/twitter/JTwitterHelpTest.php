@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,49 +13,49 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterHelpTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JTwitterHelp  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"errors":[{"message":"Sorry, that page does not exist","code":34}]}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $rateLimit = '{"resources": {"help": {
 			"/help/languages": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
@@ -133,7 +133,7 @@ class JTwitterHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetLanguages()
 	{
@@ -170,7 +170,7 @@ class JTwitterHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetLanguagesFailure()
@@ -205,7 +205,7 @@ class JTwitterHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetConfiguration()
 	{
@@ -242,7 +242,7 @@ class JTwitterHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetConfigurationFailure()

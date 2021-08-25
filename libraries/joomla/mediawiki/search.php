@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Search class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiSearch extends JMediawikiObject
 {
@@ -30,7 +30,7 @@ class JMediawikiSearch extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function search($srsearch, array $srnamespace = null, $srwhat = null, array $srinfo = null, array $srprop = null,
 		$srredirects = null, $sroffest = null, $srlimit = null)
@@ -95,7 +95,7 @@ class JMediawikiSearch extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function openSearch($search, $limit = null, array $namespace = null, $suggest = null, $format = null)
 	{

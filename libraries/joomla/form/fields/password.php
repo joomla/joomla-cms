@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,15 +15,24 @@ defined('JPATH_PLATFORM') or die;
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
  * @note   Two password fields may be validated as matching using JFormRuleEquals
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldPassword extends JFormField
 {
 	/**
+	 * Attach an unlock button and disable the input field,
+	 * also remove the value from the output.
+	 *
+	 * @var    boolean
+	 * @since  3.9.24
+	 */
+	protected $lock = false;
+
+	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Password';
 
@@ -72,6 +81,7 @@ class JFormFieldPassword extends JFormField
 	{
 		switch ($name)
 		{
+			case 'lock':
 			case 'threshold':
 			case 'maxLength':
 			case 'meter':
@@ -102,8 +112,9 @@ class JFormFieldPassword extends JFormField
 				$this->$name = $value;
 				break;
 
+			case 'lock':
 			case 'meter':
-				$this->meter = ($value === 'true' || $value === $name || $value === '1');
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			default:
@@ -131,6 +142,9 @@ class JFormFieldPassword extends JFormField
 
 		if ($return)
 		{
+			$lock       = (string) $this->element['lock'];
+			$this->lock = ($lock == 'true' || $lock == 'on' || $lock == '1');
+
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
@@ -146,7 +160,7 @@ class JFormFieldPassword extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -167,6 +181,7 @@ class JFormFieldPassword extends JFormField
 
 		// Initialize some field attributes.
 		$extraData = array(
+			'lock'      => $this->lock,
 			'maxLength' => $this->maxLength,
 			'meter'     => $this->meter,
 			'threshold' => $this->threshold,

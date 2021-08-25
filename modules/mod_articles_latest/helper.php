@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,10 +44,11 @@ abstract class ModArticlesLatestHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -73,6 +74,10 @@ abstract class ModArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
+			case 'created_by' :
+				$model->setState('filter.author_id', $params->get('author', array()));
+				break;
+
 			case '0' :
 				break;
 
@@ -84,18 +89,20 @@ abstract class ModArticlesLatestHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case '1' :
-				$model->setState('filter.featured', 'only');
-				break;
-			case '0' :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
 		}
 
 		// Set ordering
@@ -119,7 +126,7 @@ abstract class ModArticlesLatestHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

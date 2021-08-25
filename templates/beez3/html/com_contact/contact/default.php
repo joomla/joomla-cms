@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,8 +60,8 @@ $cparams = JComponentHelper::getParams('com_media');
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 	<?php endif; ?>
 	<?php  if ($this->params->get('presentation_style') === 'tabs') : ?>
-		<?php echo JHtmlTabs::start('tabs', array('useCookie' => '1')); ?>
-		<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
+		<?php echo JHtml::_('tabs.start', 'tabs', array('useCookie' => '1')); ?>
+		<?php echo JHtml::_('tabs.panel', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') === 'plain'):?>
@@ -70,7 +70,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="thumbnail pull-right">
-			<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('style' => 'vertical-align: middle;')); ?>
+			<?php echo JHtml::_('image', $this->contact->image, htmlspecialchars($this->contact->name,  ENT_QUOTES, 'UTF-8'), array('style' => 'vertical-align: middle;')); ?>
 		</div>
 	<?php endif; ?>
 
@@ -97,7 +97,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
+			<?php echo JHtml::_('tabs.panel', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'plain'):?>
 			<?php  echo '<h3>'. JText::_('COM_CONTACT_EMAIL_FORM').'</h3>';  ?>
@@ -116,7 +116,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			echo JHtml::_('sliders.panel', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-			<?php echo JHtmlTabs::panel(JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
+			<?php echo JHtml::_('tabs.panel', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php endif; ?>
 		<?php if  ($this->params->get('presentation_style') === 'plain'):?>
 			<?php echo '<h3>'. JText::_('JGLOBAL_ARTICLES').'</h3>'; ?>
@@ -132,7 +132,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
+			<?php echo JHtml::_('tabs.panel', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'plain'):?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_PROFILE').'</h3>'; ?>
@@ -152,7 +152,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
+			<?php echo JHtml::_('tabs.panel', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') === 'plain'):?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_OTHER_INFORMATION').'</h3>'; ?>
@@ -174,9 +174,11 @@ $cparams = JComponentHelper::getParams('com_media');
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('presentation_style') === 'sliders') :
-		echo JHtml::_('sliders.end');
-	endif; ?>
+	<?php if ($this->params->get('presentation_style') === 'sliders') : ?>
+		<?php echo JHtml::_('sliders.end'); ?>
+	<?php elseif ($this->params->get('presentation_style') === 'tabs') : ?>
+		<?php echo JHtml::_('tabs.end'); ?>
+	<?php endif; ?>
 
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>

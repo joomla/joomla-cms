@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.beez5
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ $templateparams = $app->getTemplate(true)->params;
 if (!$templateparams->get('html5', 0))
 {
 	require JPATH_BASE.'/components/com_content/views/archive/tmpl/default.php';
-	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
+	// possibly replace with JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 

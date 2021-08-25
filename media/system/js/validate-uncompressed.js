@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,14 +86,17 @@ var JFormValidator = function() {
 
 		// Try HTML5 pattern first then the handlers
 	    if ($el.attr('pattern') && $el.attr('pattern') != '') {
-		    if ($el.val().length) {
-			    isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
-			    handleResponse(isValid, $el);
-			    return isValid;
-		    } else {
-			    handleResponse(false, $el);
-			    return false;
-		    }
+		if ($el.val().length) {
+			var isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
+			handleResponse(isValid, $el);
+			return isValid;
+		}
+		if ($el.attr('required') || $el.hasClass('required')) {
+			handleResponse(false, $el);
+			return false;
+		}
+		handleResponse(true, $el);
+		return true;
 	    } else {
 		    if (handler === '') {
 			    handleResponse(true, $el);

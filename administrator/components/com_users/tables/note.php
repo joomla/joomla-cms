@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,8 @@ class UsersTableNote extends JTable
 	{
 		parent::__construct('#__user_notes', 'id', $db);
 
+		$this->setColumnAlias('published', 'state');
+
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
 
@@ -52,7 +54,7 @@ class UsersTableNote extends JTable
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = JFactory::getDbo()->getNullDate();
+			$this->review_time = $this->_db->getNullDate();
 		}
 
 		if (empty($this->id))

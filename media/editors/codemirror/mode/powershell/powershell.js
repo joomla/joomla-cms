@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   'use strict';
@@ -38,7 +38,7 @@ CodeMirror.defineMode('powershell', function() {
     /param|process|return|switch|throw|trap|try|until|where|while/
   ], { suffix: notCharacterOrDash });
 
-  var punctuation = /[\[\]{},;`\.]|@[({]/;
+  var punctuation = /[\[\]{},;`\\\.]|@[({]/;
   var wordOperators = buildRegexp([
     'f',
     /b?not/,

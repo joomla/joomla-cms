@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,6 +125,12 @@ abstract class JHtmlMenu
 				}
 
 				$lookup[$item->menutype][] = &$item;
+
+				// Translate the menu item title when client is administrator
+				if ($clientId === 1)
+				{
+					$item->text = JText::_($item->text);
+				}
 
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}

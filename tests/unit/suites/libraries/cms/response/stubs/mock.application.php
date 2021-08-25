@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Response
- * @since       12.2
+ * @since       3.0.1
  */
 class JApplicationResponseJsonMock
 {
 	/**
 	 * @var    array  The message queue.
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $queue = array();
 
@@ -30,7 +30,7 @@ class JApplicationResponseJsonMock
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -42,7 +42,7 @@ class JApplicationResponseJsonMock
 	 *
 	 * @return  array  The system message queue.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getMessageQueue()
 	{

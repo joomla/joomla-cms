@@ -37,7 +37,13 @@ function utf8_is_valid($str) {
 
     for($i = 0; $i < $len; $i++) {
 
-        $in = ord($str{$i});
+        /*
+         * Joomla modification - As of PHP 7.4, curly brace access has been deprecated. As a result the line below has
+         * been modified to use square brace syntax
+         * See https://github.com/php/php-src/commit/d574df63dc375f5fc9202ce5afde23f866b6450a
+         * for additional references
+         */
+        $in = ord($str[$i]);
 
         if ( $mState == 0) {
 

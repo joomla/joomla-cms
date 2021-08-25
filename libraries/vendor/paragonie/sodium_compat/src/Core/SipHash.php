@@ -33,7 +33,7 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
         $v[3] ^= $v[1];
 
         #  v0=ROTL(v0,32);
-        list($v[0], $v[1]) = self::rotl_64($v[0], $v[1], 32);
+        list($v[0], $v[1]) = self::rotl_64((int) $v[0], (int) $v[1], 32);
 
         # v2 += v3;
         list($v[4], $v[5]) = self::add(
@@ -50,12 +50,12 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
 
         # v0 += v3;
         list($v[0], $v[1]) = self::add(
-            array($v[0], $v[1]),
-            array($v[6], $v[7])
+            array((int) $v[0], (int) $v[1]),
+            array((int) $v[6], (int) $v[7])
         );
 
         # v3=ROTL(v3,21);
-        list($v[6], $v[7]) = self::rotl_64($v[6], $v[7], 21);
+        list($v[6], $v[7]) = self::rotl_64((int) $v[6], (int) $v[7], 21);
 
         # v3 ^= v0;
         $v[6] ^= $v[0];
@@ -63,19 +63,19 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
 
         # v2 += v1;
         list($v[4], $v[5]) = self::add(
-            array($v[4], $v[5]),
-            array($v[2], $v[3])
+            array((int) $v[4], (int) $v[5]),
+            array((int) $v[2], (int) $v[3])
         );
 
         # v1=ROTL(v1,17);
-        list($v[2], $v[3]) = self::rotl_64($v[2], $v[3], 17);
+        list($v[2], $v[3]) = self::rotl_64((int) $v[2], (int) $v[3], 17);
 
         #  v1 ^= v2;;
         $v[2] ^= $v[4];
         $v[3] ^= $v[5];
 
         # v2=ROTL(v2,32)
-        list($v[4], $v[5]) = self::rotl_64($v[4], $v[5], 32);
+        list($v[4], $v[5]) = self::rotl_64((int) $v[4], (int) $v[5], 32);
 
         return $v;
     }
@@ -91,8 +91,11 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
      */
     public static function add(array $a, array $b)
     {
+        /** @var int $x1 */
         $x1 = $a[1] + $b[1];
+        /** @var int $c */
         $c = $x1 >> 32; // Carry if ($a + $b) > 0xffffffff
+        /** @var int $x0 */
         $x0 = $a[0] + $b[0] + $c;
         return array(
             $x0 & 0xffffffff,
@@ -153,6 +156,8 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
      * @param string $in
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sipHash24($in, $key)
     {

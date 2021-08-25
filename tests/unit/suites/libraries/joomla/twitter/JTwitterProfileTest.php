@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,55 +13,55 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterProfileTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JTwitterProfile  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    JTwitterOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"error":"Generic error"}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $rateLimit = '{"resources": {"account": {
 			"/account/update_profile": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
@@ -135,7 +135,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testUpdateProfile()
 	{
@@ -186,7 +186,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testUpdateProfileFailure()
@@ -235,7 +235,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUpdateProfileBackgroundImage()
 	{
@@ -283,7 +283,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testUpdateProfileBackgroundImageFailure()
@@ -329,7 +329,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUpdateProfileImage()
 	{
@@ -373,7 +373,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testUpdateProfileImageFailure()
@@ -415,7 +415,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUpdateProfileColors()
 	{
@@ -467,7 +467,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testUpdateProfileColorsFailure()
@@ -517,7 +517,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetSettings()
 	{
@@ -552,7 +552,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetSettingsFailure()
@@ -585,7 +585,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUpdateSettings()
 	{
@@ -624,7 +624,7 @@ class JTwitterProfileTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testUpdateSettingsFailure()

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,19 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       12.3
+ * @since       3.1.4
  */
 class JApplicationWebRouterBaseTest extends TestCase
 {
 	/**
 	 * @var    JApplicationWebRouterBase  The object to be tested.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    JInput  The JInput object to be inspected for route variables.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_input;
 
@@ -33,7 +33,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getParseRouteData()
 	{
@@ -65,7 +65,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMap()
 	{
@@ -89,7 +89,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMaps()
 	{
@@ -140,7 +140,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getParseRouteData
-	 * @since        12.3
+	 * @since        3.1.4
 	 */
 	public function testParseRoute($r, $e, $c, $i, $m)
 	{
@@ -169,7 +169,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setMaps1()
 	{
@@ -182,7 +182,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setMaps2()
 	{
@@ -205,7 +205,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -223,7 +223,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{

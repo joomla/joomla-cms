@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ function updatecachetime_postinstall_condition()
 }
 
 /**
- * Sets the cachtimeout back to the default (6 hours)
+ * Sets the cachetimeout back to the default (6 hours)
  *
  * @return  void
  *
@@ -38,7 +38,7 @@ function updatecachetime_postinstall_action()
 {
 	$installer = JComponentHelper::getComponent('com_installer');
 
-	// Sets the cachtimeout back to the default (6 hours)
+	// Sets the cachetimeout back to the default (6 hours)
 	$installer->params->set('cachetimeout', 6);
 
 	// Save the new parameters back to com_installer

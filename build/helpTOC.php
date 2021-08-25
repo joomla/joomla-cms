@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class MediawikiCli extends CliApplication
 	{
 		// Get the version data for the script
 		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-		$namespace    = 'Help' . $minorVersion . ':';
+		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
 
 		// Set up options for JMediawiki
 		$options = new Registry;

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,10 +36,10 @@ class StatusField extends \JFormFieldPredefinedList
 	 * @since  3.2
 	 */
 	protected $predefinedOptions = array(
-		'-2' =>	'JTRASHED',
-		'0'  => 'JUNPUBLISHED',
-		'1'  => 'JPUBLISHED',
-		'2'  => 'JARCHIVED',
-		'*'  => 'JALL',
+		-2  => 'JTRASHED',
+		0   => 'JUNPUBLISHED',
+		1   => 'JPUBLISHED',
+		2   => 'JARCHIVED',
+		'*' => 'JALL',
 	);
 }

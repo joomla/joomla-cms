@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Depends on htmlhint.js from http://htmlhint.com/js/htmlhint.js
 
@@ -29,7 +29,13 @@
 
   CodeMirror.registerHelper("lint", "html", function(text, options) {
     var found = [];
-    if (HTMLHint && !HTMLHint.verify) HTMLHint = HTMLHint.HTMLHint;
+    if (HTMLHint && !HTMLHint.verify) {
+      if(typeof HTMLHint.default !== 'undefined') {
+        HTMLHint = HTMLHint.default;
+      } else {
+        HTMLHint = HTMLHint.HTMLHint;
+      }
+    }
     if (!HTMLHint) HTMLHint = window.HTMLHint;
     if (!HTMLHint) {
       if (window.console) {

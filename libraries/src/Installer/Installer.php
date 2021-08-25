@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -55,7 +55,7 @@ class Installer extends \JAdapter
 	 * True if existing files can be overwritten
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $overwrite = false;
 
@@ -115,6 +115,14 @@ class Installer extends \JAdapter
 	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
+
+	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  3.9.26
+	 */
+	public $extraQuery = '';
 
 	/**
 	 * Installer instance container.
@@ -801,7 +809,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}
@@ -954,6 +962,10 @@ class Installer extends \JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
+		elseif ($db->getServerType() === 'postgresql')
+		{
+			$dbDriver = 'postgresql';
+		}
 
 		$update_count = 0;
 
@@ -966,6 +978,10 @@ class Installer extends \JAdapter
 			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
 				$fDriver = 'mysql';
+			}
+			elseif ($fDriver === 'pgsql')
+			{
+				$fDriver = 'postgresql';
 			}
 
 			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
@@ -996,7 +1012,7 @@ class Installer extends \JAdapter
 				if (count($queries) === 0)
 				{
 					// No queries to process
-					return 0;
+					continue;
 				}
 
 				// Process each query in the $queries array (split out of sql file).
@@ -1052,6 +1068,10 @@ class Installer extends \JAdapter
 				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
+				}
+				elseif ($db->getServerType() === 'postgresql')
+				{
+					$dbDriver = 'postgresql';
 				}
 
 				$schemapath = '';
@@ -1121,6 +1141,10 @@ class Installer extends \JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
+				elseif ($db->getServerType() === 'postgresql')
+				{
+					$dbDriver = 'postgresql';
+				}
 
 				$schemapath = '';
 
@@ -1135,6 +1159,10 @@ class Installer extends \JAdapter
 					{
 						$uDriver = 'mysql';
 					}
+					elseif ($uDriver === 'pgsql')
+					{
+						$uDriver = 'postgresql';
+					}
 
 					if ($uDriver == $dbDriver)
 					{
@@ -1145,13 +1173,15 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
-					usort($files, 'version_compare');
+					$files = \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
 
-					if (!count($files))
+					if (empty($files))
 					{
 						return $update_count;
 					}
+
+					$files = str_replace('.sql', '', $files);
+					usort($files, 'version_compare');
 
 					$query = $db->getQuery(true)
 						->select('version_id')
@@ -2060,14 +2090,14 @@ class Installer extends \JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of \SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of \SimpleXMLElement objects that are the new files
+	 * @param   array  $oldFiles  An array of \SimpleXMLElement objects that are the old files
+	 * @param   array  $newFiles  An array of \SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   3.1
 	 */
-	public function findDeletedFiles($old_files, $new_files)
+	public function findDeletedFiles($oldFiles, $newFiles)
 	{
 		// The magic find deleted files function!
 		// The files that are new
@@ -2085,7 +2115,7 @@ class Installer extends \JAdapter
 		// A list of folders to delete
 		$folders_deleted = array();
 
-		foreach ($new_files as $file)
+		foreach ($newFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2115,7 +2145,7 @@ class Installer extends \JAdapter
 							$container .= '/';
 						}
 
-						// Aappend the folder part
+						// Append the folder part
 						$container .= $part;
 
 						if (!in_array($container, $containers))
@@ -2128,7 +2158,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		foreach ($old_files as $file)
+		foreach ($oldFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2207,7 +2237,7 @@ class Installer extends \JAdapter
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function parseXMLInstallFile($path)
 	{

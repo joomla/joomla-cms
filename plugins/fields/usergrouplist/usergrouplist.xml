@@ -3,7 +3,7 @@
 	<name>plg_fields_usergrouplist</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,6 +28,7 @@
 					description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

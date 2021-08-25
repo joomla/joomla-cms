@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ $url    = ($readonly ? ''
 		array(
 			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+			'footer' => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
 		)
 	);
 
@@ -129,8 +129,15 @@ $url    = ($readonly ? ''
 	<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
-			<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
+			<button type="button" class="btn button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+			<button
+				type="button"
+				class="btn hasTooltip button-clear"
+				title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"
+				aria-label="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"
+				>
+				<span class="icon-remove" aria-hidden="true"></span>
+			</button>
 		<?php endif; ?>
 	</div>
 	<?php if ($showPreview && !$showAsTooltip) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,14 @@ defined('JPATH_PLATFORM') or die;
 class JObserverUpdater implements JObserverUpdaterInterface
 {
 	/**
+	 * Holds the key aliases for observers.
+	 *
+	 * @var    array
+	 * @since  3.9.0
+	 */
+	protected $aliases = array();
+
+	/**
 	 * Generic JObserverInterface observers for this JObservableInterface
 	 *
 	 * @var    JObserverInterface
@@ -25,7 +33,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	protected $observers = array();
 
 	/**
-	 * Process observers (useful when a class extends significantly an observerved method, and calls observers itself
+	 * Process observers (useful when a class extends significantly an observed method, and calls observers itself
 	 *
 	 * @var    boolean
 	 * @since  3.1.2
@@ -57,28 +65,24 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	public function attachObserver(JObserverInterface $observer)
 	{
 		$class = get_class($observer);
-		$this->observers[$class] = $observer;
 
-		// Also register the alias
+		// Also register the alias if exists
 		foreach (JLoader::getDeprecatedAliases() as $alias)
 		{
 			$realClass  = trim($alias['new'], '\\');
-			$aliasClass = trim($alias['old'], '\\');
 
 			// Check if we have an alias for the observer class
-			if ($realClass == $class)
+			if ($realClass === $class)
 			{
-				// Register the alias
-				$this->observers[$aliasClass] = $observer;
-			}
+				$aliasClass = trim($alias['old'], '\\');
 
-			// Check if the observer class is an alias
-			if ($aliasClass == $class)
-			{
-				// Register the real class
-				$this->observers[$realClass] = $observer;
+				// Add an alias to known aliases
+				$this->aliases[$aliasClass] = $class;
 			}
 		}
+
+		// Register the real class
+		$this->observers[$class] = $observer;
 	}
 
 	/**
@@ -94,6 +98,11 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	public function detachObserver($observer)
 	{
 		$observer = trim($observer, '\\');
+
+		if (isset($this->aliases[$observer]))
+		{
+			$observer = $this->aliases[$observer];
+		}
 
 		if (isset($this->observers[$observer]))
 		{
@@ -113,6 +122,11 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	public function getObserverOfClass($observerClass)
 	{
 		$observerClass = trim($observerClass, '\\');
+
+		if (isset($this->aliases[$observerClass]))
+		{
+			$observerClass = $this->aliases[$observerClass];
+		}
 
 		if (isset($this->observers[$observerClass]))
 		{

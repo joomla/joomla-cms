@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Parent class to all tables.
  *
- * @since  11.1
+ * @since  1.7.0
  * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class Table extends \JObject implements \JObservableInterface, \JTableInterface
@@ -26,7 +26,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Include paths for searching for Table classes.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_includePaths = array();
 
@@ -34,7 +34,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Name of the database table to model.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_tbl = '';
 
@@ -42,7 +42,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Name of the primary key field in the table.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_tbl_key = '';
 
@@ -50,7 +50,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Name of the primary key fields in the table.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $_tbl_keys = array();
 
@@ -58,7 +58,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * \JDatabaseDriver object.
 	 *
 	 * @var    \JDatabaseDriver
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_db;
 
@@ -66,7 +66,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Should rows be tracked as ACL assets?
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_trackAssets = false;
 
@@ -74,7 +74,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * The rules associated with this record.
 	 *
 	 * @var    \JAccessRules  A \JAccessRules object.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_rules;
 
@@ -82,7 +82,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Indicator that the tables have been locked.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_locked = false;
 
@@ -90,7 +90,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Indicates that the primary keys autoincrement.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $_autoincrement = true;
 
@@ -119,6 +119,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected $_jsonEncode = array();
 
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  3.10.0
+	 */
+	protected $_supportNullValue = false;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -127,7 +135,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @param   mixed             $key    Name of the primary key field in the table or array of field names that compose the primary key.
 	 * @param   \JDatabaseDriver  $db     \JDatabaseDriver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($table, $key, $db)
 	{
@@ -231,7 +239,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function getFields($reload = false)
@@ -266,7 +274,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -319,7 +327,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -359,7 +367,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getAssetName()
 	{
@@ -382,7 +390,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -400,7 +408,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
@@ -425,7 +433,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function appendPrimaryKeys($query, $pk = null)
 	{
@@ -457,7 +465,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  string  The name of the database table being modeled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTableName()
 	{
@@ -471,7 +479,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  mixed  Array of primary key field names or string containing the first primary key field.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getKeyName($multiple = false)
 	{
@@ -498,7 +506,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  \JDatabaseDriver  The internal database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getDbo()
 	{
@@ -512,7 +520,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setDbo($db)
 	{
@@ -528,7 +536,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setRules($input)
 	{
@@ -547,7 +555,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  \JAccessRules object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getRules()
 	{
@@ -561,7 +569,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function reset()
 	{
@@ -589,23 +597,11 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
-		// JSON encode any fields required
-		if (!empty($this->_jsonEncode))
-		{
-			foreach ($this->_jsonEncode as $field)
-			{
-				if (isset($src[$field]) && is_array($src[$field]))
-				{
-					$src[$field] = json_encode($src[$field]);
-				}
-			}
-		}
-
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
@@ -618,16 +614,28 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			);
 		}
 
+		// If the ignore value is a string, explode it over spaces.
+		if (!is_array($ignore))
+		{
+			$ignore = explode(' ', $ignore);
+		}
+
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))
 		{
 			$src = get_object_vars($src);
 		}
 
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
+		// JSON encode any fields required
+		if (!empty($this->_jsonEncode))
 		{
-			$ignore = explode(' ', $ignore);
+			foreach ($this->_jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
 		}
 
 		// Bind the source value, excluding the ignored fields.
@@ -655,7 +663,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 * @throws  \UnexpectedValueException
@@ -754,7 +762,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -771,7 +779,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -897,7 +905,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
 	{
@@ -945,7 +953,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
@@ -1026,7 +1034,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
@@ -1092,7 +1100,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
@@ -1130,11 +1138,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
+		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
+
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1142,8 +1153,11 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterCheckin', array($this->_tbl));
 
 		return true;
 	}
@@ -1153,7 +1167,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True if the primary key(s) have been set.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function hasPrimaryKey()
 	{
@@ -1196,7 +1210,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function hit($pk = null)
@@ -1257,7 +1271,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True if checked out.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isCheckedOut($with = 0, $against = null)
 	{
@@ -1295,7 +1309,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  integer  The next ordering value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
@@ -1332,7 +1346,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  array  An array of primary key names and values.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getPrimaryKey(array $keys = array())
 	{
@@ -1357,7 +1371,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  mixed  Boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function reorder($where = '')
@@ -1417,7 +1431,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function move($delta, $where = '')
@@ -1515,7 +1529,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -1582,7 +1596,13 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
-				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
+				$query->where(
+					'('
+						. $this->_db->quoteName($checkedOutField) . ' = 0'
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
+					. ')'
+				);
 				$checkin = true;
 			}
 			else
@@ -1639,7 +1659,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function _lock()
@@ -1704,7 +1724,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _unlock()
 	{
@@ -1712,5 +1732,21 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->_locked = false;
 
 		return true;
+	}
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.11
+	 */
+	public function hasField($key)
+	{
+		$key = $this->getColumnAlias($key);
+
+		return property_exists($this, $key);
 	}
 }

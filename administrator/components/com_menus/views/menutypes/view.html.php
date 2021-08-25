@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * The HTML Menus Menu Item TYpes View.
+ * The HTML Menus Menu Item Types View.
  *
  * @since  1.6
  */
@@ -50,11 +50,11 @@ class MenusViewMenutypes extends JViewLegacy
 				$tmp[JText::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
+			uksort($tmp, 'strcasecmp');
 			$sortedTypes[JText::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
@@ -89,7 +89,7 @@ class MenusViewMenutypes extends JViewLegacy
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  &$types  The list of link types
+	 * @param   array  $types  The list of link types
 	 *
 	 * @return  void
 	 *

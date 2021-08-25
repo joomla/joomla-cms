@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,6 +112,12 @@ class MediaModelList extends JModelLegacy
 
 		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+
+		// Reset base path
+		if (strpos(realpath($basePath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+		{
+			$basePath = COM_MEDIA_BASE;
+		}
 
 		$images  = array ();
 		$folders = array ();

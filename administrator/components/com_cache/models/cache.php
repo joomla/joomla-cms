@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -54,7 +55,7 @@ class CacheModelCache extends JModelList
 				'group',
 				'count',
 				'size',
-				'cliend_id',
+				'client_id',
 			);
 		}
 
@@ -251,7 +252,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -261,6 +262,10 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -294,7 +299,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return JFactory::getCache('')->gc();
+			JFactory::getCache('')->gc();
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -304,5 +309,9 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Provides an input field for files
  *
  * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFile extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldFile extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'File';
 
@@ -120,7 +120,7 @@ class JFormFieldFile extends JFormField
 	 *
 	 * @note    The field does not include an upload mechanism.
 	 * @see     JFormFieldMedia
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

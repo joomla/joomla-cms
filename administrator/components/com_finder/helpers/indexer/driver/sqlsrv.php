@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig == $oldSig)
+		if (!$isNew && $curSig === $oldSig)
 		{
 			return $linkId;
 		}
@@ -216,8 +216,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -270,9 +269,6 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 

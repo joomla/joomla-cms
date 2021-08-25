@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
 	 * @var    integer  The offset for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $offset;
 
 	/**
 	 * @var    integer  The limit for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $limit;
 
@@ -33,7 +33,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -80,7 +80,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return string
 	 *
-	 * @since 12.1
+	 * @since 3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
@@ -104,7 +104,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -137,7 +137,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
@@ -159,7 +159,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  Returns the regex operator.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function regexp($value)
 	{
@@ -213,7 +213,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @param   string  $value  The value to cast as a char.
 	 *
-	 * @param   string  $len    The lenght of the char.
+	 * @param   string  $len    The length of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *

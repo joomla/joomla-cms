@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,20 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+jimport('joomla.filesystem.file');
+
+$editorText  = false;
+$moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
+
+if (JFile::exists($moduleXml))
+{
+	$xml = simplexml_load_file($moduleXml);
+
+	if (isset($xml->customContent))
+	{
+		$editorText = true;
+	}
+}
 
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
@@ -179,7 +192,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($hasContent) : ?>
+						<?php if ($editorText) : ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>

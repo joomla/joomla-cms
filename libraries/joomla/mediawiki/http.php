@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HTTP client class for connecting to a MediaWiki instance.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiHttp extends JHttp
 {
@@ -24,7 +24,7 @@ class JMediawikiHttp extends JHttp
      * @param   Registry        $options    Client options object.
      * @param   JHttpTransport  $transport  The HTTP transport object.
      *
-     * @since   12.3
+     * @since   3.1.4
      */
 	public function __construct(Registry $options = null, JHttpTransport $transport = null)
 	{
@@ -48,7 +48,7 @@ class JMediawikiHttp extends JHttp
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function get($url, array $headers = null, $timeout = null)
 	{
@@ -82,7 +82,7 @@ class JMediawikiHttp extends JHttp
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function post($url, $data, array $headers = null, $timeout = null)
 	{

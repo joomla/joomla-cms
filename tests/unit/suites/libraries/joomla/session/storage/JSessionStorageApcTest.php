@@ -3,14 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JSessionStorageApc.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JSessionStorageApcTest extends \PHPUnit\Framework\TestCase
 {

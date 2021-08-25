@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="default">
+		<field
+			name="email"
+			type="email"
+			label="JGLOBAL_EMAIL"
+			description="COM_PRIVACY_FIELD_CONFIRM_EMAIL_DESC"
+			validate="email"
+			required="true"
+			size="30"
+		/>
+
+		<field
+			name="request_type"
+			type="list"
+			label="COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL"
+			description="COM_PRIVACY_FIELD_REQUEST_TYPE_DESC"
+			filter="string"
+			default="export"
+			validate="options"
+			>
+			<option value="export">COM_PRIVACY_REQUEST_TYPE_EXPORT</option>
+			<option value="remove">COM_PRIVACY_REQUEST_TYPE_REMOVE</option>
+		</field>
+	</fieldset>
+</form>

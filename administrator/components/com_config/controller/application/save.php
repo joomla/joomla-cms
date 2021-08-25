@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -46,6 +46,9 @@ class ConfigControllerApplicationSave extends JControllerBase
 			$this->app->redirect('index.php');
 		}
 
+		// Clear the data from the session.
+		$this->app->setUserState('com_config.config.global.data', null);
+
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
@@ -54,6 +57,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		// Complete data array if needed
 		$oldData = $model->getData();
+
 		$data = array_replace($oldData, $data);
 
 		// Get request type
@@ -62,7 +66,17 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			return $model->save($data);
+			$form = $model->getForm();
+			$return = $model->validate($form, $data);
+
+			if ($return === false)
+			{
+				$this->app->setHeader('Status', 422, true);
+
+				return false;
+			}
+
+			return $model->save($return);
 		}
 
 		// Must load after serving service-requests
@@ -71,15 +85,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the posted data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check for validation errors.
 		if ($return === false)
 		{
 			/*
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
+
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
@@ -89,15 +103,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$data   = $return;
 		$return = $model->save($data);
 
-		// Save the validated data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check the return value.
 		if ($return === false)
 		{
 			/*
 			 * The save method enqueued all messages for us, so we just need to redirect back.
 			 */
+
+			// Save the validated data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));

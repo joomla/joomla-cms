@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
+$format      = $app->input->getCmd('format', 'html');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -123,7 +124,7 @@ $navposition = $params->get('navposition');
 								<li><?php echo JText::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
 								<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 							</ul>
-							<?php if (JModuleHelper::getModule('mod_search')) : ?>
+							<?php if ($format === 'html' && JModuleHelper::getModule('mod_search')) : ?>
 								<div id="searchbox">
 									<h3 class="unseen">
 										<?php echo JText::_('TPL_BEEZ3_SEARCH'); ?>

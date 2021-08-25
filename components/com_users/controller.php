@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,6 +121,12 @@ class UsersController extends JControllerLegacy
 				default:
 					$model = $this->getModel('Login');
 					break;
+			}
+
+			// Make sure we don't send a referer
+			if (in_array($vName, array('remind', 'reset')))
+			{
+				JFactory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
 			}
 
 			// Push the model into the view (as default).

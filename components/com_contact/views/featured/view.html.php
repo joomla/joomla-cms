@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,6 +81,9 @@ class ContactViewFeatured extends JViewLegacy
 		$children   = $this->get('Children');
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

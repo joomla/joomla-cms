@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -234,13 +234,11 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -285,7 +283,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 
@@ -783,11 +781,10 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_clear = hh(JoomlaCalLocale.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
-		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('[data-action="clear"]');
-			savea.addEventListener("click", function (e) {
+			var cleara = row.querySelector('[data-action="clear"]');
+			cleara.addEventListener("click", function (e) {
 				e.preventDefault();
 				var days = self.table.querySelectorAll('td');
 				for (var i = 0; i < days.length; i++) {
@@ -799,8 +796,8 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
+				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
 			});
-		}
 
 		if (this.params.showsTodayBtn) {
 			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
@@ -860,10 +857,10 @@
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
@@ -962,13 +959,13 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24) 
-			{ 
-				hoursEl.value = (hrs == "00") ? "12" : hrs; 
-			} 
-			else 
-			{ 
-				hoursEl.value = hrs; 
+			if (!this.params.time24)
+			{
+				hoursEl.value = (hrs == "00") ? "12" : hrs;
+			}
+			else
+			{
+				hoursEl.value = hrs;
 			}
 
 			/* remove the selected class  for the minutes*/

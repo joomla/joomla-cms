@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die();
  * Facebook API Photo class for the Joomla Platform.
  *
  * @link        http://developers.facebook.com/docs/reference/api/photo/
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookPhoto extends JFacebookObject
@@ -25,7 +25,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPhoto($photo)
 	{
@@ -43,7 +43,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -58,7 +58,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($photo, $message)
 	{
@@ -75,7 +75,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -93,7 +93,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -107,7 +107,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($photo)
 	{
@@ -121,7 +121,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($photo)
 	{
@@ -139,7 +139,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getTags($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -147,20 +147,20 @@ class JFacebookPhoto extends JFacebookObject
 	}
 
 	/**
-	 * Method to tag one or more Users in a photo. $to or $tag_text required.
+	 * Method to tag one or more Users in a photo. $to or $tagText required.
 	 * Requires authentication and publish_stream permission, user_photos permission for private photos.
 	 *
-	 * @param   string   $photo     The photo id.
-	 * @param   mixed    $to        ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
-	 * @param   string   $tag_text  A text string to tag.
-	 * @param   integer  $x         x coordinate of tag, as a percentage offset from the left edge of the picture.
-	 * @param   integer  $y         y coordinate of tag, as a percentage offset from the top edge of the picture.
+	 * @param   string   $photo    The photo id.
+	 * @param   mixed    $to       ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
+	 * @param   string   $tagText  A text string to tag.
+	 * @param   integer  $x        x coordinate of tag, as a percentage offset from the left edge of the picture.
+	 * @param   integer  $y        y coordinate of tag, as a percentage offset from the top edge of the picture.
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
-	public function createTag($photo, $to = null, $tag_text = null, $x = null, $y = null)
+	public function createTag($photo, $to = null, $tagText = null, $x = null, $y = null)
 	{
 		// Set POST request parameters.
 		if (is_array($to))
@@ -172,9 +172,9 @@ class JFacebookPhoto extends JFacebookObject
 			$data['to'] = $to;
 		}
 
-		if ($tag_text)
+		if ($tagText)
 		{
-			$data['tag_text'] = $tag_text;
+			$data['tag_text'] = $tagText;
 		}
 
 		if ($x)
@@ -201,7 +201,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function updateTag($photo, $to, $x = null, $y = null)
 	{
@@ -229,7 +229,7 @@ class JFacebookPhoto extends JFacebookObject
 	 *
 	 * @return  string  URL of the picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPicture($photo, $redirect = true)
 	{

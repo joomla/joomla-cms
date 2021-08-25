@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldSpacer extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldSpacer extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Spacer';
 
@@ -31,7 +31,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -45,7 +45,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
@@ -68,7 +68,7 @@ class JFormFieldSpacer extends JFormField
 			$text = $this->translateLabel ? JText::_($text) : $text;
 
 			// Build the class for the label.
-			$class = !empty($this->description) ? 'hasTooltip' : '';
+			$class = !empty($this->description) ? 'hasPopover' : '';
 			$class = $this->required == true ? $class . ' required' : $class;
 
 			// Add the opening label tag and main attributes attributes.
@@ -77,8 +77,18 @@ class JFormFieldSpacer extends JFormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
+				JHtml::_('bootstrap.popover');
+				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+				$label .= ' data-content="' . htmlspecialchars(
+					$this->translateDescription ? JText::_($this->description) : $this->description,
+					ENT_COMPAT,
+					'UTF-8'
+				) . '"';
+
+				if (JFactory::getLanguage()->isRtl())
+				{
+					$label .= ' data-placement="left"';
+				}
 			}
 
 			// Add the label text and closing tag.
@@ -98,7 +108,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field title.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getTitle()
 	{

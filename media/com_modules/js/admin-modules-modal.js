@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,19 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	var modulesLinks = document.querySelectorAll('.js-module-insert'), i,
 		positionsLinks = document.querySelectorAll('.js-position-insert');
 
-	/** Assign listener for click event (for single module insertion) **/
+	/** Assign listener for click event (for single module id insertion) **/
 	for (i= 0; modulesLinks.length > i; i++) {
 		modulesLinks[i].addEventListener('click', function(event) {
 			event.preventDefault();
-			var type = event.target.getAttribute('data-module'),
-				name = event.target.getAttribute('data-title'),
+			var modid = event.target.getAttribute('data-module'),
 				editor = event.target.getAttribute('data-editor');
 
 			/** Use the API, if editor supports it **/
 			if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-				window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}")
+				window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmoduleid " + modid + "}")
 			} else {
-				window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", editor);
+				window.parent.jInsertEditorText("{loadmoduleid " + modid + "}", editor);
 			}
 
 			window.parent.jModalClose();
@@ -46,4 +45,5 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.parent.jModalClose();
 		});
 	}
+
 });

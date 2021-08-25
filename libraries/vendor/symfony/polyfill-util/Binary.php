@@ -11,8 +11,12 @@
 
 namespace Symfony\Polyfill\Util;
 
-if (extension_loaded('mbstring')) {
-    class Binary extends BinaryOnFuncOverload {}
+if (\extension_loaded('mbstring')) {
+    class Binary extends BinaryOnFuncOverload
+    {
+    }
 } else {
-    class Binary extends BinaryNoFuncOverload {}
+    class Binary extends BinaryNoFuncOverload
+    {
+    }
 }

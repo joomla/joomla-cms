@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,11 +41,28 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getName')
+			->willReturn('site');
+
+		$mockApp->expects($this->any())
+			->method('isClient')
+			->with('site')
+			->willReturn(true);
+
+		JFactory::$application = $mockApp;
 		JFactory::$session     = $this->getMockSession();
 		$this->dispatcher      = new JEventDispatcher;
 		TestReflection::setValue($this->dispatcher, 'instance', $this->dispatcher);
 		$this->dispatcher->register('onAfterRenderModules', array($this, 'eventCallback'));
+
+		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
+		$mockRouter->expects($this->any())
+			->method('build')
+			->willReturn(new \JUri);
+
+		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 	}
 
 	/**
@@ -58,6 +75,8 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JRoute', '_router', array());
+
 		$this->restoreFactoryState();
 		TestReflection::setValue($this->dispatcher, 'instance', null);
 		parent::tearDown();
@@ -98,7 +117,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$htmlClean              = trim(preg_replace('~>\s+<~', '><', $output));
 		$this->assertTrue($this->callbackExecuted, 'onAfterRenderModules event is not executed');
 		$html = '<div class="moduletable"><h3>Search</h3><div class="search mod_search63">'
-			. '<form action="index.php" method="post" class="form-inline">'
+			. '<form action="" method="post" class="form-inline" role="search">'
 			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
 			. 'class="inputbox search-query input-medium" type="search" size="20" placeholder="Search ..." />'

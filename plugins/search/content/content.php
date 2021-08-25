@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class PlgSearchContent extends JPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = JFactory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
@@ -90,6 +90,8 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
+
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
@@ -145,6 +147,8 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
@@ -274,6 +278,12 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
@@ -337,20 +347,21 @@ class PlgSearchContent extends JPlugin
 			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
+			$c_id        = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select(
-				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
-				. $case_when . ',' . $case_when1 . ', '
-				. 'c.title AS section, \'2\' AS browsernav'
-			);
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
 
-			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
-			$query->from('#__content AS a')
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
+				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
+				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
+				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->where(
 					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
@@ -360,7 +371,7 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
-			// Join over Fields is no longer neded
+			// Join over Fields is no longer needed
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
@@ -381,20 +392,11 @@ class PlgSearchContent extends JPlugin
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 
-			// Find an itemid for archived to use if there isn't another one.
-			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-			$itemid = isset($item->id) ? '&Itemid=' . $item->id : '';
-
 			if (isset($list3))
 			{
 				foreach ($list3 as $key => $item)
 				{
-					$date = JFactory::getDate($item->created);
-
-					$created_month = $date->format('n');
-					$created_year = $date->format('Y');
-
-					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 				}
 			}
 

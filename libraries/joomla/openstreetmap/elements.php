@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API Elements class for the Joomla Platform
  *
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapElements extends JOpenstreetmapObject
@@ -27,7 +27,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createNode($changeset, $latitude, $longitude, $tags)
 	{
@@ -79,7 +79,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createWay($changeset, $tags, $nds)
 	{
@@ -143,7 +143,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createRelation($changeset, $tags, $members)
 	{
@@ -213,7 +213,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function readElement($element, $id)
@@ -244,7 +244,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The xml response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function updateElement($element, $xml, $id)
@@ -287,7 +287,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function deleteElement($element, $id, $version, $changeset, $latitude = null, $longitude = null)
@@ -338,7 +338,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function historyOfElement($element, $id)
@@ -369,7 +369,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array    The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function versionOfElement($element, $id, $version)
@@ -399,7 +399,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function multiFetchElements($element, $params)
@@ -432,7 +432,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array   The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function relationsForElement($element, $id)
@@ -461,7 +461,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function waysForNode($id)
 	{
@@ -485,7 +485,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function fullElement($element, $id)
@@ -510,17 +510,17 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	/**
 	 * Method used by the DWG to hide old versions of elements containing data privacy or copyright infringements
 	 *
-	 * @param   string   $element       [node|way|relation]
-	 * @param   integer  $id            Element identifier
-	 * @param   integer  $version       Element version
-	 * @param   integer  $redaction_id  Redaction id
+	 * @param   string   $element      [node|way|relation]
+	 * @param   integer  $id           Element identifier
+	 * @param   integer  $version      Element version
+	 * @param   integer  $redactionId  Redaction id
 	 *
 	 * @return  array   The xml response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
-	public function redaction($element, $id, $version, $redaction_id)
+	public function redaction($element, $id, $version, $redactionId)
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
@@ -535,7 +535,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		);
 
 		// Set the API base
-		$base = $element . '/' . $id . '/' . $version . '/redact?redaction=' . $redaction_id;
+		$base = $element . '/' . $id . '/' . $version . '/redact?redaction=' . $redactionId;
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

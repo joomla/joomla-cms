@@ -1,5 +1,7 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+// Depends on jshint.js from https://github.com/jshint/jshint
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -51,7 +53,7 @@
         // Convert to format expected by validation service
         var hint = {
           message: error.reason,
-          severity: error.code.startsWith('W') ? "warning" : "error",
+          severity: error.code ? (error.code.startsWith('W') ? "warning" : "error") : "error",
           from: CodeMirror.Pos(error.line - 1, start),
           to: CodeMirror.Pos(error.line - 1, end)
         };

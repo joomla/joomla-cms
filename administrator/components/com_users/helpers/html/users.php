@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,8 +100,9 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-drawer-2" aria-hidden="true"></span><span class="hidden-phone">' . $title . '</span></a>';
+		return '<button type="button" data-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal"'
+			. ' class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-drawer-2" aria-hidden="true"></span><span class="hidden-phone">' . $title . '</span></button>';
 	}
 
 	/**
@@ -122,7 +123,7 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+		$footer = '<button type="button" class="btn" data-dismiss="modal">'
 			. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return JHtml::_(

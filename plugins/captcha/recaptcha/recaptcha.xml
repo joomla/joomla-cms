@@ -6,13 +6,16 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
-		<filename>recaptchalib.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha.ini</language>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -43,7 +46,8 @@
 					default=""
 					required="true"
 					filter="string"
-					size="50"
+					size="100"
+					class="input-xxlarge"
 				/>
 
 				<field
@@ -54,7 +58,8 @@
 					default=""
 					required="true"
 					filter="string"
-					size="50"
+					size="100"
+					class="input-xxlarge"
 				/>
 
 				<field
@@ -97,6 +102,46 @@
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
 				</field>
+
+				<field
+					name="tabindex"
+					type="number"
+					label="PLG_RECAPTCHA_TABINDEX_LABEL"
+					description="PLG_RECAPTCHA_TABINDEX_DESC"
+					default="0"
+					showon="version:2.0"
+					min="0"
+				/>
+
+				<field
+					name="callback"
+					type="text"
+					label="PLG_RECAPTCHA_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
+
+				<field
+					name="expired_callback"
+					type="text"
+					label="PLG_RECAPTCHA_EXPIRED_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_EXPIRED_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
+
+				<field
+					name="error_callback"
+					type="text"
+					label="PLG_RECAPTCHA_ERROR_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_ERROR_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
 			</fieldset>
 		</fields>
 	</config>

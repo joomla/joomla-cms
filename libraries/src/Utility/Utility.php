@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JUtility is a utility functions class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Utility
 {
@@ -24,7 +24,7 @@ class Utility
 	 *
 	 * @return  array  Key/Value pairs for the attributes
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function parseAttributes($string)
 	{
@@ -52,7 +52,7 @@ class Utility
 	 *
 	 * @param   mixed  $custom  A custom upper limit, if the PHP settings are all above this then this will be used
 	 *
-	 * @return  int  Size in number of bytes
+	 * @return  integer  Size in number of bytes
 	 *
 	 * @since   3.7.0
 	 */

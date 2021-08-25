@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ abstract class JHtmlSidebar
 	 * @param   string  $label      Label for the menu item.
 	 * @param   string  $name       Name for the filter. Also used as id.
 	 * @param   string  $options    Options for the select field.
-	 * @param   bool    $noDefault  Don't the label as the empty option
+	 * @param   bool    $noDefault  Don't show the label as the empty option
 	 *
 	 * @return  void
 	 *

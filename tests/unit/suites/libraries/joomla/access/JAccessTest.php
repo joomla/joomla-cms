@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ jimport('joomla.filesystem.path');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Access
- * @since       11.1
+ * @since       1.7.0
  */
 class JAccessTest extends TestCaseDatabase
 {
 	/**
 	 * @var    \Joomla\CMS\Access\Access
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $object;
 
@@ -34,7 +34,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
@@ -62,7 +62,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesCheck()
 	{
@@ -94,7 +94,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  casesCheck()
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
@@ -116,7 +116,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesCheckGroup()
 	{
@@ -149,7 +149,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  casesCheckGroup()
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
@@ -162,7 +162,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
@@ -179,7 +179,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAssetRulesValidFalse()
 	{
@@ -194,7 +194,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
@@ -210,7 +210,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAssetRulesTextFalse()
 	{
@@ -226,7 +226,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAssetRulesTextTrue()
 	{
@@ -242,7 +242,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetGroupTitle()
 	{
@@ -254,7 +254,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetUsersByGroupSimple()
 	{
@@ -267,7 +267,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetUsersByGroupTwoUsers()
 	{
@@ -280,7 +280,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetUsersByGroupInvalidGroup()
 	{
@@ -293,7 +293,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetGroupsByUser()
 	{
@@ -315,7 +315,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesGetActionsFromData()
 	{
@@ -388,7 +388,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @dataProvider  casesGetActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
@@ -401,7 +401,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetActionsFromFile()
 	{
@@ -473,7 +473,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -494,7 +494,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{
@@ -508,7 +508,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -523,7 +523,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupFile($path)
 	{

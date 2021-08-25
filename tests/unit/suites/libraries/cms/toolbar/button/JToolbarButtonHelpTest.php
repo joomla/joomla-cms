@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 	 */
 	public function testFetchButton()
 	{
-		$html = "<button onclick=\"Joomla.popupWindow('help/en-GB/JHELP_CONTENT_ARTICLE_MANAGER.html', 'JHELP', 700, 500, 1)\" rel=\"help\" class=\"btn btn-small\">\n"
+		$html = "<button onclick=\"Joomla.popupWindow('help\/en-GB\/JHELP_CONTENT_ARTICLE_MANAGER.html', 'JHELP', 700, 500, 1)\" rel=\"help\" class=\"btn btn-small\">\n"
 			. "\t<span class=\"icon-question-sign\" aria-hidden=\"true\"></span>\n"
 			. "\tJTOOLBAR_HELP</button>\n";
 

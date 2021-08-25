@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -217,7 +217,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
@@ -310,18 +310,18 @@ abstract class HTMLHelper
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder          Folder name to search in (i.e. images, css, js).
-	 * @param   string   $file            Path to file.
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file           Path to file.
+	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
+	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
+	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     JBrowser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
 	{
 		// If http is present in filename just return it as an array
 		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
@@ -337,7 +337,7 @@ abstract class HTMLHelper
 		$includes = array();
 
 		// Detect browser and compute potential files
-		if ($detect_browser)
+		if ($detectBrowser)
 		{
 			$navigator = Browser::getInstance();
 			$browser   = $navigator->getBrowser();
@@ -370,7 +370,7 @@ abstract class HTMLHelper
 				$files = array();
 
 				// Detect debug mode
-				if ($detect_debug && Factory::getConfig()->get('debug'))
+				if ($detectDebug && Factory::getConfig()->get('debug'))
 				{
 					/*
 					 * Detect if we received a file in the format name.min.ext
@@ -515,7 +515,7 @@ abstract class HTMLHelper
 				$files = array();
 
 				// Detect debug mode
-				if ($detect_debug && Factory::getConfig()->get('debug'))
+				if ($detectDebug && Factory::getConfig()->get('debug'))
 				{
 					/*
 					 * Detect if we received a file in the format name.min.ext
@@ -567,7 +567,7 @@ abstract class HTMLHelper
 	 *                                     0: Returns a `<img>` tag while searching for relative files
 	 *                                     1: Returns the file path to the image while searching for relative files
 	 *
-	 * @return  string
+	 * @return  string|null  HTML markup for the image, relative path to the image, or null if path is to be returned but image is not found
 	 *
 	 * @since   1.5
 	 */
@@ -582,7 +582,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -766,7 +766,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Returns formated date according to a given format and time zone.
+	 * Returns formatted date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
 	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date}).
@@ -781,10 +781,6 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		// Get some system objects.
-		$config = Factory::getConfig();
-		$user   = Factory::getUser();
-
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
@@ -792,7 +788,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone($user->getTimezone());
+			$date->setTimezone(Factory::getUser()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -801,7 +797,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone($config->get('offset')));
+			$date->setTimezone(new \DateTimeZone(Factory::getConfig()->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -1037,6 +1033,8 @@ abstract class HTMLHelper
 		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
 		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+		$minYear      = isset($attribs['minYear']) ? $attribs['minYear'] : null;
+		$maxYear      = isset($attribs['maxYear']) ? $attribs['maxYear'] : null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1081,6 +1079,8 @@ abstract class HTMLHelper
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
+			'minYear'      => $minYear,
+			'maxYear'      => $maxYear,
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);

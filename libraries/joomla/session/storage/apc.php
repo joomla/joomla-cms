@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageApc extends JSessionStorage
@@ -23,7 +23,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
@@ -44,7 +44,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -56,18 +56,18 @@ class JSessionStorageApc extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apc_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
+		return apc_store($sess_id, $sessionData, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**
@@ -77,7 +77,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -91,7 +91,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

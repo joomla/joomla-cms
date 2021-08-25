@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="default" label="COM_PRIVACY_CONFIRM_REQUEST_FIELDSET_LABEL">
+		<field
+			name="email"
+			type="text"
+			label="JGLOBAL_EMAIL"
+			description="COM_PRIVACY_FIELD_CONFIRM_EMAIL_DESC"
+			validate="email"
+			required="true"
+			size="30"
+		/>
+
+		<field
+			name="confirm_token"
+			type="text"
+			label="COM_PRIVACY_FIELD_CONFIRM_CONFIRM_TOKEN_LABEL"
+			description="COM_PRIVACY_FIELD_CONFIRM_CONFIRM_TOKEN_DESC"
+			filter="alnum"
+			required="true"
+			size="32"
+		/>
+	</fieldset>
+</form>

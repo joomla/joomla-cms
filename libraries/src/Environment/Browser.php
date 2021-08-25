@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,115 +19,433 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Browser
 {
 	/**
 	 * @var    integer  Major version number
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $majorVersion = 0;
 
 	/**
 	 * @var    integer  Minor version number
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $minorVersion = 0;
 
 	/**
 	 * @var    string  Browser name.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $browser = '';
 
 	/**
 	 * @var    string  Full user agent string.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $agent = '';
 
 	/**
 	 * @var    string  Lower-case user agent string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $lowerAgent = '';
 
 	/**
 	 * @var    string  HTTP_ACCEPT string.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $accept = '';
 
 	/**
 	 * @var    array  Parsed HTTP_ACCEPT string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $acceptParsed = array();
 
 	/**
 	 * @var    string  Platform the browser is running on
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $platform = '';
 
 	/**
 	 * @var    array  Known robots.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $robots = array(
-		/* The most common ones. */
-		'Googlebot',
-		'msnbot',
-		'Slurp',
-		'Yahoo',
-		/* The rest alphabetically. */
-		'Arachnoidea',
-		'ArchitextSpider',
-		'Ask Jeeves',
-		'B-l-i-t-z-Bot',
-		'Baiduspider',
-		'BecomeBot',
-		'cfetch',
-		'ConveraCrawler',
-		'ExtractorPro',
-		'FAST-WebCrawler',
-		'FDSE robot',
-		'fido',
-		'geckobot',
-		'Gigabot',
-		'Girafabot',
-		'grub-client',
-		'Gulliver',
-		'HTTrack',
-		'ia_archiver',
-		'InfoSeek',
-		'kinjabot',
-		'KIT-Fireball',
-		'larbin',
-		'LEIA',
-		'lmspider',
-		'Lycos_Spider',
+		'Googlebot\/',
+		'Googlebot-Mobile',
+		'Googlebot-Image',
+		'Googlebot-News',
+		'Googlebot-Video',
+		'AdsBot-Google([^-]|$)',
+		'AdsBot-Google-Mobile',
+		'Feedfetcher-Google',
 		'Mediapartners-Google',
-		'MuscatFerret',
-		'NaverBot',
-		'OmniExplorer_Bot',
-		'polybot',
-		'Pompos',
-		'Scooter',
+		'Mediapartners \(Googlebot\)',
+		'APIs-Google',
+		'bingbot',
+		'Slurp',
+		'[wW]get',
+		'curl',
+		'LinkedInBot',
+		'Python-urllib',
+		'python-requests',
+		'libwww',
+		'httpunit',
+		'nutch',
+		'Go-http-client',
+		'phpcrawl',
+		'msnbot',
+		'jyxobot',
+		'FAST-WebCrawler',
+		'FAST Enterprise Crawler',
+		'BIGLOTRON',
 		'Teoma',
-		'TheSuBot',
-		'TurnitinBot',
-		'Ultraseek',
-		'ViolaBot',
-		'webbandit',
-		'www.almaden.ibm.com/cs/crawler',
-		'ZyBorg',
+		'convera',
+		'seekbot',
+		'Gigabot',
+		'Gigablast',
+		'exabot',
+		'ia_archiver',
+		'GingerCrawler',
+		'webmon ',
+		'HTTrack',
+		'grub.org',
+		'UsineNouvelleCrawler',
+		'antibot',
+		'netresearchserver',
+		'speedy',
+		'fluffy',
+		'bibnum.bnf',
+		'findlink',
+		'msrbot',
+		'panscient',
+		'yacybot',
+		'AISearchBot',
+		'ips-agent',
+		'tagoobot',
+		'MJ12bot',
+		'woriobot',
+		'yanga',
+		'buzzbot',
+		'mlbot',
+		'YandexBot',
+		'yandex.com\/bots',
+		'purebot',
+		'Linguee Bot',
+		'CyberPatrol',
+		'voilabot',
+		'Baiduspider',
+		'citeseerxbot',
+		'spbot',
+		'twengabot',
+		'postrank',
+		'turnitinbot',
+		'scribdbot',
+		'page2rss',
+		'sitebot',
+		'linkdex',
+		'Adidxbot',
+		'blekkobot',
+		'ezooms',
+		'dotbot',
+		'Mail.RU_Bot',
+		'discobot',
+		'heritrix',
+		'findthatfile',
+		'europarchive.org',
+		'NerdByNature.Bot',
+		'sistrix crawler',
+		'Ahrefs(Bot|SiteAudit)',
+		'fuelbot',
+		'CrunchBot',
+		'centurybot9',
+		'IndeedBot',
+		'mappydata',
+		'woobot',
+		'ZoominfoBot',
+		'PrivacyAwareBot',
+		'Multiviewbot',
+		'SWIMGBot',
+		'Grobbot',
+		'eright',
+		'Apercite',
+		'semanticbot',
+		'Aboundex',
+		'domaincrawler',
+		'wbsearchbot',
+		'summify',
+		'CCBot',
+		'edisterbot',
+		'seznambot',
+		'ec2linkfinder',
+		'gslfbot',
+		'aiHitBot',
+		'intelium_bot',
+		'facebookexternalhit',
+		'Yeti',
+		'RetrevoPageAnalyzer',
+		'lb-spider',
+		'Sogou',
+		'lssbot',
+		'careerbot',
+		'wotbox',
+		'wocbot',
+		'ichiro',
+		'DuckDuckBot',
+		'lssrocketcrawler',
+		'drupact',
+		'webcompanycrawler',
+		'acoonbot',
+		'openindexspider',
+		'gnam gnam spider',
+		'web-archive-net.com.bot',
+		'backlinkcrawler',
+		'coccoc',
+		'integromedb',
+		'content crawler spider',
+		'toplistbot',
+		'it2media-domain-crawler',
+		'ip-web-crawler.com',
+		'siteexplorer.info',
+		'elisabot',
+		'proximic',
+		'changedetection',
+		'arabot',
+		'WeSEE:Search',
+		'niki-bot',
+		'CrystalSemanticsBot',
+		'rogerbot',
+		'360Spider',
+		'psbot',
+		'InterfaxScanBot',
+		'CC Metadata Scaper',
+		'g00g1e.net',
+		'GrapeshotCrawler',
+		'urlappendbot',
+		'brainobot',
+		'fr-crawler',
+		'binlar',
+		'SimpleCrawler',
+		'Twitterbot',
+		'cXensebot',
+		'smtbot',
+		'bnf.fr_bot',
+		'A6-Indexer',
+		'ADmantX',
+		'Facebot',
+		'OrangeBot\/',
+		'memorybot',
+		'AdvBot',
+		'MegaIndex',
+		'SemanticScholarBot',
+		'ltx71',
+		'nerdybot',
+		'xovibot',
+		'BUbiNG',
+		'Qwantify',
+		'archive.org_bot',
+		'Applebot',
+		'TweetmemeBot',
+		'crawler4j',
+		'findxbot',
+		'S[eE][mM]rushBot',
+		'yoozBot',
+		'lipperhey',
+		'Y!J',
+		'Domain Re-Animator Bot',
+		'AddThis',
+		'Screaming Frog SEO Spider',
+		'MetaURI',
+		'Scrapy',
+		'Livelap[bB]ot',
+		'OpenHoseBot',
+		'CapsuleChecker',
+		'collection@infegy.com',
+		'IstellaBot',
+		'DeuSu\/',
+		'betaBot',
+		'Cliqzbot\/',
+		'MojeekBot\/',
+		'netEstate NE Crawler',
+		'SafeSearch microdata crawler',
+		'Gluten Free Crawler\/',
+		'Sonic',
+		'Sysomos',
+		'Trove',
+		'deadlinkchecker',
+		'Slack-ImgProxy',
+		'Embedly',
+		'RankActiveLinkBot',
+		'iskanie',
+		'SafeDNSBot',
+		'SkypeUriPreview',
+		'Veoozbot',
+		'Slackbot',
+		'redditbot',
+		'datagnionbot',
+		'Google-Adwords-Instant',
+		'adbeat_bot',
+		'WhatsApp',
+		'contxbot',
+		'pinterest',
+		'electricmonk',
+		'GarlikCrawler',
+		'BingPreview\/',
+		'vebidoobot',
+		'FemtosearchBot',
+		'Yahoo Link Preview',
+		'MetaJobBot',
+		'DomainStatsBot',
+		'mindUpBot',
+		'Daum\/',
+		'Jugendschutzprogramm-Crawler',
+		'Xenu Link Sleuth',
+		'Pcore-HTTP',
+		'moatbot',
+		'KosmioBot',
+		'pingdom',
+		'PhantomJS',
+		'Gowikibot',
+		'PiplBot',
+		'Discordbot',
+		'TelegramBot',
+		'Jetslide',
+		'newsharecounts',
+		'James BOT',
+		'Barkrowler',
+		'TinEye',
+		'SocialRankIOBot',
+		'trendictionbot',
+		'Ocarinabot',
+		'epicbot',
+		'Primalbot',
+		'DuckDuckGo-Favicons-Bot',
+		'GnowitNewsbot',
+		'Leikibot',
+		'LinkArchiver',
+		'YaK\/',
+		'PaperLiBot',
+		'Digg Deeper',
+		'dcrawl',
+		'Snacktory',
+		'AndersPinkBot',
+		'Fyrebot',
+		'EveryoneSocialBot',
+		'Mediatoolkitbot',
+		'Luminator-robots',
+		'ExtLinksBot',
+		'SurveyBot',
+		'NING\/',
+		'okhttp',
+		'Nuzzel',
+		'omgili',
+		'PocketParser',
+		'YisouSpider',
+		'um-LN',
+		'ToutiaoSpider',
+		'MuckRack',
+		'Jamie\'s Spider',
+		'AHC\/',
+		'NetcraftSurveyAgent',
+		'Laserlikebot',
+		'Apache-HttpClient',
+		'AppEngine-Google',
+		'Jetty',
+		'Upflow',
+		'Thinklab',
+		'Traackr.com',
+		'Twurly',
+		'Mastodon',
+		'http_get',
+		'DnyzBot',
+		'botify',
+		'007ac9 Crawler',
+		'BehloolBot',
+		'BrandVerity',
+		'check_http',
+		'BDCbot',
+		'ZumBot',
+		'EZID',
+		'ICC-Crawler',
+		'ArchiveBot',
+		'^LCC ',
+		'filterdb.iss.net\/crawler',
+		'BLP_bbot',
+		'BomboraBot',
+		'Buck\/',
+		'Companybook-Crawler',
+		'Genieo',
+		'magpie-crawler',
+		'MeltwaterNews',
+		'Moreover',
+		'newspaper\/',
+		'ScoutJet',
+		'(^| )sentry\/',
+		'StorygizeBot',
+		'UptimeRobot',
+		'OutclicksBot',
+		'seoscanners',
+		'Hatena',
+		'Google Web Preview',
+		'MauiBot',
+		'AlphaBot',
+		'SBL-BOT',
+		'IAS crawler',
+		'adscanner',
+		'Netvibes',
+		'acapbot',
+		'Baidu-YunGuanCe',
+		'bitlybot',
+		'blogmuraBot',
+		'Bot.AraTurka.com',
+		'bot-pge.chlooe.com',
+		'BoxcarBot',
+		'BTWebClient',
+		'ContextAd Bot',
+		'Digincore bot',
+		'Disqus',
+		'Feedly',
+		'Fetch\/',
+		'Fever',
+		'Flamingo_SearchEngine',
+		'FlipboardProxy',
+		'g2reader-bot',
+		'imrbot',
+		'K7MLWCBot',
+		'Kemvibot',
+		'Landau-Media-Spider',
+		'linkapediabot',
+		'vkShare',
+		'Siteimprove.com',
+		'BLEXBot\/',
+		'DareBoost',
+		'ZuperlistBot\/',
+		'Miniflux\/',
+		'Feedspotbot\/',
+		'Diffbot\/',
+		'SEOkicks',
+		'tracemyfile',
+		'Nimbostratus-Bot',
+		'zgrab',
+		'PR-CY.RU',
+		'AdsTxtCrawler',
+		'Datafeedwatch',
+		'Zabbix',
+		'TangibleeBot',
+		'google-xrawler',
+		'axios',
+		'Amazon CloudFront',
+		'Pulsepoint',
 	);
 
 	/**
 	 * @var    boolean  Is this a mobile browser?
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $mobile = false;
 
@@ -136,13 +454,13 @@ class Browser
 	 * This list of viewable images works for IE and Netscape/Mozilla.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
 	/**
 	 * @var    array  Browser instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -152,7 +470,7 @@ class Browser
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
@@ -168,7 +486,7 @@ class Browser
 	 *
 	 * @return  Browser  The Browser object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($userAgent = null, $accept = null)
 	{
@@ -191,7 +509,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
@@ -259,6 +577,16 @@ class Browser
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
 				}
+			}
+			/*
+			 * We have to check for Edge as the first browser, because Edge has something like:
+			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
+			 */
+			elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('edg');
+
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version))
 			{
@@ -432,7 +760,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setPlatform()
 	{
@@ -455,7 +783,7 @@ class Browser
 	 *
 	 * @return  string  The user's platform.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getPlatform()
 	{
@@ -468,7 +796,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function identifyBrowserVersion()
 	{
@@ -491,7 +819,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBrowser($browser)
 	{
@@ -503,7 +831,7 @@ class Browser
 	 *
 	 * @return  string  The current browser.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBrowser()
 	{
@@ -515,7 +843,7 @@ class Browser
 	 *
 	 * @return  integer  The current browser's major version
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMajor()
 	{
@@ -527,7 +855,7 @@ class Browser
 	 *
 	 * @return  integer  The current browser's minor version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMinor()
 	{
@@ -539,7 +867,7 @@ class Browser
 	 *
 	 * @return  string  The current browser's version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getVersion()
 	{
@@ -551,7 +879,7 @@ class Browser
 	 *
 	 * @return  string  The browser agent string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAgentString()
 	{
@@ -563,7 +891,7 @@ class Browser
 	 *
 	 * @return  string  The HTTP server protocol version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getHTTPProtocol()
 	{
@@ -589,7 +917,7 @@ class Browser
 	 *
 	 * @return  boolean  True if the browser can display the MIME type.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isViewable($mimetype)
 	{
@@ -642,7 +970,7 @@ class Browser
 	 *
 	 * @return  boolean  Is the given browser the same as the current?
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isBrowser($browser)
 	{
@@ -654,13 +982,13 @@ class Browser
 	 *
 	 * @return  boolean  True if browser is a known robot.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isRobot()
 	{
 		foreach ($this->robots as $robot)
 		{
-			if (strpos($this->agent, $robot) !== false)
+			if (preg_match('/' . $robot . '/', $this->agent))
 			{
 				return true;
 			}
@@ -674,7 +1002,7 @@ class Browser
 	 *
 	 * @return boolean  True if browser is a known mobile version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isMobile()
 	{
@@ -686,8 +1014,8 @@ class Browser
 	 *
 	 * @return  boolean  True if using SSL, false if not.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()
 	{

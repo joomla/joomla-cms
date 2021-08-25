@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -218,7 +218,6 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$template = new \stdClass;
 		$template->element = 'system';
 		$template->name    = 'system';
-		$template->enabled = 1;
 
 		return $template;
 	}
@@ -238,10 +237,11 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, name')
 			->from('#__extensions')
 			->where('client_id = ' . $this->clientId)
-			->where('type = ' . $db->quote('template'));
+			->where('type = ' . $db->quote('template'))
+			->where('enabled = 1');
 
 		// Set the query and load the templates.
 		$db->setQuery($query);

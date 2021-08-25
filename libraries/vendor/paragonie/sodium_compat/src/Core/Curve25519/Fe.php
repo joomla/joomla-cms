@@ -22,15 +22,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
     protected $size = 10;
 
     /**
-     * ParagonIE_Sodium_Core_Curve25519_Fe constructor.
-     * @param int $size
-     */
-    public function __construct($size = 10)
-    {
-        $this->size = 10;
-    }
-
-    /**
      * @internal You should not use this directly from another application
      *
      * @param array $array
@@ -47,7 +38,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
         }
         $array = array_values($array);
 
-        $obj = new ParagonIE_Sodium_Core_Curve25519_Fe($count);
+        $obj = new ParagonIE_Sodium_Core_Curve25519_Fe();
         if ($save_indexes) {
             for ($i = 0; $i < $count; ++$i) {
                 $obj->offsetSet($keys[$i], $array[$i]);
@@ -66,6 +57,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      * @return void
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetSet($offset, $value)
     {
@@ -84,6 +76,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return bool
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetExists($offset)
     {
@@ -95,6 +88,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return void
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetUnset($offset)
     {
@@ -106,6 +100,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return mixed|null
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetGet($offset)
     {

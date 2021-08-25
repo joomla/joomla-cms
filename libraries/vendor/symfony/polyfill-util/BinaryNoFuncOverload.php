@@ -20,7 +20,7 @@ class BinaryNoFuncOverload
 {
     public static function strlen($s)
     {
-        return strlen($s);
+        return \strlen($s);
     }
 
     public static function strpos($haystack, $needle, $offset = 0)

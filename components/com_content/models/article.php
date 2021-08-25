@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Content Component Article Model
@@ -49,10 +50,12 @@ class ContentModelArticle extends JModelItem
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		// If $pk is set then authorise on complete asset, else on component only
+		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
@@ -122,7 +125,7 @@ class ContentModelArticle extends JModelItem
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				if ((!$user->authorise('core.edit.state', 'com_content.article.' . $pk)) && (!$user->authorise('core.edit', 'com_content.article.' . $pk)))
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -248,7 +251,6 @@ class ContentModelArticle extends JModelItem
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 			$table = JTable::getInstance('Content', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 
@@ -267,7 +269,7 @@ class ContentModelArticle extends JModelItem
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();
@@ -350,11 +352,34 @@ class ContentModelArticle extends JModelItem
 				}
 			}
 
+			$this->cleanCache();
+
 			return true;
 		}
 
 		JError::raiseWarning(500, JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 
 		return false;
+	}
+
+	/**
+	 * Cleans the cache of com_content and content modules
+	 *
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.9
+	 */
+	protected function cleanCache($group = null, $clientId = 0)
+	{
+		parent::cleanCache('com_content');
+		parent::cleanCache('mod_articles_archive');
+		parent::cleanCache('mod_articles_categories');
+		parent::cleanCache('mod_articles_category');
+		parent::cleanCache('mod_articles_latest');
+		parent::cleanCache('mod_articles_news');
+		parent::cleanCache('mod_articles_popular');
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -224,15 +224,15 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to change the title.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  string  New title.
 	 *
 	 * @since   1.7.1
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title
 		$table = $this->getTable();
@@ -248,7 +248,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -626,20 +626,20 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Reset the home fields for the client_id.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE client_id = ' . (int) $style->client_id .
-			' AND home = \'1\''
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' .  $db->q('0'))
+			->where('client_id = ' . (int) $style->client_id)
+			->where('home = ' . $db->q('1'));
+		$db->setQuery($query);
 		$db->execute();
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'1\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('1'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
@@ -669,11 +669,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Lookup the client_id.
-		$db->setQuery(
-			'SELECT client_id, home' .
-			' FROM #__template_styles' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->select('client_id, home')
+			->from('#__template_styles')
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$style = $db->loadObject();
 
 		if (!is_numeric($style->client_id))
@@ -686,11 +686,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('0'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
@@ -714,14 +714,14 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Custom clean cache method
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_templates');
 		parent::cleanCache('_system');

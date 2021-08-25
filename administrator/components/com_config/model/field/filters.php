@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * Text Filters form field.
@@ -35,6 +35,48 @@ class JFormFieldFilters extends JFormField
 	 */
 	protected function getInput()
 	{
+		// Load Framework
+		JHtml::_('jquery.framework');
+
+		// Add translation string for notification
+		JText::script('COM_CONFIG_TEXT_FILTERS_NOTE');
+
+		// Add Javascript
+		$doc = JFactory::getDocument();
+		$doc->addScriptDeclaration('
+			jQuery( document ).ready(function( $ ) {
+				$("#filter-config select").change(function() {
+					var currentFilter = $(this).children("option:selected").val();
+
+					if($(this).children("option:selected").val() === "NONE") {
+						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
+					
+						while(child.length !== 0) {
+							if(child.children("option:selected").val() !== "NONE") {
+								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+								break;
+							}
+							
+							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
+						}
+						
+						return;
+					}
+
+					var parent = $("#filter-config select[data-id=" + $(this).attr("data-parent") + "]");
+
+					while(parent.length !== 0) {
+						if(parent.children("option:selected").val() === "NONE") {
+							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+							break;
+						}
+						
+						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
+					}
+				});
+			});
+		');
+
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
@@ -85,6 +127,8 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
+				. ' data-parent="' . ($group->parent) . '" '
+				. ' data-id="' . ($group->value) . '" '
 				. ' class="novalidate"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
@@ -104,7 +148,7 @@ class JFormFieldFilters extends JFormField
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate"'
-				. ' value="' . $group_filter['filter_tags'] . '"'
+				. ' value="' . htmlspecialchars($group_filter['filter_tags'], ENT_QUOTES) . '"'
 				. '/>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
@@ -112,7 +156,7 @@ class JFormFieldFilters extends JFormField
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate"'
-				. ' value="' . $group_filter['filter_attributes'] . '"'
+				. ' value="' . htmlspecialchars($group_filter['filter_attributes'], ENT_QUOTES) . '"'
 				. '/>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
@@ -147,7 +191,7 @@ class JFormFieldFilters extends JFormField
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id as parent');
 		$query->from('#__usergroups AS a');
 		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
 		$query->group('a.id, a.title, a.lft');

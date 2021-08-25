@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.9"
 	client="installation">
 	<name>Chinese Simplified (China)</name>
-	<version>3.7.0</version>
-	<creationDate>2017年3月</creationDate>
-	<author>Joomla! 中文社区 www.ijoomla.cn</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<version>3.9.17</version>
+	<creationDate>2020-03-01</creationDate>
+	<author>Joomla! 中文社区 www.joomlachina.org.cn</author>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>zh-CN.ini</filename>

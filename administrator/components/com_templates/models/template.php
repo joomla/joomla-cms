@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -330,8 +330,8 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = JFile::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = JFile::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file
@@ -564,6 +564,7 @@ class TemplatesModelTemplate extends JModelForm
 			$client        = JApplicationHelper::getClientInfo($template->client_id);
 			$componentPath = JPath::clean($client->path . '/components/');
 			$modulePath    = JPath::clean($client->path . '/modules/');
+			$pluginPath    = JPath::clean(JPATH_ROOT . '/plugins/');
 			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/');
 			$components    = JFolder::folders($componentPath);
 
@@ -593,6 +594,18 @@ class TemplatesModelTemplate extends JModelForm
 						{
 							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
 						}
+					}
+				}
+			}
+
+			foreach (JFolder::folders($pluginPath) as $pluginGroup)
+			{
+				foreach (JFolder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
+				{
+					if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
+					{
+						$pluginLayoutPath = JPath::clean($pluginPath . '/' . $pluginGroup . '/');
+						$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
 					}
 				}
 			}
@@ -682,6 +695,12 @@ class TemplatesModelTemplate extends JModelForm
 					$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 				}
 			}
+			elseif (stripos($override, JPath::clean(JPATH_ROOT . '/plugins/')) === 0)
+			{
+				$size       = count($explodeArray);
+				$layoutPath = JPath::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
+				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
+			}
 			else
 			{
 				$layoutPath = implode('/', array_slice($explodeArray, -2));
@@ -704,6 +723,10 @@ class TemplatesModelTemplate extends JModelForm
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
+			{
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
+			}
+			elseif (stripos($override, JPath::clean(JPATH_ROOT . '/plugins/')) === 0)
 			{
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
@@ -805,7 +828,7 @@ class TemplatesModelTemplate extends JModelForm
 			$inFile       = urldecode(base64_decode($input));
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
-			$outFile      = reset(explode('.', $fileName));
+			$outFile      = current(explode('.', $fileName));
 
 			$less = new JLess;
 			$less->setFormatter(new JLessFormatterJoomla);
@@ -1136,12 +1159,26 @@ class TemplatesModelTemplate extends JModelForm
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new JImage($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
-				$image->toFile($path);
+				$image      = new \JImage($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->crop($w, $h, $x, $y, false);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
@@ -1172,12 +1209,25 @@ class TemplatesModelTemplate extends JModelForm
 			$relPath = base64_decode($file);
 			$path    = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new JImage($path);
-
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
-				$image->toFile($path);
+				$image      = new \JImage($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->resize($width, $height, false, \JImage::SCALE_FILL);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}

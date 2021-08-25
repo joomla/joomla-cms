@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,11 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		// Get data from the model.
 		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');

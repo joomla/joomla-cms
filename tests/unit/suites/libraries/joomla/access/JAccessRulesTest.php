@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,12 @@
  *
  * @package     Joomla.Platform
  * @subpackage  Access
- * @since       11.1
+ * @since       1.7.0
  */
 class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * This method tests both the contructor and the __toString magic method.
+	 * This method tests both the constructor and the __toString magic method.
 	 *
 	 * The input for this class could come from a posted form, or from a JSON string
 	 * stored in the database.  We need to ensure that the resulting JSON is the same
@@ -25,7 +25,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__constructString()
 	{
@@ -53,7 +53,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetData()
 	{
@@ -85,7 +85,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__constructArray()
 	{
@@ -112,7 +112,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__constructObject()
 	{
@@ -141,7 +141,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeRule()
 	{
@@ -199,7 +199,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMerge()
 	{
@@ -252,7 +252,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeRulesNull()
 	{
@@ -282,7 +282,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeRules()
 	{
@@ -332,7 +332,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAllow()
 	{
@@ -389,7 +389,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAllowed()
 	{

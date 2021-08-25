@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -294,7 +294,7 @@ class Content extends Table
 	protected function getDefaultAssetValues($component)
 	{
 		// Need to find the asset id by the name of the component.
-		$db = \JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))

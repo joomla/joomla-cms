@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,6 +154,16 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to reference frame load event.
 	$('#reference-association').on('load', function() {
+		// Waiting until the reference has loaded before loading the target to avoid race conditions
+		var targetURL = Joomla.getOptions('targetSrc', false);
+
+		if (targetURL)
+		{
+			targetURL = targetURL.split('&amp;').join('&');
+			document.getElementById('target-association').setAttribute('src', targetURL);
+			Joomla.loadOptions({'targetSrc': false});
+			return;
+		}
 
 		// Load Target Pane AFTER reference pane has loaded to prevent session conflict with checkout
 		document.getElementById('target-association').setAttribute('src', document.getElementById('target-association').getAttribute('src'));
@@ -233,7 +243,7 @@ jQuery(document).ready(function($) {
 			{
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
 			}
-			// If we are editing a association.
+			// If we are editing an association.
 			else
 			{
 				// Show change language button
@@ -258,9 +268,10 @@ jQuery(document).ready(function($) {
 				}
 
 				// Update the reference item associations tab.
-				var reference     = document.getElementById('reference-association');
-				var languageCode  = targetLanguage.replace(/-/, '_');
-				var title         = $(this).contents().find('#jform_title').val()
+				var reference      = document.getElementById('reference-association');
+				var languageCode   = targetLanguage.replace(/-/, '_');
+				var referenceTitle = reference.getAttribute('data-title');
+				var title          = $(this).contents().find('#jform_' + referenceTitle).val();
 
 				// - For modal association selectors.
 				$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
@@ -276,7 +287,9 @@ jQuery(document).ready(function($) {
 			var reference    = document.getElementById('reference-association');
 			var referenceId  = reference.getAttribute('data-id');
 			var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
-			var title        = $(reference).contents().find('#jform_title').val();
+			var target       = document.getElementById('target-association');
+			var targetTitle  = target.getAttribute('data-title');
+			var title        = reference.getAttribute('data-title-value');
 			var target       = $(this).contents();
 
 			// - For modal association selectors.

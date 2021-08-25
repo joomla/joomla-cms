@@ -15,5 +15,5 @@ window.JoomlaCalLocale = {
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "Stäng",
-	save: "Rensa"
+	clear: "Rensa"
 };

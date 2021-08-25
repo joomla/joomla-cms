@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ require_once __DIR__ . '/JDatabaseQueryInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseQueryTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $dbo;
 
@@ -28,7 +28,7 @@ class JDatabaseQueryTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
@@ -37,7 +37,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function seedNullDateTest()
 	{
@@ -53,7 +53,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function seedQuoteTest()
 	{
@@ -71,7 +71,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__call()
 	{
@@ -105,7 +105,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__get()
 	{
@@ -118,7 +118,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__toStringFrom_subquery()
 	{
@@ -141,7 +141,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__toStringInsert_subquery()
 	{
@@ -168,7 +168,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringYear()
 	{
@@ -185,7 +185,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringMonth()
 	{
@@ -202,7 +202,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringDay()
 	{
@@ -219,7 +219,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringHour()
 	{
@@ -236,7 +236,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringMinute()
 	{
@@ -253,7 +253,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringSecond()
 	{
@@ -270,7 +270,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__toStringSelect()
 	{
@@ -306,7 +306,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__toStringUpdate()
 	{
@@ -332,7 +332,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCall()
 	{
@@ -346,7 +346,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCall__toString()
 	{
@@ -358,7 +358,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testCastAsChar()
 	{
@@ -375,7 +375,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testCharLength()
 	{
@@ -400,7 +400,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_all()
 	{
@@ -454,7 +454,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_clause()
 	{
@@ -514,7 +514,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_type()
 	{
@@ -565,7 +565,7 @@ class JDatabaseQueryTest extends TestCase
 				$this->equalTo(null)
 			);
 
-			// Now check the claues have not been affected.
+			// Now check the clauses have not been affected.
 			foreach ($clauses as $clause)
 			{
 				$this->assertThat(
@@ -581,7 +581,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testColumns()
 	{
@@ -613,7 +613,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::concatenate
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testConcatenate()
 	{
@@ -636,7 +636,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::currentTimestamp
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCurrentTimestamp()
 	{
@@ -652,7 +652,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::dateFormat
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDateFormat()
 	{
@@ -669,7 +669,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @covers             JDatabaseQuery::dateFormat
 	 * @expectedException  RuntimeException
-	 * @since              11.3
+	 * @since              1.7.3
 	 */
 	public function testDateFormatException()
 	{
@@ -684,7 +684,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDelete()
 	{
@@ -718,7 +718,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDelete__toString()
 	{
@@ -737,7 +737,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDump()
 	{
@@ -758,7 +758,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testEscape()
 	{
@@ -774,7 +774,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
-	 * @since              11.3
+	 * @since              1.7.3
 	 */
 	public function testEscapeException()
 	{
@@ -789,7 +789,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testExec()
 	{
@@ -803,7 +803,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testExec__toString()
 	{
@@ -815,7 +815,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testFrom()
 	{
@@ -846,7 +846,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGroup()
 	{
@@ -877,7 +877,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testHaving()
 	{
@@ -919,7 +919,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInnerJoin()
 	{
@@ -947,7 +947,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInsert()
 	{
@@ -975,7 +975,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testJoin()
 	{
@@ -1008,7 +1008,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLeftJoin()
 	{
@@ -1036,7 +1036,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLength()
 	{
@@ -1056,7 +1056,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedNullDateTest
-	 * @since         11.1
+	 * @since         1.7.0
 	 */
 	public function testNullDate($quoted, $expected)
 	{
@@ -1073,7 +1073,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
-	 * @since              11.3
+	 * @since              1.7.3
 	 */
 	public function testNullDateException()
 	{
@@ -1088,7 +1088,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testOrder()
 	{
@@ -1127,7 +1127,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testOuterJoin()
 	{
@@ -1159,7 +1159,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         11.1
+	 * @since         1.7.0
 	 * @dataProvider  seedQuoteTest
 	 */
 	public function testQuote($text, $escape, $expected)
@@ -1173,7 +1173,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
-	 * @since              11.3
+	 * @since              1.7.3
 	 */
 	public function testQuoteException()
 	{
@@ -1188,7 +1188,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testQuoteName()
 	{
@@ -1206,7 +1206,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @covers             JDatabaseQuery::quoteName
 	 * @expectedException  RuntimeException
-	 * @since              11.3
+	 * @since              1.7.3
 	 */
 	public function testQuoteNameException()
 	{
@@ -1222,7 +1222,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::rightJoin
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRightJoin()
 	{
@@ -1251,7 +1251,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::select
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSelect()
 	{
@@ -1296,7 +1296,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::set
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSet()
 	{
@@ -1345,7 +1345,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetQuery()
 	{
@@ -1359,7 +1359,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetQuery__toString()
 	{
@@ -1371,7 +1371,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testUpdate()
 	{
@@ -1399,7 +1399,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testValues()
 	{
@@ -1430,7 +1430,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testWhere()
 	{
@@ -1630,7 +1630,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_array()
 	{
@@ -1651,7 +1651,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_object()
 	{
@@ -1671,7 +1671,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionChain()
 	{
@@ -1687,7 +1687,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionUnion()
 	{
@@ -1706,7 +1706,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionDistinctString()
 	{
@@ -1725,7 +1725,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionDistinctTrue()
 	{
@@ -1744,7 +1744,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionDistinctFalse()
 	{
@@ -1763,7 +1763,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionArray()
 	{
@@ -1782,7 +1782,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionTwo()
 	{
@@ -1802,7 +1802,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionDistinct()
 	{
@@ -1821,7 +1821,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testUnionDistinctArray()
 	{
@@ -1947,7 +1947,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFormat()
 	{
@@ -1979,7 +1979,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -2009,15 +2009,15 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function seedDateAdd()
 	{
 		return array(
 			// Elements: date, interval, datepart, expected
-			'Add date'		=> array('2008-12-31', '1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL 1 DAY)"),
-			'Subtract date'	=> array('2008-12-31', '-1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL -1 DAY)"),
-			'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'DAY', "DATE_ADD('2008-12-31 23:59:59', INTERVAL 1 DAY)"),
+			'Add date'	=> array("'2008-12-31'", "1", "DAY", "DATE_ADD('2008-12-31', INTERVAL 1 DAY)"),
+			'Subtract date'	=> array("'2008-12-31'", "-1", "DAY", "DATE_ADD('2008-12-31', INTERVAL -1 DAY)"),
+			'Add datetime'	=> array("'2008-12-31 23:59:59'", "1", "DAY", "DATE_ADD('2008-12-31 23:59:59', INTERVAL 1 DAY)"),
 		);
 	}
 
@@ -2032,7 +2032,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedDateAdd
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
@@ -2048,7 +2048,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::unionAll
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testUnionAllUnion()
 	{
@@ -2067,7 +2067,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testUnionAllArray()
 	{
@@ -2086,7 +2086,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testUnionAllTwo()
 	{

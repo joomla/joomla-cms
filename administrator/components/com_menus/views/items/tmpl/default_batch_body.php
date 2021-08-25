@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -12,8 +12,8 @@ $options = array(
 	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
-$published = $this->state->get('filter.published');
-$clientId  = $this->state->get('filter.client_id');
+$published = (int) $this->state->get('filter.published');
+$clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
 	JFactory::getDocument()->addScriptDeclaration(
@@ -63,7 +63,7 @@ endif;
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
 						$opts     = array(
-							'published' => $published,
+							'published' => $this->state->get('filter.published'),
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);

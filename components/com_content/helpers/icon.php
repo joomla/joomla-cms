@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,6 +62,8 @@ abstract class JHtmlIcon
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
+	 *
+	 * @deprecated 4.0 The functionality to email an article is removed in Joomla 4
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -73,7 +75,8 @@ abstract class JHtmlIcon
 		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
+		$height = JFactory::getApplication()->get('captcha', '0') === '0' ? 450 : 550;
+		$status = 'width=400,height=' . $height . ',menubar=yes,resizable=yes';
 
 		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 

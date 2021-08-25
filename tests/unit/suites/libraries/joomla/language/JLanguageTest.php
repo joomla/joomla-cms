@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ if (!class_exists('En_GBLocalise'))
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       11.1
+ * @since       1.7.0
  */
 class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
@@ -74,7 +74,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testConstruct()
 	{
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$instance = new JLanguage(null, true);
 		// @codingStandardsIgnoreEnd
 
@@ -82,7 +82,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue($instance->getDebug());
 
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$instance = new JLanguage(null, false);
 		// @codingStandardsIgnoreEnd
 		$this->assertInstanceOf('JLanguage', $instance);
@@ -240,7 +240,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setTransliterator($function2);
 		$this->assertEquals(
 			$function1,
@@ -281,8 +281,14 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$this->assertEquals(
-			array('1'),
+			array('ONE', '1'),
 			$this->object->getPluralSuffixes(1),
+			'Line: ' . __LINE__
+		);
+
+		$this->assertEquals(
+			array('OTHER', 'MORE'),
+			$this->object->getPluralSuffixes(2),
 			'Line: ' . __LINE__
 		);
 	}
@@ -333,7 +339,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setPluralSuffixesCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -423,7 +429,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setIgnoredSearchWordsCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -513,7 +519,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setLowerLimitSearchWordCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -603,7 +609,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setUpperLimitSearchWordCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -693,7 +699,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setSearchDisplayedCharactersNumberCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -832,7 +838,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 
 		// Note: property = name, returns English (en-GB) (default language)
 		$this->assertEquals(
-			'English (en-GB)',
+			'English (United Kingdom)',
 			$this->object->get('name')
 		);
 	}
@@ -845,7 +851,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testGetName()
 	{
 		$this->assertEquals(
-			'English (en-GB)',
+			'English (United Kingdom)',
 			$this->object->getName()
 		);
 	}
@@ -857,7 +863,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetPaths()
 	{
-		// Without extension, retuns NULL
+		// Without extension, returns NULL
 		$this->assertNull(
 			$this->object->getPaths('')
 		);
@@ -1023,7 +1029,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetMetadata()
 	{
-		// Language doesn't exist, retun NULL
+		// Language doesn't exist, return NULL
 		$this->assertNull(
 			$this->inspector->getMetadata('es-ES')
 		);
@@ -1031,7 +1037,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
 		$options = array(
-			'name'       => 'English (en-GB)',
+			'name'       => 'English (United Kingdom)',
 			'nativeName' => 'English (United Kingdom)',
 			'tag'        => 'en-GB',
 			'rtl'        => '0',

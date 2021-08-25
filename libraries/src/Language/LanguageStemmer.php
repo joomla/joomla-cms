@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Stemmer base class.
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0 Use wamania/php-stemmer
  */
 abstract class LanguageStemmer
 {
@@ -21,13 +22,13 @@ abstract class LanguageStemmer
 	 * An internal cache of stemmed tokens.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $cache = array();
 
 	/**
 	 * @var    array  LanguageStemmer instances.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $instances = array();
 
@@ -38,7 +39,7 @@ abstract class LanguageStemmer
 	 *
 	 * @return  LanguageStemmer  A LanguageStemmer instance.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException on invalid stemmer.
 	 */
 	public static function getInstance($adapter)
@@ -72,7 +73,7 @@ abstract class LanguageStemmer
 	 *
 	 * @return  string  The root token.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract public function stem($token, $lang);
 }

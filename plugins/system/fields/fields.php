@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -27,6 +29,55 @@ class PlgSystemFields extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Normalizes the request data.
+	 *
+	 * @param   string  $context  The context
+	 * @param   object  $data     The object
+	 * @param   Form    $form     The form
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function onContentNormaliseRequestData($context, $data, Form $form)
+	{
+		if (!FieldsHelper::extract($context, $data))
+		{
+			return true;
+		}
+
+		// Loop over all fields
+		foreach ($form->getGroup('com_fields') as $field)
+		{
+			if ($field->disabled === true)
+			{
+				/**
+				 * Disabled fields should NEVER be added to the request as
+				 * they should NEVER be added by the browser anyway so nothing to check against
+				 * as "disabled" means no interaction at all.
+				 */
+
+				// Make sure the data object has an entry before delete it
+				if (isset($data->com_fields[$field->fieldname]))
+				{
+					unset($data->com_fields[$field->fieldname]);
+				}
+
+				continue;
+			}
+
+			// Make sure the data object has an entry
+			if (isset($data->com_fields[$field->fieldname]))
+			{
+				continue;
+			}
+
+			// Set a default value for the field
+			$data->com_fields[$field->fieldname] = false;
+		}
+	}
+
+	/**
 	 * The save event.
 	 *
 	 * @param   string   $context  The context
@@ -41,7 +92,7 @@ class PlgSystemFields extends JPlugin
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
 		// Check if data is an array and the item has an id
-		if (!is_array($data) || empty($item->id))
+		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
 			return true;
 		}
@@ -74,17 +125,28 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		// Get the fields data
-		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
-
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
-			// Determine the value if it is available from the data
-			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+			// Determine the value if it is (un)available from the data
+			if (key_exists($field->name, $data['com_fields']))
+			{
+				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
+			}
+			// Field not available on form, use stored value
+			else
+			{
+				$value = $field->rawvalue;
+			}
+
+			// If no value set (empty) remove value from database
+			if (is_array($value) ? !count($value) : !strlen($value))
+			{
+				$value = null;
+			}
 
 			// JSON encode value for complex fields
 			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
@@ -157,7 +219,6 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		JLoader::import('joomla.application.component.model');
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
@@ -255,6 +316,12 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
+		// Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
+		if (isset($item->jcfields))
+		{
+			return;
+		}
+
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
@@ -273,6 +340,8 @@ class PlgSystemFields extends JPlugin
 			$item = $this->prepareTagItem($item);
 		}
 
+		// Get item's fields, also preparing their value property for manual display
+		// (calling plugins events and loading layouts to get their HTML display)
 		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object

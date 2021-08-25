@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 
 				// Check to see if we have found the login menu item.
-				if (empty($login) && $item->query['view'] === 'login')
+				if (empty($login) && $item->query['view'] === 'login' && (empty($item->query['layout']) || $item->query['layout'] === 'default'))
 				{
 					$login = $item->id;
 

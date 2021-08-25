@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class CacheController extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
@@ -107,7 +107,7 @@ class CacheController extends JControllerLegacy
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app        = JFactory::getApplication();
 		$model      = $this->getModel('cache');
@@ -138,6 +138,7 @@ class CacheController extends JControllerLegacy
 			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 
@@ -149,7 +150,7 @@ class CacheController extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		if (!$this->getModel('cache')->purge())
 		{

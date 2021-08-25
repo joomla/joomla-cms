@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * HTTP factory class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class HttpFactory
 {
@@ -32,7 +32,7 @@ class HttpFactory
 	 *
 	 * @throws  \RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttp(Registry $options = null, $adapters = null)
 	{
@@ -57,7 +57,7 @@ class HttpFactory
 	 *
 	 * @return  TransportInterface Interface sub-class
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getAvailableDriver(Registry $options, $default = null)
 	{
@@ -100,14 +100,14 @@ class HttpFactory
 	 *
 	 * @return  array  An array of available transport handlers
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttpTransports()
 	{
 		$names = array();
 		$iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

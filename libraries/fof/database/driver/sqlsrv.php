@@ -4,6 +4,7 @@
  * @subpackage  database
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  *
  * This file is adapted from the Joomla! Platform. It is used to iterate a database cursor returning FOFTable objects
  * instead of plain stdClass objects
@@ -783,7 +784,7 @@ class FOFDatabaseDriverSqlsrv extends FOFDatabaseDriver
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $query{$l} == '\\')
+				while ($l >= 0 && $query[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

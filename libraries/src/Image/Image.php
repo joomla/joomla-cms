@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since       11.3
- * @deprecated  5.0 Use the class \Joomla\Image\Image instead
+ * @since  1.7.3
  */
 class Image extends \Joomla\Image\Image
 {
@@ -25,13 +24,11 @@ class Image extends \Joomla\Image\Image
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
 	{
-		Log::add('Joomla\CMS\Image\Image is deprecated, use Joomla\Image\Image instead.', Log::WARNING, 'deprecated');
-
 		// Inject the PSR-3 compatible logger in for forward compatibility
 		$this->setLogger(Log::createDelegatedLogger());
 
@@ -45,7 +42,7 @@ class Image extends \Joomla\Image\Image
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)

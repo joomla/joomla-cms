@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,10 +29,10 @@ class ModStatsHelper
 		$db         = JFactory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
+		$counter    = $params->get('counter', 0);
+		$increase   = $params->get('increase', 0);
 
 		$i = 0;
 
