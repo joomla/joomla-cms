@@ -182,7 +182,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);
