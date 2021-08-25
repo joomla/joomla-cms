@@ -130,13 +130,10 @@ $assoc = Associations::isEnabled();
 
                   <td class="article-status text-center">
                     <?php
-                    $options = [
-                      'task_prefix' => 'drafts.',
-                      'disabled' => !$canChange,
-                      'id' => 'state-' . $item->id
-                    ];
-                    // TODO: HERE showing draft is shared or not
-                    echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+                    if ($item->state)
+                    {
+                      echo '<span class="fw-normal badge rounded-pill bg-warning text-dark">#shared</span>';
+                    }
                     ?>
                   </td>
 
@@ -222,12 +219,12 @@ $assoc = Associations::isEnabled();
                   <td class="small d-none d-md-table-cell text-center">
                     <?php
                     $date = $item->shared_date;
-                    echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
+                    echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-';
                     ?>
                   </td>
 
                   <td class="d-none d-lg-table-cell">
-                    <?php echo (int) $item->id; ?>
+                    <?php echo (int) $item->article_id; ?>
                   </td>
 
                 </tr>

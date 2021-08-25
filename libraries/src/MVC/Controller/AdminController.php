@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -163,7 +164,8 @@ class AdminController extends BaseController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
+					. $this->getRedirectToListAppend(),
+				false
 			)
 		);
 	}
@@ -258,7 +260,8 @@ class AdminController extends BaseController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
+					. $this->getRedirectToListAppend(),
+				false
 			)
 		);
 	}
@@ -371,8 +374,11 @@ class AdminController extends BaseController
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(
 				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
-				), $message, 'error'
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+					false
+				),
+				$message,
+				'error'
 			);
 
 			return false;
@@ -383,8 +389,10 @@ class AdminController extends BaseController
 			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($cid));
 			$this->setRedirect(
 				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
-				), $message
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+					false
+				),
+				$message
 			);
 
 			return true;

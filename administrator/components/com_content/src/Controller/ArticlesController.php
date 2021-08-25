@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -157,6 +158,11 @@ class ArticlesController extends AdminController
 	// TODO: HERE
 	public function saveAsDraft()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
 		echo "<script>alert('Hallo Welt');</script>";
 	}
 }

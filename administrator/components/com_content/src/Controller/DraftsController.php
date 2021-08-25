@@ -61,59 +61,59 @@ class DraftsController extends AdminController
 	 *
 	 * @since   1.6
 	 */
-	// public function featured()
-	// {
-	// 	// Check for request forgeries
-	// 	$this->checkToken();
+	public function featured()
+	{
+		// Check for request forgeries
+		$this->checkToken();
 
-	// 	$user        = $this->app->getIdentity();
-	// 	$ids         = $this->input->get('cid', array(), 'array');
-	// 	$values      = array('featured' => 1, 'unfeatured' => 0);
-	// 	$task        = $this->getTask();
-	// 	$value       = ArrayHelper::getValue($values, $task, 0, 'int');
-	// 	$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
+		$user        = $this->app->getIdentity();
+		$ids         = $this->input->get('cid', array(), 'array');
+		$values      = array('featured' => 1, 'unfeatured' => 0);
+		$task        = $this->getTask();
+		$value       = ArrayHelper::getValue($values, $task, 0, 'int');
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
 
-	// 	// Access checks.
-	// 	foreach ($ids as $i => $id)
-	// 	{
-	// 		if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-	// 		{
-	// 			// Prune items that you can't change.
-	// 			unset($ids[$i]);
-	// 			$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
-	// 		}
-	// 	}
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+			{
+				// Prune items that you can't change.
+				unset($ids[$i]);
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+			}
+		}
 
-	// 	if (empty($ids))
-	// 	{
-	// 		$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
-	// 	}
-	// 	else
-	// 	{
-	// 		// Get the model.
-	// 		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-	// 		$model = $this->getModel();
+		if (empty($ids))
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+		}
+		else
+		{
+			// Get the model.
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			$model = $this->getModel();
 
-	// 		// Publish the items.
-	// 		if (!$model->featured($ids, $value))
-	// 		{
-	// 			$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+			// Publish the items.
+			if (!$model->featured($ids, $value))
+			{
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
 
-	// 			return;
-	// 		}
+				return;
+			}
 
-	// 		if ($value == 1)
-	// 		{
-	// 			$message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
-	// 		}
-	// 		else
-	// 		{
-	// 			$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
-	// 		}
-	// 	}
+			if ($value == 1)
+			{
+				$message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+			}
+		}
 
-	// 	$this->setRedirect(Route::_($redirectUrl, false), $message);
-	// }
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
+	}
 
 	/**
 	 * Proxy for getModel.
@@ -155,9 +155,38 @@ class DraftsController extends AdminController
 		echo new JsonResponse($result);
 	}
 
-	// TODO: HERE
+	/**
+	 * Method to toggle the unsharing draft.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function unshareDrafts()
 	{
-		echo "<script>alert('function unshare drafts is not implemented');</script>";
+		// Check for request forgeries
+		$this->checkToken();
+
+		// Get the input
+		$task = $this->getTask();
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$value = 1;
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list;
+		$message = '';
+
+		/** @var \Joomla\Component\Content\Administrator\Model\DraftModel $model */
+		$model = $this->getModel();
+
+		// Publish the items.
+		if (!$model->unshare($pks, $value))
+		{
+			$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+			return;
+		}
+		// TODO: HERE properly messages 
+		$message = Text::plural('COM_CONTENT_N_ITEMS_UNSHARED', count($pks));
+
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
 }

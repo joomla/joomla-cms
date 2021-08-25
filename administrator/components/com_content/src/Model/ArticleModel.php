@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -156,8 +157,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
 					->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
 
-					$db->setQuery($query);
-					$db->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 
@@ -630,7 +631,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				}
 
-				$data->set('access',
+				$data->set(
+					'access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
@@ -695,12 +697,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
 		}
 
-		if(!isset($data['draft']) || $data['state'] != 1)
+		if (!isset($data['draft']) || $data['state'] != 1)
 		{
 			$data['draft'] = 1;
 		}
 
-		if($data['state'] == 1)
+		if ($data['state'] == 1)
 		{
 			$data['draft'] = 0;
 		}
