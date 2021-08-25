@@ -285,6 +285,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			default="0.7"
+			min="0"
 		/>
 
 		<field
