@@ -228,6 +228,7 @@ class HtmlView extends BaseHtmlView
 				{
 					$childBar->trash('articles.trash')->listCheck(true);
 				}
+
 			}
 
 			// Add a batch button

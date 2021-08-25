@@ -35,6 +35,7 @@ class MessagesHelper
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
+		$options[] = HTMLHelper::_('select.option', '-3', Text::_('JDRAFTED'));
 
 		return $options;
 	}

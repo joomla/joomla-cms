@@ -697,12 +697,19 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
 		}
 
+
+		if(!isset($data['draft']) || $data['state'] == -3)
+
 		if (!isset($data['draft']) || $data['state'] != 1)
+
 		{
 			$data['draft'] = 1;
 		}
 
+		if($data['state'] != -3)
+
 		if ($data['state'] == 1)
+
 		{
 			$data['draft'] = 0;
 		}
@@ -1041,6 +1048,45 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		);
 
 		$this->cleanCache();
+
+		return true;
+	}
+
+	public function draft($pks)
+	{
+		// Sanitize the ids.
+		$pks     = (array) $pks;
+		$pks     = ArrayHelper::toInteger($pks);
+		$context = $this->option . '.' . $this->name;
+
+		if (empty($pks))
+		{
+			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
+
+			return false;
+		}
+
+		try
+		{
+			$value = -3;
+			// Adjust the mapping table.
+			// Clear the existing features settings.
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__content'))
+				->set($db->quoteName('state') . ' = :state')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':state', $value, ParameterType::INTEGER);
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
 
 		return true;
 	}

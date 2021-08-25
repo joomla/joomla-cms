@@ -170,6 +170,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->trash('tags.trash')->listCheck(true);
 			}
 
+
 			// Add a batch button
 			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 			{

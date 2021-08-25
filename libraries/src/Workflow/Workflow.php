@@ -69,6 +69,7 @@ class Workflow
 		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
 		self::CONDITION_TRASHED     => 'JTRASHED',
 		self::CONDITION_ARCHIVED    => 'JARCHIVED',
+		self::CONDITION_DRAFTED		=> 'JDRAFTED',
 	];
 
 	/**
@@ -90,6 +91,8 @@ class Workflow
 	 * Every item with a state which has the condition ARCHIVED is archived
 	 */
 	const CONDITION_ARCHIVED = 2;
+
+	const CONDITION_DRAFTED = -3;
 
 	/**
 	 * Class constructor

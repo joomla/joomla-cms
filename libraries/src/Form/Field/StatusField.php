@@ -36,6 +36,7 @@ class StatusField extends PredefinedlistField
 		0   => 'JUNPUBLISHED',
 		1   => 'JPUBLISHED',
 		2   => 'JARCHIVED',
+		-3  => 'JDRAFTED',
 		'*' => 'JALL',
 	);
 }

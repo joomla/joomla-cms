@@ -62,6 +62,7 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * The trashed condition
 	 *
+	 *
 	 * @since   4.0.0
 	 */
 	const CONDITION_NAMES = [
@@ -69,6 +70,7 @@ class ContentComponent extends MVCComponent implements
 		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
 		self::CONDITION_ARCHIVED    => 'JARCHIVED',
 		self::CONDITION_TRASHED     => 'JTRASHED',
+		self::CONDITION_DRAFTED     => 'JDRAFTED',
 	];
 
 	/**
@@ -98,6 +100,8 @@ class ContentComponent extends MVCComponent implements
 	 * @since   4.0.0
 	 */
 	const CONDITION_TRASHED = -2;
+
+	const CONDITION_DRAFTED = -3;
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like

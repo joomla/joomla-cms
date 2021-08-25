@@ -76,6 +76,7 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
+			<option value="-3">JDRAFTED</option>
 		</field>
 
 		<field

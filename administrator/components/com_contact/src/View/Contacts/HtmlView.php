@@ -195,6 +195,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->trash('contacts.trash')->listCheck(true);
 			}
 
+
 			// Add a batch button
 			if ($user->authorise('core.create', 'com_contact')
 				&& $user->authorise('core.edit', 'com_contact')
