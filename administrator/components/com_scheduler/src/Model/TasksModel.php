@@ -48,7 +48,7 @@ class TasksModel extends ListModel
 	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -106,7 +106,7 @@ class TasksModel extends ListModel
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.type');
-		$id .= ':' . $this->getState('filter.show_orphaned');
+		$id .= ':' . $this->getState('filter.orphaned');
 		$id .= ':' . $this->getState('filter.due');
 		$id .= ':' . $this->getState('filter.trigger');
 		$id .= ':' . $this->getState('list.select');
@@ -208,11 +208,11 @@ class TasksModel extends ListModel
 				->bind(':last_exit_code', $exitCode, ParameterType::INTEGER);
 		}
 
-		// Filter due ----
-		if (is_numeric($due = $this->getState('filter.due')))
+		// Filter due (-1: exclude, 0: include, 1: only) ----
+		if (is_numeric($due = $this->getState('filter.due')) && $due != 0)
 		{
 			$now = Factory::getDate('now', 'GMT')->toSql();
-			$operator = $due === 1 ? '<= ' : '> ';
+			$operator = $due == 1 ? '<= ' : '> ';
 			$filterCount++;
 			$query->where($db->qn('a.next_execution') . $operator . ':now')
 				->bind(':now', $now);
@@ -248,6 +248,7 @@ class TasksModel extends ListModel
 		}
 
 		// Add list ordering clause. ----
+		// @todo implement multi-column ordering someway
 		$orderCol = $this->state->get('list.ordering', 'a.title');
 		$orderDir = $this->state->get('list.direction', 'desc');
 
@@ -325,17 +326,19 @@ class TasksModel extends ListModel
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
 		}
 
-		// Filter out orphaned tasks if the state allows
+		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
 		// ! This breaks pagination at the moment [@todo: fix]
-		$showOrphaned = $this->getState('filter.show_orphaned');
+		$filterOrphaned = (int) $this->getState('filter.orphaned');
 
-		if (!$showOrphaned)
+		if ($filterOrphaned !== 0)
 		{
 			$responseList = array_values(
 				array_filter(
 					$responseList,
-					function (object $c) {
-						return isset($c->taskOption);
+					function (object $c) use ($filterOrphaned) {
+						$isOrphan = !isset($c->taskOption);
+
+						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
 					}
 				)
 			);

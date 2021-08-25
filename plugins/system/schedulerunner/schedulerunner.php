@@ -243,7 +243,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		$model->setState('filter.due', 1);
 
-		$model->setState('filter.show_orphaned', 0);
+		$model->setState('filter.orphaned', -1);
 
 		$model->setState('list.ordering', 'a.next_execution');
 		$model->setState('list.direction', 'ASC');

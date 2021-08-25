@@ -27,14 +27,15 @@
 			<option value="">COM_SCHEDULER_SELECT_TYPE</option>
 		</field>
 		<field
-			name="show_orphaned"
+			name="orphaned"
 			type="list"
 			label="COM_SCHEDULER_FIELD_LABEL_SHOW_ORPHANED"
-			default="0"
+			default="-1"
 			onchange="this.form.submit()"
 			>
-			<option value="0">COM_SCHEDULER_OPTION_ORPHANED_HIDE</option>
-			<option value="1">COM_SCHEDULER_OPTION_ORPHANED_SHOW</option>
+			<option value="-1">COM_SCHEDULER_OPTION_ORPHANED_HIDE</option>
+			<option value="0">COM_SCHEDULER_OPTION_ORPHANED_SHOW</option>
+			<option value="1">COM_SCHEDULER_OPTION_ORPHANED_ONLY</option>
 		</field>
 	</fields>
 
