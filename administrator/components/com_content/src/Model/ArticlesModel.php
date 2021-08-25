@@ -13,6 +13,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -708,4 +709,5 @@ class ArticlesModel extends ListModel
 
 		return $items;
 	}
+
 }

@@ -39,6 +39,7 @@
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
 			<option value="-2">JTRASHED</option>
+			<option value="-3">JDRAFTED</option>
 		</field>
 		<field
 			name="default"

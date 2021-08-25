@@ -86,6 +86,7 @@ class Languages
 		$options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
 		$options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
 		$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
+		$options[] = HTMLHelper::_('select.option', '-3', 'JDRAFTED');
 		$options[] = HTMLHelper::_('select.option', '*', 'JALL');
 
 		return $options;

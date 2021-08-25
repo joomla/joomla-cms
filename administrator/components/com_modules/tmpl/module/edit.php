@@ -34,6 +34,7 @@ Text::script('JYES');
 Text::script('JNO');
 Text::script('JALL');
 Text::script('JTRASHED');
+Text::script('JDRAFTED');
 
 $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 

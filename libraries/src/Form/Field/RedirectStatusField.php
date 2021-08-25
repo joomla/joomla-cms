@@ -36,6 +36,7 @@ class RedirectStatusField extends PredefinedlistField
 		'0'  => 'JDISABLED',
 		'1'  => 'JENABLED',
 		'2'  => 'JARCHIVED',
+		'-3'  => 'JDRAFTED',
 		'*'  => 'JALL',
 	);
 }

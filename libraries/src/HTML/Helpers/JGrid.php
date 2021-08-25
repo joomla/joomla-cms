@@ -188,6 +188,7 @@ abstract class JGrid
 			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
 			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
 			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
+			-3 => array('publish', 'JDRAFTED', 'JLIB_HTML_PUBLISH_ITEM', 'JDRAFTED', true, 'draft', 'draft')
 		);
 
 		// Special state for dates
@@ -323,6 +324,11 @@ abstract class JGrid
 		if (!array_key_exists('trash', $config) || $config['trash'])
 		{
 			$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
+		}
+
+		if (!array_key_exists('draft', $config) || $config['draft'])
+		{
+			$options[] = HTMLHelper::_('select.option', '-3', 'JDRAFTED');
 		}
 
 		if (!array_key_exists('all', $config) || $config['all'])

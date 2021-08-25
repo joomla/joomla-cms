@@ -19,6 +19,13 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Versioning;
+use Joomla\CMS\Helper\CMSHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 
 /**
  * Articles list controller class.
@@ -157,6 +164,48 @@ class ArticlesController extends AdminController
 	// TODO: HERE
 	public function saveAsDraft()
 	{
-		echo "<script>alert('Hallo Welt');</script>";
+		$this->checkToken();
+
+		$user        = $this->app->getIdentity();
+		$ids         = $this->input->get('cid', array(), 'array');
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
+
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+			{
+				// Prune items that you can't change.
+				unset($ids[$i]);
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+			}
+		}
+
+		if (empty($ids))
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+		}
+		else
+		{
+			// Get the model.
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			$model = $this->getModel();
+			if (!$model->draft($ids))
+			{
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+				return;
+			}
+
+			$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
+		}
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
+
+
+		 $typeAlias = "com_content.article";
+		 $versionNote = "";
+		 //Versioning::store($typeAlias, $ids, $data, $versionNote);
+
 	}
+
 }

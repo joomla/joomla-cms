@@ -36,6 +36,7 @@ abstract class ModulesHelper
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
+		$options[] = HTMLHelper::_('select.option', '-3', Text::_('JDRAFTED'));
 		$options[] = HTMLHelper::_('select.option', '*', Text::_('JALL'));
 
 		return $options;

@@ -33,6 +33,7 @@ class PublishedButton extends ActionButton
 		$this->addState(0, 'publish', 'unpublish', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JUNPUBLISHED')]);
 		$this->addState(2, 'unpublish', 'archive', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JARCHIVED')]);
 		$this->addState(-2, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JTRASHED')]);
+		$this->addState(-3, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JDRAFTED')]);
 	}
 
 	/**
