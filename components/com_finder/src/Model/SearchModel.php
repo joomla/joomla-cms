@@ -172,8 +172,6 @@ class SearchModel extends ListModel
 			$amount = 0;
 		}
 
-
-
 		$instantView->select($db->quoteName('link_id') . ', SUM(' . $db->quoteName('weight') . ') AS ' . $db->quoteName('weight'))
 			->from($db->quoteName('#__finder_links_terms'))
 			->where($db->quoteName('term_id') . 'IN (' . implode(',', $included) . ')')
@@ -313,8 +311,9 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$query->join('INNER', $this->_db->quoteName('#__finder_links', 'l') . ' ON '. $db->quoteName('l.link_id') . '=' . $db->quoteName('m.link_id'));
-
+		$query->join('INNER', $this->_db->quoteName('#__finder_links', 'l') . ' ON '
+			. $db->quoteName('l.link_id') . '=' . $db->quoteName('m.link_id')
+		);
 
 		// Check if there are any excluded terms to deal with.
 		if (count($this->excludedTerms))
