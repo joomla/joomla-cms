@@ -131,7 +131,6 @@ class SearchModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -279,27 +278,7 @@ class SearchModel extends ListModel
 		// Get the result ordering and direction.
 		$ordering = $this->getState('list.ordering', 'm.weight');
 		$direction = $this->getState('list.direction', 'DESC');
-
-		/*
-		 * If we are ordering by relevance we have to add up the relevance
-		 * scores that are contained in the ordering field.
-		 */
-
-		if ($ordering === 'm.weight')
-		{
-			// Get the base query and add the ordering information.
-			 $query->select('' . $db->escape($ordering) . ' AS ordering');
-		}
-		/*
-		 * If we are not ordering by relevance, we just have to add
-		 * the unique items to the set.
-		 */
-		else
-		{
-			// Get the base query and add the ordering information.
-			$query->select($db->escape($ordering) . ' AS ordering');
-		}
-
+		$query->select($db->escape($ordering) . ' AS ordering');
 		$query->order('ordering ' . $db->escape($direction));
 
 		/*
@@ -326,7 +305,6 @@ class SearchModel extends ListModel
 		}
 
 		return $query;
-
 	}
 
 	/**
