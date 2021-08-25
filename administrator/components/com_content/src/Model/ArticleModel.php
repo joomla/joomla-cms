@@ -698,21 +698,21 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 
-		if(!isset($data['draft']) || $data['state'] == -3)
+		if (!isset($data['draft']) || $data['state'] == -3)
 
-		if (!isset($data['draft']) || $data['state'] != 1)
+			if (!isset($data['draft']) || $data['state'] != 1)
 
-		{
-			$data['draft'] = 1;
-		}
+			{
+				$data['draft'] = 1;
+			}
 
-		if($data['state'] != -3)
+		if ($data['state'] != -3)
 
-		if ($data['state'] == 1)
+			if ($data['state'] == 1)
 
-		{
-			$data['draft'] = 0;
-		}
+			{
+				$data['draft'] = 0;
+			}
 
 
 		if (isset($data['created_by_alias']))

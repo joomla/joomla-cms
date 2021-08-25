@@ -20,13 +20,13 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Versioning;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Versioning\Versioning;
 
 /**
  * Articles list controller class.
@@ -171,7 +171,7 @@ class ArticlesController extends AdminController
 		$user        = $this->app->getIdentity();
 		$ids         = $this->input->get('cid', array(), 'array');
 		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
-
+		$message = '';
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
@@ -203,11 +203,16 @@ class ArticlesController extends AdminController
 		}
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
 
+		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+		$model = $this->getModel();
 
-		 $typeAlias = "com_content.article";
-		 $versionNote = "";
-		 //Versioning::store($typeAlias, $ids, $data, $versionNote);
+		foreach ($ids as $id)
+		{
+			$data = $model->getItem($id);
+			Versioning::store($data->typeAlias, $id, $data);
+		}
 
+		$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
-
 }
