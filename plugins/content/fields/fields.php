@@ -183,7 +183,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -200,7 +200,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7.0
+	 & @since  __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -217,7 +217,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -234,7 +234,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
@@ -327,7 +327,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   3.8.4
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function prepareTagItem($item)
 	{
