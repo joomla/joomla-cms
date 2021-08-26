@@ -311,8 +311,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				->order('version_id DESC')->setLimit(1);
 
 			$version_id = $db->setQuery($query)->loadResult();
-			$t = gettype($version_id);
-			$hashval = '1231asdasdasdasd123';
+			$hashval = $version_id . uniqid();
 
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__draft'))

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -19,6 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+
 
 /**
  * The article controller
@@ -82,10 +85,13 @@ class ArticleController extends FormController
 			$editState['type']  = $type;
 			$editState['request']['id'] = $id;
 
-			$this->app->setUserState('com_menus.edit.item', array(
-				'data' => $editState,
-				'type' => $type,
-				'link' => $link)
+			$this->app->setUserState(
+				'com_menus.edit.item',
+				array(
+					'data' => $editState,
+					'type' => $type,
+					'link' => $link
+				)
 			);
 
 			$this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
@@ -183,9 +189,31 @@ class ArticleController extends FormController
 		return parent::batch($model);
 	}
 
-
 	public function saveAsDraft()
 	{
-		echo "<script>alert('save as draft');</script>";
+		$this->checkToken();
+
+		$user = $this->app->getIdentity();
+		$id = $this->input->get('id', 0, 'integer');
+
+		// $id = $this->input->data->id;
+
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
+		// Access checks.
+		if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+		{
+			// Prune items that you can't change.
+			$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+		}
+
+		// Get the model.
+		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+		$model = $this->getModel();
+
+		$model->storeHistory($id);
+		$model->storeDraft($id);
+
+		$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', 1);
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
 }
