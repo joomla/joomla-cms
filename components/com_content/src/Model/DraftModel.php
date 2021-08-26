@@ -181,6 +181,7 @@ class DraftModel extends ItemModel
 					->where(
 						[
 							$db->quoteName('d.hashval') . ' = :pk',
+							$db->quoteName('d.shared_date') . ' IS NOT NULL'
 						]
 					)
 					->bind(':pk', $pk, ParameterType::STRING);
