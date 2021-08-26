@@ -132,7 +132,7 @@ $assoc = Associations::isEnabled();
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id) ?>" title="<?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($item->title) ?>">
+												<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 													<?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -143,59 +143,6 @@ $assoc = Associations::isEnabled();
 												<?php else : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</div>
-											<div class="small">
-												<?php
-												$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
-												$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-												$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
-												echo Text::_('JCATEGORY') . ': ';
-												if ($item->category_level != '1') :
-													if ($item->parent_category_level != '1') :
-														echo ' &#187; ';
-													endif;
-												endif;
-												if (Factory::getLanguage()->isRtl())
-												{
-													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
-														echo '</a>';
-													endif;
-													if ($item->category_level != '1') :
-														echo ' &#171; ';
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
-														endif;
-													endif;
-												}
-												else
-												{
-													if ($item->category_level != '1') :
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
-														endif;
-														echo ' &#187; ';
-													endif;
-													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
-														echo '</a>';
-													endif;
-												}
-												?>
 											</div>
 										</div>
 									</th>
