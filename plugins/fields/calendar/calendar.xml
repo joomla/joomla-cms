@@ -15,7 +15,7 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_calendar.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_calendar.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_calendar.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_calendar.sys.ini</language>
 	</languages>
 </extension>

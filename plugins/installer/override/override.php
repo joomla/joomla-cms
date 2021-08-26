@@ -386,6 +386,7 @@ class PlgInstallerOverride extends CMSPlugin
 			$bindArray = $insertQuery->bindArray(
 				[
 					$pk->template,
+					$pk->id,
 					$pk->action,
 					$createdDate,
 					$modifiedDate,
@@ -396,7 +397,6 @@ class PlgInstallerOverride extends CMSPlugin
 				$bindArray,
 				$insertQuery->bindArray(
 					[
-						$pk->id,
 						$pk->extension_id,
 						0,
 						(int) $pk->client,

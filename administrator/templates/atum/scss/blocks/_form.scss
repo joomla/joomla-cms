@@ -140,3 +140,52 @@ td .form-control {
 .form-group {
   @extend .mb-3;
 }
+
+// Subform - non table layout
+div.subform-repeatable-group {
+  position: relative;
+  padding: 32px 32px 16px 28px;
+  margin-top: 20px;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  > .btn-toolbar {
+
+    .btn-group {
+      position: static;
+    }
+
+    .btn {
+      position: absolute;
+
+      &.group-add {
+        right: -1px;
+        bottom: -1px;
+        border-radius: $border-radius 0 $border-radius 0;
+      }
+      &.group-remove {
+        top: -1px;
+        right: -1px;
+        border-radius: 0 $border-radius 0 $border-radius;
+      }
+      &.group-move {
+        top: 50%;
+        right: 100%;
+        margin-top: -27px;
+        line-height: 52px;
+        border-radius: $border-radius 0 0 $border-radius;
+      }
+    }
+  }
+}
+
+// Highlight draggable section
+.subform-repeatable-group[draggable="true"] {
+  // For non table layout
+  background-color: $teal;
+
+  // For table layout
+  > td {
+    background-color: $teal;
+  }
+}
