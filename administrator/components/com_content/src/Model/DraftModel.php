@@ -328,4 +328,27 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 
 		return true;
 	}
+
+	public function delete($pks)
+	{
+		// Sanitize the ids.
+		try
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__draft'))
+				->where($db->quoteName('hashval') . ' = ' . ':hashval')
+				->bind(':hashval', $pks, ParameterType::STRING);
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
 }

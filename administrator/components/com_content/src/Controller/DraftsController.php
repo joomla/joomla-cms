@@ -221,6 +221,36 @@ class DraftsController extends AdminController
 	}
 
 
+	public function deleteDrafts()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list;
+		$message = '';
+
+		/** @var \Joomla\Component\Content\Administrator\Model\DraftModel $model */
+		$model = $this->getModel();
+
+		// Publish the items.
+		foreach ($pks as $id)
+		{
+			if (!$model->delete($id))
+			{
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+				return;
+			}
+		}
+
+		$message = Text::plural('COM_CONTENT_N_ITEMS_DELETED', count($pks));
+
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
+	}
+
+
 	/**
 	 * Method to toggle the featured setting of a list of articles.
 	 *

@@ -119,7 +119,7 @@ $assoc = Associations::isEnabled();
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
 
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->hashval, false, 'cid', 'cb', $item->title); ?>
 									</td>
 
 									<td class="text-center d-none d-md-table-cell">
@@ -137,7 +137,7 @@ $assoc = Associations::isEnabled();
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id) ?>" title="<?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($item->title) ?>">
 													<?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -207,7 +207,7 @@ $assoc = Associations::isEnabled();
 
 									<td class="d-none d-lg-table-cell">
 										<?php if ($item->state) : ?>
-											<a target="_blank" href="<?php echo str_replace('/administrator', '', Route::_('index.php?view=draft&draft_hash=' . $item->hashval)) ?>"><?php echo "index.php?draft=" . $item->hashval ?></a>;
+											<a target="_blank" href="<?php echo str_replace('/administrator', '', Route::_('index.php?view=draft&draft_hash=' . $item->hashval)) ?>"><?php echo "index.php?draft=" . $item->hashval ?></a>
 										<?php else : ?>
 											<?php echo "index.php?draft=" . $item->hashval ?>
 										<?php endif; ?>

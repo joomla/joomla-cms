@@ -171,11 +171,18 @@ class HtmlView extends BaseHtmlView
 			->task('drafts.unshareDrafts')
 			->listCheck(true);
 
-		$toolbar->unshare('com_content')
+		$toolbar->save('com_content')
 			->text('JTOOLBAR_SHARE')
 			->icon('icon-eye')
 			->task('drafts.shareDrafts')
 			->listCheck(true);
+
+		$toolbar->cancel('com_content')
+			->text('JTOOLBAR_DELETE')
+			->icon('icon-trash')
+			->task('drafts.deleteDrafts')
+			->listCheck(true);
+
 
 		if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
