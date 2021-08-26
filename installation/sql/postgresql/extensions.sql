@@ -190,6 +190,8 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "featured" smallint DEFAULT 0 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
+  "shared" smallint UNSIGNED NOT NULL DEFAULT 0,
+  "draft" smallint UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__content_idx_access" ON "#__content" ("access");

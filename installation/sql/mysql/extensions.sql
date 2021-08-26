@@ -199,6 +199,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `featured` tinyint unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `note` varchar(255) NOT NULL DEFAULT '',
+  `shared` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `draft` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
