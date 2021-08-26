@@ -57,11 +57,11 @@
     }
 
 
-    @include media-breakpoint-down(xl) {
+    @include media-breakpoint-down(lg) {
       column-count: 2;
     }
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       column-count: 1;
     }
   }

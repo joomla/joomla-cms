@@ -6,7 +6,7 @@
   .container-main {
     order: 1;
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -15,7 +15,7 @@
     }
 
     #content {
-      @include media-breakpoint-down(lg) {
+      @include media-breakpoint-down(md) {
         max-width: 98%;
         padding: 0;
       }
@@ -32,7 +32,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
 
-    @include media-breakpoint-down(xl) {
+    @include media-breakpoint-down(lg) {
       margin-bottom: 3rem;
     }
 
@@ -71,7 +71,7 @@
       span {
         font-size: ($font-size-base * .9);
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(sm) {
           width: 100%;
         }
 
@@ -151,7 +151,7 @@
     max-width: none;
     background-color: var(--template-sidebar-bg);
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       order: 2;
       margin-bottom: 3rem;
     }
@@ -186,7 +186,7 @@
       }
     }
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       position: relative;
       bottom: 0;
     }
@@ -195,7 +195,7 @@
   .container-main,
   .sidebar-wrapper {
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       flex: 1 0 100% !important;
       max-width: 100% !important;
       min-height: auto;
@@ -205,7 +205,7 @@
   .wrapper {
     display: flex;
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       flex-direction: column;
     }
   }
@@ -219,7 +219,7 @@
       }
     }
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       background: var(--template-bg-dark-70);
     }
   }
@@ -235,7 +235,7 @@ label {
   margin-top: 100px;
   text-align: center;
 
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-down(md) {
     margin-top: 10px;
   }
 }
@@ -252,13 +252,13 @@ label {
 
 .view-login {
   #wrapper.d-flex {
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       display: flex !important;
     }
   }
 
   #sidebar-wrapper:not(.show):not(.collapse) {
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       display: block;
     }
   }

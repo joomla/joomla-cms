@@ -24,6 +24,7 @@
     width: $sidebar-width;
     height: 100%;
     padding: 12px 5px;
+    overflow: hidden;
     background-color: var(--template-bg-dark-70);
     transition: all .3s ease-in-out;
 
@@ -42,6 +43,8 @@
           display: inline-block;
           width: 20px;
           height: 20px;
+          object-fit: contain;
+          object-position: center center;
         }
       }
     }
@@ -51,6 +54,12 @@
       width: 150px;
       height: 30px;
       margin: 0 .35rem;
+      object-fit: contain;
+      object-position: left center;
+
+      [dir=rtl] & {
+        object-position: right center;
+      }
 
       &.logo-collapsed {
         display: none;
@@ -205,7 +214,7 @@
   padding: 3px 6px;
 }
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
   .header-items {
     position: fixed;
     bottom: 0;

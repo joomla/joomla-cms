@@ -78,7 +78,7 @@ select.form-control {
     color: $gray-100;
   }
 
-  @include media-breakpoint-down(xl) {
+  @include media-breakpoint-down(lg) {
     min-width: 100%;
   }
 }
@@ -89,7 +89,7 @@ select.form-control {
   width: auto;
 }
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
   .form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
     width: 100%;
   }

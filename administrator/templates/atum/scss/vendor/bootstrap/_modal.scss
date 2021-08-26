@@ -98,7 +98,7 @@
 }
 
 .modal-dialog {
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-down(md) {
     margin: 1.75rem auto;
   }
 

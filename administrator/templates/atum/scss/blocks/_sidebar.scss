@@ -56,13 +56,13 @@
     }
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     flex: 1 0 $sidebar-width;
     max-width: $sidebar-width;
-    transition: all .3s ease;
+    transition: all .3s ease-in-out;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     &.sidebar-menu {
       top: auto;
     }
@@ -87,7 +87,7 @@
   padding: 0;
   font-size: .95rem;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     width: 100%;
   }
 
@@ -238,14 +238,14 @@
   }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(sm) {
   .toggler-burger {
     display: none;
   }
 }
 
 // Mobile
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
     background: var(--template-bg-dark-50);

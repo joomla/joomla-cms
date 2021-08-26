@@ -4,7 +4,7 @@
   transition: none;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
   .btn {
     margin-bottom: .25rem;
   }

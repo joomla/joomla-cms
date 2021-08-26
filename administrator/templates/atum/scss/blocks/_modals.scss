@@ -114,7 +114,7 @@
     display: flex;
     border-bottom: 1px solid $table-border-color;
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       flex-direction: column;
     }
   }
@@ -135,7 +135,7 @@
       }
     }
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       flex: 1 0 auto;
       max-width: 100%;
       text-align: left;

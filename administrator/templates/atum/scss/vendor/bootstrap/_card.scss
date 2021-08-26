@@ -6,7 +6,7 @@
     margin-bottom: $card-spacer-y;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     column-count: 3;
     column-gap: 1.25rem;
     orphans: 1;

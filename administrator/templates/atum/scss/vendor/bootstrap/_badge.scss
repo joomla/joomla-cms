@@ -2,7 +2,7 @@
 @import "../../variables";
 
 .badge {
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-down(md) {
     white-space: normal;
   }
 

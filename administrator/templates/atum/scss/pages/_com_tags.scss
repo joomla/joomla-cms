@@ -6,7 +6,7 @@
       grid-template-columns: 1fr;
     }
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       display: inline-block;
       width: calc(50% - 15px);
     }
