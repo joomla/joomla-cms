@@ -189,4 +189,32 @@ class DraftsController extends AdminController
 
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
+
+	public function shareDrafts()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		// Get the input
+		$task = $this->getTask();
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$value = 1;
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list;
+		$message = '';
+
+		/** @var \Joomla\Component\Content\Administrator\Model\DraftModel $model */
+		$model = $this->getModel();
+
+		// Publish the items.
+		if (!$model->share($pks, $value))
+		{
+			$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+			return;
+		}
+		// TODO: HERE properly messages 
+		$message = Text::plural('COM_CONTENT_N_ITEMS_SHARED', count($pks));
+
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
+	}
 }

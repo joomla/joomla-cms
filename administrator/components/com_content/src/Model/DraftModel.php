@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use \Datetime;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -266,8 +267,10 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__draft'))
 				->set($db->quoteName('state') . ' = :state')
+				->set($db->quoteName('share_date') . ' = :date')
 				->whereIn($db->quoteName('article_id'), $pks)
-				->bind(':state', $value, ParameterType::INTEGER);
+				->bind(':state', $value, ParameterType::INTEGER)
+				->bind(':share_date', NULL, ParameterType::NULL);
 
 			$db->setQuery($query);
 			$db->execute();
@@ -279,25 +282,48 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
-		// $table->reorder();
+		return true;
+	}
 
-		// // Trigger the change state event.
-		// Factory::getApplication()->getDispatcher()->dispatch(
-		// 	$this->event_after_change_featured,
-		// 	AbstractEvent::create(
-		// 		$this->event_after_change_featured,
-		// 		[
-		// 			'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
-		// 			'subject'    => $this,
-		// 			'extension'  => $context,
-		// 			'pks'        => $pks,
-		// 			'value'      => $value,
-		// 		]
-		// 	)
-		// );
+	public function share($pks)
+	{
+		// Sanitize the ids.
+		$pks     = (array) $pks;
+		$pks     = ArrayHelper::toInteger($pks);
+		$context = $this->option . '.' . $this->name;
 
-		// $this->cleanCache();
+		if (empty($pks))
+		{
+			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
+			return false;
+		}
+
+		try
+		{
+			$value = 1;
+			// Adjust the mapping table.
+			// Clear the existing features settings.
+			$now = new DateTime();
+			$date_sql = $now->format('Y-m-d H:i:s');
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__draft'))
+				->set($db->quoteName('state') . ' = :state')
+				->set($db->quoteName('shared_date') . ' = :date')
+				->whereIn($db->quoteName('article_id'), $pks)
+				->bind(':state', $value, ParameterType::INTEGER)
+				->bind(':date', $date_sql, ParameterType::STRING);
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
 		return true;
 	}
 }

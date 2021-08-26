@@ -139,10 +139,7 @@ $assoc = Associations::isEnabled();
 
 
                   <td class="d-none d-lg-table-cell">
-                    <?php
-                    $it = $item->hashval;
-                    echo '/joomla-cms/index.php?draft=' . $it;
-                    ?>
+                    <a target="_blank" href="<?php echo str_replace('/administrator', '', Route::_('index.php?view=draft&draft_hash=' . $item->hashval)) ?>"><?php echo "index.php?draft=" . $item->hashval ?></a>;
                   </td>
 
                   <th scope="row" class="has-context">
