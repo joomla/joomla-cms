@@ -16,8 +16,8 @@
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>restore.php</filename>
-			<filename>restore_finalisation.php</filename>
+			<filename>extract.php</filename>
+			<filename>finalisation.php</filename>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

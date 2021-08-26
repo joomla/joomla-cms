@@ -17,13 +17,11 @@ use Joomla\CMS\Uri\Uri;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('jquery')
-	->useScript('com_joomlaupdate.encryption')
-	->useScript('com_joomlaupdate.update')
 	->useScript('com_joomlaupdate.admin-update');
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
-$ajaxUrl = Uri::base() . 'components/com_joomlaupdate/restore.php';
+$ajaxUrl = Uri::base() . 'components/com_joomlaupdate/extract.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
 
 $this->document->addScriptOptions(

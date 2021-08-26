@@ -28,30 +28,6 @@
       "attributes": {
         "defer": true
       }
-    },
-    {
-      "name": "com_joomlaupdate.encryption",
-      "type": "script",
-      "uri": "com_joomlaupdate/encryption.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
-      "name": "com_joomlaupdate.update",
-      "type": "script",
-      "uri": "com_joomlaupdate/update.min.js",
-      "dependencies": [
-        "core",
-        "jquery",
-        "com_joomlaupdate.encryption"
-      ],
-      "attributes": {
-        "defer": true
-      }
     }
   ]
 }
