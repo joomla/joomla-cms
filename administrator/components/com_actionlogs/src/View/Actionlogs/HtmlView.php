@@ -106,7 +106,7 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Load all actionlog plugins language files
 		ActionlogsHelper::loadActionLogPluginsLanguage();

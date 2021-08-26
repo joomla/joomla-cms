@@ -15,18 +15,23 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+$hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks)
+{
+	return;
+}
+
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
-
-$hideLinks = $app->input->getBool('hidemainmenu');
 ?>
-<div class="header-item-content dropdown header-profile d-flex">
-	<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>"  data-bs-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
+<div class="header-item-content dropdown header-profile">
+	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
 		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
-		<div class="d-flex align-items-end mx-auto">
+		<div class="header-item-icon">
 			<span class="icon-user-circle" aria-hidden="true"></span>
 		</div>
-		<div class="tiny">
+		<div class="header-item-text">
 			<?php echo Text::_('MOD_USER_MENU'); ?>
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>
@@ -37,12 +42,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php echo Text::sprintf('MOD_USER_TITLE', $user->name); ?>
 		</div>
 		<?php $uri   = Uri::getInstance(); ?>
-		<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-user_details'; ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-user_details'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="icon-user icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
 		</a>
-		<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="icon-universal-access icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>

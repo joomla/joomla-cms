@@ -29,6 +29,14 @@ class AdminPage extends AcceptanceTester
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
 
 	/**
+	 * The form element with id "adminForm"
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $adminForm = ['id' => 'adminForm'];
+
+	/**
 	 * The element id which contains page title in administrator header.
 	 *
 	 * @var    array
@@ -74,7 +82,7 @@ class AdminPage extends AcceptanceTester
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
+	public static $tabsLocator = ['xpath' => "//div[@role='tablist']/button"];
 
 	/**
 	 * Locator for the Check All checkbox.

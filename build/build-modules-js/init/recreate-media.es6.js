@@ -1,4 +1,5 @@
-const { stat, copy } = require('fs-extra');
+const { existsSync } = require('fs');
+const { stat, copy, emptyDirSync } = require('fs-extra');
 const { join, extname } = require('path');
 
 const RootPath = process.cwd();
@@ -10,16 +11,36 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.recreateMediaFolder = async () => {
+module.exports.recreateMediaFolder = async (options) => {
+  const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
+    if (vendor === 'choices.js') {
+      return 'vendor/choicesjs';
+    }
+    if (vendor === '@fortawesome/fontawesome-free') {
+      return 'vendor/fontawesome-free';
+    }
+    if (vendor === '@claviska/jquery-minicolors') {
+      return 'vendor/minicolors';
+    }
+    if (vendor === '@webcomponents/webcomponentsjs') {
+      return 'vendor/webcomponentsjs';
+    }
+    return `vendor/${vendor}`;
+  });
+
+  // Clean up existing folders
+  [...options.settings.cleanUpFolders, ...installedVendors].forEach((folder) => {
+    const folderPath = join(`${RootPath}/media`, folder);
+    if (existsSync(folderPath)) {
+      emptyDirSync(folderPath);
+    }
+  });
+
   // eslint-disable-next-line no-console
   console.log('Recreating the media folder...');
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isDirectory() && src.endsWith('core.es6')) {
-      return false;
-    }
-
     if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
       return false;
     }
@@ -27,5 +48,5 @@ module.exports.recreateMediaFolder = async () => {
     return true;
   };
 
-  await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc });
+  await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc, preserveTimestamps: true });
 };

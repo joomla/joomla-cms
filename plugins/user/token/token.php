@@ -58,7 +58,6 @@ class PlgUserToken extends CMSPlugin
 	private $allowedContexts = [
 		'com_users.profile',
 		'com_users.user',
-		'com_admin.profile',
 	];
 
 	/**
@@ -402,7 +401,7 @@ class PlgUserToken extends CMSPlugin
 					$db->qn('user_id'),
 					$db->qn('profile_key'),
 					$db->qn('profile_value'),
-					$db->qn('ordering')
+					$db->qn('ordering'),
 				]
 			);
 
@@ -465,7 +464,6 @@ class PlgUserToken extends CMSPlugin
 			// Do nothing.
 		}
 	}
-
 
 	/**
 	 * Returns an array with the default profile field values.

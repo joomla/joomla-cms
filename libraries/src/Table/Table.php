@@ -29,7 +29,6 @@ use Joomla\String\StringHelper;
  * Parent class to all tables.
  *
  * @since  1.7.0
- * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
@@ -509,7 +508,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * @return  mixed
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getId()
 	{
@@ -1037,7 +1036,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		}
 
 		// Attempt to check the row in, just in case it was checked out.
-		if (!$this->checkin())
+		if (!$this->checkIn())
 		{
 			return false;
 		}
@@ -1881,7 +1880,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			// If checkin is supported and all rows were adjusted, check them in.
 			if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 
 			// If the Table instance value is in the list of primary keys that were set, set the instance.

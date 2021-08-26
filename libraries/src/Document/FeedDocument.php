@@ -182,7 +182,7 @@ class FeedDocument extends Document
 
 		// Gets and sets timezone offset from site configuration
 		$this->lastBuildDate = CmsFactory::getDate();
-		$this->lastBuildDate->setTimeZone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate->setTimezone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**

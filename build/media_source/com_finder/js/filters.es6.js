@@ -11,7 +11,7 @@
 
   const onBoot = () => {
     Joomla.submitbutton = (pressbutton) => {
-      if (pressbutton === 'filters.delete' && !window.confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
+      if (pressbutton === 'filters.delete' && !window.confirm(Joomla.Text._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
         return false;
       }
       Joomla.submitform(pressbutton);

@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+HTMLHelper::_('behavior.multiselect');
+
 /** @var \Joomla\Component\Cache\Administrator\View\Cache\HtmlView $this */
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -66,9 +68,9 @@ $wa->useScript('keepalive')
 					<tbody>
 						<?php $i = 0; ?>
 						<?php foreach ($this->data as $folder => $item) : ?>
-							<tr>
+							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" class="cache-entry">
+									<input class="form-check-input cache-entry" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>">
 								</td>
 								<th scope="row">
 									<label for="cb<?php echo $i; ?>">

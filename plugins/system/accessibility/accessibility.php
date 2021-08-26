@@ -62,7 +62,7 @@ class PlgSystemAccessibility extends CMSPlugin
 		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
+		$direction = Factory::getLanguage()->isRtl() ? 'right' : 'left';
 
 		// Detect the current active language
 		$lang = Factory::getLanguage()->getTag();
@@ -95,8 +95,8 @@ class PlgSystemAccessibility extends CMSPlugin
 						$direction => [
 							'size' => '0',
 							'units' => 'px',
-						]
-					]
+						],
+					],
 				],
 				'hotkeys' => [
 					'enabled' => true,

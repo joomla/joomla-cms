@@ -24,7 +24,7 @@ class MediaListPage extends AdminListPage
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $url = "administrator/index.php?option=com_media&path=local-0:/";
+	public static $url = "administrator/index.php?option=com_media&path=local-images:/";
 
 	/**
 	 * Page title of the media manager listing page.

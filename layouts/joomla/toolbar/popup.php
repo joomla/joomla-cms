@@ -41,7 +41,7 @@ $idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck) ? ' list-selection' : '';
 
 ?>
-<joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $listAttr; ?>>
 <<?php echo $tagName; ?>
 	value="<?php echo $doTask; ?>"
 	class="<?php echo $btnClass; ?>"

@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
@@ -78,7 +78,7 @@
 
 		<field
 			name="hits"
-			type="number"
+			type="text"
 			label="JGLOBAL_HITS"
 			class="readonly"
 			readonly="true"

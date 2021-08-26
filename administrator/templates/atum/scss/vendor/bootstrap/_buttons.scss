@@ -4,31 +4,41 @@
   transition: none;
 }
 
+@include media-breakpoint-down(sm) {
+  .btn {
+    margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
+  }
+}
+
 .btn-primary {
-  color: var(--atum-text-light);
-  background-color: var(--atum-link-color);
-  border-color: var(--atum-link-color);
+  color: var(--template-text-light);
+  background-color: var(--template-bg-dark-60);
+  border-color: var(--template-bg-dark-60);
 
   &:hover,
   &:focus,
   &:active {
-    background-color: var(--atum-bg-dark-70);
-    border-color: var(--atum-bg-dark-90);
+    background-color: var(--template-bg-dark-70);
+    border-color: var(--template-bg-dark-90);
   }
 
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: var(--atum-bg-dark);
-    border-color: var(--atum-bg-dark);
+    background-color: var(--template-bg-dark);
+    border-color: var(--template-bg-dark);
   }
 }
 
 .btn-secondary {
-  background-color: var(--atum-bg-dark-50);
+  background-color: var(--template-bg-dark-60);
+  border-color: var(--template-bg-dark-60);
 }
 
 .input-group-text {
-  background-color: var(--atum-bg-dark);
-  border-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
+  border-color: var(--template-bg-dark);
 }

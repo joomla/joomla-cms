@@ -15,7 +15,7 @@
       </h3>
     </template>
     <template #body>
-      <div>
+      <div class="p-3">
         <div class="desc">
           {{ translate('JGLOBAL_CONFIRM_DELETE') }}
         </div>
@@ -24,17 +24,17 @@
     <template #footer>
       <div>
         <button
+          class="btn btn-success"
+          @click="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+        <button
           id="media-delete-item"
           class="btn btn-danger"
           @click="deleteItem()"
         >
           {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL') }}
-        </button>
-        <button
-          class="btn btn-success"
-          @click="close()"
-        >
-          {{ translate('JCANCEL') }}
         </button>
       </div>
     </template>

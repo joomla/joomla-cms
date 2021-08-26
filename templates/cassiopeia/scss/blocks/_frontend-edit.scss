@@ -2,15 +2,17 @@
 
 .btn.jmodedit {
   position: absolute;
-  right: 10px;
+  top: 0;
+  right: 0;
+  left: auto;
+  z-index: 900;
   color: var(--cassiopeia-color-link);
-  background-color: $white;
-  border: 1px solid #dfe3e7;
+  background-color: rgba(255,255,255,.5);
+  border: 1px solid #58595a;
   border-radius: .25rem;
 }
 
-a.jmenuedit {
-  padding-inline-start: 0;
-  padding-inline-end: .5rem;
+[dir="rtl"] .btn.jmodedit {
+  right: auto;
+  left: 0;
 }
-

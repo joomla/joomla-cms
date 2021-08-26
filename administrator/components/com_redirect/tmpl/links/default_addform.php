@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <div class="accordion d-none d-sm-block" id="accordion1">
-	<div class="accordion-heading">
+	<div class="accordion-heading pb-3">
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#batch" aria-expanded="false" aria-controls="batch">
 			<?php echo Text::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
 		</button>
@@ -30,9 +30,9 @@ use Joomla\CMS\Language\Text;
 					</div>
 					<div class="controls">
 						<input class="form-control" type="text" name="new_url" id="new_url" value="" size="50">
-					</div>
-					<div id="new_url-desc" class="form-text">
-						<?php echo Text::_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
+						<small id="new_url-desc" class="form-text">
+							<?php echo Text::_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
+						</small>
 					</div>
 				</div>
 				<div class="control-group">

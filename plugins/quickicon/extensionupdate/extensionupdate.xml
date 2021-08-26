@@ -13,13 +13,13 @@
 		<filename plugin="extensionupdate">extensionupdate.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_extensionupdate.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_extensionupdate.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_extensionupdate.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_extensionupdate.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
+				<field
 					name="context"
 					type="text"
 					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL"

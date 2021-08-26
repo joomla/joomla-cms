@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,6 +12,9 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
+use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
@@ -32,7 +34,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's console services
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Console implements ServiceProviderInterface
 {
@@ -43,7 +45,7 @@ class Console implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -158,6 +160,33 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new ExtensionInstallCommand;
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverCommand;
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverInstallCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverInstallCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionDiscoverListCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionDiscoverListCommand($container->get('db'));
 			},
 			true
 		);
