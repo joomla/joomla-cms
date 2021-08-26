@@ -105,35 +105,36 @@ class DraftModel extends ItemModel
 					$this->getState(
 						'item.select',
 						[
-							$db->quoteName('a.id'),
-							$db->quoteName('a.asset_id'),
-							$db->quoteName('a.title'),
-							$db->quoteName('a.alias'),
-							$db->quoteName('a.introtext'),
-							$db->quoteName('a.fulltext'),
-							$db->quoteName('a.state'),
-							$db->quoteName('a.catid'),
-							$db->quoteName('a.created'),
-							$db->quoteName('a.created_by'),
-							$db->quoteName('a.created_by_alias'),
-							$db->quoteName('a.modified'),
-							$db->quoteName('a.modified_by'),
-							$db->quoteName('a.checked_out'),
-							$db->quoteName('a.checked_out_time'),
-							$db->quoteName('a.publish_up'),
-							$db->quoteName('a.publish_down'),
-							$db->quoteName('a.images'),
-							$db->quoteName('a.urls'),
-							$db->quoteName('a.attribs'),
-							$db->quoteName('a.version'),
-							$db->quoteName('a.ordering'),
-							$db->quoteName('a.metakey'),
-							$db->quoteName('a.metadesc'),
-							$db->quoteName('a.access'),
-							$db->quoteName('a.hits'),
-							$db->quoteName('a.metadata'),
-							$db->quoteName('a.featured'),
-							$db->quoteName('a.language'),
+							// $db->quoteName('a.id'),
+							// $db->quoteName('a.asset_id'),
+							// $db->quoteName('a.title'),
+							// $db->quoteName('a.alias'),
+							// $db->quoteName('a.introtext'),
+							// $db->quoteName('a.fulltext'),
+							// $db->quoteName('a.state'),
+							// $db->quoteName('a.catid'),
+							// $db->quoteName('a.created'),
+							// $db->quoteName('a.created_by'),
+							// $db->quoteName('a.created_by_alias'),
+							// $db->quoteName('a.modified'),
+							// $db->quoteName('a.modified_by'),
+							// $db->quoteName('a.checked_out'),
+							// $db->quoteName('a.checked_out_time'),
+							// $db->quoteName('a.publish_up'),
+							// $db->quoteName('a.publish_down'),
+							// $db->quoteName('a.images'),
+							// $db->quoteName('a.urls'),
+							// $db->quoteName('a.attribs'),
+							// $db->quoteName('a.version'),
+							// $db->quoteName('a.ordering'),
+							// $db->quoteName('a.metakey'),
+							// $db->quoteName('a.metadesc'),
+							// $db->quoteName('a.access'),
+							// $db->quoteName('a.hits'),
+							// $db->quoteName('a.metadata'),
+							// $db->quoteName('a.featured'),
+							// $db->quoteName('a.language'),
+							$db->quoteName('h.version_data'),
 						]
 					)
 				)
@@ -184,48 +185,6 @@ class DraftModel extends ItemModel
 					)
 					->bind(':pk', $pk, ParameterType::STRING);
 
-				// // Filter by language
-				// if ($this->getState('filter.language'))
-				// {
-				// 	$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
-				// }
-
-				// if (
-				// 	!$user->authorise('core.edit.state', 'com_content.draft.' . $pk)
-				// 	&& !$user->authorise('core.edit', 'com_content.draft.' . $pk)
-				// )
-				// {
-				// 	// Filter by start and end dates.
-				// 	$nowDate = Factory::getDate()->toSql();
-
-				// $query->extendWhere(
-				// 	'AND',
-				// 	[
-				// 		$db->quoteName('a.publish_up') . ' IS NULL',
-				// 		$db->quoteName('a.publish_up') . ' <= :publishUp',
-				// 	],
-				// 	'OR'
-				// )
-				// 	->extendWhere(
-				// 		'AND',
-				// 		[
-				// 			$db->quoteName('a.publish_down') . ' IS NULL',
-				// 			$db->quoteName('a.publish_down') . ' >= :publishDown',
-				// 		],
-				// 		'OR'
-				// 	)
-				// 	->bind([':publishUp', ':publishDown'], $nowDate);
-				// }
-
-				// Filter by published state.
-				// $published = $this->getState('filter.published');
-				// $archived = $this->getState('filter.archived');
-
-				// if (is_numeric($published))
-				// {
-				// 	$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
-				// }
-
 				$db->setQuery($query);
 				Log::add($query->__toString(), Log::ERROR, 'my-error-category');
 
@@ -235,6 +194,9 @@ class DraftModel extends ItemModel
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
+
+				$parse_data = json_decode($data->version_data);
+				$data = (object) array_merge((array) $parse_data, (array) $data);
 
 				// // Check for published state if filter set.
 				// if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
