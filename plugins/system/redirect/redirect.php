@@ -286,7 +286,6 @@ class PlgSystemRedirect extends JPlugin
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
 				// Always count redirect hits
-
 				$redirect->hits++;
 
 				try
