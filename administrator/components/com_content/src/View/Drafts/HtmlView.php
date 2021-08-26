@@ -183,7 +183,6 @@ class HtmlView extends BaseHtmlView
 			->task('drafts.deleteDrafts')
 			->listCheck(true);
 
-
 		if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
