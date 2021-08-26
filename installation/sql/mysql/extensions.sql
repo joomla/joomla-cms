@@ -91,6 +91,18 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   KEY `idx_banner_id` (`banner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
+
+--
+-- Table structure for table `#__draft`
+--
+CREATE TABLE IF NOT EXISTS `#__draft` (
+  `article_id` int unsigned NOT NULL,
+  `version_id` int unsigned NOT NULL,
+  `state` tinyint NOT NULL DEFAULT '0',
+  `hashval` varchar(2083) NOT NULL DEFAULT '',
+  `shared_date` datetime DEFAULT NULL,
+  PRIMARY KEY(`article_id`, `version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 -- --------------------------------------------------------
 
 --
