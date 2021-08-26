@@ -429,6 +429,18 @@ trait CoreButtonsTrait
 			->formValidation(true);
 	}
 
+
+	/**
+	 * Writes a unshare button for a given option.
+	 * Save operation leads to a unshare and then close.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   4.0.0
+	 */
 	public function unshare(string $task, string $text = 'JTOOLBAR_UNSHARE'): StandardButton
 	{
 		return $this->standardButton('icon-eye-slash', $text)

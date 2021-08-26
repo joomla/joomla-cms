@@ -170,12 +170,6 @@ class DraftModel extends ItemModel
 				$parse_data = json_decode($data->version_data);
 				$data = (object) array_merge((array) $parse_data, (array) $data);
 
-				// // Check for published state if filter set.
-				// If ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
-				// {
-				// 	throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
-				// }
-
 				// Convert parameter fields to objects.
 				$registry = new Registry($data->attribs);
 
