@@ -88,6 +88,7 @@
 
   .card-header {
     display: flex;
+    align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
     color: var(--template-bg-dark);
@@ -96,6 +97,11 @@
     > [class^="icon-"],
     > img {
       margin-inline-end: .5rem;
+    }
+
+    .btn {
+      margin-top: .25em;
+      margin-bottom: .25em;
     }
   }
 
