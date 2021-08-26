@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -37,6 +38,41 @@ abstract class RouteHelper
 	{
 		// Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
+
+		if ((int) $catid > 1)
+		{
+			$link .= '&catid=' . $catid;
+		}
+
+		if ($language && $language !== '*' && Multilanguage::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
+
+		if ($layout)
+		{
+			$link .= '&layout=' . $layout;
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Get the article route.
+	 *
+	 * @param   integer  $id        The route of the content item.
+	 * @param   integer  $catid     The category ID.
+	 * @param   integer  $language  The language code.
+	 * @param   string   $layout    The layout value.
+	 *
+	 * @return  string  The article route.
+	 *
+	 * @since   1.5
+	 */
+	public static function getDraftRoute($id, $catid = 0, $language = 0, $layout = null)
+	{
+		// Create the link
+		$link = 'index.php?option=com_content&view=draft&id=' . $id;
 
 		if ((int) $catid > 1)
 		{

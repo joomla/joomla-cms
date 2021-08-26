@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -292,7 +293,7 @@ class BaseController implements ControllerInterface
 		if (strpos($command, '.') !== false)
 		{
 			// Explode the controller.task command.
-			list ($type, $task) = explode('.', $command);
+			list($type, $task) = explode('.', $command);
 
 			// Define the controller filename and path.
 			$file = self::createFileName('controller', array('name' => $type, 'format' => $format));
@@ -483,7 +484,7 @@ class BaseController implements ControllerInterface
 			$this->default_view = $this->getName();
 		}
 
-		$this->factory = $factory ? : new LegacyFactory;
+		$this->factory = $factory ?: new LegacyFactory;
 	}
 
 	/**
@@ -891,7 +892,7 @@ class BaseController implements ControllerInterface
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				self::$views[$name][$type][$prefix] = & $view;
+				self::$views[$name][$type][$prefix] = &$view;
 			}
 			else
 			{

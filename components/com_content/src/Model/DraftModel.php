@@ -15,26 +15,28 @@ namespace Joomla\Component\Content\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Logger;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Content Component Article Model
  *
  * @since  1.5
  */
-class ArticleModel extends ItemModel
+class DraftModel extends ItemModel
 {
 	/**
 	 * Model context string.
 	 *
 	 * @var        string
 	 */
-	protected $_context = 'com_content.article';
+	protected $_context = 'com_content.draft';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -50,8 +52,8 @@ class ArticleModel extends ItemModel
 		$app = Factory::getApplication();
 
 		// Load state from the request.
-		$pk = $app->input->getInt('id');
-		$this->setState('article.id', $pk);
+		$pk = $app->input->getString('draft_hash');
+		$this->setState('draft.draft_hash', $pk);
 
 		$offset = $app->input->getUint('limitstart');
 		$this->setState('list.offset', $offset);
@@ -63,7 +65,7 @@ class ArticleModel extends ItemModel
 		$user = Factory::getUser();
 
 		// If $pk is set then authorise on complete asset, else on component only
-		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+		$asset = empty($pk) ? 'com_content' : 'com_content.draft.' . $pk;
 
 		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
@@ -75,9 +77,9 @@ class ArticleModel extends ItemModel
 	}
 
 	/**
-	 * Method to get article data.
+	 * Method to get draft data.
 	 *
-	 * @param   integer  $pk  The id of the article.
+	 * @param   string  $pk  The id of the draft.
 	 *
 	 * @return  object|boolean  Menu item data object on success, boolean false
 	 */
@@ -85,7 +87,7 @@ class ArticleModel extends ItemModel
 	{
 		$user = Factory::getUser();
 
-		$pk = (int) ($pk ?: $this->getState('article.id'));
+		$pk = ($pk ?: $this->getState('draft.draft_hash'));
 
 		if ($this->_item === null)
 		{
@@ -155,7 +157,17 @@ class ArticleModel extends ItemModel
 							$db->quoteName('v.rating_count', 'rating_count'),
 						]
 					)
-					->from($db->quoteName('#__content', 'a'))
+					->from($db->quoteName('#__draft', 'd'))
+					->join(
+						'INNER',
+						$db->quoteName('#__content', 'a'),
+						$db->quoteName('a.id') . ' = ' . $db->quoteName('d.article_id')
+					)
+					->join(
+						'INNER',
+						$db->quoteName('#__history', 'h'),
+						$db->quoteName('h.version_id') . ' = ' . $db->quoteName('d.version_id')
+					)
 					->join(
 						'INNER',
 						$db->quoteName('#__categories', 'c'),
@@ -167,55 +179,55 @@ class ArticleModel extends ItemModel
 					->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'))
 					->where(
 						[
-							$db->quoteName('a.id') . ' = :pk',
-							$db->quoteName('c.published') . ' > 0',
+							$db->quoteName('d.hashval') . ' = :pk',
 						]
 					)
-					->bind(':pk', $pk, ParameterType::INTEGER);
+					->bind(':pk', $pk, ParameterType::STRING);
 
-				// Filter by language
-				if ($this->getState('filter.language'))
-				{
-					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
-				}
+				// // Filter by language
+				// if ($this->getState('filter.language'))
+				// {
+				// 	$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+				// }
 
-				if (
-					!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
-					&& !$user->authorise('core.edit', 'com_content.article.' . $pk)
-				)
-				{
-					// Filter by start and end dates.
-					$nowDate = Factory::getDate()->toSql();
+				// if (
+				// 	!$user->authorise('core.edit.state', 'com_content.draft.' . $pk)
+				// 	&& !$user->authorise('core.edit', 'com_content.draft.' . $pk)
+				// )
+				// {
+				// 	// Filter by start and end dates.
+				// 	$nowDate = Factory::getDate()->toSql();
 
-					$query->extendWhere(
-						'AND',
-						[
-							$db->quoteName('a.publish_up') . ' IS NULL',
-							$db->quoteName('a.publish_up') . ' <= :publishUp',
-						],
-						'OR'
-					)
-						->extendWhere(
-							'AND',
-							[
-								$db->quoteName('a.publish_down') . ' IS NULL',
-								$db->quoteName('a.publish_down') . ' >= :publishDown',
-							],
-							'OR'
-						)
-						->bind([':publishUp', ':publishDown'], $nowDate);
-				}
+				// $query->extendWhere(
+				// 	'AND',
+				// 	[
+				// 		$db->quoteName('a.publish_up') . ' IS NULL',
+				// 		$db->quoteName('a.publish_up') . ' <= :publishUp',
+				// 	],
+				// 	'OR'
+				// )
+				// 	->extendWhere(
+				// 		'AND',
+				// 		[
+				// 			$db->quoteName('a.publish_down') . ' IS NULL',
+				// 			$db->quoteName('a.publish_down') . ' >= :publishDown',
+				// 		],
+				// 		'OR'
+				// 	)
+				// 	->bind([':publishUp', ':publishDown'], $nowDate);
+				// }
 
 				// Filter by published state.
-				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				// $published = $this->getState('filter.published');
+				// $archived = $this->getState('filter.archived');
 
-				if (is_numeric($published))
-				{
-					$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
-				}
+				// if (is_numeric($published))
+				// {
+				// 	$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
+				// }
 
 				$db->setQuery($query);
+				Log::add($query->__toString(), Log::ERROR, 'my-error-category');
 
 				$data = $db->loadObject();
 
@@ -224,11 +236,11 @@ class ArticleModel extends ItemModel
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
-				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
-				{
-					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
-				}
+				// // Check for published state if filter set.
+				// if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
+				// {
+				// 	throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+				// }
 
 				// Convert parameter fields to objects.
 				$registry = new Registry($data->attribs);
@@ -238,11 +250,11 @@ class ArticleModel extends ItemModel
 
 				$data->metadata = new Registry($data->metadata);
 
-				// Technically guest could edit an article, but lets not check that to improve performance a little.
+				// Technically guest could edit an draft, but lets not check that to improve performance a little.
 				if (!$user->get('guest'))
 				{
 					$userId = $user->get('id');
-					$asset = 'com_content.article.' . $data->id;
+					$asset = 'com_content.draft.' . $data->id;
 
 					// Check general edit permission first.
 					if ($user->authorise('core.edit', $asset))
@@ -304,30 +316,7 @@ class ArticleModel extends ItemModel
 	}
 
 	/**
-	 * Increment the hit counter for the article.
-	 *
-	 * @param   integer  $pk  Optional primary key of the article to increment.
-	 *
-	 * @return  boolean  True if successful; false otherwise and internal error set.
-	 */
-	public function hit($pk = 0)
-	{
-		$input = Factory::getApplication()->input;
-		$hitcount = $input->getInt('hitcount', 1);
-
-		if ($hitcount)
-		{
-			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-			$table = Table::getInstance('Content', 'JTable');
-			$table->hit($pk);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Save user vote on article
+	 * Save user vote on draft
 	 *
 	 * @param   integer  $pk    Joomla Article Id
 	 * @param   integer  $rate  Voting rate
@@ -465,11 +454,11 @@ class ArticleModel extends ItemModel
 	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_content');
-		parent::cleanCache('mod_articles_archive');
-		parent::cleanCache('mod_articles_categories');
-		parent::cleanCache('mod_articles_category');
-		parent::cleanCache('mod_articles_latest');
-		parent::cleanCache('mod_articles_news');
-		parent::cleanCache('mod_articles_popular');
+		parent::cleanCache('mod_drafts_archive');
+		parent::cleanCache('mod_drafts_categories');
+		parent::cleanCache('mod_drafts_category');
+		parent::cleanCache('mod_drafts_latest');
+		parent::cleanCache('mod_drafts_news');
+		parent::cleanCache('mod_drafts_popular');
 	}
 }

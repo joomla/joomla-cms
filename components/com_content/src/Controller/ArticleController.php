@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -75,7 +76,8 @@ class ArticleController extends FormController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
-				. $this->getRedirectToItemAppend(), false
+					. $this->getRedirectToItemAppend(),
+				false
 			)
 		);
 

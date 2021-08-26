@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -44,6 +45,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		{
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
+		elseif ($this->input->get('view') === 'draft' && $this->input->get('layout') === 'pagebreak')
+		{
+			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+		}
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
@@ -78,9 +83,11 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 
 		$user = $this->app->getIdentity();
 
-		if ($user->get('id')
+		if (
+			$user->get('id')
 			|| ($this->input->getMethod() === 'POST'
-			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' )))
+				&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
+		)
 		{
 			$cachable = false;
 		}
@@ -101,7 +108,9 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			'filter-search' => 'STRING',
 			'print' => 'BOOLEAN',
 			'lang' => 'CMD',
-			'Itemid' => 'INT');
+			'Itemid' => 'INT',
+			'draft_hash' => 'STRING'
+		);
 
 		// Check for edit form.
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
@@ -121,7 +130,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 				}
 			}
 		}
-
+		elseif ($vName === 'draft')
+		{
+			$model = $this->getModel($vName);
+		}
 		parent::display($cachable, $safeurlparams);
 
 		return $this;
