@@ -54,7 +54,7 @@ class CalendarField extends FormField
 	 * The format will be used to filter submitted date and time.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.1
 	 */
 	protected $filterFormat;
 

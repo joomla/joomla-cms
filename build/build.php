@@ -376,10 +376,13 @@ $doNotPackage = array(
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
+	'plugins/sampledata/testing/testing.php',
+	'plugins/sampledata/testing/testing.xml',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
 	'selenium.log',
 	'tests',
 	// Media Manager Node Assets
-	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
 );
 
