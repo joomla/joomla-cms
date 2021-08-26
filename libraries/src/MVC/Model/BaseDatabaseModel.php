@@ -356,7 +356,7 @@ abstract class BaseDatabaseModel extends \JObject
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a \JDatabaseQuery object
+		// Remove the limit, offset and order parts if it's a \JDatabaseQuery object
 		if ($query instanceof \JDatabaseQuery)
 		{
 			$query = clone $query;
