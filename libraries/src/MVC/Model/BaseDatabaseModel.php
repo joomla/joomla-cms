@@ -360,7 +360,7 @@ abstract class BaseDatabaseModel extends \JObject
 		if ($query instanceof \JDatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);
