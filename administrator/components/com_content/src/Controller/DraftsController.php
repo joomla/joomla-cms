@@ -219,4 +219,66 @@ class DraftsController extends AdminController
 
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
+
+
+	/**
+	 * Method to toggle the featured setting of a list of articles.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public function published()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$user        = $this->app->getIdentity();
+		$ids         = $this->input->get('cid', array(), 'array');
+		$values      = array('featured' => 1, 'unfeatured' => 0);
+		$task        = $this->getTask();
+		$value       = ArrayHelper::getValue($values, $task, 0, 'int');
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
+
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+			{
+				// Prune items that you can't change.
+				unset($ids[$i]);
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+			}
+		}
+
+		if (empty($ids))
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+		}
+		else
+		{
+			// Get the model.
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			$model = $this->getModel();
+
+			// Publish the items.
+			if (!$model->featured($ids, $value))
+			{
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+				return;
+			}
+
+			if ($value == 1)
+			{
+				$message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+			}
+		}
+
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
+	}
 }
