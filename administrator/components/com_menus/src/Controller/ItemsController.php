@@ -237,9 +237,9 @@ class ItemsController extends AdminController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				elseif($value == -3)
+				elseif ($value == -3)
 				{
-					$ntext =  $this->text_prefix . '_N_ITEMS_DRAFTED';
+					$ntext = $this->text_prefix . '_N_ITEMS_DRAFTED';
 				}
 				else
 				{

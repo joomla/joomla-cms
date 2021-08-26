@@ -261,6 +261,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 		try
 		{
 			$value = 0;
+
 			// Adjust the mapping table.
 			// Clear the existing features settings.
 			$db = $this->getDbo();
@@ -301,9 +302,10 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 		try
 		{
 			$value = 1;
+
 			// Adjust the mapping table.
 			// Clear the existing features settings.
-			$now = new DateTime();
+			$now = new DateTime;
 			$date_sql = $now->format('Y-m-d H:i:s');
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
@@ -323,6 +325,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 
 			return false;
 		}
+
 		return true;
 	}
 }

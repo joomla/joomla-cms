@@ -179,8 +179,7 @@ class ArticleModel extends ItemModel
 					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 				}
 
-				if (
-					!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
+				if (!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
 					&& !$user->authorise('core.edit', 'com_content.article.' . $pk)
 				)
 				{

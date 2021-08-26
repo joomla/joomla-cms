@@ -172,6 +172,7 @@ class ArticlesController extends AdminController
 		$ids         = $this->input->get('cid', array(), 'array');
 		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
 		$message = '';
+
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
@@ -202,8 +203,6 @@ class ArticlesController extends AdminController
 
 			$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
 		}
-
-
 
 		$message = Text::plural('COM_CONTENT_N_ITEMS_DRAFTED', count($ids));
 		$this->setRedirect(Route::_($redirectUrl, false), $message);

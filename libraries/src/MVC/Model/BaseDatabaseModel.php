@@ -162,8 +162,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function _getListCount($query)
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if (
-			$query instanceof DatabaseQuery
+		if ($query instanceof DatabaseQuery
 			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null

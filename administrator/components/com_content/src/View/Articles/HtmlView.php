@@ -228,7 +228,6 @@ class HtmlView extends BaseHtmlView
 				{
 					$childBar->trash('articles.trash')->listCheck(true);
 				}
-
 			}
 
 			// Add a batch button
@@ -242,6 +241,7 @@ class HtmlView extends BaseHtmlView
 					->listCheck(true);
 			}
 		}
+
 		// TODO: HERE
 		$toolbar->saveAsDraft('com_content')
 			->icon('icon-project-diagram')

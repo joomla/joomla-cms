@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -158,7 +159,11 @@ class HtmlView extends BaseHtmlView
 					}
 
 					$childBar->save2new('article.save2new');
-					$childBar->saveAsDraft('article.saveAsDraft');
+
+					if (!empty($this->item->id))
+					{
+						$childBar->saveAsDraft('article.saveAsDraft');
+					}
 				}
 			);
 
@@ -233,9 +238,13 @@ class HtmlView extends BaseHtmlView
 				}
 			}
 		}
-		$toolbar->standardButton('article.shareAsDraft', "Share as Draft")
-			->icon('icon-project-diagram')
-			->task('article.saveAsDraft');
+
+		if (!empty($this->item->id))
+		{
+			$toolbar->standardButton('article.shareAsDraft', "JTOOLBAR_SHARE_AS_DRAFT")
+				->icon('icon-project-diagram')
+				->task('article.saveAsDraft');
+		}
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');

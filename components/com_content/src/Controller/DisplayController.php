@@ -83,10 +83,9 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 
 		$user = $this->app->getIdentity();
 
-		if (
-			$user->get('id')
+		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'
-				&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
+			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
 		)
 		{
 			$cachable = false;
@@ -134,6 +133,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		{
 			$model = $this->getModel($vName);
 		}
+
 		parent::display($cachable, $safeurlparams);
 
 		return $this;

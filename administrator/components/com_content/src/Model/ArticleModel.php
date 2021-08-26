@@ -327,6 +327,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				->bind(':version_id', $version_id, ParameterType::INTEGER)
 				->bind(':hashval', $hashval, ParameterType::STRING);
 			$db->setQuery($query)->execute();
+
 			return true;
 		}
 		catch (\Exception $e)
@@ -789,21 +790,21 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
 		}
 
-
 		if (!isset($data['draft']) || $data['state'] == -3)
-
+		{
 			if (!isset($data['draft']) || $data['state'] != 1)
 			{
 				$data['draft'] = 1;
 			}
+		}
 
 		if ($data['state'] != -3)
-
+		{
 			if ($data['state'] == 1)
 			{
 				$data['draft'] = 0;
 			}
-
+		}
 
 		if (isset($data['created_by_alias']))
 		{
@@ -910,7 +911,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new', 'saveAsDraft')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{
@@ -1159,6 +1160,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		try
 		{
 			$value = -3;
+
 			// Adjust the mapping table.
 			// Clear the existing features settings.
 			$db = $this->getDbo();

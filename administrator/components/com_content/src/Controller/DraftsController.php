@@ -184,7 +184,8 @@ class DraftsController extends AdminController
 
 			return;
 		}
-		// TODO: HERE properly messages 
+
+		// TODO: HERE properly messages
 		$message = Text::plural('COM_CONTENT_N_ITEMS_UNSHARED', count($pks));
 
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
@@ -212,7 +213,8 @@ class DraftsController extends AdminController
 
 			return;
 		}
-		// TODO: HERE properly messages 
+
+		// TODO: HERE properly messages
 		$message = Text::plural('COM_CONTENT_N_ITEMS_SHARED', count($pks));
 
 		$this->setRedirect(Route::_($redirectUrl, false), $message);

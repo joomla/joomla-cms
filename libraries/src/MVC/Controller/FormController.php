@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -86,7 +87,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null,
+	public function __construct(
+		$config = array(),
+		MVCFactoryInterface $factory = null,
+		?CMSApplication $app = null,
+		?Input $input = null,
 		FormFactoryInterface $formFactory = null
 	)
 	{
@@ -146,6 +151,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
 		$this->registerTask('editAssociations', 'save');
+		$this->registerTask('saveToDraft', 'save');
 	}
 
 	/**
@@ -168,7 +174,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+						. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 
@@ -182,7 +189,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
-				. $this->getRedirectToItemAppend(), false
+					. $this->getRedirectToItemAppend(),
+				false
 			)
 		);
 
@@ -323,7 +331,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+						. $this->getRedirectToItemAppend($recordId, $key),
+					false
 				)
 			);
 
@@ -396,7 +405,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+						. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 
@@ -412,7 +422,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar),
+					false
 				)
 			);
 
@@ -427,7 +438,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar),
+					false
 				)
 			);
 
@@ -593,7 +605,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				$this->setRedirect(
 					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+							. $this->getRedirectToItemAppend($recordId, $urlVar),
+						false
 					)
 				);
 
@@ -614,7 +627,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+						. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 
@@ -689,7 +703,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar),
+					false
 				)
 			);
 
@@ -713,7 +728,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar),
+					false
 				)
 			);
 
@@ -732,7 +748,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar),
+					false
 				)
 			);
 
@@ -758,7 +775,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				$this->setRedirect(
 					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+							. $this->getRedirectToItemAppend($recordId, $urlVar),
+						false
 					)
 				);
 				break;
@@ -772,7 +790,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				$this->setRedirect(
 					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend(null, $urlVar), false
+							. $this->getRedirectToItemAppend(null, $urlVar),
+						false
 					)
 				);
 				break;
@@ -846,7 +865,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+						. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 			$this->redirect();
@@ -855,7 +875,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// The redirect url
 		$redirectUrl = Route::_(
 			'index.php?option=' . $this->option . '&view=' . $this->view_item .
-			$this->getRedirectToItemAppend($recordId, $urlVar),
+				$this->getRedirectToItemAppend($recordId, $urlVar),
 			false
 		);
 

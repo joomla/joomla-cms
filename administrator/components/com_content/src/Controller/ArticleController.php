@@ -199,6 +199,7 @@ class ArticleController extends FormController
 		// $id = $this->input->data->id;
 
 		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
+
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
 		{
