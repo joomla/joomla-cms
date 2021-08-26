@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * Login model class for Users.
+ * Rest model class for Users.
  *
  * @since  1.6
  */

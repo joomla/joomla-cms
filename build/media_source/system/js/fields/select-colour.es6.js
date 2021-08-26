@@ -39,7 +39,7 @@
     document.removeEventListener('DOMContentLoaded', updateSelectboxColour, true);
   };
 
-  // On document loaded
+  // On docunment loaded
   document.addEventListener('DOMContentLoaded', updateSelectboxColour, true);
 
   // On Joomla updated

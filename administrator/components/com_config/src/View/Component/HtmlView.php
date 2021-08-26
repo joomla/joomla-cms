@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.2
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'sliders-h config');
 		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('component.save');

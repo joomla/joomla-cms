@@ -24,29 +24,6 @@
       }
     },
     {
-      "name": "messages-legacy",
-      "type": "script",
-      "uri": "system/messages-es5.min.js",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "core"
-      ]
-    },
-    {
-      "name": "messages",
-      "type": "script",
-      "uri": "system/messages.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "messages-legacy"
-      ]
-    },
-    {
       "name": "template.active",
       "type": "style",
       "uri": "",
@@ -109,7 +86,8 @@
         "defer": true
       },
       "dependencies": [
-        "core"
+        "core",
+        "punycode"
       ],
       "uri": "system/fields/validate.min.js"
     },
@@ -133,29 +111,6 @@
       },
       "dependencies": [
         "dragula"
-      ]
-    },
-    {
-      "name": "highlight-legacy",
-      "type": "script",
-      "uri": "system/highlight-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      },
-      "dependencies": [
-        "core"
-      ]
-    },
-    {
-      "name": "highlight",
-      "type": "script",
-      "uri": "system/highlight.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "highlight-legacy"
       ]
     },
     {
@@ -192,6 +147,11 @@
       "uri": "system/fields/calendar-rtl.css"
     },
     {
+      "name": "field.calendar.locale",
+      "type": "script",
+      "uri": ""
+    },
+    {
       "name": "field.calendar.helper",
       "type": "script",
       "uri": ""
@@ -204,6 +164,7 @@
         "defer": true
       },
       "dependencies": [
+        "field.calendar.locale",
         "field.calendar.helper"
       ]
     },
@@ -265,14 +226,14 @@
       "uri": "system/fields/joomla-field-media.min.css"
     },
     {
-      "name": "webcomponent.media-select",
+      "name": "webcomponent.image-select",
       "type": "style",
-      "uri": "system/fields/joomla-media-select.min.css"
+      "uri": "system/fields/joomla-image-select.min.css"
     },
     {
-      "name": "webcomponent.media-select-legacy",
+      "name": "webcomponent.image-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-media-select-es5.min.js",
+      "uri": "system/fields/joomla-image-select-es5.min.js",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -282,14 +243,14 @@
       ]
     },
     {
-      "name": "webcomponent.media-select",
+      "name": "webcomponent.image-select",
       "type": "script",
-      "uri": "system/fields/joomla-media-select.min.js",
+      "uri": "system/fields/joomla-image-select.min.js",
       "attributes": {
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.media-select-legacy"
+        "webcomponent.image-select-legacy"
       ]
     },
     {

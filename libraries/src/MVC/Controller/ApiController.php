@@ -377,7 +377,8 @@ class ApiController extends BaseController
 			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
-		$key = $table->getKeyName();
+		$key      = $table->getKeyName();
+		$checkin  = property_exists($table, $table->getColumnAlias('checked_out'));
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -386,14 +387,13 @@ class ApiController extends BaseController
 		}
 
 		// Attempt to check-out the new record for editing and redirect.
-		if ($table->hasField('checked_out') && !$model->checkout($recordId))
+		if ($checkin && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 		}
 
 		$this->save($recordId);
-		$this->displayItem($recordId);
 
 		return $this;
 	}
@@ -430,24 +430,6 @@ class ApiController extends BaseController
 		$data       = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
-
-		if ($this->input->getMethod() === 'PATCH')
-		{
-			if ($recordKey && $table->load($recordKey))
-			{
-				$fields = $table->getFields();
-
-				foreach ($fields as $field)
-				{
-					if (array_key_exists($field->Field, $data))
-					{
-						continue;
-					}
-
-					$data[$field->Field] = $table->{$field->Field};
-				}
-			}
-		}
 
 		$data = $this->preprocessSaveData($data);
 

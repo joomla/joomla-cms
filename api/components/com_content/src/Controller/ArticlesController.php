@@ -79,16 +79,18 @@ class ArticlesController extends ApiController
 	}
 
 	/**
-	 * Method to allow extended classes to manipulate the data to be saved for an extension.
+	 * Method to save a record.
 	 *
-	 * @param   array  $data  An array of input data.
+	 * @param   integer  $recordKey  The primary key of the item (if exists)
 	 *
-	 * @return  array
+	 * @return  integer  The record ID on success, false on failure
 	 *
 	 * @since   4.0.0
 	 */
-	protected function preprocessSaveData(array $data): array
+	protected function save($recordKey = null)
 	{
+		$data = (array) json_decode($this->input->json->getRaw(), true);
+
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -100,6 +102,8 @@ class ArticlesController extends ApiController
 			}
 		}
 
-		return $data;
+		$this->input->set('data', $data);
+
+		return parent::save($recordKey);
 	}
 }

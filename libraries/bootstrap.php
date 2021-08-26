@@ -54,7 +54,6 @@ require_once JPATH_LIBRARIES . '/classmap.php';
  * Do not remove the variable, to allow to use it further, after including this file.
  */
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
-\Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer::setTemplate(__DIR__ . '/../templates/system/fatal.php');
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

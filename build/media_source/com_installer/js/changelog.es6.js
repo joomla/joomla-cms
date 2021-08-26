@@ -45,10 +45,10 @@ Joomla = window.Joomla || {};
         } catch (exception) {
           message = exception;
         }
-        modal.innerHTML = Joomla.sanitizeHtml(message);
+        modal.innerHTML = message;
       },
       onError: function onError(xhr) {
-        modal.innerHTML = Joomla.sanitizeHtml(xhr.statusText);
+        modal.innerHTML = xhr.statusText;
       },
     });
   };

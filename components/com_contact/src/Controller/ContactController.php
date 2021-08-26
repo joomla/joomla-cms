@@ -323,7 +323,7 @@ class ContactController extends FormController
 	{
 		if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int'))
 		{
-			$user = $this->app->getIdentity();
+			$user = Factory::getUser();
 
 			// If the category has been passed in the data or URL check it.
 			return $user->authorise('core.create', 'com_contact.category.' . $categoryId);
@@ -358,7 +358,7 @@ class ContactController extends FormController
 
 		if ($categoryId)
 		{
-			$user = $this->app->getIdentity();
+			$user = Factory::getUser();
 
 			// The category has been set. Check the category permissions.
 			if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId))

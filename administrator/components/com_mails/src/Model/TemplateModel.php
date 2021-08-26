@@ -13,7 +13,6 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -85,11 +84,13 @@ class TemplateModel extends AdminModel
 		if ($params->get('mail_style', 'plaintext') == 'plaintext')
 		{
 			$form->removeField('htmlbody');
+			$form->removeField('htmlbody_switcher');
 		}
 
 		if ($params->get('mail_style', 'plaintext') == 'html')
 		{
 			$form->removeField('body');
+			$form->removeField('body_switcher');
 		}
 
 		if (!$params->get('alternative_mailconfig', '0'))
@@ -114,39 +115,23 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
-		if (!trim($params->get('attachment_folder')))
+		if (!$params->get('attachment_folder') || !is_dir(JPATH_ROOT . '/' . $params->get('attachment_folder')))
 		{
 			$form->removeField('attachments');
-
-			return $form;
 		}
-
-		try
+		else
 		{
-			$attachmentPath = rtrim(Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder')), \DIRECTORY_SEPARATOR);
+			$field = $form->getField('attachments');
+			$subform = new \SimpleXMLElement($field->formsource);
+			$files = $subform->xpath('field[@name="file"]');
+			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
+			$form->load('<form><field name="attachments" type="subform" '
+				. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
+				. 'layout="joomla.form.field.subform.repeatable-table">'
+				. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
+				. '</field></form>'
+			);
 		}
-		catch (\Exception $e)
-		{
-			$attachmentPath = '';
-		}
-
-		if (!$attachmentPath || $attachmentPath === Path::clean(JPATH_ROOT) || !is_dir($attachmentPath))
-		{
-			$form->removeField('attachments');
-
-			return $form;
-		}
-
-		$field = $form->getField('attachments');
-		$subform = new \SimpleXMLElement($field->formsource);
-		$files = $subform->xpath('field[@name="file"]');
-		$files[0]->addAttribute('directory', $attachmentPath);
-		$form->load('<form><field name="attachments" type="subform" '
-			. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
-			. 'layout="joomla.form.field.subform.repeatable-table">'
-			. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
-			. '</field></form>'
-		);
 
 		return $form;
 	}

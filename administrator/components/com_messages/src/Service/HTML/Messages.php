@@ -47,9 +47,8 @@ class Messages
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $state[0] . $i . '-desc"><span class="icon-'
-				. $icon . '" aria-hidden="true"></span></a><div role="tooltip" id="cb' . $state[0] . $i
-				. '-desc">' . Text::_($state[3]) . '</div>';
+				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3]) . '"><span class="icon-'
+				. $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

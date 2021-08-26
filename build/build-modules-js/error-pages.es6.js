@@ -112,8 +112,7 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
-    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
+    const jsonContent = `window.errorLocale=${JSON.stringify(global[`${name}Obj`])};`;
 
     let template = initTemplate;
 
@@ -141,22 +140,22 @@ module.exports.createErrorPages = async (options) => {
     }
 
     if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
+      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true });
     }
 
     await writeFile(
       `${RootPath}${options.settings.errorPages[name].destFile}`,
       template,
-      { encoding: 'utf8', mode: 0o644 },
+      { encoding: 'utf8' },
     );
 
     // eslint-disable-next-line no-console
-    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
+    console.error(`Created the file: ${options.settings.errorPages[name].destFile}`);
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  return Promise.all(processPages).catch((err) => {
+  await Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
     process.exit(-1);

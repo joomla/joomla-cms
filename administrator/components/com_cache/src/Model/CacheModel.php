@@ -136,6 +136,7 @@ class CacheModel extends ListModel
 							if (stripos($cacheItem->group, $search) === false)
 							{
 								unset($data[$key]);
+								continue;
 							}
 						}
 					}

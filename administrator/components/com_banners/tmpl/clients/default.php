@@ -122,19 +122,19 @@ $params     = $this->state->params ?? new CMSObject;
 									<td class="small d-none d-md-table-cell">
 										<?php echo $item->contact; ?>
 									</td>
-									<td class="text-center btns d-none d-md-table-cell itemnumber">
+									<td class="text-center btns d-none d-lg-table-cell itemnumber">
 										<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									</td>
-									<td class="text-center btns d-none d-md-table-cell itemnumber">
+									<td class="text-center btns d-none d-lg-table-cell itemnumber">
 										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									</td>
-									<td class="text-center btns d-none d-md-table-cell itemnumber">
+									<td class="text-center btns d-none d-lg-table-cell itemnumber">
 										<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
 											<?php echo $item->count_archived; ?></a>
 									</td>
-									<td class="text-center btns d-none d-md-table-cell itemnumber">
+									<td class="text-center btns d-none d-lg-table-cell itemnumber">
 										<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-inverse' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									</td>

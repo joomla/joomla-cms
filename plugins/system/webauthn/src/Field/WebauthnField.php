@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Webauthn\Field;
 // Protect from unauthorized access
 \defined('_JEXEC') or die();
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -48,7 +47,7 @@ class WebauthnField extends FormField
 	{
 		$userId = $this->form->getData()->get('id', null);
 
-		if (\is_null($userId))
+		if (is_null($userId))
 		{
 			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}

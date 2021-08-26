@@ -32,15 +32,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=database"
-			permission="core.manage;com_installer"
-			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
-		/>
-
-		<menuitem
 			title="MOD_MENU_GLOBAL_CHECKIN"
 			type="component"
 			element="com_checkin"
@@ -79,6 +70,15 @@
 			element="com_admin"
 			link="index.php?option=com_admin&amp;view=sysinfo"
 			permission="core.admin"
+		/>
+
+		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=database"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
 		/>
 	</menuitem>
 
@@ -127,25 +127,33 @@
 		<menuitem
 			title="MOD_MENU_MANAGE_LANGUAGES"
 			type="component"
-			element="com_languages"
+			element="com_language"
 			link="index.php?option=com_languages&amp;view=installed"
-			permission="core.manage;com_languages"
+			permission="core.manage;com_language"
 		/>
 
 		<menuitem
 			title="MOD_MENU_MANAGE_LANGUAGES_CONTENT"
 			type="component"
-			element="com_languages"
+			element="com_language"
 			link="index.php?option=com_languages&amp;view=languages"
-			permission="core.manage;com_languages"
+			permission="core.manage;com_language"
 		/>
 
 		<menuitem
 			title="MOD_MENU_MANAGE_LANGUAGES_OVERRIDES"
 			type="component"
-			element="com_languages"
+			element="com_language"
 			link="index.php?option=com_languages&amp;view=overrides"
-			permission="core.manage;com_languages"
+			permission="core.manage;com_language"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_CSP"
+			type="component"
+			element="com_csp"
+			link="index.php?option=com_csp"
+			permission="core.manage;com_csp"
 		/>
 
 		<menuitem

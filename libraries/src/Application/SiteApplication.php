@@ -37,7 +37,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to filter by language
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected $language_filter = false;
 
@@ -45,7 +45,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected $detect_browser = false;
 
@@ -862,8 +862,8 @@ final class SiteApplication extends CMSApplication
 	/**
 	 * Overrides the default template that would be used
 	 *
-	 * @param   \stdClass|string $template    The template name or definition
-	 * @param   mixed            $styleParams The template style parameters
+	 * @param   string  $template     The template name
+	 * @param   mixed   $styleParams  The template style parameters
 	 *
 	 * @return  void
 	 *
@@ -871,45 +871,19 @@ final class SiteApplication extends CMSApplication
 	 */
 	public function setTemplate($template, $styleParams = null)
 	{
-		if (is_object($template))
-		{
-			$templateName        = empty($template->template)
-				? ''
-				: $template->template;
-			$templateInheritable = empty($template->inheritable)
-				? 0
-				: $template->inheritable;
-			$templateParent      = empty($template->parent)
-				? ''
-				: $template->parent;
-			$templateParams      = empty($template->params)
-				? $styleParams
-				: $template->params;
-		}
-		else
-		{
-			$templateName        = $template;
-			$templateInheritable = 0;
-			$templateParent      = '';
-			$templateParams      = $styleParams;
-		}
-
-		if (is_dir(JPATH_THEMES . '/' . $templateName))
+		if (is_dir(JPATH_THEMES . '/' . $template))
 		{
 			$this->template = new \stdClass;
-			$this->template->template = $templateName;
+			$this->template->template = $template;
 
-			if ($templateParams instanceof Registry)
+			if ($styleParams instanceof Registry)
 			{
-				$this->template->params = $templateParams;
+				$this->template->params = $styleParams;
 			}
 			else
 			{
-				$this->template->params = new Registry($templateParams);
+				$this->template->params = new Registry($styleParams);
 			}
-
-			$this->template->inheritable = $templateInheritable;
-			$this->template->parent      = $templateParent;
 
 			// Store the template and its params to the config
 			$this->set('theme', $this->template->template);

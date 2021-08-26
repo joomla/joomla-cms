@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseDriver;
@@ -350,9 +351,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		/** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
-		$model = $this->app->bootComponent('com_workflow')->getMVCFactory()
-			->createModel('Stages', 'Administrator', ['ignore_request' => true]);
+		$model = new StagesModel(['ignore_request' => true]);
 
 		$model->setState('filter.workflow_id', $pk);
 		$model->setState('filter.extension', $table->extension);
@@ -465,6 +464,8 @@ class PlgContentJoomla extends CMSPlugin
 
 		return $count;
 	}
+
+
 
 	/**
 	 * Get count of items in assigned to a stage

@@ -25,15 +25,19 @@ $input = Factory::getApplication()->input;
 				</div>
 			</div>
 			<div class="col-md-8">
-				<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-					<div class="form-group">
-						<label for="folder_name"><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
-						<input type="text" name="name" id="folder_name" class="form-control" required>
-						<input type="hidden" class="address" name="address">
-						<?php echo HTMLHelper::_('form.token'); ?>
+				<div class="card card-outline-secondary mb-2">
+					<div class="card-body">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+							<div class="form-group">
+								<label for="folder_name"><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
+								<input type="text" name="name" id="folder_name" class="form-control" required>
+								<input type="hidden" class="address" name="address">
+								<?php echo HTMLHelper::_('form.token'); ?>
+							</div>
+							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
+						</form>
 					</div>
-					<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

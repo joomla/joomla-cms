@@ -39,7 +39,7 @@ class PlgWebservicesRedirect extends CMSPlugin
 	public function onBeforeApiRoute(&$router)
 	{
 		$router->createCRUDRoutes(
-			'v1/redirects',
+			'v1/redirect',
 			'redirect',
 			['component' => 'com_redirect']
 		);

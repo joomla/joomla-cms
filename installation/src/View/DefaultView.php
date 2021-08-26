@@ -34,7 +34,7 @@ class DefaultView extends BaseHtmlView
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -42,6 +42,6 @@ class DefaultView extends BaseHtmlView
 	{
 		$this->form = $this->get('Form');
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

@@ -375,12 +375,12 @@
 			title="MOD_MENU_EXTENSIONS_EXTENSION_MANAGER"
 			type="component"
 			element="com_installer"
-			link="index.php?option=com_installer&amp;view=manage">
+			link="index.php?option=com_installer">
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_INSTALL"
 				type="component"
 				element="com_installer"
-				link="index.php?option=com_installer&amp;view=install"
+				link="index.php?option=com_installer"
 			/>
 
 			<menuitem
@@ -511,6 +511,14 @@
 				link="index.php?option=com_languages&amp;view=overrides"
 			/>
 		</menuitem>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_CSP"
+			type="component"
+			element="com_csp"
+			link="index.php?option=com_csp"
+			permission="core.manage;com_csp"
+		/>
 	</menuitem>
 
 	<menuitem
@@ -579,7 +587,7 @@
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_TRANSLATIONS"
-			link="https://downloads.joomla.org/language-packs"
+			link="https://community.joomla.org/translations.html"
 			scope="help"
 		/>
 
@@ -587,7 +595,7 @@
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_RESOURCES"
-			link="https://community.joomla.org/service-providers-directory/"
+			link="https://resources.joomla.org"
 			scope="help"
 		/>
 

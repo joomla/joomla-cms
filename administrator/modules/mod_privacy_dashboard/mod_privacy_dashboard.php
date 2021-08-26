@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Module\PrivacyDashboard\Administrator\Helper\PrivacyDashboardHelper;
 
 // Only super user can view this data
@@ -29,15 +28,4 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR)
 
 $list = PrivacyDashboardHelper::getData();
 
-if (count($list))
-{
-	require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
-}
-else
-{
-	echo LayoutHelper::render('joomla.content.emptystate_module', [
-			'textPrefix' => 'COM_PRIVACY_REQUESTS',
-			'icon'       => 'icon-lock',
-		]
-	);
-}
+require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));

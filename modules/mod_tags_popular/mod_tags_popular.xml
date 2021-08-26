@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/mod_tags_popular.ini</language>
-		<language tag="en-GB">language/en-GB/mod_tags_popular.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_tags_popular.ini</language>
+		<language tag="en-GB">en-GB.mod_tags_popular.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_POPULAR" />
 	<config>
@@ -136,7 +136,6 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					default="_:default"
-					validate="moduleLayout"
 				/>
 
 				<field

@@ -66,14 +66,7 @@ class Icon
 
 		$url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
 
-		$text = '';
-
-		if ($params->get('show_icons'))
-		{
-			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
-		}
-
-		$text .= Text::_('COM_CONTACT_NEW_CONTACT');
+		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => false));
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -87,7 +80,9 @@ class Icon
 
 		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $button;
+		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTACT_CREATE_CONTACT') . '">' . $button . '</span>';
+
+		return $output;
 	}
 
 	/**

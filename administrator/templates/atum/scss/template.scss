@@ -58,9 +58,11 @@
 
 // Also these DO NOT BELONG HERE!!!
 // Page specifics
+@import "pages/com_admin";
 @import "pages/com_config";
 @import "pages/com_content";
 @import "pages/com_cpanel";
+@import "pages/com_finder";
 @import "pages/com_joomlaupdate";
 @import "pages/com_modules";
 @import "pages/com_tags";
@@ -73,8 +75,7 @@
   *, ::before, ::after {
     background-attachment: initial !important;
     transition-delay: 0s !important;
-    // temp fix until https://github.com/onokumus/metismenujs/issues/9 is addressed
-    transition-duration: .001ms !important;
+    transition-duration: 0s !important;
     animation-duration: 1ms !important;
     animation-delay: -1ms !important;
     animation-iteration-count: 1 !important;

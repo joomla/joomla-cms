@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/mod_popular.ini</language>
-		<language tag="en-GB">language/en-GB/mod_popular.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_popular.ini</language>
+		<language tag="en-GB">en-GB.mod_popular.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_POPULAR" />
 	<config>
@@ -61,7 +61,6 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
-					validate="moduleLayout"
  				/>
 
 				<field

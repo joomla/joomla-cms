@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -227,7 +227,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -306,6 +306,11 @@ class HtmlView extends BaseHtmlView
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetaData('robots', $this->params->get('robots'));
+		}
+
+		if ($app->get('MetaTitle') == '1')
+		{
+			$this->document->setMetaData('title', $this->item->name);
 		}
 
 		if ($app->get('MetaAuthor') == '1')

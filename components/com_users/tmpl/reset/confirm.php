@@ -29,7 +29,7 @@ HTMLHelper::_('behavior.formvalidator');
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<?php if (isset($fieldset->label)) : ?>
-					<legend><?php echo Text::_($fieldset->label); ?></legend>
+					<p><?php echo Text::_($fieldset->label); ?></p>
 				<?php endif; ?>
 				<?php echo $this->form->renderFieldset($fieldset->name); ?>
 			</fieldset>

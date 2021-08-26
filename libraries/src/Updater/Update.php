@@ -221,7 +221,7 @@ class Update extends CMSObject
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  string
+	 * @return  object
 	 *
 	 * @since   1.7.0
 	 */
@@ -369,8 +369,8 @@ class Update extends CMSObject
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
-							$minimumVersion = $supportedDbs->$dbType;
-							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
+							$minumumVersion = $supportedDbs->$dbType;
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
 						}
 					}
 					else

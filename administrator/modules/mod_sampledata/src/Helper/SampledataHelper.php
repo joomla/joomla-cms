@@ -11,7 +11,6 @@ namespace Joomla\Module\Sampledata\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -33,17 +32,6 @@ abstract class SampledataHelper
 	{
 		PluginHelper::importPlugin('sampledata');
 
-		return Factory::getApplication()
-			->getDispatcher()
-			->dispatch(
-				'onSampledataGetOverview',
-				AbstractEvent::create(
-					'onSampledataGetOverview',
-					[
-						'subject'	=> new \stdClass,
-					]
-				)
-			)
-			->getArgument('result') ?? [];
+		return Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
 	}
 }

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
@@ -86,25 +86,12 @@ class PlgSystemHighlight extends CMSPlugin
 		}
 
 		// Activate the highlighter.
-		if (!empty($cleanTerms))
-		{
-			$doc = Factory::getDocument();
-
-			$doc->getWebAssetManager()->useScript('highlight');
-			$doc->addScriptOptions(
-				'highlight',
-				[[
-					'class'      => 'js-highlight',
-					'highLight'  => $cleanTerms,
-				]]
-			);
-		}
+		HTMLHelper::_('behavior.highlighter', $cleanTerms);
 
 		// Adjust the component buffer.
-		/** @var \Joomla\CMS\Document\HtmlDocument $doc */
 		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<div class="js-highlight">' . $buf . '</div>';
+		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
 	}
 

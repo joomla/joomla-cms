@@ -127,7 +127,7 @@ class TagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$published = (string) $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
 		$language  = null;
 		$options   = [];

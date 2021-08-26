@@ -8,7 +8,7 @@ Joomla = window.Joomla || {};
    *
    * @param {HTMLElement}  element  The element that initiates the call
    * @returns {void}
-   * @since   4.0.0
+   * @since   4.0
    */
   Joomla.resetFilters = (element) => {
     const { form } = element;
@@ -174,12 +174,14 @@ Joomla = window.Joomla || {};
       }
 
       // Do we need to add to mark filter as enabled?
-      this.getFilterFields().forEach((i) => {
-        self.checkFilter(i);
-        i.addEventListener('change', () => {
+      if (this.getFilterFields()) {
+        this.getFilterFields().forEach((i) => {
           self.checkFilter(i);
+          i.addEventListener('change', () => {
+            self.checkFilter(i);
+          });
         });
-      });
+      }
 
       if (this.clearButton) {
         this.clearButton.addEventListener('click', self.clear);
@@ -243,14 +245,16 @@ Joomla = window.Joomla || {};
         self.searchField.value = '';
       }
 
-      self.getFilterFields().forEach((i) => {
-        i.value = '';
-        self.checkFilter(i);
+      if (self.getFilterFields()) {
+        self.getFilterFields().forEach((i) => {
+          i.value = '';
+          self.checkFilter(i);
 
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(i).trigger('chosen:updated');
-        }
-      });
+          if (window.jQuery && window.jQuery.chosen) {
+            window.jQuery(i).trigger('chosen:updated');
+          }
+        });
+      }
 
       if (self.clearListOptions) {
         self.getListFields().forEach((i) => {
@@ -282,9 +286,10 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
+      const els = this.getFilterFields();
       let activeFilterCount = 0;
 
-      this.getFilterFields().forEach((item) => {
+      els.forEach((item) => {
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
           cont.filterButton.classList.remove('btn-secondary');
@@ -354,8 +359,6 @@ Joomla = window.Joomla || {};
       if (this.filterContainer) {
         return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
       }
-
-      return [];
     }
 
     getListFields() {
@@ -464,7 +467,7 @@ Joomla = window.Joomla || {};
               }
 
               // Append the option and repopulate the chosen field
-              this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
+              this.orderFieldName.innerHTML += $option;
             }
           }
         });

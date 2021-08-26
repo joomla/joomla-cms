@@ -31,7 +31,7 @@ class UsersModel extends ListModel
 	 * A list of filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $filterForbiddenList = array('groups', 'excluded');
 
@@ -574,7 +574,7 @@ class UsersModel extends ListModel
 		{
 			$result = $db->setQuery($query)->loadColumn();
 		}
-		catch (\RuntimeException $e)
+		catch (\RunTimeException $e)
 		{
 			$result = array();
 		}

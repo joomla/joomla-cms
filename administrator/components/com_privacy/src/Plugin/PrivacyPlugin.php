@@ -28,7 +28,7 @@ abstract class PrivacyPlugin extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    \Joomla\Database\DatabaseDriver
+	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;

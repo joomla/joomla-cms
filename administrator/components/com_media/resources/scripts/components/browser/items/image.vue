@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
+          :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
         />
       </div>
     </div>
@@ -187,7 +187,6 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
 import * as types from '../../../store/mutation-types.es6';
 
 export default {
@@ -200,16 +199,13 @@ export default {
     };
   },
   computed: {
+    /* Get the item url */
+    thumbUrl() {
+      return this.item.thumb_path;
+    },
     /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
-    },
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
-      }
-      return `url(${this.item.thumb_path})`;
     },
   },
   methods: {

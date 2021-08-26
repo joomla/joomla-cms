@@ -10,7 +10,7 @@
   }
 
   // Handle the autocomplete
-  const onInputChange = ({ target }) => {
+  const onKeyUp = ({ target }) => {
     if (target.value.length > 1) {
       target.awesomplete.list = [];
 
@@ -62,7 +62,7 @@
         searchword.awesomplete = new Awesomplete(searchword);
 
         // If the current value is empty, set the previous value.
-        searchword.addEventListener('input', onInputChange);
+        searchword.addEventListener('keyup', onKeyUp);
       }
     });
 

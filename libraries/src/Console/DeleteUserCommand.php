@@ -74,10 +74,8 @@ class DeleteUserCommand extends AbstractCommand
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO($input, $output);
-
-		$this->ioStyle->title('Delete users');
-
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
+		$this->ioStyle->title('Delete users');
 
 		$userId = UserHelper::getUserId($this->username);
 		$db = Factory::getDbo();
@@ -123,7 +121,7 @@ class DeleteUserCommand extends AbstractCommand
 					{
 						$this->ioStyle->error("You can't delete the last active Super User");
 
-						return Command::FAILURE;
+						return 1;
 					}
 				}
 			}
@@ -134,7 +132,7 @@ class DeleteUserCommand extends AbstractCommand
 
 		if (!$result)
 		{
-			$this->ioStyle->error("Can't remove " . $this->username . ' from usertable');
+			$this->ioStyle->error("Can't remove " . $this->username . ' form usertable');
 
 			return Command::FAILURE;
 		}

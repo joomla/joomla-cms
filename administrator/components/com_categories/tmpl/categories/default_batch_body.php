@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -18,15 +17,13 @@ $extension = $this->escape($this->state->get('filter.extension'));
 
 ?>
 
-<div class="p-3">
+<div class="container-fluid">
 	<div class="row">
-		<?php if (Multilanguage::isEnabled()) : ?>
-			<div class="form-group col-md-6">
-				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
-				</div>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
-		<?php endif; ?>
+		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
@@ -47,10 +44,9 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
-	<?php if ($extension === 'com_content') : ?>
 	<div class="row">
 		<div class="form-group col-md-6">
-			<div class="controls">
+			<div class="control-group">
 				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
 					<?php echo Text::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
 				</label>
@@ -60,5 +56,5 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
 </div>
+

@@ -273,7 +273,7 @@ class PlgEditorTinymce extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1'),
+					$db->quoteName('home') . ' = ' . $db->quote('1')
 				]
 			);
 
@@ -470,41 +470,32 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if (!empty($allButtons['template']))
 		{
-			// Do we have a custom content_template_path
-			$template_path = $levelParams->get('content_template_path');
-			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
-
-			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
+			foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
 			{
-				$fileinfo      = pathinfo($filepath);
-				$filename      = $fileinfo['filename'];
-				$full_filename = $fileinfo['basename'];
+				$filename = basename($filename, '.html');
 
-				if ($filename === 'index')
+				if ($filename !== 'index')
 				{
-					continue;
+					$lang        = Factory::getLanguage();
+					$title       = $filename;
+					$description = ' ';
+
+					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
+					{
+						$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
+					}
+
+					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
+					{
+						$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
+					}
+
+					$templates[] = array(
+						'title' => $title,
+						'description' => $description,
+						'url' => Uri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
+					);
 				}
-
-				$lang        = Factory::getLanguage();
-				$title       = $filename;
-				$title_upper = strtoupper($filename);
-				$description = ' ';
-
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
-				{
-					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
-				}
-
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
-				{
-					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
-				}
-
-				$templates[] = array(
-					'title' => $title,
-					'description' => $description,
-					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
-				);
 			}
 		}
 
@@ -532,7 +523,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			Text::script('ERROR');
+			Text::script('JERROR');
 			Text::script('PLG_TINY_DND_ADDITIONALDATA');
 			Text::script('PLG_TINY_DND_ALTTEXT');
 			Text::script('PLG_TINY_DND_LAZYLOADED');
@@ -543,7 +534,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local-images:';
+			$scriptOptions['comMediaAdapter']    = 'local-0:';
 		}
 
 		// Convert pt to px in dropdown
@@ -706,7 +697,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
-				$button->id = $name . '_' . $button->name . '_modal';
+				$button->id = $name . '_' . $button->text . 'Modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
@@ -714,9 +705,9 @@ class PlgEditorTinymce extends CMSPlugin
 				{
 					// Set some vars
 					$btnName = $button->get('text');
-					$modalId = $name . '_' . $button->name;
+					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
 					$onclick = $button->get('onclick') ?: null;
-					$icon    = $button->get('icon');
+					$icon    = $button->get('name');
 
 					if ($button->get('link') !== '#')
 					{
@@ -832,7 +823,7 @@ class PlgEditorTinymce extends CMSPlugin
 				// Collect the list of forbidden or allowed tags and attributes.
 				// Each list is cumulative.
 				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
-				if (in_array($filterType, ['BL', 'FL']))
+				if (in_array($filterType,  ['BL', 'FL']))
 				{
 					$forbiddenList           = true;
 					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
@@ -1030,7 +1021,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext', 'jxtdbuttons',
+				'pastetext', 'jxtdbuttons'
 			],
 			'toolbar2' => [],
 		];
@@ -1047,7 +1038,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext', 'preview', 'jxtdbuttons',
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1073,7 +1064,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1121,7 +1112,6 @@ class PlgEditorTinymce extends CMSPlugin
 				unset($array[$subKey]);
 			}
 		}
-
 		return $array;
 	}
 }

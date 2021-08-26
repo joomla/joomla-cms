@@ -153,18 +153,9 @@ class TemplatesModel extends ListModel
 		// Filter on the extension.
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where($db->quoteName('a.extension') . ' = :extension')
+			$extension .= '.%';
+			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
 				->bind(':extension', $extension);
-		}
-		else
-		{
-			// Only show mail template from enabled extensions
-			$subQuery = $db->getQuery(true)
-				->select($db->quoteName('name'))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('enabled') . ' = 1');
-
-			$query->where($db->quoteName('a.extension') . ' IN(' . $subQuery . ')');
 		}
 
 		// Filter on the language.
@@ -179,37 +170,7 @@ class TemplatesModel extends ListModel
 				->bind(':language', $language);
 		}
 
-		// Add the list ordering clause
-		$listOrdering  = $this->state->get('list.ordering', 'a.template_id');
-		$orderDirn     = $this->state->get('list.direction', 'ASC');
-
-		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
-
 		return $query;
-	}
-
-	/**
-	 * Get list of extensions which are using mail templates
-	 *
-	 * @return array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getExtensions()
-	{
-		$db       = $this->getDbo();
-		$subQuery = $db->getQuery(true)
-			->select($db->quoteName('name'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('enabled') . ' = 1');
-
-		$query = $db->getQuery(true)
-			->select('DISTINCT ' . $db->quoteName('extension'))
-			->from($db->quoteName('#__mail_templates'))
-			->where($db->quoteName('extension') . ' IN (' . $subQuery . ')');
-		$db->setQuery($query);
-
-		return $db->loadColumn();
 	}
 
 	/**

@@ -90,7 +90,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				</span>
 				<select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
 					<option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
-					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
 			<?php else : ?>
 				<label class="filter-search-lbl visually-hidden" for="filter-search">
@@ -181,17 +181,15 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo $this->escape($article->title); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div class="cat-list-association">
+							<div>
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
+									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 								<?php else : ?>
-									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
-									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
-										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
-									</a>
+									<?php $class = 'badge bg-secondary badge-' . $association['language']->sef; ?>
+									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -207,17 +205,15 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div class="cat-list-association">
+							<div>
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1)) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
+									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 								<?php else : ?>
-									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
-									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
-										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
-									</a>
+									<?php $class = 'badge bg-secondary badge-' . $association['language']->sef; ?>
+									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -225,21 +221,21 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 					<?php endif; ?>
 					<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JUNPUBLISHED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-light">
+							<span class="list-published badge bg-warning text-dark">
 								<?php echo Text::_('JEXPIRED'); ?>
 							</span>
 						</div>
@@ -299,7 +295,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<td class="list-ratings">
-						<span class="badge bg-warning text-light">
+						<span class="badge bg-warning text-dark">
 							<?php if ($this->params->get('show_headings')) : ?>
 								<?php echo $article->rating; ?>
 							<?php else : ?>

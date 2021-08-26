@@ -5,6 +5,7 @@
   background-color: $white;
   border: $input-border;
   border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
 
   &:focus {
     border-color: $focuscolor;
@@ -12,8 +13,14 @@
   }
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+  border: 0;
+  box-shadow: none;
+}
+
+
 .control-group {
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 1rem;
@@ -65,6 +72,10 @@ td .form-control {
   width: auto;
 }
 
+legend {
+  margin-bottom: 1.1rem;
+}
+
 .checkboxes {
   padding-top: 5px;
 
@@ -109,12 +120,13 @@ td .form-control {
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
+  max-width: 100%;
   padding: .5em;
   margin: .25em;
   color: $white;
   text-align: start;
   background: $black;
-  border-radius: .2rem !important;
+  border-radius: .2rem;
 }
 
 // reveal associated tooltip on focus
@@ -133,59 +145,25 @@ td .form-control {
   bottom: auto;
 }
 
+.input-group-append {
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+
+  [dir=ltr] & {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  [dir=rtl] & {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+}
+
 .input-group > .form-control[readonly] {
   margin-right: 1px;
 }
 
 .form-group {
   @extend .mb-3;
-}
-
-// Subform - non table layout
-div.subform-repeatable-group {
-  position: relative;
-  padding: 32px 32px 16px 28px;
-  margin-top: 20px;
-  border: $input-border;
-  border-radius: $border-radius;
-
-  > .btn-toolbar {
-
-    .btn-group {
-      position: static;
-    }
-
-    .btn {
-      position: absolute;
-
-      &.group-add {
-        right: -1px;
-        bottom: -1px;
-        border-radius: $border-radius 0 $border-radius 0;
-      }
-      &.group-remove {
-        top: -1px;
-        right: -1px;
-        border-radius: 0 $border-radius 0 $border-radius;
-      }
-      &.group-move {
-        top: 50%;
-        right: 100%;
-        margin-top: -27px;
-        line-height: 52px;
-        border-radius: $border-radius 0 0 $border-radius;
-      }
-    }
-  }
-}
-
-// Highlight draggable section
-.subform-repeatable-group[draggable="true"] {
-  // For non table layout
-  background-color: $teal;
-
-  // For table layout
-  > td {
-    background-color: $teal;
-  }
 }

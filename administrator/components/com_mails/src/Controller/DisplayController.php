@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	 * The default view.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  1.6
 	 */
 	protected $default_view = 'templates';
 
@@ -38,7 +38,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return  BaseController|boolean  This object to support chaining.
 	 *
-	 * @since   4.0.0
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{

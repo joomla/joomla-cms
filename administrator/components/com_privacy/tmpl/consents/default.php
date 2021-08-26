@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Privacy\Administrator\View\Consents\HtmlView $this */
+/** @var PrivacyViewConsent $this */
 
 HTMLHelper::_('behavior.multiselect');
 

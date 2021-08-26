@@ -10,7 +10,6 @@ namespace Joomla\CMS\HTML\Helpers;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
@@ -141,19 +140,7 @@ abstract class Select
 		// If the selectbox contains "form-select-color-state" then load the JS file
 		if (strpos($attribs, 'form-select-color-state') !== false)
 		{
-			Factory::getDocument()->getWebAssetManager()
-				->registerScript(
-					'webcomponent.select-colour-es5',
-					'system/fields/select-colour-es5.min.js',
-					['dependencies' => ['wcpolyfill']],
-					['defer' => true, 'nomodule' => true]
-				)
-				->registerAndUseScript(
-					'webcomponent.select-colour',
-					'system/fields/select-colour.min.js',
-					['dependencies' => ['webcomponent.select-colour-es5']],
-					['type' => 'module']
-				);
+			HTMLHelper::_('script', 'system/fields/select-colour.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		}
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);

@@ -63,19 +63,11 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -87,13 +79,8 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -125,7 +112,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('message.add');
 		}
 
-		if (!$this->isEmptyState && $canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -153,7 +140,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
 		ToolbarHelper::divider();
 
-		if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('messages.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

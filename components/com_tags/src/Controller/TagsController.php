@@ -22,7 +22,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 class TagsController extends BaseController
 {
 	/**
-	 * Method to search tags with AJAX
+	 * Method to search tags with A\JAX
 	 *
 	 * @return  void
 	 */

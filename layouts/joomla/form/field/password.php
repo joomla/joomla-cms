@@ -85,14 +85,11 @@ if ($lock)
 	$value = '';
 }
 
-$ariaDescribedBy = $rules ? $name . '-rules ' : '';
-$ariaDescribedBy .= !empty($description) ? $name . '-desc' : '';
-
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -108,7 +105,7 @@ $attributes = array(
 	$dataAttribute,
 );
 
-if ($rules)
+if ($rules && !empty($description))
 {
 	$requirements = [];
 
@@ -138,9 +135,13 @@ if ($rules)
 	}
 }
 ?>
-<?php if ($rules) : ?>
-	<div id="<?php echo $name . '-rules'; ?>" class="small text-muted">
-		<?php echo Text::sprintf('JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS', implode(', ', $requirements)); ?>
+<?php if (!empty($description)) : ?>
+	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
+		<?php if ($rules) : ?>
+			<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
+		<?php else : ?>
+			<?php echo Text::_($description); ?>
+		<?php endif; ?>
 	</div>
 <?php endif; ?>
 
@@ -158,7 +159,7 @@ if ($rules)
 			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 		</button>
 		<?php else: ?>
-			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify locked">
+			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
 				<?php echo Text::_('JMODIFY'); ?>
 			</button>
 		<?php endif; ?>

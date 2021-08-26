@@ -37,7 +37,7 @@ class BreadcrumbsHelper
 	{
 		// Get the PathWay object from the application
 		$pathway = $app->getPathway();
-		$items   = $pathway->getPathway();
+		$items   = $pathway->getPathWay();
 		$lang    = $app->getLanguage();
 		$menu    = $app->getMenu();
 

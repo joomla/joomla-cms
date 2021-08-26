@@ -1,6 +1,6 @@
 <template>
   <div class="media-container">
-    <div class="media-sidebar">
+    <div class="media-sidebar col-md-2 d-none d-md-block">
       <media-disk
         v-for="(disk, index) in disks"
         :key="index"
@@ -8,9 +8,11 @@
         :disk="disk"
       />
     </div>
-    <div class="media-main">
-      <media-toolbar />
-      <media-browser />
+    <div class="col-md-10">
+      <div class="media-main">
+        <media-toolbar />
+        <media-browser />
+      </div>
     </div>
     <media-upload />
     <media-create-folder-modal />
@@ -69,6 +71,7 @@ export default {
     setFullHeight() {
       this.fullHeight = `${window.innerHeight - this.$el.getBoundingClientRect().top}px`;
     },
+
   },
 };
 </script>

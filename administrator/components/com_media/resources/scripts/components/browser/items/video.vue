@@ -7,7 +7,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="fas fa-file-video" />
+          <span class="icon-file-alt" />
         </div>
       </div>
     </div>

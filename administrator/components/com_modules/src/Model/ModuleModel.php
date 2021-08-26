@@ -388,7 +388,7 @@ class ModuleModel extends AdminModel
 				}
 
 				// Clear module cache
-				parent::cleanCache($table->module);
+				parent::cleanCache($table->module, $table->client_id);
 			}
 			else
 			{
@@ -639,8 +639,7 @@ class ModuleModel extends AdminModel
 			// Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
 			if (!$data->id)
 			{
-				$clientId = $app->input->getInt('client_id', 0);
-				$filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
+				$filters = (array) $app->getUserState('com_modules.modules.filter');
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
@@ -1127,7 +1126,7 @@ class ModuleModel extends AdminModel
 		$this->cleanCache();
 
 		// Clean module cache
-		parent::cleanCache($table->module);
+		parent::cleanCache($table->module, $table->client_id);
 
 		return true;
 	}
@@ -1153,7 +1152,7 @@ class ModuleModel extends AdminModel
 	 * Custom clean cache method for different clients
 	 *
 	 * @param   string   $group     The name of the plugin group to import (defaults to null).
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
@@ -1161,6 +1160,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_modules');
+		parent::cleanCache('com_modules', $this->getClient());
 	}
 }

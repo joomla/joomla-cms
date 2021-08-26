@@ -8,7 +8,7 @@
   // This method is used to decode HTML entities
   const decodeHtml = (html) => {
     const textarea = document.createElement('textarea');
-    textarea.innerHTML = Joomla.sanitizeHtml(html);
+    textarea.innerHTML = html;
     return textarea.value;
   };
 

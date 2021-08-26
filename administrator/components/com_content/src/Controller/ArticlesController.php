@@ -135,7 +135,7 @@ class ArticlesController extends AdminController
 	 *
 	 * @return  string  The JSON-encoded amount of published articles
 	 *
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function getQuickiconContent()
 	{

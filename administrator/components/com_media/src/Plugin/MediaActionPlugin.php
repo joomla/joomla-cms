@@ -75,8 +75,7 @@ class MediaActionPlugin extends CMSPlugin
 		HTMLHelper::_(
 			'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
-			['version' => 'auto', 'relative' => true],
-			['type' => 'module']
+			['version' => 'auto', 'relative' => true]
 		);
 	}
 

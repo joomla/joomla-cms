@@ -84,14 +84,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$app = Factory::getApplication();
-
 		if ($this->getLayout() == 'edit')
 		{
-			$app->input->set('hidemainmenu', true);
+			Factory::getApplication()->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
 			ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
-			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::cancel('message.cancel', 'JTOOLBAR_CLOSE');
 			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		}
 		else
@@ -99,9 +97,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = User::getInstance($this->item->user_id_from);
 
-			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
-				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
-			)
+			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{
 				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}

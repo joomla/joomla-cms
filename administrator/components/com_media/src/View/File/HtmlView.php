@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View to edit a file.
+ * View to edit an file.
  *
  * @since  4.0.0
  */
@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -72,6 +72,6 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::save('save');
 		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
 
-		ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::cancel('cancel');
 	}
 }

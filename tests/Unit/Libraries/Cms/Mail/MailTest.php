@@ -231,7 +231,7 @@ class MailTest extends UnitTestCase
 
 		$this->mail->addAttachment($path, $name);
 
-		$mailAttachments = $this->mail->getAttachments();
+		$mailAttachments = $this->mail->GetAttachments();
 
 		$this->assertCount(1, $mailAttachments);
 		$this->assertEquals($path, $mailAttachments[0][0]);

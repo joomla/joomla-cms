@@ -6,29 +6,15 @@ if (options.providers === undefined || options.providers.length === 0) {
   throw new TypeError('Media providers are not defined.');
 }
 
-/**
- * Get the drives
- *
- * @param  {Array}  adapterNames
- * @param  {String} provider
- *
- * @return {Array}
- */
-const getDrives = (adapterNames, provider) => {
-  const drives = [];
-  adapterNames.map((name) => drives.push({ root: `${provider}-${name}:/`, displayName: name }));
-
-  return drives;
-};
-
 // Load disks from options
 const loadedDisks = options.providers.map((disk) => ({
   displayName: disk.displayName,
-  drives: getDrives(disk.adapterNames, disk.name),
+  drives: disk.adapterNames.map(
+    (account, index) => ({ root: `${disk.name}-${index}:/`, displayName: account }),
+  ),
 }));
-const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0
-  && disk.drives[0] !== undefined);
-if (!defaultDisk) {
+
+if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {
   throw new TypeError('No default media drive was found');
 }
 
@@ -49,9 +35,9 @@ export default {
   // Will hold the activated filesystem disks
   disks: loadedDisks,
   // The loaded directories
-  directories: loadedDisks.map(() => ({
-    path: defaultDisk.drives[0].root,
-    name: defaultDisk.displayName,
+  directories: loadedDisks.map((disk) => ({
+    path: disk.drives[0].root,
+    name: disk.displayName,
     directories: [],
     files: [],
     directory: null,
@@ -60,7 +46,7 @@ export default {
   files: [],
   // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
   // in the list as the default provider and load first drive on it as default
-  selectedDirectory: options.currentPath || defaultDisk.drives[0].root,
+  selectedDirectory: options.currentPath || loadedDisks[0].drives[0].root,
   // The currently selected items
   selectedItems: [],
   // The state of the infobar

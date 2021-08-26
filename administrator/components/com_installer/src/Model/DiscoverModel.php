@@ -87,7 +87,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  DatabaseQuery  The database query
+	 * @return  DatabaseQuery  the database query
 	 *
 	 * @since   3.1
 	 */
@@ -147,7 +147,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  int  The count of discovered extensions
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -173,8 +173,6 @@ class DiscoverModel extends InstallerModel
 			$extensions[$key] = $install;
 		}
 
-		$count = 0;
-
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
@@ -185,11 +183,8 @@ class DiscoverModel extends InstallerModel
 				// Put it into the table
 				$result->check();
 				$result->store();
-				$count++;
 			}
 		}
-
-		return $count;
 	}
 
 	/**
@@ -274,21 +269,5 @@ class DiscoverModel extends InstallerModel
 		$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 
 		return true;
-	}
-
-	/**
-	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
-	 *
-	 * @return DatabaseQuery
-	 *
-	 * @since 4.0.0
-	 */
-	protected function getEmptyStateQuery()
-	{
-		$query = parent::getEmptyStateQuery();
-
-		$query->where($this->_db->quoteName('state') . ' = -1');
-
-		return $query;
 	}
 }

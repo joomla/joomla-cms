@@ -3,19 +3,25 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// We need to use JS to move the modal before the closing body tag to avoid stacking issues
-const multilangueModal = document.getElementById('multiLangModal');
+(() => {
+  'use strict';
 
-if (multilangueModal) {
-  const bsModal = bootstrap.Modal.getInstance(multilangueModal);
+  document.addEventListener('DOMContentLoaded', () => {
+    // We need to use JS to move the modal before the closing body tag to avoid stacking issues
+    const multilangueModal = document.getElementById('multiLangModal');
 
-  if (bsModal) {
-    bsModal.dispose();
-  }
+    if (multilangueModal) {
+      // Clone the modal element
+      const clone = multilangueModal.cloneNode(true);
 
-  // Append the modal before closing body tag
-  document.body.appendChild(multilangueModal);
+      // Remove the original modal element
+      multilangueModal.parentNode.removeChild(multilangueModal);
 
-  // Modal was moved so it needs to be re initialised
-  Joomla.initialiseModal(multilangueModal);
-}
+      // Append clone before closing body tag
+      document.body.appendChild(clone);
+
+      // Modal was moved so it needs to be re initialised
+      Joomla.initialiseModal(clone);
+    }
+  });
+})();

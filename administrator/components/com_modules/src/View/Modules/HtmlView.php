@@ -66,19 +66,11 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -91,40 +83,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->clientId      = $this->state->get('client_id');
-
-		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
-		/**
-		 * The code below make sure the remembered position will be available from filter dropdown even if there are no
-		 * modules available for this position. This will make the UI less confusing for users in case there is only one
-		 * module in the selected position and user:
-		 * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
-		 * 2. Or move that module to new position using Batch action
-		 */
-		if (count($this->items) === 0 && $this->state->get('filter.position'))
-		{
-			$selectedPosition = $this->state->get('filter.position');
-			$positionField    = $this->filterForm->getField('position', 'filter');
-
-			$positionExists = false;
-
-			foreach ($positionField->getOptions() as $option)
-			{
-				if ($option->value === $selectedPosition)
-				{
-					$positionExists = true;
-					break;
-				}
-			}
-
-			if ($positionExists === false)
-			{
-				$positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
-			}
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -165,7 +123,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -199,7 +157,7 @@ class HtmlView extends BaseHtmlView
 				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
 		}
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -246,7 +204,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete')))
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('modules.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

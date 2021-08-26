@@ -148,12 +148,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		$debug = $this->app->get('debug_lang');
 
 		$modelName = $component->getModelName($context);
-		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(),  ['ignore_request' => true]);
 
 		// Don't send the notification to the active user
 		$key = array_search($user->id, $userIds);
 
-		if (is_int($key))
+		if (is_integer($key))
 		{
 			unset($userIds[$key]);
 		}
@@ -236,7 +236,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getUsersFromGroup($data): array
+	private function getUsersFromGroup($data): Array
 	{
 		$users = [];
 
@@ -275,6 +275,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		// Merge userIds from individual entries and userIDs from groups
 		return array_unique(array_merge($users, $users2));
 	}
+
 
 	/**
 	 * Check if the current plugin should execute workflow related activities
@@ -320,7 +321,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function removeLocked(array $userIds): array
+	private function removeLocked(array $userIds): Array
 	{
 		if (empty($userIds))
 		{

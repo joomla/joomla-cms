@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('languages.publish')->listCheck(true);
 			$childBar->unpublish('languages.unpublish')->listCheck(true);
 
-			if ($this->state->get('filter.published') != -2)
+			if (!$this->state->get('filter.published') == -2)
 			{
 				$childBar->trash('languages.trash')->listCheck(true);
 			}

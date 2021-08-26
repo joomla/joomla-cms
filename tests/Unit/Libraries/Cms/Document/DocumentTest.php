@@ -119,7 +119,7 @@ class DocumentTest extends UnitTestCase
 	 * @return void
 	 * @since   4.0.0
 	 */
-	public function testRetrievingANonExistentTypeFetchesARawDocument()
+	public function testRetrievingANonExistantTypeFetchesARawDocument()
 	{
 		$type = 'does-not-exist';
 

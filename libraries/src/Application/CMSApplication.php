@@ -19,7 +19,6 @@ use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -76,7 +75,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected $clientId = null;
 
@@ -84,7 +83,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected $messageQueue = array();
 
@@ -92,7 +91,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The name of the application.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected $name = null;
 
@@ -204,21 +203,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return;
 		}
 
-		$inputFilter = InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		);
-
-		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
-		$message = array(
-			'message' => $inputFilter->clean($msg, 'html'),
-			'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
-		);
-
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
+
+		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!\in_array($message, $this->messageQueue))
 		{
@@ -414,19 +402,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getCfg($varname, $default = null)
 	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
 		return $this->get($varname, $default);
 	}
 
@@ -1334,7 +1309,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
 		}
 
-		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+		if ($option === 'com_admin' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply'], true)
+			|| ($option === 'com_admin' && $view === 'profile' && $layout === 'edit')
+			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
 			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
 		{
@@ -1343,7 +1320,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Redirect to com_admin profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
+		$this->redirect('index.php?option=com_admin&task=profile.edit&id=' . $this->getIdentity()->id);
 	}
 
 	/**
@@ -1391,16 +1368,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
 		}
-
-		// We only log errors unless Site Debug is enabled
-		$logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
-
-		if ($this->get('debug'))
-		{
-			$logLevels = Log::ALL;
-		}
-
-		Log::addLogger(['text_file' => 'joomla_core_errors.php'], $logLevels, ['system']);
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->get('log_everything'))

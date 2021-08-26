@@ -108,7 +108,7 @@ class StageTable extends Table
 	 * @return  boolean  True on success
 	 *
 	 * @see     Table::check()
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function check()
 	{
@@ -182,7 +182,7 @@ class StageTable extends Table
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     Table::store()
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function store($updateNulls = true)
 	{

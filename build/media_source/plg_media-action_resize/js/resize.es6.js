@@ -2,93 +2,111 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-let formElements;
-let activated = false;
+Joomla = window.Joomla || {};
 
-// Update image
-const resize = (width, height, image) => {
-  // The canvas where we will resize the image
-  let canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+Joomla.MediaManager = Joomla.MediaManager || {};
+Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
-  // The format
-  const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+(() => {
+  'use strict';
 
-  // The quality
-  const quality = formElements.resizeQuality.value;
+  // Update image
+  const resize = (width, height) => {
+    // The image element
+    const image = document.getElementById('image-source');
 
-  // Creating the data from the canvas
-  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
+    // The canvas where we will resize the image
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
-  // Updating the preview element
-  image.width = width;
-  image.height = height;
-  image.src = Joomla.MediaManager.Edit.current.contents;
+    // The format
+    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
 
-  // Update the width input box
-  formElements.resizeWidth.value = parseInt(width, 10);
+    // The quality
+    const quality = document.getElementById('jform_resize_quality').value;
 
-  // Update the height input box
-  formElements.resizeHeight.value = parseInt(height, 10);
+    // Creating the data from the canvas
+    Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
 
-  // Notify the app that a change has been made
-  window.dispatchEvent(new Event('mediaManager.history.point'));
+    // Updating the preview element
+    const preview = document.getElementById('image-preview');
+    preview.width = width;
+    preview.height = height;
+    preview.src = Joomla.MediaManager.Edit.current.contents;
 
-  canvas = null;
-};
+    // Update the width input box
+    document.getElementById('jform_resize_width').value = parseInt(width, 10);
 
-const addListeners = (image) => {
-  // The listeners
-  formElements.resizeWidth.addEventListener('change', ({ target }) => {
-    resize(
-      parseInt(target.value, 10),
-      parseInt(target.value, 10) / (image.width / image.height),
-      image,
-    );
-  });
-  formElements.resizeHeight.addEventListener('change', ({ target }) => {
-    resize(
-      parseInt(target.value, 10) * (image.width / image.height),
-      parseInt(target.value, 10),
-      image,
-    );
-  });
-};
+    // Update the height input box
+    document.getElementById('jform_resize_height').value = parseInt(height, 10);
 
-const initResize = (image) => {
-  // Update the input boxes
-  formElements.resizeWidth.value = image.naturalWidth;
-  formElements.resizeHeight.value = image.naturalHeight;
+    // Notify the app that a change has been made
+    window.dispatchEvent(new Event('mediaManager.history.point'));
+  };
 
-  if (!activated) {
-    activated = true;
-    addListeners(image);
-  }
-};
+  const initResize = () => {
+    const funct = () => {
+      const image = document.getElementById('image-source');
 
-window.addEventListener('media-manager-edit-init', () => {
-  // Get the form elements
-  formElements = {
-    resizeWidth: document.getElementById('jform_resize_width'),
-    resizeHeight: document.getElementById('jform_resize_height'),
-    resizeQuality: document.getElementById('jform_resize_quality'),
+      const resizeWidthInputBox = document.getElementById('jform_resize_width');
+      const resizeHeightInputBox = document.getElementById('jform_resize_height');
+
+      // Update the input boxes
+      resizeWidthInputBox.value = image.width;
+      resizeHeightInputBox.value = image.height;
+
+      // The listeners
+      resizeWidthInputBox.addEventListener('change', ({ target }) => {
+        resize(
+          parseInt(target.value, 10),
+          parseInt(target.value, 10) / (image.width / image.height),
+        );
+      });
+      resizeHeightInputBox.addEventListener('change', ({ target }) => {
+        resize(
+          parseInt(target.value, 10) * (image.width / image.height),
+          parseInt(target.value, 10),
+        );
+      });
+
+      // Set the values for the range fields
+      const resizeWidth = document.getElementById('jform_resize_w');
+      const resizeHeight = document.getElementById('jform_resize_h');
+
+      resizeWidth.min = 0;
+      resizeWidth.max = image.width;
+      resizeWidth.value = image.width;
+
+      resizeHeight.min = 0;
+      resizeHeight.max = image.height;
+      resizeHeight.value = image.height;
+
+      // The listeners
+      resizeWidth.addEventListener('input', ({ target }) => {
+        resize(
+          parseInt(target.value, 10),
+          parseInt(target.value, 10) / (image.width / image.height),
+        );
+      });
+      resizeHeight.addEventListener('input', ({ target }) => {
+        resize(
+          parseInt(target.value, 10) * (image.width / image.height),
+          parseInt(target.value, 10),
+        );
+      });
+    };
+    setTimeout(funct, 1000);
   };
 
   // Register the Events
-  Joomla.MediaManager.Edit.plugins.resize = {
-    Activate(image) {
-      return new Promise((resolve /* , reject */) => {
-        // Initialize
-        initResize(image);
-        resolve();
-      });
+  Joomla.MediaManager.Edit.resize = {
+    Activate(mediaData) {
+      // Initialize
+      initResize(mediaData);
     },
-    Deactivate(/* image */) {
-      return new Promise((resolve /* , reject */) => {
-        resolve();
-      });
+    Deactivate() {
     },
   };
-}, { once: true });
+})();

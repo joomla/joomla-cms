@@ -24,17 +24,6 @@ use Joomla\Filter\InputFilter as BaseInputFilter;
 class InputFilter extends BaseInputFilter
 {
 	/**
-	 * An array containing a list of extensions for files that are typically
-	 * executable directly in the webserver context, potentially resulting in code executions
-	 *
-	 * @since 4.0.0
-	 */
-	public const FORBIDDEN_FILE_EXTENSIONS = [
-		'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-		'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
-	];
-
-	/**
 	 * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
 	 *
 	 * @var    integer
@@ -46,7 +35,7 @@ class InputFilter extends BaseInputFilter
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
-	 * @since  4.0.0
+	 * @since  __DEPOY_VERSION__
 	 */
 	protected static $instances = array();
 	/**
@@ -191,7 +180,9 @@ class InputFilter extends BaseInputFilter
 			'null_byte'                  => true,
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
-			'forbidden_extensions'       => self::FORBIDDEN_FILE_EXTENSIONS,
+			'forbidden_extensions'       => array(
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
+			),
 
 			// <?php tag in file contents
 			'php_tag_in_content'         => true,
@@ -204,7 +195,7 @@ class InputFilter extends BaseInputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content
@@ -307,7 +298,7 @@ class InputFilter extends BaseInputFilter
 					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
+					$fp = @fopen($tempName, 'r');
 
 					if ($fp !== false)
 					{

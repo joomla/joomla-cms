@@ -1904,7 +1904,7 @@ class ItemModel extends AdminModel
 	 * Custom clean the cache
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
@@ -1912,8 +1912,9 @@ class ItemModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus');
+		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

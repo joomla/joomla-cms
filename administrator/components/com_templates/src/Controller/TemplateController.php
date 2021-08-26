@@ -12,8 +12,8 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -45,6 +45,7 @@ class TemplateController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
+		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 		$this->registerTask('unpublish', 'publish');
 		$this->registerTask('publish',   'publish');
@@ -73,7 +74,7 @@ class TemplateController extends BaseController
 	public function close()
 	{
 		$file = base64_encode('home');
-		$id = (int) $this->input->get('id', 0, 'int');
+		$id   = $this->input->get('id');
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 		$this->setRedirect(Route::_($url, false));
 	}
@@ -149,11 +150,10 @@ class TemplateController extends BaseController
 
 		$app = $this->app;
 		$this->input->set('installtype', 'folder');
+		$newName    = $this->input->get('new_name');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
-		// Only accept letters, numbers and underscore for template name
-		$newName    = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
-		$templateID = (int) $this->input->getInt('id', 0);
-		$file       = (string) $this->input->get('file', '', 'cmd');
+		$templateID = $this->input->getInt('id', 0);
+		$file       = $this->input->get('file');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -181,6 +181,9 @@ class TemplateController extends BaseController
 
 				return false;
 			}
+
+			// Set FTP credentials, if given
+			ClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
@@ -237,8 +240,6 @@ class TemplateController extends BaseController
 			return true;
 		}
 
-		$this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
-
 		return false;
 	}
 
@@ -287,7 +288,7 @@ class TemplateController extends BaseController
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model        = $this->getModel();
-		$fileName     = (string) $this->input->getCmd('file', '');
+		$fileName     = $this->input->get('file');
 		$explodeArray = explode(':', base64_decode($fileName));
 
 		// Access check.
@@ -381,7 +382,7 @@ class TemplateController extends BaseController
 			default:
 				// Redirect to the list screen.
 				$file = base64_encode('home');
-				$id = (int) $this->input->get('id', 0, 'int');
+				$id   = $this->input->get('id');
 				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 				$this->setRedirect(Route::_($url, false));
 				break;
@@ -402,15 +403,9 @@ class TemplateController extends BaseController
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$file     = (string) $this->input->getCmd('file', '');
-		$override = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('folder', '')), 'path');
-		$id       = (int) $this->input->get('id', 0, 'int');
+		$file     = $this->input->get('file');
+		$override = base64_decode($this->input->get('folder'));
+		$id       = $this->input->get('id');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -441,8 +436,8 @@ class TemplateController extends BaseController
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
-		$id    = (int) $this->input->get('id', 0, 'int');
-		$file  = (string) $this->input->getCmd('file', '');
+		$id    = $this->input->get('id');
+		$file  = $this->input->get('file');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -493,17 +488,11 @@ class TemplateController extends BaseController
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$id       = (int) $this->input->get('id', 0, 'int');
-		$file     = (string) $this->input->get('file', '', 'cmd');
-		$name     = (string) $this->input->get('name', '', 'cmd');
-		$location = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('address', '')), 'path');
-		$type     = (string) $this->input->get('type', '', 'cmd');
+		$id       = $this->input->get('id');
+		$file     = $this->input->get('file');
+		$name     = $this->input->get('name');
+		$location = base64_decode($this->input->get('address'));
+		$type     = $this->input->get('type');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -554,16 +543,10 @@ class TemplateController extends BaseController
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$id       = (int) $this->input->get('id', 0, 'int');
-		$file     = (string) $this->input->getCmd('file', '');
+		$id       = $this->input->get('id');
+		$file     = $this->input->get('file');
 		$upload   = $this->input->files->get('files');
-		$location = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('address', '')), 'path');
+		$location = base64_decode($this->input->get('address'));
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -575,7 +558,7 @@ class TemplateController extends BaseController
 
 		if ($return = $model->uploadFile($upload, $location))
 		{
-			$this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
 			$redirect = base64_encode($return);
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect;
 			$this->setRedirect(Route::_($url, false));
@@ -602,16 +585,10 @@ class TemplateController extends BaseController
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$id       = (int) $this->input->get('id', 0, 'int');
-		$file     = (string) $this->input->getCmd('file', '');
+		$id       = $this->input->get('id');
+		$file     = $this->input->get('file');
 		$name     = $this->input->get('name');
-		$location = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('address', '')), 'path');
+		$location = base64_decode($this->input->get('address'));
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -655,15 +632,9 @@ class TemplateController extends BaseController
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$id       = (int) $this->input->get('id', 0, 'int');
-		$file     = (string) $this->input->getCmd('file', '');
-		$location = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('address', '')), 'path');
+		$id       = $this->input->get('id');
+		$file     = $this->input->get('file');
+		$location = base64_decode($this->input->get('address'));
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -713,8 +684,8 @@ class TemplateController extends BaseController
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
-		$id      = (int) $this->input->get('id', 0, 'int');
-		$file    = (string) $this->input->getCmd('file', '');
+		$id      = $this->input->get('id');
+		$file    = $this->input->get('file');
 		$newName = $this->input->get('new_name');
 
 		// Access check.
@@ -769,8 +740,8 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$id    = (int) $this->input->get('id', 0, 'int');
-		$file  = (string) $this->input->get('file', '', 'cmd');
+		$id    = $this->input->get('id');
+		$file  = $this->input->get('file');
 		$x     = $this->input->get('x');
 		$y     = $this->input->get('y');
 		$w     = $this->input->get('w');
@@ -819,8 +790,8 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$id     = (int) $this->input->get('id', 0, 'int');
-		$file   = (string) $this->input->getCmd('file', '');
+		$id     = $this->input->get('id');
+		$file   = $this->input->get('file');
 		$width  = $this->input->get('width');
 		$height = $this->input->get('height');
 
@@ -861,16 +832,10 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$id       = (int) $this->input->get('id', 0, 'int');
-		$file     = (string) $this->input->getCmd('file', '');
+		$id       = $this->input->get('id');
+		$file     = $this->input->get('file');
 		$newName  = $this->input->get('new_name');
-		$location = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(base64_decode($this->input->getBase64('address', '')), 'path');
+		$location = base64_decode($this->input->get('address'));
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -914,8 +879,8 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$id    = (int) $this->input->get('id', 0, 'int');
-		$file  = (string) $this->input->getCmd('file', '');
+		$id    = $this->input->get('id');
+		$file  = $this->input->get('file');
 
 		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();

@@ -1,6 +1,7 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Platform
+ * @subpackage  Document
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -190,20 +191,10 @@ class StylesRenderer extends DocumentRenderer
 
 		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
 
-		if (isset($attribs['rel']))
-		{
-			unset($attribs['rel']);
-		}
-
 		// Render the element with attributes
 		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
 		$buffer .= $this->renderAttributes($attribs);
 		$buffer .= ' />';
-
-		if ($relation === 'lazy-stylesheet')
-		{
-			$buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
-		}
 
 		// This is for IE conditional statements support.
 		if (!\is_null($conditional))

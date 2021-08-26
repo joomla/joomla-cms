@@ -37,7 +37,7 @@ class DisplayController extends BaseController
 		$view = $this->input->get('view', $this->default_view);
 
 		// Submitting information requests through the frontend is restricted to authenticated users at this time
-		if ($view === 'request' && $this->app->getIdentity()->guest)
+		if ($view === 'request' && Factory::getUser()->guest)
 		{
 			$this->setRedirect(
 				Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=request'), false)

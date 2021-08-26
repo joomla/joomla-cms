@@ -66,7 +66,7 @@
             // Remove lock
             modifyButton.classList.remove('locked');
 
-            // Enable the field
+            // Disable the field
             input.removeAttribute('disabled');
 
             // Focus the input field

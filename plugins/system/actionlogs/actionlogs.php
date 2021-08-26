@@ -65,7 +65,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function onAfterInitialise()
 	{
@@ -92,6 +92,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
+			'com_admin.profile',
 		];
 
 		if (!in_array($formName, $allowedFormNames, true))
@@ -131,7 +132,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
 		{
 			$form->loadFile('information', false);
 
@@ -158,7 +159,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, ['com_users.profile', 'com_users.user']))
+		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
 		{
 			return true;
 		}
@@ -343,7 +344,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

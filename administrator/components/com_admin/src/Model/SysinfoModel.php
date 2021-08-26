@@ -32,7 +32,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $php_settings = [];
+	protected $php_settings = array();
 
 	/**
 	 * Config values
@@ -40,7 +40,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $config = [];
+	protected $config = array();
 
 	/**
 	 * Some system values
@@ -48,7 +48,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $info = [];
+	protected $info = array();
 
 	/**
 	 * PHP info
@@ -74,8 +74,8 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since  3.5
 	 */
-	protected $privateSettings = [
-		'phpInfoArray' => [
+	protected $privateSettings = array(
+		'phpInfoArray' => array(
 			'CONTEXT_DOCUMENT_ROOT',
 			'Cookie',
 			'DOCUMENT_ROOT',
@@ -111,8 +111,8 @@ class SysinfoModel extends BaseDatabaseModel
 			'upload_tmp_dir',
 			'User/Group',
 			'open_basedir',
-		],
-		'other' => [
+		),
+		'other' => array(
 			'db',
 			'dbprefix',
 			'fromname',
@@ -137,8 +137,8 @@ class SysinfoModel extends BaseDatabaseModel
 			'smtphost',
 			'tmp_path',
 			'open_basedir',
-		]
-	];
+		)
+	);
 
 	/**
 	 * System values that can be "safely" shared
@@ -155,7 +155,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $directories = [];
+	protected $directories = array();
 
 	/**
 	 * The current editor.
@@ -175,7 +175,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	protected function cleanPrivateData(array $dataArray, string $dataType = 'other'): array
+	protected function cleanPrivateData($dataArray, $dataType = 'other')
 	{
 		$dataType = isset($this->privateSettings[$dataType]) ? $dataType : 'other';
 
@@ -188,12 +188,12 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($dataArray as $section => $values)
 		{
-			if (\is_array($values))
+			if (is_array($values))
 			{
 				$dataArray[$section] = $this->cleanPrivateData($values, $dataType);
 			}
 
-			if (\in_array($section, $privateSettings, true))
+			if (in_array($section, $privateSettings, true))
 			{
 				$dataArray[$section] = $this->cleanSectionPrivateData($values);
 			}
@@ -207,13 +207,13 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *
-	 * @return  string|array
+	 * @return  mixed
 	 *
 	 * @since   3.5
 	 */
 	protected function cleanSectionPrivateData($sectionValues)
 	{
-		if (!\is_array($sectionValues))
+		if (!is_array($sectionValues))
 		{
 			if (strstr($sectionValues, JPATH_ROOT))
 			{
@@ -238,14 +238,14 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getPhpSettings(): array
+	public function &getPhpSettings()
 	{
 		if (!empty($this->php_settings))
 		{
 			return $this->php_settings;
 		}
 
-		$this->php_settings = [
+		$this->php_settings = array(
 			'memory_limit'        => ini_get('memory_limit'),
 			'upload_max_filesize' => ini_get('upload_max_filesize'),
 			'post_max_size'       => ini_get('post_max_size'),
@@ -261,11 +261,9 @@ class SysinfoModel extends BaseDatabaseModel
 			'zlib'                => extension_loaded('zlib'),
 			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'            => extension_loaded('mbstring'),
-			'gd'                  => extension_loaded('gd'),
 			'iconv'               => function_exists('iconv'),
-			'intl'                => function_exists('transliterator_transliterate'),
 			'max_input_vars'      => ini_get('max_input_vars'),
-		];
+		);
 
 		return $this->php_settings;
 	}
@@ -277,7 +275,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getConfig(): array
+	public function &getConfig()
 	{
 		if (!empty($this->config))
 		{
@@ -286,11 +284,11 @@ class SysinfoModel extends BaseDatabaseModel
 
 		$registry = new Registry(new \JConfig);
 		$this->config = $registry->toArray();
-		$hidden = [
+		$hidden = array(
 			'host', 'user', 'password', 'ftp_user', 'ftp_pass',
 			'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
 			'proxy_user', 'proxy_pass', 'secret'
-		];
+		);
 
 		foreach ($hidden as $key)
 		{
@@ -307,7 +305,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getInfo(): array
+	public function &getInfo()
 	{
 		if (!empty($this->info))
 		{
@@ -316,7 +314,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		$db = $this->getDbo();
 
-		$this->info = [
+		$this->info = array(
 			'php'                    => php_uname(),
 			'dbserver'               => $db->getServerType(),
 			'dbversion'              => $db->getVersion(),
@@ -329,7 +327,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'sapi_name'              => PHP_SAPI,
 			'version'                => (new Version)->getLongVersion(),
 			'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
-		];
+		);
 
 		return $this->info;
 	}
@@ -341,9 +339,9 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.4.1
 	 */
-	public function phpinfoEnabled(): bool
+	public function phpinfoEnabled()
 	{
-		return !\in_array('phpinfo', explode(',', ini_get('disable_functions')));
+		return !in_array('phpinfo', explode(',', ini_get('disable_functions')));
 	}
 
 	/**
@@ -356,7 +354,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	public function getSafeData(string $dataType, bool $public = true): array
+	public function getSafeData($dataType, $public = true)
 	{
 		if (isset($this->safeData[$dataType]))
 		{
@@ -367,7 +365,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		if (!method_exists($this, $methodName))
 		{
-			return [];
+			return array();
 		}
 
 		$data = $this->$methodName($public);
@@ -384,7 +382,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getPHPInfo(): string
+	public function &getPHPInfo()
 	{
 		if (!$this->phpinfoEnabled())
 		{
@@ -408,7 +406,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);
-		$output = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
 		$output = str_replace('</table>', '</tbody></table>', $output);
 		$output = str_replace('</div>', '', $output);
 		$this->php_info = $output;
@@ -423,7 +421,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	public function getPhpInfoArray(): array
+	public function getPhpInfoArray()
 	{
 		// Already cached
 		if (null !== $this->phpInfoArray)
@@ -431,7 +429,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->phpInfoArray;
 		}
 
-		$phpInfo = $this->getPHPInfo();
+		$phpInfo = $this->getPhpInfo();
 
 		$this->phpInfoArray = $this->parsePhpInfo($phpInfo);
 
@@ -445,10 +443,10 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since  3.5
 	 */
-	public function getExtensions(): array
+	public function getExtensions()
 	{
-		$installed = [];
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$installed = array();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'));
@@ -487,7 +485,7 @@ class SysinfoModel extends BaseDatabaseModel
 				continue;
 			}
 
-			$installed[$extension->name] = [
+			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
 				'state'        => $extension->enabled ? Text::_('JENABLED') : Text::_('JDISABLED'),
@@ -495,16 +493,16 @@ class SysinfoModel extends BaseDatabaseModel
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
 				'authorUrl'    => 'unknown',
-			];
+			);
 
 			$manifest = new Registry($extension->manifest_cache);
 
-			$extraData = [
+			$extraData = array(
 				'author'       => $manifest->get('author', ''),
 				'version'      => $manifest->get('version', ''),
 				'creationDate' => $manifest->get('creationDate', ''),
 				'authorUrl'    => $manifest->get('authorUrl', '')
-			];
+			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
 		}
@@ -515,27 +513,25 @@ class SysinfoModel extends BaseDatabaseModel
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param   bool $public If true no information is going to be removed
+	 * @param   bool  $public  If true no information is going to be removed
 	 *
 	 * @return  array States of directories
 	 *
-	 * @throws \Exception
 	 * @since   1.6
 	 */
-	public function getDirectory(bool $public = false): array
+	public function getDirectory($public = false)
 	{
 		if (!empty($this->directories))
 		{
 			return $this->directories;
 		}
 
-		$this->directories = [];
+		$this->directories = array();
 
 		$registry = Factory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
-		$this->addDirectory('administrator/components/com_joomlaupdate', JPATH_ADMINISTRATOR . '/components/com_joomlaupdate');
 		$this->addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 		// List all admin languages
@@ -683,9 +679,9 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
-	private function addDirectory(string $name, string $path, string $message = ''): void
+	private function addDirectory($name, $path, $message = '')
 	{
-		$this->directories[$name] = ['writable' => is_writable($path), 'message' => $message,];
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message,);
 	}
 
 	/**
@@ -696,7 +692,7 @@ class SysinfoModel extends BaseDatabaseModel
 	 * @note    Has to be removed (it is present in the config...)
 	 * @since   1.6
 	 */
-	public function &getEditor(): string
+	public function &getEditor()
 	{
 		if (!is_null($this->editor))
 		{
@@ -718,14 +714,14 @@ class SysinfoModel extends BaseDatabaseModel
 	 *
 	 * @since   3.5
 	 */
-	protected function parsePhpInfo(string $html): array
+	protected function parsePhpInfo($html)
 	{
 		$html = strip_tags($html, '<h2><th><td>');
 		$html = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
 		$html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
 		$t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$r = [];
-		$count = \count($t);
+		$r = array();
+		$count = count($t);
 		$p1 = '<info>([^<]+)<\/info>';
 		$p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
 		$p3 = '/' . $p1 . '\s*' . $p1 . '/';
@@ -742,7 +738,7 @@ class SysinfoModel extends BaseDatabaseModel
 					// 3cols
 					if (preg_match($p2, $val, $matchs))
 					{
-						$r[$name][trim($matchs[1])] = [trim($matchs[2]), trim($matchs[3]),];
+						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]),);
 					}
 					// 2cols
 					elseif (preg_match($p3, $val, $matchs))

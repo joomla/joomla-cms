@@ -41,7 +41,7 @@ class HtmlView extends DefaultView
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -49,6 +49,6 @@ class HtmlView extends DefaultView
 	{
 		$this->options = $this->get('PhpOptions');
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

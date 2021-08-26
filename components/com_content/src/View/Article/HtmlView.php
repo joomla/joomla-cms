@@ -77,26 +77,17 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
-	 * The flag to mark if the active menu item is linked to the being displayed article
-	 *
-	 * @var boolean
-	 */
-	protected $menuItemMatchArticle = false;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			parent::display($tpl);
-
-			return;
+			return parent::display($tpl);
 		}
 
 		$app        = Factory::getApplication();
@@ -135,35 +126,47 @@ class HtmlView extends BaseHtmlView
 		$active       = $app->getMenu()->getActive();
 		$temp         = clone $this->params;
 
-		// Check to see which parameters should take priority. If the active menu item link to the current article, then
-		// the menu item params take priority
-		if ($active
-			&& $active->component == 'com_content'
-			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'article'
-			&& $active->query['id'] == $item->id)
+		// Check to see which parameters should take priority
+		if ($active)
 		{
-			$this->menuItemMatchArticle = true;
+			$currentLink = $active->link;
 
-			// Load layout from active query (in case it is an alternative menu item)
-			if (isset($active->query['layout']))
+			// If the current view is the active item and an article view for this article, then the menu item params take priority
+			if (strpos($currentLink, 'view=article') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
-				$this->setLayout($active->query['layout']);
-			}
-			// Check for alternative layout of article
-			elseif ($layout = $item->params->get('article_layout'))
-			{
-				$this->setLayout($layout);
-			}
+				// Load layout from active query (in case it is an alternative menu item)
+				if (isset($active->query['layout']))
+				{
+					$this->setLayout($active->query['layout']);
+				}
+				// Check for alternative layout of article
+				elseif ($layout = $item->params->get('article_layout'))
+				{
+					$this->setLayout($layout);
+				}
 
-			// $item->params are the article params, $temp are the menu item params
-			// Merge so that the menu item params take priority
-			$item->params->merge($temp);
+				// $item->params are the article params, $temp are the menu item params
+				// Merge so that the menu item params take priority
+				$item->params->merge($temp);
+			}
+			else
+			{
+				// Current view is not a single article, so the article params take priority here
+				// Merge the menu item params with the article params so that the article params take priority
+				$temp->merge($item->params);
+				$item->params = $temp;
+
+				// Check for alternative layouts (since we are not in a single-article menu item)
+				// Single-article menu item layout takes priority over alt layout for an article
+				if ($layout = $item->params->get('article_layout'))
+				{
+					$this->setLayout($layout);
+				}
+			}
 		}
 		else
 		{
-			// The active menu item is not linked to this article, so the article params take priority here
-			// Merge the menu item params with the article params so that the article params take priority
+			// Merge so that article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
 
@@ -284,27 +287,20 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->get('page_title', '');
 
-		// If the menu item is not linked to this article
-		if (!$this->menuItemMatchArticle)
+		$id = (int) @$menu->query['id'];
+
+		// If the menu item does not concern this article
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
+			|| $id != $this->item->id))
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
-			// Get ID of the category from active menu item
-			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
-				&& in_array($menu->query['view'], ['categories', 'category']))
-			{
-				$id = $menu->query['id'];
-			}
-			else
-			{
-				$id = 0;
-			}
-
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category !== null && $category->id != $id && $category->id !== 'root')
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
+				|| $id !== (int) $category->id) && (int) $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();

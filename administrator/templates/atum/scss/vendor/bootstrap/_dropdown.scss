@@ -16,17 +16,16 @@
 }
 
 .dropdown-item {
-  text-align: start;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
 
   &:hover,
   &:focus {
     .btn-primary + .dropdown-menu & {
-      background-color: var(--template-bg-dark);
+      background-color: var(--atum-bg-dark);
     }
 
     .btn-secondary + .dropdown-menu & {
-      color: var(--template-text-light);
+      color: var(--atum-text-light);
       background-color: var(--secondary);
     }
 
@@ -39,12 +38,12 @@
     }
 
     .dropdown-status-group .dropdown-menu &:not(.disabled) {
-      color: var(--template-text-light);
-      background-color: var(--template-bg-dark);
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
 
     .dropdown-save-group .dropdown-menu &:not(.disabled) {
-      color: var(--template-text-light);
+      color: var(--atum-text-light);
       background-color: var(--success);
     }
   }
@@ -61,17 +60,17 @@
     color: var(--success);
   }
 
-  &.first:not(.last) {
+  &.first {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  &.last:not(.first) {
+  &.last {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
-  &:not(.first):not(.last):not(:only-of-type) {
+  &:not(.first):not(.last) {
     border-radius: 0;
   }
 }

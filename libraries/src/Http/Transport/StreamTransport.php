@@ -10,7 +10,6 @@ namespace Joomla\CMS\Http\Transport;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
@@ -137,10 +136,9 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			array(
 				'http' => $options,
 				'ssl' => array(
-					'verify_peer'      => true,
-					'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
-					'verify_depth'     => 5,
-					'verify_peer_name' => true,
+					'verify_peer'   => true,
+					'cafile'        => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
+					'verify_depth'  => 5,
 				),
 			)
 		);
@@ -165,7 +163,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri);
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
 			}
 
 			// Restore error tracking to give control to the exception handler

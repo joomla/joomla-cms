@@ -38,8 +38,6 @@ class CleanupModel extends BaseInstallationModel
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
 
-		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
-
 		return $return;
 	}
 }

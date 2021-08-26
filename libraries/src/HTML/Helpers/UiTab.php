@@ -54,16 +54,12 @@ abstract class UiTab
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
+		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
+		$recall = !isset($params['recall']) ? '' : 'recall';
+
 		$orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
-		$recall = isset($params['recall']) ? 'recall' : '';
-		$breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
-		if (!isset($params['breakpoint']) && $breakpoint === '')
-		{
-			$breakpoint = 'breakpoint="768"';
-		}
-
-		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" ' . $recall . ' ' . $breakpoint . '>';
+		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" recall>';
 	}
 
 	/**
@@ -83,7 +79,7 @@ abstract class UiTab
 	 *
 	 * @param   string  $selector  Identifier of the panel.
 	 * @param   string  $id        The ID of the div element
-	 * @param   string  $title     The title text for the button
+	 * @param   string  $title     The title text for the new UL tab
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -93,7 +89,7 @@ abstract class UiTab
 	{
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return '<joomla-tab-element id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
+		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
 	}
 
@@ -106,6 +102,6 @@ abstract class UiTab
 	 */
 	public static function endTab()
 	{
-		return '</joomla-tab-element>';
+		return '</section>';
 	}
 }

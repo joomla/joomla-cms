@@ -163,7 +163,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
-	 * @return  string  The resolved path if resolved, else an empty string.
+	 * @return array
 	 *
 	 * @since   4.0.0
 	 */

@@ -272,7 +272,7 @@ class AdministratorApplication extends CMSApplication
 		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
 			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
-			$this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 

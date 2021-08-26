@@ -94,6 +94,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 		return $this->getDataFormatter()->formatPath($path);
 	}
 
+
 	/**
 	 * Format a string from back trace.
 	 *

@@ -3,6 +3,7 @@
 // error page
 
 .error_site {
+  height: 100vh;
   .page-header {
     margin-top: $cassiopeia-grid-gutter;
   }
@@ -297,8 +298,12 @@
 }
 
 .mod-list {
-  padding-inline-start: 0;
+  padding-left: 0;
   list-style: none;
+
+  [dir=rtl] & {
+    padding-right: 0;
+  }
 
   li {
     padding: .25em 0;

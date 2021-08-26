@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  \Exception on failure, void on success.
 	 *
 	 * @since   1.6
 	 */
@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

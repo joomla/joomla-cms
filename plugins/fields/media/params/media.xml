@@ -9,7 +9,6 @@
 				directory="images"
 				hide_none="true"
 				recursive="true"
-				validate="options"
 			/>
 
 			<field

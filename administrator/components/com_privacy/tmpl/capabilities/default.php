@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Privacy\Administrator\View\Capabilities\HtmlView $this */
+/** @var PrivacyViewCapabilities $this */
 
 ?>
-<div id="j-main-container" class="main-card p-4">
+<div id="j-main-container" class="capabilities">
 	<div class="alert alert-info">
 		<h2 class="alert-heading"><?php echo Text::_('COM_PRIVACY_MSG_CAPABILITIES_ABOUT_THIS_INFORMATION'); ?></h2>
 		<?php echo Text::_('COM_PRIVACY_MSG_CAPABILITIES_INTRODUCTION'); ?>

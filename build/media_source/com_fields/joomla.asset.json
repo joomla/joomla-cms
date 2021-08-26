@@ -6,37 +6,13 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_fields.admin-field-changecontext.es5",
-      "type": "script",
-      "uri": "com_fields/admin-field-changecontext-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_fields.admin-field-changecontext",
       "type": "script",
       "uri": "com_fields/admin-field-changecontext.min.js",
       "dependencies": [
-        "com_fields.admin-field-changecontext.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_fields.admin-field-edit.es5",
-      "type": "script",
-      "uri": "com_fields/admin-field-edit-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       }
     },
@@ -45,21 +21,20 @@
       "type": "script",
       "uri": "com_fields/admin-field-edit.min.js",
       "dependencies": [
-        "com_fields.admin-field-edit.es5"
+        "core"
       ],
       "attributes": {
-        "type": "module"
+        "defer": true
       }
     },
     {
-      "name": "com_fields.admin-field-typehaschanged.es5",
+      "name": "com_fields.admin-field-edit-modal",
       "type": "script",
-      "uri": "com_fields/admin-field-typehaschanged-es5.min.js",
+      "uri": "com_fields/admin-field-edit-modal.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       }
     },
@@ -68,21 +43,9 @@
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged.min.js",
       "dependencies": [
-        "com_fields.admin-field-typehaschanged.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_fields.admin-fields-batch.es5",
-      "type": "script",
-      "uri": "com_fields/admin-fields-default-batch-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       }
     },
@@ -91,21 +54,9 @@
       "type": "script",
       "uri": "com_fields/admin-fields-default-batch.min.js",
       "dependencies": [
-        "com_fields.admin-fields-batch.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_fields.admin-fields-modal.es5",
-      "type": "script",
-      "uri": "com_fields/admin-fields-modal-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       }
     },
@@ -114,10 +65,10 @@
       "type": "script",
       "uri": "com_fields/admin-fields-modal.min.js",
       "dependencies": [
-        "com_fields.admin-fields-modal.es5"
+        "core"
       ],
       "attributes": {
-        "type": "module"
+        "defer": true
       }
     }
   ]

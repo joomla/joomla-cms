@@ -58,7 +58,7 @@ class AtomRenderer extends DocumentRenderer
 		// Gets and sets timezone offset from site configuration
 		$tz  = new \DateTimeZone($app->get('offset'));
 		$now = Factory::getDate();
-		$now->setTimezone($tz);
+		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
@@ -78,7 +78,7 @@ class AtomRenderer extends DocumentRenderer
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
-		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
+		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
 
 		if ($data->getLanguage() != '')
 		{
@@ -151,7 +151,7 @@ class AtomRenderer extends DocumentRenderer
 			}
 
 			$itemDate = Factory::getDate($data->items[$i]->date);
-			$itemDate->setTimezone($tz);
+			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 

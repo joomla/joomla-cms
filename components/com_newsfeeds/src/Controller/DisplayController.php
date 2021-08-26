@@ -11,6 +11,7 @@ namespace Joomla\Component\Newsfeeds\Site\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -38,7 +39,7 @@ class DisplayController extends BaseController
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if ($this->app->getIdentity()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' ))
+		if (Factory::getUser()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' ))
 		{
 			$cachable = false;
 		}

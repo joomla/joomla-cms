@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"
@@ -74,7 +74,6 @@
 			class="form-select-color-state"
 			size="1"
 			default="1"
-			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -233,7 +232,7 @@
 
 		<field
 			name="hits"
-			type="text"
+			type="number"
 			label="JGLOBAL_HITS"
 			class="readonly"
 			readonly="true"
@@ -501,7 +500,7 @@
 
 				<field
 					name="show_vote"
-					type="votelist"
+					type="list"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
 					validate="options"
@@ -538,12 +537,10 @@
 					type="list"
 					label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 					useglobal="true"
-					filter="integer"
 					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
-					<option value="-1">JHIDE</option>
 				</field>
 
 				<field
@@ -955,3 +952,4 @@
 	</fields>
 
 </form>
+

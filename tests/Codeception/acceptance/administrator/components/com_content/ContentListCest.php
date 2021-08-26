@@ -46,7 +46,7 @@ class ContentListCest
 	{
 		$I->wantToTest('that it loads without php notices and warnings.');
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$adminForm);
+		$I->waitForElement(ContentListPage::$filterSearch);
 		$I->checkForPhpNoticesOrWarnings();
 	}
 

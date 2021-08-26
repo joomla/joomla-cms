@@ -273,6 +273,7 @@ class ArticlesModel extends ListModel
 				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
+					$db->quoteName('fp.ordering'),
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image', 'language_image'),
 					$db->quoteName('uc.name', 'editor'),

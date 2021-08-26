@@ -545,7 +545,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		return array(
 			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
 				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
-			),
+			)
 		);
 	}
 
@@ -809,30 +809,30 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case !array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
-					case !isset($homes[$i]):
-					case isset($language->access) && $language->access && !in_array($language->access, $levels):
+					case (!array_key_exists($i, LanguageHelper::getInstalledLanguages(0))):
+					case (!isset($homes[$i])):
+					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
 						break;
 
 					// Home page
-					case $is_home:
+					case ($is_home):
 						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
 						break;
 
 					// Current language link
-					case $i === $this->current_lang:
+					case ($i === $this->current_lang):
 						$language->link = Route::_($currentInternalUrl);
 						break;
 
 					// Component association
-					case isset($cassociations[$i]):
+					case (isset($cassociations[$i])):
 						$language->link = Route::_($cassociations[$i]);
 						break;
 
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-					case isset($associations[$i]) && ($item = $menu->getItem($associations[$i])):
+					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 
 						$language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;

@@ -43,15 +43,15 @@ class FilterModel extends AdminModel
 	 * Custom clean cache method.
 	 *
 	 * @param   string   $group     The component name. [optional]
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $clientId = 0)
+	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group);
+		parent::cleanCache($group, $clientId);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class FilterModel extends AdminModel
 	 */
 	public function getTotal()
 	{
-		$db    = $this->getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');

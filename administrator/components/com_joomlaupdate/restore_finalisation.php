@@ -74,6 +74,12 @@ namespace
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
 			}
+
+			// Clear OPcache
+			if (function_exists('opcache_reset'))
+			{
+				\opcache_reset();
+			}
 		}
 	}
 }
@@ -81,7 +87,7 @@ namespace
 namespace Joomla\CMS\Filesystem
 {
 	// Fake the JFile class, mapping it to Restore's post-processing class
-	if (!class_exists('\Joomla\CMS\Filesystem\File'))
+	if (!class_exists('File'))
 	{
 		/**
 		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -91,7 +97,7 @@ namespace Joomla\CMS\Filesystem
 		abstract class File
 		{
 			/**
-			 * Proxies checking a file exists to the native php version
+			 * Proxies checking a folder exists to the native php version
 			 *
 			 * @param   string  $fileName  The path to the file to be checked
 			 *
@@ -115,55 +121,14 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
-				/** @var \AKPostprocDirect $postproc */
 				$postproc = \AKFactory::getPostProc();
 				$postproc->unlink($fileName);
 			}
-			/**
-			 * Proxies moving a file to the restore.php version
-			 *
-			 * @param   string  $src   The path to the source file
-			 * @param   string  $dest  The path to the destination file
-			 *
-			 * @return  boolean  True on success
-			 *
-			 * @since   4.0.1
-			 */
-			public static function move($src, $dest)
-			{
-				/** @var \AKPostprocDirect $postproc */
-				$postproc = \AKFactory::getPostProc();
-				$postproc->rename($src, $dest);
-			}
-
-			/**
-			 * Invalidate opcache for a newly written/deleted file immediately, if opcache* functions exist and if this was a PHP file.
-			 *
-			 * @param   string  $filepath   The path to the file just written to, to flush from opcache
-			 * @param   boolean $force      If set to true, the script will be invalidated regardless of whether invalidation is necessary
-			 *
-			 * @return  boolean TRUE if the opcode cache for script was invalidated/nothing to invalidate,
-			 *                  or FALSE if the opcode cache is disabled or other conditions returning
-			 *                  FALSE from opcache_invalidate (like file not found).
-			 *
-			 * @since  4.0.2
-			 */
-			public static function invalidateFileCache($filepath, $force = true)
-			{
-				if ('.php' === strtolower(substr($filepath, -4)))
-				{
-					$postproc = \AKFactory::getPostProc();
-					$postproc->clearFileInOPCache($filepath);
-				}
-
-				return false;
-			}
-
 		}
 	}
 
 	// Fake the Folder class, mapping it to Restore's post-processing class
-	if (!class_exists('\Joomla\CMS\Filesystem\Folder'))
+	if (!class_exists('Folder'))
 	{
 		/**
 		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
@@ -206,7 +171,7 @@ namespace Joomla\CMS\Filesystem
 namespace Joomla\CMS\Language
 {
 	// Fake the Text class - we aren't going to show errors to people anyhow
-	if (!class_exists('\Joomla\CMS\Language\Text'))
+	if (!class_exists('Text'))
 	{
 		/**
 		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php

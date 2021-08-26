@@ -45,7 +45,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	/**
 	 * ID of update site
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
@@ -97,7 +97,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  string
+	 * @return  object
 	 *
 	 * @since   1.7.0
 	 */

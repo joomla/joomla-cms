@@ -13,6 +13,7 @@ namespace Joomla\Component\Config\Site\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -35,6 +36,7 @@ class TemplatesController extends BaseController
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
+	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -70,7 +72,7 @@ class TemplatesController extends BaseController
 		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		if (!$this->app->getIdentity()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 

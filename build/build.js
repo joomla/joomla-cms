@@ -14,11 +14,12 @@
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
- * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
 const semver = require('semver');
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
 const { createErrorPages } = require('./build-modules-js/error-pages.es6.js');
@@ -31,14 +32,24 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
-const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
+const { mediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
-const { versioning } = require('./build-modules-js/versioning.es6.js');
-const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 
 // The settings
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
+
+// Simple timer
+const timer = (name) => {
+  const start = new Date();
+  return {
+    stop: () => {
+      const end = new Date();
+      const time = end.getTime() - start.getTime();
+      console.log('Timer:', name, 'finished in', time, 'ms');
+    },
+  };
+};
 
 // Merge Joomla's specific settings to the main package.json object
 if ('settings' in settings) {
@@ -70,8 +81,6 @@ Program
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
-  .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
-
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -88,8 +97,8 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   allowedVersion();
-  recreateMediaFolder(options)
-    .then(() => cleanVendors())
+  Promise.all([cleanVendors()])
+    .then(() => recreateMediaFolder())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())
@@ -101,25 +110,25 @@ if (Program.copyAssets) {
 
 // Creates the error pages for unsupported PHP version & incomplete environment
 if (Program.buildPages) {
-  createErrorPages(options)
-  .catch((err) => handleError(err, 1));
+  Promise.all([createErrorPages(options)])
+    .catch((err) => handleError(err, 1));
 }
 
 // Convert scss to css
 if (Program.compileCss) {
-  stylesheets(options, Program.args[0])
-  .catch((err) => handleError(err, 1));
+  Promise.all([stylesheets(options, Program.args[0])])
+    .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  scripts(options, Program.args[0])
-  .catch((err) => handleError(err, 1));
+  Promise.all([scripts(options, Program.args[0])])
+    .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watching(Program.args[0]);
+  watching();
 }
 
 // Gzip js/css files
@@ -140,37 +149,33 @@ if (Program.comMedia) {
 
 // Watch & Compile the media manager
 if (Program.watchComMedia) {
-  watchMediaManager(true);
-}
-
-// Update the .js/.css versions
-if (Program.versioning) {
-  versioning()
-  .catch((err) => handleError(err, 1));
+  mediaManager(true);
 }
 
 // Prepare the repo for dev work
 if (Program.prepare) {
-    const bench = new Timer('Build');
-    allowedVersion();
-    recreateMediaFolder(options)
-    .then(() => cleanVendors())
-    .then(() => localisePackages(options))
-    .then(() => Promise.all(
-      [
-        patchPackages(options),
+  (async () => {
+    const bench = timer('Build');
+    try {
+      allowedVersion();
+      await cleanVendors();
+      await recreateMediaFolder();
+      await localisePackages(options);
+      await patchPackages(options);
+      await Promise.all([
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
-        mediaManager(true)
-      ]))
-    .then(() => bench.stop('Build'))
-    .then(() => { process.exit(0); })
-    .catch((err) => {
+      ]);
+      bench.stop();
+    } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
       process.exit(-1);
-    });
+    }
+
+    process.exit(0);
+  })();
 }

@@ -29,7 +29,7 @@
 					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
-					buttons="add,remove,move"
+					buttons="add,remove"
 					default='[{"directory":"images"}]'
 				>
 					<form>
@@ -42,7 +42,6 @@
 							exclude=""
 							stripext=""
 							hide_none="true"
-							validate="options"
 						/>
 					</form>
 				</field>

@@ -195,20 +195,18 @@ class HtmlView extends BaseHtmlView
 							}
 							else
 							{
-								$base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-
 								// Get XML file from component folder for standard layouts
-								$file = $base . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
 									. '/' . $vars['layout'] . '.xml';
 
 								if (!file_exists($file))
 								{
-									$file = $base . '/components/' . $item->componentname . '/views/'
+									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
 										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 
 									if (!file_exists($file))
 									{
-										$file = $base . '/components/' . $item->componentname . '/view/'
+										$file = JPATH_SITE . '/components/' . $item->componentname . '/view/'
 											. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 									}
 								}

@@ -340,6 +340,7 @@ class CategoryeditField extends ListField
 				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
 				}
 			}
 		}

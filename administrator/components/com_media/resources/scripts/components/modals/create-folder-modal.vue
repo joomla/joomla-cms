@@ -14,7 +14,7 @@
       </h3>
     </template>
     <template #body>
-      <div class="p-3">
+      <div>
         <form
           class="form"
           novalidate

@@ -72,21 +72,11 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @throws  GenericDataException
-	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -96,12 +86,6 @@ class HtmlView extends BaseHtmlView
 		$this->assoc         = $this->get('Assoc');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		// Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
-		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -141,7 +125,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -157,7 +141,7 @@ class HtmlView extends BaseHtmlView
 		$component  = $this->state->get('filter.component');
 		$section    = $this->state->get('filter.section');
 		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-		$user       = Factory::getApplication()->getIdentity();
+		$user       = Factory::getUser();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -179,7 +163,7 @@ class HtmlView extends BaseHtmlView
 			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
-		// Else if the component section string exists, let's use it.
+		// Else if the component section string exits, let's use it
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}
@@ -211,7 +195,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('category.add');
 		}
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -231,7 +215,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('categories.archive')->listCheck(true);
 			}
 
-			if ($user->authorise('core.admin'))
+			if (Factory::getUser()->authorise('core.admin'))
 			{
 				$childBar->checkin('categories.checkin')->listCheck(true);
 			}
@@ -253,14 +237,14 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (!$this->isEmptyState && $canDo->get('core.admin'))
+		if ($canDo->get('core.admin'))
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')
 				->task('categories.rebuild');
 		}
 
-		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
 			$toolbar->delete('categories.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

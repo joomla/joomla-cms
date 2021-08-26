@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -209,6 +210,31 @@ class CategoryModel extends AdminModel
 			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
 
+			// Convert the created and modified dates to local user time for display in the form.
+			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
+
+			if ((int) $result->created_time)
+			{
+				$date = new Date($result->created_time);
+				$date->setTimezone($tz);
+				$result->created_time = $date->toSql(true);
+			}
+			else
+			{
+				$result->created_time = null;
+			}
+
+			if ((int) $result->modified_time)
+			{
+				$date = new Date($result->modified_time);
+				$date->setTimezone($tz);
+				$result->modified_time = $date->toSql(true);
+			}
+			else
+			{
+				$result->modified_time = null;
+			}
+
 			if (!empty($result->id))
 			{
 				$result->tags = new TagsHelper;
@@ -289,12 +315,6 @@ class CategoryModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
-		// Don't allow to change the created_user_id user if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
-		}
-
 		return $form;
 	}
 
@@ -362,7 +382,7 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   Form    $form   The form to validate against.
+	 * @param   JForm   $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -884,7 +904,7 @@ class CategoryModel extends AdminModel
 
 			$db->setQuery($query);
 
-			$max = (int) $db->loadResult();
+			$max = (int) $db->loadresult();
 			$max++;
 
 			$query->clear();
@@ -1295,7 +1315,7 @@ class CategoryModel extends AdminModel
 	 * Custom clean the cache of com_content and content modules
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *

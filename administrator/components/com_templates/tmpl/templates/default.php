@@ -52,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
-									<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+									<th class="w-10 d-none d-md-table-cell text-center">
 										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
 								<?php endif; ?>
@@ -71,10 +71,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<div>
 										<?php if ($this->preview) : ?>
 											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
-											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>" target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
-												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>"
+												target="_blank"
+												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
-											<div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->name); ?></div>
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>

@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class QuickIconHelper
+abstract class QuickIconHelper
 {
 	/**
 	 * Stack to hold buttons
@@ -31,7 +31,7 @@ class QuickIconHelper
 	 * @var     array[]
 	 * @since   1.6
 	 */
-	protected $buttons = array();
+	protected static $buttons = array();
 
 	/**
 	 * Helper method to return button list.
@@ -46,7 +46,7 @@ class QuickIconHelper
 	 *
 	 * @since   1.6
 	 */
-	public function getButtons(Registry $params, CMSApplication $application = null)
+	public static function &getButtons(Registry $params, CMSApplication $application = null)
 	{
 		if ($application == null)
 		{
@@ -56,12 +56,12 @@ class QuickIconHelper
 		$key     = (string) $params;
 		$context = (string) $params->get('context', 'mod_quickicon');
 
-		if (!isset($this->buttons[$key]))
+		if (!isset(self::$buttons[$key]))
 		{
 			// Load mod_quickicon language file in case this method is called before rendering the module
 			$application->getLanguage()->load('mod_quickicon');
 
-			$this->buttons[$key] = [];
+			self::$buttons[$key] = [];
 
 			if ($params->get('show_users'))
 			{
@@ -79,7 +79,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_menuitems'))
@@ -98,7 +98,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_articles'))
@@ -117,7 +117,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_categories'))
@@ -136,12 +136,12 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_media'))
 			{
-				$this->buttons[$key][] = [
+				self::$buttons[$key][] = [
 					'image'  => 'icon-images',
 					'link'   => Route::_('index.php?option=com_media'),
 					'name'   => 'MOD_QUICKICON_MEDIA_MANAGER',
@@ -166,7 +166,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_plugins'))
@@ -184,12 +184,12 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_template_styles'))
 			{
-				$this->buttons[$key][] = [
+				self::$buttons[$key][] = [
 					'image'  => 'icon-paint-brush',
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
@@ -200,7 +200,7 @@ class QuickIconHelper
 
 			if ($params->get('show_template_code'))
 			{
-				$this->buttons[$key][] = [
+				self::$buttons[$key][] = [
 					'image'  => 'icon-code',
 					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
@@ -224,7 +224,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_checkin&amp;task=getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_cache'))
@@ -234,7 +234,7 @@ class QuickIconHelper
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
-					'group'   => 'MOD_QUICKICON_SYSTEM'
+					'group'   => 'MOD_QUICKICON_SYTEM'
 				];
 
 				if ($params->get('show_cache') == 2)
@@ -242,12 +242,12 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json';
 				}
 
-				$this->buttons[$key][] = $tmp;
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_global'))
 			{
-				$this->buttons[$key][] = [
+				self::$buttons[$key][] = [
 					'image'  => 'icon-cog',
 					'link'   => Route::_('index.php?option=com_config'),
 					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
@@ -287,12 +287,12 @@ class QuickIconHelper
 
 					if (!\is_null($icon['link']) && !\is_null($icon['text']))
 					{
-						$this->buttons[$key][] = $icon;
+						self::$buttons[$key][] = $icon;
 					}
 				}
 			}
 		}
 
-		return $this->buttons[$key];
+		return self::$buttons[$key];
 	}
 }

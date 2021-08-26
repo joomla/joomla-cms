@@ -15,6 +15,7 @@ use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -72,14 +73,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -99,13 +92,8 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -130,23 +118,20 @@ class HtmlView extends BaseHtmlView
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		if (!$this->isEmptyState)
-		{
-			$bar->popupButton()
-				->url(Route::_('index.php?option=com_banners&view=download&tmpl=component'))
-				->text('JTOOLBAR_EXPORT')
-				->selector('downloadModal')
-				->icon('icon-download')
-				->footer('<button class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
-					. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
-					. Text::_('COM_BANNERS_CANCEL') . '</button>'
-					. '<button class="btn btn-success" type="button"'
-					. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
-					. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>'
-				);
-		}
+		$bar->popupButton()
+			->url(Route::_('index.php?option=com_banners&view=download&tmpl=component'))
+			->text('JTOOLBAR_EXPORT')
+			->selector('downloadModal')
+			->icon('icon-download')
+			->footer('<button class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
+				. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+				. Text::_('COM_BANNERS_CANCEL') . '</button>'
+				. '<button class="btn btn-success" type="button"'
+				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
+				. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>'
+			);
 
-		if (!$this->isEmptyState && $canDo->get('core.delete'))
+		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
 		}

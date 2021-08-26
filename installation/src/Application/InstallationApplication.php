@@ -85,7 +85,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
@@ -241,7 +241,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   4.0
 	 */
 	public function execute()
 	{

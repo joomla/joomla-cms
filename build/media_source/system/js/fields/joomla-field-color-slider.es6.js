@@ -41,7 +41,7 @@
   /**
    * Creates a slider for the color values hue, saturation and light.
    *
-   * @since 4.0.0
+   * @since 4.0
    */
   class JoomlaFieldColorSlider {
     /**

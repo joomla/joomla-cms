@@ -26,7 +26,6 @@ use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -41,10 +40,6 @@ elseif (strpos($listOrder, 'publish_down') !== false)
 {
 	$orderingColumn = 'publish_down';
 }
-elseif (strpos($listOrder, 'modified') !== false)
-{
-	$orderingColumn = 'modified';
-}
 else
 {
 	$orderingColumn = 'created';
@@ -57,13 +52,13 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
+$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
 
 if ($workflow_enabled) :
 
-// @todo move the script to a file
+// @todo mode the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -123,17 +118,17 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
-									<th scope="col" class="w-1 text-center">
-										<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+								</th>
+								<?php endif; ?>
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" style="min-width:85px" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="min-width:100px">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -155,11 +150,9 @@ $assoc = Associations::isEnabled();
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($this->hits) : ?>
-									<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
-										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
+								<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+								</th>
 								<?php if ($this->vote) : ?>
 									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
@@ -179,9 +172,9 @@ $assoc = Associations::isEnabled();
 							$item->max_ordering = 0;
 							$ordering         = ($listOrder == 'fp.ordering');
 							$assetId          = 'com_content.article.' . $item->id;
-							$canCreate        = $user->authorise('core.create',     'com_content.category.' . $item->catid);
-							$canEdit          = $user->authorise('core.edit',       'com_content.article.' . $item->id);
-							$canCheckin       = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+							$canCreate        = $user->authorise('core.create', 'com_content.category.' . $item->catid);
+							$canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+							$canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
 							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
@@ -221,27 +214,26 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage text-center">
-								<?php
-								$options = [
-									'transitions' => $transitions,
-									'title' => Text::_($item->stage_title),
-									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-									'id' => 'workflow-' . $item->id,
-									'task' => 'articles.runTransitions'
-								];
+								<td class="article-stage">
+									<div class="d-flex align-items-center tbody-icon small">
+									<?php
+									$options = [
+										'transitions' => $transitions,
+										'title' => Text::_($item->stage_title),
+										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
+									];
 
-								echo (new TransitionButton($options))
-									->render(0, $i);
-								?>
+									echo (new TransitionButton($options))
+										->render(0, $i);
+									?>
+									</div>
 								</td>
 								<?php endif; ?>
-								<td class="text-center d-none d-md-table-cell">
+								<td class="text-center">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange,
-										'id' => 'featured-' . $item->id
+										'disabled' => $workflow_featured || !$canChange
 									];
 
 									echo (new FeaturedButton)
@@ -252,8 +244,7 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange,
-										'id' => 'state-' . $item->id
+										'disabled' => $workflow_state || !$canChange
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
@@ -365,22 +356,20 @@ $assoc = Associations::isEnabled();
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<?php if ($this->hits) : ?>
-									<td class="d-none d-lg-table-cell text-center">
-										<span class="badge bg-info">
-											<?php echo (int) $item->hits; ?>
-										</span>
-									</td>
-								<?php endif; ?>
+								<td class="d-none d-lg-table-cell text-center">
+									<span class="badge bg-info">
+									<?php echo (int) $item->hits; ?>
+									</span>
+								</td>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge bg-success">
-											<?php echo (int) $item->rating_count; ?>
+										<span class="badge bg-success" >
+										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge bg-warning text-dark">
-											<?php echo (int) $item->rating; ?>
+										<span class="badge bg-warning text-dark" >
+										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
 								<?php endif; ?>

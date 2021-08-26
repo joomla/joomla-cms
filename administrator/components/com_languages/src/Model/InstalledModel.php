@@ -12,6 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -33,6 +34,11 @@ class InstalledModel extends ListModel
 	 * @var object user object
 	 */
 	protected $user = null;
+
+	/**
+	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exception
+	 */
+	protected $ftp = null;
 
 	/**
 	 * @var string option name
@@ -147,6 +153,23 @@ class InstalledModel extends ListModel
 	public function getClient()
 	{
 		return ApplicationHelper::getClientInfo($this->getState('client_id', 0));
+	}
+
+	/**
+	 * Method to get the ftp credentials.
+	 *
+	 * @return  object
+	 *
+	 * @since   1.6
+	 */
+	public function getFtp()
+	{
+		if (is_null($this->ftp))
+		{
+			$this->ftp = ClientHelper::setCredentialsFromRequest('ftp');
+		}
+
+		return $this->ftp;
 	}
 
 	/**
@@ -338,7 +361,8 @@ class InstalledModel extends ListModel
 
 		// Clean the cache of com_languages and component cache.
 		$this->cleanCache();
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

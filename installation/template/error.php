@@ -21,7 +21,7 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('messages');
+	->useScript('webcomponent.joomla-alert');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -72,7 +72,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
-									<p class="form-text small"><span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<p class="form-text text-muted small"><span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 								</div>
 							</div>
 							<?php if ($this->debug) : ?>

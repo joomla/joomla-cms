@@ -72,7 +72,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		throw new \Exception('Sorry, Joomla 4 no longer supports print_popup');
+		return self::getIcon()->print_popup($article, $params, $attribs, $legacy);
 	}
 
 	/**

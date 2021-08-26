@@ -90,6 +90,13 @@
 					filter="color"
 				/>
 				<field
+					name="sidebar-link-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
+					default="#132f53"
+					filter="color"
+				/>
+				<field
 					name="special-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"

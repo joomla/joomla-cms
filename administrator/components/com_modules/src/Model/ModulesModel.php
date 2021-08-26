@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -88,9 +87,6 @@ class ModulesModel extends ListModel
 			$this->context .= '.' . $layout;
 		}
 
-		// Make context client aware
-		$this->context .= '.' . $app->input->get->getInt('client_id', 0);
-
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
@@ -120,7 +116,7 @@ class ModulesModel extends ListModel
 		else
 		{
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-			$clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
+			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
 		}
 
@@ -457,25 +453,6 @@ class ModulesModel extends ListModel
 					->bind(':language', $language);
 			}
 		}
-
-		return $query;
-	}
-
-	/**
-	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
-	 *
-	 * @return DatabaseQuery
-	 *
-	 * @since 4.0.0
-	 */
-	protected function getEmptyStateQuery()
-	{
-		$query = parent::getEmptyStateQuery();
-
-		$clientId = (int) $this->getState('client_id');
-
-		$query->where($this->_db->quoteName('a.client_id') . ' = :client_id')
-			->bind(':client_id', $clientId, ParameterType::INTEGER);
 
 		return $query;
 	}

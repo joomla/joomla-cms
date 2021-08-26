@@ -1,6 +1,7 @@
 <template>
   <nav
     class="media-breadcrumb"
+    role="navigation"
     :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
   >
     <ol>
@@ -62,16 +63,6 @@ export default {
     /* Handle the on crumb click event */
     onCrumbClick(crumb) {
       this.navigateTo(crumb.path);
-      window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: {},
-          },
-        ),
-      );
     },
     findDrive(adapter) {
       let driveObject = null;

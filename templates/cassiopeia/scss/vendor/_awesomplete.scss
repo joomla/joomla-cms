@@ -11,7 +11,11 @@
     display: flex;
     align-items: center;
     .icon-search {
-      margin-inline-end: .2em;
+      margin-right: .2em;
+      [dir=rtl] & {
+        margin-right: 0;
+        margin-left: .2em;
+      }
     }
   }
 }

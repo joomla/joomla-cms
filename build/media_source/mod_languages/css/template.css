@@ -1,46 +1,26 @@
 div.mod-languages ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+	margin: 0;
+	padding: 0;
+	list-style:none;
 }
-
 div.mod-languages li {
-  margin: 0 .5rem;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 div.mod-languages ul.lang-inline li {
-  display: inline-block;
-}
-
-div.mod-languages .dropdown-menu {
-  padding: .5rem 0;
+	display:inline-block;
 }
 
 div.mod-languages ul.lang-block li {
-  display: block;
-  padding: .5rem 0;
-  text-align: start;
-}
-
-div.mod-languages ul li.lang-active {
-  background-color: #f0f0f0;
+	display:block;
 }
 
 div.mod-languages img {
-  display: inline-block;
-  border: none;
+	border:none;
+	display:inline-block;
 }
 
 div.mod-languages a {
-  padding: .5rem;
-  text-decoration: none;
-}
-
-div.mod-languages .btn-group {
-  display: flex !important;
-  margin: 0;
-}
-
-div.mod-languages .btn-group .btn {
-  flex: none;
+	text-decoration: none;
 }

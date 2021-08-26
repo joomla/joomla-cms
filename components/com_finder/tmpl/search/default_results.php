@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -47,19 +48,11 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
-	<?php
-		$this->document->getWebAssetManager()->useScript('highlight');
-		$this->document->addScriptOptions(
-			'highlight',
-			[[
-					'class'      => 'js-highlight',
-					'highLight'  => $this->query->highlight,
-			]]
-		);
-	?>
+	<?php HTMLHelper::_('behavior.highlighter', $this->query->highlight); ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
-<ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
+<br id="highlighter-start" />
+<ol id="search-result-list" class="com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
 	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $i => $result) : ?>
 		<?php $this->result = &$result; ?>
@@ -68,6 +61,7 @@ use Joomla\CMS\Uri\Uri;
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
 </ol>
+<br id="highlighter-end" />
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
 	<?php if ($this->params->get('show_pagination', 1) > 0) : ?>

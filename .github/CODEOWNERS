@@ -45,6 +45,8 @@ RoboFile.php  @rdeutz @hackwar
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24
+administrator/components/com_csp/* @zero-24
+components/com_csp/* @zero-24
 
 # Web Authentication (WebAuthn)
 plugins/system/webauthn/*   @nikosdion

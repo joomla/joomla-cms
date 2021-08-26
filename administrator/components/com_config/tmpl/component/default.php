@@ -38,25 +38,26 @@ if ($this->fieldsets)
 $xml = $this->form->getXml();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate main-card" name="adminForm" autocomplete="off">
-	<div class="row main-card-columns">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off">
+	<div class="row">
+
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
 				 <span class="icon-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div id="sidebar-nav" class="sidebar-nav">
+			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>
 		<?php // End Sidebar ?>
 
-		<div class="col-md-9" id="config">
+		<div class="col-md-9 mt-2" id="config">
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
-				<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', ['recall' => true, 'breakpoint' => 768]); ?>
+				<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs'); ?>
 
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php
@@ -76,7 +77,7 @@ $xml = $this->form->getXml();
 					<?php if (!$isGrandchild && $hasParent) : ?>
 						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-							<div class="form-grid">
+							<div>
 					<?php elseif (!$hasParent) : ?>
 						<?php if ($opentab) : ?>
 
@@ -97,7 +98,7 @@ $xml = $this->form->getXml();
 
 						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-							<div class="form-grid">
+							<div>
 						<?php $opentab = 2; ?>
 						<?php endif; ?>
 					<?php endif; ?>

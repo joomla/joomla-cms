@@ -58,9 +58,9 @@ abstract class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    User
-	 * @since  3.9.26
+	 * @since  3.5
 	 */
-	protected $storedUser;
+	protected $user;
 
 	/**
 	 * Flag for checking if the menu items have been loaded
@@ -79,16 +79,7 @@ abstract class AbstractMenu
 	 */
 	public function __construct($options = array())
 	{
-		/**
-		 * It is preferred NOT to inject and store the user when constructing the menu object,
-		 * at least for the Menu object used by Joomla.
-		 * The menu object can be built very early in the request, from an onAfterInitialise event
-		 * but the user can be updated later (by the Remember me plugin for instance). As the stored
-		 * user object is not updated, the menu will render incorrectly, not complying with
-		 * menu items access levels.
-		 * See https://github.com/joomla/joomla-cms/issues/11541
-		 */
-		$this->storedUser = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
+		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
 	}
 
 	/**
@@ -99,8 +90,8 @@ abstract class AbstractMenu
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @throws      \Exception
 	 * @since       1.5
+	 * @throws      \Exception
 	 * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
 	 */
 	public static function getInstance($client, $options = array())
@@ -116,20 +107,6 @@ abstract class AbstractMenu
 		}
 
 		return self::$instances[$client];
-	}
-
-	/**
-	 * Setter for the current user used to build menu.
-	 *
-	 * @param   User  $user  The new user to set.
-	 *
-	 * @return null
-	 *
-	 * @since 3.9.26
-	 */
-	public function setUser($user)
-	{
-		$this->storedUser = $user;
 	}
 
 	/**
@@ -248,10 +225,10 @@ abstract class AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items      = array();
+		$items = array();
 		$attributes = (array) $attributes;
-		$values     = (array) $values;
-		$count      = \count($attributes);
+		$values = (array) $values;
+		$count = \count($attributes);
 
 		foreach ($this->getMenu() as $item)
 		{
@@ -379,46 +356,4 @@ abstract class AbstractMenu
 	 * @since   1.5
 	 */
 	abstract public function load();
-
-	/**
-	 * Internal getter for the user. Returns the injected
-	 * one if any, or the current one if none.
-	 *
-	 * @return User
-	 *
-	 * @since 3.9.26
-	 */
-	protected function getUser()
-	{
-		return empty($this->storedUser)
-			? Factory::getUser()
-			: $this->storedUser;
-	}
-
-	/**
-	 * Magic getter for the user object. Returns the injected
-	 * one if any, or the current one if none.
-	 *
-	 * Using a magic getter to preserve B/C when we stopped storing the user object upon construction of the menu object.
-	 * As the user property is not initialized anymore, this getter ensures any class extending
-	 * this one can still use $instance->user and get a proper value.
-	 *
-	 * @param   string  $propName  Name of the missing or protected property.
-	 *
-	 * @return User|null
-	 *
-	 * @since 3.9.26
-	 */
-	public function __get($propName)
-	{
-		if ($propName === 'user')
-		{
-			return empty($this->storedUser)
-				? Factory::getUser()
-				: $this->storedUser;
-		}
-
-		return null;
-	}
 }
-

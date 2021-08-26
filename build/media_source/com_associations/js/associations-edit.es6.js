@@ -30,7 +30,7 @@ Joomla = window.Joomla || {};
 
     if (associations) {
       const html = document.createElement('joomla-alert');
-      html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+      html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
 
       associations.insertAdjacentElement('afterbegin', html);
     }
@@ -69,6 +69,7 @@ Joomla = window.Joomla || {};
       if (result.data.length !== 0) {
         [].slice.call(Object.keys(result.data)).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
+          // eslint-disable-next-line max-len
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }
@@ -77,7 +78,7 @@ Joomla = window.Joomla || {};
         Joomla.renderMessages({ notice: [result.message] });
       }
     } else {
-      Joomla.renderMessages({ warning: [(Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
+      Joomla.renderMessages({ warning: [(Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
     }
   };
 
@@ -133,7 +134,7 @@ Joomla = window.Joomla || {};
         Joomla.injectAssociations(JSON.parse(response), callbackFunctionPrefix);
       },
       onError: () => {
-        Joomla.renderMessages({ warning: [(Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
+        Joomla.renderMessages({ warning: [(Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
       },
     });
 
@@ -190,7 +191,7 @@ Joomla = window.Joomla || {};
 
         // If associations existed, send a warning to the user
         if (existsAssociations) {
-          Joomla.renderMessages({ warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
+          Joomla.renderMessages({ warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
         }
 
         // If the selected language is All hide the fields and add a message

@@ -28,6 +28,18 @@
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 			<field
+				name="scrolling"
+				type="list"
+				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
+				default="auto"
+				validate="options"
+				>
+				<option value="no">JNO</option>
+				<option value="yes">JYES</option>
+				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
+			</field>
+
+			<field
 				name="width"
 				type="text"
 				label="JGLOBAL_WIDTH"
@@ -69,15 +81,14 @@
 			</field>
 
 			<field
-				name="lazyloading"
+				name="frameborder"
 				type="radio"
-				label="COM_WRAPPER_FIELD_LAZYLOADING_LABEL"
-				default="lazy"
+				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 				layout="joomla.form.field.radio.switcher"
-				validate="options"
+				default="1"
 				>
-				<option value="eager">JNO</option>
-				<option value="lazy">JYES</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 	</fields>

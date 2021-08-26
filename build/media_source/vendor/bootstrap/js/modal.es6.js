@@ -5,10 +5,6 @@ Joomla.Modal = Joomla.Modal || {};
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Modal = Modal;
 
-const allowed = {
-  iframe: ['src', 'name', 'width', 'height'],
-};
-
 Joomla.initialiseModal = (modal, options) => {
   if (!(modal instanceof Element)) {
     return;
@@ -57,9 +53,9 @@ Joomla.initialiseModal = (modal, options) => {
           el = document.getElementById(idFieldArr[1]).value;
         }
 
-        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`${iframeTextArr[0]}${el}${iframeTextArr[2]}`, allowed));
+        modalBody.insertAdjacentHTML('afterbegin', `${iframeTextArr[0]}${el}${iframeTextArr[2]}`);
       } else {
-        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
+        modalBody.insertAdjacentHTML('afterbegin', modal.dataset.iframe);
       }
     }
   });
@@ -88,6 +84,7 @@ Joomla.initialiseModal = (modal, options) => {
       const padding = modalBody.offsetTop;
       const maxModalHeight = parseFloat(getComputedStyle(document.body, null).height.replace('px', '')) - (padding * 2);
       modalBodyPadding = modalBodyHeightOuter - modalBodyHeight;
+      // eslint-disable-next-line max-len
       maxModalBodyHeight = maxModalHeight - (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
     }
 
@@ -121,7 +118,7 @@ Joomla.initialiseModal = (modal, options) => {
  *                             { iframeSelector: '', buttonSelector: '' }
  * @returns {boolean}
  *
- * @since   4.0.0
+ * @since   4.0
  */
 Joomla.iframeButtonClick = (options) => {
   if (!options.iframeSelector || !options.buttonSelector) {

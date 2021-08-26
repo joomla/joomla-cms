@@ -14,11 +14,9 @@ namespace Joomla\Component\Privacy\Administrator\View\Request;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
@@ -83,7 +81,7 @@ class HtmlView extends BaseHtmlView
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
 		{
-			/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
+			/** @var \ActionlogsModelActionlogs $logsModel */
 			$logsModel = $this->getModel('actionlogs');
 
 			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
@@ -103,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new GenericDataException(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -120,7 +118,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication('administrator')->set('hidemainmenu', true);
 
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
@@ -162,10 +160,7 @@ class HtmlView extends BaseHtmlView
 						if (Factory::getApplication()->get('mailonline', 1))
 						{
 							ToolbarHelper::link(
-								Route::_(
-									'index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return
-									. '&' . Session::getFormToken() . '=1'
-								),
+								Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
 								'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
 								'mail'
 							);

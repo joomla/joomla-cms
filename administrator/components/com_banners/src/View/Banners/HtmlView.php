@@ -81,14 +81,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -109,13 +101,8 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -142,19 +129,19 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user  = Factory::getApplication()->getIdentity();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
+		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
 			$toolbar->addNew('banner.add');
 		}
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))))
+		if ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')

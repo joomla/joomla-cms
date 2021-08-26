@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -166,8 +165,7 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
-		// Return early if only the content is required
-		if (!empty($attribs['contentOnly']))
+		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
 		{
 			return $module->content;
 		}
@@ -335,20 +333,11 @@ abstract class ModuleHelper
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
+		// Build the template and base path for the layout
+		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php';
+		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
-
-		try
-		{
-			// Build the template and base path for the layout
-			$tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
-			$iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
-			$bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
-		}
-		catch (\Exception $e)
-		{
-			// On error fallback to the default path
-			return $dPath;
-		}
 
 		// If the template has a layout override use it
 		if (is_file($tPath))
@@ -594,11 +583,6 @@ abstract class ModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
-		if (!isset($cacheparams->cachesuffix))
-		{
-			$cacheparams->cachesuffix = '';
-		}
-
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
@@ -629,7 +613,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$cacheparams->modeparams . $cacheparams->cachesuffix,
+					$cacheparams->modeparams,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -659,7 +643,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $secureid . $cacheparams->cachesuffix,
+					$module->id . $view_levels . $secureid,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -669,7 +653,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->module . md5(serialize($cacheparams->methodparams)) . $cacheparams->cachesuffix,
+					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -680,7 +664,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
+					$module->id . $view_levels . $app->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

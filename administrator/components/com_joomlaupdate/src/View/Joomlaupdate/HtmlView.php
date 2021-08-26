@@ -16,7 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Version;
+use Joomla\CMS\Updater\Updater;
+use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! Update's Default View
@@ -26,6 +28,15 @@ use Joomla\CMS\Version;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * Holds an array with the configured FTP options.
+	 *
+	 * @var    array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $ftp = null;
+
+	/**
 	 * An array with the Joomla! update information.
 	 *
 	 * @var    array
@@ -33,6 +44,24 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.0
 	 */
 	protected $updateInfo = null;
+
+	/**
+	 * The form field for the extraction select
+	 *
+	 * @var    string
+	 *
+	 * @since  3.6.0
+	 */
+	protected $methodSelect = null;
+
+	/**
+	 * The form field for the upload select
+	 *
+	 * @var   string
+	 *
+	 * @since  3.6.0
+	 */
+	protected $methodSelectUpload = null;
 
 	/**
 	 * PHP options.
@@ -67,33 +96,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JObject
 	 * @since  4.0.0
 	 */
-	protected $state;
-
-	/**
-	 * Flag if the update component itself has to be updated
-	 *
-	 * @var boolean  True when update is available otherwise false
-	 *
-	 * @since 4.0.0
-	 */
-	protected $selfUpdateAvailable = false;
-
-	/**
-	 * A special prefix used for the emptystate layout variable
-	 *
-	 * @var string  The prefix
-	 *
-	 * @since 4.0.0
-	 */
-	protected $messagePrefix = '';
-
-	/**
-	 * Flag if the update component itself has to be updated
-	 *
-	 * @var    \stdClass[]
-	 * @since  4.0.0
-	 */
-	protected $nonCoreCriticalPlugins = [];
+	public $state;
 
 	/**
 	 * Renders the view
@@ -106,87 +109,53 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->updateInfo          = $this->get('UpdateInformation');
-		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
-
-		// Get results of pre update check evaluations
-		$this->phpOptions             = $this->get('PhpOptions');
-		$this->phpSettings            = $this->get('PhpSettings');
-		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$nextMajorVersion             = Version::MAJOR_VERSION + 1;
-
-		// The critical plugins check is only available for major updates.
-		if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>='))
-		{
-			$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
-		}
-
-		// Set to true if a required PHP option is not ok
-		$isCritical = false;
-
-		foreach ($this->phpOptions as $option)
-		{
-			if (!$option->state)
-			{
-				$isCritical = true;
-				break;
-			}
-		}
-
+		// Get data from the model.
 		$this->state = $this->get('State');
 
-		$hasUpdate = !empty($this->updateInfo['hasUpdate']);
-		$hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
+		// Load useful classes.
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		$model = $this->getModel();
+		$this->loadHelper('select');
 
-		// Fresh update, show it
-		if ($this->getLayout() == 'complete')
-		{
-			// Complete message, nothing to do here
-		}
-		// There is an update for the updater itself. So we have to update it first
-		elseif ($this->selfUpdateAvailable)
-		{
-			$this->setLayout('selfupdate');
-		}
-		elseif (!$hasDownload || !$hasUpdate)
-		{
-			// Could be that we have a download file but no update, so we offer a re-install
-			if ($hasDownload)
-			{
-				// We can reinstall if we have a URL but no update
-				$this->setLayout('reinstall');
-			}
-			// No download available
-			else
-			{
-				if ($hasUpdate)
-				{
-					$this->messagePrefix = '_NODOWNLOAD';
-				}
+		// Assign view variables.
+		$this->ftp     = $model->getFTPOptions();
+		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
 
-				$this->setLayout('noupdate');
-			}
-		}
-		// Here we have now two options: preupdatecheck or update
-		elseif ($this->getLayout() != 'update' || $isCritical)
+		$this->updateInfo         = $model->getUpdateInformation();
+		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
+		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
+
+		// Get results of pre update check evaluations
+		$this->phpOptions        = $model->getPhpOptions();
+		$this->phpSettings       = $model->getPhpSettings();
+		$this->nonCoreExtensions = $model->getNonCoreExtensions();
+
+		// Set the toolbar information.
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
+		ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+
+		// Add toolbar buttons.
+		if (Factory::getUser()->authorise('core.admin'))
 		{
-			$this->setLayout('preupdatecheck');
+			ToolbarHelper::preferences('com_joomlaupdate');
 		}
 
-		if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload']))
-		{
-			$language = Factory::getLanguage();
-			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
-			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+		if (!is_null($this->updateInfo['object']))
+		{
+			// Show the message if an update is found.
+			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}
 
-		$params = ComponentHelper::getParams('com_joomlaupdate');
+		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+		$params                 = ComponentHelper::getParams('com_joomlaupdate');
 
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
+			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -208,7 +177,6 @@ class HtmlView extends BaseHtmlView
 			 * "Minor & Patch Release for Current version (recommended and default)".
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
-			 * case 'sts':
 			 * case 'lts':
 			 * case 'nochange':
 			 */
@@ -217,52 +185,102 @@ class HtmlView extends BaseHtmlView
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
-		// Remove temporary files
-		$this->getModel()->removePackageFiles();
+		$this->warnings = array();
+		/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
+		$warningsModel = $this->getModel('warnings');
 
-		$this->addToolbar();
+		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
+		{
+			$language = Factory::getLanguage();
+			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
+			$this->warnings = $warningsModel->getItems();
+		}
+
+		$this->selfUpdate = $this->checkForSelfUpdate();
+
+		// Only Super Users have access to the Update & Install for obvious security reasons
+		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin');
+
+		// Remove temporary files
+		$model->removePackageFiles();
 
 		// Render the view.
 		parent::display($tpl);
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
 	 *
-	 * @return  void
+	 * @return  boolean  True if there is an update else false
 	 *
-	 * @since   4.0.0
+	 * @since   3.6.3
 	 */
-	protected function addToolbar()
+	private function checkForSelfUpdate()
 	{
-		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
+		$db = Factory::getDbo();
 
-		if (in_array($this->getLayout(), ['update', 'complete']))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
+		$db->setQuery($query);
+
+		try
 		{
-			$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-
-			ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
-
-			ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'), 'joomla install');
+			// Get the component extension ID
+			$joomlaUpdateComponentId = $db->loadResult();
 		}
-		elseif (!$this->selfUpdateAvailable)
+		catch (\RuntimeException $e)
 		{
-			ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
-		}
-
-		// Add toolbar buttons.
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::preferences('com_joomlaupdate');
+			// Something is wrong here!
+			$joomlaUpdateComponentId = 0;
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		// Try the update only if we have an extension id
+		if ($joomlaUpdateComponentId != 0)
+		{
+			// Always force to check for an update!
+			$cache_timeout = 0;
+
+			$updater = Updater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
+
+			// Fetch the update information from the database.
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
+			$db->setQuery($query);
+
+			try
+			{
+				$joomlaUpdateComponentObject = $db->loadObject();
+			}
+			catch (\RuntimeException $e)
+			{
+				// Something is wrong here!
+				$joomlaUpdateComponentObject = null;
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+
+			if (is_null($joomlaUpdateComponentObject))
+			{
+				// No Update great!
+				return false;
+			}
+
+			return true;
+		}
 	}
 
 	/**
 	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
 	 *
 	 * @return boolean
 	 *
@@ -270,10 +288,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
-
-		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
-		return $this->updateInfo['hasUpdate']
-			&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
+		return isset($this->updateInfo['object']->downloadurl->_data)
+			&& $this->getModel()->isDatabaseTypeSupported()
+			&& $this->getModel()->isPhpVersionSupported();
 	}
 }

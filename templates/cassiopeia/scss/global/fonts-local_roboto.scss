@@ -1,6 +1,5 @@
 // Fonts
-$roboto-font-path: "../../../../media/vendor/roboto-fontface/fonts" !default;
-@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "../../../../media/vendor/roboto-fontface/scss/roboto/roboto-fontface.css";
 
 :root {
   --cassiopeia-font-family-body: "Roboto", sans-serif;

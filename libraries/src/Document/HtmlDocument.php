@@ -112,7 +112,7 @@ class HtmlDocument extends Document
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	private $html5 = true;
 
@@ -695,7 +695,7 @@ class HtmlDocument extends Document
 		{
 			if (empty($module->contentRendered))
 			{
-				$renderer->render($module, ['contentOnly' => true]);
+				$renderer->render($module, array('style' => 'raw'));
 			}
 
 			if (trim($module->content) !== '')

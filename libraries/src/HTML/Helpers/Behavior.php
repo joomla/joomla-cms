@@ -11,6 +11,7 @@ namespace Joomla\CMS\HTML\Helpers;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -55,7 +56,6 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function formvalidator()
 	{
@@ -79,7 +79,6 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function combobox()
 	{
@@ -94,7 +93,6 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   1.7
-	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function multiselect($id = 'adminForm')
 	{
@@ -141,29 +139,59 @@ abstract class Behavior
 	 * @return  void
 	 *
 	 * @since   2.5
-	 *
-	 * @deprecated 5.0 Use the script directly
 	 */
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
+		$sig = md5(serialize(array($terms, $start, $end)));
+
+		if (isset(static::$loaded[__METHOD__][$sig]))
+		{
+			return;
+		}
+
 		$terms = array_filter($terms, 'strlen');
 
-		if (!empty($terms))
+		// Nothing to Highlight
+		if (empty($terms))
 		{
-			$doc = Factory::getDocument();
+			static::$loaded[__METHOD__][$sig] = true;
 
-			$doc->getWebAssetManager()->useScript('highlight');
-			$doc->addScriptOptions(
-				'highlight',
-				[[
-					'class'         => 'js-highlight',
-					'highLight'     => $terms,
-					'compatibility' => true,
-					'start'         => $start,
-					'end'           => $end,
-				]]
-			);
+			return;
 		}
+
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+		$wa
+			->registerScript('joomla.highlighter', 'legacy/highlighter.min.js', ['dependencies' => ['core', 'jquery']])
+			->useScript('joomla.highlighter');
+
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = OutputFilter::stringJSSafe($term);
+		}
+
+		$document = Factory::getDocument();
+		$document->addScriptDeclaration("
+			jQuery(function ($) {
+				var start = document.getElementById('" . $start . "');
+				var end = document.getElementById('" . $end . "');
+				if (!start || !end || !Joomla.Highlighter) {
+					return true;
+				}
+				highlighter = new Joomla.Highlighter({
+					startElement: start,
+					endElement: end,
+					className: '" . $className . "',
+					onlyWords: false,
+					tag: '" . $tag . "'
+				}).highlight([\"" . implode('","', $terms) . "\"]);
+				$(start).remove();
+				$(end).remove();
+			});"
+		);
+
+		static::$loaded[__METHOD__][$sig] = true;
 	}
 
 	/**

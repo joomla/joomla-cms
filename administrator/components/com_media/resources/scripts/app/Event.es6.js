@@ -1,3 +1,5 @@
+import Vue from 'vue/dist/vue.esm.browser.min.js';
+
 /**
  * Media Event bus - used for communication between joomla and vue
  */
@@ -6,7 +8,7 @@ export default class Event {
      * Media Event constructor
      */
   constructor() {
-    this.events = {};
+    this.vue = new Vue();
   }
 
   /**
@@ -15,9 +17,7 @@ export default class Event {
      * @param data
      */
   fire(event, data = null) {
-    if (this.events[event]) {
-      this.events[event].forEach((fn) => fn(data));
-    }
+    this.vue.$emit(event, data);
   }
 
   /**
@@ -26,7 +26,6 @@ export default class Event {
      * @param callback
      */
   listen(event, callback) {
-    this.events[event] = this.events[event] || [];
-    this.events[event].push(callback);
+    this.vue.$on(event, callback);
   }
 }

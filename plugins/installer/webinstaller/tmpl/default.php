@@ -15,9 +15,6 @@ use Joomla\CMS\Language\Text;
 
 $dir = $this->isRTL() ? ' dir="ltr"' : '';
 
-Text::script('JSEARCH_FILTER_CLEAR');
-Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
-
 ?>
 <div id="jed-container" class="tab-pane">
 	<div class="card" id="web-loader">
@@ -25,7 +22,8 @@ Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
 			<h2 class="card-title"><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
 		</div>
 	</div>
-	<div class="hidden" id="web-loader-error">
+	<div class="alert alert-error hidden" id="web-loader-error">
+		<a class="close" data-dismiss="alert">×</a><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
 	</div>
 </div>
 

@@ -2,6 +2,7 @@
 
 .cpanel-add-module-icon,
 .com-cpanel {
+
   &-help,
   &-system {
 
@@ -18,11 +19,11 @@
   &-help {
 
     &__header {
-      color: var(--template-special-color);
+      color: var(--atum-special-color);
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--atum-link-color);
     }
 
     h2 {
@@ -41,7 +42,7 @@
     }
 
     &__header {
-      color: var(--template-special-color);
+      color: var(--atum-special-color);
 
       span {
         margin-right: 5px;
@@ -49,7 +50,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--atum-link-color);
     }
 
     h2 {
@@ -70,171 +71,139 @@
 .com_cpanel {
 
   .content {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .card {
+
+    p:first-of-type {
+      margin-top: 0;
+    }
+
     p:last-child {
       margin-bottom: 0;
     }
 
     .list-group,
     .table {
-      padding: 0;
+      > .published {
+        padding-left: .9rem;
+        border-left: 5px solid var(--success);
+      }
+
+      > .unpublished {
+        padding-left: .9rem;
+        border-left: 5px solid var(--danger);
+      }
       margin-bottom: unset;
     }
 
   }
 
   .card-header {
-    display: flex;
-    padding: 1rem 1rem .75rem;
+    min-height: 2.5rem;
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
+    color: var(--atum-bg-dark);
     background: var(--card-bg);
-
-    > [class^="icon-"],
-    > img {
-      margin-inline-end: .5rem;
-    }
-  }
-
-  .card-body {
-    padding: 0;
-    overflow: hidden;
-    border-bottom-right-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
   }
 
   .module-actions {
-    order: 1;
-    margin-inline-start: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: $zindex-actions;
 
-    > * {
-      padding: 0;
-      margin-top: -10px;
-      color: var(--template-bg-dark-70);
+    > a {
+      display: inline-block;
+      width: 2.6em;
+      height: 2.6em;
+      line-height: 2.6em;
+      color: var(--atum-special-color);
     }
   }
 
   .cpanel-add-module {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 100%;
-    min-height: 130px;
-    padding: 0 1rem;
-    font-size: .875rem;
-    font-weight: 700;
-    line-height: 1;
-    color: hsl(var(--hue),30%,40%);
-    background-color: hsl(var(--hue),35%,98%);
-    border: 1px solid hsl(var(--hue),35%,88%);
-    border-radius: $border-radius;
-    transition: all .15s ease-in;
+    position: relative;
+    background-color: transparent;
+    border: .125rem dashed var(--atum-link-color);
+    transition: all .3s ease-in;
 
     &:hover,
     &:focus,
     &:active {
-      color: #fff;
       text-decoration: none;
-      background: var(--template-bg-dark);
+      background-color: var(--white);
+      border-color: var(--atum-bg-dark);
+
+      .cpanel-add-module-icon {
+
+        [class^="#{$fa-css-prefix}-"],
+        [class*=" #{$fa-css-prefix}-"] {
+          opacity: .3;
+        }
+      }
     }
 
-    > span {
-      padding: .25rem 0 1rem;
+    span {
+      position: relative;
     }
 
     .cpanel-add-module-icon {
-      font-size: 2rem;
-      color: hsl(var(--hue),30%,40%);
-      margin-inline-end: .5rem;
+      position: absolute;
+      top: -.25rem;
+      right: 0;
+      bottom: 0;
+      left: 12rem;
+
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
+        font-size: 7rem;
+        transition: all .3s ease-in;
+        transform: translateX(-100%);
+      }
     }
   }
 }
 
 .cpanel-modules {
-  .list-group {
-    border-top: 1px solid $list-group-border-color;
+  .list-group-item:hover {
+    background: var(--toolbar-bg);
   }
 
-  .list-group-item {
-    &:hover {
-      background: var(--toolbar-bg);
-    }
+  .list-group-item a > span {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
+    &[class^="#{$fa-css-prefix}-"],
+    &[class*=" #{$fa-css-prefix}-"] {
+      display: block;
+      padding: .5rem;
+      color: rgba(255, 255, 255, .9);
+      background: var(--atum-link-color);
+      box-shadow: $atum-box-shadow;
 
-    a {
-      font-weight: 500;
-      text-decoration: underline;
-    }
-
-    .btn {
-      text-decoration: none;
-    }
-
-    .list-group-item a > span {
-      &[class^="#{$jicon-css-prefix}-"],
-      &[class*=" #{$jicon-css-prefix}-"],
-      &[class^="#{$fa-css-prefix}-"],
-      &[class*=" #{$fa-css-prefix}-"] {
-        display: block;
-        padding: .5rem;
-        color: rgba(255, 255, 255, .9);
-        background: var(--template-link-color);
-        box-shadow: $atum-box-shadow;
-
-        &:hover {
-          background: var(--template-link-hover-color);
-        }
+      &:hover {
+        background: var(--atum-link-hover-color);
       }
     }
   }
 
-  .list-group-item span.home-image {
+  .list-group-item a > span.home-image {
     &[class^="#{$jicon-css-prefix}-"],
     &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: inline-block;
       padding: 0;
-      margin: 0 .85rem;
       font-size: .9rem;
       color: rgba(1, 1, 1, 1);
       background: var(--white-offset);
       box-shadow: none;
-      transform: scale(1.2);
     }
   }
 
   h2 {
-    margin-bottom: 0;
     font-size: $h4-font-size;
   }
-
-  .mod-custom {
-    padding: 1rem;
-  }
-}
-
-.sample-data {
-  .list-group-item {
-    padding: 1rem;
-  }
-}
-
-.sample-data__title {
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.sample-data__icon {
-  width: 1.3rem;
-  text-align: center;
-}
-
-.sample-data__desc {
-  border-inline-start: 4px solid hsl(var(--hue),50%,93%);
-  padding-inline-start: 1rem;
-  margin-inline-start: 8px;
 }

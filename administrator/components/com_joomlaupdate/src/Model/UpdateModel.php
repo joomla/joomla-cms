@@ -12,11 +12,13 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
@@ -27,7 +29,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 
 /**
@@ -61,6 +62,7 @@ class UpdateModel extends BaseDatabaseModel
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
+			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -88,7 +90,6 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
-			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -145,7 +146,7 @@ class UpdateModel extends BaseDatabaseModel
 		else
 		{
 			$update_params = ComponentHelper::getParams('com_installer');
-			$cache_timeout = (int) $update_params->get('cachetimeout', 6);
+			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
@@ -171,69 +172,6 @@ class UpdateModel extends BaseDatabaseModel
 		{
 			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
 		}
-	}
-
-	/**
-	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
-	 *
-	 * @return  boolean  True if there is an update else false
-	 *
-	 * @since   4.0.0
-	 */
-	public function getCheckForSelfUpdate()
-	{
-		$db = $this->getDbo();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
-		$db->setQuery($query);
-
-		try
-		{
-			// Get the component extension ID
-			$joomlaUpdateComponentId = $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			// Something is wrong here!
-			$joomlaUpdateComponentId = 0;
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		// Try the update only if we have an extension id
-		if ($joomlaUpdateComponentId != 0)
-		{
-			// Always force to check for an update!
-			$cache_timeout = 0;
-
-			$updater = Updater::getInstance();
-			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
-
-			// Fetch the update information from the database.
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = :id')
-				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
-			$db->setQuery($query);
-
-			try
-			{
-				$joomlaUpdateComponentObject = $db->loadObject();
-			}
-			catch (\RuntimeException $e)
-			{
-				// Something is wrong here!
-				$joomlaUpdateComponentObject = null;
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-			}
-
-			return !empty($joomlaUpdateComponentObject);
-		}
-
-		return false;
 	}
 
 	/**
@@ -305,11 +243,32 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Fetch the full update details from the update details URL.
 		$update = new Update;
-		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$this->updateInformation['object'] = $update;
 
 		return $this->updateInformation;
+	}
+
+	/**
+	 * Returns an array with the configured FTP options.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.5.4
+	 */
+	public function getFTPOptions()
+	{
+		$config = Factory::getApplication()->getConfig();
+
+		return array(
+			'host'      => $config->get('ftp_host'),
+			'port'      => $config->get('ftp_port'),
+			'username'  => $config->get('ftp_user'),
+			'password'  => $config->get('ftp_pass'),
+			'directory' => $config->get('ftp_root'),
+			'enabled'   => $config->get('ftp_enable'),
+		);
 	}
 
 	/**
@@ -379,13 +338,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir  = (string) InputFilter::getInstance(
-			[],
-			[],
-			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-		)
-			->clean(Factory::getApplication()->get('tmp_path'), 'path');
+		$tempdir  = Factory::getApplication()->get('tmp_path');
 		$target   = $tempdir . '/' . $basename;
 		$response = [];
 
@@ -533,9 +486,13 @@ class UpdateModel extends BaseDatabaseModel
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
+		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Trigger event before joomla update.
 		$app->triggerEvent('onJoomlaBeforeUpdate');
+
+		// Do we have to use FTP?
+		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
@@ -564,7 +521,7 @@ class UpdateModel extends BaseDatabaseModel
 	'kickstart.tuning.max_exec_time' => '5',
 	'kickstart.tuning.run_time_bias' => '75',
 	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => 'direct',
+	'kickstart.procengine' => '$method',
 	'kickstart.setup.sourcefile' => '$file',
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
@@ -573,6 +530,133 @@ class UpdateModel extends BaseDatabaseModel
 	'kickstart.setup.renamefiles' => array(),
 	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
+
+		if ($method != 'direct')
+		{
+			/*
+			 * Fetch the FTP parameters from the request. Note: The password should be
+			 * allowed as raw mode, otherwise something like !@<sdf34>43H% would be
+			 * sanitised to !@43H% which is just plain wrong.
+			 */
+			$ftp_host = $app->input->get('ftp_host', '');
+			$ftp_port = $app->input->get('ftp_port', '21');
+			$ftp_user = $app->input->get('ftp_user', '');
+			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
+			$ftp_root = $app->input->get('ftp_root', '');
+
+			// Is the tempdir really writable?
+			$writable = @is_writable($tempdir);
+
+			if ($writable)
+			{
+				// Let's be REALLY sure.
+				$fp = @fopen($tempdir . '/test.txt', 'w');
+
+				if ($fp === false)
+				{
+					$writable = false;
+				}
+				else
+				{
+					fclose($fp);
+					unlink($tempdir . '/test.txt');
+				}
+			}
+
+			// If the tempdir is not writable, create a new writable subdirectory.
+			if (!$writable)
+			{
+				$FTPOptions = ClientHelper::getCredentials('ftp');
+				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+
+				if (!@mkdir($tempdir . '/admintools'))
+				{
+					$ftp->mkdir($dest);
+				}
+
+				if (!@chmod($tempdir . '/admintools', 511))
+				{
+					$ftp->chmod($dest, 511);
+				}
+
+				$tempdir .= '/admintools';
+			}
+
+			// \Just in case the temp-directory was off-root, try using the default tmp directory.
+			$writable = @is_writable($tempdir);
+
+			if (!$writable)
+			{
+				$tempdir = JPATH_ROOT . '/tmp';
+
+				// Does the JPATH_ROOT/tmp directory exist?
+				if (!is_dir($tempdir))
+				{
+					Folder::create($tempdir, 511);
+					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
+					File::write($tempdir . '/.htaccess', $htaccessContents);
+				}
+
+				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
+				if (!is_writable($tempdir))
+				{
+					$FTPOptions = ClientHelper::getCredentials('ftp');
+					$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+					$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+
+					if (!@mkdir($tempdir . '/admintools'))
+					{
+						$ftp->mkdir($dest);
+					}
+
+					if (!@chmod($tempdir . '/admintools', 511))
+					{
+						$ftp->chmod($dest, 511);
+					}
+
+					$tempdir .= '/admintools';
+				}
+			}
+
+			// If we still have no writable directory, we'll try /tmp and the system's temp-directory.
+			$writable = @is_writable($tempdir);
+
+			if (!$writable)
+			{
+				if (@is_dir('/tmp') && @is_writable('/tmp'))
+				{
+					$tempdir = '/tmp';
+				}
+				else
+				{
+					// Try to find the system temp path.
+					$tmpfile = @tempnam('dummy', '');
+					$systemp = @dirname($tmpfile);
+					@unlink($tmpfile);
+
+					if (!empty($systemp))
+					{
+						if (@is_dir($systemp) && @is_writable($systemp))
+						{
+							$tempdir = $systemp;
+						}
+					}
+				}
+			}
+
+			$data .= <<<ENDDATA
+	,
+	'kickstart.ftp.ssl' => '0',
+	'kickstart.ftp.passive' => '1',
+	'kickstart.ftp.host' => '$ftp_host',
+	'kickstart.ftp.port' => '$ftp_port',
+	'kickstart.ftp.user' => '$ftp_user',
+	'kickstart.ftp.pass' => '$ftp_pass',
+	'kickstart.ftp.dir' => '$ftp_root',
+	'kickstart.ftp.tempdir' => '$tempdir'
+ENDDATA;
+		}
 
 		$data .= ');';
 
@@ -647,7 +731,7 @@ ENDDATA;
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -714,7 +798,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row = new \Joomla\CMS\Table\Extension(Factory::getDbo());
 
 		if ($id)
 		{
@@ -779,9 +863,6 @@ ENDDATA;
 			return false;
 		}
 
-		// Reinitialise the installer's extensions table's properties.
-		$installer->extension->getFields(true);
-
 		// Start Joomla! 1.6.
 		ob_start();
 		ob_implicit_flush(false);
@@ -807,7 +888,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update($this->getDbo());
+		$update = new \Joomla\CMS\Table\Update(Factory::getDbo());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -863,13 +944,28 @@ ENDDATA;
 		$tempdir = $app->get('tmp_path');
 
 		$file = $app->getUserState('com_joomlaupdate.file', null);
-		File::delete($tempdir . '/' . $file);
+		$target = $tempdir . '/' . $file;
+
+		if (!@unlink($target))
+		{
+			File::delete($target);
+		}
 
 		// Remove the restoration.php file.
-		File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		$target = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
+
+		if (!@unlink($target))
+		{
+			File::delete($target);
+		}
 
 		// Remove joomla.xml from the site's root.
-		File::delete(JPATH_ROOT . '/joomla.xml');
+		$target = JPATH_ROOT . '/joomla.xml';
+
+		if (!@unlink($target))
+		{
+			File::delete($target);
+		}
 
 		// Unset the update filename from the session.
 		$app = Factory::getApplication();
@@ -944,7 +1040,15 @@ ENDDATA;
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		$result = File::upload($tmp_src, $tmp_dest, false, true);
+		if (version_compare(\JVERSION, '3.4.0', 'ge'))
+		{
+			$result = File::upload($tmp_src, $tmp_dest, false, true);
+		}
+		else
+		{
+			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
+			$result = File::upload($tmp_src, $tmp_dest);
+		}
 
 		if (!$result)
 		{
@@ -1029,7 +1133,10 @@ ENDDATA;
 		{
 			if (File::exists($file))
 			{
-				File::delete($file);
+				if (!@unlink($file))
+				{
+					File::delete($file);
+				}
 			}
 		}
 	}
@@ -1071,6 +1178,16 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		{
+			$option = new \stdClass;
+			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+			$option->state  = $this->isDatabaseTypeSupported();
+			$option->notice = null;
+			$options[]      = $option;
+		}
+
 		// Check for mbstring options.
 		if (extension_loaded('mbstring'))
 		{
@@ -1101,26 +1218,6 @@ ENDDATA;
 		$option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
-		$options[] = $option;
-		$updateInformation = $this->getUpdateInformation();
-
-		// Check if configured database is compatible with the next major version of Joomla
-		$nextMajorVersion = Version::MAJOR_VERSION + 1;
-
-		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
-		{
-			$option = new \stdClass;
-			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
-			$option->state  = $this->isDatabaseTypeSupported();
-			$option->notice = null;
-			$options[]      = $option;
-		}
-
-		// Check if database structure is up to date
-		$option = new \stdClass;
-		$option->label  = Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
-		$option->state  = $this->getDatabaseSchemaCheck();
-		$option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
 		$options[] = $option;
 
 		return $options;
@@ -1173,27 +1270,6 @@ ENDDATA;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
-		// Check for GD support
-		$setting = new \stdClass;
-		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
-		$setting->state = extension_loaded('gd');
-		$setting->recommended = true;
-		$settings[] = $setting;
-
-		// Check for iconv support
-		$setting = new \stdClass;
-		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
-		$setting->state = function_exists('iconv');
-		$setting->recommended = true;
-		$settings[] = $setting;
-
-		// Check for intl support
-		$setting = new \stdClass;
-		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
-		$setting->state = function_exists('transliterator_transliterate');
-		$setting->recommended = true;
-		$settings[] = $setting;
-
 		return $settings;
 	}
 
@@ -1219,11 +1295,7 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		$updateInformation = $this->getUpdateInformation();
-		$nextMajorVersion  = Version::MAJOR_VERSION + 1;
-
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1257,10 +1329,8 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		$updateInformation = $this->getUpdateInformation();
-
-		return isset($updateInformation['object']->php_minimum) ?
-			$updateInformation['object']->php_minimum->_data :
+		return isset($this->getUpdateInformation()['object']->php_minimum) ?
+			$this->getUpdateInformation()['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1298,61 +1368,6 @@ ENDDATA;
 		return $result;
 	}
 
-
-	/**
-	 * Check if database structure is up to date
-	 *
-	 * @return  boolean  True if ok, false if not.
-	 *
-	 * @since   3.10.0
-	 */
-	private function getDatabaseSchemaCheck(): bool
-	{
-		$mvcFactory = $this->bootComponent('com_installer')->getMVCFactory();
-
-		/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
-		$model = $mvcFactory->createModel('Database', 'Administrator');
-
-		// Check if no default text filters found
-		if (!$model->getDefaultTextFilters())
-		{
-			return false;
-		}
-
-		$coreExtensionInfo = \Joomla\CMS\Extension\ExtensionHelper::getExtensionRecord('joomla', 'file');
-		$cache = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
-
-		$updateVersion = $cache->get('version');
-
-		// Check if database update version does not match CMS version
-		if (version_compare($updateVersion, JVERSION) != 0)
-		{
-			return false;
-		}
-
-		// Ensure we only get information for core
-		$model->setState('filter.extension_id', $coreExtensionInfo->extension_id);
-
-		// We're filtering by a single extension which must always exist - so can safely access this through
-		// element 0 of the array
-		$changeInformation = $model->getItems()[0];
-
-		// Check if schema errors found
-		if ($changeInformation['errorsCount'] !== 0)
-		{
-			return false;
-		}
-
-		// Check if database schema version does not match CMS version
-		if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema'])
-		{
-			return false;
-		}
-
-		// No database problems found
-		return true;
-	}
-
 	/**
 	 * Gets an array containing all installed extensions, that are not core extensions.
 	 *
@@ -1386,78 +1401,10 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
-
-			// Remove unused fields so they do not cause javascript errors during pre-update check
-			unset($decode->description);
-			unset($decode->copyright);
-			unset($decode->creationDate);
-
 			$this->translateExtensionName($extension);
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
-			$extension->manifest_cache = $decode;
-		}
-
-		return $rows;
-	}
-
-	/**
-	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
-	 *
-	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
-	 *
-	 * @return  array  name,version,updateserver
-	 *
-	 * @since   3.10.0
-	 */
-	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select(
-			$db->qn('ex.name') . ', ' .
-			$db->qn('ex.extension_id') . ', ' .
-			$db->qn('ex.manifest_cache') . ', ' .
-			$db->qn('ex.type') . ', ' .
-			$db->qn('ex.folder') . ', ' .
-			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('ex.package_id')
-		)->from(
-			$db->qn('#__extensions', 'ex')
-		)->where(
-			$db->qn('ex.type') . ' = ' . $db->quote('plugin')
-		)->where(
-			$db->qn('ex.enabled') . ' = 1'
-		)->whereNotIn(
-			$db->quoteName('ex.extension_id'), ExtensionHelper::getCoreExtensionIds()
-		);
-
-		if (count($folderFilter) > 0)
-		{
-			$folderFilter = array_map(array($db, 'quote'), $folderFilter);
-
-			$query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
-		}
-
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		foreach ($rows as $plugin)
-		{
-			$decode = json_decode($plugin->manifest_cache);
-
-			// Remove unused fields so they do not cause javascript errors during pre-update check
-			unset($decode->description);
-			unset($decode->copyright);
-			unset($decode->creationDate);
-
-			$this->translateExtensionName($plugin);
-			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
-			unset($plugin->manifest_cache);
-			$plugin->manifest_cache = $decode;
 		}
 
 		return $rows;
@@ -1643,11 +1590,9 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
-
-		$update = new Update;
+		$update = new \Joomla\CMS\Updater\Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXml($updateFileUrl, $minimumStability);
+		$update->loadFromXML($updateFileUrl);
 
 		$downloadUrl = $update->get('downloadurl');
 
@@ -1703,6 +1648,6 @@ ENDDATA;
 		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
-		$item->name = strip_tags(Text::_($item->name));
+		$item->name = Text::_($item->name);
 	}
 }

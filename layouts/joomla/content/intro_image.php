@@ -25,7 +25,7 @@ if (empty($images->image_intro))
 $imgclass  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 $extraAttr = '';
 $img       = HTMLHelper::cleanImageURL($images->image_intro);
-$alt       = empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8') . '"';
+$alt       = empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : 'alt="'. htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8') .'"';
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)

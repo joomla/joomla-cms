@@ -36,7 +36,8 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->getInt('eid');
+
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
 		if (empty($eid))
 		{
@@ -127,7 +128,7 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = $this->input->getInt('eid');
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
 		if (empty($eid))
 		{

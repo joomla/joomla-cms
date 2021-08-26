@@ -15,7 +15,7 @@
       </h3>
     </template>
     <template #body>
-      <div class="p-3">
+      <div>
         <div class="desc">
           {{ translate('COM_MEDIA_SHARE_DESC') }}
 

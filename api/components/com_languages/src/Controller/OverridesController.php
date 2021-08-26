@@ -171,7 +171,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 4.0
 	 */
 	private function getClientFromInput()
 	{
@@ -183,7 +183,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 4.0
 	 */
 	private function getLanguageFromInput()
 	{

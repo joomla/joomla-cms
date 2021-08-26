@@ -30,18 +30,17 @@
     border-color: var(--success);
   }
 
-  .#{$jicon-css-prefix}-home,
   .#{$jicon-css-prefix}-color-featured,
   .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
-    color: $warning;
-    border-color: $warning;
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
   }
 
   .#{$jicon-css-prefix}-archive,
   .#{$jicon-css-prefix}-folder,
   .#{$fa-css-prefix}-folder {
-    color: var(--template-text-dark);
+    color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
@@ -52,7 +51,7 @@
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: var(--template-text-dark);
+    color: var(--atum-text-dark);
     border: 0;
   }
 
@@ -74,13 +73,15 @@
 
 // WebAuthn
 .plg_system_webauthn_login_button svg {
-  margin-inline-end: 2px;
+  [dir=ltr] & {
+    margin-right: 2px;
+  }
+
+  [dir=rtl] & {
+    margin-left: 2px;
+  }
 }
 
 .plg_system_webauthn_login_button svg path {
   fill: var(--white);
-}
-
-.badge > span {
-  margin-inline-end: .5rem;
 }

@@ -37,6 +37,7 @@ class ManageController extends BaseController
 	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
+	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{

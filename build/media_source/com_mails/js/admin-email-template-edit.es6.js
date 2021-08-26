@@ -22,6 +22,10 @@
     }
 
     setBodyValue(value) {
+      if (this.inputBody.disabled) {
+        return;
+      }
+
       if (Joomla.editors.instances[this.inputBody.id]) {
         Joomla.editors.instances[this.inputBody.id].setValue(value);
       } else {
@@ -30,6 +34,10 @@
     }
 
     setHtmlBodyValue(value) {
+      if (this.inputHtmlBody.disabled) {
+        return;
+      }
+
       if (Joomla.editors.instances[this.inputHtmlBody.id]) {
         Joomla.editors.instances[this.inputHtmlBody.id].setValue(value);
       } else {
@@ -52,6 +60,8 @@
           return false;
       }
 
+      if (input.disabled) return false;
+
       if (Joomla.editors.instances[input.id]) {
         Joomla.editors.instances[input.id].replaceSelection(tag);
       } else {
@@ -62,31 +72,73 @@
     }
 
     bindListeners() {
-      document.querySelector('#btnResetSubject').addEventListener('click', (event) => {
-        event.preventDefault();
+      // To enable editing of specific input
+      const subjectSwitcher = document.querySelectorAll('input[type=radio][name="jform[subject_switcher]"]');
+      const bodySwitcher = document.querySelectorAll('input[type=radio][name="jform[body_switcher]"]');
+      const htmlBodySwitcher = document.querySelectorAll('input[type=radio][name="jform[htmlbody_switcher]"]');
 
-        this.inputSubject.value = this.templateData.subject ? this.templateData.subject : '';
+      const subjectSwitcherChangeHandler = ({ target }) => {
+        if (target.value === '0') {
+          this.inputSubject.disabled = true;
+          this.inputSubject.value = this.templateData.subject ? this.templateData.subject.master : '';
+        } else if (target.value === '1') {
+          this.inputSubject.disabled = false;
+          this.inputSubject.value = this.templateData.subject ? this.templateData.subject.translated : '';
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
+        }
+      };
+
+      Array.prototype.forEach.call(subjectSwitcher, (radio) => {
+        radio.addEventListener('change', subjectSwitcherChangeHandler);
       });
 
-      const btnResetBody = document.querySelector('#btnResetBody');
+      const bodySwitcherChangeHandler = ({ target }) => {
+        const tagsContainer = this.form.querySelector('.tags-container-body');
 
-      if (btnResetBody) {
-        btnResetBody.addEventListener('click', (event) => {
-          event.preventDefault();
+        if (target.value === '0') {
+          this.setBodyValue(this.templateData.body ? this.templateData.body.master : '');
+          this.inputBody.disabled = true;
+          tagsContainer.classList.add('hidden');
+        } else if (target.value === '1') {
+          this.inputBody.disabled = false;
+          this.inputBody.readOnly = false;
+          this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
+          tagsContainer.classList.remove('hidden');
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
+        }
+      };
 
-          this.setBodyValue(this.templateData.body ? this.templateData.body : '');
-        });
-      }
+      Array.prototype.forEach.call(bodySwitcher, (radio) => {
+        radio.addEventListener('change', bodySwitcherChangeHandler);
+      });
 
-      const btnResetHtmlBody = document.querySelector('#btnResetHtmlBody');
+      const htmlBodySwitcherChangeHandler = ({ target }) => {
+        const tagsContainer = this.form.querySelector('.tags-container-htmlbody');
 
-      if (btnResetHtmlBody) {
-        btnResetHtmlBody.addEventListener('click', (event) => {
-          event.preventDefault();
+        if (target.value === '0') {
+          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
+          this.inputHtmlBody.disabled = true;
+          Joomla.editors.instances[this.inputHtmlBody.id].disable(true);
+          tagsContainer.classList.add('hidden');
+        } else if (target.value === '1') {
+          Joomla.editors.instances[this.inputHtmlBody.id].disable(false);
+          this.inputHtmlBody.disabled = false;
+          this.inputHtmlBody.readOnly = false;
+          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
+          tagsContainer.classList.remove('hidden');
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
+        }
+      };
 
-          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody : '');
-        });
-      }
+      Array.prototype.forEach.call(htmlBodySwitcher, (radio) => {
+        radio.addEventListener('change', htmlBodySwitcherChangeHandler);
+      });
 
       // Buttons for inserting a tag
       this.form.querySelectorAll('.edit-action-add-tag').forEach((button) => {

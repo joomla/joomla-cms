@@ -9,12 +9,11 @@
 
 .js-stools-container-bar,
 .js-stools-container-filters {
+  width: 100%;
   margin-bottom: 10px;
 }
 
 .js-stools-container-bar {
-  margin-inline-start: auto;
-
   .btn-toolbar {
     justify-content: flex-end;
 
@@ -27,7 +26,7 @@
     }
 
     .js-stools-btn-clear {
-      background-color: var(--template-bg-dark);
+      background-color: var(--atum-bg-dark);
       border: 0;
     }
   }
@@ -39,7 +38,6 @@
 
 .js-stools-container-filters {
   display: none;
-  width: 100%;
 
   &-visible {
     display: grid;

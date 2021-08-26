@@ -13,11 +13,10 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-/* @var $displayData array */
 $msgList   = $displayData['msgList'];
-$document  = Factory::getDocument();
 $msgOutput = '';
-$alert     = [
+
+$alert = [
 	CMSApplication::MSG_EMERGENCY => 'danger',
 	CMSApplication::MSG_ALERT     => 'danger',
 	CMSApplication::MSG_CRITICAL  => 'danger',
@@ -41,34 +40,26 @@ Text::script('JOK');
 Text::script('JOPEN');
 
 // Alerts progressive enhancement
-$document->getWebAssetManager()
+Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('messages');
+	->useScript('webcomponent.joomla-alert');
 
-if (is_array($msgList) && !empty($msgList))
-{
-	$messages = [];
-
-	foreach ($msgList as $type => $msgs)
-	{
-		// JS loaded messages
-		$messages[] = [$alert[$type] ?? $type => $msgs];
-		// Noscript fallback
-		if (!empty($msgs)) {
-			$msgOutput .= '<div class="alert alert-' . ($alert[$type] ?? $type) . '">';
+if (is_array($msgList) && !empty($msgList)) :
+	foreach ($msgList as $type => $msgs) :
+		$msgOutput .= '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
+		if (!empty($msgs)) :
+			$msgOutput .= '<div class="alert-heading">';
+			$msgOutput .= '<span class="' . $type . '"></span>';
+			$msgOutput .= '<span class="visually-hidden">' . Text::_($type) . '</span>';
+			$msgOutput .= '</div>';
+			$msgOutput .= '<div class="alert-wrapper">';
 			foreach ($msgs as $msg) :
-				$msgOutput .= $msg;
+				$msgOutput .= '<div class="alert-message">' . $msg . '</div>';
 			endforeach;
 			$msgOutput .= '</div>';
-		}
-	}
-
-	if ($msgOutput !== '')
-	{
-		$msgOutput = '<noscript>' . $msgOutput . '</noscript>';
-	}
-
-	$document->addScriptOptions('joomla.messages', $messages);
-}
+		endif;
+		$msgOutput .= '</joomla-alert>';
+	endforeach;
+endif;
 ?>
 <div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>

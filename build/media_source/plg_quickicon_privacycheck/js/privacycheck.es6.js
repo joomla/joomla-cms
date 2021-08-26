@@ -6,7 +6,7 @@
 ((document) => {
   'use strict';
 
-  const checkPrivacy = () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const variables = Joomla.getOptions('js-privacy-check');
     const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
     const url = variables.plg_quickicon_privacycheck_url;
@@ -25,29 +25,25 @@
 
           if (request.data.number_urgent_requests) {
             // Quickicon on dashboard shows message
-            const countBadge = document.createElement('span');
-            countBadge.classList.add('badge', 'text-dark', 'bg-light');
-            countBadge.textContent = request.data.number_urgent_requests;
-            link.textContent = `${text.REQUESTFOUND} `;
-            link.appendChild(countBadge);
-
+            link.textContent = `${text.REQUESTFOUND} ${request.data.number_urgent_requests}`;
             // Quickicon becomes red
             quickicon.classList.add('danger');
 
-            // Span in alert
+            // Span in alert message
             const countSpan = document.createElement('span');
             countSpan.classList.add('label', 'label-important');
-            countSpan.textContent = `${text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests)} `;
+            countSpan.textContent = request.data.number_urgent_requests;
 
             // Button in alert to 'view requests'
             const requestButton = document.createElement('button');
-            requestButton.classList.add('btn', 'btn-primary', 'btn-sm');
+            requestButton.classList.add('btn', 'btn-primary');
             requestButton.setAttribute('onclick', `document.location='${url}'`);
             requestButton.textContent = text.REQUESTFOUND_BUTTON;
 
             const div = document.createElement('div');
             div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
             div.appendChild(countSpan);
+            div.insertAdjacentText('beforeend', ` ${text.REQUESTFOUND_MESSAGE}`);
             div.appendChild(requestButton);
 
             // Add elements to container for alert messages
@@ -67,10 +63,5 @@
         link.textContent = text.ERROR;
       },
     });
-  };
-
-  // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(checkPrivacy, 360);
   });
 })(document);

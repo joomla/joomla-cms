@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  Subtemplate to use
 	 *
-	 * @return  void
+	 * @return  boolean  Return true to allow rendering of the page
 	 *
 	 * @since   3.2
 	 */
@@ -41,13 +41,8 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
-		if (!\count($this->items))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
-		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId);
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
 
 		if (empty($this->eid))
 		{
@@ -59,9 +54,9 @@ class HtmlView extends BaseHtmlView
 		$this->token = Factory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
+		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

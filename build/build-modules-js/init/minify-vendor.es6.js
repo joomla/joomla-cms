@@ -1,5 +1,5 @@
 const { lstat, readFile, writeFile } = require('fs-extra');
-const { sep, basename } = require('path');
+const { sep } = require('path');
 const recursive = require('recursive-readdir');
 const { minify } = require('terser');
 
@@ -10,6 +10,7 @@ const folders = [
   'media/vendor/chosen/js',
   'media/vendor/codemirror',
   'media/vendor/debugbar',
+  'media/vendor/punycode/js',
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',
@@ -18,12 +19,15 @@ const folders = [
 let allFiles = [];
 
 const noMinified = [
-  'accessibility.min.js',
-  'short-and-sweet.min.js',
+  'media/vendor/accessibility/js/accessibility.min.js',
+  'media/vendor/short-and-sweet/js/short-and-sweet.min.js',
 ];
 
 const alreadyMinified = [
-  'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
+  'media/vendor/webcomponentsjs/js/webcomponents-ce.js',
+  'media/vendor/webcomponentsjs/js/webcomponents-sd.js',
+  'media/vendor/webcomponentsjs/js/webcomponents-sd-ce.js',
+  'media/vendor/webcomponentsjs/js/webcomponents-sd-ce-pf.js',
 ];
 
 /**
@@ -47,7 +51,7 @@ const minifiedExists = async (file) => {
  * @returns {Promise}
  */
 const minifyJS = async (file) => {
-  const needsDotJS = noMinified.includes(basename(file));
+  const needsDotJS = noMinified.includes(file.replace(`${RootPath}${sep}`, ''));
   if (file.endsWith('.min.js') && !needsDotJS) {
     return;
   }
@@ -75,7 +79,7 @@ const minifyJS = async (file) => {
   await writeFile(
     newFile,
     minified,
-    { encoding: 'utf8', mode: 0o644 },
+    { encoding: 'utf8' },
   );
 };
 

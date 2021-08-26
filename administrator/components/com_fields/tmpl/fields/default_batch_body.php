@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -18,18 +17,16 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-batch');
 $wa->useScript('joomla.batch-copymove');
 
-$context = $this->escape($this->state->get('filter.context'));
+$context   = $this->escape($this->state->get('filter.context'));
 ?>
 
-<div class="p-3">
+<div class="container">
 	<div class="row">
-		<?php if (Multilanguage::isEnabled()) : ?>
-			<div class="form-group col-md-6">
-				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
-				</div>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
 			</div>
-		<?php endif; ?>
+		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>
@@ -54,7 +51,7 @@ $context = $this->escape($this->state->get('filter.context'));
 						<?php echo HTMLHelper::_('select.options', $this->get('Groups'), 'value', 'text'); ?>
 					</select>
 				</div>
-				<div id="batch-copy-move">
+				<div id="batch-copy-move" class="control-group radio">
 					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 				</div>

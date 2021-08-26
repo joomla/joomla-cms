@@ -20,7 +20,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 		<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 			<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<div class="com-content-categories__item">
-				<div>
+				<h3 class="page-header item-title">
 					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
@@ -29,19 +29,19 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>
-				</div>
-				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-					<button
-						type="button"
-						id="category-btn-<?php echo $item->id; ?>"
-						data-category-id="<?php echo $item->id; ?>"
-						class="btn btn-secondary btn-sm"
-						aria-expanded="false"
-						aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
-					>
-						<span class="icon-plus" aria-hidden="true"></span>
-					</button>
-				<?php endif; ?>
+					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
+						<button
+							type="button"
+							id="category-btn-<?php echo $item->id; ?>"
+							data-bs-target="#category-<?php echo $item->id; ?>"
+							data-bs-toggle="collapse"
+							class="btn btn-secondary btn-sm float-end"
+							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+						>
+							<span class="icon-plus" aria-hidden="true"></span>
+						</button>
+					<?php endif; ?>
+				</h3>
 				<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>
 					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>">
 				<?php endif; ?>
@@ -54,7 +54,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<?php endif; ?>
 
 				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-					<div class="com-content-categories__children" id="category-<?php echo $item->id; ?>" hidden="">
+					<div class="com-content-categories__children collapse fade" id="category-<?php echo $item->id; ?>">
 					<?php
 					$this->items[$item->id] = $item->getChildren();
 					$this->parent = $item;

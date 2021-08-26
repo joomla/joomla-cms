@@ -14,7 +14,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Categories;
 use Joomla\CMS\MVC\View\CategoriesView;
 
 /**
- * Newsfeed categories view.
+ * Content categories view.
  *
  * @since  1.5
  */

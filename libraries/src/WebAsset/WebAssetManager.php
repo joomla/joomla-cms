@@ -157,7 +157,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * Adds support for magic method calls
 	 *
 	 * @param   string  $method     A method name
-	 * @param   array   $arguments  Arguments for a method
+	 * @param   string  $arguments  An arguments for a method
 	 *
 	 * @return mixed
 	 *

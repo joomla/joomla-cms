@@ -323,7 +323,6 @@ CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
 CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path");
-CREATE INDEX "#__finder_taxonomy_level" on "#__finder_taxonomy" ("level");
 CREATE INDEX "#__finder_taxonomy_lft_rgt" on "#__finder_taxonomy" ("lft", "rgt");
 CREATE INDEX "#__finder_taxonomy_alias" on "#__finder_taxonomy" ("alias");
 CREATE INDEX "#__finder_taxonomy_language" on "#__finder_taxonomy" ("language");

@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void|boolean
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -173,16 +173,8 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif (in_array($ext, $imageTypes))
 		{
-			try
-			{
-				$this->image = $this->get('Image');
-				$this->type  = 'image';
-			}
-			catch (\RuntimeException $exception)
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
-				$this->type = 'home';
-			}
+			$this->image = $this->get('Image');
+			$this->type  = 'image';
 		}
 		elseif (in_array($ext, $fontTypes))
 		{
@@ -217,7 +209,7 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout('readonly');
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

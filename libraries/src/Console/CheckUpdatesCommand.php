@@ -55,17 +55,9 @@ class CheckUpdatesCommand extends AbstractCommand
 		$cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
 
 		// Find all updates
-		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
+		Updater::getInstance()->findUpdates(0, $cache_timeout);
 
-		if ($ret)
-		{
-			$symfonyStyle->note('There are available updates to apply');
-			$symfonyStyle->success('Check complete.');
-		}
-		else
-		{
-			$symfonyStyle->success('There are no available updates');
-		}
+		$symfonyStyle->success('Finished fetching updates');
 
 		return Command::SUCCESS;
 	}

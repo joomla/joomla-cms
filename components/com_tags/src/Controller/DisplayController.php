@@ -11,6 +11,7 @@ namespace Joomla\Component\Tags\Site\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -33,7 +34,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$user = $this->app->getIdentity();
+		$user = Factory::getUser();
 
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'tags');

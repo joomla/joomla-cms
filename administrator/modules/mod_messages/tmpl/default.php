@@ -11,24 +11,25 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
-
-if ($hideLinks || $countUnread < 1)
-{
-	return;
-}
-
-$route = 'index.php?option=com_messages&view=messages';
+$uri   = Uri::getInstance();
+$route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
 ?>
-<a class="header-item-content" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
-	<div class="header-item-icon">
-		<div class="w-auto">
-			<span class="icon-envelope icon-fw" aria-hidden="true"></span>
-			<small class="header-item-count"><?php echo $countUnread; ?></small>
+
+<div class="header-item-content">
+	<a class="d-flex align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
+		<div class="d-flex align-items-end mx-auto">
+			<span class="icon-envelope" aria-hidden="true"></span>
 		</div>
-	</div>
-	<div class="header-item-text">
-		<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
-	</div>
-</a>
+		<div class="tiny">
+			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
+		</div>
+		<?php if ($countUnread > 0) : ?>
+			<span class="badge bg-danger"><?php echo $countUnread; ?></span>
+		<?php endif; ?>
+	</a>
+</div>
+
+

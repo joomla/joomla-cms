@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -30,17 +29,15 @@ if ($clientId == 1)
 	$wa->useScript('joomla.batch-copymove');
 }
 ?>
-<div class="p-3">
+<div class="container">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">
-		<?php if (Multilanguage::isEnabled()) : ?>
-			<div class="form-group col-md-6">
-				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
-				</div>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
-		<?php endif; ?>
+		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
@@ -51,15 +48,15 @@ if ($clientId == 1)
 	<div class="row">
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
-				<div class="control-group">
+				<div class="controls">
 					<label id="batch-choose-action-lbl" for="batch-menu-id">
 						<?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 					</label>
 					<select class="form-select" name="batch[menu_id]" id="batch-menu-id">
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
-						$opts = array(
-							'published' => $this->state->get('filter.published'),
+						$opts     = array(
+							'published' => $published,
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);
@@ -68,7 +65,7 @@ if ($clientId == 1)
 					</select>
 				</div>
 
-				<div id="batch-copy-move">
+				<div id="batch-copy-move" class="control-group radio">
 					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 				</div>

@@ -12,8 +12,6 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -180,7 +178,6 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
-	 * @throws  \Exception
 	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
@@ -249,12 +246,12 @@ class MailTemplate
 
 		if ($mailStyle === 'html' || $mailStyle === 'both')
 		{
-			$this->mailer->isHtml(true);
+			$this->mailer->IsHTML(true);
 
 			// If HTML body is empty try to convert the Plain template to html
 			if (!$htmlBody)
 			{
-				$htmlBody = nl2br($plainBody, false);
+				$htmlBody = nl2br($plainBody);
 			}
 
 			$this->mailer->setBody($htmlBody);
@@ -270,7 +267,7 @@ class MailTemplate
 			switch ($recipient->type)
 			{
 				case 'cc':
-					$this->mailer->addCc($recipient->mail, $recipient->name);
+					$this->mailer->addcc($recipient->mail, $recipient->name);
 					break;
 				case 'bcc':
 					$this->mailer->addBcc($recipient->mail, $recipient->name);
@@ -286,21 +283,13 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		if (trim($config->get('attachment_folder')))
+		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
+
+		foreach ((array) json_decode($mail->attachments)  as $attachment)
 		{
-			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
-
-			if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
+			if (is_file($path . $attachment->file))
 			{
-				foreach ((array) json_decode($mail->attachments) as $attachment)
-				{
-					$filePath = Path::check($folderPath . '/' . $attachment->file);
-
-					if (is_file($filePath))
-					{
-						$this->mailer->addAttachment($filePath, $this->getAttachmentName($filePath, $attachment->name));
-					}
-				}
+				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
 			}
 		}
 
@@ -308,11 +297,11 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
+				$this->mailer->addAttachment($attachment->file, $attachment->name);
 			}
 			else
 			{
-				$this->mailer->addStringAttachment($attachment->file, $attachment->name);
+				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
 			}
 		}
 
@@ -376,7 +365,7 @@ class MailTemplate
 	 */
 	public static function getTemplate($key, $language)
 	{
-		$db = Factory::getDbo();
+		$db = Factory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__mail_templates'))
@@ -418,7 +407,6 @@ class MailTemplate
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
-		$template->attachments = '';
 		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
@@ -476,33 +464,5 @@ class MailTemplate
 
 		return $db->execute();
 	}
-
-	/**
-	 * Check and if necessary fix the file name of an attachment so that the attached file
-	 * has the same extension as the source file, and not a different file extension
-	 *
-	 * @param   string  $file  Path to the file to be attached
-	 * @param   string  $name  The file name to be used for the attachment
-	 *
-	 * @return  string  The corrected file name for the attachment
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getAttachmentName(string $file, string $name): string
-	{
-		// If no name is given, do not process it further
-		if (!trim($name))
-		{
-			return '';
-		}
-
-		// Replace any placeholders.
-		$name = $this->replaceTags($name, $this->data);
-
-		// Get the file extension.
-		$ext = File::getExt($file);
-
-		// Strip off extension from $name and append extension of $file, if any
-		return File::stripExt($name) . ($ext ? '.' . $ext : '');
-	}
 }
+

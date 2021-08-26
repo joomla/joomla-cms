@@ -11,6 +11,7 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -82,11 +83,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 *
-	 * @throws  GenericDataException
+	 * @throws  Exception
 	 */
 	public function display($tpl = null): void
 	{
@@ -100,14 +101,9 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
-		if (!\count($this->data))
-		{
-			$this->setLayout('emptystate');
 		}
 
 		$this->addToolbar();
@@ -129,13 +125,10 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if (\count($this->data))
-		{
-			ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
-			ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
-			$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
-			ToolbarHelper::divider();
-		}
+		ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
+		ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
+		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
+		ToolbarHelper::divider();
 
 		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{

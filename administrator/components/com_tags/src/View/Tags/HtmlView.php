@@ -65,14 +65,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Is this view an Empty State
-	 *
-	 * @var  boolean
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -87,13 +79,8 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -130,7 +117,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_tags');
-		$user  = Factory::getApplication()->getIdentity();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -142,7 +129,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('tag.add');
 		}
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -165,7 +152,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('tags.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.published') == -2)
 			{
 				$childBar->trash('tags.trash')->listCheck(true);
 			}
@@ -178,14 +165,14 @@ class HtmlView extends BaseHtmlView
 					->selector('collapseModal')
 					->listCheck(true);
 			}
-		}
 
-		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('tags.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('tags.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

@@ -32,7 +32,6 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
-					validate="moduleLayout"
 				/>
 
 				<field

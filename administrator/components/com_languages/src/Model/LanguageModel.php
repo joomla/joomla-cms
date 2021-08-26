@@ -220,7 +220,7 @@ class LanguageModel extends AdminModel
 		// Prevent saving an empty url language code
 		if ($data['sef'] === '')
 		{
-			$this->setError(Text::_('COM_LANGUAGES_ERROR_SEF'));
+			$this->setError(JText::_('COM_LANGUAGES_ERROR_SEF'));
 
 			return false;
 		}
@@ -275,7 +275,7 @@ class LanguageModel extends AdminModel
 	 * Custom clean cache method.
 	 *
 	 * @param   string   $group     Optional cache group name.
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *

@@ -98,7 +98,7 @@
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
-              // Initialize the showon behaviour for the given HTMLElement
+              // Initialise
               self.linkedOptions(key);
 
               // Setup listeners

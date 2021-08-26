@@ -13,8 +13,8 @@
 		<filename plugin="recaptcha">recaptcha.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha.ini</language>
-		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha.ini</language>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -83,7 +83,6 @@
 					type="number"
 					label="PLG_RECAPTCHA_TABINDEX_LABEL"
 					description="PLG_RECAPTCHA_TABINDEX_DESC"
-					filter="integer"
 					default="0"
 					showon="version:2.0"
 					min="0"

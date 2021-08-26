@@ -21,7 +21,7 @@
           novalidate
           @submit.prevent="save"
         >
-          <div class="form-group p-3">
+          <div class="form-group">
             <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
             <div :class="{'input-group': extension.length}">
               <input

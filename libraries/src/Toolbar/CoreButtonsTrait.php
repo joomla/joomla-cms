@@ -452,7 +452,7 @@ trait CoreButtonsTrait
 	 *
 	 * @since   4.0.0
 	 */
-	public function preferences(string $component, string $text = 'JTOOLBAR_OPTIONS', string $path = ''): LinkButton
+	public function preferences(string $component, string $text = 'JToolbar_Options', string $path = ''): LinkButton
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);

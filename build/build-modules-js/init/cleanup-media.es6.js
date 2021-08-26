@@ -24,10 +24,10 @@ module.exports.cleanVendors = async () => {
     // console.error('/media has been removed.');
 
     // Recreate the media folder
-    await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true, mode: 0o755 });
+    await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true });
 
     // Copy some assets from a PHP package
-    await copy(join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'), { preserveTimestamps: true });
+    await copy(join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'));
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'));
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {

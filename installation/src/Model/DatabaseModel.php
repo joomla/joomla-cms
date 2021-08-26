@@ -195,7 +195,7 @@ class DatabaseModel extends BaseInstallationModel
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDb($altDB, $options, $altDB->hasUtfSupport());
+					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (\RuntimeException $e)
 				{
@@ -243,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Get database's UTF support.
-		$utfSupport = $db->hasUtfSupport();
+		$utfSupport = $db->hasUTFSupport();
 
 		// Try to select the database.
 		try

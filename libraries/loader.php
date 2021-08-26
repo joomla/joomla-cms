@@ -1,6 +1,6 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package    Joomla.Platform
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Static class to handle loading of libraries.
  *
+ * @package  Joomla.Platform
  * @since    1.7.0
  */
 abstract class JLoader

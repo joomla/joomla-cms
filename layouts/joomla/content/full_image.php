@@ -34,7 +34,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 ?>
 <figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
-			 <?php echo $alt; ?>
+			 <?php echo $alt; ?> alt
 			 itemprop="image"
 			<?php echo $extraAttr; ?>
 	/>

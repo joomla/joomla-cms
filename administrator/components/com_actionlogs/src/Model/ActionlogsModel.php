@@ -73,6 +73,23 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
+		$app = Factory::getApplication();
+
+		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
+		$this->setState('filter.search', $search);
+
+		$user = $app->getUserStateFromRequest($this->context . 'filter.user', 'filter_user', '', 'string');
+		$this->setState('filter.user', $user);
+
+		$extension = $app->getUserStateFromRequest($this->context . 'filter.extension', 'filter_extension', '', 'string');
+		$this->setState('filter.extension', $extension);
+
+		$ip_address = $app->getUserStateFromRequest($this->context . 'filter.ip_address', 'filter_ip_address', '', 'string');
+		$this->setState('filter.ip_address', $ip_address);
+
+		$dateRange = $app->getUserStateFromRequest($this->context . 'filter.dateRange', 'filter_dateRange', '', 'string');
+		$this->setState('filter.dateRange', $dateRange);
+
 		parent::populateState($ordering, $direction);
 	}
 

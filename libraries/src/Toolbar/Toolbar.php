@@ -49,7 +49,7 @@ class Toolbar
 	 * @var    string
 	 * @since  1.5
 	 */
-	protected $_name = '';
+	protected $_name = [];
 
 	/**
 	 * Toolbar array
@@ -70,7 +70,7 @@ class Toolbar
 	/**
 	 * Stores the singleton instances of various toolbar.
 	 *
-	 * @var    Toolbar[]
+	 * @var    Toolbar
 	 * @since  2.5
 	 */
 	protected static $instances = array();

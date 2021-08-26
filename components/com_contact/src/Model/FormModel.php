@@ -11,7 +11,6 @@ namespace Joomla\Component\Contact\Site\Model;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;

@@ -10,18 +10,18 @@
     <template #header>
       <h3
         id="previewTitle"
-        class="modal-title text-light"
+        class="modal-title"
       >
         {{ item.name }}
       </h3>
     </template>
     <template #body>
       <div class="image-background">
-        <audio
-          v-if="isAudio()"
-          controls
+        <img
+          v-if="isImage()"
           :src="item.url"
-        />
+          :type="item.mime_type"
+        >
         <video
           v-if="isVideo()"
           controls
@@ -31,18 +31,6 @@
             :type="item.mime_type"
           >
         </video>
-        <object
-          v-if="isDoc()"
-          :type="item.mime_type"
-          :data="item.url"
-          width="800"
-          height="600"
-        />
-        <img
-          v-if="isImage()"
-          :src="getHashedURL"
-          :type="item.mime_type"
-        >
       </div>
     </template>
     <template #backdrop-close>
@@ -58,7 +46,6 @@
 </template>
 
 <script>
-import { api } from '../../app/Api.es6';
 import * as types from '../../store/mutation-types.es6';
 
 export default {
@@ -68,13 +55,6 @@ export default {
     item() {
       // Use the currently selected directory as a fallback
       return this.$store.state.previewItem;
-    },
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `${this.item.url}?${api.mediaVersion}`;
-      }
-      return this.item.url;
     },
   },
   methods: {
@@ -87,12 +67,6 @@ export default {
     },
     isVideo() {
       return this.item.mime_type.indexOf('video/') === 0;
-    },
-    isAudio() {
-      return this.item.mime_type.indexOf('audio/') === 0;
-    },
-    isDoc() {
-      return this.item.mime_type.indexOf('application/') === 0;
     },
   },
 };

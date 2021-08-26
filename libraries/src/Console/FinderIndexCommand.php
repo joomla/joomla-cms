@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -212,7 +211,7 @@ EOF;
 			$this->index();
 		}
 
-		$this->ioStyle->newLine(1);
+		$this->ioStyle->newline(1);
 
 		// Total reporting.
 		$this->ioStyle->writeln(
@@ -222,7 +221,7 @@ EOF;
 			]
 		);
 
-		$this->ioStyle->newLine(1);
+		$this->ioStyle->newline(1);
 
 		return Command::SUCCESS;
 	}
@@ -235,7 +234,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0.0
+	 * @since 4.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -357,7 +356,7 @@ EOF;
 		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'));
+		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
 		$app->triggerEvent('onStartIndex');
@@ -369,13 +368,13 @@ EOF;
 		$state = Indexer::getState();
 
 		// Setting up plugins.
-		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'));
+		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
 		$app->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)));
+		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -424,7 +423,7 @@ EOF;
 
 					if ($pause > 0 && !$skip)
 					{
-						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause));
+						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
 						sleep($pause);
 						$this->ioStyle->text(Text::_('FINDER_CLI_BATCH_CONTINUING'));
 					}
@@ -436,7 +435,8 @@ EOF;
 								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
 								$processingTime,
 								$this->minimumBatchProcessingTime
-							)
+							),
+							true
 						);
 					}
 
@@ -447,7 +447,7 @@ EOF;
 		catch (Exception $e)
 		{
 			// Display the error
-			$this->ioStyle->error($e->getMessage());
+			$this->ioStyle->error($e->getMessage(), true);
 
 			// Reset the indexer state.
 			Indexer::resetState();

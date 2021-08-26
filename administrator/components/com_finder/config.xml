@@ -220,7 +220,7 @@
 		<field
 			name="opensearch_description"
 			type="textarea"
-			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTION_LABEL"
+			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
 			default=""
 			cols="30"
 			rows="2"
@@ -278,7 +278,6 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			default="1.7"
-			min="0"
 		/>
 
 		<field
@@ -286,7 +285,6 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			default="0.7"
-			min="0"
 		/>
 
 		<field
@@ -294,7 +292,6 @@
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			default="1.2"
-			min="0"
 		/>
 
 		<field
@@ -302,7 +299,6 @@
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			default="2.0"
-			min="0"
 		/>
 
 		<field
@@ -310,7 +306,6 @@
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			default="0.3"
-			min="0"
 		/>
 
 		<field

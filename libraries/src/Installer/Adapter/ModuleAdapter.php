@@ -330,34 +330,25 @@ class ModuleAdapter extends InstallerAdapter
 	 *
 	 * @param   string  $element  Optional element name to be converted
 	 *
-	 * @return  string|null  The filtered element
+	 * @return  string  The filtered element
 	 *
 	 * @since   3.4
 	 */
 	public function getElement($element = null)
 	{
-		if ($element)
+		if (!$element)
 		{
-			return $element;
-		}
-
-		// Joomla 4 Module.
-		if ((string) $this->getManifest()->element)
-		{
-			return (string) $this->getManifest()->element;
-		}
-
-		if (!\count($this->getManifest()->files->children()))
-		{
-			return $element;
-		}
-
-		foreach ($this->getManifest()->files->children() as $file)
-		{
-			if ((string) $file->attributes()->module)
+			if (\count($this->getManifest()->files->children()))
 			{
-				// Joomla 3 (legacy) Module.
-				return strtolower((string) $file->attributes()->module);
+				foreach ($this->getManifest()->files->children() as $file)
+				{
+					if ((string) $file->attributes()->module)
+					{
+						$element = strtolower((string) $file->attributes()->module);
+
+						break;
+					}
+				}
 			}
 		}
 

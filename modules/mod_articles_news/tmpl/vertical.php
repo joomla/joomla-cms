@@ -24,7 +24,7 @@ if (!$list)
 <ul class="mod-articlesnews-vertical newsflash-vert mod-list">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
 		<?php $item = $list[$i]; ?>
-		<li class="newsflash-item" itemscope itemtype="https://schema.org/Article">
+		<li class="newsflash-item">
 			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
 
 			<?php if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>

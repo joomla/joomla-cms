@@ -130,16 +130,13 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Loading the model
-
-		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
-		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
-			->createModel('Field', 'Administrator', ['ignore_request' => true]);
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is (un)available from the data
-			if (array_key_exists($field->name, $data['com_fields']))
+			if (key_exists($field->name, $data['com_fields']))
 			{
 				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
 			}
@@ -222,9 +219,7 @@ class PlgSystemFields extends CMSPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
-		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
-			->createModel('Field', 'Administrator', ['ignore_request' => true]);
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 	}
 
@@ -250,7 +245,7 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The form event.
 	 *
-	 * @param   Form      $form  The form
+	 * @param   JForm     $form  The form
 	 * @param   stdClass  $data  The data
 	 *
 	 * @return  boolean
@@ -267,7 +262,7 @@ class PlgSystemFields extends CMSPlugin
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
 
 			// Set the catid on the category to get only the fields which belong to this category
-			if (is_array($data) && array_key_exists('id', $data))
+			if (is_array($data) && key_exists('id', $data))
 			{
 				$data['catid'] = $data['id'];
 			}
@@ -276,6 +271,11 @@ class PlgSystemFields extends CMSPlugin
 			{
 				$data->catid = $data->id;
 			}
+		}
+
+		if ($context === 'com_admin.profile')
+		{
+			$context = 'com_users.user';
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -444,7 +444,7 @@ class PlgSystemFields extends CMSPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields,
+					'fields'          => $fields
 				)
 			);
 		}

@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_fields_imagelist.ini</language>
-		<language tag="en-GB">language/en-GB/plg_fields_imagelist.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_imagelist.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_imagelist.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -31,7 +31,6 @@
 					hide_default="true"
 					recursive="true"
 					default="/"
-					validate="options"
 					>
 					<option value="/">/</option>
 				</field>

@@ -52,105 +52,113 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo Text::_('COM_MODULES_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo Text::_('COM_MODULES_FORM_TITLE_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
+	<div>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MODULES_MODULE')); ?>
 
 		<div class="row">
 			<div class="col-lg-9">
-				<?php if ($this->item->xml) : ?>
-					<?php if ($this->item->xml->description) : ?>
-						<h2>
-							<?php
-							if ($this->item->xml)
-							{
-								echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
-							}
-							else
-							{
-								echo Text::_('COM_MODULES_ERR_XML');
-							}
-							?>
-						</h2>
-						<div class="info-labels">
-							<span class="badge bg-secondary">
-								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
-							</span>
-						</div>
-						<div>
-							<?php
-							$this->fieldset    = 'description';
-							$short_description = Text::_($this->item->xml->description);
-							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
-
-							if (!$long_description)
-							{
-								$truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
-
-								if (strlen($truncated) > 500)
-								{
-									$long_description  = $short_description;
-									$short_description = HTMLHelper::_('string.truncate', $truncated, 250);
-
-									if ($short_description == $long_description)
+				<div class="card">
+					<div class="card-body">
+						<?php if ($this->item->xml) : ?>
+							<?php if ($this->item->xml->description) : ?>
+								<h2>
+									<?php
+									if ($this->item->xml)
 									{
-										$long_description = '';
+										echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
 									}
-								}
-							}
-							?>
-							<p><?php echo $short_description; ?></p>
-							<?php if ($long_description) : ?>
-								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-									</a>
-								</p>
+									else
+									{
+										echo Text::_('COM_MODULES_ERR_XML');
+									}
+									?>
+								</h2>
+								<div class="info-labels">
+									<span class="badge bg-secondary">
+										<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+									</span>
+								</div>
+								<div>
+									<?php
+									$this->fieldset    = 'description';
+									$short_description = Text::_($this->item->xml->description);
+									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
+
+									if (!$long_description)
+									{
+										$truncated = HtmlHelper::_('string.truncate', $short_description, 550, true, false);
+
+										if (strlen($truncated) > 500)
+										{
+											$long_description  = $short_description;
+											$short_description = HtmlHelper::_('string.truncate', $truncated, 250);
+
+											if ($short_description == $long_description)
+											{
+												$long_description = '';
+											}
+										}
+									}
+									?>
+									<p><?php echo $short_description; ?></p>
+									<?php if ($long_description) : ?>
+										<p class="readmore">
+											<a href="#" onclick="document.querySelector('#tab-description').click();">
+												<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+											</a>
+										</p>
+									<?php endif; ?>
+								</div>
 							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-danger">
-						<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('ERROR'); ?></span>
-						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+						<?php else : ?>
+							<div class="alert alert-danger">
+								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('ERROR'); ?></span>
+								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+							</div>
+						<?php endif; ?>
+						<?php
+						if ($hasContent)
+						{
+							echo $this->form->getInput($hasContentFieldName);
+						}
+						$this->fieldset = 'basic';
+						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+						echo $html ? '<hr>' . $html : '';
+						?>
 					</div>
-				<?php endif; ?>
-				<?php
-				if ($hasContent)
-				{
-					echo $this->form->getInput($hasContentFieldName);
-				}
-				$this->fieldset = 'basic';
-				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr>' . $html : '';
-				?>
+				</div>
 			</div>
 			<div class="col-lg-3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'showtitle',
-					'position',
-					'published',
-					'publish_up',
-					'publish_down',
-					'access',
-					'ordering',
-					'language',
-					'note'
-				);
+				<div class="card">
+					<div class="card-body">
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'showtitle',
+						'position',
+						'published',
+						'publish_up',
+						'publish_down',
+						'access',
+						'ordering',
+						'language',
+						'note'
+					);
 
-				?>
-				<?php if ($this->item->client_id == 0) : ?>
-					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-				<?php else : ?>
-					<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
-				<?php endif; ?>
+					?>
+					<?php if ($this->item->client_id == 0) : ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php else : ?>
+						<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+					<?php endif; ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

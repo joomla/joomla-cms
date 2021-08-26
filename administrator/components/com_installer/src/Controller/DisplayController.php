@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -48,11 +49,7 @@ class DisplayController extends BaseController
 		if ($vName === 'updatesite' && $lName === 'edit' && !$this->checkEditId('com_installer.edit.updatesite', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			if (!\count($this->app->getMessageQueue()))
-			{
-				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			}
-
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 
 			$this->redirect();
@@ -61,6 +58,9 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
+			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
+
 			// Get the model for the view.
 			$model = $this->getModel($vName);
 

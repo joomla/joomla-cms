@@ -39,7 +39,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="fieldList">
+			<table class="table" id="moduleList">
 				<caption class="visually-hidden">
 					<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -81,10 +81,8 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 					foreach ($this->items as $i => $item) :
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center">
-							<span class="tbody-icon">
-								<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
-							</span>
+						<td class="text-center tbody-icon">
+							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row" class="has-context">
 							<a class="btn btn-sm btn-success w-100" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>

@@ -93,7 +93,7 @@ class TemplatesModel extends ListModel
 	 */
 	public function updated($exid)
 	{
-		$db = $this->getDbo();
+		$db = Factory::getDbo();
 
 		// Select the required fields from the table
 		$query = $db->getQuery(true)

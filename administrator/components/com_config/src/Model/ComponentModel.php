@@ -245,7 +245,8 @@ class ComponentModel extends FormModel
 		Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

@@ -11,7 +11,6 @@ namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -21,7 +20,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 /**
  * View for the mail templates configuration
@@ -43,13 +41,6 @@ class HtmlView extends BaseHtmlView
 	 * @var  array
 	 */
 	protected $languages;
-
-	/**
-	 * Site default language
-	 *
-	 * @var \stdClass
-	 */
-	protected $defaultLanguage;
 
 	/**
 	 * The pagination object
@@ -96,7 +87,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$extensions          = $this->get('Extensions');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -104,21 +94,20 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Find and set site default language
-		$defaultLanguageTag = ComponentHelper::getParams('com_languages')->get('site');
+		$cache = array();
+		$language = Factory::getLanguage();
 
-		foreach ($this->languages as $tag => $language)
+		foreach ($this->items as $item)
 		{
-			if ($tag === $defaultLanguageTag)
+			list($component, $template_id) = explode('.', $item->template_id, 2);
+
+			if (isset($cache[$component]))
 			{
-				$this->defaultLanguage = $language;
-				break;
+				continue;
 			}
-		}
 
-		foreach ($extensions as $extension)
-		{
-			MailsHelper::loadTranslationFiles($extension);
+			$language->load($component, JPATH_ADMINISTRATOR);
+			$cache[$component] = true;
 		}
 
 		$this->addToolbar();

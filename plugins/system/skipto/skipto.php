@@ -76,8 +76,10 @@ class PlgSystemSkipto extends CMSPlugin
 						'displayOption' => 'popup',
 
 						// Button labels and messages
-						'buttonLabel'            => Text::_('PLG_SYSTEM_SKIPTO_TITLE'),
-						'buttonTooltipAccesskey' => Text::_('PLG_SYSTEM_SKIPTO_ACCESS_KEY'),
+						'accesskeyNotSupported'    => Text::_('PLG_SYSTEM_SKIPTO_ACCESS_KEY_NOT_SUPPORTED'),
+						'buttonTitle'              => Text::_('PLG_SYSTEM_SKIPTO_TITLE'),
+						'buttonTitleWithAccesskey' => Text::_('PLG_SYSTEM_SKIPTO_TITLE_WITH_ACCCESS_KEY'),
+						'buttonLabel'              => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
 
 						// Menu labels and messages
 						'landmarkGroupLabel'  => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK'),
@@ -98,8 +100,8 @@ class PlgSystemSkipto extends CMSPlugin
 						// Selectors for landmark and headings sections
 						'headings'  => 'h1, h2, h3',
 						'landmarks' => 'main, nav, search, aside, header, footer, form',
-					],
-				],
+					]
+				]
 			]
 		);
 

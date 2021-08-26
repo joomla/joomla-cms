@@ -7,7 +7,7 @@
 
   const init = () => {
     // Cleanup
-    window.removeEventListener('load', init);
+    document.removeEventListener('DOMContentLoaded', init);
 
     // Get the elements
     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
@@ -39,7 +39,7 @@
                 elem.classList.add('float-end');
                 elem.classList.add('badge');
                 elem.classList.add('bg-warning', 'text-dark');
-                elem.innerHTML = Joomla.sanitizeHtml(response.data);
+                elem.innerHTML = response.data;
 
                 element.parentNode.replaceChild(elem, element);
               } else {
@@ -61,8 +61,5 @@
     }
   };
 
-  // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(init, 300);
-  });
+  document.addEventListener('DOMContentLoaded', init);
 })(document, Joomla);

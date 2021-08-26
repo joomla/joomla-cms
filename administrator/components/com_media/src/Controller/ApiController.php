@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -134,6 +135,7 @@ class ApiController extends BaseController
 		// Grab options
 		$options              = [];
 		$options['url']       = $this->input->getBool('url', false);
+		$options['temp']      = $this->input->getBool('temp', false);
 		$options['search']    = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
 		$options['content']   = $this->input->getBool('content', false);
@@ -160,11 +162,6 @@ class ApiController extends BaseController
 	 */
 	public function deleteFiles()
 	{
-		if (!$this->app->getIdentity()->authorise('core.delete', 'com_media'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
 		return null;
@@ -196,11 +193,6 @@ class ApiController extends BaseController
 	 */
 	public function postFiles()
 	{
-		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
-		}
-
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
 		$content      = $this->input->json;
@@ -267,11 +259,6 @@ class ApiController extends BaseController
 	 */
 	public function putFiles()
 	{
-		if (!$this->app->getIdentity()->authorise('core.edit', 'com_media'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
-		}
-
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
 
@@ -359,6 +346,11 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
+		if (!Factory::getUser()->authorise('core.create', 'com_media'))
+		{
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
+		}
+
 		$params = ComponentHelper::getParams('com_media');
 
 		$helper       = new MediaHelper;

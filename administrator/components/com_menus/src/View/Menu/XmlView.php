@@ -58,7 +58,7 @@ class XmlView extends BaseHtmlView
 			$root = MenusHelper::getMenuItems($menutype, true);
 		}
 
-		if (!$root->hasChildren())
+		if ($root->hasChildren())
 		{
 			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
@@ -67,9 +67,9 @@ class XmlView extends BaseHtmlView
 			return;
 		}
 
-		$this->items = $root->getChildren(true);
+		$this->items = $root->getChildren();
 
-		$xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
+		$xml = new \SimpleXMLElement('<menu ' .
 			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
 			'xmlns="urn:joomla.org"	xsi:schemaLocation="urn:joomla.org menu.xsd"' .
 			'></menu>'
@@ -121,7 +121,7 @@ class XmlView extends BaseHtmlView
 
 		if ($item->title)
 		{
-			$node['title'] = htmlentities($item->title, ENT_XML1);
+			$node['title'] = $item->title;
 		}
 
 		if ($item->link)
@@ -134,9 +134,9 @@ class XmlView extends BaseHtmlView
 			$node['element'] = $item->element;
 		}
 
-		if (isset($item->class) && $item->class)
+		if ($item->class)
 		{
-			$node['class'] = htmlentities($item->class, ENT_XML1);
+			$node['class'] = $item->class;
 		}
 
 		if ($item->access)
@@ -153,7 +153,7 @@ class XmlView extends BaseHtmlView
 		{
 			$hideitems = $item->getParams()->get('hideitems');
 
-			if ($hideitems)
+			if (count($hideitems))
 			{
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);
@@ -169,15 +169,12 @@ class XmlView extends BaseHtmlView
 				$item->getParams()->set('hideitems', $hideitems);
 			}
 
-			$node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
+			$node->addChild('params', (string) $item->getParams());
 		}
 
-		if (isset($item->submenu))
+		foreach ($item->submenu as $sub)
 		{
-			foreach ($item->submenu as $sub)
-			{
-				$this->addXmlChild($node, $sub);
-			}
+			$this->addXmlChild($node, $sub);
 		}
 	}
 }

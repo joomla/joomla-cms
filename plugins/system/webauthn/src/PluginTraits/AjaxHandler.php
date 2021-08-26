@@ -87,7 +87,7 @@ trait AjaxHandler
 
 			foreach ($results as $r)
 			{
-				if (\is_null($r))
+				if (is_null($r))
 				{
 					continue;
 				}
@@ -113,7 +113,7 @@ trait AjaxHandler
 			return;
 		}
 
-		if (!\is_null($result))
+		if (!is_null($result))
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{

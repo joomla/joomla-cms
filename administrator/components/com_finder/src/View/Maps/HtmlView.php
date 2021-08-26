@@ -79,18 +79,11 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * @var boolean
-	 *
-	 * @since 4.0.0
-	 */
-	private $isEmptyState = false;
-
-	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   2.5
 	 */
@@ -107,11 +100,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if ($this->total === 0 && $this->isEmptyState = $this->get('isEmptyState'))
-		{
-			$this->setLayout('emptystate');
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -121,7 +109,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the view.
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -140,32 +128,29 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if (!$this->isEmptyState)
+		if ($canDo->get('core.edit.state'))
 		{
-			if ($canDo->get('core.edit.state'))
-			{
-				$dropdown = $toolbar->dropdownButton('status-group')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('icon-ellipsis-h')
-					->buttonClass('btn btn-action')
-					->listCheck(true);
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('icon-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-				$childBar = $dropdown->getChildToolbar();
+			$childBar = $dropdown->getChildToolbar();
 
-				$childBar->publish('maps.publish')->listCheck(true);
-				$childBar->unpublish('maps.unpublish')->listCheck(true);
-			}
+			$childBar->publish('maps.publish')->listCheck(true);
+			$childBar->unpublish('maps.unpublish')->listCheck(true);
+		}
 
+		ToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+		ToolbarHelper::divider();
+
+		if ($canDo->get('core.delete'))
+		{
+			ToolbarHelper::deleteList('', 'maps.delete');
 			ToolbarHelper::divider();
-			$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-			ToolbarHelper::divider();
-
-			if ($canDo->get('core.delete'))
-			{
-				ToolbarHelper::deleteList('', 'maps.delete');
-				ToolbarHelper::divider();
-			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

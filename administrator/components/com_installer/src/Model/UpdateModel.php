@@ -22,7 +22,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -326,7 +325,7 @@ class UpdateModel extends ListModel
 		$db->execute();
 
 		// Clear the administrator cache
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 1);
 
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
@@ -353,23 +352,9 @@ class UpdateModel extends ListModel
 		{
 			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
-
-			if (!$instance->load($uid))
-			{
-				// Update no longer available, maybe already updated by a package.
-				continue;
-			}
-
+			$instance->load($uid);
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
-
-			// Find and use extra_query from update_site if available
-			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
-			$updateSiteInstance->load($instance->update_site_id);
-
-			if ($updateSiteInstance->extra_query)
-			{
-				$update->set('extra_query', $updateSiteInstance->extra_query);
-			}
+			$update->set('extra_query', $instance->extra_query);
 
 			$this->preparePreUpdate($update, $instance);
 
@@ -385,10 +370,14 @@ class UpdateModel extends ListModel
 		}
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system');
-		$this->cleanCache('com_modules');
-		$this->cleanCache('com_plugins');
-		$this->cleanCache('mod_menu');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		// Set the final state
 		$this->setState('result', $result);
@@ -499,7 +488,7 @@ class UpdateModel extends ListModel
 			$app->enqueueMessage(
 				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
 					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
-				), 'success'
+				)
 			);
 			$result = true;
 		}
@@ -634,21 +623,5 @@ class UpdateModel extends ListModel
 				PluginHelper::importPlugin($table->folder, $cname);
 				break;
 		}
-	}
-
-	/**
-	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
-	 *
-	 * @return DatabaseQuery
-	 *
-	 * @since 4.0.0
-	 */
-	protected function getEmptyStateQuery()
-	{
-		$query = parent::getEmptyStateQuery();
-
-		$query->where($this->_db->quoteName('extension_id') . ' != 0');
-
-		return $query;
 	}
 }

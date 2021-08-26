@@ -598,7 +598,7 @@ abstract class ToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
+	public static function preferences($component, $height = 550, $width = 875, $alt = 'JToolbar_Options', $path = '')
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);

@@ -102,24 +102,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php else : ?>
 										<?php echo Text::_($item->update_site_name); ?>
 									<?php endif; ?>
-									<div class="small break-word">
+									<br>
+									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-									</div>
-									<div class="small break-word">
+									</span>
+									<br>
+									<span class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge bg-info">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge bg-danger" tabindex="0">
+										<span class="badge bg-warning text-dark">
+											<span class="hasPopover"
+													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+											>
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+											</span>
 										</span>
-										<div role="tooltip" id="tip-missing<?php echo $i; ?>">
-											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
-										</div>
 										<?php endif; ?>
-									</div>
+									</span>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">

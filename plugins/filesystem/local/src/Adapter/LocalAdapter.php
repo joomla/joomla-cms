@@ -261,6 +261,7 @@ class LocalAdapter implements AdapterInterface
 		File::write($localPath, $data);
 	}
 
+
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
@@ -436,7 +437,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
 		}
 
 		// Check for existence of the file in destination
@@ -546,16 +547,10 @@ class LocalAdapter implements AdapterInterface
 		$name     = $this->getFileName($destinationPath);
 		$safeName = $this->getSafeName($name);
 
-		// If transliterating could not happen, and all characters except of the file extension are filtered out, then throw an error.
-		if ($safeName === pathinfo($sourcePath, PATHINFO_EXTENSION))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
-		}
-
 		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
+			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
 		}
 
 		if (is_dir($sourcePath))
@@ -591,11 +586,6 @@ class LocalAdapter implements AdapterInterface
 		{
 			// If the destination is a folder we create a file with the same name as the source
 			$destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
-		}
-
-		if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION)))
-		{
-			throw new \Exception('Move file is not possible as the extension is invalid');
 		}
 
 		if (file_exists($destinationPath) && !$force)
@@ -740,6 +730,22 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
+	 * Returns a temporary url for the given path.
+	 * This is used internally in media manager
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 * @throws  FileNotFoundException
+	 */
+	public function getTemporaryUrl(string $path): string
+	{
+		return $this->getUrl($path);
+	}
+
+	/**
 	 * Replace spaces on a path with %20
 	 *
 	 * @param   string  $path  The Path to be encoded
@@ -767,10 +773,7 @@ class LocalAdapter implements AdapterInterface
 	private function getSafeName(string $name): string
 	{
 		// Make the filename safe
-		if (!$name = File::makeSafe($name))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
-		}
+		$name = File::makeSafe($name);
 
 		// Transform filename to punycode
 		$name = PunycodeHelper::toPunycode($name);

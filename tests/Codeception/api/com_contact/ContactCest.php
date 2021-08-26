@@ -76,13 +76,13 @@ class ContactCest
 			'name' => 'Francine Blogs'
 		];
 
-		$I->sendPOST('/contacts', $testarticle);
+		$I->sendPOST('/contact', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/contacts/1');
+		$I->sendGET('/contact/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
@@ -90,12 +90,12 @@ class ContactCest
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
 		// Category is a required field for this patch request for now TODO: Remove this dependency
-		$I->sendPATCH('/contacts/1', ['name' => 'Frankie Blogs', 'catid' => 4, 'published' => -2]);
+		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'catid' => 4, 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/contacts/1');
+		$I->sendDELETE('/contact/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 
@@ -124,25 +124,25 @@ class ContactCest
 			]
 		];
 
-		$I->sendPOST('/contacts/categories', $testContact);
+		$I->sendPOST('/contact/categories', $testContact);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$categoryId = $I->grabDataFromResponseByJsonPath('$.data.id')[0];
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/contacts/categories/' . $categoryId);
+		$I->sendGET('/contact/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/contacts/categories/' . $categoryId, ['title' => 'Another Title', 'published' => -2]);
+		$I->sendPATCH('/contact/categories/' . $categoryId, ['title' => 'Another Title', 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/contacts/categories/' . $categoryId);
+		$I->sendDELETE('/contact/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }

@@ -237,13 +237,12 @@ class ActionlogsHelper
 	 * @param   string   $contentType
 	 * @param   integer  $id
 	 * @param   string   $urlVar
-	 * @param   JObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id', $object = null)
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -258,7 +257,7 @@ class ActionlogsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
-				return $cName::getContentTypeLink($contentType, $id, $object);
+				return $cName::getContentTypeLink($contentType, $id);
 			}
 		}
 

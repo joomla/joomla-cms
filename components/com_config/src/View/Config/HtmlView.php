@@ -47,27 +47,11 @@ class HtmlView extends BaseHtmlView
 	protected $userIsSuperAdmin;
 
 	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
-
-	/**
-	 * The page parameters
-	 *
-	 * @var    \Joomla\Registry\Registry|null
-	 * @since  4.0.0
-	 */
-	protected $params = null;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
 	 */
@@ -92,39 +76,6 @@ class HtmlView extends BaseHtmlView
 		$this->form = $form;
 		$this->data = $serviceData;
 
-		$this->_prepareDocument();
-
-		parent::display($tpl);
-	}
-
-	/**
-	 * Prepares the document.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function _prepareDocument()
-	{
-		$params = Factory::getApplication()->getParams();
-
-		// Because the application sets a default page title, we need to get it
-		// right from the menu item itself
-
-		$this->setDocumentTitle($params->get('page_title', ''));
-
-		if ($params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($params->get('menu-meta_description'));
-		}
-
-		if ($params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $params->get('robots'));
-		}
-
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-		$this->params        = &$params;
+		return parent::display($tpl);
 	}
 }

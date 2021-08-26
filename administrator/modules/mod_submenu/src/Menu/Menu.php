@@ -13,7 +13,6 @@ namespace Joomla\Module\Submenu\Administrator\Menu;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -52,23 +51,6 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
-			if ($item->element && !ComponentHelper::isEnabled($item->element))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-
-			/*
-			 * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
-			 * the Language Filter plugin
-			 */
-
-			if ($item->element === 'com_associations' && !Associations::isEnabled())
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-
 			$itemParams = $item->getParams();
 
 			// Exclude item with menu item option set to exclude from menu modules
@@ -169,11 +151,6 @@ abstract class Menu
 			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
-				continue;
-			}
-			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
-				&& !$user->authorise('core.admin'))
-			{
 				continue;
 			}
 			elseif ($item->element === 'com_admin')

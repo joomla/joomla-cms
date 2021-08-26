@@ -17,9 +17,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
 <div class="mod-banners bannergroup">
 <?php if ($headerText) : ?>
-	<div class="bannerheader">
-		<?php echo $headerText; ?>
-	</div>
+	<?php echo $headerText; ?>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>

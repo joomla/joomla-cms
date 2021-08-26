@@ -244,8 +244,7 @@ class MysqlChangeItem extends ChangeItem
 	 * On MySQL 8 display length is not shown anymore.
 	 * This means we have to match e.g. both "int(10) unsigned" and
 	 * "int unsigned", or both "int(11)" and "int" and so on.
-	 * The same applies to the other integer data types "tinyint",
-	 * "smallint", "mediumint" and "bigint".
+	 * The same applies to tinyint.
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
@@ -258,14 +257,28 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$result = $type1;
 
-		if (preg_match('/^(?P<type>(big|medium|small|tiny)?int)(\([0-9]+\))?$/i', $type1, $matches))
-		{
-			$result = strtolower($matches['type']);
-		}
-
 		if (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
-			$result .= ' unsigned';
+			if (strtolower(substr($type1, 0, 7)) === 'tinyint')
+			{
+				$result = 'tinyint unsigned';
+			}
+			elseif (strtolower(substr($type1, 0, 3)) === 'int')
+			{
+				$result = 'int unsigned';
+			}
+			else
+			{
+				$result = $type1 . ' unsigned';
+			}
+		}
+		elseif (strtolower(substr($type1, 0, 7)) === 'tinyint')
+		{
+			$result = 'tinyint';
+		}
+		elseif (strtolower(substr($type1, 0, 3)) === 'int')
+		{
+			$result = 'int';
 		}
 
 		return $result;
@@ -295,8 +308,8 @@ class MysqlChangeItem extends ChangeItem
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
 	 * to MEDIUMTEXT, after conversion from utf8 to utf8mb4, and
-	 * fix integer columns without display length for MySQL 8
-	 * (see also function "fixInteger" above).
+	 * fix integer (int or tinyint) columns without display length
+	 * for MySQL 8.
 	 *
 	 * @param   string  $type  The column type found in the update query
 	 *
@@ -308,46 +321,39 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$uType = strtoupper(str_replace(';', '', $type));
 
-		switch ($uType)
+		if ($uType === 'TINYINT UNSIGNED')
 		{
-			case 'BIGINT UNSIGNED':
-			case 'INT UNSIGNED':
-			case 'MEDIUMINT UNSIGNED':
-			case 'SMALLINT UNSIGNED':
-			case 'TINYINT UNSIGNED':
-				// Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])? UNSIGNED$'"
-				$typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$');
-				break;
-
-			case 'BIGINT':
-			case 'INT':
-			case 'MEDIUMINT':
-			case 'SMALLINT':
-			case 'TINYINT':
-				// Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])?$'"
-				$typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$');
-				break;
-
-			case 'MEDIUMTEXT':
-				$typeCheck = $this->db->hasUTF8mb4Support()
-					? 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')'
-					: 'UPPER(type) = ' . $this->db->quote('MEDIUMTEXT');
-				break;
-
-			case 'TEXT':
-				$typeCheck = $this->db->hasUTF8mb4Support()
-					? 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')'
-					: 'UPPER(type) = ' . $this->db->quote('TEXT');
-				break;
-
-			case 'TINYTEXT':
-				$typeCheck = $this->db->hasUTF8mb4Support()
-					? 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')'
-					: 'UPPER(type) = ' . $this->db->quote('TINYTEXT');
-				break;
-
-			default:
-				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
+			$typeCheck = 'UPPER(LEFT(type, 7)) = ' . $this->db->quote('TINYINT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'TINYINT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 7)) = ' . $this->db->quote('TINYINT');
+		}
+		elseif ($uType === 'INT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'INT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
+		}
+		elseif ($uType === 'TINYTEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+		}
+		elseif ($uType === 'TEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+		}
+		elseif ($uType === 'MEDIUMTEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
+		}
+		else
+		{
+			$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
 		}
 
 		return $typeCheck;

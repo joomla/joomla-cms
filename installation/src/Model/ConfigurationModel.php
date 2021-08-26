@@ -34,7 +34,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 * The generated user ID.
 	 *
 	 * @var    integer
-	 * @since  4.0.0
+	 * @since  4.0
 	 */
 	protected static $userId = 0;
 
@@ -388,6 +388,8 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
+		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -428,6 +430,12 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
+		$registry->set('ftp_host', $options->ftp_host ?? '');
+		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
+		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
@@ -453,6 +461,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
+		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
 		$registry->set('robots', '');
@@ -494,11 +503,21 @@ class ConfigurationModel extends BaseInstallationModel
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable the user needs to fix this.
+		 * is not writable we need to use FTP.
 		 */
+		$useFTP = false;
+
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
 			return false;
+
+			// $useFTP = true;
+		}
+
+		// Enable/Disable override.
+		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
+		{
+			$useFTP = false;
 		}
 
 		// Get the session
@@ -665,7 +684,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		if (file_exists($path))
 		{
-			File::delete($path);
+			unlink($path);
 		}
 	}
 }

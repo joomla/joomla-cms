@@ -22,7 +22,7 @@ if (!$button->get('modal'))
 
 $class    = ($button->get('class')) ? $button->get('class') : null;
 $class   .= ($button->get('modal')) ? ' modal-button' : null;
-$href     = '#' . strtolower($button->get('name')) . '_modal';
+$href     = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
 $link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
@@ -42,7 +42,7 @@ if (null !== $button->get('id'))
 }
 else
 {
-	$id = strtolower($button->get('name')) . '_modal';
+	$id = str_replace(' ', '', $button->get('text')) . 'Modal';
 }
 
 // TODO: J4: Move Make buttons fullscreen on smaller devices per https://github.com/joomla/joomla-cms/pull/23091
@@ -58,6 +58,6 @@ echo HTMLHelper::_(
 		'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
 		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );

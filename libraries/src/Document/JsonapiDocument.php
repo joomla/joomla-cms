@@ -1,6 +1,7 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Platform
+ * @subpackage  Document
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -18,7 +19,7 @@ use Tobscure\JsonApi\ElementInterface;
  * JsonapiDocument class, provides an easy interface to parse output in JSON-API format.
  *
  * @link   http://www.jsonapi.org/
- * @since  4.0.0
+ * @since  __DEPLOY VERSION__
  */
 class JsonapiDocument extends JsonDocument implements \JsonSerializable
 {
@@ -98,7 +99,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 */
 	public function setJsonapi($jsonapi)
 	{
-		$this->document->setJsonapi($jsonapi);
+		$this->setJsonapi($jsonapi);
 
 		return $this;
 	}

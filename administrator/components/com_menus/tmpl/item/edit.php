@@ -45,7 +45,7 @@ if ($clientId === 1)
 	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MENUS_ITEM_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MENUS_ITEM_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -65,100 +65,84 @@ if ($clientId === 1)
 		</div>
 	<?php endif; ?>
 
-	<div class="main-card">
+	<div>
 
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<?php
-				echo $this->form->renderField('type');
+				<div class="card">
+					<div class="card-body">
+					<?php
+					echo $this->form->renderField('type');
 
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('aliasoptions', 'params');
-				}
-
-				if ($this->item->type == 'separator')
-				{
-					echo $this->form->renderField('text_separator', 'params');
-				}
-
-				echo $this->form->renderFieldset('request');
-
-				if ($this->item->type == 'url')
-				{
-					$this->form->setFieldAttribute('link', 'readonly', 'false');
-					$this->form->setFieldAttribute('link', 'required', 'true');
-				}
-
-				echo $this->form->renderField('link');
-
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('alias_redirect', 'params');
-				}
-
-				echo $this->form->renderField('browserNav');
-				echo $this->form->renderField('template_style_id');
-
-				if (!$isModal && $this->item->type == 'container')
-				{
-					echo $this->loadTemplate('container');
-				}
-				?>
-			</div>
-			<div class="col-lg-3">
-				<?php
-					// Set main fields.
-					$this->fields = array(
-						'id',
-						'client_id',
-						'menutype',
-						'parent_id',
-						'menuordering',
-						'published',
-						'publish_up',
-						'publish_down',
-						'home',
-						'access',
-						'language',
-						'note',
-					);
-
-					if ($this->item->type != 'component')
+					if ($this->item->type == 'alias')
 					{
-						$this->fields = array_diff($this->fields, array('home'));
-						$this->form->setFieldAttribute('publish_up', 'showon', '');
-						$this->form->setFieldAttribute('publish_down', 'showon', '');
+						echo $this->form->renderField('aliasoptions', 'params');
+					}
+
+					if ($this->item->type == 'separator')
+					{
+						echo $this->form->renderField('text_separator', 'params');
+					}
+
+					echo $this->form->renderFieldset('request');
+
+					if ($this->item->type == 'url')
+					{
+						$this->form->setFieldAttribute('link', 'readonly', 'false');
+						$this->form->setFieldAttribute('link', 'required', 'true');
+					}
+
+					echo $this->form->renderField('link');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('alias_redirect', 'params');
+					}
+
+					echo $this->form->renderField('browserNav');
+					echo $this->form->renderField('template_style_id');
+
+					if (!$isModal && $this->item->type == 'container')
+					{
+						echo $this->loadTemplate('container');
 					}
 					?>
-				<?php
-					// Set main fields.
-					$this->fields = array(
-						'id',
-						'client_id',
-						'menutype',
-						'parent_id',
-						'menuordering',
-						'published',
-						'home',
-						'publish_up',
-						'publish_down',
-						'access',
-						'language',
-						'note',
-					);
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card">
+					<div class="card-body">
+					<?php
+						// Set main fields.
+						$this->fields = array(
+							'id',
+							'client_id',
+							'menutype',
+							'parent_id',
+							'menuordering',
+							'published',
+							'publish_up',
+							'publish_down',
+							'home',
+							'access',
+							'language',
+							'note',
+						);
 
-					if ($this->item->type != 'component')
-					{
-						$this->fields = array_diff($this->fields, array('home'));
-						$this->form->setFieldAttribute('publish_up', 'showon', '');
-						$this->form->setFieldAttribute('publish_down', 'showon', '');
-					}
+						if ($this->item->type != 'component')
+						{
+							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
+						}
 
-					echo LayoutHelper::render('joomla.edit.global', $this); ?>
+						echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

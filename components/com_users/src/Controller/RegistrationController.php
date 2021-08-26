@@ -34,7 +34,7 @@ class RegistrationController extends BaseController
 	 */
 	public function activate()
 	{
-		$user  	 = $this->app->getIdentity();
+		$user  	 = Factory::getUser();
 		$input 	 = $this->input;
 		$uParams = ComponentHelper::getParams('com_users');
 

@@ -32,21 +32,22 @@ use Joomla\CMS\Router\Route;
 		</div>
 		<?php endif; ?>
 
-		<span class="me-2">
+		<div class="me-2">
 		<?php echo $this->form->monthField; ?>
-		</span>
-		<span class="me-2">
+		</div>
+		<div class="me-2">
 		<?php echo $this->form->yearField; ?>
-		</span>
-		<span class="me-2">
+		</div>
+		<div class="me-2">
 		<?php echo $this->form->limitField; ?>
-		</span>
+		</div>
 
 		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 		<input type="hidden" name="view" value="archive">
 		<input type="hidden" name="option" value="com_content">
 		<input type="hidden" name="limitstart" value="0">
 	</div>
+	<br>
 	</fieldset>
 </form>
 <?php echo $this->loadTemplate('items'); ?>

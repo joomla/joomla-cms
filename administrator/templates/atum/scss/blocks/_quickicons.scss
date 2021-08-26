@@ -5,67 +5,44 @@
 
   .nav {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     grid-gap: 1rem;
   }
 
   a {
     text-decoration: none;
-  }
-
-  ul {
-    padding: 0;
+    transition: all .25s ease;
   }
 
   .quickicon {
-    --text-color: hsl(var(--hue), 30%, 40%);
-    --bg-color: hsl(var(--hue), 60%, 97%);
-    --icon-color: hsl(var(--hue), 30%, 40%);
-    --bg-color-hvr: var(--template-bg-dark);
-
-    display: flex;
-    flex-grow: 1;
+    --text-color: var(--atum-link-color);
+    --bg-color: var(--toolbar-bg);
+    --icon-color: linear-gradient(var(--atum-link-color), var(--atum-link-hover-color));
+    --bg-color-hvr: var(--atum-bg-dark);
 
     a {
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
-      justify-content: flex-end;
-      padding: 0 1rem;
+      align-items: center;
+      justify-content: space-around;
+      height: 100%;
       color: var(--text-color);
+      text-align: center;
       background-color: var(--bg-color);
-      transition: all .25s ease;
 
       .quickicon-icon {
-        margin-top: .5rem;
-        margin-inline-start: .2rem;
+        margin-top: 20px;
 
         > * {
           font-size: $quickicon-icon-size;
-          color: var(--icon-color);
+          color: transparent;
+          background: var(--icon-color);
+          background-clip: text;
         }
-      }
 
-      .quickicon-name {
-        padding: .125rem 0 .6rem;
-        font-size: $display2-size;
-        font-weight: bold;
-      }
-
-      .quickicon-amount {
-        padding: .25rem .5rem;
-        font-weight: $bold-weight;
-        line-height: 1rem;
-        background: hsl(var(--hue),50%,93%);
-        border-radius: $border-radius;
-        transition: all .25s ease;
-        margin-inline-start: .5rem;
-      }
-
-      .j-links-link {
-        display: block;
-        padding: 0 .2rem;
-        line-height: 1.1;
+        &.small > * {
+          font-size: $quickicon-icon-size-sm;
+        }
       }
 
       &:hover,
@@ -75,53 +52,73 @@
         text-decoration: none;
         background: var(--bg-color-hvr);
 
-        .quickicon-amount {
-          background: var(--icon-color);
+        .quickicon-icon > * {
+          color: $white;
         }
+      }
+
+      .quickicon-name {
+        padding: .25rem .2rem .6rem;
+        font-size: $display2-size;
+      }
+
+      .quickicon-amount {
+        margin-top: .3rem !important;
+        font-size: $display1-size;
+        font-weight: $bold-weight;
+
+        ~ .quickicon-name {
+          padding-top: 0;
+        }
+
+        > .#{$jicon-css-prefix}-spinner,
+        > .#{$fa-css-prefix}-spinner {
+          font-size: $display1-size;
+        }
+      }
+
+      .j-links-link {
+        display: block;
+        padding: 0 .2rem;
+        line-height: 1.1;
       }
 
       &.warning,
       &.danger {
-        --text-color: var(--danger);
-        --bg-color: #f4f0f0;
-        --icon-color: #ce8484;
+        --text-color: var(--white);
+        --bg-color: var(--danger);
+        --icon-color: var(--white);
         --bg-color-hvr: var(--danger);
       }
 
       &.success {
         --text-color: var(--success);
-        --bg-color: #f3f9f3;
-        --icon-color: #55a258;
+        --bg-color: var(--white);
+        --icon-color: linear-gradient(var(--success), #159c1e);
         --bg-color-hvr: var(--success);
       }
     }
   }
 
-  .quickicon-info {
-    display: flex;
-    align-items: flex-end;
-  }
-
   .quickicon-linkadd {
-    width: 2.5rem;
-    font-size: 1.2rem;
-    background: hsl(var(--hue),50%,93%);
-    transition: all .25s ease;
+    width: 2rem;
+    font-size: 1.3rem;
+    background-color: var(--atum-bg-light);
 
     a {
-      align-items: flex-end;
       justify-content: center;
       width: 100%;
 
       > * {
-        margin-bottom: 10px;
-        color: hsl(var(--hue), 30%, 40%);
+        color: transparent;
+        background: linear-gradient(var(--atum-link-color),var(--atum-link-hover-color));
+        background-clip: text;
       }
 
       &:hover,
       &:focus,
       &:active {
-        background: var(--template-bg-dark);
+        background: var(--atum-bg-dark);
 
         * {
           color: $white;
@@ -132,20 +129,14 @@
 
   .quickicon-single,
   .quickicon-group {
-    display: flex;
-    min-height: 6rem;
-    overflow: hidden;
-    border: 1px solid hsl(var(--hue),50%,93%);
-    border-radius: 4px;
+    min-height: 5.7rem;
+    border: 1px solid $bluegray;
   }
 }
 
 #content .menu-quicktask {
   position: absolute;
-
-  [dir=ltr] & {
-    right: 1.25rem;
-  }
+  right: 1.25rem;
 
   [dir=rtl] & {
     left: 1.25rem;

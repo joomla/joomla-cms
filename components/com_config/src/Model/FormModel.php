@@ -68,7 +68,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkIn($pk))
+			if (!$table->checkin($pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}
@@ -108,7 +108,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkOut($user->get('id'), $pk))
+			if (!$table->checkout($user->get('id'), $pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}

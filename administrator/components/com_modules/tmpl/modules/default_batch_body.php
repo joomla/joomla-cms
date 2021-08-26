@@ -38,8 +38,8 @@ $this->document->getWebAssetManager()
 
 ?>
 
-<div class="p-3">
-	<p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
+<p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
+<div class="container">
 	<div class="row">
 		<?php if ($clientId != 1) : ?>
 			<div class="form-group col-md-6">

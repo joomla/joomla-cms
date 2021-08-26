@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse;
 	 *                        automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new FileLayout instance and render the layout
-			$layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+			$layout = new FileLayout('toolbar.delete');
 
 			$bar->appendButton('Custom', $layout->render([]), 'delete');
 			ToolbarHelper::divider();

@@ -66,9 +66,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void|boolean
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
@@ -142,17 +142,19 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 *
 	 * @since  4.0.0
 	 */
 	protected function _prepareDocument()
 	{
-		$app = Factory::getApplication();
+		$app   = Factory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $app->getMenu()->getActive();
+		$menu = $menus->getActive();
 
 		if ($menu)
 		{
@@ -165,7 +167,16 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->def('page_title', Text::_('COM_CONTACT_FORM_EDIT_CONTACT'));
 
-		$this->setDocumentTitle($title);
+		if ($app->get('sitename_pagetitles', 0) === 1)
+		{
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		$this->document->setTitle($title);
 
 		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
@@ -177,12 +188,12 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
+			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 	}
 }

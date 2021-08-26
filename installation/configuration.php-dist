@@ -56,6 +56,12 @@ class JConfig
 	public $gzip = false;
 	public $error_reporting = 'default';
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+	public $ftp_host = '';
+	public $ftp_port = '';
+	public $ftp_user = '';
+	public $ftp_pass = '';
+	public $ftp_root = '';
+	public $ftp_enable = false;
 	public $tmp_path = '/tmp';                // This path needs to be writable by Joomla!
 	public $log_path = '/administrator/logs'; // This path needs to be writable by Joomla!
 	public $live_site = '';                   // Optional, full URL to Joomla install.
@@ -116,10 +122,11 @@ class JConfig
 	/* Debug Settings */
 	public $debug = true;
 	public $debug_lang = false;
-	public $debug_lang_const = true;
+	public $debug_lang_const = 1;
 
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
+	public $MetaTitle = true;
 	public $MetaAuthor = true;
 	public $MetaVersion = false;
 	public $MetaRights = '';

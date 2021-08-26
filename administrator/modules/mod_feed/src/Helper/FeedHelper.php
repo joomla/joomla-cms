@@ -24,9 +24,9 @@ class FeedHelper
 	/**
 	 * Method to load a feed.
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  The parameters object.
+	 * @param   JRegisty  $params  The parameters object.
 	 *
-	 * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
 	 *
 	 * @since   1.5
 	 */
