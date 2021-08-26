@@ -84,13 +84,12 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSHARED_DRAFT', 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
 
-
 								<th scope="col" style="min-width:100px">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JLINK_DRAFT', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 
 								<th scope="col" style="min-width:100px">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JLINK_DRAFT', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">

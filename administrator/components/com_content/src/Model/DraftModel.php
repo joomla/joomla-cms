@@ -247,9 +247,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 	public function unshare($pks)
 	{
 		// Sanitize the ids.
-		$pks     = (array) $pks;
-		$pks     = ArrayHelper::toInteger($pks);
-		$context = $this->option . '.' . $this->name;
+		$pks = (array) $pks;
 
 		if (empty($pks))
 		{
@@ -269,7 +267,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 				->update($db->quoteName('#__draft'))
 				->set($db->quoteName('state') . ' = :state')
 				->set($db->quoteName('shared_date') . ' = NULL')
-				->whereIn($db->quoteName('article_id'), $pks)
+				->whereIn($db->quoteName('hashval'), $pks, ParameterType::STRING)
 				->bind(':state', $value, ParameterType::INTEGER);
 
 			$db->setQuery($query);
@@ -288,10 +286,6 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 	public function share($pks)
 	{
 		// Sanitize the ids.
-		$pks     = (array) $pks;
-		$pks     = ArrayHelper::toInteger($pks);
-		$context = $this->option . '.' . $this->name;
-
 		if (empty($pks))
 		{
 			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
@@ -312,7 +306,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 				->update($db->quoteName('#__draft'))
 				->set($db->quoteName('state') . ' = :state')
 				->set($db->quoteName('shared_date') . ' = :date')
-				->whereIn($db->quoteName('article_id'), $pks)
+				->whereIn($db->quoteName('hashval'), $pks, ParameterType::STRING)
 				->bind(':state', $value, ParameterType::INTEGER)
 				->bind(':date', $date_sql, ParameterType::STRING);
 

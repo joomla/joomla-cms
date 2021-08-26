@@ -178,7 +178,7 @@ class DraftsController extends AdminController
 		$model = $this->getModel();
 
 		// Publish the items.
-		if (!$model->unshare($pks, $value))
+		if (!$model->unshare($pks))
 		{
 			$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
 
