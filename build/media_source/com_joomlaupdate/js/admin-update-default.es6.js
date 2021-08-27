@@ -125,12 +125,18 @@ Joomla.Update = window.Joomla.Update || {
     document.getElementById('extbytesout').innerText = Joomla.Update.stat_outbytes;
     document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
 
+    // This is required so we can get outside the scope of the previous XHR's success handler.
+    window.setTimeout(() => {
+      Joomla.Update.delayedStepExtract(data.instance);
+    }, 50);
+  },
+  delayedStepExtract: (instance) => {
     const postData = new FormData();
     postData.append('task', 'stepExtract');
     postData.append('password', Joomla.Update.password);
 
-    if (data.instance) {
-      postData.append('instance', data.instance);
+    if (instance) {
+      postData.append('instance', instance);
     }
 
     Joomla.request({
