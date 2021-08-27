@@ -19,6 +19,10 @@ Joomla.Update = window.Joomla.Update || {
   genericErrorMessage: (message) => {
     const header = document.getElementById('errorDialogLabel');
     const messageDiv = document.getElementById('errorDialogMessage');
+    const elProgress = document.getElementById('progress-bar');
+
+    elProgress.classList.add('bg-danger');
+    elProgress.classList.remove('bg-success');
 
     header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
@@ -37,6 +41,10 @@ Joomla.Update = window.Joomla.Update || {
     const isForbidden = xhr.status === 403;
     const header = document.getElementById('errorDialogLabel');
     const message = document.getElementById('errorDialogMessage');
+    const elProgress = document.getElementById('progress-bar');
+
+    elProgress.classList.add('bg-danger');
+    elProgress.classList.remove('bg-success');
 
     if (isForbidden) {
       header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
