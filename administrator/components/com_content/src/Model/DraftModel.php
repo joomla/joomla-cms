@@ -331,7 +331,7 @@ class DraftModel extends AdminModel implements WorkflowModelInterface
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__draft'))
-				->where($db->quoteName('hashval') . ' = ' . ':hashval')
+				->where($db->quoteName('hashval') . ' = :hashval')
 				->bind(':hashval', $pks, ParameterType::STRING);
 			$db->setQuery($query);
 			$db->execute();
