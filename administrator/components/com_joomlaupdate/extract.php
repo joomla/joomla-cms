@@ -1067,7 +1067,7 @@ class ZIPExtraction
 	 */
 	private function processTypeDir(): bool
 	{
-		// Directory entries in the JPA do not have file data, therefore we're done processing the entry
+		// Directory entries do not have file data, therefore we're done processing the entry.
 		$this->runState = self::AK_STATE_DATAREAD;
 
 		return true;
