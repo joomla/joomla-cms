@@ -3,7 +3,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || {};
+if (!Joomla) {
+  throw new Error('Joomla API was not initialised properly');
+}
 
 Joomla.Update = window.Joomla.Update || {
   stat_total: 0,
