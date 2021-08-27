@@ -232,7 +232,6 @@ namespace Joomla\CMS\Filesystem
 						continue;
 					}
 
-					/** @noinspection PhpUndefinedFunctionInspection */
 					\clearFileInOPCache($item->getPathname());
 
 					@unlink($item->getPathname());
