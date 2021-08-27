@@ -592,8 +592,8 @@ ENDDATA;
 		{
 			if (!File::delete($configpath))
 			{
-				@unlink($configpath);
 				File::invalidateFileCache($configpath);
+				@unlink($configpath);
 			}
 		}
 
