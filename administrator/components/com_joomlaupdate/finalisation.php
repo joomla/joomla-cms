@@ -116,14 +116,9 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete(string $fileName): bool
 			{
-				$result = @unlink($fileName);
+				self::invalidateFileCache($fileName);
 
-				if ($result)
-				{
-					self::invalidateFileCache($fileName);
-				}
-
-				return $result;
+				return @unlink($fileName);
 			}
 
 			/**
@@ -138,11 +133,12 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function move(string $src, string $dest): bool
 			{
+				self::invalidateFileCache($src);
+
 				$result = @rename($src, $dest);
 
 				if ($result)
 				{
-					self::invalidateFileCache($src);
 					self::invalidateFileCache($dest);
 				}
 
@@ -237,10 +233,10 @@ namespace Joomla\CMS\Filesystem
 						continue;
 					}
 
-					@unlink($item->getPathname());
-
 					/** @noinspection PhpUndefinedFunctionInspection */
 					\clearFileInOPCache($item->getPathname());
+
+					@unlink($item->getPathname());
 				}
 
 				return @rmdir($folderName);
