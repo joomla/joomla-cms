@@ -224,14 +224,14 @@
 			title="MOD_MENU_TEMPLATES_SITE"
 			type="component"
 			element="com_templates"
-			link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
+			link="index.php?option=com_templates&amp;view=templates&amp;client_id=0"
 		/>
 
 		<menuitem
 			title="MOD_MENU_TEMPLATES_ADMIN"
 			type="component"
 			element="com_templates"
-			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
+			link="index.php?option=com_templates&amp;view=templates&amp;client_id=1"
 		/>
 
 		<menuitem

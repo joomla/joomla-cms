@@ -60,7 +60,7 @@ class TemplateController extends BaseController
 	 */
 	public function cancel()
 	{
-		$this->setRedirect(Route::_('index.php?option=com_templates&view=styles', false));
+		$this->setRedirect(Route::_('index.php?option=com_templates&view=templates', false));
 	}
 
 	/**

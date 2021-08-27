@@ -14,18 +14,21 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('bootstrap.dropdown');
 
+$token     = Session::getFormToken();
 $wa        = Factory::getDocument()->getWebAssetManager();
 $user      = Factory::getUser();
 $clientId  = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$wa->useStyle('com_templates.admin-styles');
+$wa->useStyle('com_templates.admin-templates')
+	->useScript('com_templates.admin-templates')
 ?>
-<form action="<?php echo Route::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm" data-token="<?php echo $token; ?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="main-container" class="main-container">
@@ -73,8 +76,7 @@ $wa->useStyle('com_templates.admin-styles');
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
-				<input type="hidden" name="boxchecked" value="0">
-				<?php echo HTMLHelper::_('form.token'); ?>
+				<input type="hidden" name="<?php echo $token; ?>" value="1">
 			</div>
 		</div>
 	</div>

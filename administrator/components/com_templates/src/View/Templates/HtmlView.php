@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -27,34 +27,25 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The list of templates
+	 * An array of items
 	 *
-	 * @var		array
-	 * @since   1.6
+	 * @var  array
 	 */
 	protected $items;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var		object
-	 * @since   1.6
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var		object
-	 * @since   1.6
+	 * @var  \JObject
 	 */
 	protected $state;
-
-	/**
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $file;
 
 	/**
 	 * Form object for search filters
@@ -81,22 +72,11 @@ class HtmlView extends BaseHtmlView
 	public $preview;
 
 	/**
-	 * The state of installer override plugin.
-	 *
-	 * @var  array
-	 *
-	 * @since  4.0.0
-	 */
-	protected $pluginState;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
-	 *
-	 * @since   1.6
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -107,8 +87,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
-		$this->file          = base64_encode('home');
-		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
+
+		// Remove the menu item filter for administrator styles.
+		if ((int) $this->state->get('client_id') !== 0)
+		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -118,7 +103,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -132,22 +117,27 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_templates');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'paint-brush thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'brush');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'paint-brush thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'brush');
 		}
+
+		// Install new template
+		ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			ToolbarHelper::preferences('com_templates');
-			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
+		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 	}
 }

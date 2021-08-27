@@ -28,7 +28,7 @@ extract($displayData);
 
 			<div>
 			<?php if ($style->home == '0') : ?>
-				<button class="btn btn-link" data-task="styles.setDefault" data-item="<?php echo (int) $style->id; ?>">
+				<button class="js-action-exec btn btn-link" type="button" data-task="templates.setDefault" data-item="<?php echo (int) $style->id; ?>">
 					<span class="icon-star me-2" area-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
 				</button>
@@ -38,7 +38,7 @@ extract($displayData);
 					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
 				</strong>
 			<?php elseif ($canChange):?>
-				<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+				<a href="<?php echo Route::_('index.php?option=com_templates&task=templates.unsetDefault&cid[]=' . $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
 					<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $style->language_title); ?>
 				</a>
 			<?php else : ?>

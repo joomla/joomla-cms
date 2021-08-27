@@ -1,138 +1,48 @@
 /**
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(() => {
-  'use strict';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
-    const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
-    const openLists = [].slice.call(document.querySelectorAll('.show > ul'));
-    const fileModalFolders = [].slice.call(document.querySelectorAll('#fileModal .folder-url'));
-    const folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url'));
-    // Hide all the folders when the page loads
-    innerLists.forEach((innerList) => {
-      innerList.classList.add('hidden');
+const onClick = async (event) => {
+  let response;
+  const button = event.currentTarget;
+  const form = button.form;
+  const baseURL = `${form.action}&task=${button.dataset.task}&${form.dataset.token}=1&cid[]=${button.dataset.item}`;
+  // const data = {
+  //   templateIds: button.dataset.item;
+  // };
+
+  button.setAttribute('disabled', '');
+
+  try {
+    response = await fetch(baseURL, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      // body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
+  } catch (error) {
+    // @todo use alert here
+    console.log(error);
+    button.removeAttribute('disabled');
+  }
 
-    // Show all the lists in the path of an open file
-    openLists.forEach((openList) => {
-      openList.classList.remove('hidden');
-    });
+  if (response.ok && response.status === 200 && response.statusText === 'OK') {
+    window.location.reload();
+  } else {
+    // @todo use alert here
+    console.log(response.statusText);
+    button.removeAttribute('disabled');
+  }
+};
 
-    // Stop the default action of anchor tag on a click event and release the inner list
-    folders.forEach((folder) => {
-      folder.addEventListener('click', (event) => {
-        event.preventDefault();
+const actionButtons = [].slice.call(document.querySelectorAll('button.js-action-exec'));
 
-        const list = event.currentTarget.parentNode.querySelector('ul');
-
-        if (!list.classList.contains('hidden')) {
-          list.classList.add('hidden');
-        } else {
-          list.classList.remove('hidden');
-        }
-      });
-    });
-
-    // File modal tree selector
-    fileModalFolders.forEach((fileModalFolder) => {
-      fileModalFolder.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        fileModalFolders.forEach((fileModalFold) => {
-          fileModalFold.classList.remove('selected');
-        });
-
-        event.currentTarget.classList.add('selected');
-
-        const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
-
-        listElsAddressToAdd.forEach((element) => {
-          element.value = event.currentTarget.getAttribute('data-id');
-        });
-      });
-    });
-
-    // Folder modal tree selector
-    folderModalFolders.forEach((folderModalFolder) => {
-      folderModalFolder.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        folderModalFolders.forEach((folderModalFldr) => {
-          folderModalFldr.classList.remove('selected');
-        });
-
-        event.currentTarget.classList.add('selected');
-        const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
-
-        listElsAddressToAdd.forEach((element) => {
-          element.value = event.currentTarget.getAttribute('data-id');
-        });
-      });
-    });
-
-    const treeContainer = document.querySelector('#treeholder .treeselect');
-    const listEls = [].slice.call(treeContainer.querySelectorAll('.folder.show'));
-    const filePathEl = document.querySelector('p.lead.hidden.path');
-
-    if (filePathEl) {
-      let filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
-
-      if (filePathTmp && filePathTmp.charAt(0) === '/') {
-        filePathTmp = filePathTmp.slice(1);
-        filePathTmp = filePathTmp.split('/');
-        filePathTmp = filePathTmp[filePathTmp.length - 1];
-
-        listEls.forEach((element, index) => {
-          element.querySelector('a').classList.add('active');
-          if (index === listEls.length - 1) {
-            const parentUl = element.querySelector('ul');
-            const allLi = [].slice.call(parentUl.querySelectorAll('li'));
-
-            allLi.forEach((liElement) => {
-              const aEl = liElement.querySelector('a');
-              const spanEl = aEl.querySelector('span');
-
-              if (spanEl && spanEl.innerText.trim()) {
-                aEl.classList.add('active');
-              }
-            });
-          }
-        });
-      }
-    }
-
-    // Image cropper
-    const image = document.getElementById('image-crop');
-    if (image) {
-      const width = document.getElementById('imageWidth').value;
-      const height = document.getElementById('imageHeight').value;
-
-      // eslint-disable-next-line no-new
-      new window.Cropper(image, {
-        viewMode: 1,
-        scalable: true,
-        zoomable: false,
-        movable: false,
-        dragMode: 'crop',
-        cropBoxMovable: true,
-        cropBoxResizable: true,
-        autoCrop: true,
-        autoCropArea: 1,
-        background: true,
-        center: true,
-        minCanvasWidth: width,
-        minCanvasHeight: height,
-      });
-
-      image.addEventListener('crop', (e) => {
-        document.getElementById('x').value = e.detail.x;
-        document.getElementById('y').value = e.detail.y;
-        document.getElementById('w').value = e.detail.width;
-        document.getElementById('h').value = e.detail.height;
-      });
-    }
-  });
-})();
+actionButtons.map((button) => button.addEventListener('click', onClick));

@@ -17,11 +17,11 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Template styles list controller class.
+ * Template templates list controller class.
  *
  * @since  1.6
  */
-class StylesController extends AdminController
+class TemplatesController extends AdminController
 {
 	/**
 	 * Method to clone and existing template style.
@@ -53,7 +53,7 @@ class StylesController extends AdminController
 			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		$this->setRedirect('index.php?option=com_templates&view=styles');
+		$this->setRedirect('index.php?option=com_templates&view=templates');
 	}
 
 	/**
@@ -108,7 +108,7 @@ class StylesController extends AdminController
 			$this->setMessage($e->getMessage(), 'warning');
 		}
 
-		$this->setRedirect('index.php?option=com_templates&view=styles');
+		$this->setRedirect('index.php?option=com_templates&view=templates');
 	}
 
 	/**
@@ -146,6 +146,6 @@ class StylesController extends AdminController
 			$this->setMessage($e->getMessage(), 'warning');
 		}
 
-		$this->setRedirect('index.php?option=com_templates&view=styles');
+		$this->setRedirect('index.php?option=com_templates&view=templates');
 	}
 }

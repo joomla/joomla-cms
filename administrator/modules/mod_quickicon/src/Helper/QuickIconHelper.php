@@ -191,7 +191,7 @@ class QuickIconHelper
 			{
 				$this->buttons[$key][] = [
 					'image'  => 'icon-paint-brush',
-					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
+					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'

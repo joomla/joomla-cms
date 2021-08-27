@@ -1,0 +1,124 @@
+/**
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+.selected {
+  color: #fff;
+  background: #08c;
+}
+
+.selected:hover,
+.selected:focus {
+  color: #fff;
+  background: #08c !important;
+}
+
+#deleteFolder {
+  margin: 0;
+}
+
+#image-crop {
+  width: auto;
+  max-width: 100% !important;
+  height: auto;
+}
+
+.tree-holder {
+  overflow-x: auto;
+}
+.modal-body .tree-holder {
+  max-height: 60vh;
+}
+
+@media (max-width: 768px) {
+  .modal-title {
+    font-size: 1rem;
+  }
+  .modal-body .tree-holder {
+    max-height: 12vh;
+    margin-bottom: 20px;
+  }
+  .modal-body .card-body {
+    padding: .75rem;
+  }
+  .modal-body .col-md-4,
+  .modal-body .col-md-8 {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .card-body .mt-2 {
+    font-size: 12px;
+  }
+}
+
+.treeselect a {
+  display: block;
+}
+
+.diffview {
+  display: inline;
+  padding: 4px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  border-radius: .2em;
+}
+
+.diff-pane {
+  height: 350px;
+  padding: 10px;
+  overflow: auto;
+  background-color: #fff;
+  border: .5px solid #808080;
+}
+
+#diff-main.active {
+  display: block;
+}
+
+#diff-main {
+  display: none;
+}
+
+#core-pane.active {
+  display: block;
+}
+
+#core-pane {
+  display: none;
+}
+
+#core-pane .CodeMirror-code {
+  background-color: #f0f0ee;
+}
+
+#jform_show_core {
+  display: inline;
+}
+
+#jform_show_diff {
+  display: inline;
+  margin-left: 3.5em;
+}
+
+.switcher-label-0, .switcher-label-1 {
+  white-space: nowrap;
+}
+
+/* RTL overrides for templates editing*/
+[dir=rtl] .diff-pane {
+  text-align: left;
+}
+
+[dir=rtl] #core-pane textarea,
+#override-pane textarea {
+  text-align: left;
+}
+
+[dir=rtl] #core-pane joomla-editor-codemirror,
+#override-pane joomla-editor-codemirror {
+  text-align: left;
+}
+
+[dir=rtl] #toggle-buttons {
+  text-align: right !important;
+}
