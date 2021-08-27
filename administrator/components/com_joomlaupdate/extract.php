@@ -224,7 +224,7 @@ class ZIPExtraction
 	 * @var   integer
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $startTime = null;
+	private $startTime;
 
 	/**
 	 * The last error message
@@ -713,7 +713,7 @@ class ZIPExtraction
 		{
 			@chmod($this->lastExtractedFilename, 0644);
 
-			clearFileInOPCache($this->lastExtractedFilename, true);
+			clearFileInOPCache($this->lastExtractedFilename);
 		}
 		else
 		{
@@ -913,8 +913,9 @@ class ZIPExtraction
 
 		// Get and decode Local File Header
 		$headerBinary = fread($this->fp, 30);
-		$headerData =
-			unpack('Vsig/C2ver/vbitflag/vcompmethod/vlastmodtime/vlastmoddate/Vcrc/Vcompsize/Vuncomp/vfnamelen/veflen', $headerBinary);
+		$format       = 'Vsig/C2ver/vbitflag/vcompmethod/vlastmodtime/vlastmoddate/Vcrc/Vcompsize/'
+			. 'Vuncomp/vfnamelen/veflen';
+		$headerData   = unpack($format, $headerBinary);
 
 		// Check signature
 		if (!($headerData['sig'] == 0x04034b50))
@@ -1295,7 +1296,7 @@ class ZIPExtraction
 			if ($reallyReadBytes < $toReadBytes)
 			{
 				// We read less than requested!
-				if ($this->isEOF(true) && !$this->isEOF(false))
+				if ($this->isEOF())
 				{
 					$this->setError('The archive file is corrupt or truncated');
 
@@ -1304,7 +1305,7 @@ class ZIPExtraction
 			}
 		}
 
-		$filename = isset($this->fileHeader->realFile) ? $this->fileHeader->realFile : $this->fileHeader->file;
+		$filename = $this->fileHeader->realFile ?? $this->fileHeader->file;
 
 		// Try to remove an existing file or directory by the same name
 		if (file_exists($filename))
@@ -1386,7 +1387,7 @@ class ZIPExtraction
 			if ($reallyReadBytes < $toReadBytes)
 			{
 				// We read less than requested! Why? Did we hit local EOF?
-				if ($this->isEOF(true) && !$this->isEOF(false))
+				if ($this->isEOF())
 				{
 					// Nope. The archive is corrupt
 					$this->setError('The archive file is corrupt or truncated');
@@ -1574,7 +1575,7 @@ function clearFileInOPCache(string $file): bool
 
 	if ($hasOpCache && (strtolower(substr($file, -4)) === '.php'))
 	{
-		return \opcache_invalidate($file, true);
+		return opcache_invalidate($file, true);
 	}
 
 	return false;
