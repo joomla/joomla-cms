@@ -159,7 +159,6 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function invalidateFileCache($filepath, $force = true)
 			{
-				/** @noinspection PhpUndefinedFunctionInspection */
 				return \clearFileInOPCache($filepath);
 			}
 
