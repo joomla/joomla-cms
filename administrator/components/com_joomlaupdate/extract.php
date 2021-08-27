@@ -249,9 +249,9 @@ class ZIPExtraction
 	 * Wakeup function, called whenever the class is deserialized.
 	 *
 	 * This method does the following:
-	 * * Restart the timer.
-	 * * Reopen the archive file, if one is defined.
-	 * * Seek to the correct offset of the file.
+	 * - Restart the timer.
+	 * - Reopen the archive file, if one is defined.
+	 * - Seek to the correct offset of the file.
 	 *
 	 * @return  void
 	 * @internal
