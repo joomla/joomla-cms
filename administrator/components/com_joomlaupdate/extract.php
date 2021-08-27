@@ -12,7 +12,7 @@ define('_JOOMLA_UPDATE', 1);
 /**
  * ZIP archive extraction class
  *
- * @since  4.0.3
+ * @since  __DEPLOY_VERSION__
  */
 class ZIPExtraction
 {
