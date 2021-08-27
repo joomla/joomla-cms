@@ -276,7 +276,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       newDef = newDef === undefined ? newKey : newDef;
       newKey = newKey.toUpperCase();
 
-      return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
+      return Joomla.Text.strings[newKey] !== undefined ? Joomla.sanitizeHtml(Joomla.Text.strings[newKey]) : Joomla.sanitizeHtml(newDef);
     },
 
     /**
