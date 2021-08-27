@@ -515,7 +515,16 @@ class UpdateModel extends BaseDatabaseModel
 		return basename($target);
 	}
 
-	public function createRestorationFile($basename = null)
+	/**
+	 * Backwards compatibility. Use createUpdateFile() instead.
+	 *
+	 * @param   null  $basename The basename of the file to create
+	 *
+	 * @return  boolean
+	 * @since   2.5.1
+	 * @deprecated 5.0
+	 */
+	public function createRestorationFile($basename = null): bool
 	{
 		return $this->createUpdateFile($basename);
 	}
@@ -534,7 +543,7 @@ class UpdateModel extends BaseDatabaseModel
 	 *
 	 * @since  2.5.4
 	 */
-	public function createUpdateFile($basename = null)
+	public function createUpdateFile($basename = null): bool
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
