@@ -114,7 +114,7 @@ class ZIPExtraction
 	/** @var int Internal state when extracting files: finished extracting the ZIP file */
 	private const AK_STATE_FINISHED = 999;
 
-	/** @var null|self Singleton isntance  */
+	/** @var null|self Singleton instance */
 	private static $instance = null;
 
 	/** @var integer The total size of the ZIP archive */
@@ -239,10 +239,10 @@ class ZIPExtraction
 		}
 
 		$instance = @unserialize($serialised, [
-			'allowed_classes' => [
-				self::class,
-				stdClass::class,
-			],
+				'allowed_classes' => [
+					self::class,
+					stdClass::class,
+				],
 			]
 		);
 
@@ -423,7 +423,8 @@ class ZIPExtraction
 			return;
 		}
 
-		$this->runState = self::AK_STATE_NOFILE;
+		$this->archiveFileIsBeingRead = true;
+		$this->runState               = self::AK_STATE_NOFILE;
 	}
 
 	/**
@@ -732,8 +733,8 @@ class ZIPExtraction
 
 		// Get and decode Local File Header
 		$headerBinary = fread($this->fp, 30);
-		$headerData
-			= unpack('Vsig/C2ver/vbitflag/vcompmethod/vlastmodtime/vlastmoddate/Vcrc/Vcompsize/Vuncomp/vfnamelen/veflen', $headerBinary);
+		$headerData =
+			unpack('Vsig/C2ver/vbitflag/vcompmethod/vlastmodtime/vlastmoddate/Vcrc/Vcompsize/Vuncomp/vfnamelen/veflen', $headerBinary);
 
 		// Check signature
 		if (!($headerData['sig'] == 0x04034b50))
@@ -815,7 +816,7 @@ class ZIPExtraction
 			default:
 				$messageTemplate = 'This script cannot handle ZIP compression method %d. '
 					. 'Only 0 (no compression) and 8 (DEFLATE, gzip) can be handled.';
-				$actualMessage = sprintf($messageTemplate, $headerData['compmethod']);
+				$actualMessage   = sprintf($messageTemplate, $headerData['compmethod']);
 				$this->setError($actualMessage);
 
 				return false;
@@ -1000,8 +1001,8 @@ class ZIPExtraction
 		if ($this->fp === false)
 		{
 			$message = 'Could not open archive for reading. Check that the file exists, is '
-			. 'readable by the web server and is not in a directory made out of reach by chroot, '
-			. 'open_basedir restrictions or any other restriction put in place by your host.';
+				. 'readable by the web server and is not in a directory made out of reach by chroot, '
+				. 'open_basedir restrictions or any other restriction put in place by your host.';
 			$this->setError($message);
 
 			return;
@@ -1539,12 +1540,12 @@ if ($enabled)
 	$engine->setFilename($sourceFile);
 	$engine->setAddPath($destDir);
 	$engine->setSkipFiles([
-		'administrator/components/com_joomlaupdate/restoration.php',
-		'administrator/components/com_joomlaupdate/update.php',
+			'administrator/components/com_joomlaupdate/restoration.php',
+			'administrator/components/com_joomlaupdate/update.php',
 		]
 	);
 	$engine->setIgnoreDirectories([
-		'tmp', 'administrator/logs',
+			'tmp', 'administrator/logs',
 		]
 	);
 
@@ -1568,14 +1569,18 @@ if ($enabled)
 				$retArray['files']    = $engine->filesProcessed;
 				$retArray['bytesIn']  = $engine->compressedTotal;
 				$retArray['bytesOut'] = $engine->uncompressedTotal;
+				$retArray['percent']  = ($engine->totalSize > 0) ? ($engine->uncompressedTotal / $engine->totalSize) : 0;
 				$retArray['status']   = true;
 				$retArray['done']     = true;
+
+				$retArray['percent'] = min($retArray['percent'], 100);
 			}
 			else
 			{
 				$retArray['files']    = $engine->filesProcessed;
 				$retArray['bytesIn']  = $engine->compressedTotal;
 				$retArray['bytesOut'] = $engine->uncompressedTotal;
+				$retArray['percent']  = 100;
 				$retArray['status']   = true;
 				$retArray['done']     = false;
 				$retArray['instance'] = ZIPExtraction::getSerialised();
