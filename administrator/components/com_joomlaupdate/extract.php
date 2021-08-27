@@ -72,7 +72,7 @@ class ZIPExtraction
 	 * spike over a short period of time.
 	 *
 	 * The chosen value of 3 seconds belongs to the first category, essentially making sure that we have a decent rate
-	 * limiting without annoying the user too much but also without catering for the most badly configured of shared
+	 * limiting without annoying the user too much but also catering for the most badly configured of shared
 	 * hosting. It's a happy medium which works for the majority (~90%) of commercial servers out there.
 	 *
 	 * @var int
