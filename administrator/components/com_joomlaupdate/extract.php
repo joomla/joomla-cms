@@ -41,7 +41,7 @@ class ZIPExtraction
 	 * consumed at least this much percentage of the MAX_EXEC_TIME we will stop processing the archive in this page
 	 * load, return the result to the client and wait for it to call us again so we can resume the extraction.
 	 *
-	 * This becomes important when the MAX_EXEC_TIME is close the the PHP, PHP-FPM or Apache timeout oon the server
+	 * This becomes important when the MAX_EXEC_TIME is close the the PHP, PHP-FPM or Apache timeout on the server
 	 * (whichever is lowest) and there are fairly large files in the backup archive. If we start extracting a large,
 	 * compressed file close to a hard server timeout it's possible that we will overshoot that hard timeout and see the
 	 * extraction failing.
