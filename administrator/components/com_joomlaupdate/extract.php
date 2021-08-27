@@ -1387,57 +1387,6 @@ function clearFileInOPCache(string $file): bool
 }
 
 /**
- * Recursively remove directory.
- *
- * Used by the finalization script provided with Joomla Update.
- *
- * @param   string  $directory  The directory to remove
- *
- * @return  boolean
- */
-function recursiveRemoveDirectory($directory)
-{
-	if (substr($directory, -1) == '/')
-	{
-		$directory = substr($directory, 0, -1);
-	}
-
-	if (!@file_exists($directory) || !@is_dir($directory) || !is_readable($directory))
-	{
-		return false;
-	}
-
-	$di = new DirectoryIterator($directory);
-
-	/** @var DirectoryIterator $item */
-	foreach ($di as $item)
-	{
-		if ($item->isDot())
-		{
-			continue;
-		}
-
-		if ($item->isDir())
-		{
-			$status = recursive_remove_directory($item->getPathname());
-
-			if (!$status)
-			{
-				return false;
-			}
-
-			continue;
-		}
-
-		@unlink($item->getPathname());
-
-		clearFileInOPCache($item->getPathname());
-	}
-
-	return @rmdir($directory);
-}
-
-/**
  * A timing safe equals comparison.
  *
  * Uses the built-in hash_equals() method if it exists. It SHOULD exist, as it's available since PHP 5.6 whereas even
