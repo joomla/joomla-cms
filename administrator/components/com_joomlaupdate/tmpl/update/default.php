@@ -16,7 +16,6 @@ use Joomla\CMS\Uri\Uri;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
-	->useScript('jquery')
 	->useScript('com_joomlaupdate.admin-update');
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
