@@ -27,7 +27,12 @@ define('_JOOMLA_UPDATE', 1);
  */
 class ZIPExtraction
 {
-	/** @var int How much data to read at once when processing files */
+	/**
+	 * How much data to read at once when processing files
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const CHUNK_SIZE = 524288;
 
 	/**
@@ -41,7 +46,8 @@ class ZIPExtraction
 	 * causing the extraction to fail. If this is too big the extraction will not be as verbose and the user might think
 	 * something is broken. A value between 3 and 7 seconds is, therefore, recommended.
 	 *
-	 * @var int
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
 	 */
 	private const MAX_EXEC_TIME = 4;
 
@@ -65,7 +71,8 @@ class ZIPExtraction
 	 *
 	 * Lower values make it less likely to overshoot MAX_EXEC_TIME when extracting large files.
 	 *
-	 * @var int
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
 	 */
 	private const RUNTIME_BIAS = 90;
 
@@ -86,101 +93,250 @@ class ZIPExtraction
 	 * limiting without annoying the user too much but also catering for the most badly configured of shared
 	 * hosting. It's a happy medium which works for the majority (~90%) of commercial servers out there.
 	 *
-	 * @var int
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
 	 */
 	private const MIN_EXEC_TIME = 3;
 
-	/** @var int Internal state when extracting files: we need to be initialised */
+	/**
+	 * Internal state when extracting files: we need to be initialised
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_INITIALIZE = -1;
 
-	/** @var int Internal state when extracting files: no file currently being extracted */
+	/**
+	 * Internal state when extracting files: no file currently being extracted
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_NOFILE = 0;
 
-	/** @var int Internal state when extracting files: reading the file header */
+	/**
+	 * Internal state when extracting files: reading the file header
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_HEADER = 1;
 
-	/** @var int Internal state when extracting files: reading file data */
+	/**
+	 * Internal state when extracting files: reading file data
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_DATA = 2;
 
-	/** @var int Internal state when extracting files: file data has been read thoroughly */
+	/**
+	 * Internal state when extracting files: file data has been read thoroughly
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_DATAREAD = 3;
 
-	/** @var int Internal state when extracting files: post-processing the file */
+	/**
+	 * Internal state when extracting files: post-processing the file
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_POSTPROC = 4;
 
-	/** @var int Internal state when extracting files: done with this file */
+	/**
+	 * Internal state when extracting files: done with this file
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_DONE = 5;
 
-	/** @var int Internal state when extracting files: finished extracting the ZIP file */
+	/**
+	 * Internal state when extracting files: finished extracting the ZIP file
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
 	private const AK_STATE_FINISHED = 999;
 
-	/** @var null|self Singleton instance */
+	/**
+	 * Singleton instance
+	 *
+	 * @var   null|self
+	 * @since __DEPLOY_VERSION__
+	 */
 	private static $instance = null;
 
-	/** @var integer The total size of the ZIP archive */
+	/**
+	 * The total size of the ZIP archive
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $totalSize = [];
 
-	/** @var array Which files to skip */
+	/**
+	 * Which files to skip
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $skipFiles = [];
 
-	/** @var integer Current tally of compressed size read */
+	/**
+	 * Current tally of compressed size read
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $compressedTotal = 0;
 
-	/** @var integer Current tally of bytes written to disk */
+	/**
+	 * Current tally of bytes written to disk
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $uncompressedTotal = 0;
 
-	/** @var integer Current tally of files extracted */
+	/**
+	 * Current tally of files extracted
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $filesProcessed = 0;
 
-	/** @var integer Maximum execution time allowance per step */
+	/**
+	 * Maximum execution time allowance per step
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $maxExecTime = null;
 
-	/** @var integer Timestamp of execution start */
+	/**
+	 * Timestamp of execution start
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $startTime = null;
 
-	/** @var string|null The last error message */
+	/**
+	 * The last error message
+	 *
+	 * @var   string|null
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $lastErrorMessage = null;
 
-	/** @var string Archive filename */
+	/**
+	 * Archive filename
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $filename = null;
 
-	/** @var boolean Current archive part number */
+	/**
+	 * Current archive part number
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $archiveFileIsBeingRead = false;
 
-	/** @var integer The offset inside the current part */
+	/**
+	 * The offset inside the current part
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $currentOffset = 0;
 
-	/** @var string Absolute path to prepend to extracted files */
+	/**
+	 * Absolute path to prepend to extracted files
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $addPath = '';
 
-	/** @var resource File pointer to the current archive part file */
+	/**
+	 * File pointer to the current archive part file
+	 *
+	 * @var   resource|null
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $fp = null;
 
-	/** @var integer Run state when processing the current archive file */
+	/**
+	 * Run state when processing the current archive file
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $runState = self::AK_STATE_INITIALIZE;
 
-	/** @var stdClass File header data, as read by the readFileHeader() method */
+	/**
+	 * File header data, as read by the readFileHeader() method
+	 *
+	 * @var   stdClass
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $fileHeader = null;
 
-	/** @var integer How much of the uncompressed data we've read so far */
+	/**
+	 * How much of the uncompressed data we've read so far
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $dataReadLength = 0;
 
-	/** @var array Unwritable files in these directories are always ignored and do not cause errors when not extracted */
+	/**
+	 * Unwritable files in these directories are always ignored and do not cause errors when not
+	 * extracted.
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $ignoreDirectories = [];
 
-	/** @var boolean Internal flag, set when the ZIP file has a data descriptor (which we will be ignoring) */
+	/**
+	 * Internal flag, set when the ZIP file has a data descriptor (which we will be ignoring)
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $expectDataDescriptor = false;
 
-	/** @var integer The UNIX last modification timestamp of the file last extracted */
+	/**
+	 * The UNIX last modification timestamp of the file last extracted
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $lastExtractedFileTimestamp = 0;
 
-	/** @var string The file path of the file last extracted */
+	/**
+	 * The file path of the file last extracted
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $lastExtractedFilename = null;
 
 	/**
 	 * Public constructor.
 	 *
 	 * Sets up the internal timer.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -194,6 +350,7 @@ class ZIPExtraction
 	 * Singleton implementation.
 	 *
 	 * @return  static
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstance(): self
 	{
@@ -212,6 +369,7 @@ class ZIPExtraction
 	 * call to shutdown() first so any open files are closed first.
 	 *
 	 * @return  string  The serialised data, potentially base64 encoded.
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSerialised(): string
 	{
@@ -230,6 +388,7 @@ class ZIPExtraction
 	 * @param   string  $serialised  The serialised data, potentially base64 encoded, to deserialize.
 	 *
 	 * @return  static|null  The instance of the object, NULL if it cannot be deserialised.
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function unserialiseInstance(string $serialised): ?self
 	{
@@ -265,6 +424,7 @@ class ZIPExtraction
 	 * - Seek to the correct offset of the file.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 * @internal
 	 */
 	public function __wakeup(): void
@@ -289,6 +449,7 @@ class ZIPExtraction
 	 * Enforce the minimum execution time.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function enforceMinimumExecutionTime()
 	{
@@ -347,6 +508,7 @@ class ZIPExtraction
 	 * @param   string  $value  The filepath to the archive. Only LOCAL files are allowed!
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setFilename(string $value)
 	{
@@ -367,6 +529,7 @@ class ZIPExtraction
 	 * @param   string  $addPath  The path where the archive will be extracted.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setAddPath(string $addPath): void
 	{
@@ -386,6 +549,7 @@ class ZIPExtraction
 	 * @param   array  $skipFiles  A list of files to skip when extracting the ZIP archive
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setSkipFiles(array $skipFiles): void
 	{
@@ -398,6 +562,7 @@ class ZIPExtraction
 	 * @param   array  $ignoreDirectories  The list of directories to ignore.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setIgnoreDirectories(array $ignoreDirectories): void
 	{
@@ -408,6 +573,7 @@ class ZIPExtraction
 	 * Prepares for the archive extraction
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function initialize(): void
 	{
@@ -431,6 +597,7 @@ class ZIPExtraction
 	 * Executes a step of the archive extraction
 	 *
 	 * @return  boolean  True if we are done extracting or an error occurred
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function step(): bool
 	{
@@ -502,6 +669,7 @@ class ZIPExtraction
 	 * Get the most recent error message
 	 *
 	 * @return   string|null  The message string, null if there's no error
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getError(): ?string
 	{
@@ -512,6 +680,7 @@ class ZIPExtraction
 	 * Gets the number of seconds left, before we hit the "must break" threshold
 	 *
 	 * @return  float
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getTimeLeft(): float
 	{
@@ -523,6 +692,7 @@ class ZIPExtraction
 	 * long Akeeba Engine has been processing data
 	 *
 	 * @return  float
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getRunningTime(): float
 	{
@@ -535,6 +705,7 @@ class ZIPExtraction
 	 * This invalidates OPcache for .php files. Also applies the correct permissions and timestamp.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processLastExtractedFile(): void
 	{
@@ -561,6 +732,7 @@ class ZIPExtraction
 	 * @param   string|null  $lastExtractedFilename  The last extracted filename
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setLastExtractedFilename(?string $lastExtractedFilename): void
 	{
@@ -573,6 +745,7 @@ class ZIPExtraction
 	 * @param   int  $lastExtractedFileTimestamp  The timestamp
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setLastExtractedFileTimestamp(int $lastExtractedFileTimestamp): void
 	{
@@ -583,6 +756,7 @@ class ZIPExtraction
 	 * Sleep function, called whenever the class is serialized
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 * @internal
 	 */
 	private function shutdown(): void
@@ -603,6 +777,7 @@ class ZIPExtraction
 	 * @param   string|null  $string  The binary data to get the length for
 	 *
 	 * @return  integer
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function binStringLength(?string $string): int
 	{
@@ -625,6 +800,7 @@ class ZIPExtraction
 	 * @param   string  $error  Error message
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setError(string $error): void
 	{
@@ -638,6 +814,7 @@ class ZIPExtraction
 	 * @param   int|null  $length  The volume of data to read, in bytes
 	 *
 	 * @return  string  The data read from the file
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function fread($fp, ?int $length = null): string
 	{
@@ -656,6 +833,7 @@ class ZIPExtraction
 	 * Read the header of the archive, making sure it's a valid ZIP file.
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function readArchiveHeader(): void
 	{
@@ -691,7 +869,9 @@ class ZIPExtraction
 	/**
 	 * Concrete classes must use this method to read the file header
 	 *
-	 * @return boolean True if reading the file was successful, false if an error occurred or we reached end of archive
+	 * @return boolean True if reading the file was successful, false if an error occurred or we
+	 *                 reached end of archive.
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function readFileHeader(): bool
 	{
@@ -909,6 +1089,7 @@ class ZIPExtraction
 	 * Creates the directory this file points to
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function createDirectory(): void
 	{
@@ -939,7 +1120,8 @@ class ZIPExtraction
 	 * Concrete classes must use this method to process file data. It must set $runState to self::AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
 	 *
-	 * @return boolean True if processing the file data was successful, false if an error occurred
+	 * @return   boolean  True if processing the file data was successful, false if an error occurred
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processFileData(): bool
 	{
@@ -983,6 +1165,7 @@ class ZIPExtraction
 	 * Opens the next part file for reading
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function openArchiveFile(): void
 	{
@@ -1016,7 +1199,8 @@ class ZIPExtraction
 	/**
 	 * Returns true if we have reached the end of file
 	 *
-	 * @return boolean True if we have reached End Of File
+	 * @return   boolean  True if we have reached End Of File
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isEOF(): bool
 	{
@@ -1034,6 +1218,7 @@ class ZIPExtraction
 	 * @param   string  $path  A path to a file
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setCorrectPermissions(string $path): void
 	{
@@ -1064,6 +1249,7 @@ class ZIPExtraction
 	 * @param   string  $shortFilename  The relative path of the file/directory in the package
 	 *
 	 * @return  boolean  True if it belongs in an ignored directory
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isIgnoredDirectory(string $shortFilename): bool
 	{
@@ -1076,6 +1262,7 @@ class ZIPExtraction
 	 * Process the file data of a directory entry
 	 *
 	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processTypeDir(): bool
 	{
@@ -1089,6 +1276,7 @@ class ZIPExtraction
 	 * Process the file data of a link entry
 	 *
 	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processTypeLink(): bool
 	{
@@ -1144,6 +1332,7 @@ class ZIPExtraction
 	 * Processes an uncompressed (stored) file
 	 *
 	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processTypeFileUncompressed(): bool
 	{
@@ -1237,6 +1426,7 @@ class ZIPExtraction
 	 * Processes a compressed file
 	 *
 	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function processTypeFileCompressed(): bool
 	{
@@ -1324,6 +1514,7 @@ class ZIPExtraction
 	 * Set up the maximum execution time
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setupMaxExecTime(): void
 	{
@@ -1337,7 +1528,8 @@ class ZIPExtraction
 	 *
 	 * If it's not defined or it's zero (infinite) we use a fake value of 10 seconds.
 	 *
-	 * @return integer
+	 * @return  integer
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getPhpMaxExecTime(): int
 	{
@@ -1367,6 +1559,7 @@ if (defined('_JOOMLA_UPDATE_TESTING'))
  * @param   string  $file  The filepath to clear from OPcache
  *
  * @return  boolean
+ * @since   __DEPLOY_VERSION__
  */
 function clearFileInOPCache(string $file): bool
 {
@@ -1399,6 +1592,7 @@ function clearFileInOPCache(string $file): bool
  * @param   string  $user   The user submitted value to check
  *
  * @return  boolean  True if the two strings are identical.
+ * @since   __DEPLOY_VERSION__
  *
  * @see     http://blog.ircmaxell.com/2014/11/its-all-about-time.html
  */
@@ -1429,9 +1623,11 @@ function timingSafeEquals($known, $user)
 }
 
 /**
- * Gets the configuration parameters from the update.php file and validates the password sent with the request.
+ * Gets the configuration parameters from the update.php file and validates the password sent with
+ * the request.
  *
- * @return array|null The configuration parameters to use. NULL if this is an invalid request.
+ * @return  array|null  The configuration parameters to use. NULL if this is an invalid request.
+ * @since   __DEPLOY_VERSION__
  */
 function getConfiguration(): ?array
 {
