@@ -85,7 +85,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('\Joomla\CMS\Filesystem\File'))
 	{
 		/**
-		 * JFile mock class
+		 * File mock class
 		 *
 		 * @since  3.5.1
 		 */
