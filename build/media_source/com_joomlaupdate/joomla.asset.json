@@ -10,7 +10,8 @@
       "type": "script",
       "uri": "com_joomlaupdate/admin-update-default-es5.min.js",
       "dependencies": [
-        "core"
+        "core",
+        "bootstrap.modal"
       ],
       "attributes": {
         "defer": true,

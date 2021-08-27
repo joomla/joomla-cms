@@ -16,8 +16,41 @@ Joomla.Update = window.Joomla.Update || {
   totalsize: 0,
   ajax_url: null,
   return_url: null,
-  errorHandler: (message) => {
-    alert(`ERROR:\n${message}`);
+  genericErrorMessage: (message) => {
+    const header = document.getElementById('errorDialogLabel');
+    const messageDiv = document.getElementById('errorDialogMessage');
+
+    header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
+    messageDiv.innerHTML = message;
+
+    if (message.toLowerCase() === 'invalid login') {
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
+    }
+
+    const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
+      keyboard: true,
+      backdrop: true,
+    });
+    myModal.show();
+  },
+  handleErrorResponse: (xhr) => {
+    const isForbidden = xhr.status === 403;
+    const header = document.getElementById('errorDialogLabel');
+    const message = document.getElementById('errorDialogMessage');
+
+    if (isForbidden) {
+      header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
+      message.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
+    } else {
+      header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
+      message.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
+    }
+
+    const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
+      keyboard: true,
+      backdrop: true,
+    });
+    myModal.show();
   },
   startExtract: () => {
     // Reset variables
@@ -42,19 +75,16 @@ Joomla.Update = window.Joomla.Update || {
           Joomla.Update.stepExtract(data);
         } catch (e) {
           // Decoding failed; display an error
-          Joomla.Update.errorHandler(e.message);
+          Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: () => {
-        // A server error has occurred.
-        Joomla.Update.errorHandler('AJAX Error');
-      },
+      onError: Joomla.Update.handleErrorResponse,
     });
   },
   stepExtract: (data) => {
     // Did we get an error from the ZIP extraction engine?
     if (data.status === false) {
-      Joomla.Update.errorHandler(data.message);
+      Joomla.Update.genericErrorMessage(data.message);
 
       return;
     }
@@ -113,12 +143,10 @@ Joomla.Update = window.Joomla.Update || {
           const newData = JSON.parse(rawJson);
           Joomla.Update.stepExtract(newData);
         } catch (e) {
-          Joomla.Update.errorHandler(e.message);
+          Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: () => {
-        Joomla.Update.errorHandler('AJAX Error');
-      },
+      onError: Joomla.Update.handleErrorResponse,
     });
   },
   finalizeUpdate: () => {
@@ -133,9 +161,7 @@ Joomla.Update = window.Joomla.Update || {
       onSuccess: () => {
         window.location = Joomla.Update.return_url;
       },
-      onError: () => {
-        Joomla.Update.errorHandler('AJAX Error');
-      },
+      onError: Joomla.Update.handleErrorResponse,
     });
   },
 };
