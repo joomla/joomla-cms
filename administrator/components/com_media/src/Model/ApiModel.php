@@ -116,6 +116,8 @@ class ApiModel extends BaseDatabaseModel
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
+		Factory::getApplication()->triggerEvent('onFetchMediaFile', [$file]);
+
 		return $file;
 	}
 
@@ -178,8 +180,12 @@ class ApiModel extends BaseDatabaseModel
 			$file->adapter = $adapter;
 		}
 
+		$files = array_values($files);
+
+		Factory::getApplication()->triggerEvent('onFetchMediaFiles', [$files]);
+
 		// Return array with proper indexes
-		return array_values($files);
+		return $files;
 	}
 
 	/**
@@ -454,7 +460,15 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		return $this->getAdapter($adapter)->getUrl($path);
+		$url    = $this->getAdapter($adapter)->getUrl($path);
+		$newUrl = Factory::getApplication()->triggerEvent('onFetchMediaFileUrl', [$url]);
+
+		if ($newUrl && $newUrl !== false)
+		{
+			$url = $newUrl;
+		}
+
+		return $url;
 	}
 
 	/**
