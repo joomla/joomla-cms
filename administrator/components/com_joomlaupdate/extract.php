@@ -52,7 +52,7 @@ class ZIPExtraction
 	 * Example: if MAX_EXEC_TIME is 10 seconds and RUNTIME_BIAS is 80 each page load will take between 80% and 100% of
 	 * the MAX_EXEC_TIME, i.e. anywhere between 8 and 10 seconds.
 	 *
-	 * Lower values make it less overshooting MAX_EXEC_TIME when extracting large files.
+	 * Lower values make it less likely to overshoot MAX_EXEC_TIME when extracting large files.
 	 *
 	 * @var int
 	 */
