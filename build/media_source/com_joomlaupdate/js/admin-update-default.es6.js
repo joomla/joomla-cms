@@ -33,7 +33,7 @@ Joomla.Update = window.Joomla.Update || {
 
     const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
       keyboard: true,
-      backdrop: true,
+      backdrop: true
     });
     myModal.show();
   },
@@ -56,7 +56,7 @@ Joomla.Update = window.Joomla.Update || {
 
     const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
       keyboard: true,
-      backdrop: true,
+      backdrop: true
     });
     myModal.show();
   },
@@ -86,7 +86,7 @@ Joomla.Update = window.Joomla.Update || {
           Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: Joomla.Update.handleErrorResponse,
+      onError: Joomla.Update.handleErrorResponse
     });
   },
   stepExtract: (data) => {
@@ -111,12 +111,14 @@ Joomla.Update = window.Joomla.Update || {
     }
 
     // Add data to variables
-    Joomla.Update.stat_inbytes += data.bytesIn;
-    Joomla.Update.stat_percent = (Joomla.Update.stat_inbytes * 100) / Joomla.Update.totalsize;
+    Joomla.Update.stat_inbytes = data.bytesIn;
+    Joomla.Update.stat_percent = data.percent;
+    Joomla.Update.stat_percent = Joomla.Update.stat_percent
+      || (100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize));
 
     // Update GUI
-    Joomla.Update.stat_outbytes += data.bytesOut;
-    Joomla.Update.stat_files += data.files;
+    Joomla.Update.stat_outbytes = data.bytesOut;
+    Joomla.Update.stat_files = data.files;
 
     if (Joomla.Update.stat_percent < 100) {
       elProgress.classList.remove('bg-success');
@@ -160,7 +162,7 @@ Joomla.Update = window.Joomla.Update || {
           Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: Joomla.Update.handleErrorResponse,
+      onError: Joomla.Update.handleErrorResponse
     });
   },
   finalizeUpdate: () => {
@@ -175,9 +177,9 @@ Joomla.Update = window.Joomla.Update || {
       onSuccess: () => {
         window.location = Joomla.Update.return_url;
       },
-      onError: Joomla.Update.handleErrorResponse,
+      onError: Joomla.Update.handleErrorResponse
     });
-  },
+  }
 };
 
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
