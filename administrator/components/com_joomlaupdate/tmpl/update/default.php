@@ -26,6 +26,8 @@ Text::script('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
 Text::script('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
 Text::script('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
 Text::script('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
+Text::script('COM_JOOMLAUPDATE_UPDATING_FAIL');
+Text::script('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
@@ -41,6 +43,8 @@ $this->document->addScriptOptions(
 		'return_url' => $returnUrl,
 	]
 );
+
+$helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 ?>
 
 <p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
@@ -62,7 +66,7 @@ $this->document->addScriptOptions(
 			<div class="modal-body p-3">
 				<div id="errorDialogMessage"></div>
 				<div>
-					<a href="<?php echo Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false) ?>"
+					<a href="<?php echo $helpUrl ?>"
 					   target="_blank"
 					   class="btn btn-info">
 						<span class="fa fa-info-circle" aria-hidden="true"></span>
@@ -74,26 +78,37 @@ $this->document->addScriptOptions(
 	</div>
 </div>
 
-<div id="update-progress">
-	<div id="extprogress">
-		<div id="progress" class="progress">
-			<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+<div class="px-4 py-5 my-5 text-center">
+	<span class="fa-8x mb-4 icon-loop joomlaupdate" aria-hidden="true"></span>
+	<h1 class="display-5 fw-bold"><?php echo Text::_('COM_JOOMLAUPDATE_UPDATING_HEAD') ?></h1>
+	<div class="col-lg-6 mx-auto">
+		<p class="lead mb-4" id="update-title">
+			<?php echo Text::_('COM_JOOMLAUPDATE_UPDATING_INPROGRESS'); ?>
+		</p>
+		<div id="progress" class="progress my-3">
+			<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
+				 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+			</div>
 		</div>
-		<div class="extprogrow">
-			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?></span>
-			<span class="extvalue" id="extpercent" aria-live="polite"></span>
+		<div id="update-progress" class="container text-muted my-3">
+			<div class="row">
+				<div class="col">
+					<span class="fa fa-file-archive" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?>"></span>
+					<span id="extbytesin"></span>
+				</div>
+				<div class="col">
+					<span class="fa fa-file-hdd" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?>"></span>
+					<span id="extbytesout"></span>
+				</div>
+				<div class="col">
+					<span class="fa fa-copy" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?>"></span>
+					<span id="extfiles"></span>
+				</div>
+			</div>
 		</div>
-		<div class="extprogrow">
-			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
-			<span class="extvalue" id="extbytesin"></span>
-		</div>
-		<div class="extprogrow">
-			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?></span>
-			<span class="extvalue" id="extbytesout"></span>
-		</div>
-		<div class="extprogrow">
-			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?></span>
-			<span class="extvalue" id="extfiles"></span>
+		<div class="d-none justify-content-sm-center" id="update-help">
+			<a href="<?php echo $helpUrl; ?>" target="_blank"
+			   class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('JGLOBAL_LEARN_MORE'); ?></a>
 		</div>
 	</div>
 </div>

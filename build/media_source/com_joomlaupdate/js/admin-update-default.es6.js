@@ -17,14 +17,19 @@ Joomla.Update = window.Joomla.Update || {
   ajax_url: null,
   return_url: null,
   genericErrorMessage: (message) => {
-    const header = document.getElementById('errorDialogLabel');
+    const headerDiv = document.getElementById('errorDialogLabel');
     const messageDiv = document.getElementById('errorDialogMessage');
-    const elProgress = document.getElementById('progress-bar');
+    const progressDiv = document.getElementById('progress-bar');
+    const titleDiv = document.getElementById('update-title');
+    const helpDiv = document.getElementById('update-help');
 
-    elProgress.classList.add('bg-danger');
-    elProgress.classList.remove('bg-success');
+    progressDiv.classList.add('bg-danger');
+    progressDiv.classList.remove('bg-success');
+    titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
+    helpDiv.classList.remove('d-none');
+    helpDiv.classList.add('d-grid');
 
-    header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
+    headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
 
     if (message.toLowerCase() === 'invalid login') {
@@ -33,30 +38,35 @@ Joomla.Update = window.Joomla.Update || {
 
     const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
       keyboard: true,
-      backdrop: true
+      backdrop: true,
     });
     myModal.show();
   },
   handleErrorResponse: (xhr) => {
     const isForbidden = xhr.status === 403;
-    const header = document.getElementById('errorDialogLabel');
-    const message = document.getElementById('errorDialogMessage');
-    const elProgress = document.getElementById('progress-bar');
+    const headerDiv = document.getElementById('errorDialogLabel');
+    const messageDiv = document.getElementById('errorDialogMessage');
+    const progressDiv = document.getElementById('progress-bar');
+    const titleDiv = document.getElementById('update-title');
+    const helpDiv = document.getElementById('update-help');
 
-    elProgress.classList.add('bg-danger');
-    elProgress.classList.remove('bg-success');
+    progressDiv.classList.add('bg-danger');
+    progressDiv.classList.remove('bg-success');
+    titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
+    helpDiv.classList.remove('d-none');
+    helpDiv.classList.add('d-grid');
 
     if (isForbidden) {
-      header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
-      message.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
+      headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
     } else {
-      header.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
-      message.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
+      headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
+      messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
     }
 
     const myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
       keyboard: true,
-      backdrop: true
+      backdrop: true,
     });
     myModal.show();
   },
@@ -86,7 +96,7 @@ Joomla.Update = window.Joomla.Update || {
           Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: Joomla.Update.handleErrorResponse
+      onError: Joomla.Update.handleErrorResponse,
     });
   },
   stepExtract: (data) => {
@@ -97,13 +107,15 @@ Joomla.Update = window.Joomla.Update || {
       return;
     }
 
-    const elProgress = document.getElementById('progress-bar');
+    const progressDiv = document.getElementById('progress-bar');
+    const titleDiv = document.getElementById('update-title');
 
     // Are we done extracting?
     if (data.done) {
-      elProgress.classList.add('bg-success');
-      elProgress.style.width = '100%';
-      elProgress.setAttribute('aria-valuenow', 100);
+      progressDiv.classList.add('bg-success');
+      progressDiv.style.width = '100%';
+      progressDiv.setAttribute('aria-valuenow', 100);
+      titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
 
       Joomla.Update.finalizeUpdate();
 
@@ -121,16 +133,17 @@ Joomla.Update = window.Joomla.Update || {
     Joomla.Update.stat_files = data.files;
 
     if (Joomla.Update.stat_percent < 100) {
-      elProgress.classList.remove('bg-success');
-      elProgress.style.width = `${Joomla.Update.stat_percent}%`;
-      elProgress.setAttribute('aria-valuenow', Joomla.Update.stat_percent);
+      progressDiv.classList.remove('bg-success');
+      progressDiv.style.width = `${Joomla.Update.stat_percent}%`;
+      progressDiv.setAttribute('aria-valuenow', Joomla.Update.stat_percent);
     } else if (Joomla.Update.stat_percent >= 100) {
-      elProgress.classList.add('bg-success');
-      elProgress.style.width = '100%';
-      elProgress.setAttribute('aria-valuenow', 100);
+      progressDiv.classList.add('bg-success');
+      progressDiv.style.width = '100%';
+      progressDiv.setAttribute('aria-valuenow', 100);
     }
 
-    document.getElementById('extpercent').innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
+    progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
+
     document.getElementById('extbytesin').innerText = Joomla.Update.stat_inbytes;
     document.getElementById('extbytesout').innerText = Joomla.Update.stat_outbytes;
     document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
@@ -162,7 +175,7 @@ Joomla.Update = window.Joomla.Update || {
           Joomla.Update.genericErrorMessage(e.message);
         }
       },
-      onError: Joomla.Update.handleErrorResponse
+      onError: Joomla.Update.handleErrorResponse,
     });
   },
   finalizeUpdate: () => {
@@ -177,9 +190,9 @@ Joomla.Update = window.Joomla.Update || {
       onSuccess: () => {
         window.location = Joomla.Update.return_url;
       },
-      onError: Joomla.Update.handleErrorResponse
+      onError: Joomla.Update.handleErrorResponse,
     });
-  }
+  },
 };
 
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
