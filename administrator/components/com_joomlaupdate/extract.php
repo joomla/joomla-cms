@@ -12,6 +12,17 @@ define('_JOOMLA_UPDATE', 1);
 /**
  * ZIP archive extraction class
  *
+ * This is a derivative work of Akeeba Restore which is Copyright (c)2008-2021 Nicholas K.
+ * Dionysopoulos and Akeeba Ltd, distributed under the terms of GNU General Public License version 3
+ * or later.
+ *
+ * The author of the original work has decided to relicense the derivative work under the terms of
+ * the GNU General Public License version 2 or later and share the copyright of the derivative work
+ * with Open Source Matters, Inc (OSM), granting OSM non-exclusive rights to this work per the terms
+ * of the Joomla Contributor Agreement (JCA) the author signed back in 2011 and which is still in
+ * effect. This is affirmed by the cryptographically signed commits in the Git repository containing
+ * this file, the copyright messages and this notice here.
+ *
  * @since  __DEPLOY_VERSION__
  */
 class ZIPExtraction
