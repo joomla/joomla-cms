@@ -139,8 +139,12 @@ Joomla.Update = window.Joomla.Update || {
 };
 
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
-Joomla.Update.password = JoomlaUpdateOptions.password;
-Joomla.Update.totalsize = JoomlaUpdateOptions.totalsize;
-Joomla.Update.ajax_url = JoomlaUpdateOptions.ajax_url;
-Joomla.Update.return_url = JoomlaUpdateOptions.return_url;
-Joomla.Update.startExtract();
+
+if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) {
+  Joomla.Update.password = JoomlaUpdateOptions.password;
+  Joomla.Update.totalsize = JoomlaUpdateOptions.totalsize;
+  Joomla.Update.ajax_url = JoomlaUpdateOptions.ajax_url;
+  Joomla.Update.return_url = JoomlaUpdateOptions.return_url;
+
+  Joomla.Update.startExtract();
+}
