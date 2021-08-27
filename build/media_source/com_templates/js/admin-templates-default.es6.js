@@ -17,27 +17,7 @@ const onClick = async (event) => {
 };
 
 const onClickNew = async (event) => {
-  const { currentTarget: button } = event;
-  button.setAttribute('disabled', '');
-  const { form } = button;
-  const hiddenInput = document.createElement('input');
-  hiddenInput.setAttribute('type', 'hidden');
-  hiddenInput.setAttribute('name', 'cid[]');
-  hiddenInput.setAttribute('value', button.dataset.item);
-  form.appendChild(hiddenInput);
-  // if (button.dataset.task === 'templates.createChild')
-  const task = form.querySelector('[name="task"]');
-  task.value = button.dataset.task;
-  form.submit();
-};
-
-const appendElement = (element, elementSelector) => {
-  const title = (element.charAt(0).toUpperCase() + element.slice(1)).slice(0, -1);
-  const value = element.slice(0, -1);
-  const el = document.createElement('option');
-  el.value = value;
-  el.innerText = title;
-  elementSelector.appendChild(el);
+  onclick(event);
 };
 
 const onClickModal = async (event) => {
@@ -52,33 +32,25 @@ const onClickModal = async (event) => {
 
   const template = templateEl.content.cloneNode(true);
   template.querySelector('.modal-title').innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
-  const elements = ['components', 'layouts', 'modules', 'plugins'];
-  const elementSelector = document.createElement('select');
-  elements.map((element) => appendElement(element, elementSelector));
 
-  template.querySelector('.modal-body').appendChild(elementSelector);
+  const overrideCreator = document.createElement('create-overrides');
+  overrideCreator.setAttribute('task', button.dataset.task);
+  overrideCreator.setAttribute('client', button.dataset.client);
+  overrideCreator.setAttribute('token', button.dataset.token);
+  overrideCreator.setAttribute('item', button.dataset.item);
+
+  template.querySelector('.modal-body').appendChild(overrideCreator);
+  template.querySelector('.btn.btn-primary').innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
 
   document.body.appendChild(template);
+  const modalElement = document.querySelector('.modal-template');
 
-  const modal = new bootstrap.Modal(document.querySelector('.modal-template'));
+  const modal = new bootstrap.Modal(modalElement);
   modal.toggle();
-  const response = await fetch(`index.php?option=com_templates&task=${button.dataset.task}&id=${button.dataset.item}&${button.dataset.token}=1`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      // body: JSON.stringify({
-      //   option: 'com_templates',
-      //   task: button.dataset.task,
-      //   id: button.dataset.item,
-      //
-      // })
+  modalElement.addEventListener('hidden.bs.modal', () => {
+    document.body.removeChild(modalElement);
+    button.removeAttribute('disabled');
   });
-
-  const data = await response.json();
-  console.log(await data);
 };
 const actionButtons = [].slice.call(document.querySelectorAll('button.js-action-exec'));
 const actionButtonsNew = [].slice.call(document.querySelectorAll('button.js-action-exec-new'));

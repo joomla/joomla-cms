@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of template style records.
@@ -456,100 +457,101 @@ class TemplatesModel extends ListModel
 	 */
 	public function getOverridesList($id)
 	{
-		if ($id)
+		if (!in_array($id, [0, 1])) {
+			return [];
+		}
+
+		$client        = ApplicationHelper::getClientInfo($id);
+		$componentPath = Path::clean($client->path . '/components/');
+		$modulePath    = Path::clean($client->path . '/modules/');
+		$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
+		$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
+		$components    = Folder::folders($componentPath);
+
+		foreach ($components as $component)
 		{
-			$client        = ApplicationHelper::getClientInfo($id);
-			$componentPath = Path::clean($client->path . '/components/');
-			$modulePath    = Path::clean($client->path . '/modules/');
-			$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
-			$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
-			$components    = Folder::folders($componentPath);
+			// Collect the folders with views
+			$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
+			$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
 
-			foreach ($components as $component)
+			if (!$folders)
 			{
-				// Collect the folders with views
-				$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
-				$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
+				continue;
+			}
 
-				if (!$folders)
+			foreach ($folders as $folder)
+			{
+				// The subfolders are views
+				$views = Folder::folders($folder);
+
+				foreach ($views as $view)
 				{
-					continue;
-				}
+					// The old scheme, if a view has a tmpl folder
+					$path = $folder . '/' . $view . '/tmpl';
 
-				foreach ($folders as $folder)
-				{
-					// The subfolders are views
-					$views = Folder::folders($folder);
-
-					foreach ($views as $view)
+					// The new scheme, the views are directly in the component/tmpl folder
+					if (!is_dir($path) && substr($folder, -4) == 'tmpl')
 					{
-						// The old scheme, if a view has a tmpl folder
-						$path = $folder . '/' . $view . '/tmpl';
-
-						// The new scheme, the views are directly in the component/tmpl folder
-						if (!is_dir($path) && substr($folder, -4) == 'tmpl')
-						{
-							$path = $folder . '/' . $view;
-						}
-
-						// Check if the folder exists
-						if (!is_dir($path))
-						{
-							continue;
-						}
-
-						$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
+						$path = $folder . '/' . $view;
 					}
-				}
-			}
 
-			foreach (Folder::folders($pluginPath) as $pluginGroup)
-			{
-				foreach (Folder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
-				{
-					if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
+					// Check if the folder exists
+					if (!is_dir($path))
 					{
-						$pluginLayoutPath = Path::clean($pluginPath . '/' . $pluginGroup . '/');
-						$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
+						continue;
 					}
+
+					$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
 				}
 			}
+		}
 
-			$modules = Folder::folders($modulePath);
-
-			foreach ($modules as $module)
+		foreach (Folder::folders($pluginPath) as $pluginGroup)
+		{
+			foreach (Folder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
 			{
-				$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
-			}
-
-			$layoutFolders = Folder::folders($layoutPath);
-
-			foreach ($layoutFolders as $layoutFolder)
-			{
-				$layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
-				$layouts = Folder::folders($layoutFolderPath);
-
-				foreach ($layouts as $layout)
+				if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
 				{
-					$result['layouts'][$layoutFolder][] = $this->getOverridesFolder($layout, $layoutFolderPath);
+					$pluginLayoutPath = Path::clean($pluginPath . '/' . $pluginGroup . '/');
+					$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
 				}
 			}
+		}
 
-			// Check for layouts in component folders
-			foreach ($components as $component)
+		$modules = Folder::folders($modulePath);
+
+		foreach ($modules as $module)
+		{
+			$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
+		}
+
+		$layoutFolders = Folder::folders($layoutPath);
+
+		foreach ($layoutFolders as $layoutFolder)
+		{
+			$layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
+			$layouts = Folder::folders($layoutFolderPath);
+
+			foreach ($layouts as $layout)
 			{
-				if (file_exists($componentPath . '/' . $component . '/layouts/'))
-				{
-					$componentLayoutPath = Path::clean($componentPath . '/' . $component . '/layouts/');
+				$result['layouts'][$layoutFolder][] = $this->getOverridesFolder($layout, $layoutFolderPath);
+			}
+		}
 
-					if ($componentLayoutPath)
+		// Check for layouts in component folders
+		foreach ($components as $component)
+		{
+			if (file_exists($componentPath . '/' . $component . '/layouts/'))
+			{
+				$componentLayoutPath = Path::clean($componentPath . '/' . $component . '/layouts/');
+
+				if ($componentLayoutPath)
+				{
+					$layouts = Folder::folders($componentLayoutPath);
+
+					foreach ($layouts as $layout)
 					{
-						$layouts = Folder::folders($componentLayoutPath);
-
-						foreach ($layouts as $layout)
-						{
-							$result['layouts'][$component][] = $this->getOverridesFolder($layout, $componentLayoutPath);
-						}
+						$result['layouts'][$component][] = $this->getOverridesFolder($layout, $componentLayoutPath);
 					}
 				}
 			}

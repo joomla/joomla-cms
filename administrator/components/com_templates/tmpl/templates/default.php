@@ -33,6 +33,7 @@ Text::script('COM_TEMPLATES_CREATE_OVERRIDE');
 
 $wa->useStyle('com_templates.admin-templates')
 	->useScript('com_templates.admin-templates')
+	->useScript('com_templates.create-overrides')
 	->useScript('keepalive');
 
 // Toolbar
@@ -61,7 +62,7 @@ if ($canDo->get('core.admin') || $canDo->get('core.options'))
 
 ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 
-//$document->addScriptOptions('override.paths', json_encode($this->overridePaths($clientId)));
+// $document->addScriptOptions('override.paths', json_encode($this->overridePaths($clientId)));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm" data-token="<?php echo $token; ?>">
 	<div class="row">
@@ -150,13 +151,13 @@ if ($canCreate)
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title"></h5>
+					<h5 class="modal-title">{{title}}</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo Text::_('JCLOSE'); ?>"></button>
 				</div>
 				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('JCLOSE'); ?></button>
-					<button type="button" class="btn btn-primary"></button>
+					<button type="button" class="btn btn-primary">{{buttonPrimary}}</button>
 				</div>
 			</div>
 		</div>

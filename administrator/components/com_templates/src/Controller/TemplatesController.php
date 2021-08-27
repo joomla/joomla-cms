@@ -283,7 +283,7 @@ class TemplatesController extends AdminController
 	public function getExtensionLayouts()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		// $this->checkToken();
 
 		$app = $this->app;
 		$templateID = $this->input->getInt('id', 0);

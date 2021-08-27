@@ -20,13 +20,13 @@ use Joomla\CMS\Uri\Uri;
 extract($displayData);
 
 $options = [
-		'clientId'  => $clientId,
-		'canChange' => $canChange,
-		'canDelete' => $canDelete,
-		'canEdit'   => $canEdit,
-		'canCreate' => $canCreate,
-		'item'      => $item,
-		'i'         => $i
+	'clientId'  => $clientId,
+	'canChange' => $canChange,
+	'canDelete' => $canDelete,
+	'canEdit'   => $canEdit,
+	'canCreate' => $canCreate,
+	'item'      => $item,
+	'i'         => $i
 ];
 ?>
 <div class="template-style card text-dark bg-light">

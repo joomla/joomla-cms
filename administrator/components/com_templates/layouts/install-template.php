@@ -99,4 +99,3 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 		<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>">
 	</div>
 </form>
-

@@ -21,6 +21,7 @@
 			<filename>templates.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

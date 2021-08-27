@@ -109,6 +109,29 @@
       }
     },
     {
+      "name": "com_templates.create-overrides.es5",
+      "type": "script",
+      "uri": "com_templates/create-overrides-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_templates.admin-templates",
+      "type": "script",
+      "uri": "com_templates/create-overrides.min.js",
+      "dependencies": [
+        "com_templates.create-overrides.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_templates.admin-template.es5",
       "type": "script",
       "uri": "com_templates/admin-template-default-es5.min.js",

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -35,7 +36,7 @@ extract($displayData);
 			<small class="small text-muted ms-2"><?php echo Text::_('COM_TEMPLATES_LEGACY'); ?></small>
 		<?php endif; ?>
 
-		<?php if($canCreate  || $canDelete) : ?>
+		<?php if ($canCreate  || $canDelete) : ?>
 			<div class="dropdown d-inline-block">
 				<button class="btn btn-link dropdown-toggle" type="button" id="template-actions-<?php echo (int) $item->extensionId; ?>" data-bs-toggle="dropdown" aria-expanded="false">
 					<span class="icon-cog" aria-hidden="true"></span>
@@ -48,7 +49,7 @@ extract($displayData);
 							<span class="ms-1"><?php echo Text::_('COM_TEMPLATE_EDIT_FILES'); ?></span>
 						</a>
 					</li>
-					<?php if($canCreate) : ?>
+					<?php if ($canCreate) : ?>
 						<li>
 							<button class="js-action-exec btn btn-link" type="button" data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
@@ -56,15 +57,15 @@ extract($displayData);
 							</button>
 						</li>
 					<?php endif; ?>
-					<?php if($canCreate) : ?>
+					<?php if ($canCreate) : ?>
 						<li>
-							<button class="js-action-exec-modal btn btn-link" type="button" data-task="templates.getExtensionLayouts" data-item="<?php echo (int) $item->extensionId; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+							<button class="js-action-exec-modal btn btn-link" type="button" data-task="templates.getExtensionLayouts" data-client="1" data-item="<?php echo (int) $item->extensionId; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_CREATE_OVERRIDE'); ?></span>
 							</button>
 						</li>
 					<?php endif; ?>
-					<?php if($canDelete) : ?>
+					<?php if ($canDelete) : ?>
 						<li>
 							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->clientId; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
 								<span class="icon-trash" aria-hidden="true"></span>
@@ -96,7 +97,7 @@ extract($displayData);
 					<li class="list-group-item">
 						<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_AUTHOR_EMAIL'); ?>: </span>
 						<a href="mailto: <?php echo $this->escape($email); ?>">
-							 <?php echo $this->escape($email); ?>
+							<?php echo $this->escape($email); ?>
 						</a>
 					</li>
 				<?php endif; ?>

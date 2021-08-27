@@ -14,11 +14,63 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 $this->useCoreUI = true;
+
+Factory::getApplication()->input->set('hidemainmenu', true);
+
+$isNew = ($this->item->id == 0);
+$canDo = $this->canDo;
+
+ToolbarHelper::title(
+	$isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+		: Text::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'),
+	'paint-brush thememanager'
+);
+
+$toolbarButtons = [];
+
+// If not checked out, can save the item.
+if ($canDo->get('core.edit')) {
+	ToolbarHelper::apply('style.apply');
+	$toolbarButtons[] = ['save', 'style.save'];
+}
+
+// If an existing item, can save to a copy.
+if (!$isNew && $canDo->get('core.create')) {
+	$toolbarButtons[] = ['save2copy', 'style.save2copy'];
+}
+
+ToolbarHelper::saveGroup(
+	$toolbarButtons,
+	'btn-success'
+);
+
+if (empty($this->item->id)) {
+	ToolbarHelper::cancel('style.cancel');
+} else {
+	ToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+}
+
+ToolbarHelper::divider();
+
+// Get the help information for the template item.
+$lang = Factory::getLanguage();
+$help = $this->get('Help');
+
+if ($lang->hasKey($help->url)) {
+	$debug = $lang->setDebug(false);
+	$url = Text::_($help->url);
+	$lang->setDebug($debug);
+} else {
+	$url = null;
+}
+
+ToolbarHelper::help($help->key, false, $url);
 
 $user = Factory::getUser();
 ?>
