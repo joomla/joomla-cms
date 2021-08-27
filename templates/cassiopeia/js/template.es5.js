@@ -37,7 +37,23 @@ Joomla = window.Joomla || {};
      * Back to top
      */
     var backToTop = document.getElementById('back-top');
+
     if (backToTop) {
+
+      function checkScrollPos() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible')
+        }
+      }
+
+      checkScrollPos();
+
+      window.onscroll = function() {
+        checkScrollPos();
+      };
+
       backToTop.addEventListener('click', function(event) {
         event.preventDefault();
         window.scrollTo(0, 0);

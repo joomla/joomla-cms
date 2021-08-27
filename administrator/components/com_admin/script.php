@@ -567,6 +567,12 @@ class JoomlaInstallerScript
 	{
 		$extensions = ExtensionHelper::getCoreExtensions();
 
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = array('package', 'pkg_search', '', 0);
+		}
+
 		// Attempt to refresh manifest caches
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -941,6 +947,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -6064,6 +6071,24 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css',
 			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css.gz',
 			'/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToIdnTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToUnicodeTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/.gitkeep',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/namePrepTest.php',
+			'/libraries/vendor/doctrine/inflector/docs/en/index.rst',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/HttpBuildUrlTest.php',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/bootstrap.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptLanguageTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/BaseAcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/CharsetNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/EncodingNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/LanguageNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/MatchTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
+			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
 		);
 
 		$folders = array(
@@ -7311,6 +7336,16 @@ class JoomlaInstallerScript
 			'/media/templates/cassiopeia/js/mod_menu',
 			'/media/templates/cassiopeia/js',
 			'/media/templates/cassiopeia',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation',
+			'/libraries/vendor/willdurand/negotiation/tests',
+			'/libraries/vendor/jakeasmith/http_build_url/tests',
+			'/libraries/vendor/doctrine/inflector/docs/en',
+			'/libraries/vendor/doctrine/inflector/docs',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 		);
 
 		$status['files_checked'] = $files;
@@ -7357,6 +7392,18 @@ class JoomlaInstallerScript
 		}
 
 		$this->fixFilenameCasing();
+
+		/*
+		 * Needed for updates from 3.10
+		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
+		 * but an update has put the files back. In that case it exists even if they don't believe in it!
+		 */
+		if (!File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
+			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
+		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
@@ -8114,8 +8161,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+				File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -8130,14 +8177,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+						File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . $old);
+					File::delete(JPATH_ROOT . $old);
 				}
 			}
 		}

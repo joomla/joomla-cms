@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')

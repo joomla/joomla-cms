@@ -1,4 +1,4 @@
-const watch = require('watch');
+const chokidar = require('chokidar');
 const {
   join, extname, basename, dirname,
 } = require('path');
@@ -30,10 +30,14 @@ const processFile = (file) => {
 
 module.exports.watching = (path) => {
   const watchingPath = path ? join(RootPath, path) : join(RootPath, 'build/media_source');
-  watch.createMonitor(watchingPath, (monitor) => {
-    monitor.on('created', (file) => processFile(file));
-    monitor.on('changed', (file) => processFile(file));
-    // @todo Handle this case as well
-    // monitor.on('removed', (file) => removeFile(file));
+  const watcher = chokidar.watch(watchingPath, {
+    ignored: /(^|[/\\])\../, // ignore dotfiles
+    persistent: true,
   });
+
+  watcher
+    .on('add', (file) => processFile(file))
+    .on('change', (file) => processFile(file));
+  // @todo Handle this case as well
+  // .on('unlink', path => log(`File ${path} has been removed`));
 };

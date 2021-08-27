@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$title = Text::_($component_title_key);
 		}
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
