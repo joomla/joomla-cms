@@ -854,7 +854,7 @@ ENDDATA;
 	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event.
 	 *
 	 * The onJoomlaAfterUpdate event compares the stored list of files previously overridden with
-	 * the updated core files, finding out which ones have changed during the update, thereby
+	 * the updated core files, finding out which files have changed during the update, thereby
 	 * determining how many and which override files need to be checked and possibly updated after
 	 * the Joomla update.
 	 *
