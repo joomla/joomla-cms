@@ -1310,6 +1310,7 @@ class ZIPExtraction
 		// Try to remove an existing file or directory by the same name
 		if (file_exists($filename))
 		{
+			clearFileInOPCache($filename);
 			@unlink($filename);
 			@rmdir($filename);
 		}
@@ -1791,6 +1792,7 @@ if ($enabled)
 			$root = $configuration['setup.destdir'] ?? '';
 
 			// Remove update.php
+			clearFileInOPCache($basePath . 'update.php');
 			@unlink($basePath . 'update.php');
 
 			// Import a custom finalisation file
