@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -37,19 +38,19 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected const TASKS_MAP = [
-		'plg_task_toggle_offline' => [
+		'plg_task_toggle_offline'             => [
 			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE',
-			'toggle' => true
+			'toggle'          => true
 		],
-		'plg_task_toggle_offline_set_online' => [
+		'plg_task_toggle_offline_set_online'  => [
 			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE_SET_ONLINE',
-			'toggle' => false,
-			'offline' => false
+			'toggle'          => false,
+			'offline'         => false
 		],
 		'plg_task_toggle_offline_set_offline' => [
 			'langConstPrefix' => 'PLG_TASK_TOGGLE_OFFLINE_SET_OFFLINE',
-			'toggle' => false,
-			'offline' => true
+			'toggle'          => false,
+			'offline'         => true
 		],
 
 	];
@@ -91,7 +92,7 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onTaskOptionsList' => 'advertiseRoutines',
-			'onExecuteTask' => 'toggleOffline',
+			'onExecuteTask'     => 'toggleOffline',
 		];
 	}
 
@@ -105,16 +106,16 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 	 */
 	public function toggleOffline(ExecuteTaskEvent $event): void
 	{
-		if (!array_key_exists($event->getTaskId(), self::TASKS_MAP))
+		if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
-		$this->taskStart();
+		$this->taskStart($event);
 
 		$config = ArrayHelper::fromObject(new JConfig);
 
-		$toggle = self::TASKS_MAP[$event->getTaskId()]['toggle'];
+		$toggle = self::TASKS_MAP[$event->getRoutineId()]['toggle'];
 		$oldStatus = $config['offline'] ? 'offline' : 'online';
 
 		if ($toggle)
@@ -123,7 +124,7 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$offline = self::TASKS_MAP[$event->getTaskId()]['offline'];
+			$offline = self::TASKS_MAP[$event->getRoutineId()]['offline'];
 			$config['offline'] = $offline;
 		}
 
@@ -162,7 +163,7 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 		{
 			$this->addTaskLog(Text::_('PLG_TASK_TOGGLE_OFFLINE_ERROR_WRITE_FAILED'), 'error');
 
-			return self::$STATUS['KO_RUN'];
+			return Status::KO_RUN;
 		}
 
 		// Invalidates the cached configuration file
@@ -177,6 +178,6 @@ class PlgTaskToggleoffline extends CMSPlugin implements SubscriberInterface
 			$this->addTaskLog(Text::_('PLG_TASK_TOGGLE_OFFLINE_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
-		return self::$STATUS['OK_RUN'];
+		return Status::OK;
 	}
 }

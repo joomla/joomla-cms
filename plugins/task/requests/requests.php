@@ -17,6 +17,7 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -38,8 +39,8 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	protected const TASKS_MAP = [
 		'plg_task_requests_task_get' => [
 			'langConstPrefix' => 'PLG_TASK_REQUESTS_TASK_GET_REQUEST',
-			'form' => 'get_requests',
-			'call' => 'makeGetRequest'
+			'form'            => 'get_requests',
+			'call'            => 'makeGetRequest'
 		]
 	];
 
@@ -71,8 +72,8 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onTaskOptionsList' => 'advertiseRoutines',
-			'onExecuteTask' => 'makeRequest',
+			'onTaskOptionsList'    => 'advertiseRoutines',
+			'onExecuteTask'        => 'makeRequest',
 			'onContentPrepareForm' => 'enhanceForm'
 		];
 	}
@@ -82,18 +83,19 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function makeRequest(ExecuteTaskEvent $event): void
 	{
-		if (!array_key_exists($event->getTaskId(), self::TASKS_MAP))
+		if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
-		$this->taskStart();
-		$jobId = $event->getTaskId();
-		$exitCode = $this->{self::TASKS_MAP[$jobId]['call']}($event);
+		$this->taskStart($event);
+		$routineId = $event->getRoutineId();
+		$exitCode = $this->{self::TASKS_MAP[$routineId]['call']}($event);
 		$this->taskEnd($event, $exitCode);
 	}
 
@@ -152,7 +154,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 		catch (Exception $e)
 		{
-			return self::$STATUS['TIMEOUT'];
+			return TaskStatus::TIMEOUT;
 		}
 
 		$responseCode = $response->code;
@@ -160,9 +162,9 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 
 		if ($response->code !== 200)
 		{
-			return self::$STATUS['KO_RUN'];
+			return TaskStatus::KO_RUN;
 		}
 
-		return self::$STATUS['OK_RUN'];
+		return TaskStatus::OK;
 	}
 }
