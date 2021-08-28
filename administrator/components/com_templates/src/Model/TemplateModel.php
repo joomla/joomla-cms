@@ -2011,7 +2011,7 @@ class TemplateModel extends FormModel
 
 			try
 			{
-				$compiler = new SCSS_Compiler();
+				$compiler = new SCSS_Compiler;
 				$compiler->setImportPaths($path . 'scss/');
 				$compiler->setSourceMap(SCSS_Compiler::SOURCE_MAP_FILE);
 				$compiler->setOutputStyle(SCSS_OutputStyle::EXPANDED);
