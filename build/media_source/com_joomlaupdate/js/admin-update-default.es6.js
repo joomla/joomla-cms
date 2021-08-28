@@ -123,13 +123,13 @@ Joomla.Update = window.Joomla.Update || {
     }
 
     // Add data to variables
-    Joomla.Update.stat_inbytes = data.bytesIn;
+    Joomla.Update.stat_inbytes = Joomla.Update.formatBytes(data.bytesIn);
     Joomla.Update.stat_percent = data.percent;
     Joomla.Update.stat_percent = Joomla.Update.stat_percent
       || (100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize));
 
     // Update GUI
-    Joomla.Update.stat_outbytes = data.bytesOut;
+    Joomla.Update.stat_outbytes = Joomla.Update.formatBytes(data.bytesOut);
     Joomla.Update.stat_files = data.files;
 
     if (Joomla.Update.stat_percent < 100) {
@@ -192,6 +192,27 @@ Joomla.Update = window.Joomla.Update || {
       },
       onError: Joomla.Update.handleErrorResponse,
     });
+  },
+  formatBytes: (bytes, decimals = 2) => {
+    if (bytes === 0) return `0 ${Joomla.Text._('JLIB_SIZE_BYTES')}`;
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = [
+      Joomla.Text._('JLIB_SIZE_BYTES'),
+      Joomla.Text._('JLIB_SIZE_KB'),
+      Joomla.Text._('JLIB_SIZE_MB'),
+      Joomla.Text._('JLIB_SIZE_GB'),
+      Joomla.Text._('JLIB_SIZE_TB'),
+      Joomla.Text._('JLIB_SIZE_PB'),
+      Joomla.Text._('JLIB_SIZE_EB'),
+      Joomla.Text._('JLIB_SIZE_ZB'),
+      Joomla.Text._('JLIB_SIZE_YB'),
+    ];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
   },
 };
 

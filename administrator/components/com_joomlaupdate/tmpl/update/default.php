@@ -28,6 +28,15 @@ Text::script('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
 Text::script('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
 Text::script('COM_JOOMLAUPDATE_UPDATING_FAIL');
 Text::script('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+Text::script('JLIB_SIZE_BYTES');
+Text::script('JLIB_SIZE_KB');
+Text::script('JLIB_SIZE_MB');
+Text::script('JLIB_SIZE_GB');
+Text::script('JLIB_SIZE_TB');
+Text::script('JLIB_SIZE_PB');
+Text::script('JLIB_SIZE_EB');
+Text::script('JLIB_SIZE_ZB');
+Text::script('JLIB_SIZE_YB');
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
