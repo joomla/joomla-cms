@@ -40,7 +40,7 @@ class TaskOptions
 	 * This method is used by a plugin's onTaskOptionsList subscriber to advertise supported routines.
 	 *
 	 * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
-	 *                              [ 'taskId' => 'languageConstantPrefix', ... ]
+	 *                              [ 'routineId' => 'languageConstantPrefix', ... ]
 	 *
 	 * @return void
 	 *
@@ -55,24 +55,24 @@ class TaskOptions
 	}
 
 	/**
-	 * @param   ?string  $taskType  A unique identifier for a plugin task routine
+	 * @param   ?string  $routineId  A unique identifier for a plugin task routine
 	 *
 	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function findOption(?string $taskType): ?TaskOption
+	public function findOption(?string $routineId): ?TaskOption
 	{
-		if ($taskType === null)
+		if ($routineId === null)
 		{
 			return null;
 		}
 
-		foreach ($this->options as $task)
+		foreach ($this->options as $option)
 		{
-			if ($task->type === $taskType)
+			if ($option->type === $routineId)
 			{
-				return $task;
+				return $option;
 			}
 		}
 
