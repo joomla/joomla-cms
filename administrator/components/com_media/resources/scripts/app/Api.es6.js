@@ -26,6 +26,7 @@ class Api {
     this.audioExtensions = options.audioExtensions;
     this.videoExtensions = options.videoExtensions;
     this.documentExtensions = options.documentExtensions;
+    this.mediaVersion = (new Date().getTime()).toString();
   }
 
   /**

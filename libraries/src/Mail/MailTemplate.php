@@ -418,6 +418,7 @@ class MailTemplate
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
+		$template->attachments = '';
 		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);

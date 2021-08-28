@@ -18,7 +18,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
@@ -117,7 +117,7 @@ $updatePossible = true;
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-spinner fa-spin fa-fw py-1 bg-white ms-2 text-info" aria-hidden="true"></span>
+				<span class="fa fa-spinner fa-spin fa-fw py-1 ms-2" aria-hidden="true"></span>
 			</button>
 		</div>
 
@@ -239,7 +239,7 @@ $updatePossible = true;
 				<div class="w-100">
 					<?php foreach ($compatibilityTypes as $compatibilityType => $data) : ?>
 					<div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?> compatibilityTable" id="compatibilityTable<?php echo (int) $data['group']; ?>">
-						<h4 class="text-<?php echo $data['class']; ?> d-flex align-items-center">
+						<h4 class="text-<?php echo $data['class']; ?> align-items-center">
 							<span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
 							<?php echo Text::_($compatibilityType); ?>
 							<?php if ($data['group'] > 0) : ?>

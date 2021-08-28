@@ -91,8 +91,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Ensure we delete the repeatable fields plugin before we remove its files
+		// Uninstall plugins before removing their files and folders
 		$this->uninstallRepeatableFieldsPlugin();
+		$this->uninstallEosPlugin();
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -508,6 +509,56 @@ class JoomlaInstallerScript
 	}
 
 	/**
+	 * Uninstall the 3.10 EOS plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function uninstallEosPlugin()
+	{
+		$db = Factory::getDbo();
+
+		// Check if the plg_quickicon_eos310 plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_quickicon_eos310'))
+		)->loadResult();
+
+		// Skip uninstalling if it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		try
+		{
+			$db->transactionStart();
+
+			// Unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+			)->execute();
+
+			// Uninstall the plugin
+			$installer = new Installer;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
+		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Update the manifest caches
 	 *
 	 * @return  void
@@ -515,6 +566,12 @@ class JoomlaInstallerScript
 	protected function updateManifestCaches()
 	{
 		$extensions = ExtensionHelper::getCoreExtensions();
+
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = array('package', 'pkg_search', '', 0);
+		}
 
 		// Attempt to refresh manifest caches
 		$db    = Factory::getDbo();
@@ -890,6 +947,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -4806,20 +4864,6 @@ class JoomlaInstallerScript
 			'/media/system/css/jquery.Jcrop.min.css',
 			'/media/system/css/modal.css',
 			'/media/system/css/system.css',
-			'/media/system/images/modal/bg_e.png',
-			'/media/system/images/modal/bg_n.png',
-			'/media/system/images/modal/bg_ne.png',
-			'/media/system/images/modal/bg_nw.png',
-			'/media/system/images/modal/bg_s.png',
-			'/media/system/images/modal/bg_se.png',
-			'/media/system/images/modal/bg_sw.png',
-			'/media/system/images/modal/bg_w.png',
-			'/media/system/images/modal/closebox.png',
-			'/media/system/images/modal/spinner.gif',
-			'/media/system/images/notice-alert.png',
-			'/media/system/images/notice-download.png',
-			'/media/system/images/notice-info.png',
-			'/media/system/images/notice-note.png',
 			'/media/system/js/associations-edit-uncompressed.js',
 			'/media/system/js/associations-edit.js',
 			'/media/system/js/calendar-setup-uncompressed.js',
@@ -4835,6 +4879,50 @@ class JoomlaInstallerScript
 			'/media/system/js/combobox-uncompressed.js',
 			'/media/system/js/combobox.js',
 			'/media/system/js/core-uncompressed.js',
+			'/media/system/js/fields/calendar-locales/af.js',
+			'/media/system/js/fields/calendar-locales/ar.js',
+			'/media/system/js/fields/calendar-locales/bg.js',
+			'/media/system/js/fields/calendar-locales/bn.js',
+			'/media/system/js/fields/calendar-locales/bs.js',
+			'/media/system/js/fields/calendar-locales/ca.js',
+			'/media/system/js/fields/calendar-locales/cs.js',
+			'/media/system/js/fields/calendar-locales/cy.js',
+			'/media/system/js/fields/calendar-locales/da.js',
+			'/media/system/js/fields/calendar-locales/de.js',
+			'/media/system/js/fields/calendar-locales/el.js',
+			'/media/system/js/fields/calendar-locales/en.js',
+			'/media/system/js/fields/calendar-locales/es.js',
+			'/media/system/js/fields/calendar-locales/eu.js',
+			'/media/system/js/fields/calendar-locales/fa-ir.js',
+			'/media/system/js/fields/calendar-locales/fi.js',
+			'/media/system/js/fields/calendar-locales/fr.js',
+			'/media/system/js/fields/calendar-locales/ga.js',
+			'/media/system/js/fields/calendar-locales/hr.js',
+			'/media/system/js/fields/calendar-locales/hu.js',
+			'/media/system/js/fields/calendar-locales/it.js',
+			'/media/system/js/fields/calendar-locales/ja.js',
+			'/media/system/js/fields/calendar-locales/ka.js',
+			'/media/system/js/fields/calendar-locales/kk.js',
+			'/media/system/js/fields/calendar-locales/ko.js',
+			'/media/system/js/fields/calendar-locales/lt.js',
+			'/media/system/js/fields/calendar-locales/mk.js',
+			'/media/system/js/fields/calendar-locales/nb.js',
+			'/media/system/js/fields/calendar-locales/nl.js',
+			'/media/system/js/fields/calendar-locales/pl.js',
+			'/media/system/js/fields/calendar-locales/prs-af.js',
+			'/media/system/js/fields/calendar-locales/pt.js',
+			'/media/system/js/fields/calendar-locales/ru.js',
+			'/media/system/js/fields/calendar-locales/sk.js',
+			'/media/system/js/fields/calendar-locales/sl.js',
+			'/media/system/js/fields/calendar-locales/sr-rs.js',
+			'/media/system/js/fields/calendar-locales/sr-yu.js',
+			'/media/system/js/fields/calendar-locales/sv.js',
+			'/media/system/js/fields/calendar-locales/sw.js',
+			'/media/system/js/fields/calendar-locales/ta.js',
+			'/media/system/js/fields/calendar-locales/th.js',
+			'/media/system/js/fields/calendar-locales/uk.js',
+			'/media/system/js/fields/calendar-locales/zh-CN.js',
+			'/media/system/js/fields/calendar-locales/zh-TW.js',
 			'/media/system/js/frontediting-uncompressed.js',
 			'/media/system/js/frontediting.js',
 			'/media/system/js/helpsite.js',
@@ -5883,6 +5971,124 @@ class JoomlaInstallerScript
 			'/media/system/js/fields/joomla-image-select.js',
 			'/media/system/js/fields/joomla-image-select.min.js',
 			'/media/system/js/fields/joomla-image-select.min.js.gz',
+			// 4.0 from RC 4 to RC 5
+			'/media/system/js/fields/calendar-locales/af.min.js',
+			'/media/system/js/fields/calendar-locales/af.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ar.min.js',
+			'/media/system/js/fields/calendar-locales/ar.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bg.min.js',
+			'/media/system/js/fields/calendar-locales/bg.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bn.min.js',
+			'/media/system/js/fields/calendar-locales/bn.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bs.min.js',
+			'/media/system/js/fields/calendar-locales/bs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ca.min.js',
+			'/media/system/js/fields/calendar-locales/ca.min.js.gz',
+			'/media/system/js/fields/calendar-locales/cs.min.js',
+			'/media/system/js/fields/calendar-locales/cs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/cy.min.js',
+			'/media/system/js/fields/calendar-locales/cy.min.js.gz',
+			'/media/system/js/fields/calendar-locales/da.min.js',
+			'/media/system/js/fields/calendar-locales/da.min.js.gz',
+			'/media/system/js/fields/calendar-locales/de.min.js',
+			'/media/system/js/fields/calendar-locales/de.min.js.gz',
+			'/media/system/js/fields/calendar-locales/el.min.js',
+			'/media/system/js/fields/calendar-locales/el.min.js.gz',
+			'/media/system/js/fields/calendar-locales/en.min.js',
+			'/media/system/js/fields/calendar-locales/en.min.js.gz',
+			'/media/system/js/fields/calendar-locales/es.min.js',
+			'/media/system/js/fields/calendar-locales/es.min.js.gz',
+			'/media/system/js/fields/calendar-locales/eu.min.js',
+			'/media/system/js/fields/calendar-locales/eu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fa-ir.min.js',
+			'/media/system/js/fields/calendar-locales/fa-ir.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fi.min.js',
+			'/media/system/js/fields/calendar-locales/fi.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fr.min.js',
+			'/media/system/js/fields/calendar-locales/fr.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ga.min.js',
+			'/media/system/js/fields/calendar-locales/ga.min.js.gz',
+			'/media/system/js/fields/calendar-locales/hr.min.js',
+			'/media/system/js/fields/calendar-locales/hr.min.js.gz',
+			'/media/system/js/fields/calendar-locales/hu.min.js',
+			'/media/system/js/fields/calendar-locales/hu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/it.min.js',
+			'/media/system/js/fields/calendar-locales/it.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ja.min.js',
+			'/media/system/js/fields/calendar-locales/ja.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ka.min.js',
+			'/media/system/js/fields/calendar-locales/ka.min.js.gz',
+			'/media/system/js/fields/calendar-locales/kk.min.js',
+			'/media/system/js/fields/calendar-locales/kk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ko.min.js',
+			'/media/system/js/fields/calendar-locales/ko.min.js.gz',
+			'/media/system/js/fields/calendar-locales/lt.min.js',
+			'/media/system/js/fields/calendar-locales/lt.min.js.gz',
+			'/media/system/js/fields/calendar-locales/mk.min.js',
+			'/media/system/js/fields/calendar-locales/mk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/nb.min.js',
+			'/media/system/js/fields/calendar-locales/nb.min.js.gz',
+			'/media/system/js/fields/calendar-locales/nl.min.js',
+			'/media/system/js/fields/calendar-locales/nl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/pl.min.js',
+			'/media/system/js/fields/calendar-locales/pl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/prs-af.min.js',
+			'/media/system/js/fields/calendar-locales/prs-af.min.js.gz',
+			'/media/system/js/fields/calendar-locales/pt.min.js',
+			'/media/system/js/fields/calendar-locales/pt.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ru.min.js',
+			'/media/system/js/fields/calendar-locales/ru.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sk.min.js',
+			'/media/system/js/fields/calendar-locales/sk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sl.min.js',
+			'/media/system/js/fields/calendar-locales/sl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sr-rs.min.js',
+			'/media/system/js/fields/calendar-locales/sr-rs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sr-yu.min.js',
+			'/media/system/js/fields/calendar-locales/sr-yu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sv.min.js',
+			'/media/system/js/fields/calendar-locales/sv.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sw.min.js',
+			'/media/system/js/fields/calendar-locales/sw.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ta.min.js',
+			'/media/system/js/fields/calendar-locales/ta.min.js.gz',
+			'/media/system/js/fields/calendar-locales/th.min.js',
+			'/media/system/js/fields/calendar-locales/th.min.js.gz',
+			'/media/system/js/fields/calendar-locales/uk.min.js',
+			'/media/system/js/fields/calendar-locales/uk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/zh-CN.min.js',
+			'/media/system/js/fields/calendar-locales/zh-CN.min.js.gz',
+			'/media/system/js/fields/calendar-locales/zh-TW.min.js',
+			'/media/system/js/fields/calendar-locales/zh-TW.min.js.gz',
+			// 4.0 from RC 5 to RC 6
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js.gz',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js.gz',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css.gz',
+			'/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToIdnTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToUnicodeTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/.gitkeep',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/namePrepTest.php',
+			'/libraries/vendor/doctrine/inflector/docs/en/index.rst',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/HttpBuildUrlTest.php',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/bootstrap.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptLanguageTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/BaseAcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/CharsetNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/EncodingNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/LanguageNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/MatchTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
+			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
 		);
 
 		$folders = array(
@@ -5955,7 +6161,6 @@ class JoomlaInstallerScript
 			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
-			'/media/system/images/modal',
 			'/media/plg_twofactorauth_totp/js',
 			'/media/plg_twofactorauth_totp',
 			'/media/plg_system_highlight',
@@ -7125,6 +7330,22 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/tmpl/profile',
 			'/administrator/components/com_admin/src/View/Profile',
 			'/administrator/components/com_admin/forms',
+			// 4.0 from RC 5 to RC 6
+			'/templates/cassiopeia/scss/vendor/fontawesome-free',
+			'/templates/cassiopeia/css/vendor/fontawesome-free',
+			'/media/templates/cassiopeia/js/mod_menu',
+			'/media/templates/cassiopeia/js',
+			'/media/templates/cassiopeia',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation',
+			'/libraries/vendor/willdurand/negotiation/tests',
+			'/libraries/vendor/jakeasmith/http_build_url/tests',
+			'/libraries/vendor/doctrine/inflector/docs/en',
+			'/libraries/vendor/doctrine/inflector/docs',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 		);
 
 		$status['files_checked'] = $files;
@@ -7171,6 +7392,18 @@ class JoomlaInstallerScript
 		}
 
 		$this->fixFilenameCasing();
+
+		/*
+		 * Needed for updates from 3.10
+		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
+		 * but an update has put the files back. In that case it exists even if they don't believe in it!
+		 */
+		if (!File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
+			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
+		}
 
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
@@ -7928,8 +8161,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+				File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -7944,14 +8177,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+						File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . $old);
+					File::delete(JPATH_ROOT . $old);
 				}
 			}
 		}

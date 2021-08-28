@@ -178,11 +178,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a DatabaseQuery object
+		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);

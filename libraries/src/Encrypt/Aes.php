@@ -19,7 +19,6 @@ use Joomla\CMS\Encrypt\AES\OpenSSL;
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
  * high performance mcrypt library.
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class Aes
