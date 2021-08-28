@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 
 /**
  * Event class for onExecuteTask event.
@@ -36,14 +37,15 @@ class ExecuteTaskEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
+		parent::__construct($name, $arguments);
+
 		$arguments['resultSnapshot'] = null;
 
-		if (!isset($arguments['taskId']))
+		if (! ($arguments['subject'] ?? null) instanceof Task)
 		{
-			throw new BadMethodCallException("No taskId given for $name event");
+			throw new BadMethodCallException("The subject given for $name event must be an instance of " . Task::class);
 		}
 
-		parent::__construct($name, $arguments);
 	}
 
 	/**
@@ -51,7 +53,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	 *
 	 * @param   array  $snapshot  The task snapshot.
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -66,19 +68,30 @@ class ExecuteTaskEvent extends AbstractEvent
 	}
 
 	/**
-	 * @return  string  The task's taskId.
+	 *
+	 * @return integer  The task's taskId.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTaskId(): string
+	public function getTaskId(): int
 	{
-		return $this->arguments['taskId'];
+		return $this->arguments['subject']->get('id');
+	}
+
+	/**
+	 * @return  string  The task's 'type'.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getRoutineId(): string
+	{
+		return $this->arguments['subject']->get('type');
 	}
 
 	/**
 	 * Returns the snapshot of the triggered task if available, else an empty array
 	 *
-	 * @return array   The task snapshot if available, else null
+	 * @return  array  The task snapshot if available, else null
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
