@@ -21,6 +21,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 use ReflectionClass;
@@ -43,35 +44,25 @@ trait TaskPluginTrait
 	protected $snapshot = [];
 
 	/**
-	 * Predefined exit codes
-	 *
-	 * @var string[]
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private static $STATUS = [
-		'OK_RUN' => 0,
-		'NO_TIME' => 1,
-		'KO_RUN' => 3,
-		'TIMEOUT' => 124
-	];
-
-	/**
 	 * Sets boilerplate to the snapshot when initializing a routine
+	 *
+	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event.
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function taskStart(): void
+	private function taskStart(ExecuteTaskEvent $event): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
 			return;
 		}
 
+		$this->snapshot['logCategory'] = $event->getArgument('subject')->logCategory;
 		$this->snapshot['plugin'] = $this->_name;
 		$this->snapshot['startTime'] = microtime(true);
-		$this->snapshot['status'] = self::$STATUS['NO_TIME'];
+		$this->snapshot['status'] = TaskStatus::NO_TIME;
 	}
 
 	/**
@@ -80,10 +71,11 @@ trait TaskPluginTrait
 	 * @param   ExecuteTaskEvent  $event     The event
 	 * @param   ?int              $exitCode  The task exit code
 	 * @param   boolean           $log       If true, the method adds a log. Requires the plugin to
-	 *                                   have the language strings.
+	 *                                       have the language strings.
 	 *
 	 * @return void
 	 *
+	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private function taskEnd(ExecuteTaskEvent $event, int $exitCode, bool $log = true): void
@@ -95,18 +87,17 @@ trait TaskPluginTrait
 
 		$this->snapshot['endTime'] = $endTime = microtime(true);
 		$this->snapshot['duration'] = $endTime - $this->snapshot['startTime'];
-		$this->snapshot['status'] = $exitCode ?? self::$STATUS['OK_RUN'];
+		$this->snapshot['status'] = $exitCode ?? TaskStatus::OK;
 		$event->setResult($this->snapshot);
 
+		// @todo remove logging from this method
 		if ($log)
 		{
 			$langConstPrefix = strtoupper($event->getArgument('langConstPrefix'));
-			Log::add(
-				Text::sprintf($langConstPrefix . '_TASK_LOG_MESSAGE',
+			$this->addTaskLog(
+				Text::sprintf($langConstPrefix . '_ROUTINE_END_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
-				),
-				Log::INFO,
-				'scheduler'
+				)
 			);
 		}
 	}
@@ -178,10 +169,10 @@ trait TaskPluginTrait
 	 */
 	protected function getRoutineId(Form $form, $data): string
 	{
-		 /*
-		  * Depending on when the form is loaded, the ID may either be in $data or the form bound data.
-		  * Also, $data can be either an object instance or an array.
-		  */
+		/*
+		 * Depending on when the form is loaded, the ID may either be in $data or the form bound data.
+		 * Also, $data can be either an object instance or an array.
+		 */
 		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type;
 
 		// If we're unable to find a routineId, it might be in the form input.
@@ -212,10 +203,10 @@ trait TaskPluginTrait
 	{
 		static $langLoaded;
 		static $priorityMap = [
-			'debug' => Log::DEBUG,
-			'error' => Log::ERROR,
-			'info' => Log::INFO,
-			'notice' => Log::NOTICE,
+			'debug'   => Log::DEBUG,
+			'error'   => Log::ERROR,
+			'info'    => Log::INFO,
+			'notice'  => Log::NOTICE,
 			'warning' => Log::WARNING,
 		];
 
@@ -226,6 +217,8 @@ trait TaskPluginTrait
 			$langLoaded = true;
 		}
 
-		Log::add(Text::_('COM_SCHEDULER_TASK_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, 'scheduler');
+		$category = $this->snapshot['logCategory'];
+
+		Log::add(Text::_('COM_SCHEDULER_ROUTINE_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, $category);
 	}
 }
