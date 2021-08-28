@@ -100,15 +100,18 @@ $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 		<div id="update-progress" class="container text-muted my-3">
 			<div class="row">
 				<div class="col">
-					<span class="fa fa-file-archive" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?>"></span>
+					<span class="fa fa-file-archive" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
 					<span id="extbytesin"></span>
 				</div>
 				<div class="col">
-					<span class="fa fa-hdd" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?>"></span>
+					<span class="fa fa-hdd" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?></span>
 					<span id="extbytesout"></span>
 				</div>
 				<div class="col">
-					<span class="fa fa-copy" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?>"></span>
+					<span class="fa fa-copy" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?></span>
 					<span id="extfiles"></span>
 				</div>
 			</div>
