@@ -106,7 +106,7 @@ $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 					<span id="extbytesin"></span>
 				</div>
 				<div class="col">
-					<span class="fa fa-file-hdd" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?>"></span>
+					<span class="fa fa-hdd" title="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?>"></span>
 					<span id="extbytesout"></span>
 				</div>
 				<div class="col">
