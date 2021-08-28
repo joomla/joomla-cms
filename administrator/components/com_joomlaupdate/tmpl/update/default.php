@@ -56,8 +56,6 @@ $this->document->addScriptOptions(
 $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 ?>
 
-<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
-
 <div class="modal fade"
 	 id="errorDialog"
 	 tabindex="-1"
