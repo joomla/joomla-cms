@@ -300,6 +300,12 @@ class HtmlView extends BaseHtmlView
 				// Add a Delete file Button
 				ToolbarHelper::modal('deleteModal', 'icon-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
+
+			// Add a Compile Button
+			if ($ext == 'scss')
+			{
+				ToolbarHelper::custom('template.scss', 'icon-play', 'icon-play', 'COM_TEMPLATES_BUTTON_SCSS', false);
+			}
 		}
 
 		if (count($this->updatedList) !== 0 && $this->pluginState)

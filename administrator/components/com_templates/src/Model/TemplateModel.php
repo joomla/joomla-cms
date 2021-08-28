@@ -26,6 +26,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Database\ParameterType;
+use ScssPhp\ScssPhp\Compiler as SCSS_Compiler;
+use ScssPhp\ScssPhp\OutputStyle as SCSS_OutputStyle;
 
 /**
  * Template model class.
@@ -1984,5 +1986,50 @@ class TemplateModel extends FormModel
 		}
 
 		return in_array(strtolower($ext), $this->allowedFormats);
+	}
+
+	/**
+	 * Compile scss using the scssphp compiler
+	 *
+	 * @param   string  $input  The relative location of the scss file.
+	 *
+	 * @return  boolean  true if compilation is successful, false otherwise
+	 *
+	 * @since   __DEPLOYMENT_VERSION__
+	 */
+	public function compileScss($input)
+	{
+		if ($template = $this->getTemplate())
+		{
+			$app          = Factory::getApplication();
+			$client       = ApplicationHelper::getClientInfo($template->client_id);
+			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$inFile       = urldecode(base64_decode($input));
+			$explodeArray = explode('/', $inFile);
+			$fileName     = end($explodeArray);
+			$outFile      = current(explode('.', $fileName));
+
+			try
+			{
+				$compiler = new SCSS_Compiler();
+				$compiler->setImportPaths($path . 'scss/');
+				$compiler->setSourceMap(SCSS_Compiler::SOURCE_MAP_FILE);
+				$compiler->setOutputStyle(SCSS_OutputStyle::EXPANDED);
+				$compiler->setSourceMapOptions([
+					'sourceMapWriteTo'  => $path . 'css/' . $outFile . '.map',
+					'sourceMapURL'      => $path . 'css/' . $outFile . '.map',
+					'sourceMapFilename' => $outFile . '.css',
+					'sourceMapBasepath' => '/'
+				]);
+				$compiledCss = $compiler->compile('@import \'' . $outFile . '\';');
+				File::write($path . 'css/' . $outFile . '.css', $compiledCss);
+
+				return true;
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'error');
+			}
+		}
 	}
 }

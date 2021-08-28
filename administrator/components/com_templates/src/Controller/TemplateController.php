@@ -980,4 +980,42 @@ class TemplateController extends BaseController
 
 		$app->close();
 	}
+
+	/**
+	 * Method for compiling SCSS.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOYMENT_VERSION__
+	 */
+	public function scss()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$model = $this->getModel();
+		$id    = (int) $this->input->get('id', 0, 'int');
+		$file  = (string) $this->input->get('file', '', 'cmd');
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
+
+		if ($model->compileScss($file))
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_COMPILE_SUCCESS'));
+		}
+		else
+		{
+			$this->app->enqueueMessage(Text::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
+		}
+
+		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$this->setRedirect(Route::_($url, false));
+
+	}
 }
