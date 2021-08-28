@@ -35,11 +35,11 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	private const TASKS_MAP = [
 		'routine_1' => [
 			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_1',
-			'form' => 'testTaskForm'
+			'form'            => 'testTaskForm'
 		],
 		'routine_2' => [
 			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_2',
-			'form' => 'testTaskForm'
+			'form'            => 'testTaskForm'
 		]
 	];
 
@@ -71,8 +71,8 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onTaskOptionsList' => 'advertiseRoutines',
-			'onExecuteTask' => 'cronSampleRoutine',
+			'onTaskOptionsList'    => 'advertiseRoutines',
+			'onExecuteTask'        => 'cronSampleRoutine',
 			'onContentPrepareForm' => 'manipulateForms'
 		];
 	}
@@ -87,9 +87,9 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	 */
 	public function cronSampleRoutine(ExecuteTaskEvent $event): void
 	{
-		if (array_key_exists($event->getTaskId(), self::TASKS_MAP))
+		if (array_key_exists($event->getRoutineId(), self::TASKS_MAP))
 		{
-			$this->taskStart();
+			$this->taskStart($event);
 
 			// Access to task parameters
 			$params = $event->getArgument('params');
