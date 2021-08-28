@@ -986,11 +986,11 @@ class TemplateController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOYMENT_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function scss()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		$this->checkToken();
 
 		$model = $this->getModel();
@@ -1016,6 +1016,5 @@ class TemplateController extends BaseController
 
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 		$this->setRedirect(Route::_($url, false));
-
 	}
 }

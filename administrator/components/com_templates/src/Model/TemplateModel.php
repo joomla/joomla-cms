@@ -1995,7 +1995,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean  true if compilation is successful, false otherwise
 	 *
-	 * @since   __DEPLOYMENT_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function compileScss($input)
 	{
