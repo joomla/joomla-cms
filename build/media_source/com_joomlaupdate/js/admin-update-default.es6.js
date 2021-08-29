@@ -123,13 +123,13 @@ Joomla.Update = window.Joomla.Update || {
     }
 
     // Add data to variables
-    Joomla.Update.stat_inbytes = Joomla.Update.formatBytes(data.bytesIn);
+    Joomla.Update.stat_inbytes = data.bytesIn;
     Joomla.Update.stat_percent = data.percent;
     Joomla.Update.stat_percent = Joomla.Update.stat_percent
       || (100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize));
 
     // Update GUI
-    Joomla.Update.stat_outbytes = Joomla.Update.formatBytes(data.bytesOut);
+    Joomla.Update.stat_outbytes = data.bytesOut;
     Joomla.Update.stat_files = data.files;
 
     if (Joomla.Update.stat_percent < 100) {
@@ -144,8 +144,8 @@ Joomla.Update = window.Joomla.Update || {
 
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
 
-    document.getElementById('extbytesin').innerText = Joomla.Update.stat_inbytes;
-    document.getElementById('extbytesout').innerText = Joomla.Update.stat_outbytes;
+    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+    document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
     document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
 
     // This is required so we can get outside the scope of the previous XHR's success handler.
