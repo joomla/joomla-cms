@@ -2342,7 +2342,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 		if (isset(static::$_typesVeluesProperty[$typeDB]))
 		{
-			return static::$_typesVeluesProperty[$typeDB];
+			return static::$_typesValuesProperty[$typeDB];
 		}
 
 		return '';
