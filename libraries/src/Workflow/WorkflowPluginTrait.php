@@ -22,6 +22,13 @@ use ReflectionClass;
 trait WorkflowPluginTrait
 {
 	/**
+	 * List of supported extension contexts for this plugin e.g. com_content.article
+	 *
+	 * @var array
+	 */
+	protected $supportedExtensions = [];
+
+	/**
 	 * Add different parameter options to the transition view, we need when executing the transition
 	 *
 	 * @param   Form      $form The form
@@ -143,7 +150,7 @@ trait WorkflowPluginTrait
 
 		if (!$component instanceof WorkflowServiceInterface
 			|| !$component->isWorkflowActive($context)
-			|| !$component->supportFunctionality($functionality, $context))
+			|| !(in_array($context, $this->supportedExtensions) || $component->supportFunctionality($functionality, $context)))
 		{
 			return false;
 		}
