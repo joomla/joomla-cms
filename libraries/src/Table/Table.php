@@ -2340,7 +2340,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$typeDB = explode('(', $typeDB);
 		$typeDB = strtolower($typeDB[0]);
 
-		if (isset(static::$_typesVeluesProperty[$typeDB]))
+		if (isset(static::$_typesValuesProperty[$typeDB]))
 		{
 			return static::$_typesValuesProperty[$typeDB];
 		}
