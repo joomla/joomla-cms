@@ -113,6 +113,9 @@ Joomla.Update = window.Joomla.Update || {
 
     const progressDiv = document.getElementById('progress-bar');
     const titleDiv = document.getElementById('update-title');
+    const inbytesSpan = document.getElementById('extbytesin');
+    const outbytesSpan = document.getElementById('extbytesout');
+    const filesSpan = document.getElementById('extfiles');
 
     // Are we done extracting?
     if (data.done) {
@@ -120,6 +123,9 @@ Joomla.Update = window.Joomla.Update || {
       progressDiv.style.width = '100%';
       progressDiv.setAttribute('aria-valuenow', 100);
       titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+      inbytesSpan.innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+      outbytesSpan.innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
+      filesSpan.innerText = Joomla.Update.stat_files;
 
       Joomla.Update.finalizeUpdate();
 
@@ -148,9 +154,9 @@ Joomla.Update = window.Joomla.Update || {
 
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
 
-    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
-    document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    inbytesSpan.innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+    outbytesSpan.innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
+    filesSpan.innerText = Joomla.Update.stat_files;
 
     // This is required so we can get outside the scope of the previous XHR's success handler.
     window.setTimeout(() => {
