@@ -162,7 +162,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $_typesVeluesProperty = [
+	protected static $_typesValuesProperty = [
 		// 'This type SQL' => 'This type PHP'
 		'bool' => 'bool',
 		'boolean' => 'bool',
