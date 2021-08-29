@@ -176,7 +176,7 @@ class ZIPExtraction
 	 * @var   integer
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $totalSize = [];
+	public $totalSize = 0;
 
 	/**
 	 * Which files to skip
