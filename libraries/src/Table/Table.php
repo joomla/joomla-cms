@@ -287,7 +287,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Set the singular table key for backwards compatibility.
 		$this->_tbl_key = $this->getKeyName();
 
-		$this->_db = $db ?? Factory::getDbo();
+		$this->_db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
 
 		// Initialise the table properties.
 		foreach ((new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop)
