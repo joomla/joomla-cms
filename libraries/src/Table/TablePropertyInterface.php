@@ -22,11 +22,11 @@ interface TablePropertyInterface
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $value  Value geted from cell BaseData
+	 * @param   mixed  $valueDB  Value geted from cell BaseData
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($value = null);
+	public function __construct($valueDB = null);
 
 	/**
 	 * Gets the date as an SQL datetime string.
