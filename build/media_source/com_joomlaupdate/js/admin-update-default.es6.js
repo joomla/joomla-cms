@@ -76,6 +76,10 @@ Joomla.Update = window.Joomla.Update || {
     Joomla.Update.stat_inbytes = 0;
     Joomla.Update.stat_outbytes = 0;
 
+    document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
+    document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
+    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+
     const postData = new FormData();
     postData.append('task', 'startExtract');
     postData.append('password', Joomla.Update.password);
