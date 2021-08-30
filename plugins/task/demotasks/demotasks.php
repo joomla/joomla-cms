@@ -24,7 +24,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since __DEPLOY__VERSION__
  */
-class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
+class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -34,11 +34,11 @@ class PlgTaskTesttasks extends CMSPlugin implements SubscriberInterface
 	 */
 	private const TASKS_MAP = [
 		'routine_1' => [
-			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_1',
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_1',
 			'form'            => 'testTaskForm'
 		],
 		'routine_2' => [
-			'langConstPrefix' => 'PLG_TASK_TESTTASKS_TASK_2',
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_2',
 			'form'            => 'testTaskForm'
 		]
 	];

@@ -5,7 +5,7 @@
 			<field
 				name="sample"
 				type="text"
-				label="PLG_TASK_TESTTASKS_LABEL_SAMPLE_FIELD"
+				label="PLG_TASK_DEMO_TASKS_LABEL_SAMPLE_FIELD"
 				placeholder="..."
 			/>
 		</fieldset>
