@@ -100,22 +100,6 @@ class ArticlesController extends ApiController
 			}
 		}
 
-		if (isset($data['articletext']))
-		{
-			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-			$tagPos = preg_match($pattern, $data['articletext']);
-
-			if ($tagPos == 0)
-			{
-				$data['introtext'] = $data['articletext'];
-				$data['fulltext'] = '';
-			}
-			else
-			{
-				list ($data['introtext'], $data['fulltext']) = preg_split($pattern, $data['articletext'], 2);
-			}
-		}
-
 		return $data;
 	}
 }
