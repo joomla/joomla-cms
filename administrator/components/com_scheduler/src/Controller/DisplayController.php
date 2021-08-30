@@ -84,7 +84,7 @@ class DisplayController extends BaseController
 			case 'edit':
 
 				// True if controller was called and verified permissions
-				$canEdit = $this->checkEditId("$context.edit.task", $id);
+				$inEditList = $this->checkEditId("$context.edit.task", $id);
 				$isNew = ($id == 0);
 
 				// For new item, entry is invalid if task type was not selected through SelectView
@@ -94,9 +94,13 @@ class DisplayController extends BaseController
 					$isValid = false;
 				}
 				// For existing item, entry is invalid if TaskController has not granted access
-				elseif (!$canEdit && !count($this->app->getMessageQueue()))
+				elseif (!$inEditList)
 				{
-					$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+					if (!count($this->app->getMessageQueue()))
+					{
+						$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+					}
+
 					$isValid = false;
 				}
 				break;
