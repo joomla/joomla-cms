@@ -7,6 +7,9 @@
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Uncomment to enable debugging and prevent extract.php from being overwritten during the update
+//define('_JOOMLA_UPDATE_DEBUG', 1);
+
 define('_JOOMLA_UPDATE', 1);
 
 /**
@@ -58,7 +61,7 @@ class ZIPExtraction
 	 * consumed at least this much percentage of the MAX_EXEC_TIME we will stop processing the archive in this page
 	 * load, return the result to the client and wait for it to call us again so we can resume the extraction.
 	 *
-	 * This becomes important when the MAX_EXEC_TIME is close the the PHP, PHP-FPM or Apache timeout on the server
+	 * This becomes important when the MAX_EXEC_TIME is close to the PHP, PHP-FPM or Apache timeout on the server
 	 * (whichever is lowest) and there are fairly large files in the backup archive. If we start extracting a large,
 	 * compressed file close to a hard server timeout it's possible that we will overshoot that hard timeout and see the
 	 * extraction failing.
@@ -163,12 +166,60 @@ class ZIPExtraction
 	private const AK_STATE_FINISHED = 999;
 
 	/**
+	 * Internal logging level: debug
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const LOG_DEBUG = 1;
+
+	/**
+	 * Internal logging level: information
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const LOG_INFO = 10;
+
+	/**
+	 * Internal logging level: warning
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const LOG_WARNING = 50;
+
+	/**
+	 * Internal logging level: error
+	 *
+	 * @var   int
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const LOG_ERROR = 90;
+
+	/**
 	 * Singleton instance
 	 *
 	 * @var   null|self
 	 * @since __DEPLOY_VERSION__
 	 */
 	private static $instance = null;
+
+	/**
+	 * Debug log file pointer resource
+	 *
+	 * @var   null|resource|boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private static $logFP = null;
+
+	/**
+	 * Debug log filename
+	 *
+	 * @var   null|string
+	 * @since __DEPLOY_VERSION__
+	 */
+	private static $logFilePath = null;
 
 	/**
 	 * The total size of the ZIP archive
@@ -521,6 +572,7 @@ class ZIPExtraction
 		}
 
 		$this->filename = $value;
+		$this->initializeLog(dirname($this->filename));
 	}
 
 	/**
@@ -577,6 +629,7 @@ class ZIPExtraction
 	 */
 	public function initialize(): void
 	{
+		$this->debugMsg(sprintf('Initializing extraction. Filepath: %s', $this->filename));
 		$this->totalSize              = @filesize($this->filename) ?: 0;
 		$this->archiveFileIsBeingRead = false;
 		$this->currentOffset          = 0;
@@ -586,11 +639,15 @@ class ZIPExtraction
 
 		if (!empty($this->getError()))
 		{
+			$this->debugMsg(sprintf('Error: %s', $this->getError()), self::LOG_ERROR);
+
 			return;
 		}
 
 		$this->archiveFileIsBeingRead = true;
 		$this->runState               = self::AK_STATE_NOFILE;
+
+		$this->debugMsg('Setting state to NOFILE', self::LOG_DEBUG);
 	}
 
 	/**
@@ -603,19 +660,25 @@ class ZIPExtraction
 	{
 		$status = true;
 
+		$this->debugMsg('Starting a new step', self::LOG_INFO);
+
 		while ($status && ($this->getTimeLeft() > 0))
 		{
 			switch ($this->runState)
 			{
 				case self::AK_STATE_INITIALIZE:
+					$this->debugMsg('Current run state: INITIALIZE', self::LOG_DEBUG);
 					$this->initialize();
 					break;
 
 				case self::AK_STATE_NOFILE:
+					$this->debugMsg('Current run state: NOFILE', self::LOG_DEBUG);
 					$status = $this->readFileHeader();
 
 					if ($status)
 					{
+						$this->debugMsg('Found file header; updating number of files processed and bytes in/out', self::LOG_DEBUG);
+
 						// Update running tallies when we start extracting a file
 						$this->filesProcessed++;
 						$this->compressedTotal   += array_key_exists('compressed', get_object_vars($this->fileHeader))
@@ -627,11 +690,17 @@ class ZIPExtraction
 
 				case self::AK_STATE_HEADER:
 				case self::AK_STATE_DATA:
+					$runStateHuman = $this->runState === self::AK_STATE_HEADER ? 'HEADER' : 'DATA';
+					$this->debugMsg(sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
+
 					$status = $this->processFileData();
 					break;
 
 				case self::AK_STATE_DATAREAD:
 				case self::AK_STATE_POSTPROC:
+					$runStateHuman = $this->runState === self::AK_STATE_DATAREAD ? 'DATAREAD' : 'POSTPROC';
+					$this->debugMsg(sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
+
 					$this->setLastExtractedFileTimestamp($this->fileHeader->timestamp);
 					$this->processLastExtractedFile();
 
@@ -641,26 +710,46 @@ class ZIPExtraction
 
 				case self::AK_STATE_DONE:
 				default:
+					$this->debugMsg('Current run state: DONE', self::LOG_DEBUG);
 					$this->runState = self::AK_STATE_NOFILE;
 
 					break;
 
 				case self::AK_STATE_FINISHED:
+					$this->debugMsg('Current run state: FINISHED', self::LOG_DEBUG);
 					$status = false;
 					break;
+			}
+
+			if ($this->getTimeLeft() <= 0)
+			{
+				$this->debugMsg('Ran out of time; the step will break.');
+			}
+			elseif (!$status)
+			{
+				$this->debugMsg('Last step status is false; the step will break.');
 			}
 		}
 
 		$error = $this->getError() ?? null;
 
+		if (!empty($error))
+		{
+			$this->debugMsg(sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
+		}
+
 		// Did we just finish or run into an error?
 		if (!empty($error) || $this->runState === self::AK_STATE_FINISHED)
 		{
+			$this->debugMsg('Returning true (must stop running) from step()', self::LOG_DEBUG);
+
 			// Reset internal state, prevents __wakeup from trying to open a non-existent file
 			$this->archiveFileIsBeingRead = false;
 
 			return true;
 		}
+
+		$this->debugMsg('Returning false (must continue running) from step()', self::LOG_DEBUG);
 
 		return false;
 	}
@@ -709,6 +798,8 @@ class ZIPExtraction
 	 */
 	private function processLastExtractedFile(): void
 	{
+		$this->debugMsg(sprintf('Processing last extracted entity: %s', $this->lastExtractedFilename), self::LOG_DEBUG);
+
 		if (@is_file($this->lastExtractedFilename))
 		{
 			@chmod($this->lastExtractedFilename, 0644);
@@ -761,6 +852,11 @@ class ZIPExtraction
 	 */
 	private function shutdown(): void
 	{
+		if (is_resource(self::$logFP))
+		{
+			@fclose(self::$logFP);
+		}
+
 		if (!is_resource($this->fp))
 		{
 			return;
@@ -823,6 +919,8 @@ class ZIPExtraction
 
 		if ($data === false)
 		{
+			$this->debugMsg('No more data could be read from the file', self::LOG_WARNING);
+
 			$data = '';
 		}
 
@@ -837,6 +935,8 @@ class ZIPExtraction
 	 */
 	private function readArchiveHeader(): void
 	{
+		$this->debugMsg('Reading the archive header.', self::LOG_DEBUG);
+
 		// Open the first part
 		$this->openArchiveFile();
 
@@ -875,14 +975,19 @@ class ZIPExtraction
 	 */
 	private function readFileHeader(): bool
 	{
+		$this->debugMsg('Reading the file entry header.', self::LOG_DEBUG);
+
 		if (!is_resource($this->fp))
 		{
+			$this->setError('The archive is not open for reading.');
+
 			return false;
 		}
 
 		// Unexpected end of file
 		if ($this->isEOF())
 		{
+			$this->debugMsg('EOF when reading file header data', self::LOG_WARNING);
 			$this->setError('The archive is corrupt or truncated');
 
 			return false;
@@ -892,6 +997,8 @@ class ZIPExtraction
 
 		if ($this->expectDataDescriptor)
 		{
+			$this->debugMsg('Expecting data descriptor (bit 3 of general purpose flag was set).', self::LOG_DEBUG);
+
 			/**
 			 * The last file had bit 3 of the general purpose bit flag set. This means that we have a 12 byte data
 			 * descriptor we need to skip. To make things worse, there might also be a 4 byte optional data descriptor
@@ -905,6 +1012,7 @@ class ZIPExtraction
 			// And check for EOF, too
 			if ($this->isEOF())
 			{
+				$this->debugMsg('EOF when reading data descriptor', self::LOG_WARNING);
 				$this->setError('The archive is corrupt or truncated');
 
 				return false;
@@ -923,6 +1031,8 @@ class ZIPExtraction
 			// The signature is not the one used for files. Is this a central directory record (i.e. we're done)?
 			if ($headerData['sig'] == 0x02014b50)
 			{
+				$this->debugMsg('Found Central Directory header; the extraction is complete', self::LOG_DEBUG);
+
 				// End of ZIP file detected. We'll just skip to the end of file...
 				@fseek($this->fp, 0, SEEK_END);
 				$this->runState = self::AK_STATE_FINISHED;
@@ -940,7 +1050,7 @@ class ZIPExtraction
 		$this->fileHeader            = new stdClass;
 		$this->fileHeader->timestamp = 0;
 
-		// Read the last modified data and time
+		// Read the last modified date and time
 		$lastmodtime = $headerData['lastmodtime'];
 		$lastmoddate = $headerData['lastmoddate'];
 
@@ -1019,6 +1129,9 @@ class ZIPExtraction
 		// If we have a banned file, let's skip it
 		if ($isBannedFile)
 		{
+			$debugMessage = sprintf('Current entity (%s) is banned from extraction and will be skipped over.', $this->fileHeader->file);
+			$this->debugMsg($debugMessage, self::LOG_DEBUG);
+
 			// Advance the file pointer, skipping exactly the size of the compressed data
 			$seekleft = $this->fileHeader->compressed;
 
@@ -1129,10 +1242,14 @@ class ZIPExtraction
 		switch ($this->fileHeader->type)
 		{
 			case 'dir':
+				$this->debugMsg('Extracting entity of type Directory', self::LOG_DEBUG);
+
 				return $this->processTypeDir();
 				break;
 
 			case 'link':
+				$this->debugMsg('Extracting entity of type Symbolic Link', self::LOG_DEBUG);
+
 				return $this->processTypeLink();
 				break;
 
@@ -1140,11 +1257,15 @@ class ZIPExtraction
 				switch ($this->fileHeader->compression)
 				{
 					case 'none':
+						$this->debugMsg('Extracting entity of type File (Stored)', self::LOG_DEBUG);
+
 						return $this->processTypeFileUncompressed();
 						break;
 
 					case 'gzip':
 					case 'bzip2':
+						$this->debugMsg('Extracting entity of type File (Compressed)', self::LOG_DEBUG);
+
 						return $this->processTypeFileCompressed();
 						break;
 
@@ -1170,6 +1291,8 @@ class ZIPExtraction
 	 */
 	private function openArchiveFile(): void
 	{
+		$this->debugMsg('Opening archive file for reading', self::LOG_DEBUG);
+
 		if ($this->archiveFileIsBeingRead)
 		{
 			return;
@@ -1298,6 +1421,7 @@ class ZIPExtraction
 				// We read less than requested!
 				if ($this->isEOF())
 				{
+					$this->debugMsg('EOF when reading symlink data', self::LOG_WARNING);
 					$this->setError('The archive file is corrupt or truncated');
 
 					return false;
@@ -1369,6 +1493,8 @@ class ZIPExtraction
 				@fclose($outfp);
 			}
 
+			$this->debugMsg('Zero byte Stored file; no data will be read', self::LOG_DEBUG);
+
 			$this->runState = self::AK_STATE_DATAREAD;
 
 			return true;
@@ -1391,6 +1517,7 @@ class ZIPExtraction
 				if ($this->isEOF())
 				{
 					// Nope. The archive is corrupt
+					$this->debugMsg('EOF when reading stored file data', self::LOG_WARNING);
 					$this->setError('The archive file is corrupt or truncated');
 
 					return false;
@@ -1400,6 +1527,11 @@ class ZIPExtraction
 			if (is_resource($outfp))
 			{
 				@fwrite($outfp, $data);
+			}
+
+			if ($this->getTimeLeft())
+			{
+				$this->debugMsg('Out of time; will resume extraction in the next step', self::LOG_DEBUG);
 			}
 		}
 
@@ -1412,6 +1544,7 @@ class ZIPExtraction
 		// Was this a pre-timeout bail out?
 		if ($leftBytes > 0)
 		{
+			$this->debugMsg(sprintf('We have %d bytes left to extract in the next step', $leftBytes), self::LOG_DEBUG);
 			$this->runState = self::AK_STATE_DATA;
 
 			return true;
@@ -1452,6 +1585,8 @@ class ZIPExtraction
 		// Does the file have any data, at all?
 		if ($this->fileHeader->compressed == 0)
 		{
+			$this->debugMsg('Zero byte Compressed file; no data will be read', self::LOG_DEBUG);
+
 			// No file data!
 			if (is_resource($outfp))
 			{
@@ -1471,6 +1606,7 @@ class ZIPExtraction
 			// End of local file before reading all data?
 			if ($this->isEOF())
 			{
+				$this->debugMsg('EOF reading compressed data', self::LOG_WARNING);
 				$this->setError('The archive file is corrupt or truncated');
 
 				return false;
@@ -1544,6 +1680,75 @@ class ZIPExtraction
 		$phpMaxTime = (!is_numeric($phpMaxTime) ? 10 : @intval($phpMaxTime)) ?: 10;
 
 		return max(1, $phpMaxTime);
+	}
+
+	/**
+	 * Write a message to the debug error log
+	 *
+	 * @param   string  $message   The message to log
+	 * @param   int     $priority  The message's log priority
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function debugMsg(string $message, int $priority = self::LOG_INFO): void
+	{
+		if (!defined('_JOOMLA_UPDATE_DEBUG'))
+		{
+			return;
+		}
+
+		if (!is_resource(self::$logFP) && !is_bool(self::$logFP))
+		{
+			self::$logFP = @fopen(self::$logFilePath, 'at');
+		}
+
+		if (!is_resource(self::$logFP))
+		{
+			return;
+		}
+
+		switch ($priority)
+		{
+			case self::LOG_DEBUG:
+				$priorityString = 'DEBUG';
+				break;
+
+			case self::LOG_INFO:
+				$priorityString = 'INFO';
+				break;
+
+			case self::LOG_WARNING:
+				$priorityString = 'WARNING';
+				break;
+
+			case self::LOG_ERROR:
+				$priorityString = 'ERROR';
+				break;
+		}
+
+		fputs(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
+	}
+
+	/**
+	 * Initialise the debug log file
+	 *
+	 * @param   string  $logPath  The path where the log file will be written to
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function initializeLog(string $logPath): void
+	{
+		if (!defined('_JOOMLA_UPDATE_DEBUG'))
+		{
+			return;
+		}
+
+		$logPath = $logPath ?: dirname($this->filename);
+		$logFile = rtrim($logPath, '/' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'joomla_update.txt';
+
+		self::$logFilePath = $logFile;
 	}
 }
 
@@ -1737,10 +1942,17 @@ if ($enabled)
 
 	$engine->setFilename($sourceFile);
 	$engine->setAddPath($destDir);
-	$engine->setSkipFiles([
-			'administrator/components/com_joomlaupdate/restoration.php',
-			'administrator/components/com_joomlaupdate/update.php',
-		]
+	$skipFiles = [
+		'administrator/components/com_joomlaupdate/restoration.php',
+		'administrator/components/com_joomlaupdate/update.php',
+	];
+
+	if (defined('_JOOMLA_UPDATE_DEBUG'))
+	{
+		$skipFiles[] = 'administrator/components/com_joomlaupdate/extract.php';
+	}
+
+	$engine->setSkipFiles($skipFiles
 	);
 	$engine->setIgnoreDirectories([
 			'tmp', 'administrator/logs',
@@ -1767,7 +1979,7 @@ if ($enabled)
 				$retArray['files']    = $engine->filesProcessed;
 				$retArray['bytesIn']  = $engine->compressedTotal;
 				$retArray['bytesOut'] = $engine->uncompressedTotal;
-				$retArray['percent']  = ($engine->totalSize > 0) ? ($engine->uncompressedTotal / $engine->totalSize) : 0;
+				$retArray['percent']  = 100;
 				$retArray['status']   = true;
 				$retArray['done']     = true;
 
@@ -1778,7 +1990,7 @@ if ($enabled)
 				$retArray['files']    = $engine->filesProcessed;
 				$retArray['bytesIn']  = $engine->compressedTotal;
 				$retArray['bytesOut'] = $engine->uncompressedTotal;
-				$retArray['percent']  = 100;
+				$retArray['percent']  = ($engine->totalSize > 0) ? (100 * $engine->compressedTotal / $engine->totalSize) : 0;
 				$retArray['status']   = true;
 				$retArray['done']     = false;
 				$retArray['instance'] = ZIPExtraction::getSerialised();
