@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
  * @var  string   $typeAlias The component type
  */
 extract($displayData);
+JHtml::_('script', 'com_contenthistory/admin-history-versions.js', array('version' => 'auto', 'relative' => true));
 
 $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 	. (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
@@ -40,4 +41,3 @@ echo JHtml::_(
 <button type="button" onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
 	<span class="icon-archive" aria-hidden="true"></span><?php echo $title; ?>
 </button>
-

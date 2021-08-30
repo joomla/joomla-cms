@@ -51,7 +51,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JUri::root() . $params->get('logoFile');
+	$logo = htmlspecialchars(JUri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8');
 }
 else
 {

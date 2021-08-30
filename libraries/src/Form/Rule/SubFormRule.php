@@ -45,7 +45,12 @@ class SubformRule extends FormRule
 		{
 			throw new \UnexpectedValueException(sprintf('%s is no subform field.', $element['name']));
 		}
-
+		
+		if ($value === null)
+		{
+			return true;
+		}
+		
 		$subForm = $field->loadSubForm();
 
 		// Multiple values: Validate every row.

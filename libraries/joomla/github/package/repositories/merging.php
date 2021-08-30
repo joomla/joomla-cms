@@ -22,19 +22,19 @@ class JGithubPackageRepositoriesMerging extends JGithubPackage
 	/**
 	 * Perform a merge.
 	 *
-	 * @param   string  $owner           The name of the owner of the GitHub repository.
-	 * @param   string  $repo            The name of the GitHub repository.
-	 * @param   string  $base            The name of the base branch that the head will be merged into.
-	 * @param   string  $head            The head to merge. This can be a branch name or a commit SHA1.
-	 * @param   string  $commit_message  Commit message to use for the merge commit.
-	 *                                   If omitted, a default message will be used.
+	 * @param   string  $owner          The name of the owner of the GitHub repository.
+	 * @param   string  $repo           The name of the GitHub repository.
+	 * @param   string  $base           The name of the base branch that the head will be merged into.
+	 * @param   string  $head           The head to merge. This can be a branch name or a commit SHA1.
+	 * @param   string  $commitMessage  Commit message to use for the merge commit.
+	 *                                  If omitted, a default message will be used.
 	 *
 	 * @throws UnexpectedValueException
 	 * @since   3.3.0
 	 *
 	 * @return  boolean
 	 */
-	public function perform($owner, $repo, $base, $head, $commit_message = '')
+	public function perform($owner, $repo, $base, $head, $commitMessage = '')
 	{
 		// Build the request path.
 		$path = '/repos/' . $owner . '/' . $repo . '/merges';
@@ -44,9 +44,9 @@ class JGithubPackageRepositoriesMerging extends JGithubPackage
 		$data->base = $base;
 		$data->head = $head;
 
-		if ($commit_message)
+		if ($commitMessage)
 		{
-			$data->commit_message = $commit_message;
+			$data->commit_message = $commitMessage;
 		}
 
 		// Send the request.

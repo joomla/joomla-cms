@@ -71,7 +71,7 @@ class OutputFilter extends BaseOutputFilter
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
 	 * @param   string  $string    String to process
-	 * @param   string  $language  Language to transilterate to
+	 * @param   string  $language  Language to transliterate to
 	 *
 	 * @return  string  Processed string
 	 *

@@ -35,6 +35,7 @@
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC"
+					validate="filePath"
 				/>
 
 				<field
@@ -68,6 +69,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field

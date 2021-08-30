@@ -122,19 +122,19 @@ abstract class JHtmlSearchtools
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string  $title          The link title
-	 * @param   string  $order          The order field for the column
-	 * @param   string  $direction      The current direction
-	 * @param   mixed   $selected       The selected ordering
-	 * @param   string  $task           An optional task override
-	 * @param   string  $new_direction  An optional direction for the new column
-	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $icon           Icon to show
-	 * @param   string  $formName       Name of the form to submit
+	 * @param   string  $title         The link title
+	 * @param   string  $order         The order field for the column
+	 * @param   string  $direction     The current direction
+	 * @param   mixed   $selected      The selected ordering
+	 * @param   string  $task          An optional task override
+	 * @param   string  $newDirection  An optional direction for the new column
+	 * @param   string  $tip           An optional text shown as tooltip title instead of $title
+	 * @param   string  $icon          Icon to show
+	 * @param   string  $formName      Name of the form to submit
 	 *
 	 * @return  string
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '', $icon = null,
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $newDirection = 'asc', $tip = '', $icon = null,
 		$formName = 'adminForm')
 	{
 		$direction = strtolower($direction);
@@ -143,7 +143,7 @@ abstract class JHtmlSearchtools
 
 		if ($order !== $selected)
 		{
-			$direction = $new_direction;
+			$direction = $newDirection;
 		}
 		else
 		{

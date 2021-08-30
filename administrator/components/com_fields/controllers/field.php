@@ -99,7 +99,7 @@ class FieldsControllerField extends JControllerForm
 			}
 
 			// Grant if current user is owner of the record
-			return $user->id == $record->created_by;
+			return $user->id == $record->created_user_id;
 		}
 
 		return false;

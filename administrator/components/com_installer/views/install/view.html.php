@@ -29,6 +29,11 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');

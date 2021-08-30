@@ -232,8 +232,9 @@ class UsersControllerUser extends UsersController
 	{
 		// Get the ItemID of the page to redirect after logout
 		$app    = JFactory::getApplication();
-		$itemid = $app->getMenu()->getActive()->params->get('logout');
-
+		$active = $app->getMenu()->getActive();
+		$itemid = $active ? $active->getParams()->get('logout') : 0;
+		
 		// Get the language of the page when multilang is on
 		if (JLanguageMultilang::isEnabled())
 		{

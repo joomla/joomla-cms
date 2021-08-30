@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.9" client="installation">
-	<name>Cymraeg</name>
-	<version>3.9.19</version>
-	<creationDate>2020-03-01</creationDate>
+<metafile version="3.10.0" client="installation">
+	<name>Welsh (cy-GB)</name>
+	<version>3.10.0</version>
+	<creationDate>August 2021</creationDate>
 	<author>Welsh Translation Team : Joomla.cymru</author>
 	<copyright>(C) 2014 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -15,5 +15,5 @@
 		<tag>cy-GB</tag>
 		<rtl>0</rtl>
 	</metadata>
-	<params/>
+	<params />
 </metafile>

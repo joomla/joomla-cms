@@ -582,15 +582,15 @@ class CategoryNode extends \JObject
 	/**
 	 * Returns the user that created the category
 	 *
-	 * @param   boolean  $modified_user  Returns the modified_user when set to true
+	 * @param   boolean  $modifiedUser  Returns the modified_user when set to true
 	 *
 	 * @return  \JUser  A \JUser object containing a userid
 	 *
 	 * @since   1.6
 	 */
-	public function getAuthor($modified_user = false)
+	public function getAuthor($modifiedUser = false)
 	{
-		if ($modified_user)
+		if ($modifiedUser)
 		{
 			return \JFactory::getUser($this->modified_user_id);
 		}

@@ -126,8 +126,8 @@ install:
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
-    - IF %PHP%==1 echo @php %%~dp0composer-1.phar %%* > composer.bat
-    - IF %PHP%==1 appveyor-retry appveyor DownloadFile https://getcomposer.org/composer-1.phar
+    - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
+    - IF %PHP%==1 appveyor-retry appveyor DownloadFile https://getcomposer.org/download/latest-1.x/composer.phar
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
 

@@ -27,7 +27,7 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubPackageSearch         $search         GitHub API object for search.
  * @property-read  JGithubPackageUsers          $users          GitHub API object for users.
  *
- * @property-read  JGithubRefs        $refs        Deprecated GitHub API object for referencess.
+ * @property-read  JGithubRefs        $refs        Deprecated GitHub API object for references.
  * @property-read  JGithubForks       $forks       Deprecated GitHub API object for forks.
  * @property-read  JGithubCommits     $commits     Deprecated GitHub API object for commits.
  * @property-read  JGithubMilestones  $milestones  Deprecated GitHub API object for commits.

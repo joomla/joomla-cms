@@ -356,6 +356,48 @@ class JTableTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test for bind method with object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.27
+	 */
+	public function testBindWithObject()
+	{
+		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
+
+		$data = new stdClass;
+		$data->id1    = 25;
+		$data->id2    = 50;
+		$data->title  = 'My Title';
+		$data->params = array('param1' => 'value1', 'param2' => 25);
+
+		$this->object->bind($data);
+
+		$this->assertEquals(
+			25,
+			$this->object->id1
+		);
+
+		$this->assertEquals(
+			50,
+			$this->object->id2
+		);
+
+		$this->assertEquals(
+			'My Title',
+			$this->object->title
+		);
+
+		// Check the object is json encoded properly
+		$this->assertEquals(
+			'{"param1":"value1","param2":25}',
+			$this->object->params,
+			'The object should be json encoded'
+		);
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet

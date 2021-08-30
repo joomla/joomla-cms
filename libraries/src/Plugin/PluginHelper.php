@@ -248,10 +248,7 @@ abstract class PluginHelper
 		{
 			if (file_exists($path))
 			{
-				if (!isset($paths[$dispatcherHash][$path]))
-				{
-					require_once $path;
-				}
+				require_once $path;
 
 				$paths[$dispatcherHash][$path] = true;
 

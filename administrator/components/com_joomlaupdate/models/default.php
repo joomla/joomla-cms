@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -45,7 +46,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -73,6 +73,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -316,7 +317,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Find the path to the temp directory and the local package.
 		$config   = JFactory::getConfig();
-		$tempdir  = $config->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean($config->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = array();
 
@@ -937,9 +938,11 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		$oldVersion = JFactory::getApplication()->getUserState('com_joomlaupdate.oldversion');
 
 		// Trigger event after joomla update.
-		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', null);
 	}
 
 	/**
@@ -1168,16 +1171,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
-		{
-			$option = new stdClass;
-			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
-			$option->state  = $this->isDatabaseTypeSupported();
-			$option->notice = null;
-			$options[]      = $option;
-		}
-
 		// Check for mbstring options.
 		if (extension_loaded('mbstring'))
 		{
@@ -1208,6 +1201,25 @@ ENDDATA;
 		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
+		$options[] = $option;
+
+		$updateInformation = $this->getUpdateInformation();
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], '4', '>='))
+		{
+			$option = new stdClass;
+			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+			$option->state  = $this->isDatabaseTypeSupported();
+			$option->notice = null;
+			$options[]      = $option;
+		}
+
+		// Check if database structure is up to date
+		$option = new stdClass;
+		$option->label  = JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
+		$option->state  = $this->getDatabaseSchemaCheck();
+		$option->notice = $option->state ? null : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
 		$options[] = $option;
 
 		return $options;
@@ -1303,7 +1315,10 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1337,8 +1352,10 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1376,6 +1393,54 @@ ENDDATA;
 		return $result;
 	}
 
+
+	/**
+	 * Check if database structure is up to date
+	 *
+	 * @return  boolean  True if ok, false if not.
+	 *
+	 * @since   3.10.0
+	 */
+	private function getDatabaseSchemaCheck()
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
+
+		// Get the database model
+		$model = JModelLegacy::getInstance('Database', 'InstallerModel');
+
+		// Check if no default text filters found
+		if (!$model->getDefaultTextFilters())
+		{
+			return false;
+		}
+
+		// Check if database update version does not match CMS version
+		if (version_compare($model->getUpdateVersion(), JVERSION) != 0)
+		{
+			return false;
+		}
+
+		// Get the schema change set
+		$changeSet = $model->getItems();
+
+		$changeSetCheck = $changeSet->check();
+
+		// Check if schema errors found
+		if (!empty($changeSetCheck))
+		{
+			return false;
+		}
+
+		// Check if database schema version does not match CMS version
+		if ($model->getSchemaVersion() != $changeSet->getSchema())
+		{
+			return false;
+		}
+
+		// No database problems found
+		return true;
+	}
+
 	/**
 	 * Gets an array containing all installed extensions, that are not core extensions.
 	 *
@@ -1409,11 +1474,18 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
+
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
+
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)
 				? $decode->version
 				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
+			$extension->manifest_cache = $decode;
 		}
 
 		return $rows;
@@ -1430,18 +1502,69 @@ ENDDATA;
 	 */
 	private static function isNonCoreExtension($extension)
 	{
-		$coreExtensions = JExtensionHelper::getCoreExtensions();
+		return !\JExtensionHelper::checkIfCoreExtension($extension->type, $extension->element, $extension->client_id, $extension->folder);
+	}
 
-		foreach ($coreExtensions as $coreExtension)
+	/**
+	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
+	 *
+	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
+	 *
+	 * @return  array  name,version,updateserver
+	 *
+	 * @since   3.10.0
+	 */
+	public function getNonCorePlugins($folderFilter = array())
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn('ex.name') . ', ' .
+			$db->qn('ex.extension_id') . ', ' .
+			$db->qn('ex.manifest_cache') . ', ' .
+			$db->qn('ex.type') . ', ' .
+			$db->qn('ex.folder') . ', ' .
+			$db->qn('ex.element') . ', ' .
+			$db->qn('ex.client_id') . ', ' .
+			$db->qn('ex.package_id')
+		)->from(
+			$db->qn('#__extensions', 'ex')
+		)->where(
+			$db->qn('ex.type') . ' = ' . $db->quote('plugin')
+		)->where(
+			$db->qn('ex.enabled') . ' = 1'
+		);
+
+		if (count($folderFilter) > 0)
 		{
-			if ($coreExtension[1] == $extension->element)
-			{
-				return false;
-			}
+			$folderFilter = array_map(array($db, 'quote'), $folderFilter);
+
+			$query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
 		}
 
-		return true;
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+		$rows = array_filter($rows, 'JoomlaupdateModelDefault::isNonCoreExtension');
 
+		foreach ($rows as $plugin)
+		{
+			$decode = json_decode($plugin->manifest_cache);
+
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
+
+			$this->translateExtensionName($plugin);
+			$plugin->version = isset($decode->version)
+				? $decode->version
+				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+			unset($plugin->manifest_cache);
+			$plugin->manifest_cache = $decode;
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -1618,9 +1741,12 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
+		// Get the minimum stability information from com_installer
+		$minimumStability = JComponentHelper::getParams('com_installer')->get('minimum_stability', JUpdater::STABILITY_STABLE);
+
 		$update = new JUpdate;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
+		$update->loadFromXML($updateFileUrl, $minimumStability);
 
 		$downloadUrl = $update->get('downloadurl');
 
@@ -1676,6 +1802,6 @@ ENDDATA;
 		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
-		$item->name = JText::_($item->name);
+		$item->name = strip_tags(JText::_($item->name));
 	}
 }

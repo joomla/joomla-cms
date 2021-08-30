@@ -18,7 +18,7 @@ use Joomla\CMS\Crypt\Key;
  * Crypt cipher for Simple encryption, decryption and key generation.
  *
  * @since       3.0.0
- * @deprecated  4.0 (CMS)
+ * @deprecated  4.0   Without replacement use SodiumCipher
  */
 class SimpleCipher implements CipherInterface
 {

@@ -114,20 +114,20 @@ class Usergroup extends Table
 	/**
 	 * Method to recursively rebuild the nested set tree.
 	 *
-	 * @param   integer  $parent_id  The root of the tree to rebuild.
-	 * @param   integer  $left       The left id to start with in building the tree.
+	 * @param   integer  $parentId  The root of the tree to rebuild.
+	 * @param   integer  $left      The left id to start with in building the tree.
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function rebuild($parent_id = 0, $left = 0)
+	public function rebuild($parentId = 0, $left = 0)
 	{
 		// Get the database object
 		$db = $this->_db;
 
 		// Get all children of this node
-		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parent_id . ' ORDER BY parent_id, title');
+		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parentId . ' ORDER BY parent_id, title');
 		$children = $db->loadColumn();
 
 		// The right value of this node is the left value + 1
@@ -148,7 +148,7 @@ class Usergroup extends Table
 
 		// We've got the left value, and now that we've processed
 		// the children of this node we also know the right value
-		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
+		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parentId);
 
 		// If there is an update failure, return false to break out of the recursion
 		try

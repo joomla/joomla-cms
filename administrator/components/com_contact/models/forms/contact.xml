@@ -299,13 +299,6 @@
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
 
 		<field
-			name="@text_details"
-			type="note"
-			label=""
-			description="COM_CONTACT_EDIT_DETAILS"
-		/>
-
-		<field
 			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"

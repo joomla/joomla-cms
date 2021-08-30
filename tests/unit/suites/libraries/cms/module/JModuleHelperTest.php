@@ -159,10 +159,41 @@ class JModuleHelperTest extends TestCaseDatabase
 	 */
 	public function testGetLayoutPath()
 	{
+		// Default layout path
+		$dPath = JPATH_ROOT . '/modules/mod_search/tmpl/default.php';
+
+		// Base layout path
+		$bPath = JPATH_ROOT . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'mod_search'
+			. DIRECTORY_SEPARATOR . 'tmpl' . DIRECTORY_SEPARATOR . 'default.php';
+
 		$this->assertEquals(
 			JModuleHelper::getLayoutPath('mod_search'),
-			JPATH_ROOT . '/modules/mod_search/tmpl/default.php',
-			'The default layout path for mod_search should be returned'
+			$bPath,
+			'The base layout path for mod_search should be returned if no layout parameter is given'
+		);
+
+		$this->assertEquals(
+			JModuleHelper::getLayoutPath('mod_search', '../template:default'),
+			$dPath,
+			'The default layout path for mod_search should be returned if invalid template is given in layout parameter'
+		);
+
+		$this->assertEquals(
+			JModuleHelper::getLayoutPath('mod_search', 'bad-template:default'),
+			$bPath,
+			'The base layout path for mod_search should be returned if not existing template is given in layout parameter'
+		);
+
+		$this->assertEquals(
+			JModuleHelper::getLayoutPath('mod_search', '_:../default'),
+			$dPath,
+			'The default layout path for mod_search should be returned if invalid layout file is given in layout parameter'
+		);
+
+		$this->assertEquals(
+			JModuleHelper::getLayoutPath('mod_search', '_:bad-layout-file'),
+			$dPath,
+			'The default layout path for mod_search should be returned if not existing layout file is given in layout parameter'
 		);
 	}
 }

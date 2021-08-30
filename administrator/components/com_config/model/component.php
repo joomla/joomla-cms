@@ -153,6 +153,11 @@ class ConfigModelComponent extends ConfigModelForm
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
+			if (!JFactory::getUser()->authorise('core.admin', $data['option']))
+			{
+				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			}
+
 			$rules = new JAccessRules($data['params']['rules']);
 			$asset = JTable::getInstance('asset');
 
