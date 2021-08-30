@@ -8,7 +8,7 @@
  */
 
 // Uncomment to enable debugging and prevent extract.php from being overwritten during the update
-//define('_JOOMLA_UPDATE_DEBUG', 1);
+// define('_JOOMLA_UPDATE_DEBUG', 1);
 
 define('_JOOMLA_UPDATE', 1);
 
