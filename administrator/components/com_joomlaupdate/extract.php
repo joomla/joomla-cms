@@ -1732,7 +1732,7 @@ if ($enabled)
 	$destDir    = ($configuration['setup.destdir'] ?? null) ?: __DIR__;
 	$basePath   = rtrim(str_replace('\\', '/', __DIR__), '/');
 	$basePath   = empty($basePath) ? $basePath : ($basePath . '/');
-	$sourceFile = (empty($sourceFile) ? '' : (rtrim($sourcePath, '/\\') . '/')) . $sourceFile;
+	$sourceFile = (empty($sourcePath) ? '' : (rtrim($sourcePath, '/\\') . '/')) . $sourceFile;
 	$engine     = ZIPExtraction::getInstance();
 
 	$engine->setFilename($sourceFile);
