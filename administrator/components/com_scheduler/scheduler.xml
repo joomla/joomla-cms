@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-	<name>com_scheduler</name>
+	<name>COM_SCHEDULER</name>
 	<creationDate>July 2021</creationDate>
 	<author>Joomla! Project</author>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -27,9 +27,4 @@
 		</languages>
 		<menu link="index.php?option=>">com_scheduler</menu>
 	</administration>
-	<dashboards>
-		<dashboard title="COM_SCHEDULER_DASHBOARD_TITLE" icon="icon-clock">
-			com_scheduler
-		</dashboard>
-	</dashboards>
 </extension>
