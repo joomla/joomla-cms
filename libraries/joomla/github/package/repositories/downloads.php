@@ -71,18 +71,18 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 *
 	 * Creating a new download is a two step process. You must first create a new download resource.
 	 *
-	 * @param   string  $owner         The name of the owner of the GitHub repository.
-	 * @param   string  $repo          The name of the GitHub repository.
-	 * @param   string  $name          The name.
-	 * @param   string  $size          Size of file in bytes.
-	 * @param   string  $description   The description.
-	 * @param   string  $content_type  The content type.
+	 * @param   string  $owner        The name of the owner of the GitHub repository.
+	 * @param   string  $repo         The name of the GitHub repository.
+	 * @param   string  $name         The name.
+	 * @param   string  $size         Size of file in bytes.
+	 * @param   string  $description  The description.
+	 * @param   string  $contentType  The content type.
 	 *
 	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
-	public function create($owner, $repo, $name, $size, $description = '', $content_type = '')
+	public function create($owner, $repo, $name, $size, $description = '', $contentType = '')
 	{
 		// Build the request path.
 		$path = '/repos/' . $owner . '/' . $repo . '/downloads';
@@ -97,9 +97,9 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 			$data['description'] = $description;
 		}
 
-		if ($content_type)
+		if ($contentType)
 		{
-			$data['content_type'] = $content_type;
+			$data['content_type'] = $contentType;
 		}
 
 		// Send the request.
@@ -136,22 +136,22 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * More information about using the REST API to interact with s3 can be found here:
 	 * http://docs.amazonwebservices.com/AmazonS3/latest/API/
 	 *
-	 * @param   string  $key                    Value of path field in the response.
-	 * @param   string  $acl                    Value of acl field in the response.
-	 * @param   string  $success_action_status  201, or whatever you want to get back.
-	 * @param   string  $filename               Value of name field in the response.
-	 * @param   string  $awsAccessKeyId         Value of accesskeyid field in the response.
-	 * @param   string  $policy                 Value of policy field in the response.
-	 * @param   string  $signature              Value of signature field in the response.
-	 * @param   string  $content_type           Value of mime_type field in the response.
-	 * @param   string  $file                   Local file. Example assumes the file existing in the directory
-	 *                                          where you are running the curl command. Yes, the @ matters.
+	 * @param   string  $key                  Value of path field in the response.
+	 * @param   string  $acl                  Value of acl field in the response.
+	 * @param   string  $successActionStatus  201, or whatever you want to get back.
+	 * @param   string  $filename             Value of name field in the response.
+	 * @param   string  $awsAccessKeyId       Value of accesskeyid field in the response.
+	 * @param   string  $policy               Value of policy field in the response.
+	 * @param   string  $signature            Value of signature field in the response.
+	 * @param   string  $contentType          Value of mime_type field in the response.
+	 * @param   string  $file                 Local file. Example assumes the file existing in the directory
+	 *                                        where you are running the curl command. Yes, the @ matters.
 	 *
 	 * @since    3.3 (CMS)
 	 *
 	 * @return boolean
 	 */
-	public function upload($key, $acl, $success_action_status, $filename, $awsAccessKeyId, $policy, $signature, $content_type, $file)
+	public function upload($key, $acl, $successActionStatus, $filename, $awsAccessKeyId, $policy, $signature, $contentType, $file)
 	{
 		// Build the request path.
 		$url = 'https://github.s3.amazonaws.com/';
@@ -159,12 +159,12 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 		$data = array(
 			'key'                   => $key,
 			'acl'                   => $acl,
-			'success_action_status' => (int) $success_action_status,
+			'success_action_status' => (int) $successActionStatus,
 			'Filename'              => $filename,
 			'AWSAccessKeyId'        => $awsAccessKeyId,
 			'Policy'                => $policy,
 			'Signature'             => $signature,
-			'Content-Type'          => $content_type,
+			'Content-Type'          => $contentType,
 			'file'                  => $file,
 		);
 

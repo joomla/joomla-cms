@@ -2,7 +2,7 @@
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
 	* Joomla! 3.10 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_3.10_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/staging
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/3.10-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
@@ -50,7 +50,7 @@
 	* Find the information you need: https://docs.joomla.org/Special:MyLanguage/Start_here
 	* Find help and other users: https://www.joomla.org/about-joomla/create-and-share.html
 	* Post questions at our forums: https://forum.joomla.org
-	* Joomla! Resources Directory (JRD): https://resources.joomla.org/
+	* Joomla! Resources Directory (JRD): https://community.joomla.org/service-providers-directory/
 
 11- Do you already have a Joomla! site that's not built with Joomla! 3.x ?
 	* What's new in Joomla! 3.x: https://www.joomla.org/3

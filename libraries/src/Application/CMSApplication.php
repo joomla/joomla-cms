@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
@@ -171,10 +172,16 @@ class CMSApplication extends WebApplication
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(array(), array(), 1, 1);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!in_array($message, $this->_messageQueue))
 		{
@@ -222,6 +229,34 @@ class CMSApplication extends WebApplication
 		{
 			// Render the application output.
 			$this->render();
+		}
+
+		if ($this->get('block_floc', 1))
+		{
+			$headers = $this->getHeaders();
+
+			$notPresent = true;
+
+			foreach ($headers as $header)
+			{
+				if (strtolower($header['name']) === 'permissions-policy')
+				{
+					// Append interest-cohort if the Permissions-Policy is not set
+					if (strpos($header['value'], 'interest-cohort') === false)
+					{
+						$this->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
+					}
+
+					$notPresent = false;
+
+					break;
+				}
+			}
+
+			if ($notPresent)
+			{
+				$this->setHeader('Permissions-Policy', 'interest-cohort=()');
+			}
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
@@ -320,10 +355,23 @@ class CMSApplication extends WebApplication
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -658,6 +706,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isAdmin()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('administrator');
 	}
 
@@ -671,6 +732,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isSite()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('site');
 	}
 

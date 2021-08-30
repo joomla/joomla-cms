@@ -78,14 +78,14 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 * Shows the configuration page for this two factor authentication method.
 	 *
 	 * @param   object   $otpConfig  The two factor auth configuration object
-	 * @param   integer  $user_id    The numeric user ID of the user whose form we'll display
+	 * @param   integer  $userId     The numeric user ID of the user whose form we'll display
 	 *
 	 * @return  boolean|string  False if the method is not ours, the HTML of the configuration page otherwise
 	 *
 	 * @see     UsersModelUser::getOtpConfig
 	 * @since   3.2
 	 */
-	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
+	public function onUserTwofactorShowConfiguration($otpConfig, $userId = null)
 	{
 		if ($otpConfig->method === $this->methodName)
 		{

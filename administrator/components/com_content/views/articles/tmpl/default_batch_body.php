@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 ?>
 
 <div class="container-fluid">

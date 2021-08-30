@@ -21,14 +21,14 @@ class PrivacyModelRequest extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function cleanCache($group = 'com_privacy', $client_id = 1)
+	protected function cleanCache($group = 'com_privacy', $clientId = 1)
 	{
 		parent::cleanCache('com_privacy', 1);
 	}
@@ -426,6 +426,9 @@ class PrivacyModelRequest extends JModelAdmin
 		{
 			return false;
 		}
+
+		// Make sure the status is always 0
+		$validatedData['status'] = 0;
 
 		// The user cannot create a request for their own account
 		if (strtolower(JFactory::getUser()->email) === strtolower($validatedData['email']))

@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.9"
-	client="installation">
-	<name>Russian (Russia)</name>
-	<version>3.9.17</version>
-	<creationDate>2020-03-01</creationDate>
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile version="3.10" client="installation">
+	<name>Russian (Россия)</name>
+	<version>3.10.0</version>
+	<creationDate>17/08/2021</creationDate>
 	<author>Russian Translation Team</author>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

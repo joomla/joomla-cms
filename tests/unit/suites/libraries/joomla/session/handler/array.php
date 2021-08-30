@@ -31,7 +31,7 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	protected $name;
 
 	/**
-	 * Has the session heen started
+	 * Has the session been started
 	 *
 	 * @var  bool
 	 */

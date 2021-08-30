@@ -98,9 +98,17 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Get results of pre update check evaluations
-		$this->phpOptions        = $model->getPhpOptions();
-		$this->phpSettings       = $model->getPhpSettings();
-		$this->nonCoreExtensions = $model->getNonCoreExtensions();
+		$this->phpOptions             = $model->getPhpOptions();
+		$this->phpSettings            = $model->getPhpSettings();
+		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+
+		// Disable the critical plugins check for non-major updates.
+		$this->nonCoreCriticalPlugins = array();
+
+		if (version_compare($this->updateInfo['latest'], '4', '>='))
+		{
+			$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		}
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
@@ -127,7 +135,6 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -150,6 +157,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts':
 			 * case 'nochange':
 			 */
 			default:
@@ -214,7 +222,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
-			// Allways force to check for an update!
+			// Always force to check for an update!
 			$cache_timeout = 0;
 
 			$updater = JUpdater::getInstance();
@@ -259,8 +267,11 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& $this->getModel()->isDatabaseTypeSupported()
-			&& $this->getModel()->isPhpVersionSupported();
+		$nextMinor = JVersion::MAJOR_VERSION . '.' . (JVersion::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+				&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
 	}
 }
+

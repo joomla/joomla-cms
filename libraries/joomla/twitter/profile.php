@@ -27,13 +27,13 @@ class JTwitterProfile extends JTwitterObject
 	 * @param   string   $description  A description of the user owning the account. Maximum of 160 characters.
 	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
 	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   boolean  $skipStatus   When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = null, $skip_status = null)
+	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('account', 'update_profile');
@@ -71,9 +71,9 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if skip_status is specified.
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Set the API path
@@ -87,18 +87,18 @@ class JTwitterProfile extends JTwitterObject
 	 * Method to update the authenticating user's profile background image. This method can also be used to enable or disable the profile
 	 * background image.
 	 *
-	 * @param   string   $image        The background image for the profile.
-	 * @param   boolean  $tile         Whether or not to tile the background image.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
-	 * @param   boolean  $use          Determines whether to display the profile background image or not.
+	 * @param   string   $image       The background image for the profile.
+	 * @param   boolean  $tile        Whether or not to tile the background image.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   boolean  $use         Determines whether to display the profile background image or not.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = null, $skip_status = null, $use = false)
+	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = null, $skipStatus = null, $use = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('account', 'update_profile_background_image');
@@ -124,9 +124,9 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if skip_status is specified.
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Check if use is true.
@@ -147,16 +147,16 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to update the authenticating user's profile image.
 	 *
-	 * @param   string   $image        The background image for the profile.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   string   $image       The background image for the profile.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function updateProfileImage($image = null, $entities = null, $skip_status = null)
+	public function updateProfileImage($image = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('account', 'update_profile_image');
@@ -176,9 +176,9 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if skip_status is specified.
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Set the API path
@@ -193,21 +193,21 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to set one or more hex values that control the color scheme of the authenticating user's profile page on twitter.com.
 	 *
-	 * @param   string   $background      Profile background color.
-	 * @param   string   $link            Profile link color.
-	 * @param   string   $sidebar_border  Profile sidebar's border color.
-	 * @param   string   $sidebar_fill    Profile sidebar's fill color.
-	 * @param   string   $text            Profile text color.
-	 * @param   boolean  $entities        When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 									  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status     When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   string   $background     Profile background color.
+	 * @param   string   $link           Profile link color.
+	 * @param   string   $sidebarBorder  Profile sidebar's border color.
+	 * @param   string   $sidebarFill    Profile sidebar's fill color.
+	 * @param   string   $text           Profile text color.
+	 * @param   boolean  $entities       When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 									 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus     When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function updateProfileColors($background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
-		$entities = null, $skip_status = null)
+	public function updateProfileColors($background = null, $link = null, $sidebarBorder = null, $sidebarFill = null, $text = null,
+		$entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('account', 'update_profile_colors');
@@ -227,15 +227,15 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if sidebar_border is specified.
-		if ($sidebar_border)
+		if ($sidebarBorder)
 		{
-			$data['profile_sidebar_border_color'] = $sidebar_border;
+			$data['profile_sidebar_border_color'] = $sidebarBorder;
 		}
 
 		// Check if sidebar_fill is specified.
-		if ($sidebar_fill)
+		if ($sidebarFill)
 		{
-			$data['profile_sidebar_fill_color'] = $sidebar_fill;
+			$data['profile_sidebar_fill_color'] = $sidebarFill;
 		}
 
 		// Check if text is specified.
@@ -251,9 +251,9 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if skip_status is true.
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Set the API path
@@ -285,20 +285,20 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to update the authenticating user's settings.
 	 *
-	 * @param   integer  $location     The Yahoo! Where On Earth ID to use as the user's default trend location.
-	 * @param   boolean  $sleep_time   When set to true, t or 1, will enable sleep time for the user.
-	 * @param   integer  $start_sleep  The hour that sleep time should begin if it is enabled.
-	 * @param   integer  $end_sleep    The hour that sleep time should end if it is enabled.
-	 * @param   string   $time_zone    The timezone dates and times should be displayed in for the user. The timezone must be one of the
-	 * 								   Rails TimeZone names.
-	 * @param   string   $lang         The language which Twitter should render in for this user.
+	 * @param   integer  $location    The Yahoo! Where On Earth ID to use as the user's default trend location.
+	 * @param   boolean  $sleepTime   When set to true, t or 1, will enable sleep time for the user.
+	 * @param   integer  $startSleep  The hour that sleep time should begin if it is enabled.
+	 * @param   integer  $endSleep    The hour that sleep time should end if it is enabled.
+	 * @param   string   $timeZone    The timezone dates and times should be displayed in for the user. The timezone must be one of the
+	 * 								  Rails TimeZone names.
+	 * @param   string   $lang        The language which Twitter should render in for this user.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function updateSettings($location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
-		$time_zone = null, $lang = null)
+	public function updateSettings($location = null, $sleepTime = false, $startSleep = null, $endSleep = null,
+		$timeZone = null, $lang = null)
 	{
 		$data = array();
 
@@ -309,27 +309,27 @@ class JTwitterProfile extends JTwitterObject
 		}
 
 		// Check if sleep_time is true.
-		if ($sleep_time)
+		if ($sleepTime)
 		{
-			$data['sleep_time_enabled'] = $sleep_time;
+			$data['sleep_time_enabled'] = $sleepTime;
 		}
 
 		// Check if start_sleep is specified.
-		if ($start_sleep)
+		if ($startSleep)
 		{
-			$data['start_sleep_time'] = $start_sleep;
+			$data['start_sleep_time'] = $startSleep;
 		}
 
 		// Check if end_sleep is specified.
-		if ($end_sleep)
+		if ($endSleep)
 		{
-			$data['end_sleep_time'] = $end_sleep;
+			$data['end_sleep_time'] = $endSleep;
 		}
 
 		// Check if time_zone is specified.
-		if ($time_zone)
+		if ($timeZone)
 		{
-			$data['time_zone'] = $time_zone;
+			$data['time_zone'] = $timeZone;
 		}
 
 		// Check if lang is specified.

@@ -42,18 +42,27 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$app = JFactory::getApplication();
 
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
+		{
+			$catId = $params->get('catid');
+		}
+		else
+		{
+			$catId = 0;
+		}
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', $app->input->getInt('catid'));
+		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
@@ -212,6 +221,6 @@ class ContentModelForm extends ContentModelArticle
 			$form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
-		return parent::preprocessForm($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 }

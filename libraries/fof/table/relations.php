@@ -4,6 +4,7 @@
  * @subpackage  table
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 // Protect from unauthorized access
@@ -898,7 +899,7 @@ class FOFTableRelations
 	 *
 	 * @return  void
 	 */
-	protected function normaliseParameters($pivot = false, &$itemName, &$tableClass, &$localKey, &$remoteKey, &$ourPivotKey, &$theirPivotKey, &$pivotTable)
+	protected function normaliseParameters($pivot, &$itemName, &$tableClass, &$localKey, &$remoteKey, &$ourPivotKey, &$theirPivotKey, &$pivotTable)
 	{
 		// Get a default table class if none is provided
 		if (empty($tableClass))

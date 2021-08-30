@@ -93,17 +93,17 @@ class PlgContentContact extends JPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int  $created_by  Id of the user who created the contact
+	 * @param   int  $userId  Id of the user who created the article
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactData($created_by)
+	protected function getContactData($userId)
 	{
 		static $contacts = array();
 
-		if (isset($contacts[$created_by]))
+		if (isset($contacts[$userId]))
 		{
-			return $contacts[$created_by];
+			return $contacts[$userId];
 		}
 
 		$query = $this->db->getQuery(true);
@@ -111,7 +111,7 @@ class PlgContentContact extends JPlugin
 		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
 		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
-		$query->where('contact.user_id = ' . (int) $created_by);
+		$query->where('contact.user_id = ' . (int) $userId);
 
 		if (JLanguageMultilang::isEnabled() === true)
 		{
@@ -122,8 +122,8 @@ class PlgContentContact extends JPlugin
 
 		$this->db->setQuery($query);
 
-		$contacts[$created_by] = $this->db->loadObject();
+		$contacts[$userId] = $this->db->loadObject();
 
-		return $contacts[$created_by];
+		return $contacts[$userId];
 	}
 }

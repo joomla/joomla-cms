@@ -13,7 +13,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
-	<?php echo $headerText; ?>
+	<div class="bannerheader">
+		<?php echo $headerText; ?>
+	</div>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>

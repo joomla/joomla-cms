@@ -126,7 +126,16 @@ class FinderModelSearch extends JModelList
 		foreach ($rows as $rk => $row)
 		{
 			// Build the result object.
-			$result = unserialize($row->object);
+			if (is_resource($row->object))
+			{
+				$object = pg_unescape_bytea(stream_get_contents($row->object));
+				$result = unserialize(str_replace("''", "'", $object));
+			}
+			else
+			{
+				$result = unserialize($row->object);
+			}
+
 			$result->weight = $results[$rk];
 			$result->link_id = $rk;
 

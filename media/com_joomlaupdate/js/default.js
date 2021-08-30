@@ -4,6 +4,7 @@ function extractionMethodHandler(target, prefix)
 		$em = $(target);
 		displayStyle = ($em.val() === 'direct') ? 'none' : 'table-row';
 
+		document.getElementById(prefix + '_notice').style.display = displayStyle;
 		document.getElementById(prefix + '_hostname').style.display = displayStyle;
 		document.getElementById(prefix + '_port').style.display = displayStyle;
 		document.getElementById(prefix + '_username').style.display = displayStyle;
@@ -55,7 +56,64 @@ function extractionMethodHandler(target, prefix)
      * Called by document ready, setup below.
      */
     PreUpdateChecker.run = function () {
-        // Get version of the available joomla update
+
+		$('.settingstoggle').css('float', 'right').css('cursor', 'pointer');
+		$('.settingstoggle').on('click', function(toggle, index)
+		{
+			var settingsfieldset = $(this).closest('fieldset');
+			if($(this).data('state') == 'closed')
+			{
+				$(this).data('state', 'open');
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				settingsfieldset.find('.settingsInfo').removeClass('hidden');
+			}
+			else
+			{
+				$(this).data('state', 'closed');
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				settingsfieldset.find('.settingsInfo').addClass('hidden');
+			}
+		});
+
+		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+
+		// If there are no non Core Critical Plugins installed then disable the warnings upfront
+		if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0)
+		{
+			$('#preupdateCheckWarning, #preupdateconfirmation, #preupdatecheckbox, #preupdatecheckheadings').css('display', 'none');
+			$('#preupdatecheckbox #noncoreplugins').prop('checked', true);
+			$('button.submitupdate').removeClass('disabled');
+			$('button.submitupdate').prop('disabled', false);
+		}
+
+		// Grab all extensions based on the selector set in the config object
+		var $extensions = $(PreUpdateChecker.config.selector);
+
+		// If there are no extensions to be checked we can exit here
+		if ($extensions.length === 0)
+		{
+			return;
+		}
+
+		$('#preupdatecheckbox #noncoreplugins').on('change', function ()
+		{
+			if ($('#preupdatecheckbox #noncoreplugins').is(':checked')) {
+				if (confirm(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE'))) {
+					$('button.submitupdate').removeClass('disabled');
+					$('button.submitupdate').prop('disabled', false);
+				}
+				else
+				{
+					$('#preupdatecheckbox #noncoreplugins').prop('checked', false);
+				}
+			} else {
+				$('button.submitupdate').addClass('disabled');
+				$('button.submitupdate').prop('disabled', true);
+			}
+
+		});
+
+		// Get version of the available joomla update
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
         PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
 
@@ -72,12 +130,12 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
-				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
-				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span2');
+				compatibilitytypes.find('.extype').removeClass('span4').addClass('span1');
+				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span3');
+				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span3');
+				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span1');
 
 				if (PreUpdateChecker.showyellowwarning)
 				{
@@ -91,19 +149,18 @@ function extractionMethodHandler(target, prefix)
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
-				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
-				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span2');
+				compatibilitytypes.find('.extype').addClass('span4').removeClass('span1');
+				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span3');
+				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span3');
+				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span1');
 
 				compatibilitytypes.find("#updateyellowwarning").addClass('hidden');
 				compatibilitytypes.find("#updateorangewarning").addClass('hidden');
 			}
 		});
-        // Grab all extensions based on the selector set in the config object
-        var $extensions = $(PreUpdateChecker.config.selector);
+
         $extensions.each(function () {
             // Check compatibility for each extension, pass jQuery object and a callback
             // function after completing the request
@@ -155,6 +212,10 @@ function extractionMethodHandler(target, prefix)
         if (extensionData.serverError) {
 			// An error occurred -> show unknown error note
 			html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+			// force result into group 4 = Pre update checks failed
+			extensionData.compatibilityData = {
+				'resultGroup' : 4
+			}
 		}
         else {
 			// Switch the compatibility state
@@ -221,12 +282,80 @@ function extractionMethodHandler(target, prefix)
 
 		document.getElementById('compatibilitytype0').style.display = 'block';
 
+		// Process the nonCoreCriticalPlugin list
+		if (extensionData.compatibilityData.resultGroup === 3)
+		{
+			var pluginInfo;
+
+			for (var i = PreUpdateChecker.nonCoreCriticalPlugins.length - 1; i >= 0; i--)
+			{
+			  pluginInfo = PreUpdateChecker.nonCoreCriticalPlugins[i];
+
+			  if (pluginInfo.package_id == extensionId || pluginInfo.extension_id == extensionId)
+			  {
+				$('#plg_' + pluginInfo.extension_id).remove();
+				PreUpdateChecker.nonCoreCriticalPlugins.splice(i, 1);
+			  }
+			}
+		}
+
+		// Have we finished running through the potentially critical plugins - if so we can hide the warning before all the checks are completed
+		if ($('#preupdatecheckheadings table td').length == 0) {
+			$('#preupdatecheckheadings').css('display', 'none');
+		}
+
 		// Have we finished?
 		if ($('#compatibilitytype0 tbody td').length == 0) {
 			$('#compatibilitytype0').css('display', 'none');
+			for (var cpi in PreUpdateChecker.nonCoreCriticalPlugins)
+			{
+				var problemPluginRow = $('td[data-extension-id=' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id +']');
+				if (!problemPluginRow.length)
+				{
+					problemPluginRow = $('td[data-extension-id=' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id +']');
+				}
+				if (problemPluginRow.length)
+				{
+					var tableRow = problemPluginRow.closest('tr');
+					tableRow.addClass('error');
+					var pluginTitleTableCell = tableRow.find('td:first-child');
+					pluginTitleTableCell.html(pluginTitleTableCell.html()
+						+ '<span class="label label-warning " >'
+						+ '<span class="icon-warning"></span>'
+						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
+						+ '</span>'
+
+						+ '<span class="label label-info hasPopover" '
+						+ ' title="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') +'"'
+						+ ' data-content="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')  +'"'
+						+ '>'
+						+ '<span class="icon-help"></span>'
+						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')
+						+ '</span>'
+					);
+					var popoverElement = pluginTitleTableCell.find('.hasPopover');
+					popoverElement.css('cursor', 'pointer')
+					popoverElement.popover({"placement": "top","trigger": "focus click"});
+				}
+			}
+			if (PreUpdateChecker.nonCoreCriticalPlugins.length == 0)
+			{
+				$('#preupdateCheckWarning, #preupdateconfirmation, #preupdatecheckbox, #preupdatecheckheadings').css('display', 'none');
+				$('#preupdatecheckbox #noncoreplugins').prop('checked', true);
+				$('button.submitupdate').removeClass('disabled');
+				$('button.submitupdate').prop('disabled', false);
+			}
+			else {
+				$('#preupdateCheckWarning').addClass('hidden');
+				$('#preupdateCheckCompleteProblems').removeClass('hidden');
+				$('#preupdateconfirmation .preupdateconfirmation_label h3').html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST'))
+				$('#preupdateconfirmation .preupdateconfirmation_label').removeClass('label-warning').addClass('label-important')
+			}
 		}
     }
 
     // Run PreUpdateChecker on document ready
-    $(PreUpdateChecker.run);
+	document.addEventListener( "DOMContentLoaded", function() {
+		$(PreUpdateChecker.run);
+	} );
 })(jQuery, document, window);

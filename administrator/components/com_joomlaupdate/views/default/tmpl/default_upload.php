@@ -144,6 +144,14 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo $this->methodSelectUpload; ?>
 				</td>
 			</tr>
+			<tr id="upload_ftp_notice" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_NOTICE'); ?>
+				</td>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_NOTICE_MESSAGE'); ?>
+				</td>
+			</tr>
 			<tr id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>

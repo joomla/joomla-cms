@@ -127,12 +127,12 @@ class SiteMenu extends AbstractMenu
 
 			if (isset($this->_items[$item->parent_id]))
 			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+				$parent_tree = $this->_items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -180,7 +180,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
+				$values[]     = $this->user->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -190,7 +190,7 @@ class SiteMenu extends AbstractMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}

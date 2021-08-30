@@ -174,7 +174,7 @@
 			element="com_actionlogs"
 			link="index.php?option=com_actionlogs"
 			class="class:userlogs"
-		/>		
+		/>
 		<menuitem
 			type="separator"
 		/>
@@ -403,13 +403,13 @@
 			title="MOD_MENU_EXTENSIONS_EXTENSIONS"
 			type="component"
 			element="com_installer"
-			link="index.php?option=com_installer"
+			link="index.php?option=com_installer&amp;view=manage"
 			class="class:install">
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_INSTALL"
 				type="component"
 				element="com_installer"
-				link="index.php?option=com_installer"
+				link="index.php?option=com_installer&amp;view=install"
 				class="class:install"
 			/>
 			<menuitem
@@ -581,7 +581,7 @@
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_RESOURCES"
-			link="https://resources.joomla.org"
+			link="https://community.joomla.org/service-providers-directory/"
 			class="class:help-jrd"
 			scope="help"
 		/>
