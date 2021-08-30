@@ -96,43 +96,6 @@ class TaskController extends FormController
 	}
 
 	/**
-	 * Edit an existing record
-	 *
-	 * ! Just acting as a proxy to the parent method at the moment
-	 *   Due removal if no additional handling needed here ⚠
-	 *
-	 * @param   string  $key     Name of primary key from urlVar
-	 * @param   string  $urlVar  Name of urlVar if different from primary key [?]
-	 *
-	 * @return boolean  True if access user has sufficient privileges
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function edit($key = null, $urlVar = null): bool
-	{
-		// @todo: Change or remove
-		return parent::edit($key, $urlVar);
-	}
-
-	/**
-	 * Check if user has permissions to add an entry
-	 *
-	 * ! Does nothing at the moment
-	 *   Remove if no special handling required ⚠
-	 *
-	 * @param   array  $data  Array of input data
-	 *
-	 * @return boolean  True if user can add an entry
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function allowAdd($data = array()): bool
-	{
-		// @todo: Change or remove
-		return parent::allowAdd($data);
-	}
-
-	/**
 	 * Check if user has the authority to edit an asset
 	 *
 	 * @param   array   $data  Array of input data
