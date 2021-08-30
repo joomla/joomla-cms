@@ -35,7 +35,7 @@ class TaskTypeField extends ListField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'TaskType';
+	protected $type = 'taskType';
 
 	/**
 	 * Method to get field options
