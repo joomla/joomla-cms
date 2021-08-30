@@ -22,6 +22,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use function defined;
 
@@ -78,10 +79,11 @@ class HtmlView extends BaseHtmlView
 	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
 	 *                          charset: the character set to use for display
 	 *                          escape: the name (optional) of the function to use for escaping strings
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-	 *                          layout: the layout (optional) to use to display the view
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component
+	 *                          folder) template_plath: the path (optional) of the layout directory (defaults to
+	 *                          base_path + /views/ + view name helper_path: the path (optional) of the helper files
+	 *                          (defaults to base_path + /helpers/) layout: the layout (optional) to use to display the
+	 *                          view
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
@@ -127,41 +129,26 @@ class HtmlView extends BaseHtmlView
 		$app = $this->app;
 
 		$app->getInput()->set('hidemainmenu', true);
-		$user = $app->getIdentity();
-		$userId = $user->id;
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
+		/*
+		 * Get the toolbar object instance
+		 * !! @todo : Replace usage with ToolbarFactoryInterface
+		 */
+		$toolbar = Toolbar::getInstance();
+
 		ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');
 
-		// Goes into ToolbarHelper::saveGroup()
-		$toolbarButtons = [];
-
-		// For a new task, check if user has 'core.create' access
-		if ($isNew && $canDo->get('core.create'))
+		if ($isNew && $canDo->get('core.create') || !$isNew && $canDo->get('core.edit'))
 		{
-			// The task.apply task maps to the save() method in TaskController
-			ToolbarHelper::apply('task.apply');
-
-			$toolbarButtons[] = ['save', 'task.save'];
-		}
-		else
-		{
-			if (!$isNew && $canDo->get('core.edit'))
-			{
-				ToolbarHelper::apply('task.apply');
-				$toolbarButtons[] = ['save', 'task.save'];
-
-				// @todo | ? : Do we need save2new and save2copy? If yes, need to support in the Model,
-				// 			  here and the Controller.
-			}
+			$toolbar->apply('task.apply');
+			$toolbar->save('task.save');
 		}
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons
-		);
+		// @todo | ? : Do we need save2new, save2copy?
 
-		ToolbarHelper::cancel('task.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-		ToolbarHelper::help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
+		$toolbar->cancel('task.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
 }
