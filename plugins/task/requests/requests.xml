@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="4.1" type="plugin" group="task" method="upgrade">
-	<name>Requests</name>
-	<author>Joomla! Projects</author>
+	<name>PLG_TASK_REQUESTS</name>
+	<author>Joomla! Project</author>
 	<creationDate>August 2021</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1</version>
@@ -12,7 +12,7 @@
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_task_requests.ini</language>
-		<language tag="en-GB">en-GB.plg_task_requests.sys.ini</language>
+		<language tag="en-GB">plg_task_requests.ini</language>
+		<language tag="en-GB">plg_task_requests.sys.ini</language>
 	</languages>
 </extension>

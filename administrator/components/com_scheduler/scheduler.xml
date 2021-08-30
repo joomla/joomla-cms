@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
 	<name>com_scheduler</name>
 	<creationDate>July 2021</creationDate>
-	<author>Joomla! Projects</author>
+	<author>Joomla! Project</author>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>4.1.0</version>
 	<description>
