@@ -66,6 +66,14 @@ class Update extends \JObject
 	protected $version;
 
 	/**
+	 * Update manifest `<version>` element of minimum compatible version
+	 *
+	 * @var    \stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $minCompatibleVersion;
+
+	/**
 	 * Update manifest `<infourl>` element
 	 *
 	 * @var    string
@@ -411,16 +419,16 @@ class Update extends \JObject
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
-						if (isset($this->latest))
-						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
-						}
-						else
+						if (!isset($this->latest)
+							|| version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 						{
 							$this->latest = $this->currentUpdate;
+						}
+
+						if (!isset($this->minCompatibleVersion)
+							|| version_compare($this->currentUpdate->version->_data, $this->minCompatibleVersion->_data, '<'))
+						{
+							$this->minCompatibleVersion = $this->currentUpdate->version;
 						}
 					}
 				}

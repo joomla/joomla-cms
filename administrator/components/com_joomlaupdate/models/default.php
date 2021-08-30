@@ -1750,7 +1750,7 @@ ENDDATA;
 
 		$downloadUrl = $update->get('downloadurl');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		return !empty($downloadUrl->_data) ? $update->get('minCompatibleVersion') : false;
 	}
 
 	/**
