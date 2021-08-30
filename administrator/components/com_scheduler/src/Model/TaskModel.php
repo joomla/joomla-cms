@@ -101,6 +101,7 @@ class TaskModel extends AdminModel
 		);
 
 		$this->app = Factory::getApplication();
+
 		parent::__construct($config, $factory, $formFactory);
 	}
 

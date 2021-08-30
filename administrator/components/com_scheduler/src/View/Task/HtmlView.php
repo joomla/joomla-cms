@@ -111,6 +111,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions('com_scheduler', 'task', $this->item->id);
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 

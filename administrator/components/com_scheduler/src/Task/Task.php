@@ -84,9 +84,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$taskOption = $record->taskOption;
 
 		parent::__construct($record);
+
 		$this->set('taskOption', $taskOption);
 		$this->app = Factory::getApplication();
-		$container = Factory::getContainer();
 		$this->db = Factory::getContainer()->get(DatabaseDriver::class);
 		$this->setLogger(Log::createDelegatedLogger());
 		$this->logCategory = 'task' . $this->get('id');

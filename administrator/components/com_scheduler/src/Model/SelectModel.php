@@ -51,6 +51,7 @@ class SelectModel extends ListModel
 	public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
 	{
 		$this->app = Factory::getApplication();
+
 		parent::__construct($config, $factory);
 	}
 

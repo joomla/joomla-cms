@@ -60,7 +60,7 @@ class ExecRuleHelper
 		$this->task = is_array($task) ? $task : ArrayHelper::fromObject($task);
 		$rule = $this->getFromTask('cron_rules');
 		$this->rule = is_string($rule)
-			? json_decode($rule)
+			? (object) json_decode($rule)
 			: (is_array($rule) ? (object) $rule : $rule);
 		$this->type = $this->rule->type;
 	}
