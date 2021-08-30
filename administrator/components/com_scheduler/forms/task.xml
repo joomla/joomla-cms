@@ -5,19 +5,21 @@
 	addruleprefix="Joomla\Component\Scheduler\Administrator\Rule"
 >
 	<fields>
-		<field name="title"
-					 type="text"
-					 label="JGLOBAL_TITLE"
-					 size="40"
-					 maxlength="100"
-					 required="true"
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="40"
+			maxlength="100"
+			required="true"
 		/>
 		<fieldset name="basic">
-			<field name="trigger"
-						 type="list"
-						 label="COM_SCHEDULER_SELECT_TRIGGER"
-						 validate="options"
-						 required="true"
+			<field
+				name="trigger"
+				type="list"
+				label="COM_SCHEDULER_SELECT_TRIGGER"
+				validate="options"
+				required="true"
 				>
 				<option value="pseudo_cron">COM_SCHEDULER_TRIGGER_PSEUDOCRON</option>
 				<option value="cron">COM_SCHEDULER_TRIGGER_CRON</option>
@@ -45,7 +47,6 @@
 		</fieldset>
 
 		<fieldset name="exec_hist">
-			<!-- Last exit code -->
 			<field
 				name="last_exit_code"
 				type="number"
@@ -102,7 +103,9 @@
 				maxlength="1024"
 			/>
 			<field
-				name="asset_id" type="hidden" filter="unset"
+				name="asset_id"
+				type="hidden"
+				filter="unset"
 			/>
 			<field
 				name="created"
@@ -195,7 +198,10 @@
 			/>
 		</fieldset>
 
-		<fieldset name="custom-cron-rules" label="COM_SCHEDULER_LABEL_EXEC_INTERVAL">
+		<fieldset
+			name="custom-cron-rules"
+			label="COM_SCHEDULER_LABEL_EXEC_INTERVAL"
+			>
 			<fields name="custom">
 				<field
 					name="minutes"
@@ -241,7 +247,6 @@
 		</fieldset>
 	</fields>
 
-	<!-- The 'params' field group -->
 	<fields name="params">
 		<!-- ! Fieldset should be removed, once the issue with
 				 ! joomla.edit.params is resolved in the template -->
