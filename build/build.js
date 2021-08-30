@@ -88,8 +88,8 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   allowedVersion();
-  Promise.all([cleanVendors()])
-    .then(() => recreateMediaFolder())
+  recreateMediaFolder(options)
+    .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())
@@ -101,20 +101,20 @@ if (Program.copyAssets) {
 
 // Creates the error pages for unsupported PHP version & incomplete environment
 if (Program.buildPages) {
-  Promise.all([createErrorPages(options)])
-    .catch((err) => handleError(err, 1));
+  createErrorPages(options)
+  .catch((err) => handleError(err, 1));
 }
 
 // Convert scss to css
 if (Program.compileCss) {
-  Promise.all([stylesheets(options, Program.args[0])])
-    .catch((err) => handleError(err, 1));
+  stylesheets(options, Program.args[0])
+  .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  Promise.all([scripts(options, Program.args[0])])
-    .catch((err) => handleError(err, 1));
+  scripts(options, Program.args[0])
+  .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
@@ -145,35 +145,32 @@ if (Program.watchComMedia) {
 
 // Update the .js/.css versions
 if (Program.versioning) {
-  Promise.all([versioning()])
-    .catch((err) => handleError(err, 1));
+  versioning()
+  .catch((err) => handleError(err, 1));
 }
 
 // Prepare the repo for dev work
 if (Program.prepare) {
-  (async () => {
     const bench = new Timer('Build');
-    try {
-      allowedVersion();
-      await cleanVendors();
-      await recreateMediaFolder();
-      await localisePackages(options);
-      await patchPackages(options);
-      await Promise.all([
+    allowedVersion();
+    recreateMediaFolder(options)
+    .then(() => cleanVendors())
+    .then(() => localisePackages(options))
+    .then(() => Promise.all(
+      [
+        patchPackages(options),
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
-        mediaManager(true),
-      ]);
-      bench.stop('Build');
-    } catch (err) {
+        mediaManager(true)
+      ]))
+    .then(() => bench.stop('Build'))
+    .then(() => { process.exit(0); })
+    .catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
       process.exit(-1);
-    }
-
-    process.exit(0);
-  })();
+    });
 }

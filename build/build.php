@@ -6,8 +6,13 @@
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
@@ -371,10 +376,13 @@ $doNotPackage = array(
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
+	'plugins/sampledata/testing/testing.php',
+	'plugins/sampledata/testing/testing.xml',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
 	'selenium.log',
 	'tests',
 	// Media Manager Node Assets
-	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
 );
 
@@ -540,6 +548,9 @@ for ($num = $release - 1; $num >= 0; $num--)
 echo "Build full package files.\n";
 chdir($time);
 
+// The search package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
+
 // Create full archive packages.
 if (!$excludeBzip2)
 {
@@ -587,6 +598,9 @@ system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
+// Move the search manifest back
+system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
+
 if (!$excludeBzip2)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
@@ -625,7 +639,7 @@ if (!$excludeZstd)
 
 chdir('..');
 
-// Thats only needed when we release a version
+// This is only needed when we release a version
 if ($includeExtraTextfiles)
 {
 

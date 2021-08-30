@@ -50,7 +50,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 0;
+	const PATCH_VERSION = 3;
 
 	/**
 	 * Extra release version info.
@@ -77,7 +77,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Mañana';
+	const CODENAME = 'Furaha';
 
 	/**
 	 * Release date.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '10-August-2021';
+	const RELDATE = '24-August-2021';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '23:02';
+	const RELTIME = '22:15';
 
 	/**
 	 * Release timezone.

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Version;
 
 /**
  * Joomla! Update's Default View
@@ -87,6 +88,14 @@ class HtmlView extends BaseHtmlView
 	protected $messagePrefix = '';
 
 	/**
+	 * Flag if the update component itself has to be updated
+	 *
+	 * @var    \stdClass[]
+	 * @since  4.0.0
+	 */
+	protected $nonCoreCriticalPlugins = [];
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -104,7 +113,13 @@ class HtmlView extends BaseHtmlView
 		$this->phpOptions             = $this->get('PhpOptions');
 		$this->phpSettings            = $this->get('PhpSettings');
 		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		$nextMajorVersion             = Version::MAJOR_VERSION + 1;
+
+		// The critical plugins check is only available for major updates.
+		if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>='))
+		{
+			$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		}
 
 		// Set to true if a required PHP option is not ok
 		$isCritical = false;
@@ -172,7 +187,6 @@ class HtmlView extends BaseHtmlView
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -194,6 +208,7 @@ class HtmlView extends BaseHtmlView
 			 * "Minor & Patch Release for Current version (recommended and default)".
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
+			 * case 'sts':
 			 * case 'lts':
 			 * case 'nochange':
 			 */
@@ -255,7 +270,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& !empty($this->updateInfo['hasUpdate']);
+		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+			&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
 	}
 }

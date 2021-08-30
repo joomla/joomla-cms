@@ -14,9 +14,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
