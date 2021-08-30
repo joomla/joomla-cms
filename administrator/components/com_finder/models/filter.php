@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,16 +35,16 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Custom clean cache method.
 	 *
-	 * @param   string   $group      The component name. [optional]
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The component name. [optional]
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $client_id = 1)
+	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group, $client_id);
+		parent::cleanCache($group, $clientId);
 	}
 
 	/**

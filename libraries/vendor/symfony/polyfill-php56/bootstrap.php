@@ -16,7 +16,7 @@ if (PHP_VERSION_ID >= 50600) {
 }
 
 if (!function_exists('hash_equals')) {
-    function hash_equals($knownString, $userInput) { return p\Php56::hash_equals($knownString, $userInput); }
+    function hash_equals($known_string, $user_string) { return p\Php56::hash_equals($known_string, $user_string); }
 }
 if (extension_loaded('ldap') && !defined('LDAP_ESCAPE_FILTER')) {
     define('LDAP_ESCAPE_FILTER', 1);
@@ -26,7 +26,7 @@ if (extension_loaded('ldap') && !defined('LDAP_ESCAPE_DN')) {
 }
 
 if (extension_loaded('ldap') && !function_exists('ldap_escape')) {
-    function ldap_escape($subject, $ignore = '', $flags = 0) { return p\Php56::ldap_escape($subject, $ignore, $flags); }
+    function ldap_escape($value, $ignore = '', $flags = 0) { return p\Php56::ldap_escape($value, $ignore, $flags); }
 }
 
 if (50509 === PHP_VERSION_ID && 4 === PHP_INT_SIZE) {
@@ -36,9 +36,9 @@ if (50509 === PHP_VERSION_ID && 4 === PHP_INT_SIZE) {
         function gzopen($filename, $mode, $use_include_path = 0) { return gzopen64($filename, $mode, $use_include_path); }
     }
     if (!function_exists('gzseek') && function_exists('gzseek64')) {
-        function gzseek($zp, $offset, $whence = SEEK_SET) { return gzseek64($zp, $offset, $whence); }
+        function gzseek($fp, $offset, $whence = SEEK_SET) { return gzseek64($fp, $offset, $whence); }
     }
     if (!function_exists('gztell') && function_exists('gztell64')) {
-        function gztell($zp) { return gztell64($zp); }
+        function gztell($fp) { return gztell64($fp); }
     }
 }

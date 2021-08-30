@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ class LimitboxField extends \JFormFieldList
 	protected function getOptions()
 	{
 		// Accepted modifiers
-		$hash = md5($this->element);
+		$hash = md5($this->element->asXML());
 
 		if (!isset(static::$options[$hash]))
 		{

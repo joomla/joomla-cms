@@ -12,17 +12,16 @@ use Joomla\Language\Language;
 use Joomla\String\StringHelper;
 
 /**
- * OutputFilter
+ * OutputFilter is a class for processing an output string for "safe" display
  *
  * @since  1.0
  */
 class OutputFilter
 {
 	/**
-	 * Makes an object safe to display in forms
+	 * Makes an object safe to display in forms.
 	 *
-	 * Object parameters that are non-string, array, object or start with underscore
-	 * will be converted
+	 * Object parameters that are non-string, array, object or start with underscore will be converted
 	 *
 	 * @param   object   $mixed        An object to be parsed
 	 * @param   integer  $quoteStyle   The optional quote style for the htmlspecialchars function
@@ -59,7 +58,7 @@ class OutputFilter
 	}
 
 	/**
-	 * This method processes a string and replaces all instances of & with &amp; in links only.
+	 * Makes a string safe for XHTML output by escaping ampersands in links.
 	 *
 	 * @param   string  $input  String to process
 	 *
@@ -82,8 +81,10 @@ class OutputFilter
 	}
 
 	/**
+	 * Generates a URL safe version of the specified string with language transliteration.
+	 *
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
-	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
+	 * ASCII-7 "equivalents"; whitespaces are replaced by hyphens and the string is lowercased.
 	 *
 	 * @param   string  $string    String to process
 	 * @param   string  $language  Language to transliterate to
@@ -114,7 +115,7 @@ class OutputFilter
 	}
 
 	/**
-	 * This method implements unicode slugs instead of transliteration.
+	 * Generates a URL safe version of the specified string with unicode character replacement.
 	 *
 	 * @param   string  $string  String to process
 	 *
@@ -148,7 +149,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Replaces &amp; with & for XHTML compliance
+	 * Makes a string safe for XHTML output by escaping ampersands.
 	 *
 	 * @param   string  $text  Text to process
 	 *
@@ -162,7 +163,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Cleans text of all formatting and scripting code
+	 * Cleans text of all formatting and scripting code.
 	 *
 	 * @param   string  $text  Text to clean
 	 *
@@ -186,7 +187,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Strip img-tags from string
+	 * Strips `<img>` tags from a string.
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *
@@ -200,7 +201,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Strip iframe-tags from string
+	 * Strips `<iframe>` tags from a string.
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *

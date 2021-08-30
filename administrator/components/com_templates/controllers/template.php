@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
+
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Template style controller class.
@@ -57,7 +59,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	{
 		$app  = JFactory::getApplication();
 		$file = base64_encode('home');
-		$id   = $app->input->get('id');
+		$id   = (int) $app->input->get('id', 0, 'int');
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 		$this->setRedirect(JRoute::_($url, false));
 	}
@@ -76,10 +78,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
-		$newName    = $this->input->get('new_name');
-		$newNameRaw = $this->input->get('new_name', null, 'string');
-		$templateID = $this->input->getInt('id', 0);
-		$file       = $this->input->get('file');
+		$newName    = (string) $this->input->get('new_name', null, 'cmd');
+		$newNameRaw = (string) $this->input->get('new_name', null, 'string');
+		$templateID = (int) $this->input->get('id', 0, 'int');
+		$file       = (string) $this->input->get('file', '', 'cmd');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -206,7 +208,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
 		$model        = $this->getModel();
-		$fileName     = $app->input->get('file');
+		$fileName     = (string) $app->input->get('file', '', 'cmd');
 		$explodeArray = explode(':', base64_decode($fileName));
 
 		// Access check.
@@ -300,7 +302,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			default:
 				// Redirect to the list screen.
 				$file = base64_encode('home');
-				$id   = $app->input->get('id');
+				$id   = (int) $app->input->get('id', 0, 'int');
 				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 				$this->setRedirect(JRoute::_($url, false));
 				break;
@@ -321,9 +323,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
-		$file     = $app->input->get('file');
-		$override = base64_decode($app->input->get('folder'));
-		$id       = $app->input->get('id');
+		$file     = (string) $app->input->get('file', '', 'cmd');
+		$override = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('folder', '', 'base64')), 'path');
+		$id       = (int) $app->input->get('id', 0, 'int');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -358,8 +360,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
-		$id    = $app->input->get('id');
-		$file  = $app->input->get('file');
+		$id    = (int) $app->input->get('id', 0, 'int');
+		$file  = (string) $app->input->get('file', '', 'cmd');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -396,8 +398,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
-		$id    = $app->input->get('id');
-		$file  = $app->input->get('file');
+		$id    = (int) $app->input->get('id', 0, 'int');
+		$file  = (string) $app->input->get('file', '', 'cmd');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -443,11 +445,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
-		$id       = $app->input->get('id');
-		$file     = $app->input->get('file');
-		$name     = $app->input->get('name');
-		$location = base64_decode($app->input->get('address'));
-		$type     = $app->input->get('type');
+		$id       = (int) $app->input->get('id', 0, 'int');
+		$file     = (string) $app->input->get('file', '', 'cmd');
+		$name     = (string) $app->input->get('name', '', 'cmd');
+		$location = (string) InputFilter::getinstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('address', '', 'base64')), 'path');
+		$type     = (string) $app->input->get('type', '', 'cmd');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -498,10 +500,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
-		$id       = $app->input->get('id');
-		$file     = $app->input->get('file');
+		$id       = (int) $app->input->get('id', 0, 'int');
+		$file     = (string) $app->input->get('file', '', 'cmd');
 		$upload   = $app->input->files->get('files');
-		$location = base64_decode($app->input->get('address'));
+		$location = (string) InputFilter::getinstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('address', '', 'base64')), 'path');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -540,10 +542,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
-		$id       = $app->input->get('id');
-		$file     = $app->input->get('file');
+		$id       = (int) $app->input->get('id', 0, 'int');
+		$file     = (string) $app->input->get('file', '', 'cmd');
 		$name     = $app->input->get('name');
-		$location = base64_decode($app->input->get('address'));
+		$location = (string) InputFilter::getinstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('address', '', 'base64')), 'path');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -587,9 +589,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
-		$id       = $app->input->get('id');
-		$file     = $app->input->get('file');
-		$location = base64_decode($app->input->get('address'));
+		$id       = (int) $app->input->get('id', 0, 'int');
+		$file     = (string) $app->input->get('file', '', 'cmd');
+		$location = (string) InputFilter::getinstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('address', '', 'base64')), 'path');
 
 		// Access check.
 		if (!$this->allowEdit())
@@ -639,8 +641,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
-		$id      = $app->input->get('id');
-		$file    = $app->input->get('file');
+		$id      = (int) $app->input->get('id', 0, 'int');
+		$file    = (string) $app->input->get('file', '', 'cmd');
 		$newName = $app->input->get('new_name');
 
 		// Access check.
@@ -690,8 +692,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$this->checkToken();
 
 		$app   = JFactory::getApplication();
-		$id    = $app->input->get('id');
-		$file  = $app->input->get('file');
+		$id    = (int) $app->input->get('id', 0, 'int');
+		$file  = (string) $app->input->get('file', '', 'cmd');
 		$x     = $app->input->get('x');
 		$y     = $app->input->get('y');
 		$w     = $app->input->get('w');
@@ -739,8 +741,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$this->checkToken();
 
 		$app    = JFactory::getApplication();
-		$id     = $app->input->get('id');
-		$file   = $app->input->get('file');
+		$id     = (int) $app->input->get('id', 0, 'int');
+		$file   = (string) $app->input->get('file', '', 'cmd');
 		$width  = $app->input->get('width');
 		$height = $app->input->get('height');
 		$model  = $this->getModel();
@@ -780,10 +782,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$this->checkToken();
 
 		$app      = JFactory::getApplication();
-		$id       = $app->input->get('id');
-		$file     = $app->input->get('file');
+		$id       = (int) $app->input->get('id', 0, 'int');
+		$file     = (string) $app->input->get('file', '', 'cmd');
 		$newName  = $app->input->get('new_name');
-		$location = base64_decode($app->input->get('address'));
+		$location = (string) InputFilter::getinstance(array(), array(), 1, 1)->clean(base64_decode($app->input->get('address', '', 'base64')), 'path');
 		$model    = $this->getModel();
 
 		// Access check.
@@ -826,8 +828,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$this->checkToken();
 
 		$app   = JFactory::getApplication();
-		$id    = $app->input->get('id');
-		$file  = $app->input->get('file');
+		$id    = (int) $app->input->get('id', 0, 'int');
+		$file  = (string) $app->input->get('file', '', 'cmd');
 		$model = $this->getModel();
 
 		// Access check.
