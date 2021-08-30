@@ -29,7 +29,7 @@ class TaskStateField extends PredefinedlistField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $type = 'TaskState';
+	public $type = 'taskState';
 
 	/**
 	 * Available states

@@ -11,7 +11,7 @@
 		/>
 		<field
 			name="state"
-			type="TaskState"
+			type="taskState"
 			label="JSTATUS"
 			onchange="this.form.submit();"
 			validate="options"
@@ -20,7 +20,7 @@
 		</field>
 		<field
 			name="type"
-			type="TaskType"
+			type="taskType"
 			label="COM_SCHEDULER_HEADING_TASK_TYPE"
 			onchange="this.form.submit();"
 			>

@@ -30,7 +30,7 @@
 		<fieldset name="aside">
 			<field
 				name="state"
-				type="TaskState"
+				type="taskState"
 				label="JSTATUS"
 				default="1"
 				class="form-select-color-state"
