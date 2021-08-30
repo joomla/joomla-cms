@@ -40,8 +40,8 @@ $moduleHtml = preg_replace(
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|address|article|form) [^>]*>)/',
 	// Create and add the edit link and tooltip
 	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="tip-' . (int) $mod->id . '">
-	<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
-	<div role="tooltip" id="tip-' . (int) $mod->id . '">' . Text::_('JLIB_HTML_EDIT_MODULE') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>'. sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')) . '</div>',
+	<span class="icon-edit" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('JGLOBAL_EDIT') . '</span></a>
+	<div role="tooltip" id="tip-' . (int) $mod->id . '">' . Text::_('JLIB_HTML_EDIT_MODULE') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')) . '</div>',
 	$moduleHtml,
 	1,
 	$count
@@ -61,7 +61,7 @@ if ($menusEditing && $mod->module === 'mod_menu')
 				$menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
 				$moduleHtml = preg_replace(
 					// Find the link
-					'/(<li.*?\bitem-'. $menuItemid .'.*?>)/',
+					'/(<li.*?\bitem-' . $menuItemid . '.*?>)/',
 					// Create and add the edit link
 					'\\1 <a class="jmenuedit small" href="' . $menuitemEditUrl . '" target="' . $target . '" title="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
 					<span class="icon-edit" aria-hidden="true"></span></a>',

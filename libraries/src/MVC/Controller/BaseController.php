@@ -678,7 +678,7 @@ class BaseController implements ControllerInterface
 
 			try
 			{
-				/** @var \JCacheControllerView $cache */
+				/** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}

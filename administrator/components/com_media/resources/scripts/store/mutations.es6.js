@@ -1,6 +1,5 @@
 import * as types from './mutation-types.es6';
-
-const nodePath = require('path');
+import { dirname } from '../app/path';
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
@@ -57,7 +56,7 @@ export default {
          */
     function directoryFromPath(path) {
       const parts = path.split('/');
-      let directory = nodePath.dirname(path);
+      let directory = dirname(path);
       if (directory.indexOf(':', directory.length - 1) !== -1) {
         directory += '/';
       }

@@ -66,7 +66,7 @@ class DataFormatter extends DebugBarDataFormatter
 				// Keep only the size of array
 				if (\is_array($arg))
 				{
-					$arg = 'Array(count=' . count($arg) . ')';
+					$arg = 'Array(count=' . \count($arg) . ')';
 				}
 
 				$string .= htmlspecialchars($arg) . ', ';

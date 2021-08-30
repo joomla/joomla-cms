@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
@@ -36,6 +37,12 @@ class DiscoverController extends BaseController
 		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
+
+		if (!$model->getTotal())
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_DISCOVERED'), 'info');
+		}
+
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
 	}
 

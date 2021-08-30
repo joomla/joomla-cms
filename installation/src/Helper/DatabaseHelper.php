@@ -238,7 +238,7 @@ abstract class DatabaseHelper
 			return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
 		}
 
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
+		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name))
 		{
 			return Text::_('INSTL_DATABASE_NAME_MSG_MYSQL');
 		}

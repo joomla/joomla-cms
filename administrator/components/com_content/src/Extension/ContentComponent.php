@@ -196,6 +196,22 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string
+	{
+		$context = $this->getWorkflowContexts();
+
+		return array_key_first($context);
+	}
+
+	/**
 	 * Returns the table for the count items functions for the given section.
 	 *
 	 * @param   string  $section  The section

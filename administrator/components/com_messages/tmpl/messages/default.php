@@ -61,7 +61,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->message_id); ?>
+							<?php echo HTMLHelper::_('grid.id', $i, $item->message_id, false, 'cid', 'cb', $item->subject); ?>
 						</td>
 						<th scope="row">
 							<a href="<?php echo Route::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">

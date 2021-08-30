@@ -48,7 +48,13 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
+$attributes = [
+	'type="email"',
+	'inputmode="email"',
+	'name="' . $name . '"',
+	'class="form-control validate-email' . (!empty($class) ? ' ' . $class : '') . '"',
+	'id="' . $id . '"',
+	'value="' . htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8') . '"',
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
@@ -62,14 +68,6 @@ $attributes = array(
 	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 	$dataAttribute,
-);
+];
 
-?>
-<input
-	type="email"
-	inputmode="email"
-	name="<?php echo $name; ?>"
-	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+echo '<input ' . implode(' ', array_values(array_filter($attributes))) . '>';

@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</a>
 								<?php endif; ?>
 								<?php if ($item->core_state == 0) : ?>
-									<span class="list-published badge bg-warning text-dark">
+									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JUNPUBLISHED'); ?>
 									</span>
 								<?php endif; ?>
@@ -116,7 +116,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-tags-tag-list__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter float-end pt-3 pr-2">
+					<p class="counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

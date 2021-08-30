@@ -61,7 +61,7 @@ $wa  = $doc->getWebAssetManager();
 // Add assets
 $wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
 	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
-	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['defer' => true], ['core', 'dragula']);
+	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['core', 'dragula']);
 
 // Add TinyMCE language file to translate the buttons
 if ($languageFile)
@@ -88,11 +88,11 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 	<div class="tox tox-tinymce">
 		<div class="tox-editor-container">
 
-			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+			<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
 				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+			<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
 				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
 
@@ -100,6 +100,7 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 	</div>
 
 	<hr>
+	<h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
 	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<?php // Render tabs for each set ?>
@@ -150,7 +151,8 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
-				<div class="btn-toolbar float-end">
+				<?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+				<div class="btn-toolbar float-end mt-3">
 					<div class="btn-group btn-group-sm">
 
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
@@ -164,7 +166,8 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 
 						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo Text::_('JCLEAR'); ?></button>
+							<?php echo Text::_('JCLEAR'); ?>
+						</button>
 					</div>
 				</div>
 
@@ -172,15 +175,15 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 
 				<div class="tox tox-tinymce mb-3">
 					<div class="tox-editor-container">
-						<div class="tox-menubar timymce-builder-menu target"
+						<div class="tox-menubar tinymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>

@@ -28,12 +28,12 @@ use Joomla\Utilities\ArrayHelper;
 class UsersModel extends ListModel
 {
 	/**
-	 * A blacklist of filter variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  3.9.23
+	 * @since  4.0.0
 	 */
-	protected $filterBlacklist = array('groups', 'excluded');
+	protected $filterForbiddenList = array('groups', 'excluded');
 
 	/**
 	 * Override parent constructor.
@@ -574,7 +574,7 @@ class UsersModel extends ListModel
 		{
 			$result = $db->setQuery($query)->loadColumn();
 		}
-		catch (\RunTimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$result = array();
 		}

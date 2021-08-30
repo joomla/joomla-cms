@@ -39,6 +39,11 @@ Joomla.toggleAllNextElements = (element, className) => {
 
   document.addEventListener('DOMContentLoaded', () => {
     const dropDownBtn = document.getElementById('toolbar-status-group');
+
+    if (!dropDownBtn) {
+      return;
+    }
+
     const transitions = [].slice.call(dropDownBtn.querySelectorAll('.button-transition'));
     const headline = dropDownBtn.querySelector('.button-transition-headline');
     const separator = dropDownBtn.querySelector('.button-transition-separator');

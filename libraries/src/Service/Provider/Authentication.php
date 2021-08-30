@@ -25,7 +25,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the authentication dependencies
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Authentication implements ServiceProviderInterface
 {
@@ -36,7 +36,7 @@ class Authentication implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

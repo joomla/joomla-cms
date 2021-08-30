@@ -60,7 +60,7 @@ class SessionCollector  extends AbstractDataCollector
 
 	/**
 	 * Returns a hash where keys are control names and their values
-	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  4.0.0
 	 *
@@ -73,8 +73,8 @@ class SessionCollector  extends AbstractDataCollector
 				'icon' => 'key',
 				'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
 				'map' => $this->name . '.data',
-				'default' => '[]'
-			]
+				'default' => '[]',
+			],
 		];
 	}
 }

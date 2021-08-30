@@ -10,8 +10,6 @@
   background: $form-select-background;
   background-color: $form-select-bg;
   border: $input-border;
-  // var needed
-  box-shadow: $input-box-shadow;
 
   [dir=rtl] & {
     padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
@@ -28,8 +26,8 @@
       background-color: var(--white-offset);
 
       &:checked {
-        color: var(--atum-text-light);
-        background-color: var(--atum-bg-dark) !important;
+        color: var(--template-text-light);
+        background-color: var(--template-bg-dark) !important;
       }
     }
   }
@@ -72,7 +70,7 @@
 
   optgroup,
   option {
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background-color: $white;
   }
 }

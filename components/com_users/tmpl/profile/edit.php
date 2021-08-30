@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
@@ -113,9 +113,11 @@ $wa->useScript('keepalive')
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
+					<span class="icon-check" aria-hidden="true"></span>
 					<?php echo Text::_('JSAVE'); ?>
 				</button>
 				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
+					<span class="icon-times" aria-hidden="true"></span>
 					<?php echo Text::_('JCANCEL'); ?>
 				</button>
 				<input type="hidden" name="option" value="com_users">

@@ -120,6 +120,8 @@ Text::script('JHIDEPASSWORD');
 						<span class="<?php echo $button['icon'] ?>"></span>
 					<?php elseif (!empty($button['image'])): ?>
 						<?php echo $button['image']; ?>
+					<?php elseif (!empty($button['svg'])): ?>
+						<?php echo $button['svg']; ?>
 					<?php endif; ?>
 					<?php echo Text::_($button['label']) ?>
 				</button>
@@ -144,7 +146,7 @@ Text::script('JHIDEPASSWORD');
 				<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-alt-circle-right"></span></a>
+					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-register" aria-hidden="true"></span></a>
 				</li>
 				<?php endif; ?>
 			</ul>

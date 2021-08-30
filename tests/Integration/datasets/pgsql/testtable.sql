@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS "#__testtable" (
    "checked_out" integer,
    "checked_out_time" timestamp without time zone,
    "published" smallint DEFAULT 0 NOT NULL,
-   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+   "publish_up" timestamp without time zone,
+   "publish_down" timestamp without time zone,
    "ordering" bigint NOT NULL DEFAULT 0,
    "params" text NOT NULL,
    PRIMARY KEY ("id")

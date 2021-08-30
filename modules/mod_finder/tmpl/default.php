@@ -41,12 +41,11 @@ else
 	$output .= $input;
 }
 
+Text::script('MOD_FINDER_SEARCH_VALUE', true);
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_finder');
-$wa->useScript('com_finder.finder');
-
-Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
 /*
  * This segment of code sets up the autocompleter.
@@ -56,6 +55,9 @@ if ($params->get('show_autosuggest', 1))
 	$wa->usePreset('awesomplete');
 	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
+
+$wa->useScript('com_finder.finder');
+
 ?>
 
 <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">

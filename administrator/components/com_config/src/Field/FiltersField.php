@@ -13,7 +13,6 @@ namespace Joomla\Component\Config\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -43,47 +42,11 @@ class FiltersField extends FormField
 	 */
 	protected function getInput()
 	{
-		// Load Framework
-		HTMLHelper::_('jquery.framework');
-
 		// Add translation string for notification
 		Text::script('COM_CONFIG_TEXT_FILTERS_NOTE');
 
 		// Add Javascript
-		$doc = Factory::getDocument();
-		$doc->addScriptDeclaration('
-			jQuery( document ).ready(function( $ ) {
-				$("#filter-config select").change(function() {
-					var currentFilter = $(this).children("option:selected").val();
-
-					if($(this).children("option:selected").val() === "NONE") {
-						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
-
-						while(child.length !== 0) {
-							if(child.children("option:selected").val() !== "NONE") {
-								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
-								break;
-							}
-
-							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
-						}
-
-						return;
-					}
-
-					var parent = $("#filter-config select[data-id=" + $(this).attr("data-parent") + "]");
-
-					while(parent.length !== 0) {
-						if(parent.children("option:selected").val() === "NONE") {
-							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
-							break;
-						}
-
-						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
-					}
-				});
-			});'
-		);
+		Factory::getDocument()->getWebAssetManager()->useScript('com_config.filters');
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -142,11 +105,11 @@ class FiltersField extends FormField
 				. ' class="novalidate form-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_FORBIDDEN_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_FORBIDDEN_LIST') . '</option>';
 			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_ALLOWED_LIST') . '</option>';
 			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
 				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
 			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'

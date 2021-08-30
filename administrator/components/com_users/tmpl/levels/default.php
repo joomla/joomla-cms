@@ -89,7 +89,7 @@ if ($saveOrder && !empty($this->items))
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
 									<?php if ($canEdit) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">

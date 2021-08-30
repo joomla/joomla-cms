@@ -81,7 +81,7 @@ if ($saveOrder)
 					?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->folder; ?>">
 						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id, false, 'cid', 'cb', $item->name); ?>
 						</td>
 						<td class="text-center d-none d-md-table-cell">
 							<?php

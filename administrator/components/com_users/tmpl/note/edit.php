@@ -19,12 +19,12 @@ $wa->useScript('keepalive')
 	->useScript('form.validate');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" aria-label="<?php echo Text::_('COM_USERS_NOTE_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" aria-label="<?php echo Text::_('COM_USERS_NOTE_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<fieldset class="adminform">
 	<div class="card mt-4">
 		<div class="card-body">
 			<div class="row">
-				<div class="col-lg-8 col-xl-6">
+				<div class="form-grid">
 				<?php echo $this->form->renderField('subject'); ?>
 				<?php echo $this->form->renderField('user_id'); ?>
 				<?php echo $this->form->renderField('catid'); ?>

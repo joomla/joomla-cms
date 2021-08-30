@@ -9,7 +9,7 @@
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // jQuery Minicolors
-@import "../../../build/media_source/system/scss/jquery-minicolors";
+@import "../../../media/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -26,6 +26,7 @@
 @import "blocks/modals";
 @import "blocks/modifiers";
 @import "blocks/utilities";
+@import "blocks/toolbar";
 @import "blocks/legacy";
 @import "blocks/tags";
 @import "blocks/css-grid"; // Last to allow fallback
@@ -36,6 +37,7 @@
 @import "vendor/bootstrap/custom-forms";
 @import "vendor/bootstrap/collapse";
 @import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/forms";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";

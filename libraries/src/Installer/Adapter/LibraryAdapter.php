@@ -77,7 +77,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_LIB_COPY_FILES', $this->element));
 		}
 	}
 
@@ -309,8 +309,13 @@ class LibraryAdapter extends InstallerAdapter
 		// Delete empty vendor folders
 		if (2 === \count($elementParts))
 		{
-			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0]);
+
+			if (empty($folders))
+			{
+				Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
+				Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			}
 		}
 	}
 

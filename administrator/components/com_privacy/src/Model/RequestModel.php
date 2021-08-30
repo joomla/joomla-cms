@@ -389,7 +389,7 @@ class RequestModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -408,6 +408,9 @@ class RequestModel extends AdminModel
 		{
 			return false;
 		}
+
+		// Make sure the status is always 0
+		$validatedData['status'] = 0;
 
 		// The user cannot create a request for their own account
 		if (strtolower(Factory::getUser()->email) === strtolower($validatedData['email']))

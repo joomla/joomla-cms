@@ -1,10 +1,8 @@
 import Tab from '../../../../../node_modules/bootstrap/js/src/tab';
 
-Joomla = Joomla || {};
-Joomla.Bootstrap = Joomla.Bootstrap || {};
-Joomla.Bootstrap.Initialise = Joomla.Bootstrap.Initialise || {};
-Joomla.Bootstrap.Instances = Joomla.Bootstrap.Instances || {};
-Joomla.Bootstrap.Instances.Tab = new WeakMap();
+window.Joomla = window.Joomla || {};
+window.bootstrap = window.bootstrap || {};
+window.bootstrap.Tab = Tab;
 
 /**
  * Initialise the Tabs interactivity
@@ -12,13 +10,9 @@ Joomla.Bootstrap.Instances.Tab = new WeakMap();
  * @param {HTMLElement} el The element that will become an collapse
  * @param {object} options The options for this collapse
  */
-Joomla.Bootstrap.Initialise.Tab = (el, options) => {
+Joomla.initialiseTabs = (el, options) => {
   if (!(el instanceof Element) && options.isJoomla) {
-    const nSelector = el.split('.')[1];
-    if (!nSelector) {
-      throw new Error('The selector is invalid, check your PHP side');
-    }
-    const tab = document.querySelector(`#${nSelector}Content`);
+    const tab = document.querySelector(`${el}Content`);
     if (tab) {
       const related = Array.from(tab.children);
 
@@ -30,7 +24,7 @@ Joomla.Bootstrap.Initialise.Tab = (el, options) => {
           }
 
           const isActive = element.dataset.active !== '';
-          const ul = document.querySelector(`#${nSelector}Tabs`);
+          const ul = document.querySelector(`${el}Tabs`);
 
           if (ul) {
             const link = document.createElement('a');
@@ -44,12 +38,7 @@ Joomla.Bootstrap.Initialise.Tab = (el, options) => {
             link.setAttribute('role', 'tab');
             link.setAttribute('aria-controls', element.dataset.id);
             link.setAttribute('aria-selected', element.dataset.id);
-
-            /**
-             * As we are re-rendering text already displayed on the page we judge that there isn't
-             * a risk of XSS attacks
-             */
-            link.innerHTML = element.dataset.title;
+            link.innerHTML = Joomla.sanitizeHtml(element.dataset.title);
 
             const li = document.createElement('li');
             li.classList.add('nav-item');
@@ -57,40 +46,26 @@ Joomla.Bootstrap.Initialise.Tab = (el, options) => {
             li.appendChild(link);
 
             ul.appendChild(li);
+
+            // eslint-disable-next-line no-new
+            new window.bootstrap.Tab(li);
           }
         });
       }
-
-      if (Joomla.Bootstrap.Instances.Tab.get(tab) && tab.dispose) {
-        tab.dispose();
-      }
-
-      Joomla.Bootstrap.Instances.Tab.set(tab, new Tab(tab));
     }
   } else {
-    if (!(el instanceof Element)) {
-      return;
-    }
-    if (Joomla.Bootstrap.Instances.Tab.get(el) && el.dispose) {
-      el.dispose();
-    }
-
-    Joomla.Bootstrap.Instances.Tab.set(el, new Tab(el, options));
+    Array.from(document.querySelectorAll(`${el} a`))
+      .map((tab) => new window.bootstrap.Tab(tab, options));
   }
 };
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-// Get the elements/configurations from the PHP
-const tabs = Joomla.getOptions('bootstrap.tabs');
-// Initialise the elements
-if (typeof tabs === 'object' && tabs !== null) {
-  Object.keys(tabs).forEach((tab) => {
-    Joomla.Bootstrap.Initialise.Tab(tab, tabs[tab]);
-  });
+if (Joomla && Joomla.getOptions) {
+  // Get the elements/configurations from the PHP
+  const tabs = Joomla.getOptions('bootstrap.tabs');
+  // Initialise the elements
+  if (typeof tabs === 'object' && tabs !== null) {
+    Object.keys(tabs).map((tab) => Joomla.initialiseTabs(tab, tabs[tab]));
+  }
 }
 
 export default Tab;

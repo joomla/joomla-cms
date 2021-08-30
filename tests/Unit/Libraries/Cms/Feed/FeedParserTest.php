@@ -384,7 +384,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return XMLReader
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	protected function getXmlReader($xml, $moveTo): XMLReader
 	{
@@ -409,7 +409,7 @@ class FeedParserTest extends UnitTestCase
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       4.0
+ * @since       4.0.0
  */
 class FeedParserStub extends FeedParser
 {

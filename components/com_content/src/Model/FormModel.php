@@ -17,6 +17,8 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -47,18 +49,27 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	{
 		$app = Factory::getApplication();
 
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
+		{
+			$catId = $params->get('catid');
+		}
+		else
+		{
+			$catId = 0;
+		}
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', $app->input->getInt('catid'));
+		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
@@ -202,6 +213,57 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	}
 
 	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  Form|boolean  A Form object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = [], $loadData = true)
+	{
+		$form = parent::getForm($data, $loadData);
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
+
+		// On edit article, we get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
+
+		// Existing record. We can't edit the category in frontend if not edit.state.
+		if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id))
+		{
+			$form->setFieldAttribute('catid', 'readonly', 'true');
+			$form->setFieldAttribute('catid', 'required', 'false');
+			$form->setFieldAttribute('catid', 'filter', 'unset');
+		}
+
+		// Prevent messing with article language and category when editing existing article with associations
+		if ($this->getState('article.id') && Associations::isEnabled())
+		{
+			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+			// Make fields read only
+			if (!empty($associations))
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Allows preprocessing of the JForm object.
 	 *
 	 * @param   Form    $form   The form object
@@ -220,6 +282,27 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
+
+			if (Multilanguage::isEnabled())
+			{
+				$categoryId = (int) $params->get('catid');
+
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('language'))
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('id') . ' = :categoryId')
+					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+				$db->setQuery($query);
+
+				$result = $db->loadResult();
+
+				if ($result != '*')
+				{
+					$form->setFieldAttribute('language', 'readonly', 'true');
+					$form->setFieldAttribute('language', 'default', $result);
+				}
+			}
 		}
 
 		if (!Multilanguage::isEnabled())
@@ -228,7 +311,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			$form->setFieldAttribute('language', 'default', '*');
 		}
 
-		return parent::preprocessForm($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

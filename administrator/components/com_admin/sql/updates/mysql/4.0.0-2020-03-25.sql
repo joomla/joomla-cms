@@ -1,6 +1,6 @@
 -- Add locked field to extensions table.
-ALTER TABLE `#__extensions` MODIFY `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
-ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
+ALTER TABLE `#__extensions` MODIFY `protected` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
+ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
 
 -- Set all core extensions as locked extensions and unprotected them.
 UPDATE `#__extensions`
@@ -39,7 +39,6 @@ WHERE (`type` = 'component' AND `element` IN (
 	'com_privacy',
 	'com_actionlogs',
 	'com_workflow',
-	'com_csp',
 	'com_mails'
 ))
 OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (
@@ -104,7 +103,7 @@ OR (`type` = 'plugin' AND
 		OR (`folder` = 'editors' AND `element` IN ('codemirror', 'none', 'tinymce'))
 		OR (`folder` = 'editors-xtd' AND `element` IN ('article', 'contact', 'fields', 'image', 'menu', 'module', 'pagebreak', 'readmore'))
 		OR (`folder` = 'extension' AND `element` IN ('finder', 'joomla', 'namespacemap'))
-		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'subfields', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
+		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'subform', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
 		OR (`folder` = 'filesystem' AND `element` IN ('local'))
 		OR (`folder` = 'finder' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
 		OR (`folder` = 'installer' AND `element` IN ('folderinstaller', 'override', 'packageinstaller', 'urlinstaller', 'webinstaller'))

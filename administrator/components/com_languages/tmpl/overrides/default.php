@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+HTMLHelper::_('behavior.multiselect');
+
 $client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -70,7 +72,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 						<?php foreach ($this->items as $key => $text) : ?>
 							<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $key); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $key, false, 'cid', 'cb', $key); ?>
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>
@@ -81,7 +83,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 									<?php endif; ?>
 								</th>
 								<td class="d-none d-md-table-cell">
-									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
+									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo HTMLHelper::_('string.truncate', $this->escape($text), 200); ?></span>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $language; ?>

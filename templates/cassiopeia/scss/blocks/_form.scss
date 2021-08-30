@@ -31,7 +31,7 @@
   width: auto;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .form-inline .form-select {
     width: 100%;
   }
@@ -78,25 +78,20 @@ td .form-control {
   padding: .5em;
   margin: .5em;
   color: $black;
+  text-align: start;
   background: $white;
   border: 1px solid $gray-600;
   border-radius: $border-radius;
   box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
 
   &[id^=editarticle-] {
+    right: auto;
     margin-inline-start: -10em;
   }
 
   &[id^=editcontact-] {
+    right: auto;
     margin-inline-start: -10em;
-  }
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
   }
 }
 

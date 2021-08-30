@@ -256,9 +256,21 @@ class TagModel extends AdminModel
 			// Alter the title for save as copy
 			if ($input->get('task') == 'save2copy')
 			{
-				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-				$data['title'] = $title;
-				$data['alias'] = $alias;
+				$origTable = $this->getTable();
+				$origTable->load($input->getInt('id'));
+
+				if ($data['title'] == $origTable->title)
+				{
+					list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+					$data['title'] = $title;
+					$data['alias'] = $alias;
+				}
+				elseif ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+
+				$data['published'] = 0;
 			}
 
 			// Bind the data.
@@ -358,7 +370,7 @@ class TagModel extends AdminModel
 	public function rebuild()
 	{
 		// Get an instance of the table object.
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 
@@ -390,7 +402,7 @@ class TagModel extends AdminModel
 	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 
@@ -421,7 +433,7 @@ class TagModel extends AdminModel
 	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 

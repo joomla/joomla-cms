@@ -58,7 +58,7 @@ class Adapter extends CMSObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  1.6
 	 */
 	protected $_db;
@@ -84,7 +84,7 @@ class Adapter extends CMSObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  \JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   1.6
 	 */

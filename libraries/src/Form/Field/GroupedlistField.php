@@ -31,6 +31,14 @@ class GroupedlistField extends FormField
 	protected $type = 'Groupedlist';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.groupedlist';
+
+	/**
 	 * Method to get the field option groups.
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
@@ -144,70 +152,11 @@ class GroupedlistField extends FormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="form-select ' . $this->class . '"' : ' class="form-select"';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ($this->readonly || $this->disabled)
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$data = $this->getLayoutData();
 
 		// Get the field groups.
-		$groups = (array) $this->getGroups();
+		$data['groups'] = (array) $this->getGroups();
 
-		// Create a read-only list (no name) with a hidden input to store the value.
-		if ($this->readonly)
-		{
-			$html[] = HTMLHelper::_(
-				'select.groupedlist', $groups, null,
-				array(
-					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
-					'option.text.toHtml' => false,
-				)
-			);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && \is_array($this->value))
-			{
-				if (!\count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
-			}
-		}
-
-		// Create a regular list.
-		else
-		{
-			$html[] = HTMLHelper::_(
-				'select.groupedlist', $groups, $this->name,
-				array(
-					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
-					'option.text.toHtml' => false,
-				)
-			);
-		}
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($data);
 	}
 }

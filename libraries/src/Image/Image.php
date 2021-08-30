@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -783,7 +782,7 @@ class Image
 	 *
 	 * @param   integer  $width      The desired width of the image in pixels or a percentage.
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
-	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
+	 * @param   boolean  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
 	 * @return  Image
 	 *

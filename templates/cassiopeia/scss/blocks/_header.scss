@@ -7,7 +7,7 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     position: relative !important;
   }
 
@@ -23,6 +23,7 @@
   .site-description {
     font-size: 1rem;
     color: $white;
+    white-space: normal;
   }
 
   .navbar-brand {
@@ -57,7 +58,7 @@
     justify-content: space-between;
     padding-bottom: $cassiopeia-grid-gutter;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       .container-search,
       nav {
         margin-top: $cassiopeia-grid-gutter;
@@ -84,7 +85,7 @@
     color: $white;
     list-style: none;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       display: flex;
       flex: 1 1 0%;
       flex-direction: row;
@@ -93,7 +94,7 @@
     > li {
       position: relative;
 
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         + li {
           margin-left: 1.55em;
         }
@@ -107,7 +108,7 @@
       }
 
       &::after {
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           position: absolute;
           right: 50%;
           bottom: 0;
@@ -129,7 +130,7 @@
         background: $white;
       }
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         &.active > a,
         &.active > span,
         > a:hover {
@@ -155,7 +156,7 @@
       > a::after,
       > button::before {
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           position: absolute;
           right: 50%;
           bottom: 0;
@@ -197,7 +198,7 @@
       > a:hover,
       > button:hover {
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           text-decoration: none;
         }
       }
@@ -223,12 +224,13 @@
   }
 
   .mod-finder {
+    position: relative;
     display: flex;
     flex: 1 0 20rem;
     max-width: 100%;
 
     > label {
-      @include a11y-visually-hidden();
+      @include visually-hidden();
     }
   }
 }

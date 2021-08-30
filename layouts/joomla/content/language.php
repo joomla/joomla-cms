@@ -20,7 +20,7 @@ if ($item->language === '*')
 }
 elseif ($item->language_image)
 {
-	echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', '', null, true) . '&nbsp;' . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
+	echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', '', array('class' => 'me-1'), true) . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
 }
 elseif ($item->language_title)
 {

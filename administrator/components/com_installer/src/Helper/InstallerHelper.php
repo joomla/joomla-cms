@@ -422,7 +422,7 @@ class InstallerHelper
 
 		if ($onlyEnabled)
 		{
-			$enabled = $onlyEnabled ? 1 : 0;
+			$enabled = 1;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}

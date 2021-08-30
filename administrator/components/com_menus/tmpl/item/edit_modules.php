@@ -36,7 +36,7 @@ echo HTMLHelper::_(
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
+		'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
 				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
 				. Text::_('JSAVE') . '</button>'
