@@ -117,7 +117,7 @@ $updatePossible = true;
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-spinner fa-spin fa-fw py-1 bg-white ms-2 text-info" aria-hidden="true"></span>
+				<span class="fa fa-spinner fa-spin fa-fw py-1 ms-2" aria-hidden="true"></span>
 			</button>
 		</div>
 

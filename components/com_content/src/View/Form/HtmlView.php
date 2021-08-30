@@ -87,6 +87,14 @@ class HtmlView extends BaseHtmlView
 	protected $captchaEnabled = false;
 
 	/**
+	 * Should we show Save As Copy button?
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $showSaveAsCopy = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -95,8 +103,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
 		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -181,7 +189,15 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		// If the article is being edited and the current user has permission to create article
+		if ($this->item->id
+			&& ($user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'))))
+		{
+			$this->showSaveAsCopy = true;
+		}
+
 		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
 
