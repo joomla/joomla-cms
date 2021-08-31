@@ -69,8 +69,6 @@ export default {
   listView: 'grid',
   // The size of the grid items
   gridSize: 'md',
-  // The search term to filter the elements
-  search: '',
   // The state of confirm delete model
   showConfirmDeleteModal: false,
   // The state of create folder model
