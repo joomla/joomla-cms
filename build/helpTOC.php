@@ -134,49 +134,18 @@ $command = new class extends AbstractCommand
 		}
 
 		// Make sure we only have an array of unique values before continuing
+
 		$cleanMembers = array_unique($cleanMembers);
-
-		/*
-		 * Loop through the cleaned up title array and the language strings array to match things up
-		 */
-
-		$matchedMembers = [];
-
-		foreach ($cleanMembers as $member)
-		{
-			foreach ($strings as $k => $v)
-			{
-				if ($member === $v)
-				{
-					$matchedMembers[] = $k;
-
-					continue;
-				}
-			}
-		}
-
-		// Alpha sort the array
-		asort($matchedMembers);
-
-		// Now we strip off the JHELP_ prefix from the strings to get usable strings for both COM_ADMIN and JHELP
-		$stripped = [];
-
-		foreach ($matchedMembers as $member)
-		{
-			$stripped[] = str_replace('JHELP_', '', $member);
-		}
-
-		/*
-		 * Check to make sure a COM_ADMIN_HELP string exists, don't include in the TOC if not
-		 */
 
 		// Load the admin com_admin language file
 		$language->load('com_admin', JPATH_ADMINISTRATOR);
 
 		$toc = [];
 
-		foreach ($stripped as $string)
+		foreach ($cleanMembers as $key => $value)
 		{
+			$string = strtoupper($value);
+
 			// Validate the key exists
 			$io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
 
@@ -184,7 +153,7 @@ $command = new class extends AbstractCommand
 			{
 				$io->comment(sprintf('Adding %s', $string));
 
-				$toc[$string] = $string;
+				$toc[$value] = $string;
 			}
 			// We check the string for words in singular/plural form and check again
 			else

@@ -37,7 +37,7 @@ $wa->useScript('com_admin.admin-help');
 					<li class="nav-header"><?php echo Text::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
 					<?php foreach ($this->toc as $k => $v) : ?>
 						<li class="item">
-							<?php $url = Help::createUrl('JHELP_' . strtoupper($k)); ?>
+							<?php $url = Help::createUrl($k); ?>
 							<?php echo HTMLHelper::_('link', $url, $v, ['target' => 'helpFrame']); ?>
 						</li>
 					<?php endforeach; ?>
