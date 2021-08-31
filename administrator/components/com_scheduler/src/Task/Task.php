@@ -82,6 +82,7 @@ class Task extends Registry implements LoggerAwareInterface
 	{
 		// Hack because Registry dumps private properties otherwise
 		$taskOption = $record->taskOption;
+		$record->params = json_decode($record->params, true);
 
 		parent::__construct($record);
 
@@ -91,11 +92,11 @@ class Task extends Registry implements LoggerAwareInterface
 		$this->setLogger(Log::createDelegatedLogger());
 		$this->logCategory = 'task' . $this->get('id');
 
-		if ($this->get('params.uniqueLog'))
+		if ($this->get('params.individual_log'))
 		{
-			$logFile = $this->get('params.logFile') ?? 'task_' . $this->get('name');
+			$logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
 
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t\t{CODE}\t{MESSAGE}';
+			$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 			$options['text_file'] = $logFile;
 			Log::addLogger($options, Log::ALL, [$this->logCategory]);
 		}
@@ -150,7 +151,7 @@ class Task extends Registry implements LoggerAwareInterface
 				'subject'         => $this,
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
-				'params'          => json_decode($this->get('params')),
+				'params'          => $this->get('params'),
 			]
 		);
 
