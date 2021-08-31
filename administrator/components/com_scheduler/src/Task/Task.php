@@ -130,10 +130,6 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
-		$this->snapshot['status'] = Status::NO_TIME;
-		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
-		$this->snapshot['netDuration'] = 0;
-
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
@@ -141,7 +137,9 @@ class Task extends Registry implements LoggerAwareInterface
 			return $this->handleExit(false);
 		}
 
-		$app = $this->app;
+		$this->snapshot['status'] = Status::NO_TIME;
+		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
+		$this->snapshot['netDuration'] = 0;
 
 		/** @var ExecuteTaskEvent $event */
 		$event = AbstractEvent::create(
@@ -156,10 +154,14 @@ class Task extends Registry implements LoggerAwareInterface
 		);
 
 		PluginHelper::importPlugin('task');
-		$app->getDispatcher()->dispatch('onExecuteTask', $event);
+		$this->app->getDispatcher()->dispatch('onExecuteTask', $event);
 
 		$resultSnapshot = $event->getResultSnapshot();
 		Assertion::notNull($resultSnapshot, 'No task execution snapshot!');
+
+		$this->snapshot['taskEnd'] = microtime(true);
+		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
+		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
 
 		if (!$this->releaseLock())
 		{
@@ -167,10 +169,6 @@ class Task extends Registry implements LoggerAwareInterface
 
 			return $this->handleExit(false);
 		}
-
-		$this->snapshot['taskEnd'] = microtime(true);
-		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
-		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
 
 		return $this->handleExit();
 	}
