@@ -32,6 +32,7 @@
         type="text"
         :placeholder="translate('COM_MEDIA_SEARCH')"
         @input="changeSearch"
+        :value="search"
       >
     </div>
     <div class="media-view-icons">
@@ -111,6 +112,9 @@ export default {
       // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
+    search() {
+      return this.$store.state.search;
+    }
   },
   watch: {
     // eslint-disable-next-line
