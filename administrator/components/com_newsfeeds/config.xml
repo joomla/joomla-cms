@@ -333,17 +333,6 @@
 		</field>
 
 		<field
-			name="show_headings"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_articles"
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
