@@ -31,8 +31,8 @@
         class="form-control"
         type="text"
         :placeholder="translate('COM_MEDIA_SEARCH')"
-        @input="changeSearch"
         :value="search"
+        @input="changeSearch"
       >
     </div>
     <div class="media-view-icons">
@@ -114,7 +114,7 @@ export default {
     },
     search() {
       return this.$store.state.search;
-    }
+    },
   },
   watch: {
     // eslint-disable-next-line
