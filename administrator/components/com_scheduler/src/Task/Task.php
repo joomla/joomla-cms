@@ -138,7 +138,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return false;
+			return $this->handleExit(false);
 		}
 
 		$app = $this->app;
@@ -165,14 +165,14 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 
-			return false;
+			return $this->handleExit(false);
 		}
 
 		$this->snapshot['taskEnd'] = microtime(true);
 		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
 		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
 
-		return true;
+		return $this->handleExit();
 	}
 
 	/**
@@ -293,5 +293,26 @@ class Task extends Registry implements LoggerAwareInterface
 	public function log(string $message, string $priority = 'info'): void
 	{
 		$this->logger->log($priority, $message, ['category' => $this->logCategory]);
+	}
+
+	/**
+	 * Handles task exit (dispatch event, return).
+	 *
+	 * @param   bool  $sucess  If true, execution was successful
+	 *
+	 * @return boolean  If true, execution was successful
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function handleExit(bool $sucess = true): bool
+	{
+		$eventName = $sucess ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
+
+		AbstractEvent::create($eventName, [
+				'subject' => $this
+			]
+		);
+
+		return $sucess;
 	}
 }
