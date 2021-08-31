@@ -296,21 +296,21 @@ class Task extends Registry implements LoggerAwareInterface
 	/**
 	 * Handles task exit (dispatch event, return).
 	 *
-	 * @param   bool  $sucess  If true, execution was successful
+	 * @param   bool  $success  If true, execution was successful
 	 *
 	 * @return boolean  If true, execution was successful
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(bool $sucess = true): bool
+	private function handleExit(bool $success = true): bool
 	{
-		$eventName = $sucess ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
+		$eventName = $success ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
 
 		AbstractEvent::create($eventName, [
 				'subject' => $this
 			]
 		);
 
-		return $sucess;
+		return $success;
 	}
 }
