@@ -119,5 +119,8 @@ export default {
       });
     },
   },
+  updated() {
+    this.$nextTick(() => this.$refs.nameField ? this.$refs.nameField.focus() : null);
+  },
 };
 </script>
