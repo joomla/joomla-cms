@@ -899,10 +899,10 @@ ENDDATA;
 			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
 		}
 
-		// Remove the legacy restoration_finalisation.php file used in Joomla 4.0.2 and earlier.
-		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration_finalisation.php'))
+		// Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php'))
 		{
-			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration_finalisation.php');
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
 		}
 
 		// Remove joomla.xml from the site's root.
