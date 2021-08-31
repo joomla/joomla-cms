@@ -110,15 +110,6 @@ $command = new class extends AbstractCommand
 		// Get the language object
 		$language = Factory::getLanguage();
 
-		// Load the admin joomla.ini language file to get the JHELP language keys
-		$language->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
-
-		// Get the language strings via Reflection as the property is protected
-		$refl = new ReflectionClass($language);
-		$property = $refl->getProperty('strings');
-		$property->setAccessible(true);
-		$strings = $property->getValue($language);
-
 		/*
 		 * Now we start fancy processing so we can get the language key for the titles
 		 */
@@ -190,7 +181,7 @@ $command = new class extends AbstractCommand
 					{
 						$io->comment(sprintf('Adding %s', $inflected));
 
-						$toc[$string] = $inflected;
+						$toc[$value] = $inflected;
 					}
 				}
 			}
