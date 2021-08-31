@@ -112,6 +112,14 @@ export default {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
@@ -143,14 +151,6 @@ export default {
     hideActions() {
       this.showActions = false;
     },
-  },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if(!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name == this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    }
   },
 };
 </script>

@@ -85,6 +85,9 @@ export default {
       return this.item.extension;
     },
   },
+  updated() {
+    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
+  },
   methods: {
     /* Check if the form is valid */
     isValid() {
@@ -118,9 +121,6 @@ export default {
         newName,
       });
     },
-  },
-  updated() {
-    this.$nextTick(() => this.$refs.nameField ? this.$refs.nameField.focus() : null);
   },
 };
 </script>
