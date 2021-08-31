@@ -34,7 +34,7 @@ namespace
 		 *
 		 * @since   1.7.0
 		 */
-		function jimport($path, $base = null)
+		function jimport(string $path, ?string $base = null): bool
 		{
 			// Do nothing
 			return true;
@@ -53,7 +53,7 @@ namespace
 		 *
 		 * @since   3.5.1
 		 */
-		function finalizeUpdate($siteRoot, $restorePath)
+		function finalizeUpdate(string $siteRoot, string $restorePath): void
 		{
 			if (!\defined('JPATH_ROOT'))
 			{
@@ -184,7 +184,7 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   3.5.1
 			 */
-			public static function exists($folderName)
+			public static function exists(string $folderName): bool
 			{
 				return @is_dir($folderName);
 			}
@@ -198,7 +198,7 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   3.5.1
 			 */
-			public static function delete($folderName)
+			public static function delete(string $folderName): bool
 			{
 				if (substr($folderName, -1) == '/')
 				{
@@ -264,7 +264,7 @@ namespace Joomla\CMS\Language
 			 *
 			 * @since   3.5.1
 			 */
-			public static function sprintf($text)
+			public static function sprintf(string $text): string
 			{
 				return '';
 			}
