@@ -7,9 +7,21 @@
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Uncomment to enable debugging and prevent extract.php from being overwritten during the update
-//define('_JOOMLA_UPDATE_DEBUG', 1);
-
+/**
+ * Should you want to debug this file, please add a new line ABOVE this comment with the following
+ * contents (excluding the space star space at the start of this line):
+ *
+ * define('_JOOMLA_UPDATE_DEBUG', 1);
+ *
+ * This will do two things:
+ * - it will create the joomla_update.txt file in your site's temporary directory (default: tmp).
+ *   This file contains a debug log, detailing everything extract.php is doing during the extraction
+ *   of the Joomla update ZIP file.
+ * - It will prevent extract.php from being overwritten during the update with a new version. This
+ *   is useful if you are testing any changes in extract.php you do not want accidentally
+ *   overwritten, or if you are given a modified extract.php by a Joomla core contributor with
+ *   changes which might fix your update problem.
+ */
 define('_JOOMLA_UPDATE', 1);
 
 /**
