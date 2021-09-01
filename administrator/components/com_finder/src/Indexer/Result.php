@@ -62,7 +62,7 @@ class Result implements \Serializable
 	/**
 	 * The image url
 	 *
-	 * @var \stdClass
+	 * @var     string
 	 * @since __DEPLOY_VERSION__
 	 */
 	public $imageUrl;
@@ -70,7 +70,7 @@ class Result implements \Serializable
 	/**
 	 * The image alt text
 	 *
-	 * @var \stdClass
+	 * @var     string
 	 * @since __DEPLOY_VERSION__
 	 */
 	public $imageAlt;
