@@ -92,7 +92,7 @@ endif;
 	<?php if ($showImage && isset($image)) : ?>
 		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
 			<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
-				alt="<?php echo $this->result->getElement('imageAlt'); ?>"
+				alt="<?php echo htmlspecialchars($this->result->getElement('imageAlt'), ENT_COMPAT, 'UTF-8'); ?>"
 				<?php echo $extraAttr; ?>
 			/>
 		</figure>
