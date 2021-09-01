@@ -1,13 +1,13 @@
 <?php
 /**
- * Declares the TaskModel MVC Model.
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** Implements the MVC Model for TaskView. */
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 

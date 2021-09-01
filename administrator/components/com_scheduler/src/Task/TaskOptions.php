@@ -1,7 +1,5 @@
 <?php
 /**
- * Implements the TaskOptions class used by com_scheduler as the subject arg for the `onTaskOptionsList` event.
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
@@ -9,6 +7,8 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  *
  */
+
+/** Implements the TaskOptions class used by com_scheduler as the subject arg for the `onTaskOptionsList` event. */
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 

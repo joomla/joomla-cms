@@ -1,7 +1,5 @@
 <?php
 /**
- * Returns the service provider class for com_scheduler.
- *
  * @package    Joomla.Administrator
  * @subpackage com_scheduler
  *
@@ -9,6 +7,9 @@
  * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/** Returns the service provider class for com_scheduler. */
+
+// Restrict direct access
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;

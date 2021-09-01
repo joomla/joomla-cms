@@ -1,13 +1,13 @@
 <?php
 /**
- * Declares a list field with all possible states for a (cron)job entry.
- *
  * @package         Joomla.Administrator
  * @subpackage      com_scheduler
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** Declares a list field with all possible states for a task entry. */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * Declares the JobTypeField for listing all available job types.
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** Declares the TaskTypeField for listing all available task routines. */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
@@ -49,7 +49,7 @@ class TaskTypeField extends ListField
 	{
 		$options = parent::getOptions();
 
-		// Get all available job types and sort by title
+		// Get all available task types and sort by title
 		$types = ArrayHelper::sortObjects(
 			SchedulerHelper::getTaskOptions()->options,
 			'title', 1
