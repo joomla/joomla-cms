@@ -49,13 +49,12 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 
-$show_image = $this->params->get('show_image', 0) && !empty($this->result->getImage()) ? true : false;
+$showImage = $this->params->get('show_image', 0);
 
-if ($show_image)
+if ($showImage && !empty($this->result->imageUrl))
 {
-	$resultImageObject = $this->result->getImage();
 	$imageclass        = $this->params->get('image_class', '');
-	$image             = HTMLHelper::cleanImageURL($resultImageObject->url);
+	$image             = HTMLHelper::cleanImageURL($this->result->imageUrl);
 	$extraAttr         = '';
 
 	// Set lazyloading only for images which have width and height attributes
@@ -90,10 +89,10 @@ endif;
 			<?php echo $this->result->title; ?>
 		<?php endif; ?>
 	</p>
-	<?php if ($show_image && isset($image)) : ?>
+	<?php if ($showImage && isset($image)) : ?>
 		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
 			<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
-				alt="<?php echo $this->result->getImage()->alt; ?>"
+				alt="<?php echo $this->result->imageAlt; ?>"
 				<?php echo $extraAttr; ?>
 			/>
 		</figure>
