@@ -60,22 +60,6 @@ class Result implements \Serializable
 	protected $taxonomy = array();
 
 	/**
-	 * The image url
-	 *
-	 * @var     string
-	 * @since __DEPLOY_VERSION__
-	 */
-	public $imageUrl;
-
-	/**
-	 * The image alt text
-	 *
-	 * @var     string
-	 * @since __DEPLOY_VERSION__
-	 */
-	public $imageAlt;
-
-	/**
 	 * The content URL.
 	 *
 	 * @var    string
@@ -522,8 +506,6 @@ class Result implements \Serializable
 			$this->state,
 			$taxonomy,
 			$this->title,
-			$this->imageUrl,
-			$this->imageAlt,
 			$this->type_id,
 			$this->url
 			]
@@ -559,8 +541,6 @@ class Result implements \Serializable
 			$this->state,
 			$this->taxonomy,
 			$this->title,
-			$this->imageUrl,
-			$this->imageAlt,
 			$this->type_id,
 			$this->url
 		) = unserialize($serialized);
