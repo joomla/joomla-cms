@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_articles_news.ini</language>
 		<language tag="en-GB">language/en-GB/mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
+	<help key="Site_Modules:_Articles_-_Newsflash"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

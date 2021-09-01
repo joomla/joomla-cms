@@ -190,6 +190,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($this->extension);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_WORKFLOWS_LIST');
+		$toolbar->help('Workflows_List');
 	}
 }

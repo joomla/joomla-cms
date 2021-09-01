@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_logged.ini</language>
 		<language tag="en-GB">language/en-GB/mod_logged.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGGED" />
+	<help key="Admin_Modules:_Logged-in_Users" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
