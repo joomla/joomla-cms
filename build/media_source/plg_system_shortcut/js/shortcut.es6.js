@@ -180,6 +180,38 @@ class JoomlaShortcuts {
         selector: '',
         link: 'index.php?option=com_contacts&view=contacts',
       },
+      com_newsfeeds: {
+        keyEvent: 'n',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_newsfeeds&view=newsfeeds',
+      },
+      com_smartsearch: {
+        keyEvent: 's',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_finder&view=index',
+      },
+      com_tags: {
+        keyEvent: 't',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_tags&view=tags',
+      },
+      com_users: {
+        keyEvent: 'u',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_users&view=users',
+      },
     };
     const phpOptions = Joomla.getOptions('joomla-shortcut-keys');
     this.bootstrapModals = Joomla.getOptions('bootstrap.modal');
@@ -235,15 +267,23 @@ class JoomlaShortcuts {
       const altKey = this.options[action].hasAlt;
       const shiftKey = this.options[action].hasShift;
       const ctrlKey = this.options[action].hasControl;
+      const hasLink = this.options[action].link;
       if (
         (Number(altKey) === false
           || (Number(altKey) === true
             && (navigator.platform.match('Mac') ? e.metaKey : e.altKey)))
         && (Number(shiftKey) === false || (Number(shiftKey) === true && e.shiftKey))
         && (Number(ctrlKey) === false || (Number(ctrlKey) === true && e.ctrlKey))
-        && e.key.toLowerCase() === keyEvent
+        && e.key.toLowerCase() === keyEvent && !hasLink
       ) {
         this.execCommand(e, this.options[action].selector);
+      } else if ((Number(altKey) === false
+           || (Number(altKey) === true
+             && (navigator.platform.match('Mac') ? e.metaKey : e.altKey)))
+             && (Number(shiftKey) === false || (Number(shiftKey) === true && e.shiftKey))
+             && (Number(ctrlKey) === false || (Number(ctrlKey) === true && e.ctrlKey))
+             && e.key.toLowerCase() === keyEvent && hasLink) {
+        window.location.href = hasLink;
       }
     });
   }
