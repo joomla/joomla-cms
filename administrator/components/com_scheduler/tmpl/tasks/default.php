@@ -193,29 +193,10 @@ if ($saveOrder && !empty($this->items))
 				</tbody>
 			</table>
 
-			<?php // Load the pagination. (@todo: testing)
+			<?php
+				// Load the pagination. (@todo: testing)
+				echo $this->pagination->getListFooter();
 			?>
-			<?php echo $this->pagination->getListFooter(); ?>
-
-			<?php // Load the batch processing form if user is allowed
-			?>
-
-			<?php if ($user->authorise('core.create', 'com_scheduler')
-					&& $user->authorise('core.edit', 'com_scheduler')
-					&& $user->authorise('core.edit.state', 'com_scheduler')):
-				?>
-
-				<?php echo HTMLHelper::_(
-					'bootstrap.renderModal',
-					'collapseModal',
-					[
-							'title' => Text::_('COM_SCHEDULER_BATCH_OPTIONS'),
-							'footer' => $this->loadTemplate('batch_footer'),
-					],
-					$this->loadTemplate('batch_body')
-			);
-				?>
-			<?php endif; ?>
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">

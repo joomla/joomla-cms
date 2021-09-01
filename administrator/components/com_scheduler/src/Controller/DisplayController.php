@@ -53,7 +53,7 @@ class DisplayController extends BaseController
 		{
 			if (!$this->validateEntry())
 			{
-				$tasksViewUrl = Route::_('index.php?option=com_scheduler&view=tasks');
+				$tasksViewUrl = Route::_('index.php?option=com_scheduler&view=tasks', false);
 				$this->setRedirect($tasksViewUrl);
 
 				return false;

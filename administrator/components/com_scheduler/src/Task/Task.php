@@ -82,6 +82,7 @@ class Task extends Registry implements LoggerAwareInterface
 	{
 		// Hack because Registry dumps private properties otherwise
 		$taskOption = $record->taskOption;
+		$record->params = json_decode($record->params, true);
 
 		parent::__construct($record);
 
@@ -91,11 +92,11 @@ class Task extends Registry implements LoggerAwareInterface
 		$this->setLogger(Log::createDelegatedLogger());
 		$this->logCategory = 'task' . $this->get('id');
 
-		if ($this->get('params.uniqueLog'))
+		if ($this->get('params.individual_log'))
 		{
-			$logFile = $this->get('params.logFile') ?? 'task_' . $this->get('name');
+			$logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
 
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t\t{CODE}\t{MESSAGE}';
+			$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 			$options['text_file'] = $logFile;
 			Log::addLogger($options, Log::ALL, [$this->logCategory]);
 		}
@@ -129,18 +130,16 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
-		$this->snapshot['status'] = Status::NO_TIME;
-		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
-		$this->snapshot['netDuration'] = 0;
-
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return false;
+			return $this->handleExit(false);
 		}
 
-		$app = $this->app;
+		$this->snapshot['status'] = Status::NO_TIME;
+		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
+		$this->snapshot['netDuration'] = 0;
 
 		/** @var ExecuteTaskEvent $event */
 		$event = AbstractEvent::create(
@@ -150,28 +149,28 @@ class Task extends Registry implements LoggerAwareInterface
 				'subject'         => $this,
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
-				'params'          => json_decode($this->get('params')),
+				'params'          => $this->get('params'),
 			]
 		);
 
 		PluginHelper::importPlugin('task');
-		$app->getDispatcher()->dispatch('onExecuteTask', $event);
+		$this->app->getDispatcher()->dispatch('onExecuteTask', $event);
 
 		$resultSnapshot = $event->getResultSnapshot();
 		Assertion::notNull($resultSnapshot, 'No task execution snapshot!');
-
-		if (!$this->releaseLock())
-		{
-			$this->snapshot['status'] = Status::NO_RELEASE;
-
-			return false;
-		}
 
 		$this->snapshot['taskEnd'] = microtime(true);
 		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
 		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
 
-		return true;
+		if (!$this->releaseLock())
+		{
+			$this->snapshot['status'] = Status::NO_RELEASE;
+
+			return $this->handleExit(false);
+		}
+
+		return $this->handleExit();
 	}
 
 	/**
@@ -292,5 +291,26 @@ class Task extends Registry implements LoggerAwareInterface
 	public function log(string $message, string $priority = 'info'): void
 	{
 		$this->logger->log($priority, $message, ['category' => $this->logCategory]);
+	}
+
+	/**
+	 * Handles task exit (dispatch event, return).
+	 *
+	 * @param   bool  $success  If true, execution was successful
+	 *
+	 * @return boolean  If true, execution was successful
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function handleExit(bool $success = true): bool
+	{
+		$eventName = $success ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
+
+		AbstractEvent::create($eventName, [
+				'subject' => $this
+			]
+		);
+
+		return $success;
 	}
 }
