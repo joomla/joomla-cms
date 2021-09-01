@@ -10,6 +10,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-apply',
+        link: '',
       },
       new: {
         keyEvent: 'n',
@@ -17,6 +18,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-new',
+        link: '',
       },
       save: {
         keyEvent: 'w',
@@ -24,6 +26,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-save',
+        link: '',
       },
       saveNew: {
         keyEvent: 'n',
@@ -31,6 +34,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-save-new',
+        link: '',
       },
       help: {
         keyEvent: 'x',
@@ -38,6 +42,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-help',
+        link: '',
       },
       cancel: {
         keyEvent: 'q',
@@ -45,6 +50,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-cancel',
+        link: '',
       },
       copy: {
         keyEvent: 'c',
@@ -52,6 +58,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 0,
         selector: 'joomla-toolbar-button button.button-button-copy',
+        link: '',
       },
       article: {
         keyEvent: 'a',
@@ -59,6 +66,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~article_modal',
+        link: '',
       },
       contact: {
         keyEvent: 'c',
@@ -66,6 +74,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~contact_modal',
+        link: '',
       },
       fields: {
         keyEvent: 'f',
@@ -73,6 +82,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~fields_modal',
+        link: '',
       },
       image: {
         keyEvent: 'i',
@@ -80,6 +90,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~image_modal',
+        link: '',
       },
       menu: {
         keyEvent: 'm',
@@ -87,6 +98,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~menu_modal',
+        link: '',
       },
       module: {
         keyEvent: 'm',
@@ -94,6 +106,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~module_modal',
+        link: '',
       },
       pagebreak: {
         keyEvent: 'p',
@@ -101,6 +114,7 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~pagebreak_modal',
+        link: '',
       },
       readmore: {
         keyEvent: 'r',
@@ -108,6 +122,63 @@ class JoomlaShortcuts {
         hasAlt: 1,
         hasControl: 1,
         selector: 'joomla-editor-option~read_more',
+        link: '',
+      },
+      com_articles: {
+        keyEvent: 'a',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_content&view=articles',
+      },
+      com_categories: {
+        keyEvent: 'c',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_categories&view=categories',
+      },
+      com_fields: {
+        keyEvent: 'f',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_fields&view=fields',
+      },
+      com_sitemodules: {
+        keyEvent: 'm',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_modules&view=modules&client_id=0',
+      },
+      com_adminmodules: {
+        keyEvent: 'a',
+        hasShift: 1,
+        hasAlt: 1,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_modules&view=modules&client_id=1',
+      },
+      com_banners: {
+        keyEvent: 'b',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_banners&view=banners',
+      },
+      com_contacts: {
+        keyEvent: 'c',
+        hasShift: 1,
+        hasAlt: 0,
+        hasControl: 1,
+        selector: '',
+        link: 'index.php?option=com_contacts&view=contacts',
       },
     };
     const phpOptions = Joomla.getOptions('joomla-shortcut-keys');
