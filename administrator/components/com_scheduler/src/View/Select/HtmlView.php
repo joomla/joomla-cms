@@ -1,13 +1,13 @@
 <?php
 /**
- * Declares the MVC View for Task type selection.
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** Implements the MVC View for Task type selection (SelectView). */
 
 namespace Joomla\Component\Scheduler\Administrator\View\Select;
 

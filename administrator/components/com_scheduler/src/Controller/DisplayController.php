@@ -1,13 +1,13 @@
 <?php
 /**
- * Declares the default controller (DisplayController) for com_scheduler
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** Implements the default controller (DisplayController) for com_scheduler */
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * A task plugin to toggle the offline status of the site.
- *
  * @package       Joomla.Plugins
  * @subpackage    Task.ToggleOffline
  *
  * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/** A task plugin with routines to change the offline status of the site. */
 
 // Restrict direct access
 defined('_JEXEC') or die;

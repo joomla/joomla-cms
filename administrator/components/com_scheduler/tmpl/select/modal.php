@@ -1,7 +1,5 @@
 <?php
 /**
- * The SelectView modal layout template.
- *
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
@@ -9,6 +7,8 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  * phpcs:ignoreFile
  */
+
+/** The SelectView modal layout template. */
 
 // Restrict direct access
 defined('_JEXEC') or die;
