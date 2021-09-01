@@ -6089,9 +6089,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
 			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
-			// 4.0.0 to 4.0.3
+			// 4.0.0 to __DEPLOY_VERSION__
 			'/administrator/components/com_joomlaupdate/restore.php',
-			'/administrator/components/com_joomlaupdate/restore_finalisation.php',
 			'/media/com_joomlaupdate/js/encryption.js',
 			'/media/com_joomlaupdate/js/encryption.min.js',
 			'/media/com_joomlaupdate/js/encryption.min.js.gz',
