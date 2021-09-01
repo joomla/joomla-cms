@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -54,11 +55,19 @@ class CheckUpdatesCommand extends AbstractCommand
 		$cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
 
 		// Find all updates
-		Updater::getInstance()->findUpdates(0, $cache_timeout);
+		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
 
-		$symfonyStyle->success('Finished fetching updates');
+		if ($ret)
+		{
+			$symfonyStyle->note('There are available updates to apply');
+			$symfonyStyle->success('Check complete.');
+		}
+		else
+		{
+			$symfonyStyle->success('There are no available updates');
+		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

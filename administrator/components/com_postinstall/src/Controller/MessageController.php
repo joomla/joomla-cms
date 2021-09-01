@@ -36,8 +36,7 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-
-		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
+		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
 		{
@@ -99,8 +98,6 @@ class MessageController extends BaseController
 
 				return;
 
-				break;
-
 			case 'action':
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
@@ -111,10 +108,6 @@ class MessageController extends BaseController
 
 					call_user_func($item->action);
 				}
-				break;
-
-			case 'message':
-			default:
 				break;
 		}
 
@@ -134,7 +127,7 @@ class MessageController extends BaseController
 
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
+		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
 		{

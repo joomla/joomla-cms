@@ -1,7 +1,6 @@
 // Table
 
 .table {
-
   thead {
 
     th {
@@ -10,20 +9,15 @@
 
     th,
     td {
-      font-weight: $font-weight-normal;
-      color: var(--atum-link-color);
       white-space: nowrap;
-      border-top: 0;
-      border-bottom: 0;
 
-      @include media-breakpoint-down(xs) {
+      .sysinfo & {
         white-space: normal;
       }
     }
 
     a {
-      font-weight: $font-weight-normal;
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
 
       &#sorted {
         font-weight: $medium-weight;
@@ -33,22 +27,26 @@
 
     .actions,
     .actions-th1 {
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(md) {
         width: 28%;
       }
-
     }
   }
 
   tbody {
     tr {
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         background-color: $table-hover-bg;
       }
-    }
 
-    a:not(.badge) {
-      text-decoration: underline;
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
+      }
     }
 
     .itemnumber a.btn,
@@ -59,6 +57,10 @@
 
     th {
       font-weight: $medium-weight;
+    }
+
+    a:not(.badge) {
+      text-decoration: underline;
     }
   }
 
@@ -74,5 +76,9 @@
     .inactive [class*=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
+  }
+
+  .j-main-container > & {
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
   }
 }

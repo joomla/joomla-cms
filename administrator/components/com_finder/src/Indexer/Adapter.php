@@ -11,8 +11,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -389,7 +391,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on category access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -462,7 +464,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for categories
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -483,7 +485,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for items
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -791,7 +793,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *

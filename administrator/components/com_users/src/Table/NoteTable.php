@@ -126,6 +126,6 @@ class NoteTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_users.note';
+		return $this->typeAlias;
 	}
 }

@@ -148,7 +148,7 @@ class RemindModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}
@@ -209,7 +209,7 @@ class RemindModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'));
 
 			return false;
 		}

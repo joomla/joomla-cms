@@ -33,12 +33,13 @@ Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 $this->document->getWebAssetManager()
 	->usePreset('choicesjs')
-	->useScript('webcomponent.field-fancy-select');
+	->useScript('webcomponent.field-fancy-select')
+	->useScript('joomla.batch-copymove');
 
 ?>
 
-<p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
-<div class="container">
+<div class="p-3">
+	<p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
 	<div class="row">
 		<?php if ($clientId != 1) : ?>
 			<div class="form-group col-md-6">
@@ -66,7 +67,7 @@ $this->document->getWebAssetManager()
 					<label id="batch-choose-action-lbl" for="batch-choose-action">
 						<?php echo Text::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
 					</label>
-					<div id="batch-choose-action" class="control-group">
+					<div id="batch-choose-action">
 						<joomla-field-fancy-select allow-custom search-placeholder="<?php echo $this->escape(Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION')); ?>">
 						<?php echo HTMLHelper::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
 						</joomla-field-fancy-select>

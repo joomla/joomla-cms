@@ -11,7 +11,6 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class UpdateController extends BaseController
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		try
 		{
@@ -51,8 +50,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model  = $this->getModel('Update');
@@ -119,7 +116,7 @@ class UpdateController extends BaseController
 	public function install()
 	{
 		$this->checkToken('get');
-		Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
+		$this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -134,12 +131,10 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
-		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = $this->app->getUserState('com_joomlaupdate.file', null);
 		$model->createRestorationFile($file);
 
 		$this->display();
@@ -177,8 +172,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -221,8 +214,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -276,9 +267,7 @@ class UpdateController extends BaseController
 		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-
-		$this->_applyCredentials();
+		$this->app->getIdentity()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -313,13 +302,13 @@ class UpdateController extends BaseController
 		$this->checkToken('get');
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Do I really have an update package?
-		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+		$tempFile = $this->app->getUserState('com_joomlaupdate.temp_file', null);
 
 		if (empty($tempFile) || !File::exists($tempFile))
 		{
@@ -435,33 +424,6 @@ class UpdateController extends BaseController
 	}
 
 	/**
-	 * Applies FTP credentials to Joomla! itself, when required
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5.4
-	 */
-	protected function _applyCredentials()
-	{
-		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
-
-		if (!ClientHelper::hasCredentials('ftp'))
-		{
-			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
-			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
-
-			if ($user != '' && $pass != '')
-			{
-				// Add credentials to the session
-				if (!ClientHelper::setCredentials('ftp', $user, $pass))
-				{
-					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
-				}
-			}
-		}
-	}
-
-	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the final & cleanup steps.
 	 *
 	 * @return  void
@@ -474,7 +436,7 @@ class UpdateController extends BaseController
 		$this->checkToken();
 
 		// Did a non Super User try do this?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}

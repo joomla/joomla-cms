@@ -48,7 +48,7 @@ extract($displayData);
 
 // Initialize some field attributes.
 $attributes = array(
-	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	$class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',

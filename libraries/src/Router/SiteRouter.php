@@ -12,7 +12,6 @@ namespace Joomla\CMS\Router;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
@@ -105,7 +104,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parseCheckSSL(&$router, &$uri)
 	{
@@ -125,7 +124,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parseInit(&$router, &$uri)
 	{
@@ -178,7 +177,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parseFormat(&$router, &$uri)
 	{
@@ -201,7 +200,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parseSefRoute(&$router, &$uri)
 	{
@@ -225,7 +224,7 @@ class SiteRouter extends Router
 		else
 		{
 			// Get menu items.
-			$items    = $this->menu->getItems('parent_id', 1);
+			$items    = $this->menu->getItems(['parent_id', 'access'], [1, null]);
 			$lang_tag = $this->app->getLanguage()->getTag();
 			$found   = null;
 
@@ -327,7 +326,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parseRawRoute(&$router, &$uri)
 	{
@@ -369,7 +368,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function parsePaginationData(&$router, &$uri)
 	{
@@ -391,7 +390,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildInit(&$router, &$uri)
 	{
@@ -421,7 +420,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildComponentPreprocess(&$router, &$uri)
 	{
@@ -457,7 +456,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildSefRoute(&$router, &$uri)
 	{
@@ -483,7 +482,7 @@ class SiteRouter extends Router
 		{
 			if (!$item->home)
 			{
-				$tmp = $item->route . '/' . $tmp;
+				$tmp = $tmp ? $item->route . '/' . $tmp : $item->route;
 			}
 
 			unset($query['Itemid']);
@@ -494,14 +493,16 @@ class SiteRouter extends Router
 		}
 
 		// Get the route
-		$route = $uri->getPath() . '/' . $tmp;
+		if ($tmp)
+		{
+			$uri->setPath($uri->getPath() . '/' . $tmp);
+		}
 
 		// Unset unneeded query information
 		unset($query['option']);
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath(trim($route, '/'));
 	}
 
 	/**
@@ -512,7 +513,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildPaginationData(&$router, &$uri)
 	{
@@ -533,7 +534,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildFormat(&$router, &$uri)
 	{
@@ -556,7 +557,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildRewrite(&$router, &$uri)
 	{
@@ -584,7 +585,7 @@ class SiteRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function buildBase(&$router, &$uri)
 	{

@@ -712,6 +712,7 @@ class ItemModel extends AdminModel
 		switch ($table->type)
 		{
 			case 'alias':
+			case 'url':
 				$table->component_id = 0;
 				$args = array();
 
@@ -723,13 +724,6 @@ class ItemModel extends AdminModel
 			case 'container':
 				$table->link = '';
 				$table->component_id = 0;
-				break;
-
-			case 'url':
-				$table->component_id = 0;
-
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
 			case 'component':
@@ -1910,7 +1904,7 @@ class ItemModel extends AdminModel
 	 * Custom clean the cache
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
 	 *
 	 * @return  void
 	 *
@@ -1918,9 +1912,8 @@ class ItemModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

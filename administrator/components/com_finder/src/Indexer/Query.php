@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -1212,7 +1213,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 		}
 

@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,14 +28,15 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'core:check-updates';
 
 	/**
 	 * Stores the Update Information
-	 * @var UpdateModel
-	 * @since 4.0
+	 *
+	 * @var    UpdateModel
+	 * @since  4.0.0
 	 */
 	private $updateInfo;
 
@@ -59,7 +61,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getUpdateInformationFromModel()
 	{
@@ -76,7 +78,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getUpdateInfo()
 	{
@@ -95,7 +97,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setUpdateInfo($info = null): void
 	{
@@ -131,7 +133,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		{
 			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
@@ -141,6 +143,6 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 			$symfonyStyle->warning('We cannot find an update URL');
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

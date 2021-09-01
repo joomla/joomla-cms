@@ -4,7 +4,14 @@
   flex-wrap: nowrap;
   .awesomplete {
     input {
-      @include border-right-radius(0);
+      @include border-end-radius(0);
+    }
+  }
+  button {
+    display: flex;
+    align-items: center;
+    .icon-search {
+      margin-inline-end: .2em;
     }
   }
 }
@@ -13,8 +20,11 @@
   > input {
     max-width: 200px;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       max-width: none;
     }
+  }
+  > ul {
+    z-index: $zindex-dropdown !important;
   }
 }

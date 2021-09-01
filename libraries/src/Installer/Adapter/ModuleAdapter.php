@@ -280,7 +280,7 @@ class ModuleAdapter extends InstallerAdapter
 			}
 
 			// Wipe out any instances in the modules table
-			/** @var \JTableModule $module */
+			/** @var \Joomla\CMS\Table\Module $module */
 			$module = Table::getInstance('Module');
 
 			foreach ($modules as $modInstanceId)
@@ -330,25 +330,34 @@ class ModuleAdapter extends InstallerAdapter
 	 *
 	 * @param   string  $element  Optional element name to be converted
 	 *
-	 * @return  string  The filtered element
+	 * @return  string|null  The filtered element
 	 *
 	 * @since   3.4
 	 */
 	public function getElement($element = null)
 	{
-		if (!$element)
+		if ($element)
 		{
-			if (\count($this->getManifest()->files->children()))
-			{
-				foreach ($this->getManifest()->files->children() as $file)
-				{
-					if ((string) $file->attributes()->module)
-					{
-						$element = strtolower((string) $file->attributes()->module);
+			return $element;
+		}
 
-						break;
-					}
-				}
+		// Joomla 4 Module.
+		if ((string) $this->getManifest()->element)
+		{
+			return (string) $this->getManifest()->element;
+		}
+
+		if (!\count($this->getManifest()->files->children()))
+		{
+			return $element;
+		}
+
+		foreach ($this->getManifest()->files->children() as $file)
+		{
+			if ((string) $file->attributes()->module)
+			{
+				// Joomla 3 (legacy) Module.
+				return strtolower((string) $file->attributes()->module);
 			}
 		}
 
@@ -549,7 +558,7 @@ class ModuleAdapter extends InstallerAdapter
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the module's manifest objecct
+		// Get the module's manifest object
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());
@@ -673,7 +682,7 @@ class ModuleAdapter extends InstallerAdapter
 			// Create unpublished module
 			$name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-			/** @var \JTableModule $module */
+			/** @var \Joomla\CMS\Table\Module $module */
 			$module            = Table::getInstance('module');
 			$module->title     = $name;
 			$module->content   = '';

@@ -63,7 +63,7 @@ class BasicCest
 	{
 		$I->amBearerAuthenticated('BADTOKEN');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/content/articles/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
 	}
 
@@ -76,11 +76,11 @@ class BasicCest
 	 *
 	 * @since   4.0.0
 	 */
-	public function testContentNegotation(ApiTester $I)
+	public function testContentNegotiation(ApiTester $I)
 	{
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'text/xml');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/content/articles/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
 	}
 

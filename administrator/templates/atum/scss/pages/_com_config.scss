@@ -6,17 +6,12 @@
     grid-template-columns: 1fr;
   }
 
-  #page-filters .custom-select {
+  #page-filters .form-select {
     width: auto;
   }
 
   .tab-description {
     grid-column: 1 / -1;
-  }
-
-  .rule-notes,
-  .filter-notes {
-    background-color: $white;
   }
 
   .options-menu {

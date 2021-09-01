@@ -40,7 +40,7 @@ class ClientTable extends Table implements VersionableTableInterface
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		$this->typeAlias        = 'com_banners.client';
+		$this->typeAlias = 'com_banners.client';
 
 		$this->setColumnAlias('published', 'state');
 
@@ -56,7 +56,7 @@ class ClientTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_banners.client';
+		return $this->typeAlias;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class ClientTable extends Table implements VersionableTableInterface
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function check()
 	{

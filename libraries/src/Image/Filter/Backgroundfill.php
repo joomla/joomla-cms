@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,8 +15,6 @@ use Joomla\CMS\Image\ImageFilter;
 /**
  * Image Filter class fill background with color;
  *
- * @package     Joomla.Platform
- * @subpackage  Image
  * @since       3.4
  */
 class Backgroundfill extends ImageFilter
@@ -44,7 +41,7 @@ class Backgroundfill extends ImageFilter
 		$colorCode = $options['color'] ?? null;
 
 		// Get resource dimensions
-		$width = imagesx($this->handle);
+		$width  = imagesx($this->handle);
 		$height = imagesy($this->handle);
 
 		// Sanitize color
@@ -70,7 +67,7 @@ class Backgroundfill extends ImageFilter
 		// Apply image over background
 		imagecopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
 
-		// Move flattened result onto curent handle.
+		// Move flattened result onto current handle.
 		// If handle was palette-based, it'll stay like that.
 		imagecopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
 
@@ -100,8 +97,8 @@ class Backgroundfill extends ImageFilter
 			$colors = array_merge($colors, $input);
 		}
 		elseif (\is_string($input))
-		// Convert RGBA 6-9 char string
 		{
+			// Convert RGBA 6-9 char string
 			$hex = ltrim($input, '#');
 
 			$hexValues = [
@@ -120,8 +117,8 @@ class Backgroundfill extends ImageFilter
 			}
 		}
 		else
-		// Cannot sanitize such type
 		{
+			// Cannot sanitize such type
 			return $colors;
 		}
 

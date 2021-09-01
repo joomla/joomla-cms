@@ -73,7 +73,7 @@ if ($current->hasChildren())
 
 	if ($current->level > 2)
 	{
-		$dataToggle  = ' data-toggle="dropdown"';
+		$dataToggle  = ' data-bs-toggle="dropdown"';
 	}
 }
 else
@@ -110,11 +110,11 @@ if ($iconImage)
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
 		$iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
-		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
+		$iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
-		$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
+		$iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
 	}
 	else
 	{
@@ -124,21 +124,27 @@ if ($iconImage)
 
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
+// If the item image is not set, the item title would not have margin. Here we add it.
+if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '')
+{
+	$iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
+}
+
 if ($link != '' && $current->target != '')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
+	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" target="' . $current->target . '">'
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($link != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" aria-label=\"" . Text::_($current->title) . "\">"
+	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" aria-label="' . Text::_($current->title) . '">'
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
 elseif ($current->title != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . ">"
+	echo '<a' . $linkClass . $dataToggle . ' href="#">'
 		. $iconClass
 		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
@@ -165,7 +171,7 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 	{
 		echo '<span class="menu-quicktask"><a href="' . $link . '">';
 		echo '<span class="icon-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
-		echo '<span class="sr-only">' . Text::_($title) . '</span>';
+		echo '<span class="visually-hidden">' . Text::_($title) . '</span>';
 		echo '</a></span>';
 	}
 }
@@ -176,7 +182,7 @@ if ($current->dashboard)
 	echo '<span class="menu-dashboard"><a href="'
 		. Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
 		. '<span class="icon-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
-		. '<span class="sr-only">' . $titleDashboard . '</span>'
+		. '<span class="visually-hidden">' . $titleDashboard . '</span>'
 		. '</a></span>';
 }
 

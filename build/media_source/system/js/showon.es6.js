@@ -29,6 +29,12 @@
       if (this.showonFields.length) {
         // @todo refactor this, dry
         this.showonFields.forEach((field) => {
+          // Set up only once
+          if (field.hasAttribute('data-showon-initialised')) {
+            return;
+          }
+          field.setAttribute('data-showon-initialised', '');
+
           const jsondata = field.getAttribute('data-showon') || '';
           const showonData = JSON.parse(jsondata);
           let localFields;
@@ -92,7 +98,7 @@
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
-              // Initialise
+              // Initialize the showon behaviour for the given HTMLElement
               self.linkedOptions(key);
 
               // Setup listeners
@@ -204,12 +210,20 @@
     }
   }
 
+  // Provide a public API
+  window.Joomla = window.Joomla || {};
+
+  if (!Joomla.Showon) {
+    Joomla.Showon = {
+      initialise: (container) => new Showon(container),
+    };
+  }
+
   /**
    * Initialize 'showon' feature at an initial page load
    */
   document.addEventListener('DOMContentLoaded', () => {
-    // eslint-disable-next-line no-new
-    new Showon(document);
+    Joomla.Showon.initialise(document);
   });
 
   /**
@@ -229,7 +243,6 @@
       });
     }
 
-    // eslint-disable-next-line no-new
-    new Showon(target);
+    Joomla.Showon.initialise(target);
   });
 })(document);

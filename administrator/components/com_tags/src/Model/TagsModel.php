@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 /**
@@ -27,8 +28,6 @@ class TagsModel extends ListModel
 {
 	/**
 	 * Constructor.
-	 *
-	 * @see     \JControllerLegacy
 	 *
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
@@ -324,5 +323,21 @@ class TagsModel extends ListModel
 		{
 			$component->countTagItems($items, $extension);
 		}
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+
+		return $query;
 	}
 }

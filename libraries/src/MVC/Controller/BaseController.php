@@ -280,7 +280,8 @@ class BaseController implements ControllerInterface
 
 		if (\is_array($command))
 		{
-			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
+			$keys = array_keys($command);
+			$command = $filter->clean(array_pop($keys), 'cmd');
 		}
 		else
 		{
@@ -677,7 +678,7 @@ class BaseController implements ControllerInterface
 
 			try
 			{
-				/** @var \JCacheControllerView $cache */
+				/** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}

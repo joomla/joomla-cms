@@ -22,12 +22,10 @@
               <button
                 v-if="showClose"
                 type="button"
-                class="close"
+                class="btn-close"
                 aria-label="Close"
                 @click="close()"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              />
             </div>
             <div class="modal-body">
               <slot name="body" />

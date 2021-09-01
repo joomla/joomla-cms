@@ -3,17 +3,14 @@
 .gu-mirror {
   position: fixed !important;
   z-index: $zindex-popover !important;
+  display: table;
   margin: 0 !important;
   cursor: move;
   background-color: $teal;
   opacity: .8;
 
-  &.table {
-    display: table;
-
-    td {
-      display: table-cell;
-    }
+  td, th {
+    background-color: $teal;
   }
 }
 

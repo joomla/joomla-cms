@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\ContentHelper;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class StageHelper extends ContentHelper
 {

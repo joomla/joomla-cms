@@ -36,12 +36,12 @@ $wa->useScript('com_users.admin-users-groups');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="groupList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_USERS_GROUPS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -57,15 +57,15 @@ $wa->useScript('com_users.admin-users-groups');
 								<th scope="col" class="w-10 text-center">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" class="w-10 text-center">
-									<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
+									<span class="icon-check" aria-hidden="true"></span>
+									<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
 								</th>
-								<th scope="col" class="w-10 text-center">
-									<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
+									<span class="icon-times" aria-hidden="true"></span>
+									<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -85,7 +85,7 @@ $wa->useScript('com_users.admin-users-groups');
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center" data-usercount="<?php echo $item->user_count; ?>">
 									<?php if ($canEdit) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">
@@ -100,16 +100,28 @@ $wa->useScript('com_users.admin-users-groups');
 								<td class="text-center btns">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 										<span class="icon-list" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
-								<td class="text-center btns itemnumber">
-									<a class="btn <?php echo $item->count_enabled > 0 ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
-										<?php echo $item->count_enabled; ?></a>
+								<td class="text-center btns itemnumber d-none d-md-table-cell">
+									<a class="btn <?php echo $item->count_enabled > 0 ? 'btn-success' : 'btn-secondary'; ?>"
+										href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>"
+										aria-describedby="tip-enabled<?php echo $i; ?>">
+										<?php echo $item->count_enabled; ?>
+									</a>
+									<div role="tooltip" id="tip-enabled<?php echo $i; ?>">
+										<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
+									</div>
 								</td>
-								<td class="text-center btns itemnumber">
-									<a class="btn <?php echo $item->count_disabled > 0 ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
-										<?php echo $item->count_disabled; ?></a>
+								<td class="text-center btns itemnumber d-none d-md-table-cell">
+									<a class="btn <?php echo $item->count_disabled > 0 ? 'btn-danger' : 'btn-secondary'; ?>"
+										href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>"
+										aria-describedby="tip-blocked<?php echo $i; ?>">
+										<?php echo $item->count_disabled; ?>
+									</a>
+									<div role="tooltip" id="tip-blocked<?php echo $i; ?>">
+										<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
+									</div>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>

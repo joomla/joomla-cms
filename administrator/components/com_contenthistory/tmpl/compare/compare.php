@@ -28,7 +28,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
 	<h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
 
 	<table id="diff" class="table">
-		<caption id="captionTable" class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
 		</caption>
 		<thead>

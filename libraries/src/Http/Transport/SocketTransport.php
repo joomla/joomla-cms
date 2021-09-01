@@ -268,7 +268,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+				$php_errormsg = sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno);
 			}
 
 			// Restore error tracking to give control to the exception handler

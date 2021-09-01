@@ -46,7 +46,7 @@ use Joomla\CMS\Layout\FileLayout;
 		<?php endif; ?>
 		<h2 class="<?php echo $direction; ?>">
 			<?php if ($this->item->published == 0) : ?>
-				<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+				<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
 			<a href="<?php echo $this->item->link; ?>" target="_blank" rel="noopener">
 				<?php echo str_replace('&apos;', "'", $this->item->name); ?>

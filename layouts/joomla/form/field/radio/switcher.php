@@ -68,7 +68,7 @@ $attr .= $dataAttribute;
 
 ?>
 <fieldset <?php echo $attr; ?>>
-	<legend class="switcher__legend sr-only">
+	<legend class="visually-hidden">
 		<?php echo $label; ?>
 	</legend>
 	<div class="switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">
@@ -83,7 +83,7 @@ $attr .= $dataAttribute;
 		// Initialize some option attributes.
 		$optionValue = (string) $option->value;
 		$optionId    = $id . $i;
-		$attributes  = $optionValue == $value ? 'checked class="active"' : '';
+		$attributes  = $optionValue == $value ? 'checked class="active ' . $class . '"' : ($class ? 'class="' . $class . '"' : '');
 		$attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
 		?>
 		<?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>

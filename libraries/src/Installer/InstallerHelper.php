@@ -56,8 +56,8 @@ abstract class InstallerHelper
 	/**
 	 * Downloads a package
 	 *
-	 * @param   string  $url     URL of file to download
-	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
+	 * @param   string       $url     URL of file to download
+	 * @param   string|bool  $target  Download target filename or false to get the filename from the URL
 	 *
 	 * @return  string|boolean  Path to downloaded package or boolean false on failure
 	 *
@@ -284,9 +284,6 @@ abstract class InstallerHelper
 		}
 
 		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
-
-		// Free up memory.
-		unset($xml);
 
 		return false;
 	}

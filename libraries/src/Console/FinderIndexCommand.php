@@ -10,12 +10,14 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,15 +41,17 @@ class FinderIndexCommand extends AbstractCommand
 
 	/**
 	 * Stores the Input Object
-	 * @var InputInterface
-	 * @since 4.0.0
+	 *
+	 * @var    InputInterface
+	 * @since  4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var   SymfonyStyle
-	 * @since 4.0.0
+	 *
+	 * @var    SymfonyStyle
+	 * @since  4.0.0
 	 */
 	private $ioStyle;
 
@@ -208,7 +212,7 @@ EOF;
 			$this->index();
 		}
 
-		$this->ioStyle->newline(1);
+		$this->ioStyle->newLine(1);
 
 		// Total reporting.
 		$this->ioStyle->writeln(
@@ -218,9 +222,9 @@ EOF;
 			]
 		);
 
-		$this->ioStyle->newline(1);
+		$this->ioStyle->newLine(1);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -231,7 +235,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -353,7 +357,7 @@ EOF;
 		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
+		$this->ioStyle->text(Text::_('FINDER_CLI_STARTING_INDEXER'));
 
 		// Trigger the onStartIndex event.
 		$app->triggerEvent('onStartIndex');
@@ -365,13 +369,13 @@ EOF;
 		$state = Indexer::getState();
 
 		// Setting up plugins.
-		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
+		$this->ioStyle->text(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'));
 
 		// Trigger the onBeforeIndex event.
 		$app->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
+		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)));
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -420,7 +424,7 @@ EOF;
 
 					if ($pause > 0 && !$skip)
 					{
-						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause));
 						sleep($pause);
 						$this->ioStyle->text(Text::_('FINDER_CLI_BATCH_CONTINUING'));
 					}
@@ -432,8 +436,7 @@ EOF;
 								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
 								$processingTime,
 								$this->minimumBatchProcessingTime
-							),
-							true
+							)
 						);
 					}
 
@@ -444,7 +447,7 @@ EOF;
 		catch (Exception $e)
 		{
 			// Display the error
-			$this->ioStyle->error($e->getMessage(), true);
+			$this->ioStyle->error($e->getMessage());
 
 			// Reset the indexer state.
 			Indexer::resetState();

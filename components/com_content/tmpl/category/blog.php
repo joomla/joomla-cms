@@ -29,6 +29,8 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
+$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+
 ?>
 <div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -37,12 +39,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
-		<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
-			<?php if ($this->params->get('show_category_title')) : ?>
-				<span class="subheading-category"><?php echo $this->category->title; ?></span>
-			<?php endif; ?>
-		</h2>
+	<?php if ($this->params->get('show_category_title', 1)) : ?>
+	<<?php echo $htag; ?>>
+		<?php echo $this->category->title; ?>
+	</<?php echo $htag; ?>>
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
@@ -93,7 +93,12 @@ $afterDisplayContent = trim(implode("\n", $results));
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
-		<div class="com-content-category-blog__items blog-items <?php echo $this->params->get('blog_class'); ?>">
+		<?php $blogClass = $this->params->get('blog_class', ''); ?>
+		<?php if ((int) $this->params->get('num_columns') > 1) : ?>
+			<?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
+			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
+		<?php endif; ?>
+		<div class="com-content-category-blog__items blog-items <?php echo $blogClass; ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="com-content-category-blog__item blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -122,7 +127,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="com-content-category-blog__navigation w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="com-content-category-blog__counter counter float-right pt-3 pr-2">
+				<p class="com-content-category-blog__counter counter float-end pt-3 pe-2">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>

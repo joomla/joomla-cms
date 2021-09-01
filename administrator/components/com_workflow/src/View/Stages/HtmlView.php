@@ -112,25 +112,25 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
+		$this->state         = $this->get('State');
+		$this->stages        = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->workflow      = $this->get('Workflow');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->state         = $this->get('State');
-		$this->stages        = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-
-		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
 
 		$parts = explode('.', $this->workflow->extension);
@@ -145,12 +145,12 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->stages))
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
-			$workflow  = new Workflow(['extension' => $extension]);
+			$workflow  = new Workflow($extension);
 		}
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

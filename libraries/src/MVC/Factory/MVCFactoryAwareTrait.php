@@ -18,7 +18,7 @@ trait MVCFactoryAwareTrait
 	/**
 	 * The mvc factory.
 	 *
-	 * @var    MVCFactoryInterfaceCF
+	 * @var    MVCFactoryInterface
 	 * @since  4.0.0
 	 */
 	private $mvcFactory;

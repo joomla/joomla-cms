@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+HTMLHelper::_('behavior.multiselect');
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = Factory::getLanguage();
@@ -34,14 +36,39 @@ $wa->useScript('com_finder.index');
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if ($this->finderPluginId) : ?>
+					<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
+					<?php echo HTMLHelper::_(
+						'bootstrap.renderModal',
+						'plugin' . $this->finderPluginId . 'Modal',
+						array(
+							'url'         => $link,
+							'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
+							'height'      => '400px',
+							'width'       => '800px',
+							'bodyHeight'  => '70',
+							'modalWidth'  => '80',
+							'closeButton' => false,
+							'backdrop'    => 'static',
+							'keyboard'    => false,
+							'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+								. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+								. Text::_("JSAVE") . '</button>'
+								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+								. Text::_("JAPPLY") . '</button>'
+						)
+					); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -107,7 +134,7 @@ $wa->useScript('com_finder.index');
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
 									<span tabindex="0">
 										<span class="icon-calendar" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
 									</span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
 										<?php

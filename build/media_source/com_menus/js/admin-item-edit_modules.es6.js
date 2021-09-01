@@ -88,7 +88,7 @@ Joomla = window.Joomla || {};
   if (elements.length) {
     elements.forEach((element) => {
       element.addEventListener('click', ({ target }) => {
-        const dataTarget = target.getAttribute('data-target');
+        const dataTarget = target.getAttribute('data-bs-target');
 
         if (dataTarget) {
           const iframe = document.querySelector('#moduleEditModal iframe');

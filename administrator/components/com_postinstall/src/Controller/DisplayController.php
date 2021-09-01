@@ -46,6 +46,6 @@ class DisplayController extends BaseController
 
 		$model = $this->getModel('Messages');
 
-		echo new JsonResponse(count($model->getItems()));
+		echo new JsonResponse($model->getItemsCount());
 	}
 }

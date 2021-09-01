@@ -36,7 +36,7 @@ class RouterViewConfiguration
 	/**
 	 * Parentview of this one
 	 *
-	 * @var    RouterViewconfiguration
+	 * @var    RouterViewConfiguration
 	 * @since  3.5
 	 */
 	public $parent = false;
@@ -68,7 +68,7 @@ class RouterViewConfiguration
 	/**
 	 * Child-views of this view
 	 *
-	 * @var    RouterViewconfiguration[]
+	 * @var    RouterViewConfiguration[]
 	 * @since  3.5
 	 */
 	public $children = array();
@@ -107,7 +107,7 @@ class RouterViewConfiguration
 	 *
 	 * @param   string  $name  Name of the view
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -126,7 +126,7 @@ class RouterViewConfiguration
 	 *
 	 * @param   string  $key  Key of the view
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -140,14 +140,14 @@ class RouterViewConfiguration
 	/**
 	 * Set the parent view of this view
 	 *
-	 * @param   RouterViewconfiguration  $parent     Parent view object
+	 * @param   RouterViewConfiguration  $parent     Parent view object
 	 * @param   string                   $parentKey  Key of the parent view in this context
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
-	public function setParent(RouterViewconfiguration $parent, $parentKey = false)
+	public function setParent(RouterViewConfiguration $parent, $parentKey = null)
 	{
 		if ($this->parent)
 		{
@@ -171,7 +171,7 @@ class RouterViewConfiguration
 		$this->path   = $parent->path;
 		$this->path[] = $this->name;
 
-		$this->parent_key = $parentKey;
+		$this->parent_key = $parentKey ?? false;
 
 		if ($parentKey)
 		{
@@ -186,7 +186,7 @@ class RouterViewConfiguration
 	 *
 	 * @param   bool  $isNestable  If set to true, the view is nestable
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -202,7 +202,7 @@ class RouterViewConfiguration
 	 *
 	 * @param   string  $layout  Layouts that this view supports
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -219,7 +219,7 @@ class RouterViewConfiguration
 	 *
 	 * @param   string  $layout  Layouts that this view supports
 	 *
-	 * @return  RouterViewconfiguration  This object for chaining
+	 * @return  RouterViewConfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */

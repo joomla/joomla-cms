@@ -22,7 +22,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 class SuggestionsController extends BaseController
 {
 	/**
-	 * Method to find search query suggestions. Uses jQuery and autocompleter.js
+	 * Method to find search query suggestions. Uses awesomplete
 	 *
 	 * @return  void
 	 *

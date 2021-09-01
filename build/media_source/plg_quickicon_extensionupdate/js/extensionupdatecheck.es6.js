@@ -3,12 +3,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Ajax call to get the update status of the installed extensions
 (() => {
   'use strict';
 
-  // Add a listener on content loaded to initiate the check
-  document.addEventListener('DOMContentLoaded', () => {
+  // Ajax call to get the update status of the installed extensions
+  const fetchUpdate = () => {
     if (Joomla.getOptions('js-extensions-update')) {
       const options = Joomla.getOptions('js-extensions-update');
 
@@ -21,7 +20,7 @@
 
         if (linkSpans.length) {
           linkSpans.forEach((span) => {
-            span.innerHTML = text;
+            span.innerHTML = Joomla.sanitizeHtml(text);
           });
         }
       };
@@ -39,7 +38,7 @@
               // No updates
               update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
             } else {
-              update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light">${updateInfoList.length}</span>`));
+              update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`));
             }
           } else {
             // An error occurred
@@ -52,5 +51,10 @@
         },
       });
     }
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(fetchUpdate, 330);
   });
 })();

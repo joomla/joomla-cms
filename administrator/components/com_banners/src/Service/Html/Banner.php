@@ -38,7 +38,7 @@ class Banner
 				'<label id="batch-client-lbl" for="batch-client-id">',
 				Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
-				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',
+				'<select class="form-select" name="batch[client_id]" id="batch-client-id">',
 				'<option value="">' . Text::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
 				'<option value="0">' . Text::_('COM_BANNERS_NO_CLIENT') . '</option>',
 				HTMLHelper::_('select.options', static::clientlist(), 'value', 'text'),

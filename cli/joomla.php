@@ -9,9 +9,7 @@
 // We are a valid entry point.
 const _JEXEC = 1;
 
-/**
- * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
- */
+// Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
@@ -41,6 +39,15 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 	echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
 	echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
 	echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+
+	exit;
+}
+
+// Check if installed
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
+	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10))
+{
+	echo 'Install Joomla to run cli commands' . PHP_EOL;
 
 	exit;
 }

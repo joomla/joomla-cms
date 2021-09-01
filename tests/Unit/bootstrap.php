@@ -65,6 +65,11 @@ if (!defined('JPATH_ADMINISTRATOR'))
 	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
 
+if (!defined('JPATH_API'))
+{
+	define('JPATH_API', JPATH_ROOT . '/api');
+}
+
 if (!defined('JPATH_INSTALLATION'))
 {
 	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');

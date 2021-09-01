@@ -2,7 +2,7 @@
 <form>
 	<field
 		name="id"
-		type="number"
+		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 		class="readonly"
@@ -11,7 +11,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		default="0"
@@ -88,7 +88,7 @@
 		name="published"
 		type="list"
 		label="JSTATUS"
-		class="custom-select-color-state"
+		class="form-select-color-state"
 		default="1"
 		size="1"
 		validate="options"
@@ -160,6 +160,7 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
 	/>
 
 	<field
@@ -187,6 +188,7 @@
 		class="readonly"
 		readonly="true"
 		filter="unset"
+		validate="UserId"
 	/>
 
 	<field
@@ -232,7 +234,7 @@
 					name="tag_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					useglobal="true"
 					extension="com_tags"
 					view="tag"

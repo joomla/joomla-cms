@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_news.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_news.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
 	<config>
@@ -87,7 +87,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					default=""
 					filter="integer"
-					class="custom-select-color"
+					class="form-select-color"
 					showon="item_title:1"
 					validate="options"
 					>
@@ -226,7 +226,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

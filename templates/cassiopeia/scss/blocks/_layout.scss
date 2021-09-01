@@ -3,21 +3,20 @@
 .grid-child {
   display: flex;
   width: 100%;
-  max-width: max-width(xl);
+  max-width: max-width(xxl);
   margin-right: auto;
   margin-left: auto;
 }
 
-.container-header header .site {
-  background-color: $gray-100;
+.mod-custom {
+  position: relative;
+}
 
-  > .full-width {
-    max-width: none;
-  }
-
-  .container-footer,
-  .system-debug {
-    display: block;
+.container-topbar,
+.container-below-top {
+  color: $white;
+  a {
+    color: currentColor;
   }
 }
 
@@ -30,20 +29,23 @@
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
-  padding: 4rem 0;
-
+  position: relative;
   > * {
     flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2) 0;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     flex-direction: column;
 
     > * {
       flex: 0 1 auto;
     }
   }
+}
+
+.container-component nav {
+  position: relative;
 }
 
 .container-component,
@@ -72,7 +74,7 @@
   width: calc(100% - #{$cassiopeia-grid-gutter});
   order: 1;
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     width: calc(25% - #{$cassiopeia-grid-gutter});
     order: 0;
   }
@@ -97,4 +99,22 @@
 
 .system-debug {
   display: block;
+}
+
+.options-form {
+  width: 100%;
+  padding: 1vw 2vw;
+  margin-bottom: 1rem;
+  color: #495057;
+  background-color: $white;
+  border: 1px solid #b2bfcd;
+
+  > legend {
+    float: none;
+    width: auto;
+    padding: 0 .5rem;
+    font-weight: 700;
+    color: #495057;
+    background-color: $white;
+  }
 }

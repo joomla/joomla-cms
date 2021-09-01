@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -212,32 +213,18 @@ class ExportModel extends BaseDatabaseModel
 		try
 		{
 			$app = Factory::getApplication();
+			$mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
-			$substitutions = [
-				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => Uri::root(),
-				'\\n'        => "\n",
+			$templateData = [
+				'sitename' => $app->get('sitename'),
+				'url'      => Uri::root(),
 			];
 
-			$emailSubject = $lang->_('COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_SUBJECT');
-			$emailBody    = $lang->_('COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_BODY');
-
-			foreach ($substitutions as $k => $v)
-			{
-				$emailSubject = str_replace($k, $v, $emailSubject);
-				$emailBody    = str_replace($k, $v, $emailBody);
-			}
-
-			$mailer = Factory::getMailer();
-			$mailer->setSubject($emailSubject);
-			$mailer->setBody($emailBody);
 			$mailer->addRecipient($table->email);
-			$mailer->addStringAttachment(
-				PrivacyHelper::renderDataAsXml($exportData),
-				'user-data_' . Uri::getInstance()->toString(['host']) . '.xml'
-			);
+			$mailer->addTemplateData($templateData);
+			$mailer->addAttachment('user-data_' . Uri::getInstance()->toString(['host']) . '.xml', PrivacyHelper::renderDataAsXml($exportData));
 
-			if ($mailer->Send() === false)
+			if ($mailer->send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
 
@@ -252,8 +239,6 @@ class ExportModel extends BaseDatabaseModel
 
 			return false;
 		}
-
-		return true;
 	}
 
 	/**

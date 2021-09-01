@@ -21,14 +21,12 @@ $id     = $input->getInt('id');
 
 foreach ($list as $item) : ?>
 	<li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
-		<h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 		<?php echo $item->title; ?>
 			<?php if ($params->get('numitems')) : ?>
 				(<?php echo $item->numitems; ?>)
 			<?php endif; ?>
 		</a>
-		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 
 		<?php if ($params->get('show_description', 0)) : ?>
 			<?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>

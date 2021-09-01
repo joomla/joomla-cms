@@ -12,11 +12,8 @@ namespace Joomla\Component\Media\Site\Dispatcher;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Input\Input;
 
 /**
  * ComponentDispatcher class for com_media

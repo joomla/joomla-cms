@@ -22,7 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		($this->item->address || $this->item->suburb  || $this->item->state || $this->item->country || $this->item->postcode)) : ?>
 		<dt>
 			<?php if (!$this->params->get('marker_address')) : ?>
-				<span class="icon-address" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?></span>
+				<span class="icon-address" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?></span>
 			<?php else : ?>
 				<span class="<?php echo $this->params->get('marker_class'); ?>">
 					<?php echo $this->params->get('marker_address'); ?>
@@ -33,8 +33,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
-					<?php echo nl2br($this->item->address); ?>
-					<br>
+					<?php echo nl2br($this->item->address, false); ?>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -43,7 +42,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-suburb" itemprop="addressLocality">
 					<?php echo $this->item->suburb; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -51,7 +49,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-state" itemprop="addressRegion">
 					<?php echo $this->item->state; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -59,7 +56,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-postcode" itemprop="postalCode">
 					<?php echo $this->item->postcode; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -67,7 +63,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-country" itemprop="addressCountry">
 					<?php echo $this->item->country; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -76,7 +71,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->email_to && $this->params->get('show_email')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_email')) : ?>
-			<span class="icon-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_EMAIL'); ?>"></span>
+			<span class="icon-envelope" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_EMAIL'); ?>"></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_email'); ?>
@@ -93,7 +88,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->telephone && $this->params->get('show_telephone')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_telephone')) : ?>
-				<span class="icon-phone" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_TELEPHONE'); ?></span>
+				<span class="icon-phone" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_TELEPHONE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_telephone'); ?>
@@ -109,7 +104,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->fax && $this->params->get('show_fax')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_fax')) : ?>
-			<span class="icon-fax" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
+			<span class="icon-fax" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_fax'); ?>
@@ -125,7 +120,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->mobile && $this->params->get('show_mobile')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_mobile')) : ?>
-			<span class="icon-mobile" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
+			<span class="icon-mobile" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_mobile'); ?>
@@ -135,14 +130,13 @@ use Joomla\CMS\String\PunycodeHelper;
 	<dd>
 		<span class="contact-mobile" itemprop="telephone">
 			<?php echo $this->item->mobile; ?>
-			<br>
 		</span>
 	</dd>
 <?php endif; ?>
 <?php if ($this->item->webpage && $this->params->get('show_webpage')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_webpage')) : ?>
-			<span class="icon-home" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
+			<span class="icon-home" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_webpage'); ?>

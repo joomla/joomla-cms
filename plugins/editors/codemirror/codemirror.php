@@ -147,7 +147,8 @@ class PlgEditorCodemirror extends CMSPlugin
 		$height .= is_numeric($height) ? 'px' : '';
 
 		// Options for the CodeMirror constructor.
-		$options = new stdClass;
+		$options  = new stdClass;
+		$keyMapUrl = '';
 
 		// Is field readonly?
 		if (!empty($params['readonly']))
@@ -161,6 +162,8 @@ class PlgEditorCodemirror extends CMSPlugin
 			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
 			$autofocused = $options->autofocus;
 		}
+		// Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
+		$options->autoRefresh = true;
 
 		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 
@@ -240,10 +243,11 @@ class PlgEditorCodemirror extends CMSPlugin
 			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
 		}
 
-		if ($options->keyMap && $options->keyMap != 'default')
-		{
-			$this->loadKeyMap($options->keyMap);
+		if ($options->keyMap !== 'default') {
+			$keyMapUrl = $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
 		}
+
+		$options->keyMapUrl = $keyMapUrl;
 
 		$displayData = (object) array(
 			'options'  => $options,
@@ -317,23 +321,5 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
-	}
-
-	/**
-	 * Loads a keyMap file
-	 *
-	 * @param   string  $keyMap  The name of a keyMap file to load.
-	 *
-	 * @return  void
-	 */
-	protected function loadKeyMap($keyMap)
-	{
-		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript(
-				'codemirror.keymap.' . $keyMap,
-				$this->basePath . 'keymap/' . $keyMap . '.min.js',
-				[],
-				['defer' => true]
-			);
 	}
 }
