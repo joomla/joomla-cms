@@ -32,4 +32,6 @@
  * able to update to newer Joomla versions using the CLI updater.
  */
 
+define('_JOOMLA_UPDATE', 1);
+
 require_once __DIR__ . '/finalisation.php';
