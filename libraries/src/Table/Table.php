@@ -862,7 +862,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 					$asset->rules = (string) $this->_rules;
 				}
 
-				if (!$asset->check() || !$asset->store(false))
+				if (!$asset->check() || !$asset->store())
 				{
 					$this->setError($asset->getError());
 
