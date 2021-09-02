@@ -228,7 +228,7 @@ defined('_JEXEC') or die;
 				</table>
 			</td>
 		</tr>
-		<tr id="preupdatecheckbox" >
+		<tr id="preupdatecheckbox">
 			<td>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 			</td>
