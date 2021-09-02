@@ -152,8 +152,86 @@ class PlgSystemShortcut extends CMSPlugin
 				'hasAlt' => $this->params->get('readmore_hasAlt', 1),
 				'hasControl' => $this->params->get('readmore_hasControl', 1),
 				'selector' => 'joomla-editor-option~read_more'
-				)
+				),
+			'articles' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'a'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_categories' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'c'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_fields' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'f'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_sitemodules' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'm'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_adminmodules' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'a'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 1),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_banners' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'b'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_contacts' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'c'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 1),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_newsfeeds' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'n'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', ),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_smartsearch' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 's'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_tags' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 't'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			),
+			'com_users' => array(
+				'keyEvent' => $this->params->get('new_keyEvent', 'u'),
+				'hasShift' => $this->params->get('new_hasShift', 1),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
+				'hasControl' => $this->params->get('new_hasControl', 1),
+				'selector' => 'joomla-toolbar-button button.button-new'
+			)
 			);
+
 			$wa = $this->app->getDocument()->getWebAssetManager();
 			$config = $this->app->getConfig();
 			$editor = $config->get('editor', 'tinymce');
