@@ -34,7 +34,7 @@
       "type": "script",
       "uri": "com_joomlaupdate/default-es5.min.js",
       "dependencies": [
-        "core",
+        "core"
       ],
       "attributes": {
         "defer": true,
