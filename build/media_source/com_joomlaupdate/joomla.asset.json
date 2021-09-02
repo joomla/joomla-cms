@@ -35,7 +35,6 @@
       "uri": "com_joomlaupdate/default-es5.min.js",
       "dependencies": [
         "core",
-        "jquery"
       ],
       "attributes": {
         "defer": true,
