@@ -125,6 +125,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
+		ToolbarHelper::help('Maintenance:_Global_Check-in');
 	}
 }

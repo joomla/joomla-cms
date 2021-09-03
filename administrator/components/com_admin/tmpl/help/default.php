@@ -30,9 +30,9 @@ $wa->useScript('com_admin.admin-help');
 			</button>
 			<div class="sidebar-nav" id="help-index">
 				<ul class="nav flex-column">
-					<li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_START_HERE'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
+					<li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Start_Here'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
 					<li class="item"><?php echo HTMLHelper::_('link', 'https://www.gnu.org/licenses/gpl-2.0.html', Text::_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
-					<li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_GLOSSARY'), Text::_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
+					<li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Glossary'), Text::_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
 					<li class="divider"></li>
 					<li class="nav-header"><?php echo Text::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
 					<?php foreach ($this->toc as $k => $v) : ?>

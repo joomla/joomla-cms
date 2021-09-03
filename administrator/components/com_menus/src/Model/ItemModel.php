@@ -61,7 +61,7 @@ class ItemModel extends AdminModel
 	 * @var    string  The help screen key for the menu item.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
+	protected $helpKey = 'Menu_Item:_New_Item';
 
 	/**
 	 * @var    string  The help screen base URL for the menu item.
