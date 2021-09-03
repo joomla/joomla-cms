@@ -300,7 +300,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			// Checking whether it is possible to determine the type of an uninitialized property.
 			if (!method_exists($prop, 'getType'))
 			{
-				$this->_propertyTypes[$prop->name] = gettype($this->{$prop->name});
+				$this->_propertyTypes[$prop->name] = null;
 				continue;
 			}
 
