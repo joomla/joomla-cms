@@ -46,7 +46,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -74,6 +73,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -1475,8 +1475,10 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
+			// Remove unused fields so they do not cause javascript errors during pre-update check
 			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)
@@ -1549,8 +1551,10 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($plugin);
 			$plugin->version = isset($decode->version)
