@@ -324,7 +324,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Convert types otherwise default value
 		foreach ($this->getFields() as $name => $field)
 		{
-			if (strpos($name, '_') !== 0 && !$this->hasField($name))
+			if (strpos($name, '_') !== 0 && !isset($this->{$name}))
 			{
 				$this->$name = static::TypeConvert($field->Default, $field->TypeProperty, $this->_tz);
 			}
