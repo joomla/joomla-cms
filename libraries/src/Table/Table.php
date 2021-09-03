@@ -304,7 +304,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$type = (string) $prop->getType();
+			$type = $prop->getType();
+			$type = $type != null ? (string) $prop->getType()->getName() : null;
 			$this->_propertyTypes[$prop->name] = $type;
 
 			if (isset($this->{$prop->name}))
