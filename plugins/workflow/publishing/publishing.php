@@ -524,24 +524,12 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
-		{
-			return false;
-		}
-
 		$parts = explode('.', $context);
 
-		// We need at least the extension + view for loading the table fields
-		if (count($parts) < 2)
-		{
-			return false;
-		}
-
-		$component = $this->app->bootComponent($parts[0]);
-
-		if (!$component instanceof WorkflowServiceInterface
-			|| !$component->isWorkflowActive($context)
-			|| !$component->supportFunctionality($this->supportFunctionality, $context))
+		// We need at least the extension + view for loading the table fields + the extion must be supported
+		if (count($parts) < 2
+			|| !$this->checkAllowedAndForbiddenlist($context)
+			|| !$this->checkExtensionSupport($context, $this->supportFunctionality))
 		{
 			return false;
 		}
