@@ -48,18 +48,17 @@ $fontStyles       = '';
 
 if ($paramsFontScheme)
 {
-	if (preg_match('/^https\:\/\//i', $paramsFontScheme))
+	if (stripos($paramsFontScheme, 'https://') === 0)
 	{
 		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
 		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
 		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print','rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
-		preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
 
-		if (count($matches) > 0)
+		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
 		{
 			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . (count($matches[1]) === 2 ? str_replace('+', ' ', $matches[1][1]) : str_replace('+', ' ', $matches[1][0])) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
 		}
@@ -77,14 +76,14 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 	->useStyle('template.user')
 	->useScript('template.user')
 	->addInlineStyle(":root {
-			--hue: 214;
-			--template-bg-light: #f0f4fb;
-			--template-text-dark: #495057;
-			--template-text-light: #ffffff;
-			--template-link-color: #2a69b8;
-			--template-special-color: #001B4C;
-			$fontStyles
-		}");
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001B4C;
+		$fontStyles
+	}");
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
