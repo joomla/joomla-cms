@@ -23,6 +23,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Event\Event;
 
 /**
  * Api Model
@@ -116,7 +117,10 @@ class ApiModel extends BaseDatabaseModel
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
-		Factory::getApplication()->triggerEvent('onFetchMediaFile', [$file]);
+		Factory::getApplication()->getDispatcher()->dispatch(
+			'onFetchMediaFile',
+			new Event('onFetchMediaFile', [$file])
+		);
 
 		return $file;
 	}
@@ -182,7 +186,10 @@ class ApiModel extends BaseDatabaseModel
 
 		$files = array_values($files);
 
-		Factory::getApplication()->triggerEvent('onFetchMediaFiles', [$files]);
+		Factory::getApplication()->getDispatcher()->dispatch(
+			'onFetchMediaFiles',
+			new Event('onFetchMediaFiles', [$files])
+		);
 
 		// Return array with proper indexes
 		return $files;
@@ -461,7 +468,10 @@ class ApiModel extends BaseDatabaseModel
 		}
 
 		$url    = $this->getAdapter($adapter)->getUrl($path);
-		$newUrl = Factory::getApplication()->triggerEvent('onFetchMediaFileUrl', [$url]);
+		$newUrl = Factory::getApplication()->getDispatcher()->dispatch(
+			'onFetchMediaFileUrl',
+			new Event('onFetchMediaFileUrl', [$url])
+		);
 
 		if ($newUrl && $newUrl !== false)
 		{
