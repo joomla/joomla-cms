@@ -29,22 +29,25 @@ $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $para
 $paramsFontScheme = $this->params->get('useFontScheme', false);
 $fontStyles       = '';
 
-if ($paramsFontScheme) {
-	if (preg_match('/^https\:\/\//i', $paramsFontScheme)) {
+if ($paramsFontScheme)
+{
+	if (stripos($paramsFontScheme, 'https://') === 0)
+	{
 		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
 		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
 		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
 		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
-		preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches);
 
-		if (count($matches) > 0)
+		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
 		{
 			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . (count($matches[1]) === 2 ? str_replace('+', ' ', $matches[1][1]) : str_replace('+', ' ', $matches[1][0])) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
 		}
-	} else {
+	}
+	else
+	{
 		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
 		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
 	}
