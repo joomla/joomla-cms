@@ -523,6 +523,8 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return false;
 		}
 
+		$component = $this->app->bootComponent($parts[0]);
+
 		$modelName = $component->getModelName($context);
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
