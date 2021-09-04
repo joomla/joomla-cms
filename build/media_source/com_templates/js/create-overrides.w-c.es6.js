@@ -2,6 +2,14 @@ class CreateOverrides extends HTMLElement {
   constructor() {
     super();
 
+    this.fetchOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    this.url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_templates`);
     this.html = `<div class="ms-4 me-4">
     <div class="control-group">
       <div class="control-label">
@@ -65,24 +73,19 @@ class CreateOverrides extends HTMLElement {
   async connectedCallback() {
     this.task = this.getAttribute('task');
     this.client = this.getAttribute('client');
+    this.token = this.getAttribute('token');
+    this.item = this.getAttribute('item');
 
     if (Object.keys(this.data).length === 0) {
-      const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_templates`);
+      const url = this.url;
       url.searchParams.append('task', this.task);
       url.searchParams.append('client', this.client);
-      url.searchParams.append('token', this.getAttribute('token'));
+      url.searchParams.append(this.getAttribute('token'), 1);
       url.searchParams.append('id', this.item);
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
 
-      const response = await fetch(url, options);
+      const response = await fetch(url, this.fetchOptions);
       const data = await response.json();
       this.data = data.data;
-      // console.log(this.data);
     }
 
     this.innerHTML = this.html;
@@ -146,6 +149,11 @@ class CreateOverrides extends HTMLElement {
       }
       if (['components', 'layouts', 'modules', 'plugins'].includes(value)) {
         this.secondSelector.innerHTML = '';
+        this.thirdSelector.innerHTML = '';
+        this.thirdSelector.closest('.control-group').setAttribute('hidden', '');
+        this.switcher.closest('.control-group').setAttribute('hidden', '');
+        this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
+        this.button.closest('.control-group').setAttribute('hidden', '');
         const elementsFirst = [{
           name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
           value: '',
@@ -203,10 +211,16 @@ class CreateOverrides extends HTMLElement {
       }
     });
 
-    this.button.addEventListener('click', () => {
+    this.button.addEventListener('click', async () => {
       // @todo Submit the data
-      const modal = this.closest('.modal-template');
-      bootstrap.Modal.getInstance(modal).toggle();
+      const response = await fetch(this.url, this.fetchOptions);
+      const data = await response.json();
+      if (data.success) {
+        const modal = this.closest('.modal-template');
+        bootstrap.Modal.getInstance(modal).toggle();
+      } else {
+        Joomla.renderMessages({'error': [data.message]}, this, true, 5000);
+      }
     });
   }
 

@@ -59,7 +59,7 @@ extract($displayData);
 					<?php endif; ?>
 					<?php if ($canCreate) : ?>
 						<li>
-							<button class="js-action-exec-modal btn btn-link" type="button" data-task="templates.getExtensionLayouts" data-client="1" data-item="<?php echo (int) $item->extensionId; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+							<button class="js-action-exec-modal btn btn-link" type="button" data-override="true" data-task="templates.getExtensionLayouts" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_NEW_OVERRIDE'); ?></span>
 							</button>
@@ -67,7 +67,7 @@ extract($displayData);
 					<?php endif; ?>
 					<?php if ($canDelete) : ?>
 						<li>
-							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->clientId; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
+							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
 								<span class="icon-trash" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_UNINSTALL'); ?></span>
 							</button>
@@ -99,6 +99,15 @@ extract($displayData);
 						<a href="mailto: <?php echo $this->escape($email); ?>">
 							<?php echo $this->escape($email); ?>
 						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if ($description = (string) $item->description) : ?>
+					<li class="list-group-item">
+						<button class="js-action-exec-modal btn btn-link" type="button" data-info-task="templates.getDescription" data-name="<?php echo $this->escape($item->templateName); ?>" data-id="<?php echo $this->escape($item->extensionId); ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+							<span class="icon-info" aria-hidden="true"></span>
+							<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_INFO'); ?></span>
+						</button>
 					</li>
 				<?php endif; ?>
 

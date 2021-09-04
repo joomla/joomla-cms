@@ -329,6 +329,7 @@ class TemplatesModel extends ListModel
 				$items[$curTemplate]->copyright = $xmldata->get('copyright', '');
 				$items[$curTemplate]->inheritable = $xmldata->get('inheritable', false);
 				$items[$curTemplate]->parent = $xmldata->get('parent', '');
+				$items[$curTemplate]->client = $item->client_id;
 
 				$items[$curTemplate]->styles = [];
 				$items[$curTemplate]->childs = [];
@@ -458,10 +459,6 @@ class TemplatesModel extends ListModel
 	 */
 	public function getOverridesList($id)
 	{
-		if (!in_array($id, [0, 1])) {
-			return [];
-		}
-
 		$client        = ApplicationHelper::getClientInfo($id);
 		$componentPath = Path::clean($client->path . '/components/');
 		$modulePath    = Path::clean($client->path . '/modules/');

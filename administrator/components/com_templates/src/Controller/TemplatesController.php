@@ -283,10 +283,11 @@ class TemplatesController extends AdminController
 	public function getExtensionLayouts()
 	{
 		// Check for request forgeries
-		// $this->checkToken();
+		$this->checkToken();
 
-		$app = $this->app;
+		$app        = $this->app;
 		$templateID = $this->input->getInt('id', 0);
+		$client     = $this->input->getInt('client', 0);
 
 		// Access check.
 //		if (!$this->allowEdit())
@@ -301,7 +302,7 @@ class TemplatesController extends AdminController
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel('Templates', 'Administrator');
 
-		$overrides = $model->getOverridesList($templateID);
+		$overrides = $model->getOverridesList($client);
 
 		$app->mimeType = 'application/json';
 		$app->charSet = 'utf-8';
@@ -314,6 +315,45 @@ class TemplatesController extends AdminController
 		}
 		catch (\Exception $e)
 		{
+			echo $e;
+		}
+
+		$this->app->close();
+	}
+
+	public function getDescription()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$app = $this->app;
+		$templateID = $this->input->getInt('id', 0);
+		$templateClient = $this->input->getInt('client', 1);
+
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model = $this->getModel('Template', 'Administrator');
+
+		$template = $model->getTemplate($templateID);
+
+		$lang = Factory::getLanguage();
+		$base_dir = $templateClient === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+		$language_tag = Factory::getLanguage()->getTag();
+		$reload = true;
+
+		$manifest = new \Joomla\Registry\Registry($template->manifest_cache);
+		$untranslated = @$manifest->get('description');
+		$reload = true;
+		$lang->load('tpl_' . $template->element, $base_dir, $language_tag, $reload);
+		$description = Text::_($untranslated);
+
+		$app->mimeType = 'application/json';
+		$app->charSet = 'utf-8';
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+
+		try {
+			echo new JsonResponse($description);
+		} catch (\Exception $e) {
 			echo $e;
 		}
 
