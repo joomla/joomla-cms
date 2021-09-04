@@ -77,7 +77,7 @@ class CreateOverrides extends HTMLElement {
     this.item = this.getAttribute('item');
 
     if (Object.keys(this.data).length === 0) {
-      const url = this.url;
+      const { url } = this;
       url.searchParams.append('task', this.task);
       url.searchParams.append('client', this.client);
       url.searchParams.append(this.getAttribute('token'), 1);
@@ -219,7 +219,7 @@ class CreateOverrides extends HTMLElement {
         const modal = this.closest('.modal-template');
         bootstrap.Modal.getInstance(modal).toggle();
       } else {
-        Joomla.renderMessages({'error': [data.message]}, this, true, 5000);
+        Joomla.renderMessages({ error: [data.message] }, this, true, 5000);
       }
     });
   }

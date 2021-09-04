@@ -49,16 +49,16 @@ const onClickModal = async (event) => {
     conainer.classList.add('p-4');
 
     const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_templates`);
-      url.searchParams.append('task', button.dataset.infoTask);
-      url.searchParams.append('client', button.dataset.client);
-      url.searchParams.append(button.dataset.token, 1);
-      url.searchParams.append('id', button.dataset.id);
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
+    url.searchParams.append('task', button.dataset.infoTask);
+    url.searchParams.append('client', button.dataset.client);
+    url.searchParams.append(button.dataset.token, 1);
+    url.searchParams.append('id', button.dataset.id);
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     const response = await fetch(url, options);
     // Unsafe to use innerHTML here, as it can be XSS-attacked
     conainer.innerHTML = (await response.json()).data;
@@ -71,7 +71,7 @@ const onClickModal = async (event) => {
   document.body.appendChild(template);
   const modalElement = document.querySelector('.modal-template');
 
-  const modal = new bootstrap.Modal(modalElement, {backdrop: 'static'});
+  const modal = new bootstrap.Modal(modalElement, { backdrop: 'static' });
   modal.toggle();
   modalElement.addEventListener('hidden.bs.modal', () => {
     document.body.removeChild(modalElement);
