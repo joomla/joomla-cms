@@ -347,7 +347,6 @@ class TemplatesModel extends ListModel
 				$baseUrl  = $baseUrl . '/templates/' . $template;
 			}
 
-
 			$thumb = '/template_thumbnail.png';
 			$preview = '/template_preview.png';
 
@@ -481,7 +480,9 @@ class TemplatesModel extends ListModel
 			$extension->load($componentObj->id);
 			$manifest = new \Joomla\Registry\Registry($extension->manifest_cache);
 			$untranslatedName = @$manifest->get('name', $componentObj->name);
-			if ($untranslatedName) {
+
+			if ($untranslatedName)
+			{
 				$lang->load($component, $base_dir, $language_tag, $reload);
 				$name = Text::_(strtoupper($untranslatedName));
 			}
@@ -490,8 +491,6 @@ class TemplatesModel extends ListModel
 				$name = $untranslatedName;
 			}
 
-
-			// echo $version;
 			// Collect the folders with views
 			$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
 			$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
