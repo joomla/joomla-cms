@@ -75,7 +75,7 @@ function extractionMethodHandler(target, prefix)
 			}
 		});
 
-		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+		PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins', []);
 
 		// If there are no non Core Critical Plugins installed then disable the warnings upfront
 		if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0)
