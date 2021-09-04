@@ -112,13 +112,13 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'UNPUBLISH', '', -1, 1, '{"publishing":"0"}', NULL, 0),
-(2, 0, 1, 2, 1, 'PUBLISH', '', -1, 1, '{"publishing":"1"}', NULL, 0),
-(3, 0, 1, 3, 1, 'TRASH', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
-(4, 0, 1, 4, 1, 'ARCHIVE', '', -1, 1, '{"publishing":"2"}', NULL, 0),
-(5, 0, 1, 5, 1, 'FEATURE', '', -1, 1, '{"featuring":"1"}', NULL, 0),
-(6, 0, 1, 6, 1, 'UNFEATURE', '', -1, 1, '{"featuring":"0"}', NULL, 0),
-(7, 0, 1, 7, 1, 'PUBLISH_AND_FEATURE', '', -1, 1, '{"publishing":"1","featuring":"1"}', NULL, 0);
+(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
+(2, 0, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}', NULL, 0),
+(3, 0, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
+(4, 0, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}', NULL, 0),
+(5, 0, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}', NULL, 0),
+(6, 0, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0),
+(7, 0, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}', NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 8, false);
 
