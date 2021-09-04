@@ -73,16 +73,16 @@ class CreateOverrides extends HTMLElement {
       url.searchParams.append('token', this.getAttribute('token'));
       url.searchParams.append('id', this.item);
       const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       };
 
       const response = await fetch(url, options);
       const data = await response.json();
       this.data = data.data;
-      console.log(this.data);
+      // console.log(this.data);
     }
 
     this.innerHTML = this.html;
@@ -92,13 +92,13 @@ class CreateOverrides extends HTMLElement {
     this.createOverrides();
   }
 
-  disconnectedCallback() {
+  // disconnectedCallback() {
 
-  }
+  // }
 
-  attributeChangedCallback(attrName, oldVal, newVal) {
+  // attributeChangedCallback(attrName, oldVal, newVal) {
 
-  }
+  // }
 
   async createOverrides() {
     const elements = [
@@ -131,7 +131,7 @@ class CreateOverrides extends HTMLElement {
     this.switcherRadios = [].slice.call(this.switcher.querySelectorAll('input[name="override_creator_named"]'));
     this.creatorNameInput = this.querySelector('#override_creator_name_input');
     this.button = this.querySelector('button');
-    elements.map((element) => this.appendElement(element, this.firstSelector));
+    elements.forEach((element) => this.appendElement(element, this.firstSelector));
 
     this.firstSelector.addEventListener('change', (e) => {
       const { value } = e.target;
@@ -146,12 +146,12 @@ class CreateOverrides extends HTMLElement {
       }
       if (['components', 'layouts', 'modules', 'plugins'].includes(value)) {
         this.secondSelector.innerHTML = '';
-        const elements = [{
+        const elementsFirst = [{
           name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
           value: '',
-         }];
-        Object.keys(this.data[value]).map((key) => { elements.push({ name: key, value: key }); });
-        elements.map((element) => this.appendElement(element, this.secondSelector));
+        }];
+        Object.keys(this.data[value]).forEach((key) => { elementsFirst.push({ name: key, value: key }); });
+        elementsFirst.forEach((element) => this.appendElement(element, this.secondSelector));
         this.secondSelector.closest('.control-group').removeAttribute('hidden');
       }
     });
@@ -164,15 +164,15 @@ class CreateOverrides extends HTMLElement {
       }
       if (value !== '') {
         this.thirdSelector.innerHTML = '';
-        const elements = [{
+        const elementsSecond = [{
           name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
           value: '',
         }];
 
         Object.keys(this.data[`${this.firstSelector.value}`][this.secondSelector.value])
-        .map((key) => { elements.push({ name: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].name, value: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].path }); });
+          .forEach((key) => { elementsSecond.push({ name: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].name, value: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].path }); });
 
-        elements.map((element) => this.appendElement(element, this.thirdSelector));
+        elementsSecond.forEach((element) => this.appendElement(element, this.thirdSelector));
         this.thirdSelector.closest('.control-group').removeAttribute('hidden');
       }
     });
@@ -188,14 +188,14 @@ class CreateOverrides extends HTMLElement {
         this.button.closest('.control-group').removeAttribute('hidden');
       }
     });
-    this.switcherRadios[0].addEventListener('click', (e) => {
+    this.switcherRadios[0].addEventListener('click', () => {
       if (this.switcherRadios[0].checked) {
         this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
       } else {
         this.creatorNameInput.closest('.control-group').removeAttribute('hidden');
       }
     });
-    this.switcherRadios[1].addEventListener('click', (e) => {
+    this.switcherRadios[1].addEventListener('click', () => {
       if (!this.switcherRadios[1].checked) {
         this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
       } else {
@@ -203,13 +203,14 @@ class CreateOverrides extends HTMLElement {
       }
     });
 
-    this.button.addEventListener('click', (e) => {
+    this.button.addEventListener('click', () => {
       // @todo Submit the data
       const modal = this.closest('.modal-template');
-      bootstrap.Modal.getInstance(modal).toggle()
+      bootstrap.Modal.getInstance(modal).toggle();
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   appendElement(element, parent) {
     const el = document.createElement('option');
     el.value = element.value;
