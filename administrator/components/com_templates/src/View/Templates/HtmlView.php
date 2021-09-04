@@ -72,6 +72,14 @@ class HtmlView extends BaseHtmlView
 	public $preview;
 
 	/**
+	 * An array with all the possible overridable views
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public $overridePaths;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -82,6 +90,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+//		$this->overridePaths = $this->get('OverridesList', $this->baseurl === '/administrator' ? 1 : 0);
 		$this->state         = $this->get('State');
 		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');

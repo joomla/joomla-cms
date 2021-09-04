@@ -56,6 +56,14 @@ extract($displayData);
 							</button>
 						</li>
 					<?php endif; ?>
+					<?php if($canCreate) : ?>
+						<li>
+							<button class="js-action-exec-modal btn btn-link" type="button" data-task="templates.getExtensionLayouts" data-item="<?php echo (int) $item->extensionId; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+								<span class="icon-copy" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_CREATE_OVERRIDE'); ?></span>
+							</button>
+						</li>
+					<?php endif; ?>
 					<?php if($canDelete) : ?>
 						<li>
 							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->clientId; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
@@ -68,7 +76,7 @@ extract($displayData);
 			</div>
 		<?php endif; ?>
 
-		<div class="dropdown">
+		<div class="dropdown d-inline-block">
 			<button class="btn btn-link dropdown-toggle" type="button" id="template-info-<?php echo (int) $item->extensionId; ?>" data-bs-toggle="dropdown" aria-expanded="false">
 				<span class="icon-info-circle" aria-hidden="true"></span>
 				<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?></span>

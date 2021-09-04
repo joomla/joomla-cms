@@ -19,14 +19,20 @@ use Joomla\CMS\Session\Session;
 HTMLHelper::_('bootstrap.dropdown');
 
 $token     = Session::getFormToken();
-$wa        = Factory::getDocument()->getWebAssetManager();
+$document  = Factory::getDocument();
+$wa        = $document->getWebAssetManager();
 $user      = Factory::getUser();
 $clientId  = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
+Text::script('COM_TEMPLATES_CREATE_OVERRIDE');
+
 $wa->useStyle('com_templates.admin-templates')
 	->useScript('com_templates.admin-templates')
+	->useScript('keepalive');
+
+//$document->addScriptOptions('override.paths', json_encode($this->overridePaths($clientId)));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm" data-token="<?php echo $token; ?>">
 	<div class="row">
@@ -111,7 +117,7 @@ if ($canCreate)
 }
 ?>
 <template id="modal-template">
-	<div class="modal" tabindex="-1">
+	<div class="modal modal-template" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

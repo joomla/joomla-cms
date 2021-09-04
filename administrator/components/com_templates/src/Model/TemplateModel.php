@@ -628,11 +628,13 @@ class TemplateModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	public function &getTemplate()
+	public function &getTemplate($pk = '')
 	{
 		if (empty($this->template))
 		{
-			$pk  = (int) $this->getState('extension.id');
+			if ($pk === '') {
+				$pk  = (int) $this->getState('extension.id');
+			}
 			$db  = $this->getDbo();
 			$app = Factory::getApplication();
 
@@ -1039,139 +1041,6 @@ class TemplateModel extends FormModel
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get overrides folder.
-	 *
-	 * @param   string  $name  The name of override.
-	 * @param   string  $path  Location of override.
-	 *
-	 * @return  object  containing override name and path.
-	 *
-	 * @since   3.2
-	 */
-	public function getOverridesFolder($name,$path)
-	{
-		$folder = new \stdClass;
-		$folder->name = $name;
-		$folder->path = base64_encode($path . $name);
-
-		return $folder;
-	}
-
-	/**
-	 * Get a list of overrides.
-	 *
-	 * @return  array containing overrides.
-	 *
-	 * @since   3.2
-	 */
-	public function getOverridesList()
-	{
-		if ($template = $this->getTemplate())
-		{
-			$client        = ApplicationHelper::getClientInfo($template->client_id);
-			$componentPath = Path::clean($client->path . '/components/');
-			$modulePath    = Path::clean($client->path . '/modules/');
-			$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
-			$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
-			$components    = Folder::folders($componentPath);
-
-			foreach ($components as $component)
-			{
-				// Collect the folders with views
-				$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
-				$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
-
-				if (!$folders)
-				{
-					continue;
-				}
-
-				foreach ($folders as $folder)
-				{
-					// The subfolders are views
-					$views = Folder::folders($folder);
-
-					foreach ($views as $view)
-					{
-						// The old scheme, if a view has a tmpl folder
-						$path = $folder . '/' . $view . '/tmpl';
-
-						// The new scheme, the views are directly in the component/tmpl folder
-						if (!is_dir($path) && substr($folder, -4) == 'tmpl')
-						{
-							$path = $folder . '/' . $view;
-						}
-
-						// Check if the folder exists
-						if (!is_dir($path))
-						{
-							continue;
-						}
-
-						$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
-					}
-				}
-			}
-
-			foreach (Folder::folders($pluginPath) as $pluginGroup)
-			{
-				foreach (Folder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
-				{
-					if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
-					{
-						$pluginLayoutPath = Path::clean($pluginPath . '/' . $pluginGroup . '/');
-						$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
-					}
-				}
-			}
-
-			$modules = Folder::folders($modulePath);
-
-			foreach ($modules as $module)
-			{
-				$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
-			}
-
-			$layoutFolders = Folder::folders($layoutPath);
-
-			foreach ($layoutFolders as $layoutFolder)
-			{
-				$layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
-				$layouts = Folder::folders($layoutFolderPath);
-
-				foreach ($layouts as $layout)
-				{
-					$result['layouts'][$layoutFolder][] = $this->getOverridesFolder($layout, $layoutFolderPath);
-				}
-			}
-
-			// Check for layouts in component folders
-			foreach ($components as $component)
-			{
-				if (file_exists($componentPath . '/' . $component . '/layouts/'))
-				{
-					$componentLayoutPath = Path::clean($componentPath . '/' . $component . '/layouts/');
-
-					if ($componentLayoutPath)
-					{
-						$layouts = Folder::folders($componentLayoutPath);
-
-						foreach ($layouts as $layout)
-						{
-							$result['layouts'][$component][] = $this->getOverridesFolder($layout, $componentLayoutPath);
-						}
-					}
-				}
-			}
-		}
-
-		if (!empty($result))
-		{
-			return $result;
-		}
 	}
 
 	/**

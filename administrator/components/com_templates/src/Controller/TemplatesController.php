@@ -12,9 +12,11 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -269,5 +271,52 @@ class TemplatesController extends AdminController
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getExtensionLayouts()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$app = $this->app;
+		$templateID = $this->input->getInt('id', 0);
+
+		// Access check.
+//		if (!$this->allowEdit())
+//		{
+//			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+//
+//			return false;
+//		}
+
+//		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
+
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model = $this->getModel('Template', 'Administrator');
+
+		$overrides = $model->getOverridesList($templateID);
+
+		$app->mimeType = 'application/json';
+		$app->charSet = 'utf-8';
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+
+		try
+		{
+			echo new JsonResponse($overrides);
+		}
+		catch (\Exception $e)
+		{
+			echo $e;
+		}
+
+		$this->app->close();
 	}
 }
