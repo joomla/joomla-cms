@@ -2,16 +2,93 @@ class CreateOverrides extends HTMLElement {
   constructor() {
     super();
 
-    this.elementSelector = document.createElement('select');
-    this.elementSelector.classList.add('form-select');
+    this.html = `<div class="ms-4 me-4">
+    <div class="control-group">
+      <div class="control-label">
+        <label for="extension-type-selector">${Joomla.Text._('COM_TEMPLATES_SELECT_TYPE_OF_OVERRIDE_LABEL')}</label>
+      </div>
+      <div class="controls">
+        <select id="extension-type-selector" class="form-select"></select>
+      </div>
+    </div>
+    <div class="control-group" hidden>
+      <div class="control-label">
+        <label for="extension-selector">${Joomla.Text._('COM_TEMPLATES_COMPONENT_LABEL')}</label>
+      </div>
+      <div class="controls">
+        <select id="extension-selector" class="form-select"></select>
+      </div>
+    </div>
+    <div class="control-group" hidden>
+      <div class="control-label">
+        <label for="layout-selector">${Joomla.Text._('COM_TEMPLATES_LAYOUT_SELECT_LABEL')}</label>
+      </div>
+      <div class="controls">
+        <select id="layout-selector" class="form-select"></select>
+      </div>
+    </div>
+    <div class="control-group" hidden>
+      <div class="control-label">
+        <label for="override_creator_name">${Joomla.Text._('COM_TEMPLATES_LAYOUT_CUSTOM_NAME')}</label>
+      </div>
+      <div class="controls">
+        <fieldset id="override_creator_name">
+          <legend class="visually-hidden">${Joomla.Text._('COM_TEMPLATES_LAYOUT_CUSTOM_NAME')}</legend>
+          <div class="switcher">
+            <input type="radio" id="override_creator_name0" name="override_creator_named" value="0" checked="" class="active ">
+            <label for="override_creator_name0">${Joomla.Text._('JNO')}</label>
+            <input type="radio" id="override_creator_name1" name="override_creator_named" value="1">
+            <label for="override_creator_name1">${Joomla.Text._('JYES')}</label>
+            <span class="toggle-outside">
+              <span class="toggle-inside"></span>
+            </span>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="control-group" hidden>
+      <div class="control-label">
+        <label for="override_creator_name_input">${Joomla.Text._('COM_TEMPLATES_LAYOUT_CUSTOM_NAME_LABEL')}</label>
+      </div>
+      <div class="controls has-success">
+        <input type="text" id="override_creator_name_input" value="" class="form-control" size="40" maxlength="255">
+      </div>
+    </div>
+    <div class="control-group" hidden>
+      <button type="button" class="btn btn-success w-100">{{buttonPrimary}}</button>
+    </div>
+  </div>`;
 
-    // class="form-select" aria-label="Default select example"
+    this.data = {};
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this.task = this.getAttribute('task');
     this.client = this.getAttribute('client');
-    this.token = this.getAttribute('token');
+
+    if (Object.keys(this.data).length === 0) {
+      const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_templates`);
+      url.searchParams.append('task', this.task);
+      url.searchParams.append('client', this.client);
+      url.searchParams.append('token', this.getAttribute('token'));
+      url.searchParams.append('id', this.item);
+      const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+      };
+
+      const response = await fetch(url, options);
+      const data = await response.json();
+      this.data = data.data;
+      console.log(this.data);
+    }
+
+    this.innerHTML = this.html;
+    this.createBtn = this.querySelector('.btn.btn-success');
+    this.createBtn.setAttribute('disabled', '');
+    this.createBtn.innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
     this.createOverrides();
   }
 
@@ -27,7 +104,7 @@ class CreateOverrides extends HTMLElement {
     const elements = [
       {
         value: '',
-        name: Joomla.Text._('COM_TEMPLATES_SELECT_TYPE_OF_OVERRIDE'),
+        name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
       },
       {
         value: 'components',
@@ -35,59 +112,109 @@ class CreateOverrides extends HTMLElement {
       },
       {
         value: 'layouts',
-        name: Joomla.Text._('COM_TEMPLATES_LAYOUTS'),
+        name: Joomla.Text._('COM_TEMPLATES_LAYOUT'),
       },
       {
         value: 'modules',
-        name: Joomla.Text._('COM_TEMPLATES_MODULES'),
+        name: Joomla.Text._('COM_TEMPLATES_MODULE'),
       },
       {
         value: 'plugins',
-        name: Joomla.Text._('COM_TEMPLATES_PLUGINS'),
+        name: Joomla.Text._('COM_TEMPLATES_PLUGIN'),
       },
     ];
 
-    elements.map((element) => this.appendElement(element));
+    this.firstSelector = this.querySelector('#extension-type-selector');
+    this.secondSelector = this.querySelector('#extension-selector');
+    this.thirdSelector = this.querySelector('#layout-selector');
+    this.switcher = this.querySelector('#override_creator_name');
+    this.switcherRadios = [].slice.call(this.switcher.querySelectorAll('input[name="override_creator_named"]'));
+    this.creatorNameInput = this.querySelector('#override_creator_name_input');
+    this.button = this.querySelector('button');
+    elements.map((element) => this.appendElement(element, this.firstSelector));
 
-    this.appendChild(this.elementSelector);
-
-    console.log({
-      task: this.task,
-      client: this.client,
-      token: this.token,
+    this.firstSelector.addEventListener('change', (e) => {
+      const { value } = e.target;
+      if (value === '') {
+        this.secondSelector.closest('.control-group').setAttribute('hidden', '');
+        this.secondSelector.innerHTML = '';
+        this.thirdSelector.closest('.control-group').setAttribute('hidden', '');
+        this.thirdSelector.innerHTML = '';
+        this.switcher.closest('.control-group').setAttribute('hidden', '');
+        this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
+        this.button.closest('.control-group').setAttribute('hidden', '');
+      }
+      if (['components', 'layouts', 'modules', 'plugins'].includes(value)) {
+        this.secondSelector.innerHTML = '';
+        const elements = [{
+          name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
+          value: '',
+         }];
+        Object.keys(this.data[value]).map((key) => { elements.push({ name: key, value: key }); });
+        elements.map((element) => this.appendElement(element, this.secondSelector));
+        this.secondSelector.closest('.control-group').removeAttribute('hidden');
+      }
     });
-    const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_templates`);
-    url.searchParams.append('task', this.task);
-    url.searchParams.append('client', this.client);
-    url.searchParams.append('token', this.token);
-    url.searchParams.append('id', this.item);
 
-    //&task=${this.task}&client=${this.client}&token=${this.token}&format=json
-    console.log(url);
-    const response = await fetch(url,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        // body: JSON.stringify({
-        //   option: 'com_templates',
-        //   task: button.dataset.task,
-        //   id: button.dataset.item,
-        //
-        // })
+    this.secondSelector.addEventListener('change', (e) => {
+      const { value } = e.target;
+      if (value === '') {
+        this.thirdSelector.closest('.control-group').setAttribute('hidden', '');
+        this.thirdSelector.innerHTML = '';
+      }
+      if (value !== '') {
+        this.thirdSelector.innerHTML = '';
+        const elements = [{
+          name: Joomla.Text._('COM_TEMPLATES_SELECT_OPTION_NONE'),
+          value: '',
+        }];
+
+        Object.keys(this.data[`${this.firstSelector.value}`][this.secondSelector.value])
+        .map((key) => { elements.push({ name: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].name, value: this.data[`${this.firstSelector.value}`][this.secondSelector.value][key].path }); });
+
+        elements.map((element) => this.appendElement(element, this.thirdSelector));
+        this.thirdSelector.closest('.control-group').removeAttribute('hidden');
+      }
     });
 
-    const data = await response.json();
-    console.log(await data);
+    this.thirdSelector.addEventListener('change', (e) => {
+      const { value } = e.target;
+      if (value === '') {
+        this.createBtn.setAttribute('disabled', '');
+        this.button.closest('.control-group').setAttribute('hidden', '');
+      } else {
+        this.switcher.closest('.control-group').removeAttribute('hidden');
+        this.createBtn.removeAttribute('disabled');
+        this.button.closest('.control-group').removeAttribute('hidden');
+      }
+    });
+    this.switcherRadios[0].addEventListener('click', (e) => {
+      if (this.switcherRadios[0].checked) {
+        this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
+      } else {
+        this.creatorNameInput.closest('.control-group').removeAttribute('hidden');
+      }
+    });
+    this.switcherRadios[1].addEventListener('click', (e) => {
+      if (!this.switcherRadios[1].checked) {
+        this.creatorNameInput.closest('.control-group').setAttribute('hidden', '');
+      } else {
+        this.creatorNameInput.closest('.control-group').removeAttribute('hidden');
+      }
+    });
+
+    this.button.addEventListener('click', (e) => {
+      // @todo Submit the data
+      const modal = this.closest('.modal-template');
+      bootstrap.Modal.getInstance(modal).toggle()
+    });
   }
 
-  appendElement(element) {
+  appendElement(element, parent) {
     const el = document.createElement('option');
     el.value = element.value;
     el.innerText = element.name;
-    this.elementSelector.appendChild(el);
+    parent.appendChild(el);
   }
 }
 

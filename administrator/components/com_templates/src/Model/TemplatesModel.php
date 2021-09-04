@@ -16,8 +16,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
@@ -443,7 +445,7 @@ class TemplatesModel extends ListModel
 	{
 		$folder = new \stdClass;
 		$folder->name = $name;
-		$folder->path = base64_encode($path . $name);
+		$folder->path = str_replace(JPATH_ROOT, '', $path . $name); //base64_encode();
 
 		return $folder;
 	}
@@ -467,9 +469,29 @@ class TemplatesModel extends ListModel
 		$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
 		$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
 		$components    = Folder::folders($componentPath);
+		$lang = Factory::getLanguage();
+		$base_dir = $client->path === 'site' ? JPATH_SITE : JPATH_ADMINISTRATOR;
+		$language_tag = Factory::getLanguage()->getTag();
+		$reload = true;
 
 		foreach ($components as $component)
 		{
+			$componentObj = ComponentHelper::getComponent($component);
+			$extension = Table::getInstance('extension');
+			$extension->load($componentObj->id);
+			$manifest = new \Joomla\Registry\Registry($extension->manifest_cache);
+			$untranslatedName = @$manifest->get('name', $componentObj->name);
+			if ($untranslatedName) {
+				$lang->load($component, $base_dir, $language_tag, $reload);
+				$name = Text::_(strtoupper($untranslatedName));
+			}
+			else
+			{
+				$name = $untranslatedName;
+			}
+
+
+			// echo $version;
 			// Collect the folders with views
 			$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
 			$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
@@ -501,7 +523,7 @@ class TemplatesModel extends ListModel
 						continue;
 					}
 
-					$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
+					$result['components'][$name][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
 				}
 			}
 		}
@@ -522,7 +544,14 @@ class TemplatesModel extends ListModel
 
 		foreach ($modules as $module)
 		{
-			$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
+			$res = $this->getOverridesFolder($module, $modulePath);
+
+			if (!isset($result['modules'][$module]))
+			{
+				$result['modules'][$module] = [];
+			}
+
+			$result['modules'][$module][] = $res;
 		}
 
 		$layoutFolders = Folder::folders($layoutPath);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -29,9 +30,31 @@ $clientId  = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-Text::script('COM_TEMPLATES_CREATE_OVERRIDE');
+$scriptStrings = [
+	'COM_TEMPLATES_SELECT_OPTION_NONE',
+	'COM_TEMPLATES_SELECT_TYPE_OF_OVERRIDE_LABEL',
+	'COM_TEMPLATES_COMPONENT',
+	'COM_TEMPLATES_COMPONENT_LABEL',
+	'COM_TEMPLATES_PLUGIN',
+	'COM_TEMPLATES_MODULE',
+
+	'COM_TEMPLATES_OVERRIDE_TYPE',
+	'COM_TEMPLATES_OVERRIDE_NAME',
+	'COM_TEMPLATES_LAYOUT_SELECT_LABEL',
+	'COM_TEMPLATES_LAYOUT',
+	'COM_TEMPLATES_CREATE_OVERRIDE',
+	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME',
+	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME_LABEL',
+	'JYES',
+	'JNO'
+];
+
+foreach ($scriptStrings as $c) {
+	Text::script($c);
+}
 
 $wa->useStyle('com_templates.admin-templates')
+	->useStyle('switcher')
 	->useScript('com_templates.admin-templates')
 	->useScript('com_templates.create-overrides')
 	->useScript('keepalive');
@@ -43,20 +66,16 @@ $canDo = ContentHelper::getActions('com_templates');
 $toolbar = Toolbar::getInstance('toolbar');
 
 // Set the title.
-if ((int) $this->get('State')->get('client_id') === 1)
-{
+if ((int) $this->get('State')->get('client_id') === 1) {
 	ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'brush');
-}
-else
-{
+} else {
 	ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'brush');
 }
 
 // Install new template
 ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');
 
-if ($canDo->get('core.admin') || $canDo->get('core.options'))
-{
+if ($canDo->get('core.admin') || $canDo->get('core.options')) {
 	ToolbarHelper::preferences('com_templates');
 }
 
@@ -69,10 +88,10 @@ ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 		<div class="col-md-12">
 			<div id="main-container" class="main-container">
 				<?php
-					/**
-					 * @see: layouts/joomla/searchtools/default.php
-					 */
-					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id')));
+				/**
+				 * @see: layouts/joomla/searchtools/default.php
+				 */
+				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id')));
 				?>
 				<div class="clearfix mt-5 mb-4"></div>
 				<?php if ($this->total > 0) : ?>
@@ -86,18 +105,18 @@ ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 							?>
 								<div class="col-lg-6 col-xl-4">
 									<?php
-										/**
-										 * @see: administrator/components/com_templates/layouts/card-header.php
-										 */
-										echo LayoutHelper::render('card', [
-												'clientId'  => $clientId,
-												'canChange' => $canChange,
-												'canDelete' => $canDelete,
-												'canEdit'   => $canEdit,
-												'canCreate' => $canCreate,
-												'item'      => $item,
-												'i'         => $i
-										]);
+									/**
+									 * @see: administrator/components/com_templates/layouts/card-header.php
+									 */
+									echo LayoutHelper::render('card', [
+										'clientId'  => $clientId,
+										'canChange' => $canChange,
+										'canDelete' => $canDelete,
+										'canEdit'   => $canEdit,
+										'canCreate' => $canCreate,
+										'item'      => $item,
+										'i'         => $i
+									]);
 									?>
 								</div>
 							<?php endforeach; ?>
@@ -107,10 +126,10 @@ ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 					<!-- load the pagination. -->
 					<div class="pagination-footer mt-4">
 						<?php
-							/**
-							 * @see: layouts/joomla/searchtools/default/list.php
-							 */
-							echo LayoutHelper::render('joomla.searchtools.default.listlimit', array('view' => $this));
+						/**
+						 * @see: layouts/joomla/searchtools/default/list.php
+						 */
+						echo LayoutHelper::render('joomla.searchtools.default.listlimit', array('view' => $this));
 						?>
 						<?php echo $this->pagination->getListFooter(); ?>
 					</div>
@@ -125,24 +144,23 @@ ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 
 <!-- Load template install modal  -->
 <?php
-if ($canCreate)
-{
+if ($canCreate) {
 	echo HTMLHelper::_(
-			'bootstrap.renderModal',
-			'ModalInstallTemplate',
-			[
-				'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
-				'height'      => '75vh',
-				'width'       => '85vw',
-				'bodyHeight'  => 60,
-				'modalWidth'  => 80,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-			],
-			/**
-			 * @see: administrator/components/com_templates/layouts/card-header.php
-			 */
-			LayoutHelper::render('install-template', [])
+		'bootstrap.renderModal',
+		'ModalInstallTemplate',
+		[
+			'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
+			'height'      => '75vh',
+			'width'       => '85vw',
+			'bodyHeight'  => 60,
+			'modalWidth'  => 80,
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+		],
+		/**
+		 * @see: administrator/components/com_templates/layouts/card-header.php
+		 */
+		LayoutHelper::render('install-template', [])
 	);
 }
 ?>
@@ -157,7 +175,6 @@ if ($canCreate)
 				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('JCLOSE'); ?></button>
-					<button type="button" class="btn btn-primary">{{buttonPrimary}}</button>
 				</div>
 			</div>
 		</div>

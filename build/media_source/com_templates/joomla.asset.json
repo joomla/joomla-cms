@@ -6,6 +6,16 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_templates.admin-template",
+      "type": "style",
+      "uri": "com_templates/admin-template-default.min.css"
+    },
+    {
+      "name": "com_templates.admin-templates",
+      "type": "style",
+      "uri": "com_templates/admin-templates-default.min.css"
+    },
+    {
       "name": "com_templates.admin-template-compare.es5",
       "type": "script",
       "uri": "com_templates/admin-template-compare-es5.min.js",
@@ -16,6 +26,75 @@
       "attributes": {
         "nomodule": true,
         "defer": true
+      }
+    },
+    {
+      "name": "com_templates.admin-templates.es5",
+      "type": "script",
+      "uri": "com_templates/admin-templates-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_templates.admin-templates",
+      "type": "script",
+      "uri": "com_templates/admin-templates-default.js",
+      "dependencies": [
+        "com_templates.admin-templates.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_templates.create-overrides.es5",
+      "type": "script",
+      "uri": "com_templates/create-overrides-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_templates.create-overrides",
+      "type": "script",
+      "uri": "com_templates/create-overrides.min.js",
+      "dependencies": [
+        "com_templates.create-overrides.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_templates.admin-template.es5",
+      "type": "script",
+      "uri": "com_templates/admin-template-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_templates.admin-template",
+      "type": "script",
+      "uri": "com_templates/admin-template-default.min.js",
+      "dependencies": [
+        "com_templates.admin-templates.es5"
+      ],
+      "attributes": {
+        "type": "module"
       }
     },
     {
@@ -70,85 +149,6 @@
       "uri": "com_templates/admin-template-toggle-switch.min.js",
       "dependencies": [
         "com_templates.admin-template-toggle-switch.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_templates.admin-template",
-      "type": "style",
-      "uri": "com_templates/admin-template-default.min.css"
-    },
-    {
-      "name": "com_templates.admin-templates",
-      "type": "style",
-      "uri": "com_templates/admin-templates-default.min.css"
-    },
-    {
-      "name": "com_templates.admin-templates.es5",
-      "type": "script",
-      "uri": "com_templates/admin-templates-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_templates.admin-templates",
-      "type": "script",
-      "uri": "com_templates/admin-templates-default.min.js",
-      "dependencies": [
-        "com_templates.admin-templates.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_templates.create-overrides.es5",
-      "type": "script",
-      "uri": "com_templates/create-overrides-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_templates.admin-templates",
-      "type": "script",
-      "uri": "com_templates/create-overrides.min.js",
-      "dependencies": [
-        "com_templates.create-overrides.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_templates.admin-template.es5",
-      "type": "script",
-      "uri": "com_templates/admin-template-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_templates.admin-template",
-      "type": "script",
-      "uri": "com_templates/admin-template-default.min.js",
-      "dependencies": [
-        "com_templates.admin-templates.es5"
       ],
       "attributes": {
         "type": "module"

@@ -38,9 +38,9 @@ const onClickModal = async (event) => {
   overrideCreator.setAttribute('client', button.dataset.client);
   overrideCreator.setAttribute('token', button.dataset.token);
   overrideCreator.setAttribute('item', button.dataset.item);
+  overrideCreator.classList.add('p-4');
 
   template.querySelector('.modal-body').appendChild(overrideCreator);
-  template.querySelector('.btn.btn-primary').innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
 
   document.body.appendChild(template);
   const modalElement = document.querySelector('.modal-template');
