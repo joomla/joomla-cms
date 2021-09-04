@@ -61,7 +61,7 @@ extract($displayData);
 						<li>
 							<button class="js-action-exec-modal btn btn-link" type="button" data-task="templates.getExtensionLayouts" data-client="1" data-item="<?php echo (int) $item->extensionId; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
-								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_CREATE_OVERRIDE'); ?></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_NEW_OVERRIDE'); ?></span>
 							</button>
 						</li>
 					<?php endif; ?>
