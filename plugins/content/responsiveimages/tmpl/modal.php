@@ -11,15 +11,11 @@ use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
-?>
+$document = Factory::getApplication()->getDocument();
 
-<?php
-	$document = Factory::getApplication()->getDocument();
-
-	// @TODO: Render a modal with images and checkboxes for checking and deleting them.
-	$document->addScriptDeclaration('
-		document.addEventListener("DOMContentLoaded", function() {
-			alert("Unused images: ' . implode(',', json_decode($images)) . '");
-		});
-	');
-?>
+// @todo Render a modal with images and checkboxes for checking and deleting them.
+$document->addScriptDeclaration('
+	document.addEventListener("DOMContentLoaded", function() {
+		alert("Unused images: ' . implode(',', json_decode($images)) . '");
+	});
+');

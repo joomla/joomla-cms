@@ -156,7 +156,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 	 * @param   string  $context  The context for the data
 	 * @param   array   $data     The validated data
 	 *
-	 * @return  mixed   Array of form images or null if they don't exist
+	 * @return  array|null   Array of form images or null if they don't exist
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -171,7 +171,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 		{
 			case "com_content.article":
 			case "com_tags.tag":
-				return array(
+				return [
 					'image_intro' => (object) [
 						'name'   => $data['images']['image_intro'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
@@ -190,9 +190,9 @@ class PlgContentResponsiveImages extends CMSPlugin
 							$data['images']['image_fulltext_sizes'], $data['images']['image_fulltext_method']
 						)
 					],
-				);
+				];
 			case "com_banners.banner":
-				return array(
+				return [
 					'image' => (object) [
 						'name'   => $data['params']['imageurl'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
@@ -202,9 +202,9 @@ class PlgContentResponsiveImages extends CMSPlugin
 							$data['params']['imageurl_sizes'], $data['params']['imageurl_method']
 						)
 					]
-				);
+				];
 			case "com_categories.category":
-				return array(
+				return [
 					'image' => (object) [
 						'name'   => $data['params']['image'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
@@ -214,17 +214,17 @@ class PlgContentResponsiveImages extends CMSPlugin
 							$data['params']['image_sizes'], $data['params']['image_method']
 						)
 					]
-				);
+				];
 			case "com_contact.contact":
-				return array(
+				return [
 					'image' => (object) [
 						'name'   => $data['image'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes($data['image_sizes'], $data['image_size_options']),
 						'method' => ResponsiveImagesHelper::getDefaultMethod($data['image_sizes'], $data['images']['image_method'])
 					]
-				);
+				];
 			case "com_newsfeeds.newsfeed":
-				return array(
+				return [
 					'image_first' => (object) [
 						'name'   => $data['images']['image_first'],
 						'sizes'  => ResponsiveImagesHelper::getDefaultSizes(
@@ -243,7 +243,7 @@ class PlgContentResponsiveImages extends CMSPlugin
 							$data['images']['image_second_sizes'], $data['images']['image_second_method']
 						)
 					],
-				);
+				];
 			default:
 				return null;
 		}

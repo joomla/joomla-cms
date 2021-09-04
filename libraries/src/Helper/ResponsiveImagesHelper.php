@@ -261,7 +261,7 @@ class ResponsiveImagesHelper
 			foreach ($images as $key => $image)
 			{
 				// Get source from path: PATH/images/joomla_800x600.jpg - images/joomla_800x600.jpg
-				$imageSource = explode('/', $image->getPath(), 2)[1];
+				$imageSource = str_replace(JPATH_ROOT, '', $image->getPath());
 
 				// Insert srcset value for current responsive image: (img_name img_size, ...)
 				$srcset .= sprintf(
