@@ -173,11 +173,11 @@ class FOFEncryptAes
 		if (!$adapter->isSupported($phpfunc))
 		{
 			$adapter = new FOFEncryptAesMcrypt();
-		}
-
-		if (!$adapter->isSupported($phpfunc))
-		{
-			return false;
+			
+			if (!$adapter->isSupported($phpfunc))
+			{
+				return false;
+			}
 		}
 
 		if (!$phpfunc->function_exists('base64_encode'))
