@@ -168,11 +168,11 @@ class FOFEncryptAes
 			$phpfunc = new FOFUtilsPhpfunc();
 		}
 
-		$adapter = new FOFEncryptAesMcrypt();
+		$adapter = new FOFEncryptAesOpenssl();
 
 		if (!$adapter->isSupported($phpfunc))
 		{
-			$adapter = new FOFEncryptAesOpenssl();
+			$adapter = new FOFEncryptAesMcrypt();
 		}
 
 		if (!$adapter->isSupported($phpfunc))
