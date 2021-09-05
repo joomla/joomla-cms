@@ -134,9 +134,9 @@ class Task extends Registry implements LoggerAwareInterface
 		/*
 		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
 		* was interrupted by a fatal failure.
-		 * @todo add listeners. We can have Email, PushBullet, etc
+		* @todo add listeners. We can have opt-in hooks for email (priority), push-bullet, etc
 		*/
-		if ($this->get('locked') === null)
+		if ($this->get('locked') !== null)
 		{
 			$event = AbstractEvent::create('onTaskRecoverFailure', [
 				'subject' => $this
