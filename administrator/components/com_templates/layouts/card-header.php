@@ -59,7 +59,7 @@ extract($displayData);
 					<?php endif; ?>
 					<?php if ($canCreate) : ?>
 						<li>
-							<button class="js-action-exec-modal btn btn-link" type="button" data-override="true" data-task="templates.getExtensionLayouts" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+							<button class="js-action-exec-modal btn btn-link" type="button" data-override="true" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_NEW_OVERRIDE'); ?></span>
 							</button>

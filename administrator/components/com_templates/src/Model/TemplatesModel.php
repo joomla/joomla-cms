@@ -465,17 +465,20 @@ class TemplatesModel extends ListModel
 		$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
 		$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
 		$components    = Folder::folders($componentPath);
-		$lang = Factory::getLanguage();
-		$base_dir = $client->path === 'site' ? JPATH_SITE : JPATH_ADMINISTRATOR;
-		$language_tag = Factory::getLanguage()->getTag();
-		$reload = true;
+		$lang          = Factory::getLanguage();
+		$base_dir      = $client->path === 'site' ? JPATH_SITE : JPATH_ADMINISTRATOR;
+		$language_tag  = Factory::getLanguage()->getTag();
+		$reload        = true;
+		$result        = [];
 
 		foreach ($components as $component)
 		{
 			$componentObj = ComponentHelper::getComponent($component);
-			$extension = Table::getInstance('extension');
+			$extension    = Table::getInstance('extension');
+
 			$extension->load($componentObj->id);
-			$manifest = new \Joomla\Registry\Registry($extension->manifest_cache);
+
+			$manifest         = new \Joomla\Registry\Registry($extension->manifest_cache);
 			$untranslatedName = @$manifest->get('name', $componentObj->name);
 
 			if ($untranslatedName)
@@ -582,9 +585,6 @@ class TemplatesModel extends ListModel
 			}
 		}
 
-		if (!empty($result))
-		{
-			return $result;
-		}
+		return $result;
 	}
 }

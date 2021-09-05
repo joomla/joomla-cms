@@ -1054,92 +1054,96 @@ class TemplateModel extends FormModel
 	 */
 	public function createOverride($override)
 	{
-		if ($template = $this->getTemplate())
+		$app        = Factory::getApplication();
+		$template   = $this->getTemplate($app->input->getInt('id', 0));
+
+		if (!$template)
 		{
-			$app          = Factory::getApplication();
-			$explodeArray = explode(DIRECTORY_SEPARATOR, $override);
-			$name         = end($explodeArray);
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
+			return false;
+		}
 
-			if (stristr($name, 'mod_') != false)
-			{
-				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
-			}
-			elseif (stristr($override, 'com_') != false)
-			{
-				$size = count($explodeArray);
+		$explodeArray = explode(DIRECTORY_SEPARATOR, JPATH_ROOT . $override);
+		$name         = end($explodeArray);
+		$client       = ApplicationHelper::getClientInfo($template->client_id);
 
-				$url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
+		if (stristr($name, 'mod_') != false)
+		{
+			$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+		}
+		elseif (stristr($override, 'com_') != false)
+		{
+			$size = count($explodeArray);
 
-				if ($explodeArray[$size - 2] == 'layouts')
-				{
-					$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
-				}
-				else
-				{
-					$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
-				}
-			}
-			elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
+			$url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
+
+			if ($explodeArray[$size - 2] == 'layouts')
 			{
-				$size       = count($explodeArray);
-				$layoutPath = Path::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
-				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
+				$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
 			}
 			else
 			{
-				$layoutPath = implode('/', array_slice($explodeArray, -2));
-				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
+				$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 			}
+		}
+		elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
+		{
+			$size       = count($explodeArray);
+			$layoutPath = Path::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
+			$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
+		}
+		else
+		{
+			$layoutPath = implode('/', array_slice($explodeArray, -2));
+			$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
+		}
 
-			// Check Html folder, create if not exist
-			if (!Folder::exists($htmlPath))
+		// Check Html folder, create if not exist
+		if (!Folder::exists($htmlPath))
+		{
+			if (!Folder::create($htmlPath))
 			{
-				if (!Folder::create($htmlPath))
-				{
-					$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
-
-					return false;
-				}
-			}
-
-			if (stristr($name, 'mod_') != false)
-			{
-				$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
-			}
-			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
-			{
-				$path = $override . '/tmpl';
-
-				// View can also be in the top level folder
-				if (!is_dir($path))
-				{
-					$path = $override;
-				}
-
-				$return = $this->createTemplateOverride(Path::clean($path), $htmlPath);
-			}
-			elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
-			{
-				$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
-			}
-			else
-			{
-				$return = $this->createTemplateOverride($override, $htmlPath);
-			}
-
-			if ($return)
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
-
-				return true;
-			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
 				return false;
 			}
+		}
+
+		if (stristr($name, 'mod_') != false)
+		{
+			$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
+		}
+		elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
+		{
+			$path = $override . '/tmpl';
+
+			// View can also be in the top level folder
+			if (!is_dir($path))
+			{
+				$path = $override;
+			}
+
+			$return = $this->createTemplateOverride(Path::clean($path), $htmlPath);
+		}
+		elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
+		{
+			$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
+		}
+		else
+		{
+			$return = $this->createTemplateOverride($override, $htmlPath);
+		}
+
+		if ($return)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
+
+			return true;
+		}
+		else
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
+
+			return false;
 		}
 	}
 

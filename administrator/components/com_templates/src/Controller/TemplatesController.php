@@ -70,9 +70,9 @@ class TemplatesController extends AdminController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Style', $prefix = 'Administrator', $config = array())
+	public function getModel($name = 'Style', $prefix = 'Administrator', $config = [])
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		return parent::getModel($name, $prefix, ['ignore_request' => true]);
 	}
 
 	/**
@@ -280,79 +280,115 @@ class TemplatesController extends AdminController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getExtensionLayouts()
+	public function getExistingLayouts()
 	{
 		// Check for request forgeries
 		$this->checkToken();
 
-		$app        = $this->app;
-		$templateID = $this->input->getInt('id', 0);
-		$client     = $this->input->getInt('client', 0);
-
-		// Access check.
-//		if (!$this->allowEdit())
-//		{
-//			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-//
-//			return false;
-//		}
-
-//		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
-
-		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
-		$model = $this->getModel('Templates', 'Administrator');
-
-		$overrides = $model->getOverridesList($client);
-
+		$app           = $this->app;
 		$app->mimeType = 'application/json';
-		$app->charSet = 'utf-8';
+		$app->charSet  = 'utf-8';
+		$client        = $this->input->getInt('client', 0);
+
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 
-		try
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			echo new JsonResponse([
+				'message' => Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'),
+				'messages' => null,
+				'success' => false,
+			]);
+
+			$this->app->close();
+		}
+
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model     = $this->getModel('Templates', 'Administrator');
+		$overrides = $model->getOverridesList($client);
+
+		if ($overrides)
 		{
 			echo new JsonResponse($overrides);
 		}
-		catch (\Exception $e)
+		else
 		{
+			echo new JsonResponse([
+				'message' => Text::_('JLIB_APPLICATION_ERROR'),
+				'messages' => null,
+				'success' => false,
+			]);
+		}
+
+		$this->app->close();
+	}
+
+	/**
+	 * Method to get the translated description of a template.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getDescription()
+	{
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		// Check for request forgeries
+		$this->checkToken();
+
+		$app            = $this->app;
+		$templateID     = $this->input->getInt('id', 0);
+		$templateClient = $this->input->getInt('client', 1);
+		$model          = $this->getModel('Template', 'Administrator');
+		$template       = $model->getTemplate($templateID);
+		$lang           = Factory::getLanguage();
+		$base_dir       = $templateClient === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+		$language_tag   = Factory::getLanguage()->getTag();
+		$reload         = true;
+		$manifest       = new \Joomla\Registry\Registry($template->manifest_cache);
+		$untranslated   = @$manifest->get('description');
+		$app->mimeType  = 'application/json';
+		$app->charSet   = 'utf-8';
+
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+		$lang->load('tpl_' . $template->element, $base_dir, $language_tag, $reload);
+
+		try {
+			echo new JsonResponse(Text::_($untranslated));
+		} catch (\Exception $e) {
 			echo $e;
 		}
 
 		$this->app->close();
 	}
 
-	public function getDescription()
+	/**
+	 * Method to create a layout override.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function createLayout()
 	{
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		// Check for request forgeries
 		$this->checkToken();
 
-		$app = $this->app;
-		$templateID = $this->input->getInt('id', 0);
-		$templateClient = $this->input->getInt('client', 1);
+		$app            = $this->app;
+		$model          = $this->getModel('Template', 'Administrator');
+		$return         = $model->createOverride($this->input->getString('extensionLayout', ''));
+		$app->mimeType  = 'application/json';
+		$app->charSet   = 'utf-8';
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
-		$model = $this->getModel('Template', 'Administrator');
-
-		$template = $model->getTemplate($templateID);
-
-		$lang = Factory::getLanguage();
-		$base_dir = $templateClient === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-		$language_tag = Factory::getLanguage()->getTag();
-		$reload = true;
-
-		$manifest = new \Joomla\Registry\Registry($template->manifest_cache);
-		$untranslated = @$manifest->get('description');
-		$reload = true;
-		$lang->load('tpl_' . $template->element, $base_dir, $language_tag, $reload);
-		$description = Text::_($untranslated);
-
-		$app->mimeType = 'application/json';
-		$app->charSet = 'utf-8';
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 
 		try {
-			echo new JsonResponse($description);
+			echo new JsonResponse(Text::_($return));
 		} catch (\Exception $e) {
 			echo $e;
 		}

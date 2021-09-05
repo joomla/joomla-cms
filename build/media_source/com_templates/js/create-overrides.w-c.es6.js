@@ -2,6 +2,8 @@ class CreateOverrides extends HTMLElement {
   constructor() {
     super();
 
+    this.exixtingLayoutsTask = 'templates.getExistingLayouts';
+    this.createLayoutTask = 'templates.createLayout';
     this.fetchOptions = {
       method: 'GET',
       headers: {
@@ -71,14 +73,13 @@ class CreateOverrides extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.task = this.getAttribute('task');
     this.client = this.getAttribute('client');
     this.token = this.getAttribute('token');
     this.item = this.getAttribute('item');
 
     if (Object.keys(this.data).length === 0) {
       const { url } = this;
-      url.searchParams.append('task', this.task);
+      url.searchParams.append('task', this.exixtingLayoutsTask);
       url.searchParams.append('client', this.client);
       url.searchParams.append(this.getAttribute('token'), 1);
       url.searchParams.append('id', this.item);
@@ -86,6 +87,7 @@ class CreateOverrides extends HTMLElement {
       const response = await fetch(url, this.fetchOptions);
       const data = await response.json();
       this.data = data.data;
+      console.log(data)
     }
 
     this.innerHTML = this.html;
@@ -187,11 +189,16 @@ class CreateOverrides extends HTMLElement {
 
     this.thirdSelector.addEventListener('change', (e) => {
       const { value } = e.target;
+      if (['components', 'modules'].includes(this.firstSelector.value)) {
+        this.switcher.closest('.control-group').removeAttribute('hidden');
+      } else {
+        this.switcherRadios[0].click();
+        this.creatorNameInput.value = '';
+      }
       if (value === '') {
         this.createBtn.setAttribute('disabled', '');
         this.button.closest('.control-group').setAttribute('hidden', '');
       } else {
-        this.switcher.closest('.control-group').removeAttribute('hidden');
         this.createBtn.removeAttribute('disabled');
         this.button.closest('.control-group').removeAttribute('hidden');
       }
@@ -212,6 +219,22 @@ class CreateOverrides extends HTMLElement {
     });
 
     this.button.addEventListener('click', async () => {
+      const { url } = this;
+      url.searchParams.delete('task');
+      url.searchParams.append('task', this.createLayoutTask);
+      url.searchParams.append('client', this.client);
+      url.searchParams.append(this.getAttribute('token'), 1);
+      url.searchParams.append('id', this.item);
+      url.searchParams.append('extensionType', this.firstSelector.value);
+      url.searchParams.append('extensionName', this.secondSelector.value);
+      url.searchParams.append('extensionLayout', this.thirdSelector.value);
+      if (this.switcherRadios[0].checked) {
+        url.searchParams.append('overrideCreatorNamed', this.switcherRadios[0].checked ? '0' : '1');
+      }
+      if (this.creatorNameInput.value.length) {
+        url.searchParams.append('overrideCreatorName', this.creatorNameInput.value);
+      }
+
       // @todo Submit the data
       const response = await fetch(this.url, this.fetchOptions);
       const data = await response.json();
