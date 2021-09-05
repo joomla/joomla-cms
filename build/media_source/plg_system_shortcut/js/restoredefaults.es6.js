@@ -60,10 +60,47 @@ class JoomlaRestoreDefaults {
         keyEvent: 'r', hasShift: 0, hasAlt: 1, hasControl: 1,
       },
     };
+    const componentsOptions = {
+      articles: {
+        keyEvent: 'a', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      categories: {
+        keyEvent: 'c', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      fields: {
+        keyEvent: 'f', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      site_modules: {
+        keyEvent: 'm', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      admin_modules: {
+        keyEvent: 'a', hasShift: 1, hasAlt: 1, hasControl: 1,
+      },
+      banners: {
+        keyEvent: 'b', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      contacts: {
+        keyEvent: 'c', hasShift: 1, hasAlt: 1, hasControl: 1,
+      },
+      news_feeds: {
+        keyEvent: 'n', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      smart_search: {
+        keyEvent: 's', hasShift: 1, hasAlt: 1, hasControl: 0,
+      },
+      tags: {
+        keyEvent: 't', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+      users: {
+        keyEvent: 'u', hasShift: 1, hasAlt: 0, hasControl: 1,
+      },
+    };
     if (this.getAttribute('data-class') === 'buttons') {
       this.options = buttonDefaultOptions;
     } else if (this.getAttribute('data-class') === 'editor') {
       this.options = buttonEditorOptions;
+    } else if (this.getAttribute('data-class') === 'components') {
+      this.options = componentsOptions;
     }
 
     Object.keys(this.options).forEach((key) => {
