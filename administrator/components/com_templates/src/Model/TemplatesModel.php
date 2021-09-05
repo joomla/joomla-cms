@@ -24,6 +24,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
+use phpDocumentor\Reflection\Types\Compound;
 
 /**
  * Methods supporting a list of template style records.
@@ -468,13 +469,17 @@ class TemplatesModel extends ListModel
 		$lang          = Factory::getLanguage();
 		$base_dir      = $client->path === 'site' ? JPATH_SITE : JPATH_ADMINISTRATOR;
 		$language_tag  = Factory::getLanguage()->getTag();
-		$reload        = true;
+		$extension     = Table::getInstance('extension');
 		$result        = [];
 
 		foreach ($components as $component)
 		{
+			if (!ComponentHelper::isEnabled($component))
+			{
+				continue;
+			}
+
 			$componentObj = ComponentHelper::getComponent($component);
-			$extension    = Table::getInstance('extension');
 
 			$extension->load($componentObj->id);
 
@@ -483,7 +488,7 @@ class TemplatesModel extends ListModel
 
 			if ($untranslatedName)
 			{
-				$lang->load($component, $base_dir, $language_tag, $reload);
+				$lang->load($component, $base_dir, $language_tag, false);
 				$name = Text::_(strtoupper($untranslatedName));
 			}
 			else

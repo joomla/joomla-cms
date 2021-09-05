@@ -1050,7 +1050,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return   boolean  true if override creation is successful, false otherwise
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function createOverride($override)
 	{

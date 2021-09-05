@@ -43,7 +43,11 @@ $scriptStrings = [
 	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME',
 	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME_LABEL',
 	'JYES',
-	'JNO'
+	'JNO',
+	'COM_TEMPLATES_CREATE_FORK_LABEL',
+	'COM_TEMPLATES_CREATE_CHILD_LABEL',
+	'COM_TEMPLATES_CREATE_NEW_TEMPLATE',
+	'COM_TEMPLATES_CREATE_NEW_CHILD',
 ];
 
 foreach ($scriptStrings as $c) {
@@ -52,8 +56,9 @@ foreach ($scriptStrings as $c) {
 
 $wa->useStyle('com_templates.admin-templates')
 	->useStyle('switcher')
-	->useScript('com_templates.admin-templates')
 	->useScript('com_templates.create-overrides')
+	->useScript('com_templates.create-fork-child')
+	->useScript('com_templates.admin-templates')
 	->useScript('keepalive');
 
 // Toolbar

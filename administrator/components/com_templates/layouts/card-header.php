@@ -51,7 +51,7 @@ extract($displayData);
 					</li>
 					<?php if ($canCreate) : ?>
 						<li>
-							<button class="js-action-exec btn btn-link" type="button" data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>">
+							<button class="js-action-exec-modal btn btn-link" type="button" data-create-new="true"  data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_FORK'); ?></span>
 							</button>

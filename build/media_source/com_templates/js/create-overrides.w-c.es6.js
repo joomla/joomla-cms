@@ -87,7 +87,6 @@ class CreateOverrides extends HTMLElement {
       const response = await fetch(url, this.fetchOptions);
       const data = await response.json();
       this.data = data.data;
-      console.log(data)
     }
 
     this.innerHTML = this.html;

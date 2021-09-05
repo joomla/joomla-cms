@@ -43,7 +43,7 @@
     {
       "name": "com_templates.admin-templates",
       "type": "script",
-      "uri": "com_templates/admin-templates-default.js",
+      "uri": "com_templates/admin-templates-default.min.js",
       "dependencies": [
         "com_templates.admin-templates.es5"
       ],
@@ -149,6 +149,29 @@
       "uri": "com_templates/admin-template-toggle-switch.min.js",
       "dependencies": [
         "com_templates.admin-template-toggle-switch.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_templates.create-fork-child.es5",
+      "type": "script",
+      "uri": "com_templates/create-fork-child-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_templates.create-fork-child",
+      "type": "script",
+      "uri": "com_templates/create-fork-child.min.js",
+      "dependencies": [
+        "com_templates.create-fork-child.es5"
       ],
       "attributes": {
         "type": "module"

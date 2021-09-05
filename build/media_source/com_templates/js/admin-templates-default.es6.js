@@ -32,6 +32,7 @@ const onClickModal = async (event) => {
 
   const template = templateEl.content.cloneNode(true);
 
+  // Create the Override Modal
   if (button.dataset.override) {
     template.querySelector('.modal-title').innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
     const overrideCreator = document.createElement('create-overrides');
@@ -43,6 +44,20 @@ const onClickModal = async (event) => {
     template.querySelector('.modal-body').appendChild(overrideCreator);
   }
 
+  // Create the Template child/fork Modal
+  if (button.dataset.createNew) {
+    // @todo title according to modern template, eg fork or child
+    template.querySelector('.modal-title').innerText = Joomla.Text._('COM_TEMPLATES_CREATE_OVERRIDE');
+    const createNewTemplate = document.createElement('create-fork-child');
+    createNewTemplate.setAttribute('task', button.dataset.task);
+    createNewTemplate.setAttribute('client', button.dataset.client);
+    createNewTemplate.setAttribute('token', button.dataset.token);
+    createNewTemplate.setAttribute('item', button.dataset.item);
+    createNewTemplate.classList.add('p-4');
+    template.querySelector('.modal-body').appendChild(createNewTemplate);
+  }
+
+  // Create the Template description Modal
   if (button.dataset.infoTask) {
     template.querySelector('.modal-title').innerText = button.dataset.name;
     const conainer = document.createElement('div');
@@ -78,6 +93,7 @@ const onClickModal = async (event) => {
     button.removeAttribute('disabled');
   });
 };
+
 const actionButtons = [].slice.call(document.querySelectorAll('button.js-action-exec'));
 const actionButtonsNew = [].slice.call(document.querySelectorAll('button.js-action-exec-new'));
 const actionButtonsModal = [].slice.call(document.querySelectorAll('button.js-action-exec-modal'));
