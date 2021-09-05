@@ -205,7 +205,7 @@ class PlgSystemShortcut extends CMSPlugin
 			'com_newsfeeds' => array(
 				'keyEvent' => $this->params->get('new_keyEvent', 'n'),
 				'hasShift' => $this->params->get('new_hasShift', 1),
-				'hasAlt' => $this->params->get('new_hasAlt', ),
+				'hasAlt' => $this->params->get('new_hasAlt', 0),
 				'hasControl' => $this->params->get('new_hasControl', 1),
 				'selector' => 'joomla-toolbar-button button.button-new'
 			),
