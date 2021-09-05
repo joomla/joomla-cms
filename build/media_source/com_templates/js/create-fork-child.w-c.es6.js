@@ -63,7 +63,6 @@ class CreateForkOrChild extends HTMLElement {
     // @todo Pass the right params
     // url.searchParams.append('task', this.createLayoutTask);
 
-
     window.location = url.href;
   }
 
