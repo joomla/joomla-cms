@@ -142,7 +142,7 @@ class Task extends Registry implements LoggerAwareInterface
 				'subject' => $this
 				]
 			);
-			$this->app->getDispatcher()->dispatch($event);
+			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
 		}
 
 		if (!$this->acquireLock())
@@ -337,7 +337,7 @@ class Task extends Registry implements LoggerAwareInterface
 				'subject' => $this
 			]
 		);
-		$this->app->getDispatcher()->dispatch($event);
+		$this->app->getDispatcher()->dispatch($eventName, $event);
 
 		return $success;
 	}
