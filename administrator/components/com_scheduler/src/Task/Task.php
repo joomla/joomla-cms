@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 
 use Assert\Assertion;
 use Assert\AssertionFailedException;
+use DateInterval;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
@@ -130,6 +131,20 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
+		/*
+		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
+		* was interrupted by a fatal failure.
+		 * @todo add listeners. We can have Email, PushBullet, etc
+		*/
+		if ($this->get('locked') === null)
+		{
+			$event = AbstractEvent::create('onTaskRecoverFailure', [
+				'subject' => $this
+				]
+			);
+			$this->app->getDispatcher()->dispatch($event);
+		}
+
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
@@ -145,7 +160,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$event = AbstractEvent::create(
 			'onExecuteTask',
 			[
-				'eventClass'      => 'Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent',
+				'eventClass'      => ExecuteTaskEvent::class,
 				'subject'         => $this,
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
@@ -185,12 +200,24 @@ class Task extends Registry implements LoggerAwareInterface
 		$db = $this->db;
 		$query = $db->getQuery(true);
 		$id = $this->get('id');
+		$now = Factory::getDate('now', 'GMT');
+
+		// @todo Get timeout in seconds from component configuration
+		$timeout = new DateInterval('PT100S');
+		$timeoutThreshold = $now->sub($timeout)->toSql();
+		$now = $now->toSql();
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = 1')
+			->set('t.locked = :now')
 			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' = 0')
-			->bind(':taskId', $id, ParameterType::INTEGER);
+			->extendWhere('AND', [
+				$db->qn('t.locked') . ' < :threshold',
+				$db->qn('t.locked') . 'IS NULL'],
+				'OR'
+			)
+			->bind(':taskId', $id, ParameterType::INTEGER)
+			->bind(':now', $now)
+			->bind(':threshold', $timeoutThreshold);
 
 		try
 		{
@@ -206,7 +233,7 @@ class Task extends Registry implements LoggerAwareInterface
 			return false;
 		}
 
-		$this->set('locked', 1);
+		$this->set('locked', $now);
 
 		return true;
 	}
@@ -229,9 +256,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = 0')
+			->set('t.locked = NULL')
 			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' = 1')
+			->where($db->qn('t.locked') . ' IS NOT NULL')
 			->bind(':taskId', $id, ParameterType::INTEGER);
 
 		if ($update)
@@ -275,7 +302,7 @@ class Task extends Registry implements LoggerAwareInterface
 			return false;
 		}
 
-		$this->set('locked', 0);
+		$this->set('locked', null);
 
 		return true;
 	}
@@ -306,10 +333,11 @@ class Task extends Registry implements LoggerAwareInterface
 	{
 		$eventName = $success ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
 
-		AbstractEvent::create($eventName, [
+		$event = AbstractEvent::create($eventName, [
 				'subject' => $this
 			]
 		);
+		$this->app->getDispatcher()->dispatch($event);
 
 		return $success;
 	}

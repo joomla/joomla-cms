@@ -906,7 +906,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `next_execution` datetime COMMENT 'Timestamp of next (planned) run, referred for execution on trigger',
   `times_executed` int DEFAULT '0' COMMENT 'Count of successful triggers',
   `times_failed` int DEFAULT '0' COMMENT 'Count of failures',
-  `locked` tinyint NOT NULL DEFAULT 0,
+  `locked` datetime,
   `ordering` int NOT NULL DEFAULT 0 COMMENT 'Configurable list ordering',
   `params` text NOT NULL,
   `note` text,
