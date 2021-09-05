@@ -529,6 +529,374 @@
                 class="editor" 
             />
             </fieldset>
+            <fieldset 
+                name="components"
+                label="Components"
+                addfieldpath="/plugins/system/shortcut/fields"
+                >
+            <field
+                name="articles_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + A"
+                class="articles"
+                label="Articles"
+            />
+
+            <field
+                type="hidden"
+                name="articles_keyEvent"
+                default="a"
+            />
+
+        <field
+                type="hidden"
+                name="articles_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="articles_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="articles_hasControl"
+                default="1"
+            />
+
+            <field
+                name="categories_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + C"
+                class="categories"
+                label="Categories"
+            />
+
+            <field
+                type="hidden"
+                name="categories_keyEvent"
+                default="c"
+            />
+
+        <field
+                type="hidden"
+                name="categories_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="categories_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="categories_hasControl"
+                default="1"
+            />
+
+            <field
+                name="fields_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + F"
+                class="fields"
+                label="Fields"
+            />
+
+            <field
+                type="hidden"
+                name="fields_keyEvent"
+                default="F"
+            />
+
+        <field
+                type="hidden"
+                name="fields_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="fields_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="fields_hasControl"
+                default="1"
+            />
+
+            <field
+                name="sitemodules_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + M"
+                class="sitemodules"
+                label="Site Modules"
+            />
+
+            <field
+                type="hidden"
+                name="sitemodules_keyEvent"
+                default="m"
+            />
+
+        <field
+                type="hidden"
+                name="sitemodules_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="sitemodules_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="sitemodules_hasControl"
+                default="1"
+            />
+
+            <field
+                name="adminmodules_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + ALT + A"
+                class="adminmodules"
+                label="Admin Modules"
+            />
+
+            <field
+                type="hidden"
+                name="adminmodules_keyEvent"
+                default="a"
+            />
+
+        <field
+                type="hidden"
+                name="adminmodules_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="adminmodules_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="adminmodules_hasControl"
+                default="1"
+            />
+
+            <field
+                name="banners_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + B"
+                class="banners"
+                label="Banners"
+            />
+
+            <field
+                type="hidden"
+                name="banners_keyEvent"
+                default="b"
+            />
+
+        <field
+                type="hidden"
+                name="banners_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="articles_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="articles_hasControl"
+                default="1"
+            />
+
+            <field
+                name="contacts_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + ALT + C"
+                class="contacts"
+                label="Contacts"
+            />
+
+            <field
+                type="hidden"
+                name="contacts_keyEvent"
+                default="c"
+            />
+
+        <field
+                type="hidden"
+                name="contacts_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="contacts_hasAlt"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="contacts_hasControl"
+                default="1"
+            />
+
+            <field
+                name="newsfeeds_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + N"
+                class="newfeeds"
+                label="Newsfeeds"
+            />
+
+            <field
+                type="hidden"
+                name="newsfeeds_keyEvent"
+                default="n"
+            />
+
+        <field
+                type="hidden"
+                name="newsfeeds_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="newsfeeds_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="newsfeeds_hasControl"
+                default="1"
+            />
+
+            <field
+                name="smartsearch_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + S"
+                class="smartsearch"
+                label="Smartsearch"
+            />
+
+            <field
+                type="hidden"
+                name="smartsearch_keyEvent"
+                default="s"
+            />
+
+        <field
+                type="hidden"
+                name="smartsearch_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="smartsearch_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="smartsearch_hasControl"
+                default="1"
+            />
+
+            <field
+                name="tags_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + T"
+                class="tags"
+                label="Tags"
+            />
+
+            <field
+                type="hidden"
+                name="tags_keyEvent"
+                default="t"
+            />
+
+        <field
+                type="hidden"
+                name="tags_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="tags_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="tags_hasControl"
+                default="1"
+            />
+
+            <field
+                name="users_keySelect"
+                type="keyselect"
+                default="CTRL + SHIFT + U"
+                class="users"
+                label="Users"
+            />
+
+            <field
+                type="hidden"
+                name="users_keyEvent"
+                default="u"
+            />
+
+        <field
+                type="hidden"
+                name="users_hasShift"
+                default="1"
+            />
+
+            <field
+                type="hidden"
+                name="users_hasAlt"
+                default="0"
+            />
+
+            <field
+                type="hidden"
+                name="users_hasControl"
+                default="1"
+            />
+
+        <field
+                type="spacer"
+            />
+
+            <field
+                type="restoredefaults"
+                label="Reset"
+                class="buttons"
+            />
+
+            </fieldset>       
         </fields>
     </config>
 </extension>
