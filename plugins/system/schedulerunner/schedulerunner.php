@@ -69,7 +69,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onBeforeRender' => 'registerRunner'
+			'onBeforeRender' => ['registerRunner', PHP_INT_MAX]
 		];
 	}
 
