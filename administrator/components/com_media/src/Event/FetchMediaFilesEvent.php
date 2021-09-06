@@ -20,4 +20,36 @@ use Joomla\CMS\Event\AbstractEvent;
  */
 class FetchMediaFilesEvent extends AbstractEvent
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   string  $name       The event name.
+	 * @param   array   $arguments  The event arguments.
+	 *
+	 * @throws  \BadMethodCallException
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct($name, array $arguments = array())
+	{
+		parent::__construct($name, $arguments);
+
+		// Check for required arguments
+		if (!\array_key_exists('files', $arguments) || !is_array($arguments['files']))
+		{
+			throw new \BadMethodCallException("Argument 'files' of event $name is not of the expected type");
+		}
+	}
+
+	/**
+	 * Returns the event files.
+	 *
+	 * @return object[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getFiles()
+	{
+		return $this->arguments['files'];
+	}
 }

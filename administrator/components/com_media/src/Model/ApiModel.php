@@ -119,7 +119,7 @@ class ApiModel extends BaseDatabaseModel
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
-		$event = new FetchMediaFileEvent('onFetchMediaFile', [$file]);
+		$event = new FetchMediaFileEvent('onFetchMediaFile', ['file' => $file]);
 		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		return $file;
@@ -186,7 +186,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$files = array_values($files);
 
-		$event = new FetchMediaFilesEvent('onFetchMediaFiles', [$files]);
+		$event = new FetchMediaFilesEvent('onFetchMediaFiles', ['files' => $files]);
 		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		// Return array with proper indexes
