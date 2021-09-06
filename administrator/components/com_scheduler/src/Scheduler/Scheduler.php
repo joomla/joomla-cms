@@ -173,6 +173,7 @@ class Scheduler
 		else
 		{
 			$filters['due'] = 1;
+			$filters['locked'] = -1;
 		}
 
 		return $this->fetchTasks($filters, ['limit' => 1])[0] ?? null;
@@ -206,9 +207,7 @@ class Scheduler
 
 		$model->set('__state_set', true);
 
-		$model->setState('list.select',
-			'a.id, a.title, a.type, a.next_execution, a.times_executed, a.times_failed, a.params, a.cron_rules'
-		);
+		$model->setState('list.select', '*');
 
 		// Default to only enabled tasks
 		$model->setState('filter.state', 1);
