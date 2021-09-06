@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<dd class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
+<dd class="article__info__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
 	<span class="icon-user icon-fw" aria-hidden="true"></span>
 	<?php $author = ($displayData['item']->created_by_alias ?: $displayData['item']->author); ?>
 	<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
