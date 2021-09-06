@@ -663,7 +663,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function test_getTreeRepositionValues()
 	{
