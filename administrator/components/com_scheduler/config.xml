@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
+		name="task_config"
+		label="COM_SCHEDULER_CONFIG_LABEL_TASKS"
+		>
+		<field
+			name="timeout"
+			type="number"
+			label="COM_SCHEDULER_CONFIG_LABEL_TIMEOUT"
+			default="300"
+			required="true"
+			min="10"
+			step="1"
+			validate="number"
+			filter="int"
+		/>
+	</fieldset>
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
