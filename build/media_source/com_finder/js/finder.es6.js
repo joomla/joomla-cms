@@ -53,9 +53,9 @@
   };
 
   // Submits the form programmatically
-  const submitForm = event => {
+  const submitForm = (event) => {
     const form = event.target.closest('form');
-    if(form) {
+    if (form) {
       form.submit();
     }
   };
