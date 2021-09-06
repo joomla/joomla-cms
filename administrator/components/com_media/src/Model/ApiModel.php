@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Event\MediaFileUrlEvent;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
@@ -467,18 +468,12 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$url    = $this->getAdapter($adapter)->getUrl($path);
-		$newUrl = Factory::getApplication()->getDispatcher()->dispatch(
-			'onFetchMediaFileUrl',
-			new Event('onFetchMediaFileUrl', [$url])
-		);
+		$url = $this->getAdapter($adapter)->getUrl($path);
 
-		if ($newUrl && $newUrl !== false)
-		{
-			$url = $newUrl;
-		}
+		$event = new MediaFileUrlEvent('onFetchMediaFileUrl', ['url' => $url]);
+		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
-		return $url;
+		return $event->getUrl();
 	}
 
 	/**
