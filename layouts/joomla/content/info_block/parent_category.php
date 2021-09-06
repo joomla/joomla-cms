@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
-<dd class="parent-category-name">
+<dd class="article__info__category">
 	<?php $title = $this->escape($displayData['item']->parent_title); ?>
 	<?php if ($displayData['params']->get('link_parent_category') && !empty($displayData['item']->parent_id)) : ?>
 		<?php $url = '<a href="' . Route::_(
