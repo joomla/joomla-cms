@@ -55,6 +55,9 @@ class ArticleModel extends ItemModel
 		$offset = $app->input->getUint('limitstart');
 		$this->setState('list.offset', $offset);
 
+		$preview = $app->input->getInt('preview');
+		$this->setState('article.preview', $preview);
+
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
@@ -206,9 +209,10 @@ class ArticleModel extends ItemModel
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				$archived  = $this->getState('filter.archived');
+				$preview   = $this->getState('article.preview');
 
-				if (is_numeric($published))
+				if ((is_numeric($published)) && (!$preview))
 				{
 					$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
 				}
@@ -222,10 +226,13 @@ class ArticleModel extends ItemModel
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
-				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
+				// Check for published state if filter set and not preview.
+				if (!$preview)
 				{
-					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
+					{
+						throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					}
 				}
 
 				// Convert parameter fields to objects.
