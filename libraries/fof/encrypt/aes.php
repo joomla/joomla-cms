@@ -173,7 +173,7 @@ class FOFEncryptAes
 		if (!$adapter->isSupported($phpfunc))
 		{
 			$adapter = new FOFEncryptAesMcrypt();
-			
+
 			if (!$adapter->isSupported($phpfunc))
 			{
 				return false;
