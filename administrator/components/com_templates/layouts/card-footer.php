@@ -101,5 +101,4 @@ extract($displayData);
 		</div>
 	</div>
 	<?php endforeach; ?>
-
 </div>
