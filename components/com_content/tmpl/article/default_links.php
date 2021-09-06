@@ -18,8 +18,8 @@ $urls = json_decode($this->item->urls);
 $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
-<div class="com-content-article__links content-links">
-	<ul class="com-content-article__links content-list">
+<div class="article__links">
+	<ul class="article__links">
 		<?php
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
@@ -42,7 +42,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				// If no target is present, use the default
 				$target = $target ?: $params->get('target' . $id);
 				?>
-			<li class="com-content-article__link content-links-<?php echo $id; ?>">
+			<li class="article__link article__link--<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
