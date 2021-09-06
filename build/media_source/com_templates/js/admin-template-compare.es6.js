@@ -18,18 +18,15 @@ const decodeHtmlspecialChars = (text) => {
     '&#8221;': '”',
   };
 
-  /* eslint-disable */
-  return text.replace(/\&[\w\d\#]{2,5}\;/g, (m) => { const n = map[m]; return n; });
+  return text.replace(/&[\w\d#]{2,5};/g, (m) => { const n = map[m]; return n; });
 };
 
 const compare = (original, changed) => {
   const display = changed.nextElementSibling;
   let color = '';
   let pre = null;
-  const diff = Diff.diffLines(original.innerHTML, changed.innerHTML);
+  const diff = window.Diff.diffLines(original.innerHTML, changed.innerHTML);
   const fragment = document.createDocumentFragment();
-
-  /* eslint-enable */
 
   diff.forEach((part) => {
     if (part.added) {
