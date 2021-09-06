@@ -14,7 +14,9 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use DateInterval;
 use Exception;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -160,7 +162,7 @@ class TasksModel extends ListModel
 		$extendWhereIfFiltered = function (
 			string $outerGlue, array $conditions, string $innerGlue
 		) use ($query, &$filterCount) {
-			if ($filterCount)
+			if ($filterCount++)
 			{
 				$query->extendWhere($outerGlue, $conditions, $innerGlue);
 			}
@@ -212,10 +214,50 @@ class TasksModel extends ListModel
 		if (is_numeric($due = $this->getState('filter.due')) && $due != 0)
 		{
 			$now = Factory::getDate('now', 'GMT')->toSql();
-			$operator = $due == 1 ? '<= ' : '> ';
+			$operator = $due == 1 ? ' <= ' : ' > ';
 			$filterCount++;
 			$query->where($db->qn('a.next_execution') . $operator . ':now')
 				->bind(':now', $now);
+		}
+
+		/*
+		 * Filter locked ---
+		 * Locks can be either hard locks or soft locks. Locks that have expired (exceeded the task timeout) are soft
+		 * locks. Hard-locked tasks are assumed to be running. Soft-locked tasks are assumed to have suffered a fatal
+		 * failure.
+		 * {-2: exclude-all, -1: exclude-hard-locked, 0: include, 1: include-only-locked, 2: include-only-soft-locked}
+		 */
+		if (is_numeric($locked = $this->getState('filter.locked')) && $locked != 0)
+		{
+			$now = Factory::getDate('now', 'GMT');
+			$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+			$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+			$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
+			$now = $now->toSql();
+
+			switch ($locked)
+			{
+				case -2:
+					$query->where($db->qn('a.locked') . 'IS NULL');
+					break;
+				case -1:
+					$extendWhereIfFiltered(
+						'AND',
+						[
+							$db->qn('a.locked') . ' IS NULL',
+							$db->qn('a.locked') . ' < :threshold'
+						],
+						'OR'
+					);
+					$query->bind(':threshold', $timeoutThreshold);
+					break;
+				case 1:
+					$query->where($db->qn('a.locked') . ' IS NOT NULL');
+					break;
+				case 2:
+					$query->where($db->qn('a.locked') . ' < :threshold')
+						->bind(':threshold', $timeoutThreshold);
+			}
 		}
 
 		// Filter over search string if set (title, type title, note, id) ----
