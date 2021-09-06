@@ -51,7 +51,7 @@ extract($displayData);
 					</li>
 					<?php if ($canCreate) : ?>
 						<li>
-							<button class="js-action-exec-modal btn btn-link" type="button" data-create-new="true"  data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+							<button class="js-action-exec-modal btn btn-link" type="button" data-create-new="true" data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_FORK'); ?></span>
 							</button>
@@ -62,6 +62,14 @@ extract($displayData);
 							<button class="js-action-exec-modal btn btn-link" type="button" data-override="true" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_NEW_OVERRIDE'); ?></span>
+							</button>
+						</li>
+					<?php endif; ?>
+					<?php if ($canDelete) : ?>
+						<li>
+							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->client; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
+								<span class="icon-trash" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_DISABLE'); ?></span>
 							</button>
 						</li>
 					<?php endif; ?>
@@ -104,7 +112,7 @@ extract($displayData);
 
 				<?php if ($description = (string) $item->description) : ?>
 					<li class="list-group-item">
-						<button class="js-action-exec-modal btn btn-link" type="button" data-info-task="templates.getDescription" data-name="<?php echo $this->escape($item->templateName); ?>" data-id="<?php echo $this->escape($item->extensionId); ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
+						<button class="js-action-exec-modal btn btn-link p-0" type="button" data-info-task="templates.getDescription" data-name="<?php echo $this->escape($item->templateName); ?>" data-id="<?php echo $this->escape($item->extensionId); ?>" data-client="<?php echo (int) $item->client; ?>" data-token="<?php echo Session::getFormToken(); ?>">
 							<span class="icon-info" aria-hidden="true"></span>
 							<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_INFO'); ?></span>
 						</button>

@@ -16,12 +16,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'com_templates/admin-template-install.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'com_templates/admin-template-install.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
+HTMLHelper::_('script', 'com_templates/admin-template-install-es5.min.js', ['version' => 'auto', 'relative' => true], ['nomodule' => 'true', 'defer' => true]);
 
 HTMLHelper::_('form.csrf');
 
-Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
-Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+Text::script('COM_TEMPLATES_UPLOAD_ERROR_UNKNOWN');
+Text::script('COM_TEMPLATES_UPLOAD_ERROR_EMPTY');
 
 $return  = Factory::getApplication()->input->getBase64('return');
 $maxSize = FilesystemHelper::fileUploadMaxSize();
@@ -45,7 +46,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 					</div>
 					<p class="lead">
 						<span class="uploading-text">
-							<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
+							<?php echo Text::_('COM_TEMPLATES_UPLOADING'); ?>
 						</span>
 						<span class="uploading-number">0</span><span class="uploading-symbol">%</span>
 					</p>
@@ -56,18 +57,18 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 					</div>
 					<p class="lead">
 						<span class="installing-text">
-							<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_INSTALLING'); ?>
+							<?php echo Text::_('COM_TEMPLATES_INSTALLING'); ?>
 						</span>
 					</p>
 				</div>
 				<div class="upload-actions">
 					<p class="lead">
-						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+						<?php echo Text::_('COM_TEMPLATES_DRAG_FILE_HERE'); ?>
 					</p>
 					<p>
 						<button id="select-file-button" type="button" class="btn btn-success">
 							<span class="icon-copy" aria-hidden="true"></span>
-							<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+							<?php echo Text::_('COM_TEMPLATES_SELECT_FILE'); ?>
 						</button>
 					</p>
 					<p>
@@ -84,7 +85,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 
 	<div id="legacy-uploader" style="display: none;">
 		<div class="control-group">
-			<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+			<label for="install_package" class="control-label"><?php echo Text::_('COM_TEMPLATES_EXTENSION_PACKAGE_FILE'); ?></label>
 			<div class="controls">
 				<input class="form-control-file" id="install_package" name="install_package" type="file">
 				<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
@@ -92,7 +93,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 		</div>
 		<div class="form-actions">
 			<button class="btn btn-primary" type="button" id="installbutton_package">
-				<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
+				<?php echo Text::_('COM_TEMPLATES_UPLOAD_AND_INSTALL'); ?>
 			</button>
 		</div>
 

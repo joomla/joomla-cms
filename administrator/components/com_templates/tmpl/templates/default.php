@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -30,29 +29,8 @@ $clientId  = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$scriptStrings = [
-	'COM_TEMPLATES_SELECT_OPTION_NONE',
-	'COM_TEMPLATES_SELECT_TYPE_OF_OVERRIDE_LABEL',
-	'COM_TEMPLATES_COMPONENT',
-	'COM_TEMPLATES_COMPONENT_LABEL',
-	'COM_TEMPLATES_PLUGIN',
-	'COM_TEMPLATES_MODULE',
-	'COM_TEMPLATES_LAYOUT_SELECT_LABEL',
-	'COM_TEMPLATES_LAYOUT',
-	'COM_TEMPLATES_CREATE_OVERRIDE',
-	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME',
-	'COM_TEMPLATES_LAYOUT_CUSTOM_NAME_LABEL',
-	'JYES',
-	'JNO',
-	'COM_TEMPLATES_CREATE_FORK_LABEL',
-	'COM_TEMPLATES_CREATE_CHILD_LABEL',
-	'COM_TEMPLATES_CREATE_NEW_TEMPLATE',
-	'COM_TEMPLATES_CREATE_NEW_CHILD',
-];
-
-foreach ($scriptStrings as $c) {
-	Text::script($c);
-}
+// Populate the language strings for the client.
+$this->loadTemplate('texts');
 
 $wa->useStyle('com_templates.admin-templates')
 	->useStyle('switcher')
@@ -75,15 +53,13 @@ if ((int) $this->get('State')->get('client_id') === 1) {
 }
 
 // Install new template
-ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');
+ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'COM_TEMPLATES_INSTALL_TEMPLATE');
 
 if ($canDo->get('core.admin') || $canDo->get('core.options')) {
 	ToolbarHelper::preferences('com_templates');
 }
 
 ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
-
-// $document->addScriptOptions('override.paths', json_encode($this->overridePaths($clientId)));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm" data-token="<?php echo $token; ?>">
 	<div class="row">
@@ -151,7 +127,7 @@ if ($canCreate) {
 		'bootstrap.renderModal',
 		'ModalInstallTemplate',
 		[
-			'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
+			'title'       => Text::_('COM_TEMPLATES_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
 			'height'      => '75vh',
 			'width'       => '85vw',
 			'bodyHeight'  => 60,
