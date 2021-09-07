@@ -44,11 +44,11 @@ class FetchMediaFilesEvent extends AbstractEvent
 	/**
 	 * Returns the event files.
 	 *
-	 * @return object[]
+	 * @return array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getFiles()
+	public function getFiles(): array
 	{
 		return $this->arguments['files'];
 	}

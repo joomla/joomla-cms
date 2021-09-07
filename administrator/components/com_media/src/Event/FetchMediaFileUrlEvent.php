@@ -14,11 +14,11 @@ namespace Joomla\Component\Media\Administrator\Event;
 use Joomla\CMS\Event\AbstractEvent;
 
 /**
- * Event object for fetch media file.
+ * Event object to set an url.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FetchMediaFileEvent extends AbstractEvent
+class FetchMediaFileUrlEvent extends AbstractEvent
 {
 	/**
 	 * Constructor.
@@ -35,21 +35,21 @@ class FetchMediaFileEvent extends AbstractEvent
 		parent::__construct($name, $arguments);
 
 		// Check for required arguments
-		if (!\array_key_exists('file', $arguments) || !is_object($arguments['file']))
+		if (!\array_key_exists('url', $arguments) || !is_string($arguments['url']))
 		{
-			throw new \BadMethodCallException("Argument 'file' of event $name is not of the expected type");
+			throw new \BadMethodCallException("Argument 'url' of event $name is not of the expected type");
 		}
 	}
 
 	/**
-	 * Returns the event file.
+	 * Returns the event url.
 	 *
-	 * @return stdClass
+	 * @return string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getFile(): \stdClass
+	public function getUrl(): string
 	{
-		return $this->arguments['file'];
+		return $this->arguments['url'];
 	}
 }
