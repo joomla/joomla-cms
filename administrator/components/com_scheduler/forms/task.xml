@@ -253,6 +253,7 @@
 				name="priority"
 				type="list"
 				label="COM_SCHEDULER_LABEL_TASK_PRIORITY"
+				description="COM_SCHEDULER_DESCRIPTION_TASK_PRIORITY"
 				validate="options"
 				required="true"
 				default="0"
