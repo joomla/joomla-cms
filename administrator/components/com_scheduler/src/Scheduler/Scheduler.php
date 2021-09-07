@@ -218,6 +218,12 @@ class Scheduler
 		$model->setState('list.ordering', 'a.next_execution');
 		$model->setState('list.direction', 'ASC');
 
+		$model->setState('list.multi_ordering', [
+				'a.priority DESC',
+				'a.next_execution ASC'
+			]
+		);
+
 		// List options
 		foreach ($listConfig as $key => $value)
 		{
