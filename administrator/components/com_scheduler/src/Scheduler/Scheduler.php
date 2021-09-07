@@ -41,7 +41,8 @@ class Scheduler
 	private const LOG_TEXT = [
 		Status::OK      => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
 		Status::NO_LOCK => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
-		Status::NO_RUN  => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED'
+		Status::NO_RUN  => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
+		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA'
 	];
 
 	/**
@@ -212,8 +213,8 @@ class Scheduler
 		// Default to only enabled tasks
 		$model->setState('filter.state', 1);
 
-		// Default to excluding orphaned tasks
-		$model->setState('filter.orphaned', -1);
+		// Default to including orphaned tasks
+		$model->setState('filter.orphaned', 0);
 
 		$model->setState('list.ordering', 'a.next_execution');
 		$model->setState('list.direction', 'ASC');
