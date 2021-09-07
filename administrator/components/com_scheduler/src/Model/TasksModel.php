@@ -68,6 +68,7 @@ class TasksModel extends ListModel
 				'times_executed', 'a.times_executed',
 				'times_failed', 'a.times_failed',
 				'ordering', 'a.ordering',
+				'priority', 'a.priority',
 				'note', 'a.note',
 				'created', 'a.created',
 				'created_by', 'a.created_by'
@@ -291,20 +292,30 @@ class TasksModel extends ListModel
 
 		// Add list ordering clause. ----
 		// @todo implement multi-column ordering someway
-		$orderCol = $this->state->get('list.ordering', 'a.title');
-		$orderDir = $this->state->get('list.direction', 'desc');
+		$multiOrdering = $this->state->get('list.multi_ordering');
 
-		// Type title ordering is handled exceptionally in _getList()
-		if ($orderCol !== 'j.type_title')
+		if (!$multiOrdering || !is_array($multiOrdering))
 		{
-			// If ordering by type or state, also order by title.
-			if (in_array($orderCol, ['a.type', 'a.state']))
-			{
-				// @todo : Test if things are working as expected
-				$query->order($db->quoteName('a.title') . ' ' . $orderDir);
-			}
+			$orderCol = $this->state->get('list.ordering', 'a.title');
+			$orderDir = $this->state->get('list.direction', 'desc');
 
-			$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+			// Type title ordering is handled exceptionally in _getList()
+			if ($orderCol !== 'j.type_title')
+			{
+				$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+
+				// If ordering by type or state, also order by title.
+				if (in_array($orderCol, ['a.type', 'a.state', 'a.priority']))
+				{
+					// @todo : Test if things are working as expected
+					$query->order($db->quoteName('a.title') . ' ' . $orderDir);
+				}
+			}
+		}
+		else
+		{
+			// @todo Should add quoting here
+			$query->order($multiOrdering);
 		}
 
 		return $query;
