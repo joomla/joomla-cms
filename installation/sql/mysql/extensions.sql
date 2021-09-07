@@ -907,6 +907,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `times_executed` int DEFAULT '0' COMMENT 'Count of successful triggers',
   `times_failed` int DEFAULT '0' COMMENT 'Count of failures',
   `locked` datetime,
+  `priority` smallint NOT NULL DEFAULT '0',
   `ordering` int NOT NULL DEFAULT 0 COMMENT 'Configurable list ordering',
   `params` text NOT NULL,
   `note` text,
@@ -917,7 +918,8 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   KEY `idx_state` (`state`),
   KEY `idx_last_exit` (`last_exit_code`),
   KEY `idx_next_exec` (`next_execution`),
-  KEY `idx_locked` (`locked`)
+  KEY `idx_locked` (`locked`),
+  KEY `idx_priority` (`priority`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
