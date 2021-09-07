@@ -39,8 +39,8 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 		</a>
 	<?php else : ?>
 		<?php $text = Text::sprintf('JGLOBAL_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))); ?>
-		<?php $ariaLabel = ' aria-label="' . Text::sprintf('JGLOBAL_READ_MORE_TITLE', $this->escape($item->title)) . '"';?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" <?php echo $text != $ariaLabel ? $ariaLabel : ''; ?>>
+		<?php $ariaLabel = Text::sprintf('JGLOBAL_READ_MORE_TITLE', $this->escape($item->title)); ?>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" <?php echo $text != $ariaLabel ? 'aria-label="' . $ariaLabel . '"' : ''; ?>>
 			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>';?>
 			<?php echo Text::sprintf('JGLOBAL_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))); ?>
 		</a>
