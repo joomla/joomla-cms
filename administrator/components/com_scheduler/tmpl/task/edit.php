@@ -20,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\View\Task\HtmlView;
 
-/** @var  HtmlView  $this */
+/** @var  HtmlView $this */
 
 $wa = $this->document->getWebAssetManager();
 
@@ -34,7 +34,8 @@ $app = $this->app;
 $input = $app->getInput();
 
 // ?
-$this->ignore_fieldsets = [];
+$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced'];
+$this->useCoreUI = true;
 
 // ? : Are these of use here?
 $isModal = $input->get('layout') === 'modal';
@@ -90,7 +91,6 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 					<?php echo $this->form->renderFieldset('basic'); ?>
 				</fieldset>
 
-
 				<fieldset class="options-form match-custom"
 						  data-showon='[{"field":"jform[execution_rules][rule-type]","values":["custom"],"sign":"=","op":""}]'
 				>
@@ -98,22 +98,28 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 					<?php echo $this->form->renderFieldset('custom-cron-rules'); ?>
 				</fieldset>
 
-				<fieldset class="options-form">
-					<legend><?php echo Text::_('COM_SCHEDULER_FIELDSET_PARAMS_FS'); ?></legend>
-					<?php
-					// @todo: Render [all] fieldsets with the Joomla params template
-					// ! Investigate why `render('joomla.edit.params', $this)` fails
-					echo $this->form->renderFieldset('params-fs');
-					?>
-				</fieldset>
+				<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 			</div>
+
 			<div class="col-lg-3">
 				<?php echo $this->form->renderFieldset('aside'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<!-- Tab to show execution history-->
+		<!-- Tab for advanced options -->
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'advanced', Text::_('JGLOBAL_FIELDSET_ADVANCED')) ?>
+		<div class="row">
+			<div class="col-lg-9">
+				<fieldset class="options-form">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_ADVANCED') ?></legend>
+					<?php echo $this->form->renderFieldset('advanced') ?>
+				</fieldset>
+			</div>
+		</div>
+		<?php echo HTMLHelper::_('uitab.endTab') ?>
+
+		<!-- Tab to show execution history -->
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'exec_hist', Text::_('COM_SCHEDULER_FIELDSET_EXEC_HIST')); ?>
 		<div class="row">
 			<div class="col-lg-9">

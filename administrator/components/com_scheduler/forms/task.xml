@@ -248,7 +248,7 @@
 	</fields>
 
 	<fields>
-		<fieldset name="basic">
+		<fieldset name="advanced">
 			<field
 				name="priority"
 				type="list"
@@ -266,9 +266,7 @@
 	</fields>
 
 	<fields name="params">
-		<!-- ! Fieldset should be removed, once the issue with
-				 ! joomla.edit.params is resolved in the template -->
-		<fieldset name="params-fs">
+		<fieldset name="advanced">
 			<field
 				name="individual_log"
 				type="radio"
