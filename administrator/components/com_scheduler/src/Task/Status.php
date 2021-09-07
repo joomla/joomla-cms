@@ -67,6 +67,13 @@ abstract class Status
 	public const TIMEOUT = 124;
 
 	/**
+	 * Exit code on missing Task routine
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const NO_ROUTINE = 127;
+
+	/**
 	 * Exit code on success.
 	 *
 	 * @since  __DEPLOY_VERSION__

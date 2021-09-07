@@ -26,6 +26,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -71,6 +72,11 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	protected $db;
 
+	protected const EVENTS_MAP = [
+		Status::OK => 'onTaskExecuteSuccess',
+		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
+		'NA' => 'onTaskExecuteFailure'
+	];
 
 	/**
 	 * Override parent Registry constructor.
@@ -117,7 +123,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$recObject = $this->toObject();
 
 		// phpcs:ignore
-		$recObject->cron_rules = (array)$recObject->cron_rules;
+		$recObject->cron_rules = (array) $recObject->cron_rules;
 
 		return $recObject;
 	}
@@ -140,17 +146,26 @@ class Task extends Registry implements LoggerAwareInterface
 		if ($this->get('locked') !== null)
 		{
 			$event = AbstractEvent::create('onTaskRecoverFailure', [
-				'subject' => $this
+					'subject' => $this
 				]
 			);
 			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
+		}
+
+		// Exit early if task routine is not available
+		if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')))
+		{
+			$this->snapshot['status'] = Status::NO_ROUTINE;
+			$this->skipExecution();
+
+			return $this->handleExit(Status::NO_ROUTINE);
 		}
 
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return $this->handleExit(false);
+			return $this->handleExit(Status::NO_LOCK);
 		}
 
 		$this->snapshot['status'] = Status::NO_TIME;
@@ -183,7 +198,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 
-			return $this->handleExit(false);
+			return $this->handleExit(Status::NO_RELEASE);
 		}
 
 		return $this->handleExit();
@@ -323,17 +338,50 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
+	 * Advances the task entry's next calculated execution, effectively skipping the current execution.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function skipExecution(): void
+	{
+		$db = $this->db;
+		$query = $db->getQuery(true);
+
+		$id = $this->get('id');
+		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+
+		$query->update($db->qn('#__scheduler_tasks', 't'))
+			->set('t.next_execution = :nextExec')
+			->where('t.id = :id')
+			->bind(':nextExec', $nextExec)
+			->bind(':id', $id);
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+		}
+
+		$this->set('next_execution', $nextExec);
+	}
+
+	/**
 	 * Handles task exit (dispatch event, return).
 	 *
-	 * @param   bool  $success  If true, execution was successful
+	 * @param   integer  $exitCode  If true, execution was successful
 	 *
 	 * @return boolean  If true, execution was successful
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(bool $success = true): bool
+	private function handleExit(int $exitCode = Status::OK): bool
 	{
-		$eventName = $success ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
+		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
 		$event = AbstractEvent::create($eventName, [
 				'subject' => $this
@@ -341,6 +389,6 @@ class Task extends Registry implements LoggerAwareInterface
 		);
 		$this->app->getDispatcher()->dispatch($eventName, $event);
 
-		return $success;
+		return $exitCode === Status::OK;
 	}
 }
