@@ -19,6 +19,7 @@ use Assert\AssertionFailedException;
 use DateInterval;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -193,6 +194,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function acquireLock(): bool
@@ -202,9 +204,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id = $this->get('id');
 		$now = Factory::getDate('now', 'GMT');
 
-		// @todo Get timeout in seconds from component configuration
-		$timeout = new DateInterval('PT100S');
-		$timeoutThreshold = $now->sub($timeout)->toSql();
+		$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+		$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 		$now = $now->toSql();
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
