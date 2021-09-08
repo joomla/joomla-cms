@@ -333,7 +333,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				{
 					$type = $this->_propertyTypes[$name] ?? null;
 				}
-				
+
 				$this->$name = static::TypeConvert($field->Default, $type, $this->_tz);
 			}
 		}
