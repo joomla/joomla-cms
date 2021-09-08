@@ -329,7 +329,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			{
 				$type = $field->TypeProperty;
 
-				if($field->Null == 'YES')
+				if ($field->Null == 'YES')
 				{
 					$type = $this->_propertyTypes[$name] ?? null;
 				}
