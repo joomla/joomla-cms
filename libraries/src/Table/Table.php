@@ -305,7 +305,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			}
 
 			$type = $prop->getType();
-			$type = $type != null ? (string) $prop->getType()->getName() : null;
+			$type = $type != null ? (string) $type->getName() : null;
 			$this->_propertyTypes[$prop->name] = $type;
 
 			if (isset($this->{$prop->name}))
@@ -327,7 +327,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		{
 			if (strpos($name, '_') !== 0 && !isset($this->{$name}))
 			{
-				$this->$name = static::TypeConvert($field->Default, $field->TypeProperty, $this->_tz);
+				$type = $field->TypeProperty;
+
+				if($field->Null == 'YES')
+				{
+					$type = $this->_propertyTypes[$name] ?? null;
+				}
+				
+				$this->$name = static::TypeConvert($field->Default, $type, $this->_tz);
 			}
 		}
 
@@ -2257,7 +2264,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public static function TypeConvert($value = null, $type = '', $tz = null)
 	{
-		if ($type == '')
+		if (empty($type))
 		{
 			return $value;
 		}
