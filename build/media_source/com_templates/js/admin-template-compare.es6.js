@@ -47,6 +47,4 @@ const compare = (original, changed) => {
 };
 
 [].slice.call(document.querySelectorAll('#original'))
-  .forEach((original) => {
-    compare(original, original.nextElementSibling);
-  });
+  .forEach((original) => compare(original, original.nextElementSibling));

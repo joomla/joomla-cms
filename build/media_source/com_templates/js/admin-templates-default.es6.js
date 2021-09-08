@@ -94,10 +94,7 @@ const onClickModal = async (event) => {
   });
 };
 
-const actionButtons = [].slice.call(document.querySelectorAll('button.js-action-exec'));
-const actionButtonsNew = [].slice.call(document.querySelectorAll('button.js-action-exec-new'));
-const actionButtonsModal = [].slice.call(document.querySelectorAll('button.js-action-exec-modal'));
-
-actionButtons.map((button) => button.addEventListener('click', onClick));
-actionButtonsNew.map((button) => button.addEventListener('click', onClickNew));
-actionButtonsModal.map((button) => button.addEventListener('click', onClickModal));
+// Add the Interactivity
+[].slice.call(document.querySelectorAll('button.js-action-exec')).map((button) => button.addEventListener('click', onClick));
+[].slice.call(document.querySelectorAll('button.js-action-exec-new')).map((button) => button.addEventListener('click', onClickNew));
+[].slice.call(document.querySelectorAll('button.js-action-exec-modal')).map((button) => button.addEventListener('click', onClickModal));
