@@ -344,7 +344,7 @@ class CacheliteStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		if(!stream_resolve_include_path('Cache/Lite.php'))
+		if (!stream_resolve_include_path('Cache/Lite.php'))
 		{
 			return false;
 		}
