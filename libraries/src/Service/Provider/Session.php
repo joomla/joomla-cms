@@ -35,8 +35,6 @@ use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\StorageInterface;
-use Joomla\Session\Validator\AddressValidator;
-use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency
