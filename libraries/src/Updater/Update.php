@@ -217,7 +217,7 @@ class Update extends \JObject
 	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
-	 * Array with compatible versions regardless of minimum stability
+	 * Array with compatible versions used by the pre-update check
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
