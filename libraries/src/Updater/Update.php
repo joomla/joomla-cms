@@ -217,6 +217,14 @@ class Update extends \JObject
 	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
+	 * Array with compatible versions regardless of minimum stability
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $compatibleVersions = array();
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -411,9 +419,14 @@ class Update extends \JObject
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
+						if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data))
+						{
+							$this->compatibleVersions[] = $this->currentUpdate->version->_data;
+						}
+
 						if (isset($this->latest))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
+							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 							{
 								$this->latest = $this->currentUpdate;
 							}
