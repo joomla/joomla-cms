@@ -553,13 +553,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				$resultGroup = 3;
 			}
 
-			if ($currentUpdateVersion !== false)
+			if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
 			{
-				if (version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
-				{
-					// Special case warning when version compatible with target is lower than current
-					$upgradeWarning = 2;
-				}
+				// Special case warning when version compatible with target is lower than current
+				$upgradeWarning = 2;
 			}
 		}
 		elseif ($currentUpdateVersion !== false)
