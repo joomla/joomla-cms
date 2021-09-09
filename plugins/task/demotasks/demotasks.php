@@ -33,17 +33,17 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private const TASKS_MAP = [
-		'demoTask_r1.sleep'                 => [
+		'demoTask_r1.sleep'                    => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_SLEEP',
 			'form'            => 'testTaskForm'
 		],
-		'demoTask_r2.memoryStressTest' => [
+		'demoTask_r2.memoryStressTest'         => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY',
 			'call'            => 'stressMemory'
 		],
 		'demoTask_r3.memoryStressTestOverride' => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY_OVERRIDE',
-			'call' => 'stressMemoryRemoveLimit'
+			'call'            => 'stressMemoryRemoveLimit'
 		]
 	];
 
