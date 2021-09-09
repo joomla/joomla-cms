@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <form>
 	<fields name="params">
-		<fieldset name="params-fs">
+		<fieldset name="task_params">
 			<field
-				name="sample"
-				type="text"
-				label="PLG_TASK_DEMO_TASKS_LABEL_SAMPLE_FIELD"
-				placeholder="..."
+				name="timeout"
+				type="number"
+				label="PLG_TASK_DEMO_TASKS_SLEEP_TIMEOUT_LABEL"
+				default="1"
+				required="true"
+				min="1"
+				step="1"
+				validate="number"
+				filter="int"
 			/>
 		</fieldset>
 	</fields>

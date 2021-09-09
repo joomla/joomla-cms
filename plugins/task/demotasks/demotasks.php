@@ -33,8 +33,8 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private const TASKS_MAP = [
-		'routine_1' => [
-			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_1',
+		'demoTask_r1.sleep'                 => [
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_SLEEP',
 			'form'            => 'testTaskForm'
 		],
 		'demoTask_r2.memoryStressTest' => [
@@ -76,7 +76,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onTaskOptionsList'    => 'advertiseRoutines',
-			'onExecuteTask'        => 'cronSampleRoutine',
+			'onExecuteTask'        => 'routineHandler',
 			'onContentPrepareForm' => 'manipulateForms'
 		];
 	}
@@ -89,22 +89,34 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION
 	 */
-	public function cronSampleRoutine(ExecuteTaskEvent $event): void
+	public function routineHandler(ExecuteTaskEvent $event): void
 	{
-		if (array_key_exists($event->getRoutineId(), self::TASKS_MAP))
+		if (!array_key_exists($routineId = $event->getRoutineId(), self::TASKS_MAP))
 		{
-			$this->taskStart($event);
-
-			// Access to task parameters
-			$params = $event->getArgument('params');
-
-			// Plugin does whatever it wants
-			$this->addTaskLog('Starting 20s timeout');
-			sleep(20);
-			$this->addTaskLog('20s timeout over!');
-
-			$this->taskEnd($event, 0);
+			return;
 		}
+
+		$this->taskStart($event);
+
+		// Access to task parameters
+		$params = $event->getArgument('params');
+		$timeout = $params->timeout ?? 1;
+		$timeout = ((int) $timeout) ?: 1;
+
+		// Plugin does whatever it wants
+
+		if (array_key_exists('call', self::TASKS_MAP[$routineId]))
+		{
+			$this->{self::TASKS_MAP[$routineId]['call']}();
+		}
+		else
+		{
+			$this->addTaskLog(sprintf('Starting %d timeout', $timeout));
+			sleep($timeout);
+			$this->addTaskLog(sprintf('%d timeout over!', $timeout));
+		}
+
+		$this->taskEnd($event, 0);
 	}
 
 	/**
