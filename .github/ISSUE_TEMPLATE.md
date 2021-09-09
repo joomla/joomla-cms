@@ -18,7 +18,6 @@ The download removes any secure/personal data so you can upload it in public her
 Joomla 4: Log in to your Joomla Admin. Go to System in the left menu. 
 Then select "System Information". Click the button "Download as text". 
 
-
 Joomla 3:  Log in to your Joomla Admin, Select System from the top menu. 
 Select "System Information".  Click the button "Download as text". 
 --> 
