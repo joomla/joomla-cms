@@ -17,7 +17,13 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../build/media_source/system/scss/icomoon";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables from the Atum template
+@import "../../../administrator/templates/atum/scss/variables";
+
+// Bootstrap with the root.scss overriden
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap";
 
 // Backend Template stuff
 @import "../../../administrator/templates/atum/scss/blocks/global";
