@@ -104,7 +104,7 @@ if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalan
 	// If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
 	IpHelper::setAllowIpOverrides(true);
 
-	// Replace REMOTE_ADDR with the real clients IP address if we need to.
+	// Replace REMOTE_ADDR with the real client's IP address if we need to.
 	IPHelper::workaroundIPIssues();
 }
 else
