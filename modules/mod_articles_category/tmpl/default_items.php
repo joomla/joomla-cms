@@ -17,9 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php foreach ($items as $item) : ?>
 <li>
 	<?php if ($params->get('link_titles') == 1) : ?>
-		<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-			<?php echo $item->title; ?>
-		</a>
+		<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>"><?php echo $item->title; ?></a>
 	<?php else : ?>
 		<?php echo $item->title; ?>
 	<?php endif; ?>
