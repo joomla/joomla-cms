@@ -37,9 +37,13 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_1',
 			'form'            => 'testTaskForm'
 		],
-		'routine_2' => [
-			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_2',
-			'form'            => 'testTaskForm'
+		'demoTask_r2.memoryStressTest' => [
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY',
+			'call'            => 'stressMemory'
+		],
+		'demoTask_r3.memoryStressTestOverride' => [
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY_OVERRIDE',
+			'call' => 'stressMemoryRemoveLimit'
 		]
 	];
 
@@ -123,5 +127,77 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 		{
 			$this->enhanceTaskItemForm($form, $data);
 		}
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function stressMemory(): void
+	{
+		$mLimit = $this->getMemoryLimit();
+		$this->addTaskLog(sprintf('Memory Limit: %d KB', $mLimit));
+
+		$iMem = $cMem = memory_get_usage();
+		$i = 0;
+
+		while ($cMem + ($cMem - $iMem) / ++$i <= $mLimit)
+		{
+			$this->addTaskLog(sprintf('Current memory usage: %d KB', $cMem));
+			${"array" . $i} = array_fill(0, 100000, 1);
+		}
+	}
+
+	/**
+	 *
+	 * @return void
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function stressMemoryRemoveLimit(): void
+	{
+		$success = false;
+
+		if (function_exists('ini_set'))
+		{
+			$success = ini_set('memory_limit', -1) !== false;
+		}
+
+		$this->addTaskLog('Memory limit override ' . $success ? 'successful' : 'failed');
+		$this->getMemoryLimit();
+	}
+
+	/**
+	 * Processes the PHP ini memory_limit setting, returning the memory limit in KB
+	 *
+	 * @return float
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getMemoryLimit(): float
+	{
+		$memoryLimit = ini_get('memory_limit');
+
+		if (preg_match('/^(\d+)(.)$/', $memoryLimit, $matches))
+		{
+			if ($matches[2] == 'M')
+			{
+				// * nnnM -> nnn MB
+				$memoryLimit = $matches[1] * 1024 * 1024;
+			}
+			else
+			{
+				if ($matches[2] == 'K')
+				{
+					// * nnnK -> nnn KB
+					$memoryLimit = $matches[1] * 1024;
+				}
+			}
+		}
+
+		return (float) $memoryLimit;
 	}
 }
