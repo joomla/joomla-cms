@@ -15,7 +15,7 @@ $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;    //used for focus color
 $dark-blue:                        #001b4c; //is the atum-special-color
-$light-blue:                       #2a69b8; //is the atum-link-color
+$light-blue:                       #2a69b8; //is the template-link-color
 $focusshadow:                      0 0 0 .2rem #eaeaea;
 
 // BS Colours
@@ -56,8 +56,6 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $atum-colors: (
-  atum-link-color:                 $light-blue,
-  atum-text-dark:                  $atum-text-dark,
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
@@ -249,7 +247,7 @@ $form-select-indicator-active:     url("../../../images/select-bg.svg");
 $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
 $form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-box-shadow:           $atum-box-shadow;
+$form-select-box-shadow:           0 0 .5rem var(--template-bg-light);
 $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;
 $form-file-button-color:           var(--white);
