@@ -839,7 +839,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 			if (isset($fields[$k]))
 			{
-				$type = $fields[$k]->TypeProperty;
+				$type = $this->_propertyTypes[$k] ?? null;
 				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
 				continue;
 			}
