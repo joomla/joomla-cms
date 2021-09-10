@@ -584,6 +584,18 @@ abstract class ModuleHelper
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
+
+		// Turn cache off for internal callers if parameters are set to off and for all logged in users
+		$ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
+		$cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
+
+		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
+		{
+			return \call_user_func_array([$cacheparams->class, $cacheparams->method], $cacheparams->methodparams);
+		}
+
 		if (!isset($cacheparams->modeparams))
 		{
 			$cacheparams->modeparams = null;
@@ -599,21 +611,9 @@ abstract class ModuleHelper
 			$cacheparams->cachesuffix = '';
 		}
 
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
-
 		/** @var CallbackController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
-
-		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		$ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
-		$cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
-
-		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
-		{
-			$cache->setCaching(false);
-		}
 
 		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
 		$cache->setLifeTime($moduleparams->get('cache_time', $app->get('cachetime') * 60) / 60);
@@ -621,7 +621,6 @@ abstract class ModuleHelper
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
 		$wrkarounds = true;
-		$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
 		switch ($cacheparams->cachemode)
 		{
@@ -636,8 +635,6 @@ abstract class ModuleHelper
 				break;
 
 			case 'safeuri':
-				$secureid = null;
-
 				if (\is_array($cacheparams->modeparams))
 				{
 					$input   = $app->input;
@@ -655,7 +652,9 @@ abstract class ModuleHelper
 					}
 				}
 
-				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
+				$secureid    = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
+				$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
+
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
@@ -677,6 +676,8 @@ abstract class ModuleHelper
 
 			case 'itemid':
 			default:
+				$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
+
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
