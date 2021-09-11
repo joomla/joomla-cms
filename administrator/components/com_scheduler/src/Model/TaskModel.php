@@ -243,7 +243,7 @@ class TaskModel extends AdminModel
 			// @todo : further data processing goes here
 
 			// For a fresh object, set exec-day and exec-time
-			if (!$id = $data->id ?? 0)
+			if (!($data->id ?? 0))
 			{
 				$data->execution_rules['exec-day'] = gmdate('d');
 				$data->execution_rules['exec-time'] = gmdate('H:i');
@@ -298,18 +298,6 @@ class TaskModel extends AdminModel
 	 */
 	public function save($data): bool
 	{
-		/**
-		 * @var  object $field Holds the record we're saving $data to
-		 */
-		$field = null;
-
-		// ? : Is this the right way? 'id' == 0 with $data for a New item so this wouldn't work.
-		if (isset($data['id']))
-		{
-			// ? : Why aren't we doing anything with the field?
-			$field = $this->getItem($data['id']);
-		}
-
 		// Clean up execution rules
 		$this->processExecutionRules($data);
 
@@ -432,7 +420,7 @@ class TaskModel extends AdminModel
 		if ($targetToInt)
 		{
 			$target = array_map(
-				function (string $x): int {
+				static function (string $x): int {
 					return (int) $x;
 				},
 				$target

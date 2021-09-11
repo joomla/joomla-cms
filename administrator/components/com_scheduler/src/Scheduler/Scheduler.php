@@ -41,7 +41,8 @@ class Scheduler
 	private const LOG_TEXT = [
 		Status::OK      => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
 		Status::NO_LOCK => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
-		Status::NO_RUN  => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED'
+		Status::NO_RUN  => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
+		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA'
 	];
 
 	/**
@@ -173,6 +174,7 @@ class Scheduler
 		else
 		{
 			$filters['due'] = 1;
+			$filters['locked'] = -1;
 		}
 
 		return $this->fetchTasks($filters, ['limit' => 1])[0] ?? null;
@@ -206,18 +208,22 @@ class Scheduler
 
 		$model->set('__state_set', true);
 
-		$model->setState('list.select',
-			'a.id, a.title, a.type, a.next_execution, a.times_executed, a.times_failed, a.params, a.cron_rules'
-		);
+		$model->setState('list.select', '*');
 
 		// Default to only enabled tasks
 		$model->setState('filter.state', 1);
 
-		// Default to excluding orphaned tasks
-		$model->setState('filter.orphaned', -1);
+		// Default to including orphaned tasks
+		$model->setState('filter.orphaned', 0);
 
 		$model->setState('list.ordering', 'a.next_execution');
 		$model->setState('list.direction', 'ASC');
+
+		$model->setState('list.multi_ordering', [
+				'a.priority DESC',
+				'a.next_execution ASC'
+			]
+		);
 
 		// List options
 		foreach ($listConfig as $key => $value)

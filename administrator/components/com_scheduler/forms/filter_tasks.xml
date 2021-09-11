@@ -60,6 +60,8 @@
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.priority ASC">COM_SCHEDULER_TASK_PRIORITY_ASC</option>
+			<option value="a.priority DESC">COM_SCHEDULER_TASK_PRIORITY_DESC</option>
 		</field>
 		<field
 			name="limit"

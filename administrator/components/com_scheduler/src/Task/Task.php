@@ -16,14 +16,17 @@ defined('_JEXEC') or die;
 
 use Assert\Assertion;
 use Assert\AssertionFailedException;
+use DateInterval;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -69,6 +72,11 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	protected $db;
 
+	protected const EVENTS_MAP = [
+		Status::OK => 'onTaskExecuteSuccess',
+		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
+		'NA' => 'onTaskExecuteFailure'
+	];
 
 	/**
 	 * Override parent Registry constructor.
@@ -115,7 +123,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$recObject = $this->toObject();
 
 		// phpcs:ignore
-		$recObject->cron_rules = (array)$recObject->cron_rules;
+		$recObject->cron_rules = (array) $recObject->cron_rules;
 
 		return $recObject;
 	}
@@ -130,11 +138,34 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
+		/*
+		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
+		* was interrupted by a fatal failure.
+		* @todo add listeners. We can have opt-in hooks for email (priority), push-bullet, etc
+		*/
+		if ($this->get('locked') !== null)
+		{
+			$event = AbstractEvent::create('onTaskRecoverFailure', [
+					'subject' => $this
+				]
+			);
+			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
+		}
+
+		// Exit early if task routine is not available
+		if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')))
+		{
+			$this->snapshot['status'] = Status::NO_ROUTINE;
+			$this->skipExecution();
+
+			return $this->handleExit(Status::NO_ROUTINE);
+		}
+
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return $this->handleExit(false);
+			return $this->handleExit(Status::NO_LOCK);
 		}
 
 		$this->snapshot['status'] = Status::NO_TIME;
@@ -145,7 +176,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$event = AbstractEvent::create(
 			'onExecuteTask',
 			[
-				'eventClass'      => 'Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent',
+				'eventClass'      => ExecuteTaskEvent::class,
 				'subject'         => $this,
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
@@ -167,7 +198,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 
-			return $this->handleExit(false);
+			return $this->handleExit(Status::NO_RELEASE);
 		}
 
 		return $this->handleExit();
@@ -178,6 +209,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function acquireLock(): bool
@@ -185,12 +217,24 @@ class Task extends Registry implements LoggerAwareInterface
 		$db = $this->db;
 		$query = $db->getQuery(true);
 		$id = $this->get('id');
+		$now = Factory::getDate('now', 'GMT');
+
+		$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+		$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
+		$now = $now->toSql();
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = 1')
+			->set('t.locked = :now')
 			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' = 0')
-			->bind(':taskId', $id, ParameterType::INTEGER);
+			->extendWhere('AND', [
+				$db->qn('t.locked') . ' < :threshold',
+				$db->qn('t.locked') . 'IS NULL'],
+				'OR'
+			)
+			->bind(':taskId', $id, ParameterType::INTEGER)
+			->bind(':now', $now)
+			->bind(':threshold', $timeoutThreshold);
 
 		try
 		{
@@ -206,7 +250,7 @@ class Task extends Registry implements LoggerAwareInterface
 			return false;
 		}
 
-		$this->set('locked', 1);
+		$this->set('locked', $now);
 
 		return true;
 	}
@@ -229,9 +273,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = 0')
+			->set('t.locked = NULL')
 			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' = 1')
+			->where($db->qn('t.locked') . ' IS NOT NULL')
 			->bind(':taskId', $id, ParameterType::INTEGER);
 
 		if ($update)
@@ -275,7 +319,7 @@ class Task extends Registry implements LoggerAwareInterface
 			return false;
 		}
 
-		$this->set('locked', 0);
+		$this->set('locked', null);
 
 		return true;
 	}
@@ -294,23 +338,57 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
+	 * Advances the task entry's next calculated execution, effectively skipping the current execution.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function skipExecution(): void
+	{
+		$db = $this->db;
+		$query = $db->getQuery(true);
+
+		$id = $this->get('id');
+		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+
+		$query->update($db->qn('#__scheduler_tasks', 't'))
+			->set('t.next_execution = :nextExec')
+			->where('t.id = :id')
+			->bind(':nextExec', $nextExec)
+			->bind(':id', $id);
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+		}
+
+		$this->set('next_execution', $nextExec);
+	}
+
+	/**
 	 * Handles task exit (dispatch event, return).
 	 *
-	 * @param   bool  $success  If true, execution was successful
+	 * @param   integer  $exitCode  If true, execution was successful
 	 *
 	 * @return boolean  If true, execution was successful
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(bool $success = true): bool
+	private function handleExit(int $exitCode = Status::OK): bool
 	{
-		$eventName = $success ? 'onTaskExecuteSuccess' : 'onTaskExecuteFailure';
+		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
-		AbstractEvent::create($eventName, [
+		$event = AbstractEvent::create($eventName, [
 				'subject' => $this
 			]
 		);
+		$this->app->getDispatcher()->dispatch($eventName, $event);
 
-		return $success;
+		return $exitCode === Status::OK;
 	}
 }

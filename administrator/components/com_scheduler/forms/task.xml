@@ -247,10 +247,26 @@
 		</fieldset>
 	</fields>
 
+	<fields>
+		<fieldset name="advanced">
+			<field
+				name="priority"
+				type="list"
+				label="COM_SCHEDULER_LABEL_TASK_PRIORITY"
+				description="COM_SCHEDULER_DESCRIPTION_TASK_PRIORITY"
+				validate="options"
+				required="true"
+				default="0"
+				>
+				<option value="-1">COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW</option>
+				<option value="0">COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL</option>
+				<option value="1">COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH</option>
+			</field>
+		</fieldset>
+	</fields>
+
 	<fields name="params">
-		<!-- ! Fieldset should be removed, once the issue with
-				 ! joomla.edit.params is resolved in the template -->
-		<fieldset name="params-fs">
+		<fieldset name="advanced">
 			<field
 				name="individual_log"
 				type="radio"
@@ -270,7 +286,6 @@
 				showon="individual_log:1"
 				hint="COM_SCHEDULER_FIELD_HINT_LOG_FILE_AUTO"
 			/>
-
 		</fieldset>
 	</fields>
 </form>

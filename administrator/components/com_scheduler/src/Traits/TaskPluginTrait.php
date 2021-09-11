@@ -151,7 +151,11 @@ trait TaskPluginTrait
 
 		foreach (self::TASKS_MAP as $routineId => $details)
 		{
-			$options[$routineId] = $details['langConstPrefix'];
+			// Sanity check against non-compliant plugins
+			if (isset($details['langConstPrefix']))
+			{
+				$options[$routineId] = $details['langConstPrefix'];
+			}
 		}
 
 		$subject = $event->getArgument('subject');

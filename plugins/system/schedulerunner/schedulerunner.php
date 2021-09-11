@@ -32,12 +32,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $app;
 
-	/**
-	 * @var boolean
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-
 
 	/**
 	 * Override parent constructor.
@@ -69,19 +63,19 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onAfterRespond' => 'executeDueTask'
+			'onBeforeRender' => ['registerRunner', PHP_INT_MAX]
 		];
 	}
 
 	/**
-	 * @param   Event  $event  The onAfterRespond event
+	 * @param   Event  $event  The onBeforeRender event
 	 *
 	 * @return void
 	 *
-	 * @throws AssertionFailedException|Exception
+	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function executeDueTask(Event $event): void
+	public function registerRunner(Event $event): void
 	{
 		// We only act on site requests [@todo allow admin]
 		if (!$this->app->isClient('site'))
@@ -89,8 +83,19 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$scheduler = new Scheduler;
+		register_shutdown_function([$this, 'runScheduler']);
+	}
 
-		$scheduler->runTask();
+	/**
+	 * Runs the scheduler, allowing execution of a single due task
+	 *
+	 * @return void
+	 *
+	 * @throws AssertionFailedException
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function runScheduler(): void
+	{
+		(new Scheduler)->runTask();
 	}
 }

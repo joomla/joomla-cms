@@ -14,7 +14,9 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use DateInterval;
 use Exception;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -66,6 +68,7 @@ class TasksModel extends ListModel
 				'times_executed', 'a.times_executed',
 				'times_failed', 'a.times_failed',
 				'ordering', 'a.ordering',
+				'priority', 'a.priority',
 				'note', 'a.note',
 				'created', 'a.created',
 				'created_by', 'a.created_by'
@@ -73,18 +76,6 @@ class TasksModel extends ListModel
 		}
 
 		parent::__construct($config, $factory);
-	}
-
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return array|boolean  An array of data items on success, false on failure.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getItems()
-	{
-		return parent::getItems();
 	}
 
 	/**
@@ -127,7 +118,6 @@ class TasksModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getApplication()->getIdentity();
 
 		/*
 		 * Select the required fields from the table.
@@ -157,10 +147,10 @@ class TasksModel extends ListModel
 		 *
 		 * @since  __DEPLOY_VERSION__
 		 */
-		$extendWhereIfFiltered = function (
+		$extendWhereIfFiltered = static function (
 			string $outerGlue, array $conditions, string $innerGlue
 		) use ($query, &$filterCount) {
-			if ($filterCount)
+			if ($filterCount++)
 			{
 				$query->extendWhere($outerGlue, $conditions, $innerGlue);
 			}
@@ -212,10 +202,50 @@ class TasksModel extends ListModel
 		if (is_numeric($due = $this->getState('filter.due')) && $due != 0)
 		{
 			$now = Factory::getDate('now', 'GMT')->toSql();
-			$operator = $due == 1 ? '<= ' : '> ';
+			$operator = $due == 1 ? ' <= ' : ' > ';
 			$filterCount++;
 			$query->where($db->qn('a.next_execution') . $operator . ':now')
 				->bind(':now', $now);
+		}
+
+		/*
+		 * Filter locked ---
+		 * Locks can be either hard locks or soft locks. Locks that have expired (exceeded the task timeout) are soft
+		 * locks. Hard-locked tasks are assumed to be running. Soft-locked tasks are assumed to have suffered a fatal
+		 * failure.
+		 * {-2: exclude-all, -1: exclude-hard-locked, 0: include, 1: include-only-locked, 2: include-only-soft-locked}
+		 */
+		if (is_numeric($locked = $this->getState('filter.locked')) && $locked != 0)
+		{
+			$now = Factory::getDate('now', 'GMT');
+			$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+			$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+			$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
+			$now = $now->toSql();
+
+			switch ($locked)
+			{
+				case -2:
+					$query->where($db->qn('a.locked') . 'IS NULL');
+					break;
+				case -1:
+					$extendWhereIfFiltered(
+						'AND',
+						[
+							$db->qn('a.locked') . ' IS NULL',
+							$db->qn('a.locked') . ' < :threshold'
+						],
+						'OR'
+					);
+					$query->bind(':threshold', $timeoutThreshold);
+					break;
+				case 1:
+					$query->where($db->qn('a.locked') . ' IS NOT NULL');
+					break;
+				case 2:
+					$query->where($db->qn('a.locked') . ' < :threshold')
+						->bind(':threshold', $timeoutThreshold);
+			}
 		}
 
 		// Filter over search string if set (title, type title, note, id) ----
@@ -249,20 +279,30 @@ class TasksModel extends ListModel
 
 		// Add list ordering clause. ----
 		// @todo implement multi-column ordering someway
-		$orderCol = $this->state->get('list.ordering', 'a.title');
-		$orderDir = $this->state->get('list.direction', 'desc');
+		$multiOrdering = $this->state->get('list.multi_ordering');
 
-		// Type title ordering is handled exceptionally in _getList()
-		if ($orderCol !== 'j.type_title')
+		if (!$multiOrdering || !is_array($multiOrdering))
 		{
-			// If ordering by type or state, also order by title.
-			if (in_array($orderCol, ['a.type', 'a.state']))
-			{
-				// @todo : Test if things are working as expected
-				$query->order($db->quoteName('a.title') . ' ' . $orderDir);
-			}
+			$orderCol = $this->state->get('list.ordering', 'a.title');
+			$orderDir = $this->state->get('list.direction', 'desc');
 
-			$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+			// Type title ordering is handled exceptionally in _getList()
+			if ($orderCol !== 'j.type_title')
+			{
+				$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
+
+				// If ordering by type or state, also order by title.
+				if (in_array($orderCol, ['a.type', 'a.state', 'a.priority']))
+				{
+					// @todo : Test if things are working as expected
+					$query->order($db->quoteName('a.title') . ' ' . $orderDir);
+				}
+			}
+		}
+		else
+		{
+			// @todo Should add quoting here
+			$query->order($multiOrdering);
 		}
 
 		return $query;
@@ -296,10 +336,10 @@ class TasksModel extends ListModel
 
 		// Return optionally an extended class.
 		// @todo: Use something other than CMSObject..
-		if ($customObj = $this->getState('list.customClass'))
+		if ($this->getState('list.customClass'))
 		{
 			$responseList = array_map(
-				function (array $arr) {
+				static function (array $arr) {
 					$o = new CMSObject;
 
 					foreach ($arr as $k => $v)
@@ -335,7 +375,7 @@ class TasksModel extends ListModel
 			$responseList = array_values(
 				array_filter(
 					$responseList,
-					function (object $c) use ($filterOrphaned) {
+					static function (object $c) use ($filterOrphaned) {
 						$isOrphan = !isset($c->taskOption);
 
 						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
@@ -357,7 +397,7 @@ class TasksModel extends ListModel
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function attachTaskOptions(array &$items): void
+	private function attachTaskOptions(array $items): void
 	{
 		$taskOptions = SchedulerHelper::getTaskOptions();
 

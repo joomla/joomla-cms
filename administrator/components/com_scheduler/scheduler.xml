@@ -25,6 +25,5 @@
 			<language tag="en-GB">language/en-GB/com_scheduler.ini</language>
 			<language tag="en-GB">language/en-GB/com_scheduler.sys.ini</language>
 		</languages>
-		<menu link="index.php?option=>">com_scheduler</menu>
 	</administration>
 </extension>
