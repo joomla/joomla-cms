@@ -46,7 +46,7 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     # TODO: This is a beta just to work around https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
     #       should go back to latest stable version in appveyor saving ourselves test time
-    - ps: choco upgrade chocolatey --pre
+    - ps: choco upgrade chocolatey
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
           appveyor-retry cinst --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
