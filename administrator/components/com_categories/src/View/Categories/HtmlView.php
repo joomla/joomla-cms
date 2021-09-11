@@ -310,6 +310,7 @@ class HtmlView extends BaseHtmlView
 
 		/*
 		 * Get help for the categories view for the component by
+		 * -remotely searching in a URL defined in the category form
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
