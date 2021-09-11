@@ -1846,12 +1846,12 @@ ENDDATA;
 			$query = $db->getQuery(true);
 
 			$query->select(
-						'COUNT(*)'
-					)->from(
-						$db->qn('#__menu')
-					)->where(
-						$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
-					);
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->where(
+				$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
+			);
 
 			$menu = $db->setQuery($query)->loadResult() > 0;
 		}
