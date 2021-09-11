@@ -1596,15 +1596,9 @@ ENDDATA;
 				{
 					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if (!empty($compatibleVersions))
-					{
-						// Return the compatible versions
-						return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
-
-				// Update server is supported but no compatible version found
-				return (object) array('state' => 1, 'compatibleVersions' => array());
 			}
 			else
 			{
