@@ -53,8 +53,7 @@ jobs:
       - name: Create commit
         run: |
           npm install
-          npm ci
-          node .\build\build.js --build-pages
+          SKIP_COMPOSER_CHECK=yes npm ci
           
       - name: Create commit
         run: |
