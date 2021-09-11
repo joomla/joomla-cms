@@ -48,7 +48,7 @@ if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendT
 {
 	JFactory::getApplication()->enqueueMessage(
 		JText::_(
-			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE'
 		),
 		'info'
 	);
