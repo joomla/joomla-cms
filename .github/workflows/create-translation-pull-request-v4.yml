@@ -50,7 +50,7 @@ jobs:
           echo ${SYNC_PATH}
           rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
           
-      - name: Create commit
+      - name: Update static error pages
         run: |
           npm install
           SKIP_COMPOSER_CHECK=yes npm ci
