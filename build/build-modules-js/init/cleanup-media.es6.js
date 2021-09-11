@@ -14,7 +14,7 @@ const RootPath = process.cwd();
 module.exports.cleanVendors = async () => {
   if (process.env.TRANSLATION_BOT === 'YES') {
     // eslint-disable-next-line no-console
-    console.log('Cleanup the Vendor skipped');
+    console.log('Cleanup the Vendor folder skipped');
     return;
   }
 
