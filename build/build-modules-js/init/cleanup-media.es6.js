@@ -11,7 +11,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.cleanVendors = async (skip = true) => {
+module.exports.cleanVendors = async () => {
   // eslint-disable-next-line no-console
   console.log('Cleanup the Vendor ');
 
