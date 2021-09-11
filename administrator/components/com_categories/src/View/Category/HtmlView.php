@@ -259,10 +259,10 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 
 		// Look first in form for help key
-		$helpKey = (string) $this->form->getXml()->help['key'];
+		$ref_key = (string) $this->form->getXml()->help['key'];
 
 		// Try with a language string
-		if (!$helpKey)
+		if (!$ref_key)
 		{
 			// Compute the ref_key
 			$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
@@ -270,7 +270,7 @@ class HtmlView extends BaseHtmlView
 			// Check if the computed ref_key does exist in the component
 			if (!$lang->hasKey($ref_key))
 			{
-				$helpKey = 'JHELP_COMPONENTS_'
+				$ref_key = 'JHELP_COMPONENTS_'
 					. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
 					. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 			}
@@ -295,6 +295,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		ToolbarHelper::help($helpKey, $componentParams->exists('helpURL'), $url, $component);
+		ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }
