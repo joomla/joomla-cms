@@ -32,12 +32,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $app;
 
-	/**
-	 * @var boolean
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-
 
 	/**
 	 * Override parent constructor.
