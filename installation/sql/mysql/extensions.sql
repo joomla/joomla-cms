@@ -892,9 +892,9 @@ CREATE TABLE IF NOT EXISTS `#__action_logs_users` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int NOT NULL UNIQUE DEFAULT '0',
-  `title` varchar(128) NOT NULL UNIQUE,
+  `title` varchar(255) NOT NULL DEFAULT '',
   `type` varchar(1024) NOT NULL COMMENT 'unique identifier for job defined by plugin',
   -- Trigger type, default to PseudoCron (compatible everywhere).
   `trigger` enum ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
@@ -913,13 +913,16 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `note` text,
   `created` datetime NOT NULL,
   `created_by` int UNSIGNED NOT NULL DEFAULT '0',
+  `checked_out` int unsigned,
+  `checked_out_time` datetime,
   PRIMARY KEY (id),
   KEY `idx_type` (`type`),
   KEY `idx_state` (`state`),
   KEY `idx_last_exit` (`last_exit_code`),
   KEY `idx_next_exec` (`next_execution`),
   KEY `idx_locked` (`locked`),
-  KEY `idx_priority` (`priority`)
+  KEY `idx_priority` (`priority`),
+  KEY `idx_checked_out` (`checked_out`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

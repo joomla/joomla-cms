@@ -4,7 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
 (
-    "id" int GENERATED ALWAYS AS IDENTITY,
+    "id" serial NOT NULL,
     "asset_id" bigint NOT NULL DEFAULT '0',
     "title" varchar(255) NOT NULL,
     "type" varchar(1024) NOT NULL,
@@ -23,7 +23,10 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
     "params" text NOT NULL,
     "note" text DEFAULT '',
     "created" timestamp without time zone NOT NULL,
-    "created_by" bigint NOT NULL DEFAULT '0'
+    "created_by" bigint NOT NULL DEFAULT '0',
+    "checked_out" integer,
+    "checked_out_time" timestamp without time zone,
+    PRIMARY KEY ("id")
 );
 
 CREATE INDEX "#__scheduler_tasks_idx_type" ON "#__scheduler_tasks" ("type");
@@ -32,3 +35,4 @@ CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_e
 CREATE INDEX "#__scheduler_tasks_idx_next_exec" ON "#__scheduler_tasks" ("next_execution");
 CREATE INDEX "#__scheduler_tasks_idx_locked" ON "#__scheduler_tasks" ("locked");
 CREATE INDEX "#__scheduler_tasks_idx_priority" ON "#__scheduler_tasks" ("priority");
+CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
