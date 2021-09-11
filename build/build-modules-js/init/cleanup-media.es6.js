@@ -12,6 +12,12 @@ const RootPath = process.cwd();
  * @returns {Promise}
  */
 module.exports.cleanVendors = async () => {
+  if (process.env.SKIP_COMPOSER_CHECK === 'YES') {
+    // eslint-disable-next-line no-console
+    console.log('Skipping the DebugBar assets...');
+    return;
+  }
+
   // eslint-disable-next-line no-console
   console.log('Cleanup the Vendor ');
 
