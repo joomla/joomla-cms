@@ -424,14 +424,8 @@ class Update extends \JObject
 							$this->compatibleVersions[] = $this->currentUpdate->version->_data;
 						}
 
-						if (isset($this->latest))
-						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
-							{
-								$this->latest = $this->currentUpdate;
-							}
-						}
-						else
+						if (!isset($this->latest)
+							|| version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 						{
 							$this->latest = $this->currentUpdate;
 						}
