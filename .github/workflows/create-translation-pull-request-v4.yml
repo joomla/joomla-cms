@@ -52,7 +52,7 @@ jobs:
           
       - name: Update static error pages
         run: |
-          export SKIP_COMPOSER_CHECK=YES && npm ci
+          npm ci --ignore-scripts && node build/build.js --build-pages
           
       - name: Create commit
         run: |
