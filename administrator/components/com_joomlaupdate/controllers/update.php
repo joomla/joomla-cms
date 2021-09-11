@@ -533,7 +533,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			if ($currentUpdateVersion !== false)
 			{
 				// If there are updates compatible with both CMS versions use these
-				$bothCompatibleVersions = array_values(array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions));
+				$bothCompatibleVersions = array_values(
+					array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+				);
 
 				if (!empty($bothCompatibleVersions))
 				{
