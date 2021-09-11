@@ -110,7 +110,7 @@ class CronField extends ListField
 	 *
 	 * @param   SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value     The form field value to validate.
-	 * @param   string            $group     The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group     The field name group control value. This acts as an array container for the field.
 	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                       full field name would end up being "bar[foo]".
 	 *
@@ -122,9 +122,9 @@ class CronField extends ListField
 	{
 		$parentResult = parent::setup($element, $value, $group);
 
-		$subtype = (string) $element['subtype'] ?? null;
-		$wildcard = (string) $element['wildcard'] ?? false;
-		$onlyNumericLabels = (string) $element['onlyNumericLabels'] ?? false;
+		$subtype = ((string) $element['subtype'] ?? '') ?: null;
+		$wildcard = ((string) $element['wildcard'] ?? '') === 'true';
+		$onlyNumericLabels = ((string) $element['onlyNumericLabels']) === 'true';
 
 		if (!($subtype && in_array($subtype, self::SUBTYPES)))
 		{
@@ -166,7 +166,7 @@ class CronField extends ListField
 		if (array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels)
 		{
 			$labels = array_map(
-				function (string $string): string {
+				static function (string $string): string {
 					return Text::_($string);
 				},
 				self::PREPARED_RESPONSE_LABELS[$subtype]

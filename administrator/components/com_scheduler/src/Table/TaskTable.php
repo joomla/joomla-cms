@@ -28,14 +28,6 @@ use function defined;
 class TaskTable extends Table
 {
 	/**
-	 * Indicates that columns do not fully support the NULL value in the database
-	 *
-	 * @var boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_supportNullValue = false;
-
-	/**
 	 * Ensure params are json encoded by the bind method
 	 *
 	 * @var string[]

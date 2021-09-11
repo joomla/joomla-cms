@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');
 
-		if ($isNew && $canDo->get('core.create') || !$isNew && $canDo->get('core.edit'))
+		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
 			$toolbar->apply('task.apply');
 			$toolbar->save('task.save');

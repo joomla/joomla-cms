@@ -79,18 +79,6 @@ class TasksModel extends ListModel
 	}
 
 	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return array|boolean  An array of data items on success, false on failure.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getItems()
-	{
-		return parent::getItems();
-	}
-
-	/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
@@ -130,7 +118,6 @@ class TasksModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getApplication()->getIdentity();
 
 		/*
 		 * Select the required fields from the table.
@@ -160,7 +147,7 @@ class TasksModel extends ListModel
 		 *
 		 * @since  __DEPLOY_VERSION__
 		 */
-		$extendWhereIfFiltered = function (
+		$extendWhereIfFiltered = static function (
 			string $outerGlue, array $conditions, string $innerGlue
 		) use ($query, &$filterCount) {
 			if ($filterCount++)
@@ -349,10 +336,10 @@ class TasksModel extends ListModel
 
 		// Return optionally an extended class.
 		// @todo: Use something other than CMSObject..
-		if ($customObj = $this->getState('list.customClass'))
+		if ($this->getState('list.customClass'))
 		{
 			$responseList = array_map(
-				function (array $arr) {
+				static function (array $arr) {
 					$o = new CMSObject;
 
 					foreach ($arr as $k => $v)
@@ -388,7 +375,7 @@ class TasksModel extends ListModel
 			$responseList = array_values(
 				array_filter(
 					$responseList,
-					function (object $c) use ($filterOrphaned) {
+					static function (object $c) use ($filterOrphaned) {
 						$isOrphan = !isset($c->taskOption);
 
 						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
@@ -410,7 +397,7 @@ class TasksModel extends ListModel
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function attachTaskOptions(array &$items): void
+	private function attachTaskOptions(array $items): void
 	{
 		$taskOptions = SchedulerHelper::getTaskOptions();
 

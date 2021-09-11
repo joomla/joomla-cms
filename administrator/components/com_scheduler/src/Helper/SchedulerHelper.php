@@ -36,7 +36,7 @@ final class SchedulerHelper
 	 * @var  TaskOptions
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $taskOptionsCache = null;
+	protected static $taskOptionsCache;
 
 	/**
 	 * Private constructor to prevent instantiation
@@ -61,7 +61,7 @@ final class SchedulerHelper
 			return self::$taskOptionsCache;
 		}
 
-		/**@var  AdministratorApplication  $app */
+		/** @var  AdministratorApplication  $app */
 		$app = Factory::getApplication();
 		$options = new TaskOptions;
 		$event = AbstractEvent::create(
