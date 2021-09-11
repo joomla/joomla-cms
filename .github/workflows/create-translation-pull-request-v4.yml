@@ -52,7 +52,7 @@ jobs:
           
       - name: Update static error pages
         run: |
-          SKIP_COMPOSER_CHECK=yes npm ci
+          export SKIP_COMPOSER_CHECK=YES && npm ci
           
       - name: Create commit
         run: |
