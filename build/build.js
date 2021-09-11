@@ -17,6 +17,7 @@
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
+
 const Program = require('commander');
 const semver = require('semver');
 
