@@ -1248,7 +1248,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
