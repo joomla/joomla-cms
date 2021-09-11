@@ -21,6 +21,9 @@ jobs:
         # We need the full depth to create / update the pull request against the main repo
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
 
       - name: Fetch latest cms changes
         run: |
@@ -46,6 +49,12 @@ jobs:
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
           rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
+          
+      - name: Create commit
+        run: |
+          npm install
+          npm ci
+          node .\build\build.js --build-pages
           
       - name: Create commit
         run: |
