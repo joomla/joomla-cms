@@ -52,7 +52,6 @@ jobs:
           
       - name: Update static error pages
         run: |
-          npm install
           SKIP_COMPOSER_CHECK=yes npm ci
           
       - name: Create commit
