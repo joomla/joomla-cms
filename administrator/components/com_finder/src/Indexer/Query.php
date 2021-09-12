@@ -1283,11 +1283,6 @@ class Query
 					continue;
 				}
 
-				if ($params->get('filter_numerics', 0) && $token->numeric)
-				{
-					continue;
-				}
-
 				// Set the required flag for the token.
 				$token->required = $mode === 'AND' ? (!$token->phrase) : false;
 
