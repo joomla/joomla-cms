@@ -222,7 +222,7 @@ class Update extends CMSObject
 	 * Array with compatible versions used by the pre-update check
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.3
 	 */
 	protected $compatibleVersions = array();
 
