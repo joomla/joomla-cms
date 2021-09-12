@@ -88,7 +88,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
-			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -1530,34 +1530,18 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if ($compatibleVersion)
-					{
-						// Return the compatible version
-						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-					}
-					else
-					{
-						// Return the compatible version as false so we can say update server is supported but no compatible version found
-						return (object) array('state' => 1, 'compatibleVersion' => false);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
 			}
 			else
 			{
-				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+				$compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
-				if ($compatibleVersion)
-				{
-					// Return the compatible version
-					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-				}
-				else
-				{
-					// Return the compatible version as false so we can say update server is supported but no compatible version found
-					return (object) array('state' => 1, 'compatibleVersion' => false);
-				}
+				// Return the compatible versions
+				return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 			}
 		}
 
@@ -1677,7 +1661,7 @@ ENDDATA;
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items or false.
+	 * @return  array  An array of strings with compatible version numbers
 	 *
 	 * @since   3.10.0
 	 */
@@ -1689,9 +1673,20 @@ ENDDATA;
 		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXml($updateFileUrl, $minimumStability);
 
-		$downloadUrl = $update->get('downloadurl');
+		$compatibleVersions = $update->get('compatibleVersions');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		// Check if old version of the updater library
+		if (!isset($compatibleVersions))
+		{
+			$downloadUrl = $update->get('downloadurl');
+			$updateVersion = $update->get('version');
+
+			return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+		}
+
+		usort($compatibleVersions, 'version_compare');
+
+		return $compatibleVersions;
 	}
 
 	/**

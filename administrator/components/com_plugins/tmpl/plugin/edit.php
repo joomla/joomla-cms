@@ -85,7 +85,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
 								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
+									<a href="#" onclick="document.querySelector('[aria-controls=description]').click();">
 										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
