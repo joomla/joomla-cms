@@ -956,7 +956,7 @@ class Indexer
 				++$values;
 			}
 
-			// Only execute the query if there is token to insert
+			// Only execute the query if there are tokens to insert
 			if ($query->values !== null)
 			{
 				$db->setQuery($query)->execute();
