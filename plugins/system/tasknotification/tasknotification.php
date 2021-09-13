@@ -197,7 +197,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		}
 		catch (RuntimeException $e)
 		{
-			// $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 			return;
 		}
 
