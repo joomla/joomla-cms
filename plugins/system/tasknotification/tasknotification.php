@@ -45,6 +45,12 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $app;
 
+	/**
+	 * @var boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
 
 	/**
 	 * Returns event subscriptions
