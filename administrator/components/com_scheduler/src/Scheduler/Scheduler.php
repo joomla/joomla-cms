@@ -161,6 +161,7 @@ class Scheduler
 	public function fetchTaskRecord(int $id = 0, string $title = ''): ?object
 	{
 		$filters = [];
+		$listConfig = ['limit' => 1];
 
 		if ($id)
 		{
@@ -173,11 +174,16 @@ class Scheduler
 		}
 		else
 		{
+			// Filters and list config for scheduled task queue
 			$filters['due'] = 1;
 			$filters['locked'] = -1;
+			$listConfig['multi_ordering'] = [
+				'a.priority DESC',
+				'a.next_execution ASC'
+			];
 		}
 
-		return $this->fetchTasks($filters, ['limit' => 1])[0] ?? null;
+		return $this->fetchTasks($filters, $listConfig)[0] ?? null;
 	}
 
 	/**
@@ -216,14 +222,9 @@ class Scheduler
 		// Default to including orphaned tasks
 		$model->setState('filter.orphaned', 0);
 
-		$model->setState('list.ordering', 'a.next_execution');
+		// Default to ordering by ID
+		$model->setState('list.ordering', 'a.id');
 		$model->setState('list.direction', 'ASC');
-
-		$model->setState('list.multi_ordering', [
-				'a.priority DESC',
-				'a.next_execution ASC'
-			]
-		);
 
 		// List options
 		foreach ($listConfig as $key => $value)
