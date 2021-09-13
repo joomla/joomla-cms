@@ -266,7 +266,10 @@ class PlgSystemFields extends CMSPlugin
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
 
-			$data = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
+			if ($context === 'com_categories.categorycom_content')
+			{
+				$data = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
+			}
 
 			// Set the catid on the category to get only the fields which belong to this category
 			if (is_array($data) && array_key_exists('id', $data))
