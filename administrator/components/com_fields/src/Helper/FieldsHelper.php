@@ -108,13 +108,13 @@ class FieldsHelper
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
-		if (!$includeSubformFields)
+		if ($includeSubformFields)
 		{
-			self::$fieldsCache->setState('filter.only_use_in_subform', 0);
+			self::$fieldsCache->setState('filter.only_use_in_subform', '');
 		}
 		else
 		{
-			self::$fieldsCache->setState('filter.only_use_in_subform', '');
+			self::$fieldsCache->setState('filter.only_use_in_subform', 0);
 		}
 
 		if (is_array($item))
