@@ -96,7 +96,7 @@ class FieldsHelper
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
+	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null, bool $includeSubformFields = false)
 	{
 		if (self::$fieldsCache === null)
 		{
@@ -106,6 +106,15 @@ class FieldsHelper
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
+		}
+
+		if (!$includeSubformFields)
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', 0);
+		}
+		else
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', '');
 		}
 
 		if (is_array($item))
