@@ -64,6 +64,7 @@ if ($paramsFontScheme)
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
+	->useStyle('template.offline')
 	->useStyle('template.user')
 	->useScript('template.user')
 	->addInlineStyle(":root {
