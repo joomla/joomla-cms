@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$text = '<span class="icon-feed mr-1" aria-hidden="true"></span>'
-	. (!empty($text) ? $text :  Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES'))
-	. ($params->get('display_text', 1) ? '' : 'class="visually-hidden"');
+$textClass = ($params->get('display_text', 1) ? '' : 'class="visually-hidden"');
+
+$linkText = '<span class="icon-feed m-1" aria-hidden="true"></span>';
+$linkText .= '<span ' . $textClass . '>' . (!empty($text) ? $text : Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES')) . '</span>';
 
 $attribs = [
 	'class' => 'mod-syndicate syndicate-module'
 ];
 
-echo HTMLHelper::_('link', $link, $text, $attribs);
+echo HTMLHelper::_('link', $link, $linkText, $attribs);
