@@ -364,7 +364,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$query = $db->getQuery(true);
 
 		$id = $this->get('id');
-		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(true, true);
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.next_execution = :nextExec')
