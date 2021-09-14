@@ -90,13 +90,13 @@ class ExecRuleHelper
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function nextExec(bool $string = true)
+	public function nextExec(bool $string = true, bool $basisNow = false)
 	{
 		// Exception handling here
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = Factory::getDate($this->getFromTask('last_execution'), 'GMT');
+				$lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'GMT');
 				$interval = new DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
