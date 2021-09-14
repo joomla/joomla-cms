@@ -18,8 +18,9 @@ use Joomla\CMS\Language\Text;
 
 /**
  * The TaskOption class.
- * Each plugin supporting tasks calls the TaskOptions addOptions() method with an array of TaskOption constructor argument pairs as argument.
- * Internally, the TaskOption object generates the routine title and description from the language constant prefix.
+ * Each plugin supporting tasks calls the TaskOptions addOptions() method with an array of TaskOption constructor
+ * argument pairs as argument. Internally, the TaskOption object generates the routine title and description from the
+ * language constant prefix.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -34,7 +35,7 @@ class TaskOption
 	protected $title;
 
 	/**
-	 * Task routine description
+	 * Task routine description.
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -42,7 +43,7 @@ class TaskOption
 	protected $desc;
 
 	/**
-	 * Routine type-ID
+	 * Routine type-ID.
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -72,7 +73,7 @@ class TaskOption
 	}
 
 	/**
-	 * Overload the __get() magic method to give access to private properties
+	 * Magic method to allow read-only access to private properties.
 	 *
 	 * @param   string  $name  The object property requested.
 	 *
