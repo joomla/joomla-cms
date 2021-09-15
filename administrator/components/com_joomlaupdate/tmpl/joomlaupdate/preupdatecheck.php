@@ -26,7 +26,7 @@ $wa->useScript('core')
 	->useScript('bootstrap.tab');
 
 // Text::script doesn't have a sprintf equivalent so work around this
-Factory::getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
+$this->document->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
