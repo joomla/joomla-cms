@@ -2222,11 +2222,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	/**
 	 * Convert(preparation) $this object to data array for save to BD.
 	 *
+	 * @param   \bool  $noConvert  Return object without convert fields
+	 
 	 * @return  \stdClass
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function toSqlData() : object
+	public function toSqlData($noConvert = false) : object
 	{
 		$objectSql = new \stdClass;
 
@@ -2237,9 +2239,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			$type = static::getTypeProperty($field->Type);
-
-			$objectSql->{$name} = static::TypeConvert($this->{$name}, $type, $this->_tz);
+			if ($noConvert || $field->Null == 'YES' && empty($this->{$name}))
+			{
+				$objectSql->{$name} = $this->{$name};
+			}
+			else
+			{
+				$objectSql->{$name} = static::TypeConvert($this->{$name}, $field->TypeProperty, $this->_tz);
+			}
 		}
 
 		// Pre-processing by observers
