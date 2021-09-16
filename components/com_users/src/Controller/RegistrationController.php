@@ -67,7 +67,12 @@ class RegistrationController extends BaseController
 
 		if (!$userIdToActivate)
 		{
-			throw new \Exception(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'), 403);
+			$loginUrl = 'index.php?option=com_users&view=login';
+			
+			$this->setMessage(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setRedirect(Route::_($loginUrl, false));
+			
+			return false;
 		}
 
 		// Get the user we want to activate
