@@ -2223,7 +2223,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Convert(preparation) $this object to data array for save to BD.
 	 *
 	 * @param   \bool  $noConvert  Return object without convert fields
-	 
+	 *
 	 * @return  \stdClass
 	 *
 	 * @since  __DEPLOY_VERSION__
