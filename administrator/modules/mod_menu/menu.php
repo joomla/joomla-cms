@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,7 @@ class JAdminCssMenu
 	 *
 	 * @var    Tree
 	 * @since  3.8.0
+	 * @deprecated  4.0
 	 */
 	protected $tree;
 
@@ -90,6 +91,8 @@ class JAdminCssMenu
 	 * @return  Tree
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	public function getTree()
 	{
@@ -451,6 +454,8 @@ class JAdminCssMenu
 	 * @return  void
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	protected function populateTree($levels)
 	{

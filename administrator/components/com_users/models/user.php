@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -305,7 +305,7 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Destroy all active sessions for the user after changing the password or blocking him
-		if ($data['password'] || $data['block'])
+		if ($data['password2'] || $data['block'])
 		{
 			UserHelper::destroyUserSessions($user->id, true);
 		}
