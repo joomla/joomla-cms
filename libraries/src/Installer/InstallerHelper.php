@@ -373,7 +373,7 @@ abstract class InstallerHelper
 	}
 
 	/**
-	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 * Return the result of the checksum of a package with the MD5/SHA256/SHA384/SHA512 tags in the update server manifest
 	 *
 	 * @param   string   $packagefile   Location of the package to be installed
 	 * @param   JUpdate  $updateObject  The Update Object
@@ -384,7 +384,7 @@ abstract class InstallerHelper
 	 */
 	public static function isChecksumValid($packagefile, $updateObject)
 	{
-		$hashes     = array('sha256', 'sha384', 'sha512');
+		$hashes     = array('md5', 'sha256', 'sha384', 'sha512');
 		$hashOnFile = false;
 
 		foreach ($hashes as $hash)
