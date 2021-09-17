@@ -73,9 +73,9 @@ class Task extends Registry implements LoggerAwareInterface
 	protected $db;
 
 	protected const EVENTS_MAP = [
-		Status::OK => 'onTaskExecuteSuccess',
+		Status::OK         => 'onTaskExecuteSuccess',
 		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
-		'NA' => 'onTaskExecuteFailure'
+		'NA'               => 'onTaskExecuteFailure'
 	];
 
 	/**
@@ -308,6 +308,19 @@ class Task extends Registry implements LoggerAwareInterface
 		try
 		{
 			$db->setQuery($query)->execute();
+
+			if ($update)
+			{
+				$this->set('last_execution', $now);
+				$this->set('next_execution', $nextExec);
+				$this->set('last_exit_code', $exitCode);
+				$this->set('times_executed', $this->get('times_executed') + 1);
+
+				if ($exitCode !== Status::OK)
+				{
+					$this->set('times_failed', $this->get('times_failed') + 1);
+				}
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -351,7 +364,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$query = $db->getQuery(true);
 
 		$id = $this->get('id');
-		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(true, true);
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.next_execution = :nextExec')

@@ -39,10 +39,27 @@ use RuntimeException;
 class Scheduler
 {
 	private const LOG_TEXT = [
-		Status::OK      => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
-		Status::NO_LOCK => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
-		Status::NO_RUN  => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
+		Status::OK         => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
+		Status::NO_LOCK    => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
+		Status::NO_RUN     => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
 		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA'
+	];
+
+	/**
+	 * Filters for the task queue. Can be used with fetchTaskRecords().
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const TASK_QUEUE_FILTERS = [
+		'due' => 1,
+		'locked' => -1
+	];
+
+	/**
+	 * List config for the task queue. Can be used with fetchTaskRecords().
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const TASK_QUEUE_LIST_CONFIG = [
+		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC']
 	];
 
 	/**
@@ -78,21 +95,24 @@ class Scheduler
 	}
 
 	/**
+	 * Run a scheduled task.
+	 * Runs a single due task from the task queue by default if $id and $title are not passed.
+	 *
 	 * @param   int          $id     The task ID
 	 * @param   string|null  $title  The task title
 	 *
-	 * @return void
+	 * @return integer  The task exit code.
 	 *
 	 * @throws AssertionFailedException|Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function runTask(int $id = 0, ?string $title = ''): void
+	public function runTask(int $id = 0, ?string $title = ''): int
 	{
 		$task = $this->fetchTask($id, $title);
 
 		if (!$task)
 		{
-			return;
+			return Status::NO_TASK;
 		}
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
@@ -115,12 +135,14 @@ class Scheduler
 			$level = $exitCode === Status::OK ? 'info' : 'warning';
 			$task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
-			return;
+			return $exitCode;
 		}
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
 			'warning'
 		);
+
+		return $exitCode;
 	}
 
 	/**
@@ -161,10 +183,11 @@ class Scheduler
 	public function fetchTaskRecord(int $id = 0, string $title = ''): ?object
 	{
 		$filters = [];
+		$listConfig = ['limit' => 1];
 
 		if ($id)
 		{
-			$filters['id'] = 1;
+			$filters['id'] = $id;
 		}
 		elseif ($title)
 		{
@@ -173,11 +196,16 @@ class Scheduler
 		}
 		else
 		{
+			// Filters and list config for scheduled task queue
 			$filters['due'] = 1;
 			$filters['locked'] = -1;
+			$listConfig['multi_ordering'] = [
+				'a.priority DESC',
+				'a.next_execution ASC'
+			];
 		}
 
-		return $this->fetchTasks($filters, ['limit' => 1])[0] ?? null;
+		return $this->fetchTaskRecords($filters, $listConfig)[0] ?? null;
 	}
 
 	/**
@@ -188,7 +216,7 @@ class Scheduler
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function fetchTasks(array $filters, array $listConfig): array
+	public function fetchTaskRecords(array $filters, array $listConfig): array
 	{
 		$model = null;
 
@@ -216,14 +244,9 @@ class Scheduler
 		// Default to including orphaned tasks
 		$model->setState('filter.orphaned', 0);
 
-		$model->setState('list.ordering', 'a.next_execution');
+		// Default to ordering by ID
+		$model->setState('list.ordering', 'a.id');
 		$model->setState('list.direction', 'ASC');
-
-		$model->setState('list.multi_ordering', [
-				'a.priority DESC',
-				'a.next_execution ASC'
-			]
-		);
 
 		// List options
 		foreach ($listConfig as $key => $value)
@@ -237,6 +260,6 @@ class Scheduler
 			$model->setState('filter.' . $type, $filter);
 		}
 
-		return $model->getItems() ?? [];
+		return $model->getItems() ?: [];
 	}
 }

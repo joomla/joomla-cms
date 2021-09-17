@@ -161,6 +161,22 @@ class TasksModel extends ListModel
 
 		};
 
+		// Filter over ID, title (redundant to search, but) ---
+		if (is_numeric($id = $this->getState('filter.id')))
+		{
+			$filterCount++;
+			$id = (int) $id;
+			$query->where($db->qn('a.id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
+		}
+		elseif ($title = $this->getState('filter.title'))
+		{
+			$filterCount++;
+			$match = "%$title%";
+			$query->where($db->qn('a.title') . ' LIKE :match')
+				->bind(':match', $match);
+		}
+
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
