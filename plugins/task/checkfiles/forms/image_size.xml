@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field
+				name="path"
+				type="folderlist"
+				label="PLG_TASK_CHECK_FILES_LABEL_DIRECTORY"
+				directory="images"
+				/>
+			<field
+				name="dimension"
+				type="list"
+				label="PLG_TASK_CHECK_FILES_LABEL_IMAGE_DIMENSION"
+				>
+				<option value="width">JGLOBAL_WIDTH</option>
+				<option value="height">JGLOBAL_HEIGHT</option>
+			</field>
+			<field
+				name="limit"
+				type="number"
+				label="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_LIMIT"
+				min="100"
+				step="1"
+				filter="int"
+				/>
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="4.1" type="plugin" group="task" method="upgrade">
+	<name>PLG_TASK_CHECK_FILES</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2021</creationDate>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>4.1</version>
+	<description>PLG_TASK_CHECK_FILES_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="checkfiles">checkfiles.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">plg_task_checkfiles.ini</language>
+		<language tag="en-GB">plg_task_checkfiles.sys.ini</language>
+	</languages>
+</extension>
