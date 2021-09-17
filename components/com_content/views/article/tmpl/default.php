@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,18 +143,7 @@ $isExpired         = $this->item->publish_down < $currentDate && $this->item->pu
 	<?php $itemId = $active->id; ?>
 	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
 	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
-	<p class="readmore">
-		<a href="<?php echo $link; ?>" class="register">
-			<?php if ($params->get('alternative_readmore', '') === '') : ?>
-				<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
-			<?php else : ?>
-				<?php echo $params->get('alternative_readmore'); ?>
-				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-					<?php echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
-				<?php endif; ?>
-			<?php endif; ?>
-		</a>
-	</p>
+	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php

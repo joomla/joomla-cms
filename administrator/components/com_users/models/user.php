@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -303,6 +304,12 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
+		// Destroy all active sessions for the user after changing the password or blocking him
+		if ($data['password2'] || $data['block'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
+		}
+
 		$this->setState('user.id', $user->id);
 
 		return true;
@@ -472,6 +479,11 @@ class UsersModelUser extends JModelAdmin
 							$this->setError($table->getError());
 
 							return false;
+						}
+
+						if ($table->block)
+						{
+							UserHelper::destroyUserSessions($table->id);
 						}
 
 						// Trigger the after save event
