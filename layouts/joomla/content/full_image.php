@@ -38,7 +38,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 			 itemprop="image"
 			<?php echo $extraAttr; ?>
 	/>
-	<?php if ($images->image_fulltext_caption !== '') : ?>
+	<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
 		<figcaption class="caption"><?php echo htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
 	<?php endif; ?>
 </figure>
