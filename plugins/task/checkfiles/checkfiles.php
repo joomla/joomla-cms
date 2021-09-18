@@ -99,7 +99,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 		$this->taskStart($event);
 		$routineId = $event->getRoutineId();
 		$exitCode = $this->{self::TASKS_MAP[$routineId]['call']}($event);
-		$this->taskEnd($event, $exitCode);
+		$this->taskEnd($event, $exitCode, false);
 	}
 
 	/**
