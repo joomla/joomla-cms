@@ -283,7 +283,8 @@ class Task extends Registry implements LoggerAwareInterface
 			$id = $this->get('id');
 
 			// @todo make this look less ugly
-			$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+			// @todo this is broken! fix it and do it right by updating times in the run() method !!
+			$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(false, true);
 			$exitCode = $this->snapshot['status'] ?? Status::NO_EXIT;
 			$now = Factory::getDate('now', 'GMT')->toSql();
 
