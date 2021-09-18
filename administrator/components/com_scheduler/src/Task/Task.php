@@ -158,14 +158,14 @@ class Task extends Registry implements LoggerAwareInterface
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
 
-			return $this->handleExit(Status::NO_ROUTINE);
+			return $this->handleExit();
 		}
 
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return $this->handleExit(Status::NO_LOCK);
+			return $this->handleExit();
 		}
 
 		$this->snapshot['status'] = Status::NO_TIME;
@@ -198,7 +198,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 
-			return $this->handleExit(Status::NO_RELEASE);
+			return $this->handleExit();
 		}
 
 		return $this->handleExit();
@@ -392,8 +392,9 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(int $exitCode = Status::OK): bool
+	private function handleExit(): bool
 	{
+		$exitCode = $this->snapshot['status'];
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
 		$event = AbstractEvent::create($eventName, [
