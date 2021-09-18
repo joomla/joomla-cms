@@ -515,7 +515,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	{
 		$parts = explode('.', $context);
 
-		// We need at least the extension + view for loading the table fields + the extion must be supported
+		// We need at least the extension + view for loading the table fields + the extension must be supported
 		if (count($parts) < 2
 			|| !$this->checkAllowedAndForbiddenlist($context)
 			|| !$this->checkExtensionSupport($context, $this->supportFunctionality))
