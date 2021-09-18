@@ -107,7 +107,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 		$query
 			->select($db->quoteName(array('u.email', 'l.extensions')))
 			->from($db->quoteName('#__users', 'u'))
-			->where('u.block = 0')
+			->where($db->quoteName('u.block') . ' = 0')
 			->join(
 				'INNER',
 				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
