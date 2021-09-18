@@ -1007,11 +1007,6 @@ class Query
 						continue;
 					}
 
-					if ($params->get('filter_numeric', 0) && $token->numeric)
-					{
-						continue;
-					}
-
 					// Set the required flag.
 					$token->required = true;
 
@@ -1059,11 +1054,6 @@ class Query
 					$token = $this->getTokenData(array_shift($token));
 
 					if ($params->get('filter_commonwords', 0) && $token->common)
-					{
-						continue;
-					}
-
-					if ($params->get('filter_numeric', 0) && $token->numeric)
 					{
 						continue;
 					}
@@ -1137,11 +1127,6 @@ class Query
 					continue;
 				}
 
-				if ($params->get('filter_numeric', 0) && $other->numeric)
-				{
-					continue;
-				}
-
 				// Set the required flag.
 				$other->required = false;
 
@@ -1180,11 +1165,6 @@ class Query
 				$other = $this->getTokenData(array_shift($other));
 
 				if ($params->get('filter_commonwords', 0) && $other->common)
-				{
-					continue;
-				}
-
-				if ($params->get('filter_numeric', 0) && $other->numeric)
 				{
 					continue;
 				}
@@ -1234,11 +1214,6 @@ class Query
 			$token = $this->getTokenData(array_shift($token));
 
 			if ($params->get('filter_commonwords', 0) && $token->common)
-			{
-				continue;
-			}
-
-			if ($params->get('filter_numeric', 0) && $token->numeric)
 			{
 				continue;
 			}
