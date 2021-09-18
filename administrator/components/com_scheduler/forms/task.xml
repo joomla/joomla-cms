@@ -14,12 +14,15 @@
 			required="true"
 		/>
 		<fieldset name="basic">
+			<!-- @todo remove this! -->
 			<field
 				name="trigger"
 				type="list"
 				label="COM_SCHEDULER_SELECT_TRIGGER"
 				validate="options"
 				required="true"
+				default="pseudo_cron"
+				showon="state:null"
 				>
 				<option value="pseudo_cron">COM_SCHEDULER_TRIGGER_PSEUDOCRON</option>
 				<option value="cron">COM_SCHEDULER_TRIGGER_CRON</option>
