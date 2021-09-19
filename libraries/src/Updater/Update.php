@@ -220,7 +220,7 @@ class Update extends \JObject
 	 * Array with compatible versions used by the pre-update check
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.2
 	 */
 	protected $compatibleVersions = array();
 
