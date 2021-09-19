@@ -178,7 +178,6 @@ abstract class ToolbarHelper
 		}
 		catch (Throwable $e)
 		{
-			throw $e;
 			return;
 		}
 
