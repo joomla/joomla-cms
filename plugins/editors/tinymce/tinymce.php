@@ -667,6 +667,15 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
+		$scriptOptions['content_langs'] = array(
+			array('title' => 'English', 'code' => 'en-GB'),
+			array('title' => 'Spanish', 'code' => 'es'),
+			array('title' => 'French', 'code' => 'fr'),
+			array('title' => 'German', 'code' => 'de'),
+			array('title' => 'Portuguese', 'code' => 'pt'),
+			array('title' => 'Chinese', 'code' => 'sh'),
+		);
+
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
@@ -984,6 +993,8 @@ class PlgEditorTinymce extends CMSPlugin
 			'pastetext'     => array('label' => 'Paste as text', 'plugin' => 'paste'),
 			'removeformat'  => array('label' => 'Clear formatting'),
 
+			'language'      => array('label' => 'Language'),
+
 			// Buttons from the plugins
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
@@ -1074,6 +1085,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
+				'language',
 			),
 			'toolbar2' => array(),
 		);
