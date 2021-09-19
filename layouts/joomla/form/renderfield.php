@@ -20,7 +20,8 @@ extract($displayData);
  * @var   string  $name         The id of the input this label is for
  * @var   string  $label        The html code for the label
  * @var   string  $input        The input field html code
- * @var   string  $description  An optional description to use in a tooltip
+ * @var   string  $description  An optional description to use as in–line help text
+ * @var   string  $descClass    The class name ot use for the description
  */
 
 if (!empty($options['showonEnabled']))
@@ -35,6 +36,7 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
 $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+$descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help';
 
 if (!empty($parentclass))
 {
@@ -51,7 +53,7 @@ if (!empty($parentclass))
 	<div class="controls">
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
-			<div id="<?php echo $id; ?>">
+			<div id="<?php echo $id; ?>" class="<?php echo $descClass ?>">
 				<small class="form-text">
 					<?php echo $description; ?>
 				</small>
