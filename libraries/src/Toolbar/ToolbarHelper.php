@@ -10,11 +10,13 @@ namespace Joomla\CMS\Toolbar;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Throwable;
 
 /**
  * Utility class for the button bar.
@@ -149,6 +151,44 @@ abstract class ToolbarHelper
 
 		// Add a help button.
 		$bar->appendButton('Help', $ref, $com, $override, $component);
+	}
+
+	/**
+	 * Writes a help button for showing/hiding the inline help of a form
+	 *
+	 * @param   string  $class      The class used by the inline help items.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public static function inlinehelp(string $class = "hide-aware-inline-help")
+	{
+		/** @var HtmlDocument $doc */
+		try
+		{
+			$doc = Factory::getApplication()->getDocument();
+
+			if (!($doc instanceof HtmlDocument))
+			{
+				return;
+			}
+
+			$doc->getWebAssetManager()->useScript('inlinehelp');
+		}
+		catch (Throwable $e)
+		{
+			throw $e;
+			return;
+		}
+
+		$bar = Toolbar::getInstance('toolbar');
+
+		// Add a help button.
+		$bar->linkButton('inlinehelp', Text::_('JINLINEHELP'))
+			->attributes(['data-class' => $class])
+			->url('#')
+			->icon('fa-question-circle');
 	}
 
 	/**
