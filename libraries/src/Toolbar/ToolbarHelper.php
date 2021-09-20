@@ -184,10 +184,9 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a help button.
-		$bar->linkButton('inlinehelp', Text::_('JINLINEHELP'))
-			->attributes(['data-class' => $class])
-			->url('#')
-			->icon('fa-question-circle');
+		$bar->inlinehelpButton('inlinehelp')
+			->targetclass($class)
+			->icon('fa fa-question-circle');
 	}
 
 	/**
