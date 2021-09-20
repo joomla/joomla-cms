@@ -76,6 +76,23 @@ if ($this->params->get('show_url', 1)) :
 endif;
 ?>
 <li class="result__item">
+	<?php if (isset($image)) : ?>
+		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
+			<?php if ($this->params->get('link_image') && $this->result->route) : ?>
+				<a href="<?php echo Route::_($this->result->route); ?>">
+					<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
+						 alt="<?php echo htmlspecialchars($this->result->imageAlt, ENT_COMPAT, 'UTF-8'); ?>"
+							<?php echo $extraAttr; ?>
+					/>
+				</a>
+			<?php else : ?>
+				<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
+					 alt="<?php echo htmlspecialchars($this->result->imageAlt, ENT_COMPAT, 'UTF-8'); ?>"
+						<?php echo $extraAttr; ?>
+				/>
+			<?php endif; ?>
+		</figure>
+	<?php endif; ?>
 	<p class="result__title">
 		<?php if ($this->result->route) : ?>
 			<?php echo HTMLHelper::link(
@@ -89,14 +106,6 @@ endif;
 			<?php echo $this->result->title; ?>
 		<?php endif; ?>
 	</p>
-	<?php if ($showImage && isset($image)) : ?>
-		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
-			<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
-				alt="<?php echo $this->result->imageAlt; ?>"
-				<?php echo $extraAttr; ?>
-			/>
-		</figure>
-	<?php endif; ?>
 	<?php if ($show_description && $description !== '') : ?>
 		<p class="result__description">
 			<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
