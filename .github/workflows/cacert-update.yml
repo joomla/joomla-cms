@@ -24,7 +24,13 @@ jobs:
       - name: Copy the cacert file to the FOF repo
         run: cp "libraries/src/Http/Transport/cacert.pem" "libraries/fof/download/adapter/cacert.pem"
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        id: cpr
         with:
-          commit_message: Automated update of Mozilla CaCert
-          branch: ${{ github.head_ref }}
+          branch: mozilla_ca_update
+
+      - name: Log resulting Pull Request
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
