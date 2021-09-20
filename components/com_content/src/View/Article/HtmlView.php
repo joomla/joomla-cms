@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
 		 */
 		if ($item->params->get('show_intro', '1') == '1')
 		{
-			$item->text = $item->introtext . ' ' . $item->fulltext;
+			$item->text = $item->introtext . $item->fulltext;
 		}
 		elseif ($item->fulltext)
 		{
