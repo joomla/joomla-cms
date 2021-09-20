@@ -837,7 +837,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			if (property_exists($this,$k) && $k[0] != '_')
+			if (property_exists($this, $k) && $k[0] != '_')
 			{
 				$type = $this->_propertyTypes[$k] ?? null;
 				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
