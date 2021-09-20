@@ -837,29 +837,11 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				continue;
 			}
 
-			if (isset($fields[$k]))
+			if (property_exists($this,$k) && $k[0] != '_')
 			{
-				$type = $fields[$k]->TypeProperty;
-
-				if ($value === null)
-				{
-					$type = $this->_propertyTypes[$k] ?? null;
-				}
-
+				$type = $this->_propertyTypes[$k] ?? null;
 				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
 				continue;
-			}
-
-			if (isset($this->_propertyTypes[$k]))
-			{
-				$type = $this->_propertyTypes[$k];
-				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
-				continue;
-			}
-
-			if (isset($this->{$k}))
-			{
-				$this->{$k} = $value;
 			}
 		}
 
@@ -1032,8 +1014,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	{
 		$result = true;
 
-		$k = $this->_tbl_keys;
-
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
 			'onTableBeforeStore',
@@ -1074,7 +1054,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			}
 			else
 			{
-				$this->_db->insertObject($this->_tbl, $object, $this->_tbl_keys[0]);
+				$key = $this->_tbl_keys[0];
+				$this->_db->insertObject($this->_tbl, $object, $key);
+				$id = $this->_db->insertid();
+				$this->$key = static::TypeConvert($id, $this->_propertyTypes[$key], $this->_tz);
 			}
 		}
 		catch (\Exception $e)
