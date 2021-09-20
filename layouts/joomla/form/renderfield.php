@@ -17,7 +17,8 @@ extract($displayData);
  * Layout variables
  * -----------------
  * @var   array   $options      Optional parameters
- * @var   string  $name         The id of the input this label is for
+ * @var   string  $id           The id of the input this label is for
+ * @var   string  $name         The name of the input this label is for
  * @var   string  $label        The html code for the label
  * @var   string  $input        The input field html code
  * @var   string  $description  An optional description to use as in–line help text
@@ -33,7 +34,7 @@ if (!empty($options['showonEnabled']))
 
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id              = $name . '-desc';
+$id              = ($id ?: $name) . '-desc';
 $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 $descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help';
