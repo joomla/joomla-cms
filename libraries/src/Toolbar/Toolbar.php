@@ -19,6 +19,7 @@ use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
+use Joomla\CMS\Toolbar\Button\InlinehelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
@@ -32,6 +33,7 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
  * @method  PopupButton  popupButton(string $name = '', string $text = '', string $task = '')
  * @method  LinkButton  linkButton(string $name = '', string $text = '', string $task = '')
  * @method  HelpButton  helpButton(string $name = '', string $text = '', string $task = '')
+ * @method  InlinehelpButton  inlinehelpButton(string $name = '', string $text = '', string $task = '')
  * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
  * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
  * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
