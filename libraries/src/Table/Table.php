@@ -826,9 +826,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			}
 		}
 
-		// Bind the source value, excluding the ignored fields.
-		$fields = $this->getFields();
-
 		foreach ($src as $k => $value)
 		{
 			// Only process fields not in the ignore array.
