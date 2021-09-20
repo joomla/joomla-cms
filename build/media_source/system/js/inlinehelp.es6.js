@@ -15,7 +15,7 @@ Joomla.toggleInlineHelp = (toggleClass) => {
     });
 };
 
-document.querySelectorAll('.button-inlinehelp')
+[].slice.call(document.querySelectorAll('.button-inlinehelp'))
   .forEach((elToggler) => {
     const toggleClass = elToggler.dataset.class ?? 'hide-aware-inline-help';
     Joomla.toggleInlineHelp(toggleClass);
