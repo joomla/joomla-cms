@@ -1057,7 +1057,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				$key = $this->_tbl_keys[0];
 				$this->_db->insertObject($this->_tbl, $object, $key);
 				$id = $this->_db->insertid();
-				$this->$key = static::TypeConvert($id, $this->_propertyTypes[$key], $this->_tz);
+				$this->$key = static::TypeConvert($id, $this->_propertyTypes[$key] ?? null, $this->_tz);
 			}
 		}
 		catch (\Exception $e)
