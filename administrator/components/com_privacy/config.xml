@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Privacy:_Options"/>
 	<fieldset
 		name="privacy"
 		label="COM_PRIVACY_OPTION_LABEL"
