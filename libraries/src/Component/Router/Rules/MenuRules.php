@@ -64,11 +64,7 @@ class MenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		/**
-		 * If the active item id is not the same as the supplied item id or we have a supplied item id and no active
-		 * menu item then we just use the supplied menu item and continue
-		 */
-		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
+		if (isset($query['Itemid']))
 		{
 			return;
 		}
