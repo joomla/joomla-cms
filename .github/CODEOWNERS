@@ -74,5 +74,6 @@ administrator/templates/atum/html/* @chmst
 components/*/tmpl/* @chmst
 modules/*/tmpl/* @chmst
 plugins/*/tmpl/* @chmst
+templates/cassiopeia/html/* @chmst
 layouts/* @chmst
 installation/tmpl/* @chmst
