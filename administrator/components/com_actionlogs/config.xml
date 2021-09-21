@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
+	<help key="User_Actions_Log:_Options"/>
 	<fieldset name="actionlogs" label="COM_ACTIONLOGS_OPTIONS">
 		<field
 			name="ip_logging"
