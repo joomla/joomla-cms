@@ -40,7 +40,7 @@
     "bootstrap": "^5.0.2",
     "choices.js": "^9.0.1",
     "chosen-js": "^1.8.7",
-    "codemirror": "^5.62.0",
+    "codemirror": "^5.62.2",
     "cropperjs": "^1.5.11",
     "diff": "^4.0.2",
     "dragula": "3.7.2",
