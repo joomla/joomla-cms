@@ -474,40 +474,40 @@ class PlgEditorTinymce extends CMSPlugin
 			$template_path = $levelParams->get('content_template_path');
 			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
 
-			// We need this loop because a single glob call with the GLOB_BRACE flag isn't supported on all OS
-			foreach (['html', 'txt'] as $suffix)
+			$filepaths = Folder::exists(JPATH_ROOT . $template_path)
+				? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
+				: [];
+
+			foreach ($filepaths as $filepath)
 			{
-				foreach (glob(JPATH_ROOT . $template_path . '/*.' . $suffix) as $filepath)
+				$fileinfo      = pathinfo($filepath);
+				$filename      = $fileinfo['filename'];
+				$full_filename = $fileinfo['basename'];
+
+				if ($filename === 'index')
 				{
-					$fileinfo      = pathinfo($filepath);
-					$filename      = $fileinfo['filename'];
-					$full_filename = $fileinfo['basename'];
-
-					if ($filename === 'index')
-					{
-						continue;
-					}
-
-					$title       = $filename;
-					$title_upper = strtoupper($filename);
-					$description = ' ';
-
-					if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
-					{
-						$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
-					}
-
-					if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
-					{
-						$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
-					}
-
-					$templates[] = array(
-						'title' => $title,
-						'description' => $description,
-						'url' => Uri::root(true) . $template_path . '/' . $full_filename,
-					);
+					continue;
 				}
+
+				$title       = $filename;
+				$title_upper = strtoupper($filename);
+				$description = ' ';
+
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				{
+					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
+				}
+
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				{
+					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
+				}
+
+				$templates[] = array(
+					'title' => $title,
+					'description' => $description,
+					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
+				);
 			}
 		}
 
