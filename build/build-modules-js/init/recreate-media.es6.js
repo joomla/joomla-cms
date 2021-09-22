@@ -19,6 +19,9 @@ module.exports.recreateMediaFolder = async (options) => {
     if (vendor === '@fortawesome/fontawesome-free') {
       return 'vendor/fontawesome-free';
     }
+    if (vendor === '@claviska/jquery-minicolors') {
+      return 'vendor/minicolors';
+    }
     if (vendor === '@webcomponents/webcomponentsjs') {
       return 'vendor/webcomponentsjs';
     }

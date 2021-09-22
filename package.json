@@ -31,6 +31,7 @@
     "not ie < 11"
   ],
   "dependencies": {
+    "@claviska/jquery-minicolors": "^2.3.5",
     "@ctrl/tinycolor": "^3.4.0",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@popperjs/core": "^2.9.2",

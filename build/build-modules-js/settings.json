@@ -536,6 +536,49 @@
         "name": "punycode",
         "licenseFilename": "LICENSE-MIT.txt"
       },
+      "@claviska/jquery-minicolors": {
+        "name": "minicolors",
+        "js": {
+          "jquery.minicolors.js": "js/jquery-minicolors.js",
+          "jquery.minicolors.min.js": "js/jquery.minicolors.min.js"
+        },
+        "css": {
+          "jquery.minicolors.css": "css/jquery.minicolors.css"
+        },
+        "filesExtra": {
+          "jquery.minicolors.png": "css/jquery.minicolors.png"
+        },
+        "provideAssets": [
+          {
+            "name": "minicolors",
+            "type": "style",
+            "uri": "jquery.minicolors.css"
+          },
+          {
+            "name": "minicolors",
+            "type": "script",
+            "uri": "jquery.minicolors.min.js",
+            "dependencies": [
+              "jquery"
+            ],
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "minicolors",
+            "type": "preset",
+            "dependencies": [
+              "minicolors#style",
+              "minicolors#script"
+            ]
+          }
+        ],
+        "dependencies": [
+          "jquery"
+        ],
+        "licenseFilename": "LICENSE.md"
+      },
       "codemirror": {
         "name": "codemirror",
         "licenseFilename": "LICENSE"
