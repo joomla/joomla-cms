@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- !(function(document, $) {
+!(function(document, $) {
 	"use strict";
 
 	function initMinicolorsField (event) {
