@@ -110,13 +110,13 @@
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="image_class"
-					type="text"
-					label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
-					default=""
-					useglobal="true"
-					validate="CssIdentifier"
-					showon="show_image!:0"
+				name="image_class"
+				type="text"
+				label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+				default=""
+				useglobal="true"
+				validate="CssIdentifier"
+				showon="show_image!:0"
 			/>
 			<field
 					name="link_image"
