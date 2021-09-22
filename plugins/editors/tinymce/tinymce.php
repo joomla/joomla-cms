@@ -488,17 +488,16 @@ class PlgEditorTinymce extends CMSPlugin
 						continue;
 					}
 
-					$lang        = Factory::getLanguage();
 					$title       = $filename;
 					$title_upper = strtoupper($filename);
 					$description = ' ';
 
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+					if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
 					{
 						$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
 					}
 
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+					if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
 					{
 						$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
 					}
