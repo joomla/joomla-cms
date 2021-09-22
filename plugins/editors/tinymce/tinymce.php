@@ -516,6 +516,12 @@ class PlgEditorTinymce extends CMSPlugin
 				$plugins[] = $pName;
 			}
 		}
+		// Use CodeMirror to highlight the source in the code view
+		$highlight     = $levelParams->get('highlightPlus', 1);
+		if ($highlight)
+		{
+			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+		}
 
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
