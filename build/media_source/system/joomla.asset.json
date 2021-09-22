@@ -114,14 +114,26 @@
       "uri": "system/fields/validate.min.js"
     },
     {
-      "name": "field.color-adv",
+      "name": "field.color-picker-es5",
       "type": "script",
-      "uri": "system/fields/color-field-adv-init.min.js",
+      "uri": "system/fields/joomla-field-color-picker-es5.min.js",
       "attributes": {
+        "nomodule": true,
         "defer": true
       },
       "dependencies": [
-        "minicolors"
+        "wcpolyfill"
+      ]
+    },
+    {
+      "name": "field.color-picker",
+      "type": "script",
+      "uri": "system/fields/joomla-field-color-picker.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "field.color-picker-es5"
       ]
     },
     {

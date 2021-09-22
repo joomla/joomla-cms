@@ -6098,6 +6098,9 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css.gz',
 			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
 			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
+			// From 4.0.x to 4.1.0
+			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
 		);
 
 		$folders = array(
@@ -7355,6 +7358,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
 			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
+			// From 4.0.x to 4.1.0
+			'/administrator/templates/atum/scss/vendor/minicolors',
 		);
 
 		$status['files_checked'] = $files;
