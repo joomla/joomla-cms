@@ -48,12 +48,14 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-// set hsla / rgba to short format
-// both tinycolor and <joomla-field-color-picker> handle alpha automatically
-// an invalid format defaults to 'hex'
+/**
+ * Set hsla / rgba to short format
+ * Both tinycolor and <joomla-field-color-picker> handle alpha automatically
+ * An invalid format defaults to 'hex'
+ */
 $format = in_array($format, array('hex', 'rgb', 'hsl', 'rgba', 'hsla'), true) ? str_replace('a', '', $format) : 'hex';
 
-// all formats require color component labels, color names, format and other labels required for accessibility
+// All formats require color component labels, color names, format and other labels required for accessibility
 $labelStrings = '';
 $labelStrings .= ' alphaLabel="' . Text::_('JFIELD_COLOR_ADVANCED_ALPHA') . '"';
 $labelStrings .= ' appearanceLabel="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_APPEARANCE') . '"';
@@ -81,7 +83,7 @@ if ($keywords !== 'false')
 $labelStrings .= ' inputLabel="' . Text::_('JFIELD_COLOR_ADVANCED_INPUT_LABEL') . '"';
 $labelStrings .= ' pickerLabel="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_PICKER') . '"';
 
-// set attributes
+// Set attributes
 $disabled = $disabled ? ' disabled' : '';
 $required = $required ? ' required' : '';
 $readonly = $readonly ? ' readonly' : '';
@@ -95,8 +97,10 @@ $autocomplete = ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'of
 $spellcheck = ' spellcheck="false"';
 $value = ' value="' . $this->escape($value) . '"';
 
-// The dir="rtl" attribute will set all color picker style
-// color values of any format can never be RTL
+/**
+ * The dir="rtl" attribute will set all color picker style
+ * color values of any format can never be RTL
+ */
 $direction = $lang->isRtl() ? ' dir="rtl"' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
