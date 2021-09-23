@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_USERS_LOGIN_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGIN_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
+			key = "Menu_Item:_Login_Form"
 		/>
 		<message>
 			<![CDATA[COM_USERS_LOGIN_VIEW_DEFAULT_DESC]]>

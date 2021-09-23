@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_TAGS_TAG_VIEW_LIST_COMPACT_TITLE" option="COM_TAGS_TAG_VIEW_LIST_COMPACT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_COMPACT_LIST"
+			key="Menu_Item:_Compact_List_of_Tagged_Items"
 		/>
 		<message>
 			<![CDATA[COM_TAGS_TAG_VIEW_LIST_DESC]]>

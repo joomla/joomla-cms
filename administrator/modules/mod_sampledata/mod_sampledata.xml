@@ -22,7 +22,7 @@
 		<language tag="en-GB">language/en-GB/mod_sampledata.ini</language>
 		<language tag="en-GB">language/en-GB/mod_sampledata.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_SAMPLE_DATA" />
+	<help key="Admin_Modules:_Sample_Data" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

@@ -170,6 +170,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
+		ToolbarHelper::help('Smart_Search:_New_or_Edit_Filter');
 	}
 }

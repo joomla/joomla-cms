@@ -125,6 +125,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
+		ToolbarHelper::help('Languages:_Edit_Content_Language');
 	}
 }

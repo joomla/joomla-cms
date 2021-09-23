@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_users_latest.ini</language>
 		<language tag="en-GB">language/en-GB/mod_users_latest.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_USERS" />
+	<help key="Site_Modules:_Latest_Users" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

@@ -228,6 +228,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_redirect');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		$toolbar->help('Redirects:_Links');
 	}
 }

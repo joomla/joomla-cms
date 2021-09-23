@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONFIG_TEMPLATES_VIEW_DEFAULT_TITLE" option="COM_CONFIG_TEMPLATES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_DISPLAY_TEMPLATE_OPTIONS"
+			key = "Menu_Item:_Display_Template_Options"
 		/>
 		<message>
 			<![CDATA[COM_CONFIG_TEMPLATES_VIEW_DEFAULT_DESC]]>
@@ -10,8 +10,8 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request" >
-			<field 
-				name="controller" 
+			<field
+				name="controller"
 				type="hidden"
 				default=""
 			/>
