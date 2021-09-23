@@ -32,6 +32,7 @@ class JInstallerExtensionTest extends TestCase
 			$this->isInstanceOf('JInstallerExtension'),
 			'Instantiating JInstallerExtension failed'
 		);
+
 		// Verify that an old style element name is still usable
 		$this->assertEquals(
 			$xml->authorUrl,
@@ -46,6 +47,7 @@ class JInstallerExtensionTest extends TestCase
 			$this->isInstanceOf('JInstallerExtension'),
 			'Instantiating JInstallerExtension failed'
 		);
+
 		// Verify that a new style element name is available
 		$this->assertEquals(
 			$xml->authorURL,
@@ -85,6 +87,7 @@ class JInstallerExtensionTest extends TestCase
 			$this->isInstanceOf('JInstallerExtension'),
 			'Instantiating JInstallerExtension failed'
 		);
+
 		// Verify that a new style element name is available
 		$this->assertEquals(
 			$xml->authorURL,
