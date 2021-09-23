@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -63,7 +64,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onBeforeRender' => ['registerRunner', PHP_INT_MAX]
+			'onBeforeRender' => ['registerRunner', Priority::MAX]
 		];
 	}
 

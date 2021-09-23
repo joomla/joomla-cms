@@ -7,14 +7,11 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** Implements the ExecuteTaskEvent Event. */
-
 namespace Joomla\Component\Scheduler\Administrator\Event;
 
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use BadMethodCallException;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 
@@ -31,7 +28,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @throws  BadMethodCallException
+	 * @throws  \BadMethodCallException
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -43,7 +40,7 @@ class ExecuteTaskEvent extends AbstractEvent
 
 		if (! ($arguments['subject'] ?? null) instanceof Task)
 		{
-			throw new BadMethodCallException("The subject given for $name event must be an instance of " . Task::class);
+			throw new \BadMethodCallException("The subject given for $name event must be an instance of " . Task::class);
 		}
 
 	}
@@ -61,7 +58,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	{
 		$this->arguments['resultSnapshot'] = $snapshot;
 
-		if ($snapshot)
+		if (!empty($snapshot))
 		{
 			$this->stopPropagation();
 		}

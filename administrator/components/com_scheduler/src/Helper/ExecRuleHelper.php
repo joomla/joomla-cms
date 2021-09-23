@@ -96,7 +96,7 @@ class ExecRuleHelper
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'GMT');
+				$lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'UTC');
 				$interval = new DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
@@ -104,7 +104,7 @@ class ExecRuleHelper
 			case 'cron':
 				// @todo: testing
 				$cExp = new CronExpression((string) $this->rule->exp);
-				$nextExec = $cExp->getNextRunDate('now', 0, false, 'GMT');
+				$nextExec = $cExp->getNextRunDate('now', 0, false, 'UTC');
 				$nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
 				break;
 			default:

@@ -14,8 +14,6 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use DateInterval;
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -27,10 +25,6 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
-use function defined;
-use function in_array;
-use function stripos;
-use function substr;
 
 /**
  * MVC Model to deal with operations concerning multiple `#__scheduler_tasks` entries.
@@ -46,7 +40,7 @@ class TasksModel extends ListModel
 	 *
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
@@ -110,7 +104,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return QueryInterface
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getListQuery(): QueryInterface
@@ -194,7 +188,9 @@ class TasksModel extends ListModel
 		}
 
 		// Filter over type ----
-		if ($typeFilter = $this->getState('filter.type'))
+		$typeFilter = $this->getState('filter.type');
+
+		if ($typeFilter)
 		{
 			$filterCount++;
 			$query->where($db->quotename('a.type') . '= :type')
@@ -215,7 +211,9 @@ class TasksModel extends ListModel
 		}
 
 		// Filter due (-1: exclude, 0: include, 1: only) ----
-		if (is_numeric($due = $this->getState('filter.due')) && $due != 0)
+		$due = $this->getState('filter.due');
+
+		if (is_numeric($due) && $due != 0)
 		{
 			$now = Factory::getDate('now', 'GMT')->toSql();
 			$operator = $due == 1 ? ' <= ' : ' > ';
@@ -231,11 +229,13 @@ class TasksModel extends ListModel
 		 * failure.
 		 * {-2: exclude-all, -1: exclude-hard-locked, 0: include, 1: include-only-locked, 2: include-only-soft-locked}
 		 */
-		if (is_numeric($locked = $this->getState('filter.locked')) && $locked != 0)
+		$locked = $this->getState('filter.locked');
+
+		if (is_numeric($locked) && $locked != 0)
 		{
 			$now = Factory::getDate('now', 'GMT');
 			$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-			$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+			$timeout = new \DateInterval(sprintf('PT%dS', $timeout));
 			$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 			$now = $now->toSql();
 
@@ -334,7 +334,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return object[]
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 * phpcs:disable
 	 */
@@ -410,7 +410,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private function attachTaskOptions(array $items): void

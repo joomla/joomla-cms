@@ -184,8 +184,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		$app = $this->app;
 		$db = $this->db;
 
-		/** @var UserFactoryInterface $uFactory */
-		$uFactory = Factory::getContainer()->get('user.factory');
+		/** @var UserFactoryInterface $userFactory */
+		$userFactory = Factory::getContainer()->get('user.factory');
 
 		// Get all admin users
 		$query = $db->getQuery(true);
@@ -209,7 +209,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		// Mail all users with access to scheduler, opt-in mail
 		foreach ($users as $user)
 		{
-			$user = $uFactory->loadUserById($user->id);
+			$user = $userFactory->loadUserById($user->id);
 
 			if ($user->authorise('core.manage', 'com_scheduler'))
 			{

@@ -13,7 +13,6 @@ namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 defined('_JEXEC') or die;
 
 use Assert\AssertionFailedException;
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -24,7 +23,6 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
-use RuntimeException;
 
 /**
  * The Scheduler class provides the core functionality of ComScheduler.
@@ -83,7 +81,7 @@ class Scheduler
 	/**
 	 * Scheduler class constructor
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct()
@@ -103,14 +101,14 @@ class Scheduler
 	 *
 	 * @return integer  The task exit code.
 	 *
-	 * @throws AssertionFailedException|Exception
+	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function runTask(int $id = 0, ?string $title = ''): int
 	{
 		$task = $this->fetchTask($id, $title);
 
-		if (!$task)
+		if (empty($task))
 		{
 			return Status::NO_TASK;
 		}
@@ -154,14 +152,14 @@ class Scheduler
 	 *
 	 * @return ?Task
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function fetchTask(int $id = 0, string $title = ''): ?Task
 	{
 		$record = $this->fetchTaskRecord($id, $title);
 
-		if (!$record)
+		if ($record === null)
 		{
 			return null;
 		}
@@ -185,11 +183,11 @@ class Scheduler
 		$filters = [];
 		$listConfig = ['limit' => 1];
 
-		if ($id)
+		if ($id !== 0)
 		{
 			$filters['id'] = $id;
 		}
-		elseif ($title)
+		elseif ($title !== '')
 		{
 			// Maybe, search?
 			$filters['title'] = $title;
@@ -225,13 +223,13 @@ class Scheduler
 			/** @var TasksModel $model */
 			$model = $this->component->getMVCFactory()->createModel('Tasks', 'Administrator');
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 		}
 
 		if (!$model)
 		{
-			throw new RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
 		$model->set('__state_set', true);

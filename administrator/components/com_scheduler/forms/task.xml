@@ -3,7 +3,7 @@
 <form
 	addfieldprefix="Joomla\Component\Scheduler\Administrator\Field"
 	addruleprefix="Joomla\Component\Scheduler\Administrator\Rule"
->
+	>
 	<fields>
 		<field
 			name="title"
