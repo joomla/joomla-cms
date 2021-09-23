@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>Latviešu (lv-LV)</name>
+	<name>Latvian (Latvia)</name>
 	<version>4.0.4</version>
 	<creationDate>September 2021</creationDate>
 	<author>Joomla! Projekts</author>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Latviešu (lv-LV)</name>
-		<nativeName>Latviešu (lv-LV)</nativeName>
+		<name>Latvian (lv-LV)</name>
+		<nativeName>Latviešu (Latvia)</nativeName>
 		<tag>lv-LV</tag>
 		<rtl>0</rtl>
 	</metadata>
