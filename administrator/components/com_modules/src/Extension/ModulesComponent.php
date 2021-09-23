@@ -32,9 +32,9 @@ WorkflowServiceInterface
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
 
-	/** 
+	/**
+	 * @var array
 	 * @since  __DEPLOY_VERSION_
-	 * @var array 
 	 */
 	protected $supportedFunctionality = [
 		'core.state' => true,
