@@ -17,7 +17,7 @@
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">language/en-GB/plg_system_stats.ini</language>
-		<language tag="en-GB">language/en-GB/GB.plg_system_stats.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_stats.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
