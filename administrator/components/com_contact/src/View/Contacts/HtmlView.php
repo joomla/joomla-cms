@@ -220,6 +220,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_contact');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		$toolbar->help('Contacts');
 	}
 }

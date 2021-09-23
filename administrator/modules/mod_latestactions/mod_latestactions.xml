@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_latestactions.ini</language>
 		<language tag="en-GB">language/en-GB/mod_latestactions.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LATESTACTIONS" />
+	<help key="Admin_Modules:_Action_Logs_-_Latest" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

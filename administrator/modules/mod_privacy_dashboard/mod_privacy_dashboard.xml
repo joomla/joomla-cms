@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_privacy_dashboard.ini</language>
 		<language tag="en-GB">language/en-GB/mod_privacy_dashboard.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_PRIVACY_DASHBOARD" />
+	<help key="Admin_Modules:_Privacy_Dashboard" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

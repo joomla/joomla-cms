@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
+	<help key="Site_Modules:_Smart_Search" />
 	<config>
 		<fields name="params" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 			<fieldset name="basic">

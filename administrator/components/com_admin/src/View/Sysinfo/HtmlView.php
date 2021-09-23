@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON',
 			'download'
 		);
-		ToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
+		ToolbarHelper::help('Site_System_Information');
 	}
 }

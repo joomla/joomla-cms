@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_popular.ini</language>
 		<language tag="en-GB">language/en-GB/mod_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_POPULAR" />
+	<help key="Admin_Modules:_Popular_Articles" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
