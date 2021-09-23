@@ -28,7 +28,7 @@ use function defined;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class SchedulerHelper
+abstract class SchedulerHelper
 {
 	/**
 	 * Cached TaskOptions object
@@ -38,14 +38,6 @@ final class SchedulerHelper
 	 */
 	protected static $taskOptionsCache;
 
-	/**
-	 * Private constructor to prevent instantiation
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function __construct()
-	{
-	}
 
 	/**
 	 * Returns available task routines as a TaskOptions object.
