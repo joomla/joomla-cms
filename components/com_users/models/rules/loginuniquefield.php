@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,12 +49,6 @@ class JFormRuleLoginUniqueField extends JFormRule
 		if ($input === null)
 		{
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
-		}
-
-		// Test the input values for login.
-		if ($loginRedirectUrl != '' && $loginRedirectMenuitem != '')
-		{
-			return false;
 		}
 
 		return true;

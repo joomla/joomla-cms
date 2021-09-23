@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Wrapper view class.
- * 
+ *
  * @since  1.5
  */
 class WrapperViewWrapper extends JViewLegacy
@@ -69,7 +69,7 @@ class WrapperViewWrapper extends JViewLegacy
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$wrapper->load = 'onload="iFrameHeight()"';
+			$wrapper->load = 'onload="iFrameHeight(this)"';
 		}
 		else
 		{

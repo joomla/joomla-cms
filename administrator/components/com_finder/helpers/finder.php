@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,24 +38,24 @@ class FinderHelper
 		JHtmlSidebar::addEntry(
 			JText::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
-			$vName == 'index'
+			$vName === 'index'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
-			$vName == 'maps'
+			$vName === 'maps'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
-			$vName == 'filters'
+			$vName === 'filters'
 		);
 	}
 
 	/**
 	 * Gets the finder system plugin extension id.
 	 *
-	 * @return  int  The finder system plugin extension id.
+	 * @return  integer  The finder system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */

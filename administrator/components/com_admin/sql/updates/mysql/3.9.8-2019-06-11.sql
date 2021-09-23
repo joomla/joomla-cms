@@ -1,0 +1,1 @@
+UPDATE #__users SET params = REPLACE(params, '",,"', '","');

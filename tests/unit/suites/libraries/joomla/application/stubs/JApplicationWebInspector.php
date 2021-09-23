@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,31 +13,31 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @since       11.3
+ * @since       1.7.3
  */
 class JApplicationWebInspector extends JApplicationWeb
 {
 	/**
 	 * @var     boolean  True to mimic the headers already being sent.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $headersSent = false;
 
 	/**
 	 * @var     boolean  True to mimic the connection being alive.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $connectionAlive = true;
 
 	/**
 	 * @var     array  List of sent headers for inspection. array($string, $replace, $code).
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public $headers = array();
 
 	/**
 	 * @var     integer  The exit code if the application was closed otherwise null.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public $closed;
 
@@ -46,7 +46,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function checkConnectionAlive()
 	{
@@ -58,7 +58,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function checkHeadersSent()
 	{
@@ -72,7 +72,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function close($code = 0)
 	{
@@ -84,7 +84,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function doExecute()
 	{
@@ -102,7 +102,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function header($string, $replace = true, $code = null)
 	{

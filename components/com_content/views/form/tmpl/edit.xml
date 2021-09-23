@@ -45,6 +45,28 @@
 				>
 				<option value="">JDEFAULT</option>
 			</field>
+
+			<field
+				name="custom_cancel_redirect"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="cancel_redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_DESC"
+				showon="custom_cancel_redirect:1"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

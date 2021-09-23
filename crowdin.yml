@@ -1,0 +1,1247 @@
+export_languages: ["en-GB"]
+files:
+  # Administrator
+  # Components
+  - source: /administrator/language/en-GB/en-GB.com_actionlogs.ini
+    translation: /administrator/language/%locale%/%locale%.com_actionlogs.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_actionlogs.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_actionlogs.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_admin.ini
+    translation: /administrator/language/%locale%/%locale%.com_admin.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_admin.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_admin.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_ajax.ini
+    translation: /administrator/language/%locale%/%locale%.com_ajax.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_ajax.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_ajax.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_associations.ini
+    translation: /administrator/language/%locale%/%locale%.com_associations.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_associations.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_associations.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_banners.ini
+    translation: /administrator/language/%locale%/%locale%.com_banners.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_banners.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_banners.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_cache.ini
+    translation: /administrator/language/%locale%/%locale%.com_cache.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_cache.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_cache.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_categories.ini
+    translation: /administrator/language/%locale%/%locale%.com_categories.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_categories.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_categories.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_checkin.ini
+    translation: /administrator/language/%locale%/%locale%.com_checkin.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_checkin.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_checkin.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_config.ini
+    translation: /administrator/language/%locale%/%locale%.com_config.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_config.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_config.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_contact.ini
+    translation: /administrator/language/%locale%/%locale%.com_contact.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_contact.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_contact.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_content.ini
+    translation: /administrator/language/%locale%/%locale%.com_content.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_content.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_content.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_contenthistory.ini
+    translation: /administrator/language/%locale%/%locale%.com_contenthistory.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_contenthistory.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_contenthistory.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_cpanel.ini
+    translation: /administrator/language/%locale%/%locale%.com_cpanel.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_cpanel.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_cpanel.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_fields.ini
+    translation: /administrator/language/%locale%/%locale%.com_fields.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_fields.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_fields.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_finder.ini
+    translation: /administrator/language/%locale%/%locale%.com_finder.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_finder.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_finder.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_installer.ini
+    translation: /administrator/language/%locale%/%locale%.com_installer.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_installer.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_installer.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_joomlaupdate.ini
+    translation: /administrator/language/%locale%/%locale%.com_joomlaupdate.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_joomlaupdate.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_languages.ini
+    translation: /administrator/language/%locale%/%locale%.com_languages.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_languages.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_languages.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_login.ini
+    translation: /administrator/language/%locale%/%locale%.com_login.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_login.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_login.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_mailto.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_mailto.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_media.ini
+    translation: /administrator/language/%locale%/%locale%.com_media.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_media.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_media.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_menus.ini
+    translation: /administrator/language/%locale%/%locale%.com_menus.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_menus.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_menus.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_messages.ini
+    translation: /administrator/language/%locale%/%locale%.com_messages.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_messages.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_messages.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_modules.ini
+    translation: /administrator/language/%locale%/%locale%.com_modules.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_modules.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_modules.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_newsfeeds.ini
+    translation: /administrator/language/%locale%/%locale%.com_newsfeeds.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_newsfeeds.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_newsfeeds.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_plugins.ini
+    translation: /administrator/language/%locale%/%locale%.com_plugins.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_plugins.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_plugins.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_postinstall.ini
+    translation: /administrator/language/%locale%/%locale%.com_postinstall.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_postinstall.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_postinstall.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_privacy.ini
+    translation: /administrator/language/%locale%/%locale%.com_privacy.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_privacy.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_privacy.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_redirect.ini
+    translation: /administrator/language/%locale%/%locale%.com_redirect.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_redirect.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_redirect.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_search.ini
+    translation: /administrator/language/%locale%/%locale%.com_search.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_search.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_search.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_tags.ini
+    translation: /administrator/language/%locale%/%locale%.com_tags.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_tags.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_tags.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_templates.ini
+    translation: /administrator/language/%locale%/%locale%.com_templates.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_templates.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_templates.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_users.ini
+    translation: /administrator/language/%locale%/%locale%.com_users.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_users.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_users.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_weblinks.ini
+    translation: /administrator/language/%locale%/%locale%.com_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_weblinks.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_weblinks.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_wrapper.ini
+    translation: /administrator/language/%locale%/%locale%.com_wrapper.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.com_wrapper.sys.ini
+    translation: /administrator/language/%locale%/%locale%.com_wrapper.sys.ini
+    update_option: update_as_unapproved
+
+    # Specials
+  - source: /administrator/language/en-GB/en-GB.ini
+    translation: /administrator/language/%locale%/%locale%.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.lib_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.lib_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.localise.php
+    dest: /administrator/language/en-GB/en-GB.localise.txt
+    translation: /administrator/language/%locale%/%locale%.localise.php
+    update_option: update_as_unapproved
+
+    # Modules
+  - source: /administrator/language/en-GB/en-GB.mod_custom.ini
+    translation: /administrator/language/%locale%/%locale%.mod_custom.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_custom.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_custom.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_feed.ini
+    translation: /administrator/language/%locale%/%locale%.mod_feed.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_feed.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_feed.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_latest.ini
+    translation: /administrator/language/%locale%/%locale%.mod_latest.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_latest.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_latest.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_latestactions.ini
+    translation: /administrator/language/%locale%/%locale%.mod_latestactions.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_latestactions.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_latestactions.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_logged.ini
+    translation: /administrator/language/%locale%/%locale%.mod_logged.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_logged.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_logged.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_login.ini
+    translation: /administrator/language/%locale%/%locale%.mod_login.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_login.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_login.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_menu.ini
+    translation: /administrator/language/%locale%/%locale%.mod_menu.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_menu.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_menu.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_multilangstatus.ini
+    translation: /administrator/language/%locale%/%locale%.mod_multilangstatus.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_multilangstatus.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_multilangstatus.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_popular.ini
+    translation: /administrator/language/%locale%/%locale%.mod_popular.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_popular.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_popular.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_privacy_dashboard.ini
+    translation: /administrator/language/%locale%/%locale%.mod_privacy_dashboard.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_privacy_dashboard.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_privacy_dashboard.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_quickicon.ini
+    translation: /administrator/language/%locale%/%locale%.mod_quickicon.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_quickicon.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_quickicon.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_sampledata.ini
+    translation: /administrator/language/%locale%/%locale%.mod_sampledata.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_sampledata.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_sampledata.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_stats_admin.ini
+    translation: /administrator/language/%locale%/%locale%.mod_stats_admin.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_stats_admin.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_stats_admin.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_status.ini
+    translation: /administrator/language/%locale%/%locale%.mod_status.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_status.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_status.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_submenu.ini
+    translation: /administrator/language/%locale%/%locale%.mod_submenu.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_submenu.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_submenu.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_title.ini
+    translation: /administrator/language/%locale%/%locale%.mod_title.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_title.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_title.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_toolbar.ini
+    translation: /administrator/language/%locale%/%locale%.mod_toolbar.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_toolbar.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_toolbar.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_version.ini
+    translation: /administrator/language/%locale%/%locale%.mod_version.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.mod_version.sys.ini
+    translation: /administrator/language/%locale%/%locale%.mod_version.sys.ini
+    update_option: update_as_unapproved
+
+    # Plugins
+  - source: /administrator/language/en-GB/en-GB.plg_actionlog_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.plg_actionlog_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_actionlog_joomla.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_actionlog_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_cookie.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_cookie.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_cookie.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_cookie.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_gmail.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_gmail.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_gmail.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_gmail.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_joomla.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_ldap.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_ldap.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_authentication_ldap.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_authentication_ldap.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_captcha_recaptcha.ini
+    translation: /administrator/language/%locale%/%locale%.plg_captcha_recaptcha.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_captcha_recaptcha.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_captcha_recaptcha.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_captcha_recaptcha_invisible.ini
+    translation: /administrator/language/%locale%/%locale%.plg_captcha_recaptcha_invisible.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_captcha_recaptcha_invisible.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_captcha_recaptcha_invisible.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_confirmconsent.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_confirmconsent.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_confirmconsent.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_confirmconsent.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_contact.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_contact.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_contact.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_contact.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_emailcloak.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_emailcloak.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_emailcloak.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_emailcloak.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_fields.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_fields.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_fields.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_fields.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_finder.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_finder.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_finder.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_finder.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_joomla.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_loadmodule.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_loadmodule.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_loadmodule.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_loadmodule.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_pagebreak.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_pagebreak.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_pagebreak.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_pagebreak.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_pagenavigation.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_pagenavigation.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_pagenavigation.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_pagenavigation.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_vote.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_vote.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_content_vote.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_content_vote.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_article.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_article.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_article.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_article.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_contact.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_contact.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_contact.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_contact.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_fields.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_fields.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_fields.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_fields.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_image.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_image.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_image.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_image.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_menu.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_menu.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_menu.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_menu.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_module.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_module.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_module.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_module.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_pagebreak.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_pagebreak.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_pagebreak.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_pagebreak.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_readmore.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_readmore.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_readmore.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_readmore.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_weblink.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_weblink.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_codemirror.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_codemirror.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_codemirror.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_codemirror.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_none.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_none.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_none.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_none.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_tinymce.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_tinymce.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors_tinymce.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors_tinymce.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_extension_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.plg_extension_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_extension_joomla.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_extension_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_calendar.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_calendar.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_calendar.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_calendar.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_checkboxes.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_checkboxes.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_checkboxes.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_checkboxes.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_color.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_color.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_color.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_color.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_editor.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_editor.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_editor.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_editor.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_image.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_image.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_image.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_image.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_imagelist.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_imagelist.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_imagelist.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_imagelist.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_integer.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_integer.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_integer.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_integer.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_list.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_list.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_list.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_list.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_media.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_media.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_media.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_media.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_radio.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_radio.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_radio.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_radio.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_repeatable.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_repeatable.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_repeatable.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_sql.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_sql.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_sql.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_sql.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_text.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_text.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_text.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_text.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_textarea.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_textarea.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_textarea.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_textarea.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_url.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_url.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_url.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_url.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_user.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_user.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_user.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_user.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_usergrouplist.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_usergrouplist.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_fields_usergrouplist.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_fields_usergrouplist.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_categories.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_categories.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_categories.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_categories.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_contacts.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_contacts.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_contacts.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_contacts.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_content.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_content.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_content.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_content.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_newsfeeds.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_newsfeeds.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_newsfeeds.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_newsfeeds.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_tags.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_tags.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_tags.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_tags.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_weblinks.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_finder_weblinks.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_finder_weblinks.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_folderinstaller.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_folderinstaller.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_folderinstaller.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_folderinstaller.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_packageinstaller.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_packageinstaller.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_packageinstaller.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_packageinstaller.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_urlinstaller.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_urlinstaller.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_urlinstaller.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_urlinstaller.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_webinstaller.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_webinstaller.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_installer_webinstaller.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_installer_webinstaller.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_actionlogs.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_actionlogs.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_actionlogs.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_actionlogs.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_consents.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_consents.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_consents.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_consents.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_contact.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_contact.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_contact.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_contact.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_content.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_content.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_content.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_content.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_message.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_message.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_message.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_message.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_user.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_user.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_privacy_user.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_privacy_user.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_eos310.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_eos310.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_extensionupdate.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_extensionupdate.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_joomlaupdate.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_joomlaupdate.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_joomlaupdate.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_joomlaupdate.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_phpversioncheck.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_phpversioncheck.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_phpversioncheck.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_phpversioncheck.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_privacycheck.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_privacycheck.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_privacycheck.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_privacycheck.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_sampledata_blog.ini
+    translation: /administrator/language/%locale%/%locale%.plg_sampledata_blog.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_sampledata_blog.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_sampledata_blog.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_categories.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_categories.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_categories.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_categories.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_contacts.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_contacts.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_contacts.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_contacts.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_content.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_content.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_content.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_content.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_newsfeeds.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_newsfeeds.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_newsfeeds.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_newsfeeds.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_tags.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_tags.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_tags.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_tags.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_weblinks.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_search_weblinks.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_actionlogs.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_actionlogs.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_actionlogs.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_actionlogs.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_cache.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_cache.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_cache.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_cache.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_debug.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_debug.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_debug.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_debug.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_fields.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_fields.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_fields.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_fields.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_highlight.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_highlight.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_highlight.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_highlight.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_languagecode.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_languagecode.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_languagecode.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_languagecode.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_languagefilter.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_languagefilter.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_languagefilter.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_languagefilter.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_log.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_log.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_log.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_log.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_logout.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_logout.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_logout.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_logout.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_logrotation.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_logrotation.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_logrotation.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_logrotation.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_p3p.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_p3p.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_p3p.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_p3p.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_privacyconsent.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_privacyconsent.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_privacyconsent.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_privacyconsent.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_redirect.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_redirect.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_redirect.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_redirect.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_remember.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_remember.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_remember.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_remember.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_sef.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_sef.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_sef.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_sef.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_sessiongc.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_sessiongc.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_sessiongc.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_sessiongc.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_stats.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_stats.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_stats.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_stats.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_updatenotification.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_updatenotification.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_updatenotification.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_updatenotification.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_weblinks.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_weblinks.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_twofactorauth_totp.ini
+    translation: /administrator/language/%locale%/%locale%.plg_twofactorauth_totp.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_twofactorauth_totp.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_twofactorauth_totp.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_twofactorauth_yubikey.ini
+    translation: /administrator/language/%locale%/%locale%.plg_twofactorauth_yubikey.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_twofactorauth_yubikey.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_twofactorauth_yubikey.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_contactcreator.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_contactcreator.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_contactcreator.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_contactcreator.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_joomla.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_joomla.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_joomla.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_profile.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_profile.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_profile.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_profile.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_terms.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_terms.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_user_terms.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_user_terms.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.tpl_hathor.ini
+    translation: /administrator/language/%locale%/%locale%.tpl_hathor.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.tpl_hathor.sys.ini
+    translation: /administrator/language/%locale%/%locale%.tpl_hathor.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.tpl_isis.ini
+    translation: /administrator/language/%locale%/%locale%.tpl_isis.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.tpl_isis.sys.ini
+    translation: /administrator/language/%locale%/%locale%.tpl_isis.sys.ini
+    update_option: update_as_unapproved
+
+    # XML
+  - source: /administrator/language/en-GB/en-GB.xml
+    translation: /administrator/language/%locale%/%locale%.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0
+  - source: /administrator/language/en-GB/install.xml
+    translation: /administrator/language/%locale%/install.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0
+
+    # Site
+    # Components
+  - source: /language/en-GB/en-GB.com_ajax.ini
+    translation: /language/%locale%/%locale%.com_ajax.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_config.ini
+    translation: /language/%locale%/%locale%.com_config.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_contact.ini
+    translation: /language/%locale%/%locale%.com_contact.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_content.ini
+    translation: /language/%locale%/%locale%.com_content.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_finder.ini
+    translation: /language/%locale%/%locale%.com_finder.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_mailto.ini
+    translation: /language/%locale%/%locale%.com_mailto.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_media.ini
+    translation: /language/%locale%/%locale%.com_media.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_messages.ini
+    translation: /language/%locale%/%locale%.com_messages.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_newsfeeds.ini
+    translation: /language/%locale%/%locale%.com_newsfeeds.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_privacy.ini
+    translation: /language/%locale%/%locale%.com_privacy.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_search.ini
+    translation: /language/%locale%/%locale%.com_search.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_tags.ini
+    translation: /language/%locale%/%locale%.com_tags.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_users.ini
+    translation: /language/%locale%/%locale%.com_users.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_weblinks.ini
+    translation: /language/%locale%/%locale%.com_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.com_wrapper.ini
+    translation: /language/%locale%/%locale%.com_wrapper.ini
+    update_option: update_as_unapproved
+
+    # Specials
+  - source: /language/en-GB/en-GB.files_joomla.sys.ini
+    translation: /language/%locale%/%locale%.files_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.finder_cli.ini
+    translation: /language/%locale%/%locale%.finder_cli.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.ini
+    translation: /language/%locale%/%locale%.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.localise.php
+    dest: /language/en-GB/en-GB.localise.txt
+    translation: /language/%locale%/%locale%.localise.php
+    update_option: update_as_unapproved
+
+    # Libraries
+  - source: /language/en-GB/en-GB.lib_fof.ini
+    translation: /language/%locale%/%locale%.lib_fof.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_fof.sys.ini
+    translation: /language/%locale%/%locale%.lib_fof.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_idna_convert.sys.ini
+    translation: /language/%locale%/%locale%.lib_idna_convert.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_joomla.ini
+    translation: /language/%locale%/%locale%.lib_joomla.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_joomla.sys.ini
+    translation: /language/%locale%/%locale%.lib_joomla.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_phpass.sys.ini
+    translation: /language/%locale%/%locale%.lib_phpass.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_phputf8.sys.ini
+    translation: /language/%locale%/%locale%.lib_phputf8.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.lib_simplepie.sys.ini
+    translation: /language/%locale%/%locale%.lib_simplepie.sys.ini
+    update_option: update_as_unapproved
+
+    # Modules
+  - source: /language/en-GB/en-GB.mod_articles_archive.ini
+    translation: /language/%locale%/%locale%.mod_articles_archive.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_archive.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_archive.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_categories.ini
+    translation: /language/%locale%/%locale%.mod_articles_categories.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_categories.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_categories.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_category.ini
+    translation: /language/%locale%/%locale%.mod_articles_category.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_category.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_category.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_latest.ini
+    translation: /language/%locale%/%locale%.mod_articles_latest.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_latest.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_latest.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_news.ini
+    translation: /language/%locale%/%locale%.mod_articles_news.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_news.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_news.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_popular.ini
+    translation: /language/%locale%/%locale%.mod_articles_popular.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_articles_popular.sys.ini
+    translation: /language/%locale%/%locale%.mod_articles_popular.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_banners.ini
+    translation: /language/%locale%/%locale%.mod_banners.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_banners.sys.ini
+    translation: /language/%locale%/%locale%.mod_banners.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_breadcrumbs.ini
+    translation: /language/%locale%/%locale%.mod_breadcrumbs.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_breadcrumbs.sys.ini
+    translation: /language/%locale%/%locale%.mod_breadcrumbs.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_custom.ini
+    translation: /language/%locale%/%locale%.mod_custom.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_custom.sys.ini
+    translation: /language/%locale%/%locale%.mod_custom.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_feed.ini
+    translation: /language/%locale%/%locale%.mod_feed.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_feed.sys.ini
+    translation: /language/%locale%/%locale%.mod_feed.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_finder.ini
+    translation: /language/%locale%/%locale%.mod_finder.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_finder.sys.ini
+    translation: /language/%locale%/%locale%.mod_finder.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_footer.ini
+    translation: /language/%locale%/%locale%.mod_footer.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_footer.sys.ini
+    translation: /language/%locale%/%locale%.mod_footer.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_languages.ini
+    translation: /language/%locale%/%locale%.mod_languages.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_languages.sys.ini
+    translation: /language/%locale%/%locale%.mod_languages.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_login.ini
+    translation: /language/%locale%/%locale%.mod_login.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_login.sys.ini
+    translation: /language/%locale%/%locale%.mod_login.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_menu.ini
+    translation: /language/%locale%/%locale%.mod_menu.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_menu.sys.ini
+    translation: /language/%locale%/%locale%.mod_menu.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_random_image.ini
+    translation: /language/%locale%/%locale%.mod_random_image.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_random_image.sys.ini
+    translation: /language/%locale%/%locale%.mod_random_image.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_related_items.ini
+    translation: /language/%locale%/%locale%.mod_related_items.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_related_items.sys.ini
+    translation: /language/%locale%/%locale%.mod_related_items.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_search.ini
+    translation: /language/%locale%/%locale%.mod_search.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_search.sys.ini
+    translation: /language/%locale%/%locale%.mod_search.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_stats.ini
+    translation: /language/%locale%/%locale%.mod_stats.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_stats.sys.ini
+    translation: /language/%locale%/%locale%.mod_stats.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_syndicate.ini
+    translation: /language/%locale%/%locale%.mod_syndicate.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_syndicate.sys.ini
+    translation: /language/%locale%/%locale%.mod_syndicate.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_tags_popular.ini
+    translation: /language/%locale%/%locale%.mod_tags_popular.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_tags_popular.sys.ini
+    translation: /language/%locale%/%locale%.mod_tags_popular.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_tags_similar.ini
+    translation: /language/%locale%/%locale%.mod_tags_similar.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_tags_similar.sys.ini
+    translation: /language/%locale%/%locale%.mod_tags_similar.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_users_latest.ini
+    translation: /language/%locale%/%locale%.mod_users_latest.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_users_latest.sys.ini
+    translation: /language/%locale%/%locale%.mod_users_latest.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_weblinks.ini
+    translation: /language/%locale%/%locale%.mod_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_weblinks.sys.ini
+    translation: /language/%locale%/%locale%.mod_weblinks.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_whosonline.ini
+    translation: /language/%locale%/%locale%.mod_whosonline.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_whosonline.sys.ini
+    translation: /language/%locale%/%locale%.mod_whosonline.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_wrapper.ini
+    translation: /language/%locale%/%locale%.mod_wrapper.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.mod_wrapper.sys.ini
+    translation: /language/%locale%/%locale%.mod_wrapper.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.tpl_beez3.ini
+    translation: /language/%locale%/%locale%.tpl_beez3.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.tpl_beez3.sys.ini
+    translation: /language/%locale%/%locale%.tpl_beez3.sys.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.tpl_protostar.ini
+    translation: /language/%locale%/%locale%.tpl_protostar.ini
+    update_option: update_as_unapproved
+  - source: /language/en-GB/en-GB.tpl_protostar.sys.ini
+    translation: /language/%locale%/%locale%.tpl_protostar.sys.ini
+    update_option: update_as_unapproved
+
+    # XML
+  - source: /language/en-GB/en-GB.xml
+    translation: /language/%locale%/%locale%.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0
+  - source: /language/en-GB/install.xml
+    translation: /language/%locale%/install.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0
+
+    # Installation
+  - source: /installation/language/en-GB/en-GB.ini
+    translation: /installation/language/%locale%/%locale%.ini
+    update_option: update_as_unapproved
+  - source: /installation/language/en-GB/en-GB.xml
+    translation: /installation/language/%locale%/%locale%.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0
+
+    # Media
+  - source: /media/system/js/fields/calendar-locales/en.js
+    translation: /media/system/js/fields/calendar-locales/%locale%.js
+    update_option: update_as_unapproved
+
+    # Package XML
+  - source: /administrator/manifests/packages/pkg_en-GB.xml
+    dest: /pkg_en-GB.xml
+    translation: /pkg_%locale%.xml
+    update_option: update_as_unapproved
+    content_segmentation: 0

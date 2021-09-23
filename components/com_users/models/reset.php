@@ -3,9 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\User\UserHelper;
 
 defined('_JEXEC') or die;
 
@@ -22,7 +24,7 @@ class UsersModelReset extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -141,7 +143,6 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)
@@ -209,16 +210,24 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Prepare user data.
+		$data['password']   = $data['password1'];
+		$data['activation'] = '';
+
 		// Update the user object.
-		$user->password = JUserHelper::hashPassword($data['password1']);
-		$user->activation = '';
-		$user->password_clear = $data['password1'];
+		if (!$user->bind($data))
+		{
+			return new \Exception($user->getError(), 500);
+		}
 
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
 			return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
+
+		// Destroy all active sessions for the user
+		UserHelper::destroyUserSessions($user->id);
 
 		// Flush the user data from the session.
 		$app->setUserState('com_users.reset.token', null);
@@ -240,7 +249,6 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)
@@ -381,7 +389,7 @@ class UsersModelReset extends JModelForm
 		$query = $db->getQuery(true)
 			->select('id')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($data['email']) . ')');
 
 		// Get the user object.
 		$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,8 @@ class FinderViewMaps extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since  3.6.1
 	 */
 	protected $items;
 
@@ -29,6 +31,8 @@ class FinderViewMaps extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 *
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -36,6 +40,8 @@ class FinderViewMaps extends JViewLegacy
 	 * The HTML markup for the sidebar
 	 *
 	 * @var  string
+	 *
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -43,6 +49,8 @@ class FinderViewMaps extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
+	 *
+	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -50,6 +58,8 @@ class FinderViewMaps extends JViewLegacy
 	 * The total number of items
 	 *
 	 * @var  object
+	 *
+	 * @since  3.6.1
 	 */
 	protected $total;
 

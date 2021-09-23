@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,20 +14,20 @@ use Joomla\Registry\Registry;
 /**
  * GitHub API object class for the Joomla Platform.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 abstract class JGithubObject
 {
 	/**
 	 * @var    Registry  Options for the GitHub object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $client;
 
@@ -37,7 +37,7 @@ abstract class JGithubObject
 	 * @param   Registry     $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Registry $options = null, JGithubHttp $client = null)
 	{
@@ -56,11 +56,11 @@ abstract class JGithubObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function fetchUrl($path, $page = 0, $limit = 0)
 	{
-		// Get a new JUri object fousing the api url and given path.
+		// Get a new JUri object focusing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
 		if ($this->options->get('gh.token', false))
@@ -109,7 +109,7 @@ abstract class JGithubObject
 	 * @param   boolean        $decode        If the should be response be JSON decoded.
 	 *
 	 * @throws DomainException
-	 * @since  12.4
+	 * @since  3.3.0
 	 *
 	 * @return mixed
 	 */

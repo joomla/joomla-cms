@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function (mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -36,7 +36,7 @@
       },
       token: function (stream, state) {
         if (state.state == START) {
-          if (stream.match(/---/, false)) {
+          if (stream.match('---', false)) {
             state.state = FRONTMATTER
             return yamlMode.token(stream, state.inner)
           } else {
@@ -45,7 +45,7 @@
             return innerMode.token(stream, state.inner)
           }
         } else if (state.state == FRONTMATTER) {
-          var end = stream.sol() && stream.match(/---/, false)
+          var end = stream.sol() && stream.match(/(---|\.\.\.)/, false)
           var style = yamlMode.token(stream, state.inner)
           if (end) {
             state.state = BODY

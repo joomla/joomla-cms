@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,25 +15,25 @@ include_once __DIR__ . '/stubs/JOpenstreetmapObjectMock.php';
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JOpenstreetmapObjectMock  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
@@ -71,7 +71,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function testSetOption()
 	{
@@ -88,7 +88,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSendRequest()
 	{

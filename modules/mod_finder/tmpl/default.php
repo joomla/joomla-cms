@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ switch ($params->get('label_pos', 'left'))
 		break;
 }
 
-if ($params->get('show_button'))
+if ($params->get('show_button', 0))
 {
 	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span>' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 
@@ -147,14 +147,14 @@ $script .= '});';
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
-<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
-	<div class="finder<?php echo $suffix; ?>">
+<div class="finder<?php echo $suffix; ?>">
+	<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search" role="search">
 		<?php
 		// Show the form fields.
 		echo $output;
 		?>
 
-		<?php $show_advanced = $params->get('show_advanced'); ?>
+		<?php $show_advanced = $params->get('show_advanced', 0); ?>
 		<?php if ($show_advanced == 2) : ?>
 			<br />
 			<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
@@ -163,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
-	</div>
-</form>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
+	</form>
+</div>

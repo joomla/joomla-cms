@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Input
- * @since       11.1
+ * @since       1.7.0
  */
 class JInputTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +28,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__get()
 	{
@@ -55,7 +55,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @covers  JInput::count
 	 */
 	public function testCount()
@@ -81,7 +81,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGet()
 	{
@@ -117,7 +117,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testDef()
 	{
@@ -145,7 +145,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSet()
 	{
@@ -164,7 +164,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetArray()
 	{
@@ -212,7 +212,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetArrayNested()
 	{
@@ -262,7 +262,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetArrayWithoutSpecifiedVariables()
 	{
@@ -285,7 +285,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetFromCookie()
 	{
@@ -311,7 +311,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSerialize()
 	{
@@ -329,6 +329,22 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
+	/**
+	 * Test the JInput::get method disallows access to non-whitelisted globals.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7.0
+	 */
+	public function testGetDoesNotSupportNonWhitelistedGlobals()
+	{
+		$this->assertThat(
+			$this->class->_phpunit_configuration_file,
+			$this->isNull(),
+			'Access to library defined globals is restricted'
+		);
+	}
+
 	/*
 	 * Protected methods.
 	 */
@@ -338,7 +354,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

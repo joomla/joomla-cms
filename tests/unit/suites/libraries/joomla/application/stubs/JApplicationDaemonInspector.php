@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,37 +13,37 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JApplicationDaemonInspector extends JApplicationDaemon
 {
 	/**
 	 * @var     integer  Mimic the response of the pcntlChildExitStatus method.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $pcntlChildExitStatus = 0;
 
 	/**
 	 * @var     integer  Mimic the response of the pcntlFork method.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $pcntlFork = 0;
 
 	/**
 	 * @var     boolean  Mimic the response of the pcntlSignal method.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $pcntlSignal = true;
 
 	/**
 	 * @var     integer  Mimic the response of the pcntlWait method.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static $pcntlWait = 0;
 
 	/**
 	 * @var     array  Container for successfully setup signal handlers.
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 		public $setupSignalHandlers = array();
 
@@ -54,7 +54,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  mixed  The value of the class variable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getClassProperty($name)
 	{
@@ -75,7 +75,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setClassInstance($value)
 	{
@@ -89,7 +89,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setClassSignals(array $value)
 	{
@@ -104,7 +104,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setClassProperty($name, $value)
 	{
@@ -123,7 +123,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean  True if identity successfully changed
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function changeIdentity()
 	{
@@ -135,7 +135,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -147,7 +147,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function daemonize()
 	{
@@ -159,7 +159,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setupSignalHandlers()
 	{
@@ -171,7 +171,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function fork()
 	{
@@ -183,7 +183,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function writeProcessIdFile()
 	{
@@ -197,7 +197,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function shutdown($restart = false)
 	{
@@ -212,7 +212,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 * @return  integer  The child process exit code.
 	 *
 	 * @see     pcntl_wexitstatus()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function pcntlChildExitStatus($status)
 	{
@@ -228,7 +228,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *                   will be created, and a PHP error is raised.
 	 *
 	 * @see     pcntl_fork()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function pcntlFork()
 	{
@@ -247,7 +247,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 * @return  boolean  True on success.
 	 *
 	 * @see     pcntl_signal()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function pcntlSignal($signal , $handler, $restart = true)
 	{
@@ -270,7 +270,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *                   was provided as an option (on wait3-available systems) and no child was available.
 	 *
 	 * @see     pcntl_wait()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function pcntlWait(&$status, $options = 0)
 	{

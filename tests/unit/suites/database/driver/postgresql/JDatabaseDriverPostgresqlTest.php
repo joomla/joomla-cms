@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.3
+ * @since       1.7.3
  */
 class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 {
@@ -20,33 +20,21 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestEscape()
 	{
 		return array(
-			/* ' will be escaped and become '' */
+			// ' will be escaped and become ''
 			array("'%_abc123", false, '\'\'%_abc123'),
 			array("'%_abc123", true, '\'\'\%\_abc123'),
-			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
-			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'));
-	}
 
-	/**
-	 * Data for the testGetEscaped test, proxies of escape, so same data test.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestGetEscaped()
-	{
-		return array(
-			/* ' will be escaped and become '' */
-			array("'%_abc123", false), array("'%_abc123", true),
-			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false), array("\'%_abc123", true));
+			// ' and \ will be escaped: the first become '', the latter \\
+			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
+			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'),
+			array(3, false, 3),
+			array(3.14, false, '3.14'),
+		);
 	}
 
 	/**
@@ -54,7 +42,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestTransactionRollback()
 	{
@@ -66,7 +54,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataGetCreateDbQuery()
 	{
@@ -82,22 +70,27 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestReplacePrefix()
 	{
 		return array(
-			/* no prefix inside, no change */
+			// No prefix inside, no change
 			array('SELECT * FROM table', '#__', 'SELECT * FROM table'),
-			/* the prefix inside double quote has to be changed */
+
+			// The prefix inside double quote has to be changed
 			array('SELECT * FROM "#__table"', '#__', 'SELECT * FROM "jos_table"'),
-			/* the prefix inside single quote hasn't to be changed */
+
+			// The prefix inside single quote hasn't to be changed
 			array('SELECT * FROM \'#__table\'', '#__', 'SELECT * FROM \'#__table\''),
-			/* mixed quote case */
+
+			// Mixed quote case
 			array('SELECT * FROM \'#__table\', "#__tableSecond"', '#__', 'SELECT * FROM \'#__table\', "jos_tableSecond"'),
-			/* the prefix used in sequence name (single quote) has to be changed */
+
+			// The prefix used in sequence name (single quote) has to be changed
 			array('SELECT * FROM currval(\'#__table_id_seq\'::regclass)', '#__', 'SELECT * FROM currval(\'jos_table_id_seq\'::regclass)'),
-			/* using another prefix */
+
+			// Using another prefix
 			array('SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"'));
 	}
 
@@ -106,29 +99,35 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestQuoteName()
 	{
 		return array(
-			/* test escape double quote */
+			// Test escape double quote
 			array('protected`title', null, '"protected`title"'),
 			array('protected"title', null, '"protected""title"'),
 			array('protected]title', null, '"protected]title"'),
-			/* no dot inside var */
+
+			// No dot inside var
 			array('jos_dbtest', null, '"jos_dbtest"'),
-			/* a dot inside var */
+
+			// A dot inside var
 			array('public.jos_dbtest', null, '"public"."jos_dbtest"'),
-			/* two dot inside var */
+
+			// Two dot inside var
 			array('joomla_ut.public.jos_dbtest', null, '"joomla_ut"."public"."jos_dbtest"'),
-			/* using an array */
+
+			// Using an array
 			array(array('joomla_ut', 'dbtest'), null, array('"joomla_ut"', '"dbtest"')),
-			/* using an array with dotted name */
+
+			// Using an array with dotted name
 			array(array('joomla_ut.dbtest', 'public.dbtest'), null, array('"joomla_ut"."dbtest"', '"public"."dbtest"')),
-			/* using an array with two dot in name */
+
+			// Using an array with two dot in name
 			array(array('joomla_ut.public.dbtest', 'public.dbtest.col'), null, array('"joomla_ut"."public"."dbtest"', '"public"."dbtest"."col"')),
 
-			/*** same tests with AS part ***/
+			// Same tests with AS part
 			array('jos_dbtest', 'test', '"jos_dbtest" AS "test"'),
 			array('public.jos_dbtest', 'tst', '"public"."jos_dbtest" AS "tst"'),
 			array('joomla_ut.public.jos_dbtest', 'tst', '"joomla_ut"."public"."jos_dbtest" AS "tst"'),
@@ -141,7 +140,8 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 				array('joomla_ut.public.dbtest', 'public.dbtest.col'),
 				array('j_ut_p_db', 'pub_tst_col'),
 				array('"joomla_ut"."public"."dbtest" AS "j_ut_p_db"', '"public"."dbtest"."col" AS "pub_tst_col"')),
-			/* last test but with one null inside array */
+
+			// Last test but with one null inside array
 			array(
 				array('joomla_ut.public.dbtest', 'public.dbtest.col'),
 				array('j_ut_p_db', null),
@@ -153,7 +153,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextObject()
 	{
@@ -189,7 +189,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextRow()
 	{
@@ -221,7 +221,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider  dataTestEscape
 	 */
 	public function testEscape($text, $extra, $result)
@@ -230,11 +230,44 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
+	 * Tests the escape method 2.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.12
+	 */
+	public function testEscapeNonLocaleAware()
+	{
+		$origin = setLocale(LC_NUMERIC, 0);
+
+		// Test with decimal_point equals to comma
+		setLocale(LC_NUMERIC, 'pl_PL');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Test with C locale
+		setLocale(LC_NUMERIC, 'C');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Revert to origin locale
+		setLocale(LC_NUMERIC, $origin);
+	}
+
+	/**
 	 * Test getAffectedRows method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetAffectedRows()
 	{
@@ -252,7 +285,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetCollation()
 	{
@@ -264,7 +297,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetNumRows()
 	{
@@ -304,7 +337,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 		$this->assertEquals($tableCol, self::$driver->getTableColumns('jos_dbtest'));
 
-		/* not only type field */
+		// Not only type field
 		$id = new stdClass;
 		$id->column_name = 'id';
 		$id->Field = 'id';
@@ -397,18 +430,30 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$seq->schema = 'public';
 		$seq->table = 'jos_dbtest';
 		$seq->column = 'id';
-		$seq->data_type = 'bigint';
 
-		if (version_compare(self::$driver->getVersion(), '9.1.0') >= 0)
+		$version = self::$driver->getVersion();
+
+		if (version_compare($version, '9.1.0') >= 0)
 		{
 			$seq->start_value = '1';
 			$seq->minimum_value = '1';
-			$seq->maximum_value = '9223372036854775807';
 			$seq->increment = '1';
 			$seq->cycle_option = 'NO';
+
+			if (version_compare($version, '10') >= 0)
+			{
+				$seq->data_type = 'integer';
+				$seq->maximum_value = '2147483647';
+			}
+			else
+			{
+				$seq->data_type = 'bigint';
+				$seq->maximum_value = '9223372036854775807';
+			}
 		}
 		else
 		{
+			$seq->data_type = 'bigint';
 			$seq->minimum_value = null;
 			$seq->maximum_value = null;
 			$seq->increment = null;
@@ -423,7 +468,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetTableList()
 	{
@@ -481,12 +526,12 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
+		preg_match('/\d+(?:\.\d+)+/', $versionRow[0], $versionArray);
 
 		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
@@ -496,15 +541,17 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInsertid()
 	{
 		self::$driver->setQuery('TRUNCATE TABLE "jos_dbtest"');
 		self::$driver->execute();
 
-		/* increment the sequence automatically with INSERT INTO,
-		 * first insert to have a common starting point */
+		/*
+		 * increment the sequence automatically with INSERT INTO,
+		 * First insert to have a common starting point
+		 */
 		$query = self::$driver->getQuery(true);
 		$query->insert('jos_dbtest')
 			->columns('title,start_date,description')
@@ -512,13 +559,13 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		self::$driver->execute();
 
-		/* get the current sequence value */
+		// Get the current sequence value
 		$actualVal = self::$driver->getQuery(true);
 		$actualVal->select("currval('jos_dbtest_id_seq'::regclass)");
 		self::$driver->setQuery($actualVal);
 		$idActualVal = self::$driver->loadRow();
 
-		/* insert again, then call insertid() */
+		// Insert again, then call insertid()
 		$secondInsertQuery = self::$driver->getQuery(true);
 		$secondInsertQuery->insert('jos_dbtest')
 			->columns('title,start_date,description')
@@ -526,10 +573,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($secondInsertQuery);
 		self::$driver->execute();
 
-		/* get insertid of last INSERT INTO */
+		// Get insertid of last INSERT INTO
 		$insertId = self::$driver->insertid();
 
-		/* check if first sequence val +1 is equal to last sequence val */
+		// Check if first sequence val +1 is equal to last sequence val
 		$this->assertEquals($idActualVal[0] + 1, $insertId);
 	}
 
@@ -538,7 +585,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return   void
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 */
 	public function testInsertObject()
 	{
@@ -593,7 +640,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadAssoc()
 	{
@@ -611,7 +658,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadAssocList()
 	{
@@ -632,7 +679,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadColumn()
 	{
@@ -666,7 +713,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -693,7 +740,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -720,7 +767,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -745,7 +792,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -772,7 +819,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -799,7 +846,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -808,7 +855,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadObject()
 	{
@@ -833,7 +880,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadObjectList()
 	{
@@ -886,7 +933,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadResult()
 	{
@@ -906,7 +953,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadRow()
 	{
@@ -925,7 +972,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadRowList()
 	{
@@ -944,7 +991,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testExecute()
 	{
@@ -968,7 +1015,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider dataTestQuoteName
 	 */
 	public function testQuoteName($quoteMe, $asPart, $expected)
@@ -981,11 +1028,11 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSelect()
 	{
-		/* it's not possible to select a database, already done during connection, return true */
+		// It's not possible to select a database, already done during connection, return true
 		$this->assertTrue(self::$driver->select('database'));
 	}
 
@@ -994,7 +1041,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since 12.2
+	 * @since 3.0.1
 	 */
 	public function testSqlValue()
 	{
@@ -1069,7 +1116,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testTransactionCommit()
 	{
@@ -1083,7 +1130,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 		self::$driver->transactionCommit();
 
-		/* check if value is present */
+		// Check if value is present
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
 			->from('#__dbtest')
@@ -1105,27 +1152,27 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider dataTestTransactionRollback
 	 */
 	public function testTransactionRollback($toSavepoint, $tupleCount)
 	{
 		self::$driver->transactionStart();
 
-		/* try to insert this tuple, inserted only when savepoint != null */
+		// Try to insert this tuple, inserted only when savepoint != null
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("7, 'testRollback','1970-01-01','testRollbackSp'");
 		self::$driver->setQuery($queryIns)->execute();
 
-		/* create savepoint only if is passed by data provider */
+		// Create savepoint only if is passed by data provider
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionStart((boolean) $toSavepoint);
 		}
 
-		/* try to insert this tuple, always rolled back */
+		// Try to insert this tuple, always rolled back
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
@@ -1134,13 +1181,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 		self::$driver->transactionRollback((boolean) $toSavepoint);
 
-		/* release savepoint and commit only if a savepoint exists */
+		// Release savepoint and commit only if a savepoint exists
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionCommit();
 		}
 
-		/* find how many rows have description='testRollbackSp' :
+		/*
+		 * Find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
@@ -1159,7 +1207,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testTransactionStart()
 	{
@@ -1172,7 +1220,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 		self::$driver->setQuery($queryIns)->execute();
 
-		/* check if is present an exclusive lock, it means a transaction is running */
+		// Check if is present an exclusive lock, it means a transaction is running
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
 			->from('pg_catalog.pg_locks')
@@ -1197,7 +1245,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->transactionRollback();
 		self::$driver->transactionStart();
 
-		/* release a nonexistent savepoint will throw an exception */
+		// Release a nonexistent savepoint will throw an exception
 		try
 		{
 			self::$driver->releaseTransactionSavepoint('pippo');
@@ -1214,7 +1262,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRenameTable()
 	{
@@ -1222,23 +1270,24 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 		self::$driver->renameTable('jos_dbtest', $newTableName);
 
-		/* check name change */
+		// Check name change
 		$tableList = self::$driver->getTableList();
 		$this->assertTrue(in_array($newTableName, $tableList));
 
-		/* check index change */
+		// Check index change
 		self::$driver->setQuery(
 			'SELECT relname
 							FROM pg_class
 							WHERE oid IN (
 								SELECT indexrelid
 								FROM pg_index, pg_class
-								WHERE pg_class.relname=\'' . $newTableName . '\' AND pg_class.oid=pg_index.indrelid );');
+								WHERE pg_class.relname=\'' . $newTableName . '\' AND pg_class.oid=pg_index.indrelid );'
+		);
 
 		$oldIndexes = self::$driver->loadColumn();
 		$this->assertEquals('bak_jos_dbtest_pkey', $oldIndexes[0]);
 
-		/* check sequence change */
+		// Check sequence change
 		self::$driver->setQuery(
 			'SELECT relname
 							FROM pg_class
@@ -1249,12 +1298,13 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 								WHERE nspname NOT LIKE \'pg_%\'
 								AND nspname != \'information_schema\'
 							)
-							AND relname LIKE \'%' . $newTableName . '%\' ;');
+							AND relname LIKE \'%' . $newTableName . '%\' ;'
+		);
 
 		$oldSequences = self::$driver->loadColumn();
 		$this->assertEquals('bak_jos_dbtest_id_seq', $oldSequences[0]);
 
-		/* restore initial state */
+		// Restore initial state
 		self::$driver->renameTable($newTableName, 'jos_dbtest');
 	}
 
@@ -1267,7 +1317,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider  dataTestReplacePrefix
 	 */
 	public function testReplacePrefix($stringToReplace, $prefix, $expected)

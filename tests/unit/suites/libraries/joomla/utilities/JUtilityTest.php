@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-include_once JPATH_PLATFORM . '/joomla/utilities/utility.php';
 
 /**
  * Test class for JUtility.
@@ -15,7 +13,7 @@ include_once JPATH_PLATFORM . '/joomla/utilities/utility.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @since       11.1
+ * @since       1.7.0
  */
 class JUtilityTest extends TestCase
 {

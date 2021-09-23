@@ -7,3 +7,6 @@
 # Ignore the folder the build script creates for packages
 /tmp
 /com_joomlaupdate-pkg
+
+# Ignore the deleted file script output
+/deleted_files.txt

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,13 +81,13 @@ $doc->addScriptDeclaration(
 	"
 );
 ?>
-<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo rawurlencode($this->state->folder); ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="muted breadcrumbs">
 		<p>
 			<span class="icon-folder"></span>
 			<?php
 				echo $params->get($path, 'images'),
-					($this->state->folder != '') ? '/' . $this->state->folder : '';
+					($this->escape($this->state->folder) != '') ? '/' . $this->escape($this->state->folder) : '';
 			?>
 		</p>
 	</div>

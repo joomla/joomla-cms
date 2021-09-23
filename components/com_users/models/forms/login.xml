@@ -28,8 +28,8 @@
 			name="secretkey"
 			type="text"
 			label="JGLOBAL_SECRETKEY"
+			autocomplete="one-time-code"
 			class=""
-			required="false"
 			filter="int"
 			size="25"
 		/>

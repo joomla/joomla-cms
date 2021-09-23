@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Class to mock JDatabaseDriver.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockDatabaseDriver
 {
@@ -18,7 +18,7 @@ class TestMockDatabaseDriver
 	 * A query string or object.
 	 *
 	 * @var    mixed
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $lastQuery;
 
@@ -33,7 +33,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test, $driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
@@ -134,7 +134,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockEscape($text)
 	{
@@ -148,7 +148,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockGetQuery($new = false)
 	{
@@ -170,7 +170,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockQuote($value, $escape = true)
 	{
@@ -194,7 +194,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockQuoteName($value)
 	{
@@ -208,7 +208,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockSetQuery($query)
 	{

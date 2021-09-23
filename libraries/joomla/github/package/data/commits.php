@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/git/commits/
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageDataCommits extends JGithubPackage
@@ -51,7 +51,7 @@ class JGithubPackageDataCommits extends JGithubPackage
 	 *                            For a merge commit, an array of more than one should be provided.
 	 *
 	 * @throws DomainException
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @return  object
 	 */

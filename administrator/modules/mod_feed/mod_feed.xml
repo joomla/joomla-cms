@@ -3,7 +3,7 @@
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -40,6 +40,7 @@
 					description="MOD_FEED_FIELD_RTL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -52,6 +53,19 @@
 					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="rssdate"
+					type="radio"
+					label="MOD_FEED_FIELD_DATE_LABEL"
+					description="MOD_FEED_FIELD_DATE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -64,6 +78,7 @@
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -76,6 +91,7 @@
 					description="MOD_FEED_FIELD_IMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -83,10 +99,11 @@
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
+					filter="integer"
 				/>
 
 				<field
@@ -96,6 +113,20 @@
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="rssitemdate"
+					type="radio"
+					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
+					description="MOD_FEED_FIELD_ITEMDATE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -103,11 +134,12 @@
 
 				<field
 					name="word_count"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
-					description="MOD_FEED_FIELD_WORDCOUNT_DESC" 
+					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
 					size="6"
 					default="0"
+					filter="integer"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -115,7 +147,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
@@ -132,6 +164,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -139,10 +172,11 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" 
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

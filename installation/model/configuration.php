@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,6 +59,8 @@ class InstallationModelConfiguration extends JModelBase
 	 */
 	public function createConfiguration($options)
 	{
+		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -76,12 +78,13 @@ class InstallationModelConfiguration extends JModelBase
 		// Debug settings.
 		$registry->set('debug', 0);
 		$registry->set('debug_lang', 0);
+		$registry->set('debug_lang_const', 1);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
 		$registry->set('user', $options->db_user);
-		$registry->set('password', $options->db_pass);
+		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
 
@@ -93,9 +96,9 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass_plain)) ? $options->ftp_pass_plain : '');
+		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
 		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
@@ -192,7 +195,7 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
+			$ftp->login($options->ftp_user, $options->ftp_pass_plain);
 
 			// Translate path for the FTP account.
 			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
@@ -241,7 +244,7 @@ class InstallationModelConfiguration extends JModelBase
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix
 			);
@@ -253,7 +256,7 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
-		$cryptpass = JUserHelper::hashPassword($options->admin_password);
+		$cryptpass = JUserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id.
 		$userId = InstallationModelDatabase::getUserId();

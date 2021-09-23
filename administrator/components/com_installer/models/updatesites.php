@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -275,6 +275,13 @@ class InstallerModelUpdatesites extends InstallerModel
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
 
+		// First backup any custom extra_query for the sites
+		$query = $db->getQuery(true)
+			->select('TRIM(' . $db->quoteName('location') . ') AS ' . $db->quoteName('location') . ', ' . $db->quoteName('extra_query'))
+			->from($db->quoteName('#__update_sites'));
+		$db->setQuery($query);
+		$backupExtraQuerys = $db->loadAssocList('location');
+
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
@@ -324,11 +331,14 @@ class InstallerModelUpdatesites extends InstallerModel
 
 					if (!is_null($manifest))
 					{
-						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
+						// Search if the extension exists in the extensions table. Excluding joomla core extensions and discovered but not yet installed extensions.
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where('('
+								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename)
+								. ')' )
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
 							->where($db->quoteName('state') . ' != -1');
@@ -341,6 +351,16 @@ class InstallerModelUpdatesites extends InstallerModel
 							// Set the manifest object and path
 							$tmpInstaller->manifest = $manifest;
 							$tmpInstaller->setPath('manifest', $file);
+
+							// Remove last extra_query as we are in a foreach
+							$tmpInstaller->extraQuery = '';
+
+							if ($tmpInstaller->manifest->updateservers
+								&& $tmpInstaller->manifest->updateservers->server
+								&& isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]))
+							{
+								$tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
+							}
 
 							// Load the extension plugin (if not loaded yet).
 							JPluginHelper::importPlugin('extension', 'joomla');
@@ -363,6 +383,9 @@ class InstallerModelUpdatesites extends InstallerModel
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
+		
+		// Flush the system cache to ensure extra_query is correctly loaded next time.
+		$this->cleanCache('_system', 1);
 	}
 
 	/**
@@ -388,8 +411,9 @@ class InstallerModelUpdatesites extends InstallerModel
 				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
-				. ')');
-		
+				. ')'
+			);
+
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);
@@ -412,6 +436,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					's.type AS update_site_type',
 					's.location',
 					's.enabled',
+					's.extra_query',
 					'e.extension_id',
 					'e.name',
 					'e.type',

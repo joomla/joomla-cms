@@ -4,6 +4,7 @@
  * @subpackage  less
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
@@ -1064,7 +1065,7 @@ class FOFLess
 						if ($suffix !== null
 							&& $subProp[0] == "assign"
 							&& is_string($subProp[1])
-							&& $subProp[1]{0} != $this->vPrefix)
+							&& $subProp[1][0] != $this->vPrefix)
 						{
 							$subProp[2] = array(
 								'list', ' ',
@@ -2819,7 +2820,7 @@ class FOFLess
 		/** FOF -- END CHANGE * */
 		foreach ($args as $name => $strValue)
 		{
-			if ($name{0} != '@')
+			if ($name[0] != '@')
 			{
 				$name = '@' . $name;
 			}

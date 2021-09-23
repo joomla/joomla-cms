@@ -3,16 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-$item_heading = $params->get('item_heading', 'h4');
 ?>
 <?php if ($params->get('item_title')) : ?>
-
+	<?php $item_heading = $params->get('item_heading', 'h4'); ?>
 	<<?php echo $item_heading; ?> class="newsflash-title<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php if ($item->link !== '' && $params->get('link_titles')) : ?>
 		<a href="<?php echo $item->link; ?>">
@@ -22,7 +20,17 @@ $item_heading = $params->get('item_heading', 'h4');
 		<?php echo $item->title; ?>
 	<?php endif; ?>
 	</<?php echo $item_heading; ?>>
+<?php endif; ?>
 
+<?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>	
+	<figure class="newsflash-image">
+		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
+		<?php if (!empty($item->imageCaption)) : ?>
+			<figcaption>
+				<?php echo $item->imageCaption; ?>
+			</figcaption>
+		<?php endif; ?>
+	</figure>
 <?php endif; ?>
 
 <?php if (!$params->get('intro_only')) : ?>
@@ -31,7 +39,7 @@ $item_heading = $params->get('item_heading', 'h4');
 
 <?php echo $item->beforeDisplayContent; ?>
 
-<?php if ($params->get('show_introtext', '1')) : ?>
+<?php if ($params->get('show_introtext', 1)) : ?>
 	<?php echo $item->introtext; ?>
 <?php endif; ?>
 

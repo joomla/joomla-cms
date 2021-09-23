@@ -3,10 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Group Model
@@ -69,6 +71,8 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
 	{
+		$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
+
 		return JTable::getInstance($name, $prefix, $options);
 	}
 
@@ -220,11 +224,70 @@ class FieldsModelGroup extends JModelAdmin
 
 		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+		// Extract the component name
+		$component = $parts[0];
+
+		// Extract the optional section name
+		$section = (count($parts) > 1) ? $parts[1] : null;
+
 		if ($parts)
 		{
 			// Set the access control rules field component value.
-			$form->setFieldAttribute('rules', 'component', $parts[0]);
+			$form->setFieldAttribute('rules', 'component', $component);
 		}
+
+		if ($section !== null)
+		{
+			// Looking first in the component models/forms folder
+			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+
+			if (file_exists($path))
+			{
+				$lang = JFactory::getLanguage();
+				$lang->load($component, JPATH_BASE, null, false, true);
+				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+				if (!$form->loadFile($path, false))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+		}
+
+		if (!JFactory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -290,29 +353,9 @@ class FieldsModelGroup extends JModelAdmin
 				$item->context = $this->getState('filter.context');
 			}
 
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
+			if (property_exists($item, 'params'))
 			{
-				$date = new JDate($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new JDate($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
+				$item->params = new Registry($item->params);
 			}
 		}
 
@@ -322,14 +365,14 @@ class FieldsModelGroup extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,8 +86,8 @@ $fieldSets = $this->form->getFieldsets();
 			<?php echo $this->form->getInput('misc'); ?>
 		</fieldset>
 	</div>
-    <div class="col options-section">
-		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+	<div class="col options-section">
+		<?php echo JHtml::_('sliders.start', 'contact-slider'); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 			<fieldset class="panelform">

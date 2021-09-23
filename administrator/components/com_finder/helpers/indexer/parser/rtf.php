@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,12 +30,12 @@ class FinderIndexerParserRtf extends FinderIndexerParser
 	protected function process($input)
 	{
 		// Remove embedded pictures.
-		$input = preg_replace('#{\\\pict[^}]*}#mis', '', $input);
+		$input = preg_replace('#{\\\pict[^}]*}#mi', '', $input);
 
 		// Remove control characters.
 		$input = str_replace(array('{', '}', "\\\n"), array(' ', ' ', "\n"), $input);
-		$input = preg_replace('#\\\([^;]+?);#mis', ' ', $input);
-		$input = preg_replace('#\\\[\'a-zA-Z0-9]+#mis', ' ', $input);
+		$input = preg_replace('#\\\([^;]+?);#m', ' ', $input);
+		$input = preg_replace('#\\\[\'a-zA-Z0-9]+#mi', ' ', $input);
 
 		return $input;
 	}

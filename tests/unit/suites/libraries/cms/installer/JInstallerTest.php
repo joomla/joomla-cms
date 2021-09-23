@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,8 +196,8 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		// Build the mock object.
 		$adapterMock  = $this->getMockBuilder('test')
-					->setMethods(array('_rollback_testtype'))
-					->getMock();
+			->setMethods(array('_rollback_testtype'))
+			->getMock();
 
 		$adapterMock->expects($this->once())
 			->method('_rollback_testtype')

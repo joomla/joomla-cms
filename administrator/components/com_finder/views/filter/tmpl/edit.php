@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,6 +98,6 @@ JFactory::getDocument()->addStyleDeclaration('
 	</div>
 
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>" />
+	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'BASE64'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

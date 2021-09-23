@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.8" client="administrator" method="upgrade">
+	<name>mod_sampledata</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2017</creationDate>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.8.0</version>
+	<description>MOD_SAMPLEDATA_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_sampledata">mod_sampledata.php</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<media destination="mod_sampledata" folder="media">
+		<folder>js</folder>
+	</media>
+	<languages>
+		<language tag="en-GB">en-GB.mod_sampledata.ini</language>
+		<language tag="en-GB">en-GB.mod_sampledata.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LATEST" />
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

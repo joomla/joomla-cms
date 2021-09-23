@@ -4,7 +4,9 @@
  * @subpackage  template
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -56,7 +58,7 @@ class FOFTemplateUtils
 	 * @param   boolean  $defer  Adds the defer attribute, meaning that your script
 	 *                           will only load after the page has finished parsing.
 	 * @param   boolean  $async  Adds the async attribute, meaning that your script
-	 *                           will be executed while the resto of the page
+	 *                           will be executed while the rest of the page
 	 *                           continues parsing.
 	 *
 	 * @see FOFTemplateUtils::parsePath

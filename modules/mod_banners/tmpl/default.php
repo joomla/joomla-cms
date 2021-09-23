@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
-	<?php echo $headerText; ?>
+	<div class="bannerheader">
+		<?php echo $headerText; ?>
+	</div>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>
@@ -42,7 +44,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt;?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
 							/>
@@ -56,7 +58,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt;?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
 							/>
@@ -68,7 +70,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt;?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
 							/>
@@ -78,7 +80,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 					<?php // Just display the image if no link specified ?>
 					<img
 						src="<?php echo $baseurl . $imageurl; ?>"
-						alt="<?php echo $alt;?>"
+						alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
 					/>

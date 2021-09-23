@@ -1,4 +1,6 @@
 <?php
+defined('_JEXEC') or die;
+
 if (class_exists('JLog'))
 {
 	JLog::add(

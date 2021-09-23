@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,19 @@ $attr = array(
 <div class="container-fluid">
 	<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 	<div class="row-fluid">
-		<div class="control-group span6">
-			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+		<?php if ($clientId != 1) : ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
+				</div>
 			</div>
-		</div>
+		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+				</div>
+			</div>
+		<?php endif; ?>
 		<div class="control-group span6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.access'); ?>

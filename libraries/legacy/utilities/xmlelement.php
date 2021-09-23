@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class JXMLElement extends SimpleXMLElement
 		}
 
 		// If there are no children and it contains no data, end it off with a />
-		if (!count($this->children()) && !(string) $this)
+		if (!(string) $this && !count($this->children()))
 		{
 			$out .= ' />';
 		}

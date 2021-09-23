@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.8"
+	client="installation">
+	<name>Lithuanian (Lithuania)</name>
+	<version>3.8.10</version>
+	<creationDate>2018-06-01</creationDate>
+	<author>Rimvydas Žilinskas</author>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>lt-LT.ini</filename>
+	</files>
+	<metadata>
+		<name>Lithuanian (Lithuania) lt-LT</name>
+		<nativeName>Lietuvių (Lietuva) lt-LT</nativeName>
+		<tag>lt-LT</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

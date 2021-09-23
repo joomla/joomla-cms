@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,12 +22,13 @@ abstract class ContentHelperRoute
 	 * @param   integer  $id        The route of the content item.
 	 * @param   integer  $catid     The category ID.
 	 * @param   integer  $language  The language code.
+	 * @param   string   $layout    The layout value.
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getArticleRoute($id, $catid = 0, $language = 0)
+	public static function getArticleRoute($id, $catid = 0, $language = 0, $layout = null)
 	{
 		// Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
@@ -42,6 +43,11 @@ abstract class ContentHelperRoute
 			$link .= '&lang=' . $language;
 		}
 
+		if ($layout)
+		{
+			$link .= '&layout=' . $layout;
+		}
+
 		return $link;
 	}
 
@@ -50,12 +56,13 @@ abstract class ContentHelperRoute
 	 *
 	 * @param   integer  $catid     The category ID.
 	 * @param   integer  $language  The language code.
+	 * @param   string   $layout    The layout value.
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getCategoryRoute($catid, $language = 0)
+	public static function getCategoryRoute($catid, $language = 0, $layout = null)
 	{
 		if ($catid instanceof JCategoryNode)
 		{
@@ -68,16 +75,19 @@ abstract class ContentHelperRoute
 
 		if ($id < 1)
 		{
-			$link = '';
+			return '';
 		}
-		else
-		{
-			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
-			{
-				$link .= '&lang=' . $language;
-			}
+		$link = 'index.php?option=com_content&view=category&id=' . $id;
+
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
+
+		if ($layout)
+		{
+			$link .= '&layout=' . $layout;
 		}
 
 		return $link;

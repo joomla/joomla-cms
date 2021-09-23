@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,7 +132,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 * Smart Search after save content method.
 	 * Reindexes the link information for a newsfeed that has been saved.
 	 * It also makes adjustments if the access level of a newsfeed item or
-	 * the category to which it belongs has beend changed.
+	 * the category to which it belongs has been changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
 	 * @param   JTable   $row      A JTable object.
@@ -241,7 +241,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void

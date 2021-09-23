@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,11 @@ class ConfigControllerCmsbase extends JControllerBase
 	public function execute()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		if (!JSession::checkToken())
+		{
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'));
+			$this->app->redirect('index.php');
+		}
 
 		// Get the application
 		$this->app = $this->getApplication();

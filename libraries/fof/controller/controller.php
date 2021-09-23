@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @subpackage controller
+ * @package     FrameworkOnFramework
+ * @subpackage  controller
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 // Protect from unauthorized access
@@ -2153,7 +2154,7 @@ class FOFController extends FOFUtilsObject
 	 *
 	 * @return  boolean  Returns true on success
 	 */
-	final private function applySave()
+	private function applySave()
 	{
 		// Load the model
 		$model = $this->getThisModel();

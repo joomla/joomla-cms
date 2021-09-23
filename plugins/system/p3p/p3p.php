@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.p3p
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class PlgSystemP3p extends JPlugin
 		$header = trim($header);
 
 		// Bail out on empty header (why would anyone do that?!).
-		if ( empty($header) )
+		if (empty($header))
 		{
 			return;
 		}

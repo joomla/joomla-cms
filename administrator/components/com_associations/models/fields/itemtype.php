@@ -3,10 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 JFormHelper::loadFieldClass('groupedlist');
@@ -26,7 +26,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 * @since  3.7.0
 	 */
 	protected $type = 'ItemType';
-	
+
 	/**
 	 * Method to get the field input markup.
 	 *

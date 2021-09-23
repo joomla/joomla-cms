@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,8 +48,8 @@ class Memcached extends Storage
 		$this->_servers = array(
 			array(
 				'host' => isset($options['memcache_server_host']) ? $options['memcache_server_host'] : 'localhost',
-				'port' => isset($options['memcache_server_port']) ? $options['memcache_server_port'] : 11211
-			)
+				'port' => isset($options['memcache_server_port']) ? $options['memcache_server_port'] : 11211,
+			),
 		);
 
 		// Only construct parent AFTER host and port are sent, otherwise when register is called this will fail.
@@ -66,8 +66,11 @@ class Memcached extends Storage
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers[0]['host'] . ':' . $this->_servers[0]['port']);
-		ini_set('session.save_handler', 'memcached');
+		if (!headers_sent())
+		{
+			ini_set('session.save_path', $this->_servers[0]['host'] . ':' . $this->_servers[0]['port']);
+			ini_set('session.save_handler', 'memcached');
+		}
 	}
 
 	/**
@@ -78,12 +81,12 @@ class Memcached extends Storage
 	 * @since   1.0
 	 * @deprecated  2.0
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		/*
 		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.
 		 * If the class is there, we can assume it works.
 		 */
-		return (class_exists('Memcached'));
+		return class_exists('Memcached');
 	}
 }

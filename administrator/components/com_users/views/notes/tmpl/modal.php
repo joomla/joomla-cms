@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 			</div>
 
 			<div class="fltlft utitle">
-				<?php echo JHtml::_('date', $item->created_time, 'D d M Y H:i'); ?>
+				<?php echo JHtml::_('date', $item->created_time, JText::_('DATE_FORMAT_LC2')); ?>
 			</div>
 
 			<?php $category_image = $item->cparams->get('image'); ?>

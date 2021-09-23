@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -12,11 +12,14 @@
   "use strict";
   var GUTTER_ID = "CodeMirror-lint-markers";
 
-  function showTooltip(e, content) {
+  function showTooltip(cm, e, content) {
     var tt = document.createElement("div");
-    tt.className = "CodeMirror-lint-tooltip";
+    tt.className = "CodeMirror-lint-tooltip cm-s-" + cm.options.theme;
     tt.appendChild(content.cloneNode(true));
-    document.body.appendChild(tt);
+    if (cm.state.lint.options.selfContain)
+      cm.getWrapperElement().appendChild(tt);
+    else
+      document.body.appendChild(tt);
 
     function position(e) {
       if (!tt.parentNode) return CodeMirror.off(document, "mousemove", position);
@@ -38,8 +41,8 @@
     setTimeout(function() { rm(tt); }, 600);
   }
 
-  function showTooltipFor(e, content, node) {
-    var tooltip = showTooltip(e, content);
+  function showTooltipFor(cm, e, content, node) {
+    var tooltip = showTooltip(cm, e, content);
     function hide() {
       CodeMirror.off(node, "mouseout", hide);
       if (tooltip) { hideTooltip(tooltip); tooltip = null; }
@@ -78,16 +81,16 @@
     state.marked.length = 0;
   }
 
-  function makeMarker(labels, severity, multiple, tooltips) {
+  function makeMarker(cm, labels, severity, multiple, tooltips) {
     var marker = document.createElement("div"), inner = marker;
-    marker.className = "CodeMirror-lint-marker-" + severity;
+    marker.className = "CodeMirror-lint-marker CodeMirror-lint-marker-" + severity;
     if (multiple) {
       inner = marker.appendChild(document.createElement("div"));
-      inner.className = "CodeMirror-lint-marker-multiple";
+      inner.className = "CodeMirror-lint-marker CodeMirror-lint-marker-multiple";
     }
 
     if (tooltips != false) CodeMirror.on(inner, "mouseover", function(e) {
-      showTooltipFor(e, labels, inner);
+      showTooltipFor(cm, e, labels, inner);
     });
 
     return marker;
@@ -111,8 +114,12 @@
     var severity = ann.severity;
     if (!severity) severity = "error";
     var tip = document.createElement("div");
-    tip.className = "CodeMirror-lint-message-" + severity;
-    tip.appendChild(document.createTextNode(ann.message));
+    tip.className = "CodeMirror-lint-message CodeMirror-lint-message-" + severity;
+    if (typeof ann.messageHTML != 'undefined') {
+      tip.innerHTML = ann.messageHTML;
+    } else {
+      tip.appendChild(document.createTextNode(ann.message));
+    }
     return tip;
   }
 
@@ -128,13 +135,17 @@
       cm.off("change", abort)
       if (state.waitingFor != id) return
       if (arg2 && annotations instanceof CodeMirror) annotations = arg2
-      updateLinting(cm, annotations)
+      cm.operation(function() {updateLinting(cm, annotations)})
     }, passOptions, cm);
   }
 
   function startLinting(cm) {
     var state = cm.state.lint, options = state.options;
-    var passOptions = options.options || options; // Support deprecated passing of `options` property in options
+    /*
+     * Passing rules in `options` property prevents JSHint (and other linters) from complaining
+     * about unrecognized rules like `onUpdateLinting`, `delay`, `lintOnChange`, etc.
+     */
+    var passOptions = options.options || options;
     var getAnnotations = options.getAnnotations || cm.getHelper(CodeMirror.Pos(0, 0), "lint");
     if (!getAnnotations) return;
     if (options.async || getAnnotations.async) {
@@ -143,9 +154,9 @@
       var annotations = getAnnotations(cm.getValue(), passOptions, cm);
       if (!annotations) return;
       if (annotations.then) annotations.then(function(issues) {
-        updateLinting(cm, issues);
+        cm.operation(function() {updateLinting(cm, issues)})
       });
-      else updateLinting(cm, annotations);
+      else cm.operation(function() {updateLinting(cm, annotations)})
     }
   }
 
@@ -158,6 +169,10 @@
     for (var line = 0; line < annotations.length; ++line) {
       var anns = annotations[line];
       if (!anns) continue;
+
+      // filter out duplicate messages
+      var message = [];
+      anns = anns.filter(function(item) { return message.indexOf(item.message) > -1 ? false : message.push(item.message) });
 
       var maxSeverity = null;
       var tipLabel = state.hasGutter && document.createDocumentFragment();
@@ -172,13 +187,13 @@
         if (state.hasGutter) tipLabel.appendChild(annotationTooltip(ann));
 
         if (ann.to) state.marked.push(cm.markText(ann.from, ann.to, {
-          className: "CodeMirror-lint-mark-" + severity,
+          className: "CodeMirror-lint-mark CodeMirror-lint-mark-" + severity,
           __annotation: ann
         }));
       }
-
+      // use original annotations[line] to show multiple messages
       if (state.hasGutter)
-        cm.setGutterMarker(line, GUTTER_ID, makeMarker(tipLabel, maxSeverity, anns.length > 1,
+        cm.setGutterMarker(line, GUTTER_ID, makeMarker(cm, tipLabel, maxSeverity, annotations[line].length > 1,
                                                        state.options.tooltips));
     }
     if (options.onUpdateLinting) options.onUpdateLinting(annotationsNotSorted, annotations, cm);
@@ -191,14 +206,14 @@
     state.timeout = setTimeout(function(){startLinting(cm);}, state.options.delay || 500);
   }
 
-  function popupTooltips(annotations, e) {
+  function popupTooltips(cm, annotations, e) {
     var target = e.target || e.srcElement;
     var tooltip = document.createDocumentFragment();
     for (var i = 0; i < annotations.length; i++) {
       var ann = annotations[i];
       tooltip.appendChild(annotationTooltip(ann));
     }
-    showTooltipFor(e, tooltip, target);
+    showTooltipFor(cm, e, tooltip, target);
   }
 
   function onMouseOver(cm, e) {
@@ -212,7 +227,7 @@
       var ann = spans[i].__annotation;
       if (ann) annotations.push(ann);
     }
-    if (annotations.length) popupTooltips(annotations, e);
+    if (annotations.length) popupTooltips(cm, annotations, e);
   }
 
   CodeMirror.defineOption("lint", false, function(cm, val, old) {

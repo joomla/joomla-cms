@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))
@@ -115,9 +115,9 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+		$attributes = array('href=', 'src=', 'poster=');
 
 		foreach ($attributes as $attribute)
 		{
@@ -129,7 +129,30 @@ class PlgSystemSef extends JPlugin
 			}
 		}
 
-		// Replace all unknown protocals in javascript window open events.
+		if (strpos($buffer, 'srcset=') !== false)
+		{
+			$regex = '#\s+srcset="([^"]+)"#m';
+
+			$buffer = preg_replace_callback(
+				$regex,
+				function ($match) use ($base, $protocols)
+				{
+					preg_match_all('#(?:[^\s]+)\s*(?:[\d\.]+[wx])?(?:\,\s*)?#i', $match[1], $matches);
+
+					foreach ($matches[0] as &$src)
+					{
+						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
+					}
+
+					return ' srcset="' . implode($matches[0]) . '"';
+				},
+				$buffer
+			);
+
+			$this->checkBuffer($buffer);
+		}
+
+		// Replace all unknown protocols in javascript window open events.
 		if (strpos($buffer, 'window.open(') !== false)
 		{
 			$regex  = '#onclick="window.open\(\'(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';

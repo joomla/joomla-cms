@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm	A JForm object on success, false on failure
@@ -245,16 +245,24 @@ class UsersModelGroup extends JModelAdmin
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
 
-		// Do not allow to delete groups to which the current user belongs
 		foreach ($pks as $pk)
 		{
+			// Do not allow to delete groups to which the current user belongs
 			if (in_array($pk, $groups))
 			{
 				JError::raiseWarning(403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
 
 				return false;
 			}
+			// Check if the item exists.
+			elseif (!$table->load($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
 		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -289,12 +297,6 @@ class UsersModelGroup extends JModelAdmin
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
 			}
 		}
 

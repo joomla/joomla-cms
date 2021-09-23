@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables.  This includes header and body.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  1.5  Use JApplicationWeb instead
  */
 class JResponse
@@ -242,21 +242,13 @@ class JResponse
 		// Ideal level
 		$level = 4;
 
-		/*
-		$size    = strlen($data);
-		$crc     = crc32($data);
-		$gzdata  = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		$gzdata .= gzcompress($data, $level);
-		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
-		$gzdata .= pack("V",$crc) . pack("V", $size);
-		*/
-
 		$gzdata = gzencode($data, $level);
 
 		self::setHeader('Content-Encoding', $encoding);
+		self::setHeader('Vary', 'Accept-Encoding');
 
 		// Header will be removed at 4.0
-		if (JFactory::getConfig()->get('MetaVersion', 0) && defined('JVERSION'))
+		if (defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))
 		{
 			self::setHeader('X-Content-Encoded-By', 'Joomla! ' . JVERSION);
 		}

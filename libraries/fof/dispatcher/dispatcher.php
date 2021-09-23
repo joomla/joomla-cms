@@ -4,7 +4,9 @@
  * @subpackage  dispatcher
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -521,22 +523,22 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($this->fofAuth_Key))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_USER']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_PW']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if ($_SERVER['PHP_AUTH_USER'] != '_fof_auth')
 					{
-						continue;
+						continue 2;
 					}
 
 					$encryptedData = $_SERVER['PHP_AUTH_PW'];
@@ -549,7 +551,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($encryptedData))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = $this->_decryptWithTOTP($encryptedData);
@@ -558,12 +560,12 @@ class FOFDispatcher extends FOFUtilsObject
 				case 'HTTPBasicAuth_Plaintext':
 					if (!isset($_SERVER['PHP_AUTH_USER']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_PW']))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = array(
@@ -577,7 +579,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($jsonencoded))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = json_decode($jsonencoded, true);
@@ -606,7 +608,7 @@ class FOFDispatcher extends FOFUtilsObject
 					break;
 
 				default:
-					continue;
+					continue 2;
 
 					break;
 			}
@@ -700,7 +702,7 @@ class FOFDispatcher extends FOFUtilsObject
 	/**
 	 * Main function to detect if we're running in a CLI environment and we're admin
 	 *
-	 * @return  array  isCLI and isAdmin. It's not an associtive array, so we can use list.
+	 * @return  array  isCLI and isAdmin. It's not an associative array, so we can use list.
 	 */
 	public static function isCliAdmin()
 	{

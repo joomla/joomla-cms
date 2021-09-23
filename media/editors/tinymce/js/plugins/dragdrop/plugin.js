@@ -37,7 +37,7 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 				if (resp.status == '0') {
 					removeProgessBar();
 
-					editor.windowManager.alert(resp.message + ': ' + setCustomDir + resp.location);
+					editor.windowManager.alert(resp.message + ': ' + tinyMCE.activeEditor.settings.setCustomDir + resp.location);
 
 				}
 

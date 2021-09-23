@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ $asset  = $input->get('asset');
 $author = $input->get('author');
 
 // Access check.
-if (!$user->authorise('core.manage', 'com_media') && (!$asset or (!$user->authorise('core.edit', $asset)
+if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->authorise('core.edit', $asset)
 	&& !$user->authorise('core.create', $asset)
 	&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
 	&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
@@ -38,7 +38,14 @@ if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 	$path = 'image_path';
 }
 
-define('COM_MEDIA_BASE', JPATH_ROOT . '/' . $params->get($path, 'images'));
+$mediaBaseDir = JPATH_ROOT . '/' . $params->get($path, 'images');
+
+if (!is_dir($mediaBaseDir))
+{
+	throw new \InvalidArgumentException(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 500);
+}
+
+define('COM_MEDIA_BASE', $mediaBaseDir);
 define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
 $controller = JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));

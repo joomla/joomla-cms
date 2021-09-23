@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 // JLayout for standard handling of the edit modules:
 
@@ -18,6 +18,7 @@ $menusEditing = $displayData['menusediting'];
 $parameters   = JComponentHelper::getParams('com_modules');
 $redirectUri  = '&return=' . urlencode(base64_encode(JUri::getInstance()->toString()));
 $target       = '_blank';
+$itemid       = JFactory::getApplication()->input->get('Itemid', '0', 'int');
 
 if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {
@@ -30,7 +31,7 @@ $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=modul
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
+	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . '&Itemid=' . $itemid . $redirectUri;
 	$target  = '_self';
 }
 
@@ -49,7 +50,7 @@ $moduleHtml = preg_replace(
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
 	.	($menusEditing && $mod->module === 'mod_menu' ?
-			'" data-jmenuedittip="' . JHtml::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
+			' data-jmenuedittip="' . JHtml::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''
 		),

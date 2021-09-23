@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:joomla.org"
+	xmlns="urn:joomla.org">
+	<xs:element name="menu" type="menuType"/>
+	<xs:simpleType name="typeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="component" />
+			<xs:enumeration value="container" />
+			<xs:enumeration value="heading" />
+			<xs:enumeration value="separator" />
+			<xs:enumeration value="url" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="elementType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="com_(.+)" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="scopeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="default" />
+			<xs:enumeration value="edit" />
+			<xs:enumeration value="help" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="trueFalse">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true" />
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="browserNavType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="_blank" />
+			<xs:enumeration value=""/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="menuType">
+		<xs:sequence>
+			<xs:element type="menuitemType" name="menuitem" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="menuitemType" mixed="true">
+		<xs:sequence>
+			<xs:element type="xs:string" name="params" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="menuitemType" name="menuitem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute type="typeType" name="type" use="required"/>
+		<xs:attribute type="xs:string" name="title" use="optional"/>
+		<xs:attribute type="xs:string" name="link" use="optional"/>
+		<xs:attribute type="xs:string" name="class" use="optional"/>
+		<xs:attribute type="xs:string" name="icon" use="optional"/>
+		<xs:attribute type="elementType" name="element" use="optional"/>
+		<xs:attribute type="trueFalse" name="hidden" use="optional" default="false"/>
+		<xs:attribute type="xs:string" name="sql_select" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_from" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_where" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_leftjoin" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_innerjoin" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_group" use="optional"/>
+		<xs:attribute type="xs:string" name="sql_order" use="optional"/>
+		<xs:attribute type="browserNavType" name="target" use="optional" default=""/>
+		<xs:attribute type="scopeType" name="scope" use="optional" default="default"/>
+	</xs:complexType>
+</xs:schema>

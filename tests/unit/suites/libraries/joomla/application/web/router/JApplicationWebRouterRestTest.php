@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,19 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       12.3
+ * @since       3.1.4
  */
 class JApplicationWebRouterRestTest extends TestCase
 {
 	/**
 	 * @var    JApplicationWebRouterRest  The object to be tested.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    string  The server REQUEST_METHOD cached to keep it clean.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_method;
 
@@ -33,7 +33,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetHttpMethodSuffix()
 	{
@@ -47,7 +47,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFetchControllerSuffixWithMissingSuffixMap()
 	{
@@ -58,7 +58,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	}
 
 	/**
-	 * Provides test data for testing fetch controller sufix
+	 * Provides test data for testing fetch controller suffix
 	 *
 	 * @return  array
 	 *
@@ -112,19 +112,19 @@ class JApplicationWebRouterRestTest extends TestCase
 	 * @param   string   $input        Input string to test.
 	 * @param   string   $expected     Expected fetched string.
 	 * @param   mixed    $method       Method to override POST request
-	 * @param   boolean  $exception    True if an RuntimeException is expected based on invalid input
+	 * @param   boolean  $exception    True if a RuntimeException is expected based on invalid input
 	 * @param   boolean  $allowMethod  Allow or not to pass method in post request as parameter
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider  seedFetchControllerSuffixData
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testFetchControllerSuffix($input, $expected, $method, $exception, $allowMethod=false)
 	{
 		TestReflection::invoke($this->_instance, 'setMethodInPostRequest', $allowMethod);
 
-		// Set reuqest method
+		// Set request method
 		$_SERVER['REQUEST_METHOD'] = $input;
 
 		// Set method in POST request
@@ -148,7 +148,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMethodInPostRequest()
 	{
@@ -169,7 +169,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -184,7 +184,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{

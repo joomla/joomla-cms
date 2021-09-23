@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,8 +135,12 @@
 			}
 		} else {
 			// Reset tooltip and preview
-			this.$containerPreview.popover('destroy');
-			this.$input.tooltip('destroy');
+			try {
+				this.$containerPreview.popover('destroy');
+				this.$input.tooltip('destroy');
+			} catch(err) {
+				// Doing this so that jQueryUI tooltips and popover can exist alongside Bootstrap.
+			}
 
 			var value = this.$input.val();
 
@@ -147,7 +151,7 @@
 				imgPreview.src = this.options.basepath + value;
 
 				this.$containerPreview.popover({content: imgPreview});
-				this.$input.tooltip({placement: 'top', title: value});
+				this.$input.tooltip({placement: 'top', title: value, html: false});
 			}
 		}
 	};
@@ -190,9 +194,15 @@
 		});
 	};
 
-	// Initialise all defaults
-	$(document).ready(function(){
-		$('.field-media-wrapper').fieldMedia();
+	// Initialise all defaults on load and again when subform rows are added
+	$(function($) {
+		initMediaField();
+		$(document).on('subform-row-add', initMediaField);
+
+		function initMediaField (event, container)
+		{
+			$(container || document).find('.field-media-wrapper').fieldMedia();
+		}
 	});
 
 })(jQuery);

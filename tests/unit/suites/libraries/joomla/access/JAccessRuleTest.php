@@ -3,25 +3,25 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
- * Test class for JAccessRule.
+ * Test class for \Joomla\CMS\Access\Rule.
  *
  * @package  Joomla.Platform
  *
- * @since    11.1
+ * @since    1.7.0
  */
 class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * Tests the JAccessRule::__construct and JAccessRule::__toString methods.
+	 * Tests the \Joomla\CMS\Access\Rule::__construct and \Joomla\CMS\Access\Rule::__toString methods.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__construct()
 	{
@@ -35,7 +35,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 		$string = json_encode($array);
 
 		// Test constructor with array.
-		$rule1 = new JAccessRule($array);
+		$rule1 = new \Joomla\CMS\Access\Rule($array);
 
 		// Check that import equals export.
 		$this->assertEquals(
@@ -56,7 +56,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$string_A = json_encode($array_A);
-		$rule_A = new JAccessRule($string_A);
+		$rule_A = new \Joomla\CMS\Access\Rule($string_A);
 		$this->assertNotEquals(
 			$string,
 			(string) $rule_A
@@ -64,11 +64,11 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JAccessRule::getData method.
+	 * Tests the \Joomla\CMS\Access\Rule::getData method.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetData()
 	{
@@ -78,7 +78,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 			3 => 0
 		);
 
-		$rule = new JAccessRule($array);
+		$rule = new \Joomla\CMS\Access\Rule($array);
 
 		$this->assertEquals(
 			$array,
@@ -87,16 +87,16 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JAccessRule::mergeIdentity method.
+	 * Tests the \Joomla\CMS\Access\Rule::mergeIdentity method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentity()
 	{
-		// Construct an rule with no identities.
-		$rule = new JAccessRule('');
+		// Construct a rule with no identities.
+		$rule = new \Joomla\CMS\Access\Rule('');
 
 		// Add the identity with allow.
 		$rule->mergeIdentity(-42, true);
@@ -121,11 +121,11 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JAccessRule::mergeIdentities method.
+	 * Tests the \Joomla\CMS\Access\Rule::mergeIdentities method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentities()
 	{
@@ -135,8 +135,8 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 			3 => 0
 		);
 
-		// Construct an rule with no identities.
-		$rule = new JAccessRule('');
+		// Construct a rule with no identities.
+		$rule = new \Joomla\CMS\Access\Rule('');
 
 		$rule->mergeIdentities($array);
 		$this->assertEquals(
@@ -148,7 +148,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 
 		// Test testMergeIdentities with object
 
-		$rule_A = new JAccessRule($array);
+		$rule_A = new \Joomla\CMS\Access\Rule($array);
 		$rule->mergeIdentities($rule_A);
 		$this->assertEquals(
 			json_encode($array),
@@ -183,11 +183,11 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JAccessRule::allow method.
+	 * Tests the \Joomla\CMS\Access\Rule::allow method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAllow()
 	{
@@ -196,7 +196,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 			-42 => 0,
 			2 => 1
 		);
-		$rule = new JAccessRule($array);
+		$rule = new \Joomla\CMS\Access\Rule($array);
 
 		// This one should be denied.
 		$this->assertFalse(

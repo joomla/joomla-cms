@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,6 +125,12 @@ abstract class JHtmlMenu
 				}
 
 				$lookup[$item->menutype][] = &$item;
+
+				// Translate the menu item title when client is administrator
+				if ($clientId === 1)
+				{
+					$item->text = JText::_($item->text);
+				}
 
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
@@ -351,7 +357,7 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if ($level <= $maxlevel && @$children[$id])
+		if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id]))
 		{
 			if ($type)
 			{
@@ -379,8 +385,16 @@ abstract class JHtmlMenu
 
 				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
-				$list[$id]->children = count(@$children[$id]);
-				$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+
+				if (isset($children[$id]) && is_array($children[$id]))
+				{
+					$list[$id]->children = count($children[$id]);
+					$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				}
+				else
+				{
+					$list[$id]->children = 0;
+				}
 			}
 		}
 

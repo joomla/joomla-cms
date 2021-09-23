@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
  .js-calendar {
@@ -75,6 +75,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	border: 0;
 	cursor : pointer;
 	font-size: 12px;
+	min-width: 38px;
 }
 
 .calendar-container table tbody td.day.wn {
@@ -82,7 +83,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	background-color: #f4f4f4;
 }
 
-.calendar-container table tbody td.selected { /* Cell showing today date */
+.calendar-container table tbody td.day.selected { /* Cell showing today date */
 	background: #3071a9;
 	color: #fff;
 	border: 0;
@@ -91,7 +92,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 .calendar-container table tbody td.today {
 	position: relative;
 	height: 100%;
-	width: 100%;
+	width: auto;
 	font-weight: bold;
 }
 .calendar-container table tbody td.today:after {

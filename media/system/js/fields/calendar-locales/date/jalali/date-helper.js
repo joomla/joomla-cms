@@ -156,7 +156,7 @@ Date.prototype.getLocalMonthDays = function(dateType, month) {
 		if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
 			return 29;
 		} else {
-			Date.local_MD[month];
+			return Date.local_MD[month];
 		}
 	} else {
 		var year = this.getFullYear();
@@ -217,7 +217,7 @@ Date.prototype.getMonthDays = function(month) {
 		return 29;
 	} else {
 		if (Date.dateType != 'gregorian') {
-			Date.local_MD[month];
+			return Date.local_MD[month];
 		} else {
 			return Date.gregorian_MD[month];
 		}
@@ -243,6 +243,19 @@ Date.localCalToGregorian = function(y, m, d) {
 Date.gregorianToLocalCal = function(y, m, d) {
 	/** Modify to match the current calendar when overriding **/
 	return JalaliDate.gregorianToJalali(y, m, d);
+};
+
+/** Method to convert numbers from local symbols to English numbers. */
+Date.numbersToIso = function(str) {
+	var i, nums =[0,1,2,3,4,5,6,7,8,9];
+	str = str.toString();
+
+	if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]') {
+		for (i = 0; i < nums.length; i++) {
+			str = str.replace(new RegExp(JoomlaCalLocale.localLangNumbers[i], 'g'), nums[i]);
+		}
+	}
+	return str;
 };
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/
@@ -318,6 +331,8 @@ Date.prototype.print = function (str, dateType, translate) {
 };
 
 Date.parseFieldDate = function(str, fmt, dateType) {
+	str = Date.numbersToIso(str);
+
 	var today = new Date();
 	var y = 0;
 	var m = -1;
@@ -374,6 +389,9 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 
 			case "%M":
 				min = parseInt(a[i], 10);
+				break;
+			case "%S":
+				sec = parseInt(a[i], 10);
 				break;
 		}
 	}
@@ -600,6 +618,6 @@ Date.prototype.getJalaliDate = function() {
 
 Date.prototype.getJalaliDay = function() {
 	var day = this.getDay();
-	day = (day + 1) % 7;
+	day = (day) % 7;
 	return day;
 };

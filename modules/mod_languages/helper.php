@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 /**
  * Helper for mod_languages
  *
- * @package     Joomla.Site
- * @subpackage  mod_languages
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ModLanguagesHelper
 {
@@ -62,8 +59,9 @@ abstract class ModLanguagesHelper
 			}
 
 			// Load component associations
-			$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-			JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+			$option = $app->input->get('option');
+			$class = ucfirst(str_replace('com_', '', $option)) . 'HelperAssociation';
+			\JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
 			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
 			{

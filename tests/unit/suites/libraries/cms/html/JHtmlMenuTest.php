@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,10 +26,10 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-        // skipped because dateset that allows these test not to fail let other tests fail.
-	    $this->markTestSkipped('skipped RD 3.Feb 2017');
+		// Skipped because dataset that allows these test not to fail let other tests fail.
+		$this->markTestSkipped('skipped RD 3.Feb 2017');
 
-	    parent::setUp();
+		parent::setUp();
 
 		$this->saveFactoryState();
 

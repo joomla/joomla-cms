@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class FilterTestObject
 {
@@ -39,7 +39,7 @@ class FilterTestObject
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {
@@ -146,7 +146,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStringURLUnicodeSlug()
 	{
@@ -241,7 +241,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStripImages()
 	{
@@ -257,7 +257,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testStripIframes()
 	{
@@ -266,6 +266,21 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 			JFilterOutput::stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500"' .
 				' height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
 				'Should remove iFrame tags'
+		);
+	}
+
+	/**
+	 * Tests enforcing JS safe output.
+	 *
+	 * @return  void
+	 * @since   3.9.17
+	 */
+	public function testStringJSSafe()
+	{
+		$this->assertEquals(
+			'\u0054\u0065\u0073\u0074\u0022\u003e\u0027\u0020\u00e4\u00f6\u0020\u6d4b\u8bd5',
+			JFilterOutput::stringJSSafe('Test">\' äö 测试'),
+			'Should convert all input to escaped unicode notation'
 		);
 	}
 }

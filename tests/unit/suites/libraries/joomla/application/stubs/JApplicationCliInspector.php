@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JApplicationCliInspector extends JApplicationCli
 {
@@ -21,7 +21,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 * The exit code if the application was closed otherwise null.
 	 *
 	 * @var     integer
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public $closed;
 
@@ -32,7 +32,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function close($code = 0)
 	{
@@ -44,7 +44,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function doExecute()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	protected $name;
 
 	/**
-	 * Has the session heen started
+	 * Has the session been started
 	 *
 	 * @var  bool
 	 */
@@ -80,11 +80,13 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	 */
 	public function start()
 	{
-		if ($this->started && !$this->closed) {
+		if ($this->started && !$this->closed)
+		{
 			return true;
 		}
 
-		if (empty($this->id)) {
+		if (empty($this->id))
+		{
 			$this->setId($this->generateId());
 		}
 
@@ -149,7 +151,8 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	 */
 	public function setId($id)
 	{
-		if ($this->started) {
+		if ($this->started)
+		{
 			throw new LogicException('Cannot set session ID after the session has started.');
 		}
 
@@ -202,10 +205,12 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	 */
 	public function save()
 	{
-		if (!$this->started || $this->closed) {
+		if (!$this->started || $this->closed)
+		{
 			throw new \RuntimeException("Trying to save a session that was not started yet or was already closed");
 		}
-		// nothing to do since we don't persist the session data
+
+		// Nothing to do since we don't persist the session data
 		$this->closed = false;
 		$this->started = false;
 	}
@@ -219,7 +224,7 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 	 */
 	public function clear()
 	{
-		// clear out the session
+		// Clear out the session
 		$this->data = array();
 	}
 

@@ -30,9 +30,9 @@
 				type="tag"
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
-				>
-				<option value="">JNONE</option>
-			</field>
+				multiple="true"
+				mode="nested"
+			/>
 		</fieldset>
 	</fields>
 
@@ -51,6 +51,7 @@
 	 				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
 					description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -62,6 +63,7 @@
 					label="JGLOBAL_SHOW_CATEGORY_TITLE"
 					description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -73,6 +75,7 @@
 					label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 					description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -84,6 +87,7 @@
 					label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 					description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -111,6 +115,7 @@
 					label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 					description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -122,6 +127,7 @@
 					label="COM_CONTENT_NO_ARTICLES_LABEL"
 					description="COM_CONTENT_NO_ARTICLES_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -133,6 +139,7 @@
 					label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 					description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -144,17 +151,19 @@
 					label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
 					description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 
-				<field 
+				<field
 					name="show_cat_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 					description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -170,7 +179,7 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-				<field 
+				<field
 					name="bloglayout"
 					type="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
@@ -179,7 +188,7 @@
 
 				<field
 					name="num_leading_articles"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 					description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 					useglobal="true"
@@ -188,7 +197,7 @@
 
 				<field
 					name="num_intro_articles"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 					description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 					useglobal="true"
@@ -197,7 +206,7 @@
 
 				<field
 					name="num_columns"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_COLUMNS_LABEL"
 					description="JGLOBAL_NUM_COLUMNS_DESC"
 					useglobal="true"
@@ -206,7 +215,7 @@
 
 				<field
 					name="num_links"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_LINKS_LABEL"
 					description="JGLOBAL_NUM_LINKS_DESC"
 					useglobal="true"
@@ -277,6 +286,7 @@
 					<option value="rhits">JGLOBAL_LEAST_HITS</option>
 					<option value="random">JGLOBAL_RANDOM_ORDER</option>
 					<option value="order">JGLOBAL_ORDERING</option>
+					<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
 					<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
 					<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
 					<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
@@ -302,6 +312,7 @@
 					label="JGLOBAL_PAGINATION_LABEL"
 					description="JGLOBAL_PAGINATION_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -314,6 +325,7 @@
 					label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 					description="JGLOBAL_PAGINATION_RESULTS_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -326,6 +338,7 @@
 					label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 					description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
 					useglobal="true"
+					class="chzn-color"
 					>
 					<option value="show">JSHOW</option>
 					<option value="hide">JHIDE</option>
@@ -334,12 +347,23 @@
 		</fieldset>
 
 		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field
+				name="article_layout" type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				menuitems="true"
+				extension="com_content"
+				view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -352,6 +376,7 @@
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -364,6 +389,7 @@
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -377,6 +403,7 @@
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
 				default=""
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -390,6 +417,7 @@
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option	value="0">JHIDE</option>
@@ -402,6 +430,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -414,6 +443,7 @@
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -426,6 +456,7 @@
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -438,6 +469,7 @@
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -450,6 +482,7 @@
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -462,6 +495,7 @@
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -474,6 +508,7 @@
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				description="JGLOBAL_LINK_AUTHOR_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -486,6 +521,7 @@
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -498,6 +534,7 @@
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -510,6 +547,7 @@
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -522,6 +560,7 @@
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -534,6 +573,7 @@
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -546,6 +586,7 @@
 				label="JGLOBAL_SHOW_READMORE_LABEL"
 				description="JGLOBAL_SHOW_READMORE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -557,6 +598,7 @@
 				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 				description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -568,6 +610,7 @@
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -580,6 +623,7 @@
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -592,6 +636,7 @@
 				label="JGLOBAL_Show_Email_Icon_Label"
 				description="JGLOBAL_Show_Email_Icon_Desc"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -604,6 +649,7 @@
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -616,6 +662,7 @@
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -628,6 +675,7 @@
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -642,6 +690,7 @@
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
