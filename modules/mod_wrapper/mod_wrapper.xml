@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_wrapper.ini</language>
 		<language tag="en-GB">language/en-GB/mod_wrapper.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WRAPPER" />
+	<help key="Site_Modules:_Wrapper" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

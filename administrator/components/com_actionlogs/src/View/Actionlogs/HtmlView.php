@@ -131,6 +131,6 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
 		ToolbarHelper::preferences('com_actionlogs');
-		ToolbarHelper::help('JHELP_COMPONENTS_ACTIONLOGS');
+		ToolbarHelper::help('User_Actions_Log');
 	}
 }

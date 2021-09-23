@@ -206,6 +206,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
+		$toolbar->help('Component:_Field_Groups');
 	}
 }

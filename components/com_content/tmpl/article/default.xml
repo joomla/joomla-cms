@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_ARTICLE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARTICLE_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_SINGLE_ARTICLE"
+			key = "Menu_Item:_Single_Article"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_ARTICLE_VIEW_DEFAULT_DESC]]>
