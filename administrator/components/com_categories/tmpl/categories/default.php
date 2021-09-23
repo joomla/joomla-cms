@@ -198,7 +198,7 @@ if ($saveOrder && !empty($this->items))
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
 										<?php endif; ?>
-										<div>
+										<div> d
 										<?php echo $prefix; ?>
 											<span class="small">
 												<?php if (empty($item->note)) : ?>
