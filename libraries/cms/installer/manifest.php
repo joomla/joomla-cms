@@ -64,7 +64,7 @@ abstract class JInstallerManifest
 	 * Author for the library
 	 *
 	 * @var    string
-	 * @since  3.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $author = '';
 
@@ -72,7 +72,7 @@ abstract class JInstallerManifest
 	 * Author email for the library (alias)
 	 *
 	 * @var    string
-	 * @since  3.1
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @deprecated  4.0  Use $authorEmail instead
 	 */
@@ -90,7 +90,7 @@ abstract class JInstallerManifest
 	 * Author URL for the library
 	 *
 	 * @var    string
-	 * @since  3.1
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @deprecated  4.0  Use $authorURL instead
 	 */
