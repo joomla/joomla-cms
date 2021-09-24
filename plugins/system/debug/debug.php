@@ -133,7 +133,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe.
-	 * @param   array                 $config   An optional associative array of configuration settings.
+	 * @param   array                $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
@@ -360,7 +360,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 		$debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-		$openHandlerUrl   .= '&' . Session::getFormToken() . '=1';
+		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
@@ -600,7 +600,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 					{
 						$this->debugBar[$entry->category]->addMessage($entry->message);
 					}
-					break;
+				break;
+
 				case 'deprecated':
 					if (!$logDeprecated && !$logDeprecatedCore)
 					{
@@ -640,7 +641,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 						// @todo 'stack' => $entry->callStack;
 					];
 					$this->debugBar[$category]->addMessage($message, 'warning');
-					break;
+				break;
 
 				case 'databasequery':
 					// Should be collected by its own collector
@@ -663,7 +664,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 					}
 
 					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
-					break;
+				break;
 			}
 		}
 
