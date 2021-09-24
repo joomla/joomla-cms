@@ -138,10 +138,11 @@ class PlgSystemCache extends CMSPlugin
 				$document = Factory::getContainer()->get('document.factory')->createDocument($this->app->input->get('format', 'html'));
 				$this->app->loadDocument($document);
 
-				Profiler::getInstance('Application')->mark('afterCache');
+				$profilerApp = Profiler::getInstance('Application');
+				$profilerApp->mark('afterCache');
 				$this->app->triggerEvent('onAfterRespond');
 
-				Profiler::getInstance('Application')->mark('afterRespond');
+				$profilerApp->mark('afterRespond');
 			}
 
 			// Closes the application.
