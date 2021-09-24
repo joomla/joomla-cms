@@ -316,6 +316,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+
+		// Mark afterRespond in the profiler.
+		JDEBUG ? $this->profiler->mark('afterRespond') : null;
 	}
 
 	/**

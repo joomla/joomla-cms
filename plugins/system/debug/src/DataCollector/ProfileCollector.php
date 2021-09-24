@@ -3,7 +3,7 @@
  * This file is part of the DebugBar package.
  *
  * @copyright  (c) 2013 Maxime Bouroumeau-Fuseau
- * @license    For the full copyright and license information, please view the LICENSE
+ * @license        For the full copyright and license information, please view the LICENSE
  *             file that was distributed with this source code.
  */
 
@@ -58,18 +58,29 @@ class ProfileCollector extends AbstractDataCollector
 	 * Constructor.
 	 *
 	 * @param   Registry  $params  Parameters.
+	 * @param   float     $requestStartTime
+	 * @param   float     $requestEndTime
 	 *
 	 * @since 4.0.0
 	 */
-	public function __construct(Registry $params)
+	public function __construct(Registry $params, $requestStartTime = null, $requestEndTime = null)
 	{
-		if (isset($_SERVER['REQUEST_TIME_FLOAT']))
+		if ($requestStartTime !== null)
+		{
+			$this->requestStartTime = $requestStartTime;
+		}
+		elseif (isset($_SERVER['REQUEST_TIME_FLOAT']))
 		{
 			$this->requestStartTime = $_SERVER['REQUEST_TIME_FLOAT'];
 		}
 		else
 		{
 			$this->requestStartTime = microtime(true);
+		}
+
+		if ($requestEndTime !== null)
+		{
+			$this->requestEndTime = $requestEndTime;
 		}
 
 		parent::__construct($params);
@@ -82,8 +93,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string|null  $label      Public name
 	 * @param   string|null  $collector  The source of the collector
 	 *
-	 * @since  4.0.0
 	 * @return void
+	 * @since  4.0.0
 	 */
 	public function startMeasure($name, $label = null, $collector = null)
 	{
@@ -101,8 +112,8 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @param   string  $name  Group name.
 	 *
-	 * @since  4.0.0
 	 * @return bool
+	 * @since  4.0.0
 	 */
 	public function hasStartedMeasure($name): bool
 	{
@@ -115,9 +126,9 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string  $name    Measurement name.
 	 * @param   array   $params  Parameters
 	 *
-	 * @since  4.0.0
-	 * @throws DebugBarException
 	 * @return void
+	 * @throws DebugBarException
+	 * @since  4.0.0
 	 */
 	public function stopMeasure($name, array $params = [])
 	{
@@ -128,13 +139,7 @@ class ProfileCollector extends AbstractDataCollector
 			throw new DebugBarException("Failed stopping measure '$name' because it hasn't been started");
 		}
 
-		$this->addMeasure(
-			$this->startedMeasures[$name]['label'],
-			$this->startedMeasures[$name]['start'],
-			$end,
-			$params,
-			$this->startedMeasures[$name]['collector']
-		);
+		$this->addMeasure($this->startedMeasures[$name]['label'], $this->startedMeasures[$name]['start'], $end, $params, $this->startedMeasures[$name]['collector']);
 
 		unset($this->startedMeasures[$name]);
 	}
@@ -148,8 +153,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   array        $params     Parameters.
 	 * @param   string|null  $collector  A collector.
 	 *
-	 * @since  4.0.0
 	 * @return void
+	 * @since  4.0.0
 	 */
 	public function addMeasure($label, $start, $end, array $params = [], $collector = null)
 	{
@@ -173,8 +178,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   \Closure     $closure    A closure.
 	 * @param   string|null  $collector  A collector.
 	 *
-	 * @since  4.0.0
 	 * @return void
+	 * @since  4.0.0
 	 */
 	public function measure($label, \Closure $closure, $collector = null)
 	{
@@ -188,8 +193,8 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns an array of all measures
 	 *
-	 * @since  4.0.0
 	 * @return array
+	 * @since  4.0.0
 	 */
 	public function getMeasures(): array
 	{
@@ -199,8 +204,8 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the request start time
 	 *
-	 * @since  4.0.0
 	 * @return float
+	 * @since  4.0.0
 	 */
 	public function getRequestStartTime(): float
 	{
@@ -210,8 +215,8 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the request end time
 	 *
-	 * @since  4.0.0
 	 * @return float
+	 * @since  4.0.0
 	 */
 	public function getRequestEndTime(): float
 	{
@@ -221,8 +226,8 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the duration of a request
 	 *
-	 * @since  4.0.0
 	 * @return float
+	 * @since  4.0.0
 	 */
 	public function getRequestDuration(): float
 	{
@@ -237,12 +242,12 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  4.0.0
 	 * @return array Collected data
+	 * @since  4.0.0
 	 */
 	public function collect(): array
 	{
-		$this->requestEndTime = microtime(true);
+		$this->requestEndTime = $this->requestEndTime ?? microtime(true);
 
 		$start = $this->requestStartTime;
 
@@ -250,9 +255,9 @@ class ProfileCollector extends AbstractDataCollector
 
 		foreach ($marks as $mark)
 		{
-			$mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
+			$mem   = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
 			$label = $mark->label . " ($mem)";
-			$end = $start + $mark->time / 1000;
+			$end   = $start + $mark->time / 1000;
 			$this->addMeasure($label, $start, $end);
 			$start = $end;
 		}
@@ -262,18 +267,14 @@ class ProfileCollector extends AbstractDataCollector
 			$this->stopMeasure($name);
 		}
 
-		usort(
-			$this->measures,
-			function ($a, $b)
+		usort($this->measures, static function ($a, $b) {
+			if ($a['start'] === $b['start'])
 			{
-				if ($a['start'] === $b['start'])
-				{
-					return 0;
-				}
-
-				return $a['start'] < $b['start'] ? -1 : 1;
+				return 0;
 			}
-		);
+
+			return $a['start'] < $b['start'] ? -1 : 1;
+		});
 
 		return [
 			'start'        => $this->requestStartTime,
@@ -288,8 +289,8 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  4.0.0
 	 * @return string
+	 * @since  4.0.0
 	 */
 	public function getName(): string
 	{
@@ -300,8 +301,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  4.0.0
 	 * @return array
+	 * @since  4.0.0
 	 */
 	public function getWidgets(): array
 	{

@@ -140,6 +140,8 @@ class PlgSystemCache extends CMSPlugin
 
 				Profiler::getInstance('Application')->mark('afterCache');
 				$this->app->triggerEvent('onAfterRespond');
+
+				Profiler::getInstance('Application')->mark('afterRespond');
 			}
 
 			// Closes the application.

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
+ * @package         Joomla.Plugin
+ * @subpackage      System.Debug
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -24,6 +24,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
@@ -39,7 +41,7 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  *
  * @since  1.5
  */
-class PlgSystemDebug extends CMSPlugin
+class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * True if debug lang is on.
@@ -47,7 +49,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    boolean
 	 * @since  3.0
 	 */
-	private $debugLang = false;
+	private $debugLang;
 
 	/**
 	 * Holds log entries handled by the plugin.
@@ -56,14 +58,6 @@ class PlgSystemDebug extends CMSPlugin
 	 * @since  3.1
 	 */
 	private $logEntries = [];
-
-	/**
-	 * Holds SHOW PROFILES of queries.
-	 *
-	 * @var    array
-	 * @since  3.1.2
-	 */
-	private $sqlShowProfiles = [];
 
 	/**
 	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
@@ -80,14 +74,6 @@ class PlgSystemDebug extends CMSPlugin
 	 * @since  3.1.2
 	 */
 	private $explains = [];
-
-	/**
-	 * Holds total amount of executed queries.
-	 *
-	 * @var    int
-	 * @since  3.2
-	 */
-	private $totalQueries = 0;
 
 	/**
 	 * Application object.
@@ -136,10 +122,18 @@ class PlgSystemDebug extends CMSPlugin
 	protected $showLogs = false;
 
 	/**
+	 * The time spent in onAfterDisconnect()
+	 *
+	 * @var   float
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $timeInOnAfterDisconnect = 0;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe.
-	 * @param   array                $config    An optional associative array of configuration settings.
+	 * @param   array                 $config   An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
@@ -176,7 +170,7 @@ class PlgSystemDebug extends CMSPlugin
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
 
-		$this->showLogs = (bool) $this->params->get('logs', true);
+		$this->showLogs = (bool) $this->params->get('logs', false);
 
 		// Log deprecated class aliases
 		if ($this->showLogs && $this->app->get('log_deprecated'))
@@ -195,6 +189,26 @@ class PlgSystemDebug extends CMSPlugin
 				);
 			}
 		}
+	}
+
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onBeforeCompileHead' => 'onBeforeCompileHead',
+			'onAjaxDebug'         => 'onAjaxDebug',
+			'onAfterDisconnect'   => 'onAfterDisconnect',
+			'onAfterRespond'      => [
+				'onAfterRespond',
+				\Joomla\Event\Priority::MIN,
+			],
+		];
 	}
 
 	/**
@@ -235,6 +249,37 @@ class PlgSystemDebug extends CMSPlugin
 	}
 
 	/**
+	 * AJAX handler
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	public function onAjaxDebug(Event $event)
+	{
+		// Do not render if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang)
+		{
+			return;
+		}
+
+		// User has to be authorised to see the debug information.
+		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
+		{
+			return;
+		}
+
+		switch ($this->app->input->get('action'))
+		{
+			case 'openhandler':
+				$handler = new OpenHandler($this->debugBar);
+
+				$event['result'] = $handler->handle($this->app->input->request->getArray(), false, false);
+				break;
+		}
+	}
+
+	/**
 	 * Show the debug info.
 	 *
 	 * @return  void
@@ -243,8 +288,10 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		$endTime = microtime(true) - $this->timeInOnAfterDisconnect;
+
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
+		if ((!JDEBUG && !$this->debugLang) || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
 		{
 			return;
 		}
@@ -279,7 +326,7 @@ class PlgSystemDebug extends CMSPlugin
 
 			if ($this->params->get('profile', 1))
 			{
-				$this->debugBar->addCollector(new ProfileCollector($this->params));
+				$this->debugBar->addCollector(new ProfileCollector($this->params, null, $endTime));
 			}
 
 			if ($this->params->get('queries', 1))
@@ -312,7 +359,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
+		$openHandlerUrl   .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
@@ -333,7 +380,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
+			&& stripos($_SERVER['HTTP_USER_AGENT'] ?? '', 'webkit') !== false)
 		{
 			$this->debugBar->stackData();
 
@@ -343,74 +390,6 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
-	}
-
-	/**
-	 * AJAX handler
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function onAjaxDebug()
-	{
-		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang)
-		{
-			return '';
-		}
-
-		// User has to be authorised to see the debug information.
-		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
-		{
-			return '';
-		}
-
-		switch ($this->app->input->get('action'))
-		{
-			case 'openhandler':
-				$handler = new OpenHandler($this->debugBar);
-
-				return $handler->handle($this->app->input->request->getArray(), false, false);
-			default:
-				return '';
-		}
-	}
-
-	/**
-	 * Method to check if the current user is allowed to see the debug information or not.
-	 *
-	 * @return  boolean  True if access is allowed.
-	 *
-	 * @since   3.0
-	 */
-	private function isAuthorisedDisplayDebug(): bool
-	{
-		static $result = null;
-
-		if ($result !== null)
-		{
-			return $result;
-		}
-
-		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', []);
-
-		if (!empty($filterGroups))
-		{
-			$userGroups = $this->app->getIdentity()->get('groups');
-
-			if (!array_intersect($filterGroups, $userGroups))
-			{
-				$result = false;
-
-				return false;
-			}
-		}
-
-		$result = true;
-
-		return true;
 	}
 
 	/**
@@ -429,12 +408,12 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
+		$startTime = microtime(true);
+
 		$db = $event->getDriver();
 
 		// Remove the monitor to avoid monitoring the following queries
 		$db->setMonitor(null);
-
-		$this->totalQueries = $db->getCount();
 
 		if ($this->params->get('query_profiles') && $db->getServerType() === 'mysql')
 		{
@@ -448,15 +427,15 @@ class PlgSystemDebug extends CMSPlugin
 				{
 					// Run a SHOW PROFILE query.
 					$db->setQuery('SHOW PROFILES');
-					$this->sqlShowProfiles = $db->loadAssocList();
+					$sqlShowProfiles = $db->loadAssocList();
 
-					if ($this->sqlShowProfiles)
+					if ($sqlShowProfiles)
 					{
-						foreach ($this->sqlShowProfiles as $qn)
+						foreach ($sqlShowProfiles as $qn)
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
 							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
-							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+							$this->sqlShowProfileEach[$qn['Query_ID'] - 1] = $db->loadAssocList();
 						}
 					}
 				}
@@ -510,6 +489,44 @@ class PlgSystemDebug extends CMSPlugin
 				}
 			}
 		}
+
+		$this->timeInOnAfterDisconnect = microtime(true) - $startTime;
+	}
+
+	/**
+	 * Method to check if the current user is allowed to see the debug information or not.
+	 *
+	 * @return  boolean  True if access is allowed.
+	 *
+	 * @since   3.0
+	 */
+	private function isAuthorisedDisplayDebug(): bool
+	{
+		static $result = null;
+
+		if ($result !== null)
+		{
+			return $result;
+		}
+
+		// If the user is not allowed to view the output then end here.
+		$filterGroups = (array) $this->params->get('filter_groups', []);
+
+		if (!empty($filterGroups))
+		{
+			$userGroups = $this->app->getIdentity()->get('groups');
+
+			if (!array_intersect($filterGroups, $userGroups))
+			{
+				$result = false;
+
+				return false;
+			}
+		}
+
+		$result = true;
+
+		return true;
 	}
 
 	/**
@@ -520,7 +537,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since       3.1
 	 *
 	 * @deprecated  5.0  Use Log::add(LogEntry $entry);
 	 */
@@ -557,7 +574,7 @@ class PlgSystemDebug extends CMSPlugin
 			$logEntries = array_merge($logEntries, $this->logEntries);
 		}
 
-		$logDeprecated = $this->app->get('log_deprecated', 0);
+		$logDeprecated     = $this->app->get('log_deprecated', 0);
 		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
 		$this->debugBar->addCollector(new MessagesCollector('log'));
@@ -582,7 +599,7 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						$this->debugBar[$entry->category]->addMessage($entry->message);
 					}
-				break;
+					break;
 				case 'deprecated':
 					if (!$logDeprecated && !$logDeprecatedCore)
 					{
@@ -618,15 +635,15 @@ class PlgSystemDebug extends CMSPlugin
 
 					$message = [
 						'message' => $entry->message,
-						'caller' => $file . ':' . $line,
+						'caller'  => $file . ':' . $line,
 						// @todo 'stack' => $entry->callStack;
 					];
 					$this->debugBar[$category]->addMessage($message, 'warning');
-				break;
+					break;
 
 				case 'databasequery':
 					// Should be collected by its own collector
-				break;
+					break;
 
 				default:
 					switch ($entry->priority)
