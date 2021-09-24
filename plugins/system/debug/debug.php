@@ -537,7 +537,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since       3.1
+	 * @since   3.1
 	 *
 	 * @deprecated  5.0  Use Log::add(LogEntry $entry);
 	 */
