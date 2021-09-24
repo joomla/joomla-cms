@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
 class MemoryCollector extends AbstractDataCollector
 {
 	/**
-	 * @var bool
+	 * @var boolean
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -37,9 +37,9 @@ class MemoryCollector extends AbstractDataCollector
 	/**
 	 * Constructor.
 	 *
-	 * @param Registry $params Parameters.
-	 * @param float    $peakUsage
-	 * @param bool     $realUsage
+	 * @param Registry    $params Parameters.
+	 * @param float       $peakUsage
+	 * @param boolean     $realUsage
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -62,7 +62,7 @@ class MemoryCollector extends AbstractDataCollector
 	 * Returns whether total allocated memory page size is used instead of actual used memory size
 	 * by the application.  See $real_usage parameter on memory_get_peak_usage for details.
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -75,7 +75,7 @@ class MemoryCollector extends AbstractDataCollector
 	 * Sets whether total allocated memory page size is used instead of actual used memory size
 	 * by the application.  See $real_usage parameter on memory_get_peak_usage for details.
 	 *
-	 * @param bool $realUsage
+	 * @param boolean $realUsage
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
