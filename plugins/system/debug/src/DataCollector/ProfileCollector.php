@@ -128,8 +128,10 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   array   $params  Parameters
 	 *
 	 * @return void
-	 * @throws DebugBarException
+	 *
 	 * @since  4.0.0
+	 *
+	 * @throws DebugBarException
 	 */
 	public function stopMeasure($name, array $params = [])
 	{
