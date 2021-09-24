@@ -840,7 +840,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 			if (property_exists($this, $k) && $k[0] != '_')
 			{
-				$type = $this->_propertyTypes[$k] ?? null;
+				$type = $this->_propertyTypes[$k] ?? '';
 				$this->{$k} = static::TypeConvert($value, $type, $this->_tz);
 				continue;
 			}
@@ -1061,7 +1061,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 				if ($key && $id && \is_string($key))
 				{
-					$this->$key = static::TypeConvert($id, ($this->_propertyTypes[$key] ?? null), $this->_tz);
+					$this->$key = static::TypeConvert($id, ($this->_propertyTypes[$key] ?? ''), $this->_tz);
 				}
 			}
 		}
@@ -2265,6 +2265,11 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public static function TypeConvert($value = null, $type = '', $tz = null)
 	{
+		if (is_null($type))
+		{
+			return null;
+		}
+
 		if (empty($type))
 		{
 			return $value;
