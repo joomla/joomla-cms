@@ -26,6 +26,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request start time.
 	 *
 	 * @var   float
+	 *
 	 * @since 4.0.0
 	 */
 	protected $requestStartTime;
@@ -34,6 +35,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request end time.
 	 *
 	 * @var   float
+	 *
 	 * @since 4.0.0
 	 */
 	protected $requestEndTime;
@@ -42,6 +44,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Started measures.
 	 *
 	 * @var array
+	 *
 	 * @since  4.0.0
 	 */
 	protected $startedMeasures = [];
@@ -50,6 +53,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Measures.
 	 *
 	 * @var array
+	 *
 	 * @since  4.0.0
 	 */
 	protected $measures = [];
@@ -114,6 +118,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string  $name  Group name.
 	 *
 	 * @return bool
+	 *
 	 * @since  4.0.0
 	 */
 	public function hasStartedMeasure($name): bool
@@ -157,6 +162,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string|null  $collector  A collector.
 	 *
 	 * @return void
+	 *
 	 * @since  4.0.0
 	 */
 	public function addMeasure($label, $start, $end, array $params = [], $collector = null)
@@ -182,6 +188,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string|null  $collector  A collector.
 	 *
 	 * @return void
+	 *
 	 * @since  4.0.0
 	 */
 	public function measure($label, \Closure $closure, $collector = null)
@@ -197,6 +204,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns an array of all measures
 	 *
 	 * @return array
+	 *
 	 * @since  4.0.0
 	 */
 	public function getMeasures(): array
@@ -208,6 +216,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns the request start time
 	 *
 	 * @return float
+	 *
 	 * @since  4.0.0
 	 */
 	public function getRequestStartTime(): float
@@ -219,6 +228,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns the request end time
 	 *
 	 * @return float
+	 *
 	 * @since  4.0.0
 	 */
 	public function getRequestEndTime(): float
@@ -230,6 +240,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns the duration of a request
 	 *
 	 * @return float
+	 *
 	 * @since  4.0.0
 	 */
 	public function getRequestDuration(): float
@@ -246,6 +257,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Called by the DebugBar when data needs to be collected
 	 *
 	 * @return array Collected data
+	 *
 	 * @since  4.0.0
 	 */
 	public function collect(): array
@@ -297,6 +309,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns the unique name of the collector
 	 *
 	 * @return string
+	 *
 	 * @since  4.0.0
 	 */
 	public function getName(): string
@@ -309,6 +322,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @return array
+	 *
 	 * @since  4.0.0
 	 */
 	public function getWidgets(): array
