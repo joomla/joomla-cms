@@ -209,6 +209,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'xml' => 'string',
 
 		'datetime' => 'string',
+		'date' => 'string',
+		'time' => 'string',
+		'timestamp' => 'string',
+		'interval' => 'string',
 		'tosql' => 'string',
 		'tostring' => 'string',
 
