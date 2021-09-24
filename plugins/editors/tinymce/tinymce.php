@@ -520,7 +520,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$sourcecode     = $levelParams->get('sourcecode', 1);
 		if ($sourcecode)
 		{
-			$externalPlugins['sourcecode'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/sourcecode/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+			$externalPlugins['sourcecode'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
 
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
