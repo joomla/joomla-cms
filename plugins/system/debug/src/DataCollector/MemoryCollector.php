@@ -35,9 +35,9 @@ class MemoryCollector extends AbstractDataCollector
 	protected $peakUsage = 0;
 
 	/**
-	 * @param Registry    $params Parameters.
-	 * @param float       $peakUsage
-	 * @param boolean     $realUsage
+	 * @param   Registry  $params Parameters.
+	 * @param   float     $peakUsage
+	 * @param   boolean   $realUsage
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
