@@ -71,7 +71,7 @@ class Result implements \Serializable
 	 * The image alt text
 	 *
 	 * @var     string
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $imageAlt;
 
