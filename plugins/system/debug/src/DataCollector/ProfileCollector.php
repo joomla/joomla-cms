@@ -94,6 +94,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string|null  $collector  The source of the collector
 	 *
 	 * @return void
+	 *
 	 * @since  4.0.0
 	 */
 	public function startMeasure($name, $label = null, $collector = null)
