@@ -26,7 +26,6 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request start time.
 	 *
 	 * @var   float
-	 *
 	 * @since 4.0.0
 	 */
 	protected $requestStartTime;
@@ -35,7 +34,6 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request end time.
 	 *
 	 * @var   float
-	 *
 	 * @since 4.0.0
 	 */
 	protected $requestEndTime;
@@ -44,7 +42,6 @@ class ProfileCollector extends AbstractDataCollector
 	 * Started measures.
 	 *
 	 * @var array
-	 *
 	 * @since  4.0.0
 	 */
 	protected $startedMeasures = [];
@@ -53,7 +50,6 @@ class ProfileCollector extends AbstractDataCollector
 	 * Measures.
 	 *
 	 * @var array
-	 *
 	 * @since  4.0.0
 	 */
 	protected $measures = [];

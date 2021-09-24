@@ -21,15 +21,13 @@ use Joomla\Registry\Registry;
 class MemoryCollector extends AbstractDataCollector
 {
 	/**
-	 * @var boolean
-	 *
+	 * @var   boolean
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $realUsage = false;
 
 	/**
-	 * @var float
-	 *
+	 * @var    float
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $peakUsage = 0;
