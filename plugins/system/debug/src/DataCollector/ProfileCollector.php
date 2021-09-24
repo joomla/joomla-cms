@@ -267,14 +267,18 @@ class ProfileCollector extends AbstractDataCollector
 			$this->stopMeasure($name);
 		}
 
-		usort($this->measures, static function ($a, $b) {
-			if ($a['start'] === $b['start'])
+		usort(
+			$this->measures,
+			function ($a, $b)
 			{
-				return 0;
-			}
+				if ($a['start'] === $b['start'])
+				{
+					return 0;
+				}
 
-			return $a['start'] < $b['start'] ? -1 : 1;
-		});
+				return $a['start'] < $b['start'] ? -1 : 1;
+			}
+		);
 
 		return [
 			'start'        => $this->requestStartTime,
