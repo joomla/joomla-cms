@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
@@ -30,6 +29,7 @@ use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\MemoryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
@@ -288,7 +288,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
-		$endTime = microtime(true) - $this->timeInOnAfterDisconnect;
+		$endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
+		$endMemory  = memory_get_peak_usage(false);
 
 		// Do not render if debugging or language debug is not enabled.
 		if ((!JDEBUG && !$this->debugLang) || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
@@ -311,7 +312,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 		{
 			if ($this->params->get('memory', 1))
 			{
-				$this->debugBar->addCollector(new MemoryCollector);
+				$this->debugBar->addCollector(new MemoryCollector($this->params, $endMemory));
 			}
 
 			if ($this->params->get('request', 1))
