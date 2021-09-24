@@ -63,7 +63,7 @@ class Result implements \Serializable
 	 * The image url
 	 *
 	 * @var     string
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $imageUrl;
 
