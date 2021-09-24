@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 $show_description = $this->params->get('show_description', 1);
 
