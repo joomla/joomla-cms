@@ -517,7 +517,7 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			if ($levelParams->get($pName, $def))
 			{
-				$plugins[] = $pName;
+				$this->plugins[] = $pName;
 			}
 		}
 
@@ -560,7 +560,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if ($custom_plugin)
 		{
 			$separator = strpos($custom_plugin, ',') !== false ? ',' : ' ';
-			$plugins   = array_merge($this->plugins, explode($separator, $custom_plugin));
+			$this->plugins   = array_merge($this->plugins, explode($separator, $custom_plugin));
 		}
 
 		if ($custom_button)
@@ -693,7 +693,7 @@ class PlgEditorTinymce extends CMSPlugin
 	private function tinyButtons($name, $excluded)
 	{
 		// Get the available buttons
-		$buttons  = $this->getDispatcher()->dispatch(
+		$buttonsEvent = $this->getDispatcher()->dispatch(
 			'getButtons',
 			new Event(
 				'getButtons',
@@ -702,7 +702,8 @@ class PlgEditorTinymce extends CMSPlugin
 					'buttons' => $excluded,
 				]
 			)
-		)['result'];
+		);
+		$buttons = $buttonsEvent['result'];
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
 			Text::script('PLG_TINY_CORE_BUTTONS');
@@ -729,7 +730,9 @@ class PlgEditorTinymce extends CMSPlugin
 				}
 			}
 
-			return ['names'  => sort($btnsNames)];
+			sort($btnsNames);
+
+			return ['names'  => $btnsNames];
 		}
 	}
 
