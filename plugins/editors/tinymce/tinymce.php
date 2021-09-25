@@ -59,7 +59,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected	$plugins = [
+	protected $plugins = [
 		'autolink',
 		'lists',
 		'quickbars',
