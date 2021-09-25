@@ -54,6 +54,29 @@ class PlgEditorTinymce extends CMSPlugin
 	protected $app = null;
 
 	/**
+	 * The set of always enabled plugins
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected	$plugins = [
+		'autolink',
+		'lists',
+		'quickbars',
+		// 'importcss',
+	];
+
+	/**
+	 * The set of allowed elements
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $elements = [
+		'hr[id|title|alt|class|width|size|noshade]',
+	];
+
+	/**
 	 * Initialises the Editor.
 	 *
 	 * @return  void
@@ -74,8 +97,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
 		}
 
-		$wa->useScript('tinymce')
-			->useScript('plg_editors_tinymce');
+		$wa->useScript('tinymce')->useScript('plg_editors_tinymce');
 	}
 
 	/**
@@ -96,22 +118,36 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @return  string
 	 */
 	public function onDisplay(
-		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
 	{
 		if (empty($id))
 		{
 			$id = $name;
 		}
 
-		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
-		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
-		$fieldName     = end($nameGroup);
-		$scriptOptions = array();
-		$externalPlugins = array();
+		$id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
+		$fieldName       = end($nameGroup);
+		$scriptOptions   = [];
+		$externalPlugins = [];
+		$doc             = Factory::getDocument();
+		$options         = $doc->getScriptOptions('plg_editor_tinymce');
+		$user            = Factory::getUser();
+		$language        = Factory::getLanguage();
+		$template        = $this->getSiteTemplate();
+		$ugroups         = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
+		$theme           = 'silver';
+		$content_css     = null;
+		$templates_path  = JPATH_SITE . '/templates';
+		$ignore_filter   = false;
 
-		// Check for existing options
-		$doc     = Factory::getDocument();
-		$options = $doc->getScriptOptions('plg_editor_tinymce');
+		// Prepare the parameters
+		$textarea         = new stdClass;
+		$levelParams      = new Joomla\Registry\Registry;
+		$extraOptions     = new stdClass;
+		$toolbarParams    = new stdClass;
+		$extraOptionsAll  = $this->params->get('configuration.setoptions', []);
+		$toolbarParamsAll = $this->params->get('configuration.toolbars', []);
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
@@ -125,7 +161,6 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Data object for the layout
-		$textarea = new stdClass;
 		$textarea->name    = $name;
 		$textarea->id      = $id;
 		$textarea->class   = 'mce_editable joomla-editor-tinymce';
@@ -174,22 +209,10 @@ class PlgEditorTinymce extends CMSPlugin
 			return $editor;
 		}
 
-		$user     = Factory::getUser();
-		$language = Factory::getLanguage();
-		$theme    = 'silver';
-		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
-
-		// Prepare the parameters
-		$levelParams      = new Joomla\Registry\Registry;
-		$extraOptions     = new stdClass;
-		$toolbarParams    = new stdClass;
-		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
-
 		// Get configuration depend from User group
 		foreach ($extraOptionsAll as $set => $val)
 		{
-			$val->access = empty($val->access) ? array() : $val->access;
+			$val->access = empty($val->access) ? [] : $val->access;
 
 			// Check whether User in one of allowed group
 			foreach ($val->access as $group)
@@ -202,7 +225,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// load external plugins
+		// Load external plugins
 		if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
 		{
 			foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
@@ -229,10 +252,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// Set the selected skin
-		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
-
-		// Check that selected skin exists.
-		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+		$skinRelPath = dirname(HTMLHelper::stylesheet('plg_editors_tinymce/skins/ui/oxide/skin.css', ['version' => 'auto', 'relative' => true, 'pathOnly' => true]));
+		$skin = Uri::root() . substr($skinRelPath, 1);
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -253,90 +274,84 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		$text_direction = 'ltr';
-
-		if ($language->isRtl())
-		{
-			$text_direction = 'rtl';
-		}
-
 		$use_content_css    = $levelParams->get('content_css', 1);
 		$content_css_custom = $levelParams->get('content_css_custom', '');
 
-		/*
-		 * Lets get the default template for the site application
-		 */
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('template'))
-			->from($db->quoteName('#__template_styles'))
-			->where(
-				[
-					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1'),
-				]
-			);
+		if (is_object($template)) {
+			$content_css = $skin . '/content.css';
 
-		$db->setQuery($query);
+			if (($template->inheritable || $template->parent !== '') && file_exists(JPATH_ROOT . '/templates/' . $template->template . '/jeditor.php')) {
+				// Load the front end template styles
+				$content_css = Uri::root() . 'index.php?tmpl=jeditor';
 
-		try
-		{
-			$template = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return '';
-		}
-
-		$content_css    = null;
-		$templates_path = JPATH_SITE . '/templates';
-
-		// Loading of css file for 'styles' dropdown
-		if ($content_css_custom)
-		{
-			// If URL, just pass it to $content_css
-			if (strpos($content_css_custom, 'http') !== false)
-			{
-				$content_css = $content_css_custom;
-			}
-
-			// If it is not a URL, assume it is a file name in the current template folder
-			else
-			{
-				$content_css = Uri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
-
-				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
-				{
-					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
-					Log::add($msg, Log::WARNING, 'jerror');
-				}
-			}
-		}
-		else
-		{
-			// Process when use_content_css is Yes and no custom file given
-			if ($use_content_css)
-			{
-				// First check templates folder for default template
-				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
-				{
-					// If no editor.css file in system folder, show alert
-					if (!file_exists($templates_path . '/system/css/editor.css'))
-					{
-						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
+				// Custom Styles
+				/**
+				 * @todo Respect child template overrides
+				 */
+				if (is_file(JPATH_ROOT . '/media/templates/site/' . $template->template . '/js/plg_editors_tinymce/style_formats.json')) {
+					try {
+						$tmpStylesFormat = json_decode(file_get_contents(JPATH_ROOT . '/media/templates/site/' . $template->template . '/js/plg_editors_tinymce/style_formats.json'));
+					} catch (Exception $e) {
+						/* Ignore */
 					}
-					else
-					{
-						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
+
+					if ($tmpStylesFormat) {
+						$scriptOptions['style_formats'] = $tmpStylesFormat;
 					}
 				}
-				else
-				{
-					$content_css = Uri::root(true) . '/templates/' . $template . '/css/editor.css';
+
+				// Custom Formats
+				/**
+				 * @todo Respect child template overrides
+				 */
+				if (is_file(JPATH_ROOT . '/media/templates/site/' . $template->template . '/js/plg_editors_tinymce/formats.json')) {
+					try {
+						$tmpFormats = json_decode(file_get_contents(JPATH_ROOT . '/media/templates/site/' . $template->template . '/js/plg_editors_tinymce/formats.json'));
+					} catch (Exception $e) {
+						/* Ignore */
+					}
+
+					if ($tmpStylesFormat) {
+						$scriptOptions['formats'] = $tmpFormats;
+					}
+				}
+			} else {
+				/**
+				 *  @todo rewrite this to use the standard assets overriding mechanism of Joomla
+				 *        but also respect the existing options for the legacy templates
+				 */
+				if ($content_css_custom) {
+					// If URL, just pass it to $content_css
+					if (strpos($content_css_custom, 'http') !== false) {
+						$content_css = $content_css_custom;
+					}
+
+					// If it is not a URL, assume it is a file name in the current template folder
+					else {
+						$content_css = Uri::root(true) . '/templates/' . $template->template . '/css/' . $content_css_custom;
+
+						// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
+						if (!file_exists($templates_path . '/' . $template->template . '/css/' . $content_css_custom)) {
+							$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
+							Log::add($msg, Log::WARNING, 'jerror');
+						}
+					}
+				} else {
+					// Process when use_content_css is Yes and no custom file given
+					if ($use_content_css) {
+						// First check templates folder for default template
+						// if no editor.css file in templates folder, check system template folder
+						if (!file_exists($templates_path . '/' . $template->template . '/css/editor.css')) {
+							// If no editor.css file in system folder, show alert
+							if (!file_exists($templates_path . '/system/css/editor.css')) {
+								Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
+							} else {
+								$content_css = Uri::root(true) . '/templates/system/css/editor.css';
+							}
+						} else {
+							$content_css = Uri::root(true) . '/templates/' . $template->template . '/css/editor.css';
+						}
+					}
 				}
 			}
 		}
@@ -351,10 +366,10 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$ignore_filter = $filter === false;
 
-			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : array();
-			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : array();
-			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : array();
-			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : array();
+			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : [];
+			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : [];
+			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : [];
+			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : [];
 
 			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
@@ -399,22 +414,11 @@ class PlgEditorTinymce extends CMSPlugin
 			$resizing = 'both';
 		}
 
-		// Set of always available plugins
-		$plugins  = array(
-			'autolink',
-			'lists',
-			'importcss',
-			'quickbars',
-		);
 
-		// Allowed elements
-		$elements = array(
-			'hr[id|title|alt|class|width|size|noshade]',
-		);
 
 		if ($extended_elements)
 		{
-			$elements = array_merge($elements, explode(',', $extended_elements));
+			$elements = array_merge($this->elements, explode(',', $extended_elements));
 		}
 
 		// Prepare the toolbar/menubar
@@ -448,9 +452,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$levelParams->loadArray($preset);
 		}
 
-		$menubar         = (array) $levelParams->get('menu', []);
-		$toolbar1        = (array) $levelParams->get('toolbar1', []);
-		$toolbar2        = (array) $levelParams->get('toolbar2', []);
+		$menubar  = (array) $levelParams->get('menu', []);
+		$toolbar1 = (array) $levelParams->get('toolbar1', []);
+		$toolbar2 = (array) $levelParams->get('toolbar2', []);
 
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
@@ -461,7 +465,7 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			if (!empty($knownButtons[$btnName]['plugin']))
 			{
-				$plugins[] = $knownButtons[$btnName]['plugin'];
+				$this->plugins[] = $knownButtons[$btnName]['plugin'];
 			}
 		}
 
@@ -473,6 +477,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Do we have a custom content_template_path
 			$template_path = $levelParams->get('content_template_path');
 			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
+			$template_path = ($template->inheritable || $template->parent !== '') ? '/media/templates/site/' . $template->template . '/html/tinymce' : '';
 
 			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
 			{
@@ -485,31 +490,30 @@ class PlgEditorTinymce extends CMSPlugin
 					continue;
 				}
 
-				$lang        = Factory::getLanguage();
 				$title       = $filename;
 				$title_upper = strtoupper($filename);
 				$description = ' ';
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
 				{
 					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
 				}
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
 				{
 					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
 				}
 
-				$templates[] = array(
+				$templates[] = [
 					'title' => $title,
 					'description' => $description,
 					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
-				);
+				];
 			}
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0) as $pName => $def)
+		foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -556,7 +560,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if ($custom_plugin)
 		{
 			$separator = strpos($custom_plugin, ',') !== false ? ',' : ' ';
-			$plugins   = array_merge($plugins, explode($separator, $custom_plugin));
+			$plugins   = array_merge($this->plugins, explode($separator, $custom_plugin));
 		}
 
 		if ($custom_button)
@@ -571,21 +575,21 @@ class PlgEditorTinymce extends CMSPlugin
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
-			array(
-				'suffix'   => '.min',
-				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
-				'directionality' => $text_direction,
-				'language' => $langPrefix,
+			[
+				'suffix'         => '.min',
+				'baseURL'        => Uri::root(true) . '/media/vendor/tinymce',
+				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
+				'language'       => $langPrefix,
+				'skin_url'       => $skin,
+				'theme'          => $theme,
+				'schema'         => 'html5',
 				'autosave_restore_when_empty' => false,
-				'skin'     => $skin,
-				'theme'    => $theme,
-				'schema'   => 'html5',
 
 				// Toolbars
-				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
+				'menubar'  => empty($menubar) ? false : implode(' ', array_unique($menubar)),
+				'toolbar'  => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
-				'plugins'  => implode(',', array_unique($plugins)),
+				'plugins'  => implode(',', array_unique($this->plugins)),
 
 				// Quickbars
 				'quickbars_image_toolbar'     => false,
@@ -599,7 +603,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'verify_html'      => !$ignore_filter,
 
 				'valid_elements'          => $valid_elements,
-				'extended_valid_elements' => implode(',', $elements),
+				'extended_valid_elements' => implode(',', $this->elements),
 				'invalid_elements'        => $invalid_elements,
 
 				// URL
@@ -631,8 +635,12 @@ class PlgEditorTinymce extends CMSPlugin
 				'dndEnabled' => $dragdrop,
 
 				// Disable TinyMCE Branding
-				'branding'   => false,
-			)
+				'branding'                     => false,
+				'style_formats_merge'          => true,
+				'importcss_append'             => false,
+				'visualblocks_default_state'   => false,
+				'end_container_on_empty_block' => false,
+			]
 		);
 
 		if ($levelParams->get('newlines'))
@@ -650,22 +658,22 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 
-		$scriptOptions['rel_list'] = array(
-			array('title' => 'None', 'value' => ''),
-			array('title' => 'Alternate', 'value' => 'alternate'),
-			array('title' => 'Author', 'value' => 'author'),
-			array('title' => 'Bookmark', 'value' => 'bookmark'),
-			array('title' => 'Help', 'value' => 'help'),
-			array('title' => 'License', 'value' => 'license'),
-			array('title' => 'Lightbox', 'value' => 'lightbox'),
-			array('title' => 'Next', 'value' => 'next'),
-			array('title' => 'No Follow', 'value' => 'nofollow'),
-			array('title' => 'No Referrer', 'value' => 'noreferrer'),
-			array('title' => 'Prefetch', 'value' => 'prefetch'),
-			array('title' => 'Prev', 'value' => 'prev'),
-			array('title' => 'Search', 'value' => 'search'),
-			array('title' => 'Tag', 'value' => 'tag'),
-		);
+		$scriptOptions['rel_list'] = [
+			['title' => 'None', 'value' => ''],
+			['title' => 'Alternate', 'value' => 'alternate'],
+			['title' => 'Author', 'value' => 'author'],
+			['title' => 'Bookmark', 'value' => 'bookmark'],
+			['title' => 'Help', 'value' => 'help'],
+			['title' => 'License', 'value' => 'license'],
+			['title' => 'Lightbox', 'value' => 'lightbox'],
+			['title' => 'Next', 'value' => 'next'],
+			['title' => 'No Follow', 'value' => 'nofollow'],
+			['title' => 'No Referrer', 'value' => 'noreferrer'],
+			['title' => 'Prefetch', 'value' => 'prefetch'],
+			['title' => 'Prev', 'value' => 'prev'],
+			['title' => 'Search', 'value' => 'search'],
+			['title' => 'Tag', 'value' => 'tag'],
+		];
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
@@ -685,65 +693,43 @@ class PlgEditorTinymce extends CMSPlugin
 	private function tinyButtons($name, $excluded)
 	{
 		// Get the available buttons
-		$buttonsEvent = new Event(
+		$buttons  = $this->getDispatcher()->dispatch(
 			'getButtons',
-			[
-				'editor'  => $name,
-				'buttons' => $excluded,
-			]
-		);
+			new Event(
+				'getButtons',
+				[
+					'editor'  => $name,
+					'buttons' => $excluded,
+				]
+			)
+		)['result'];
 
-		$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
-		$buttons       = $buttonsResult['result'];
-
-		if (is_array($buttons) || (is_bool($buttons) && $buttons))
-		{
+		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
 			Text::script('PLG_TINY_CORE_BUTTONS');
 
 			// Init the arrays for the buttons
 			$btnsNames = [];
 
 			// Build the script
-			foreach ($buttons as $i => $button)
-			{
+			foreach ($buttons as $i => $button) {
 				$button->id = $name . '_' . $button->name . '_modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
-				if ($button->get('name'))
-				{
-					// Set some vars
-					$btnName = $button->get('text');
-					$modalId = $name . '_' . $button->name;
-					$onclick = $button->get('onclick') ?: null;
-					$icon    = $button->get('icon');
-
-					if ($button->get('link') !== '#')
-					{
-						$href = Uri::base() . $button->get('link');
-					}
-					else
-					{
-						$href = null;
-					}
-
-					$coreButton = [];
-
-					$coreButton['name']    = $btnName;
-					$coreButton['href']    = $href;
-					$coreButton['id']      = $modalId;
-					$coreButton['icon']    = $icon;
-					$coreButton['click']   = $onclick;
-					$coreButton['iconSVG'] = $button->get('iconSVG');
-
+				if ($button->get('name')) {
 					// The array with the toolbar buttons
-					$btnsNames[] = $coreButton;
+					$btnsNames[] = [
+						'name'    => $button->get('text'),
+						'href'    => ($button->get('link') !== '#') ? Uri::base() . $button->get('link') : null,
+						'id'      => $name . '_' . $button->name,
+						'icon'    => $button->get('icon'),
+						'click'   => $button->get('onclick') ?: null,
+						'iconSVG' => $button->get('iconSVG'),
+					];
 				}
 			}
 
-			sort($btnsNames);
-
-			return ['names'  => $btnsNames];
+			return ['names'  => sort($btnsNames)];
 		}
 	}
 
@@ -1123,5 +1109,37 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Helper function to get the Site's default template
+	 *
+	 * @return  string|stdClass  The template name or the template object
+	 */
+	private function getSiteTemplate()
+	{
+		/*
+		 * Lets get the default template for the site application
+		 */
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
+				]
+			);
+
+		$db->setQuery($query);
+
+		try {
+			return $db->loadObject();
+		} catch (\RuntimeException $e) {
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return '';
+		}
 	}
 }

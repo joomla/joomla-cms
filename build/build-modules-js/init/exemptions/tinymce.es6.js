@@ -51,6 +51,10 @@ module.exports.tinyMCE = async (packageName, version) => {
   await copyAllFiles('icons', 'tinymce', 'icons');
   await copyAllFiles('plugins', 'tinymce', 'plugins');
   await copyAllFiles('skins', 'tinymce', 'skins');
+
+  await mkdir('media/plg_editors_tinymce/css/skins', { recursive: true, mode: 0o755 });
+  await copy(join(RootPath, 'node_modules/tinymce/skins'), join(RootPath, 'media/plg_editors_tinymce/css/skins'), { preserveTimestamps: true });
+
   await copyAllFiles('themes', 'tinymce', 'themes');
 
   await copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
