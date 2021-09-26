@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTACT_CONTACT_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CONTACT_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_SINGLE_CONTACT"
+			key = "Menu_Item:_Single_Contact"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_CONTACT_VIEW_DEFAULT_DESC]]>

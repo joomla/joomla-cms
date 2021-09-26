@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_submenu.ini</language>
 		<language tag="en-GB">language/en-GB/mod_submenu.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_SUBMENU" />
+	<help key="Admin_Modules:_Administrator_Dashboard_Menu" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">

@@ -17,7 +17,7 @@
 		<language tag="en-GB">language/en-GB/mod_messages.ini</language>
 		<language tag="en-GB">language/en-GB/mod_messages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MESSAGES" />
+	<help key="Admin_Modules:_Messages" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
