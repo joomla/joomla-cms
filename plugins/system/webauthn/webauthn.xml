@@ -15,7 +15,7 @@
 		<folder>forms</folder>
 		<folder>src</folder>
 	</files>
-	<languages folder="language">
+	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_webauthn.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_webauthn.sys.ini</language>
 	</languages>
