@@ -85,6 +85,15 @@ class TemplatesListField extends FolderlistField
 	 */
 	protected function getInput()
 	{
-		return HTMLHelper::_('select.genericlist', (array) $this->getOptions(), $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
+		return HTMLHelper::_(
+			'select.genericlist',
+			(array) $this->getOptions(),
+			$this->name,
+			'class="form-select"',
+			'value',
+			'text',
+			$this->value,
+			$this->id
+		);
 	}
 }
