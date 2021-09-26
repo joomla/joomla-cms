@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_USERS_REGISTRATION_VIEW_DEFAULT_TITLE" option="COM_USERS_REGISTRATION_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_USER_REGISTRATION"
+			key="Menu_Item:_Registration_Form"
 		/>
 		<message>
 			<![CDATA[COM_USERS_REGISTRATION_VIEW_DEFAULT_DESC]]>

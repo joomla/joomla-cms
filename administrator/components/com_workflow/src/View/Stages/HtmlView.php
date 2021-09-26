@@ -217,6 +217,6 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_STAGES_LIST');
+		$toolbar->help('Stages_List:_Basic_Workflow');
 	}
 }
