@@ -63,20 +63,14 @@ class TemplatesListField extends FolderlistField
 	public function getOptions()
 	{
 		$def         = new \stdClass;
-		$def->value  = '-1';
+		$def->value  = '';
 		$def->text   = Text::_('JOPTION_DO_NOT_USE');
 		$options     = [0 => $def];
 		$directories = [JPATH_ROOT . '/templates', JPATH_ROOT . '/media/templates/site'];
 
 		foreach ($directories as $directory) {
 			$this->directory = $directory;
-			$current         = parent::getOptions();
-
-			if ($current[0]->value === '-1') {
-				array_shift($current);
-			}
-
-			$options = array_merge($options, $current);
+			$options         = array_merge($options, parent::getOptions());
 		}
 
 		return $options;
@@ -91,14 +85,6 @@ class TemplatesListField extends FolderlistField
 	 */
 	protected function getInput()
 	{
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Reset the non selected value to null
-		if ($options[0]->value === '-1') {
-			$options[0]->value = '';
-		}
-
-		return HTMLHelper::_('select.genericlist', $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
+		return HTMLHelper::_('select.genericlist', (array) $this->getOptions(), $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
 	}
 }
