@@ -65,12 +65,12 @@ hr.system-pagebreak {
 }
 
 span[lang] {
-  border: 1px dashed #bbb;
   padding: 2px;
+  border: 1px dashed #bbb;
   &:after {
-    content: attr(lang);
-    color: red;
-    vertical-align: super;
     font-size: smaller;
+    color: #f00;
+    vertical-align: super;
+    content: attr(lang);
   }
 }
