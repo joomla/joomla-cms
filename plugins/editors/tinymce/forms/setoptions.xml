@@ -306,7 +306,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			icon="list"
 			multiple="true"
-			default='[{"content_language_name":"English", "content_language_code":"en"}]'
+			default=''
 		>
 			<form hidden="true" name="content_languages" repeat="true">
 				<field

@@ -549,6 +549,21 @@ class PlgEditorTinymce extends CMSPlugin
 		// Convert pt to px in dropdown
 		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
+
+		// select the languages for the "language of parts" menu
+		if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
+		{
+			foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language)
+			{
+				// if we have a language name and a language code then add to the menu
+				if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '')
+				{
+					$ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+				}
+			}
+			$scriptOptions['content_langs'] = array_merge($ctemp);
+		}
+
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
 		$custom_button = trim($levelParams->get('custom_button', ''));
@@ -665,15 +680,6 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Prev', 'value' => 'prev'),
 			array('title' => 'Search', 'value' => 'search'),
 			array('title' => 'Tag', 'value' => 'tag'),
-		);
-
-		$scriptOptions['content_langs'] = array(
-			array('title' => 'English', 'code' => 'en-GB'),
-			array('title' => 'Spanish', 'code' => 'es'),
-			array('title' => 'French', 'code' => 'fr'),
-			array('title' => 'German', 'code' => 'de'),
-			array('title' => 'Portuguese', 'code' => 'pt'),
-			array('title' => 'Chinese', 'code' => 'sh'),
 		);
 
 		$options['tinyMCE']['default'] = $scriptOptions;
