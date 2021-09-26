@@ -156,11 +156,11 @@ abstract class ToolbarHelper
 	/**
 	 * Writes a help button for showing/hiding the inline help of a form
 	 *
-	 * @param   string  $class      The class used by the inline help items.
+	 * @param   string  $class   The class used by the inline help items.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function inlinehelp(string $class = "hide-aware-inline-help")
 	{

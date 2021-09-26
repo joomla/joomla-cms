@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class InlinehelpButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  $options  The options about this button.
+	 * @param   array  $options  The options for this button.
 	 *
 	 * @return  void
 	 *
