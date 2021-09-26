@@ -313,7 +313,6 @@
 					name="content_language_name"
 					type="text"
 					label="PLG_TINY_FIELD_CONTENTLANGUAGE_LABEL"
-					description="PLG_TINY_FIELD_CONTENTLANGUAGE_DESC"
 					size="30"
 					filter="string"
 				/>
@@ -322,7 +321,6 @@
 					name="content_language_code"
 					type="text"
 					label="PLG_TINY_FIELD_CONTENTCODE_LABEL"
-					description="PLG_TINY_FIELD_CONTENTCODE_DESC"
 					size="10"
 					filter="string"
 				/>
