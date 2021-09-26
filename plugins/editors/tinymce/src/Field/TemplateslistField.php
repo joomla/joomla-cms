@@ -1,10 +1,9 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,17 +13,18 @@ namespace Joomla\Plugin\Editors\TinyMCE\Field;
 
 use Joomla\CMS\Form\Field\FolderlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Generates the list of directories  available for drag and drop upload.
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
- * @since       3.7.0
+ * @since       __DEPLOY_VERSION__
  */
-class TemplateslistField extends FolderlistField
+class TemplatesListField extends FolderlistField
 {
-	protected $type = 'templateslist';
+	protected $type = 'templatesList';
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -38,20 +38,17 @@ class TemplateslistField extends FolderlistField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     \Joomla\CMS\Form\FormField::setup()
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
-		// Get the path in which to search for file options.
+		// Set some defaults.
 		$this->recursive   = true;
 		$this->hideDefault = true;
 		$this->exclude     = 'system';
 		$this->hideNone    = true;
-		// hide_none="true"
-		// recursive="true"
-		// exclude="system"
 
 		return $return;
 	}
@@ -61,16 +58,27 @@ class TemplateslistField extends FolderlistField
 	 *
 	 * @return  array  The dirs option objects.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
-		$options = [];
+		$def         = new \stdClass;
+		$def->value  = '-1';
+		$def->text   = Text::_('JOPTION_DO_NOT_USE');
+		$options     = [0 => $def];
 		$directories = [JPATH_ROOT . '/templates', JPATH_ROOT . '/media/templates/site'];
+
 		foreach ($directories as $directory) {
 			$this->directory = $directory;
-			$options = array_merge($options, parent::getOptions());
+			$current         = parent::getOptions();
+
+			if ($current[0]->value === '-1') {
+				array_shift($current);
+			}
+
+			$options = array_merge($options, $current);
 		}
+
 		return $options;
 	}
 
@@ -79,23 +87,18 @@ class TemplateslistField extends FolderlistField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput()
 	{
-		$html = array();
-
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
 		// Reset the non selected value to null
-		if ($options[0]->value === '') {
+		if ($options[0]->value === '-1') {
 			$options[0]->value = '';
 		}
 
-		// Create a regular list.
-		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
-
-		return implode($html);
+		return HTMLHelper::_('select.genericlist', $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
 	}
 }
