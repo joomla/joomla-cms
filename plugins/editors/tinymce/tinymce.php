@@ -580,6 +580,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'baseURL'        => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
 				'language'       => $langPrefix,
+				'skin'           => 'oxide',
 				'skin_url'       => $skin,
 				'theme'          => $theme,
 				'schema'         => 'html5',
