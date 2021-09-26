@@ -252,8 +252,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// Set the selected skin
-		$skinRelPath = dirname(HTMLHelper::stylesheet('plg_editors_tinymce/skins/ui/oxide/skin.css', ['relative' => true, 'pathOnly' => true]));
-		$skin = Uri::root(false) . substr($skinRelPath, 1);
+		$skin = dirname(HTMLHelper::stylesheet('plg_editors_tinymce/skins/ui/oxide/skin.css', ['relative' => true, 'pathOnly' => true]));
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
