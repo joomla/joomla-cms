@@ -885,7 +885,7 @@ class Language
 			}
 
 			// Check that the line passes the necessary format.
-			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			if (!preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 			{
 				$errors[] = $realNumber;
 				continue;
