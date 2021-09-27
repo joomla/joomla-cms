@@ -316,7 +316,7 @@ class WebAssetItem implements WebAssetItemInterface
 				[
 					'pathOnly' => true,
 					'relative' => !$this->isPathAbsolute($path),
-					'debugMode' => $this->getOption('debug', false),
+					'debugMode' => $this->getOption('debugMode', false),
 				]
 			);
 		}
