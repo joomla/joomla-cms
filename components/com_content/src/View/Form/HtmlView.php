@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	 * Should we show Save As Copy button?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $showSaveAsCopy = false;
 
