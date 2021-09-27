@@ -421,7 +421,7 @@ class PlgUserJoomla extends CMSPlugin
 		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
-		$instance->name = $user['fullname'];
+		$instance->name = $user['name'];
 		$instance->username = $user['username'];
 		$instance->password_clear = $user['password_clear'];
 
