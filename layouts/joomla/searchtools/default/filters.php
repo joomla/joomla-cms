@@ -24,6 +24,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php $dataShowOn = " data-showon='" . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
+				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			</div>
 		<?php endif; ?>
