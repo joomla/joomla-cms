@@ -119,14 +119,14 @@
 				showon="show_image!:0"
 			/>
 			<field
-					name="link_image"
-					type="list"
-					label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
-					default=""
-					useglobal="true"
-					class="form-select-color-state"
-					validate="options"
-					showon="show_image!:0"
+				name="link_image"
+				type="list"
+				label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				showon="show_image!:0"
 			>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
