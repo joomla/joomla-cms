@@ -295,10 +295,10 @@ class PlgFinderContent extends Adapter
 			$item->title = $title;
 		}
 
-		$images = json_decode($item->images);
+		$images = $item->images ? json_decode($item->images) : false;
 
 		// Add the image.
-		if (!empty($images) && $images->image_intro)
+		if ($images && !empty($images->image_intro))
 		{
 			$item->imageUrl = $images->image_intro;
 			$item->imageAlt = $images->image_intro_alt ?? '';
