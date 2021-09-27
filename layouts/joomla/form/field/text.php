@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -49,6 +50,7 @@ extract($displayData);
  * @var   string   $dirname         The directory name
  * @var   string   $addonBefore     The text to use in a bootstrap input group prepend
  * @var   string   $addonAfter      The text to use in a bootstrap input group append
+ * @var   boolean  $charcounter     Does this field support a character counter?
  */
 
 $list = '';
@@ -58,8 +60,24 @@ if ($options)
 	$list = 'list="' . $id . '_datalist"';
 }
 
+$charcounterclass = '';
+
+if ($charcounter)
+{
+	// Load the js file
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->useScript('short-and-sweet');
+
+	// Set the css class to be used as the trigger
+	$charcounterclass = ' charcount';
+
+	// Set the text
+	$counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
+}
+
 $attributes = array(
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($class) ? 'class="form-control ' . $class . $charcounterclass . '"' : 'class="form-control' . $charcounterclass . '"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
@@ -74,6 +92,7 @@ $attributes = array(
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($inputmode) ? $inputmode : '',
+	!empty($counterlabel) ? $counterlabel : '',
 	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
 	// @TODO add a proper string here!!!
