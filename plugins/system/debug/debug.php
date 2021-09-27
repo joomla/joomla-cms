@@ -327,7 +327,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 			if ($this->params->get('profile', 1))
 			{
-				$this->debugBar->addCollector(new ProfileCollector($this->params, null, $endTime));
+				$this->debugBar->addCollector((new ProfileCollector($this->params))->setRequestEndTime($endTime));
 			}
 
 			if ($this->params->get('queries', 1))

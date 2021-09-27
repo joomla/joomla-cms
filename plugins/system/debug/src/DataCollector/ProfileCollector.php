@@ -58,29 +58,18 @@ class ProfileCollector extends AbstractDataCollector
 	 * Constructor.
 	 *
 	 * @param   Registry  $params  Parameters.
-	 * @param   float     $requestStartTime
-	 * @param   float     $requestEndTime
 	 *
 	 * @since 4.0.0
 	 */
-	public function __construct(Registry $params, $requestStartTime = null, $requestEndTime = null)
+	public function __construct(Registry $params)
 	{
-		if ($requestStartTime !== null)
-		{
-			$this->requestStartTime = $requestStartTime;
-		}
-		elseif (isset($_SERVER['REQUEST_TIME_FLOAT']))
+		if (isset($_SERVER['REQUEST_TIME_FLOAT']))
 		{
 			$this->requestStartTime = $_SERVER['REQUEST_TIME_FLOAT'];
 		}
 		else
 		{
 			$this->requestStartTime = microtime(true);
-		}
-
-		if ($requestEndTime !== null)
-		{
-			$this->requestEndTime = $requestEndTime;
 		}
 
 		parent::__construct($params);
@@ -247,6 +236,22 @@ class ProfileCollector extends AbstractDataCollector
 		}
 
 		return microtime(true) - $this->requestStartTime;
+	}
+
+	/**
+	 * Sets request end time.
+	 *
+	 * @param   float  $time  Request end time.
+	 *
+	 * @return $this
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setRequestEndTime($time): self
+	{
+		$this->requestEndTime = $time;
+
+		return $this;
 	}
 
 	/**
