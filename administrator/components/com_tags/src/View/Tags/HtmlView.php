@@ -193,6 +193,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_tags');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_TAGS_MANAGER');
+		$toolbar->help('Tags');
 	}
 }

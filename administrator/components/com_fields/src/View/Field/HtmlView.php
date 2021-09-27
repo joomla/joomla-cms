@@ -165,6 +165,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS_EDIT');
+		ToolbarHelper::help('Component:_New_or_Edit_Field');
 	}
 }
