@@ -314,7 +314,7 @@ class TextField extends FormField
 			'addonBefore' => $this->addonBefore,
 			'addonAfter'  => $this->addonAfter,
 			'options'     => $options,
-			'charcounter'  => $this->charcounter,
+			'charcounter' => $this->charcounter,
 		);
 
 		return array_merge($data, $extraData);
