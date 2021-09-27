@@ -549,7 +549,6 @@ class PlgEditorTinymce extends CMSPlugin
 		// Convert pt to px in dropdown
 		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
-
 		// select the languages for the "language of parts" menu
 		if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
 		{
