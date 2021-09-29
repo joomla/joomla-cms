@@ -92,7 +92,7 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 				</fieldset>
 
 				<fieldset class="options-form match-custom"
-						  data-showon='[{"field":"jform[execution_rules][rule-type]","values":["custom"],"sign":"=","op":""}]'
+						  data-showon='[{"field":"jform[execution_rules][rule-type]","values":["cron-expression"],"sign":"=","op":""}]'
 				>
 					<legend><?php echo Text::_('COM_SCHEDULER_FIELDSET_CRON_OPTIONS'); ?></legend>
 					<?php echo $this->form->renderFieldset('custom-cron-rules'); ?>

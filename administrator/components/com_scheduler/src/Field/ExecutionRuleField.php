@@ -37,9 +37,10 @@ class ExecutionRuleField extends PredefinedlistField
 	 */
 	protected $predefinedOptions = [
 		'interval-minutes' => 'COM_SCHEDULER_OPTION_INTERVAL_MINUTES',
-		'interval-hours' => 'COM_SCHEDULER_OPTION_INTERVAL_HOURS',
-		'interval-days' => 'COM_SCHEDULER_OPTION_INTERVAL_DAYS',
-		'interval-months' => 'COM_SCHEDULER_OPTION_INTERVAL_MONTHS',
-		'custom' => 'COM_SCHEDULER_OPTION_INTERVAL_CUSTOM'
+		'interval-hours'   => 'COM_SCHEDULER_OPTION_INTERVAL_HOURS',
+		'interval-days'    => 'COM_SCHEDULER_OPTION_INTERVAL_DAYS',
+		'interval-months'  => 'COM_SCHEDULER_OPTION_INTERVAL_MONTHS',
+		'cron-expression'  => 'COM_SCHEDULER_OPTION_INTERVAL_CUSTOM',
+		'manual'           => 'COM_SCHEDULER_OPTION_EXECUTION_MANUAL_LABEL'
 	];
 }
