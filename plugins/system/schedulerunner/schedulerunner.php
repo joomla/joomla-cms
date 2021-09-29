@@ -45,11 +45,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function __construct(&$subject, $config = [])
 	{
-		// Make sure com_scheduler is installed and enabled
-		if (!ComponentHelper::isEnabled('com_scheduler'))
-		{
-			return;
-		}
 
 		parent::__construct($subject, $config);
 	}
@@ -63,6 +58,18 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public static function getSubscribedEvents(): array
 	{
+		// Make sure com_scheduler is installed and enabled
+		if (!ComponentHelper::isEnabled('com_scheduler'))
+		{
+			return [];
+		}
+
+		// Make sure lazy scheduling is enabled
+		if (!ComponentHelper::getParams('com_scheduler')->get('lazy_scheduler.enabled', true))
+		{
+			return [];
+		}
+
 		return [
 			'onBeforeRender' => ['registerRunner', Priority::MAX]
 		];
