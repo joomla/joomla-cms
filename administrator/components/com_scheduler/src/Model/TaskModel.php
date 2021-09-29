@@ -292,19 +292,37 @@ class TaskModel extends AdminModel
 	 */
 	public function save($data): bool
 	{
+		$id    = (int) ($data['id'] ?? $this->getState('task.id'));
+		$isNew = $id === 0;
+
 		// Clean up execution rules
 		$data['execution_rules'] = $this->processExecutionRules($data['execution_rules']);
 
-		$basisDayOfMonth = $data['execution_rules']['exec-day'];
-		[$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
+		// If a new entry, we'll have to put in place a pseudo-last_execution
+		if ($isNew)
+		{
+			$basisDayOfMonth = $data['execution_rules']['exec-day'];
+			[$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
-		$data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
-			. "-$basisDayOfMonth $basisHour:$basisMinute:00";
+			$data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+				. "-$basisDayOfMonth $basisHour:$basisMinute:00";
+		}
+		else
+		{
+			// phpcs:ignore -- row from table
+			$data['last_execution'] = $this->getItem($id)->last_execution;
+		}
 
 		// Build the `cron_rules` column from `execution_rules`
 		$data['cron_rules'] = $this->buildExecutionRules($data['execution_rules']);
 
+		// `next_execution` would be null if scheduling is disabled with the "manual" rule!
 		$data['next_execution'] = (new ExecRuleHelper($data))->nextExec();
+
+		if ($isNew)
+		{
+			$data['last_execution'] = null;
+		}
 
 		// If no params, we set as empty array.
 		// ? Is this the right place to do this
@@ -337,9 +355,9 @@ class TaskModel extends AdminModel
 
 		// If custom ruleset, sort it
 		// ? Is this necessary
-		if ($ruleType === 'custom')
+		if ($ruleType === 'cron-expression')
 		{
-			foreach ($executionRules['custom'] as &$values)
+			foreach ($executionRules['cron-expression'] as &$values)
 			{
 				sort($values);
 			}
@@ -351,8 +369,6 @@ class TaskModel extends AdminModel
 	/**
 	 * Private method to build execution expression from input execution rules.
 	 * This expression is used internally to determine execution times/conditions.
-	 *
-	 * ! DRY violations here
 	 *
 	 * @param   array  $executionRules  Execution rules from the Task form, post-processing.
 	 *
@@ -372,32 +388,33 @@ class TaskModel extends AdminModel
 			'years'   => 'P%dY'
 		];
 
-		$buildExecutionRules = [];
+		$ruleType        = $executionRules['rule-type'];
+		$ruleClass       = strpos($ruleType, 'interval') === 0 ? 'interval' : $ruleType;
+		$buildExpression = '';
 
-		$ruleType                      = $executionRules['rule-type'];
-		$buildExecutionRules['visits'] = null;
-		$buildExecutionRules['type']   = $execType = $executionRules['rule-type'] === 'custom' ? 'cron' : 'interval';
-
-		if ($execType === 'interval')
+		if ($ruleClass === 'interval')
 		{
 			// Rule type for intervals interval-<minute/hours/...>
-			$subtype                    = explode('-', $ruleType)[1];
-			$interval                   = $executionRules["interval-$subtype"];
-			$buildExecutionRules['exp'] = sprintf($intervalStringMap[$subtype], $interval);
+			$intervalType    = explode('-', $ruleType)[1];
+			$interval        = $executionRules["interval-$intervalType"];
+			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($execType === 'cron')
+		if ($ruleClass === 'cron')
 		{
 			// ! custom matches are disabled in the form
-			$customRules                = $executionRules['custom'];
-			$buildExecutionRules['exp'] .= $this->wildcardIfMatch($customRules['minutes'], range(0, 59), true);
-			$buildExecutionRules['exp'] .= ' ' . $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
-			$buildExecutionRules['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
-			$buildExecutionRules['exp'] .= ' ' . $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
-			$buildExecutionRules['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_week'], range(0, 6), true);
+			$matches         = $executionRules['cron-expression'];
+			$buildExpression .= $this->wildcardIfMatch($matches['minutes'], range(0, 59), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
 		}
 
-		return $buildExecutionRules;
+		return [
+			'type' => $ruleClass,
+			'exp'  => $buildExpression,
+		];
 	}
 
 	/**
