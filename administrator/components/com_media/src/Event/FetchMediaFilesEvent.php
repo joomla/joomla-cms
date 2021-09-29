@@ -60,7 +60,7 @@ class FetchMediaFilesEvent extends AbstractEvent
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setFiles(array $files)
+	public function setFiles(array $files): void
 	{
 		$this->files = $files;
 	}

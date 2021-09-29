@@ -60,7 +60,7 @@ class FetchMediaUrlUrlEvent extends AbstractEvent
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setUrl(string $url)
+	public function setUrl(string $url): void
 	{
 		$this->url = $url;
 	}
