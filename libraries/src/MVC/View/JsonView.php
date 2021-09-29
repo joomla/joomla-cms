@@ -66,10 +66,7 @@ class JsonView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (\array_key_exists('charset', $config))
 		{
-			@trigger_error(
-				'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
-				E_USER_DEPRECATED
-			);
+			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 

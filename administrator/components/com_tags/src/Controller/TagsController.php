@@ -13,7 +13,6 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -69,29 +68,5 @@ class TagsController extends AdminController
 
 			return false;
 		}
-	}
-
-	/**
-	 * Method to get the number of published tags for quickicons
-	 *
-	 * @return  string  The JSON-encoded amount of published articles
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getQuickiconContent()
-	{
-		$model = $this->getModel('tags');
-
-		$model->setState('filter.published', 1);
-
-		$amount = (int) $model->getTotal();
-
-		$result = [];
-
-		$result['amount'] = $amount;
-		$result['sronly'] = Text::plural('COM_TAGS_N_QUICKICON_SRONLY', $amount);
-		$result['name'] = Text::plural('COM_TAGS_N_QUICKICON', $amount);
-
-		echo new JsonResponse($result);
 	}
 }

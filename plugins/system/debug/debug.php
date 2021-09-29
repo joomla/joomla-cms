@@ -589,34 +589,20 @@ class PlgSystemDebug extends CMSPlugin
 						break;
 					}
 
-					$file = '';
-					$line = '';
+					$file = $entry->callStack[2]['file'] ?? '';
+					$line = $entry->callStack[2]['line'] ?? '';
 
-					// Find the caller, skip Log methods and trigger_error function
-					foreach ($entry->callStack as $stackEntry)
+					if (!$file)
 					{
-						if (!empty($stackEntry['class'])
-							&& ($stackEntry['class'] === 'Joomla\CMS\Log\LogEntry' || $stackEntry['class'] === 'Joomla\CMS\Log\Log'))
-						{
-							continue;
-						}
-
-						if (empty($stackEntry['class']) && !empty($stackEntry['function'])
-							&& $stackEntry['function'] === 'trigger_error')
-						{
-							continue;
-						}
-
-						$file = $stackEntry['file'] ?? '';
-						$line = $stackEntry['line'] ?? '';
-
-						break;
+						// In case trigger_error is used
+						$file = $entry->callStack[4]['file'] ?? '';
+						$line = $entry->callStack[4]['line'] ?? '';
 					}
 
 					$category = $entry->category;
-					$relative = $file ? str_replace(JPATH_ROOT, '', $file) : '';
+					$relative = str_replace(JPATH_ROOT, '', $file);
 
-					if ($relative && 0 === strpos($relative, '/libraries/src'))
+					if (0 === strpos($relative, '/libraries/src'))
 					{
 						if (!$logDeprecatedCore)
 						{

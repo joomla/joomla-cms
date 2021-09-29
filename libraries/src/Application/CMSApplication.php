@@ -1235,9 +1235,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function isTwoFactorAuthenticationRequired(): bool
 	{
-		$user = $this->getIdentity();
+		$userId = $this->getIdentity()->id;
 
-		if (!$user->id)
+		if (!$userId)
 		{
 			return false;
 		}
@@ -1248,22 +1248,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
-		$comUsersParams = ComponentHelper::getComponent('com_users')->getParams();
-
-		// Check if 2fa is enforced for the logged in user.
-		$forced2faGroups = (array) $comUsersParams->get('enforce_2fa_usergroups', []);
-
-		if (!empty($forced2faGroups))
-		{
-			$userGroups = (array) $user->get('groups', []);
-
-			if (!array_intersect($forced2faGroups, $userGroups))
-			{
-				return false;
-			}
-		}
-
-		$enforce2faOptions = $comUsersParams->get('enforce_2fa_options', 0);
+		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
 
 		if ($enforce2faOptions == 0 || !$enforce2faOptions)
 		{

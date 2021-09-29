@@ -159,9 +159,10 @@ class Session extends BaseSession
 	 */
 	public static function getInstance()
 	{
-		@trigger_error(
+		Log::add(
 			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
-			E_USER_DEPRECATED
+			Log::WARNING,
+			'deprecated'
 		);
 
 		return Factory::getApplication()->getSession();
@@ -186,10 +187,11 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				@trigger_error(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					E_USER_DEPRECATED
+					Log::WARNING,
+					'deprecated'
 				);
 
 				$name = $args[2] . '.' . $name;
@@ -242,10 +244,11 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				@trigger_error(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					E_USER_DEPRECATED
+					Log::WARNING,
+					'deprecated'
 				);
 
 				$name = $args[2] . '.' . $name;
@@ -273,10 +276,11 @@ class Session extends BaseSession
 
 			if (!empty($args[1]))
 			{
-				@trigger_error(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					E_USER_DEPRECATED
+					Log::WARNING,
+					'deprecated'
 				);
 
 				$name = $args[1] . '.' . $name;
@@ -320,9 +324,10 @@ class Session extends BaseSession
 
 			if (!empty($args[0]))
 			{
-				@trigger_error(
+				Log::add(
 					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
-					E_USER_DEPRECATED
+					Log::WARNING,
+					'deprecated'
 				);
 
 				$name = $args[0];
@@ -330,10 +335,11 @@ class Session extends BaseSession
 				// Also check for a namespace
 				if (\func_num_args() > 1 && !empty($args[1]))
 				{
-					@trigger_error(
+					Log::add(
 						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 						 . 'The namespace should be prepended to the name instead.',
-						E_USER_DEPRECATED
+						Log::WARNING,
+						'deprecated'
 					);
 
 					$name = $args[1] . '.' . $name;

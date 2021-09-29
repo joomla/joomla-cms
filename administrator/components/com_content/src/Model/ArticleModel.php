@@ -13,8 +13,6 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -686,9 +684,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function save($data)
 	{
-		$app    = Factory::getApplication();
-		$input  = $app->input;
-		$filter = InputFilter::getInstance();
+		$input  = Factory::getApplication()->input;
+		$filter = \JFilterInput::getInstance();
+		$db     = $this->getDbo();
+		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -781,29 +780,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = $this->getTable();
-
-			if ($app->isClient('site'))
-			{
-				$origTable->load($input->getInt('a_id'));
-
-				if ($origTable->title === $data['title'])
-				{
-					/**
-					 * If title of article is not changed, set alias to original article alias so that Joomla! will generate
-					 * new Title and Alias for the copied article
-					 */
-					$data['alias'] = $origTable->alias;
-				}
-				else
-				{
-					$data['alias'] = '';
-				}
-			}
-			else
-			{
-				$origTable->load($input->getInt('id'));
-			}
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -811,9 +789,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			elseif ($data['alias'] == $origTable->alias)
+			else
 			{
-				$data['alias'] = '';
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
 			}
 		}
 
@@ -822,16 +803,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			if ($data['alias'] == null)
 			{
-				if ($app->get('unicodeslugs') == 1)
+				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
+					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = $this->getTable();
+				$table = Table::getInstance('Content', 'JTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -843,7 +824,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				if (isset($msg))
 				{
-					$app->enqueueMessage($msg, 'warning');
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 				}
 			}
 		}

@@ -88,14 +88,10 @@ $wa->useScript('keepalive')
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php if ($this->dateRelative) : ?>
-									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-									<div class="small">
-								<?php endif; ?>
+								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+								<div class="small">
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								<?php if ($this->dateRelative) : ?>
-									</div>
-								<?php endif; ?>
+								</div>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

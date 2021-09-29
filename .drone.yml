@@ -265,11 +265,11 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.1-dev
+        - 4.0-dev
 
 
 ---
 kind: signature
-hmac: 71729a12ae3556e03f924ac95c8a5cd14bb6a3c2d20ef6768fdd1e853397fd22
+hmac: eeef976e7f7c7dde8100d7dc4944250af4886b397250aab5c8069a021f4e3043
 
 ...

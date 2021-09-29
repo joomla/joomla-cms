@@ -391,10 +391,6 @@ class ArticleController extends FormController
 				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
-		elseif ($this->getTask() === 'save2copy')
-		{
-			// Redirect to the article page, use the redirect url set from parent controller
-		}
 		else
 		{
 			// If ok, redirect to the return page.

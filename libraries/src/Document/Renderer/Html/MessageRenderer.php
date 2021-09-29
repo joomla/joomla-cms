@@ -53,10 +53,7 @@ class MessageRenderer extends DocumentRenderer
 
 		if (\function_exists('renderMessage'))
 		{
-			@trigger_error(
-				'renderMessage() is deprecated. Override system message rendering with layouts instead.',
-				E_USER_DEPRECATED
-			);
+			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
 
 			return renderMessage($msgList);
 		}
