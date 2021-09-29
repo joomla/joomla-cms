@@ -78,8 +78,20 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function registerRunner(Event $event): void
 	{
+		$config = ComponentHelper::getParams('com_scheduler');
+		$protected = (bool) $config->get('lazy_scheduler.protected', 0);
+		$hash = $config->get('lazy_scheduler.hash', '');
+
+		$requestHash = $this->app->getInput()->get('scheduler_hash');
+
 		// We only act on site requests [@todo allow admin]
 		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
+		// If scheduler is protected, we only proceed if the hash is right.
+		if ($protected && $hash != $requestHash)
 		{
 			return;
 		}

@@ -2,12 +2,12 @@
 <config>
 	<fieldset
 		name="task_config"
-		label="COM_SCHEDULER_CONFIG_LABEL_TASKS"
+		label="COM_SCHEDULER_CONFIG_TASKS_FIELDSET_LABEL"
 		>
 		<field
 			name="timeout"
 			type="number"
-			label="COM_SCHEDULER_CONFIG_LABEL_TIMEOUT"
+			label="COM_SCHEDULER_CONFIG_TASK_TIMEOUT_LABEL"
 			default="300"
 			required="true"
 			min="10"
@@ -15,6 +15,49 @@
 			validate="number"
 			filter="int"
 		/>
+	</fieldset>
+	<fieldset
+		name="lazy_scheduler_config"
+		label="COM_SCHEDULER_CONFIG_FIELDSET_LAZY_SCHEDULER_LABEL"
+		description="COM_SCHEDULER_CONFIG_FIELDSET_LAZY_SCHEDULER_DESC"
+		>
+		<fields name="lazy_scheduler">
+			<field
+				name="enabled"
+				type="radio"
+				label="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_ENABLED_LABEL"
+				description="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_ENABLED_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				required="true"
+				filter="integer"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+			<field
+				name="protected"
+				type="radio"
+				label="COM_SCHEDULER_CONFIG_HASH_PROTECTION_LABEL"
+				description="COM_SCHEDULER_CONFIG_HASH_PROTECTION_DESC"
+				showon="lazy_scheduler:1"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				required="true"
+				filter="integer"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+
+			<!-- @todo: enhance with a auto-generated hash like the user API token -->
+			<field
+				name="hash"
+				type="text"
+				label="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_HASH_LABEL"
+				showon="lazy_scheduler:1[AND]hash_protection:1"
+			/>
+		</fields>
 	</fieldset>
 	<fieldset
 		name="permissions"
