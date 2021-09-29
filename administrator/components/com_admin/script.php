@@ -6089,6 +6089,15 @@ class JoomlaInstallerScript
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
 			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
+			// From 4.0.2 to 4.0.3
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css.gz',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css.gz',
+			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
+			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
 		);
 
 		$folders = array(
