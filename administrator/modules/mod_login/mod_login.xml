@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_login.ini</language>
 		<language tag="en-GB">language/en-GB/mod_login.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN" />
+	<help key="Admin_Modules:_Login_Form" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

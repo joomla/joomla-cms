@@ -116,6 +116,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_plugins');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		$toolbar->help('Plugins');
 	}
 }

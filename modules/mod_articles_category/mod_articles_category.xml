@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_articles_category.ini</language>
 		<language tag="en-GB">language/en-GB/mod_articles_category.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORY" />
+	<help key="Site_Modules:_Articles_-_Category" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

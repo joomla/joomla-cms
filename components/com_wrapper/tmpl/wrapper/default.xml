@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE" option="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
+			key="Menu_Item:_Iframe_Wrapper"
 		/>
 		<message>
 			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>

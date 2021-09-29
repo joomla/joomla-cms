@@ -137,6 +137,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		ToolbarHelper::help('Menus');
 	}
 }

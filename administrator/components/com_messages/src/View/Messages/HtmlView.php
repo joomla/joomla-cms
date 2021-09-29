@@ -166,6 +166,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_messages');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		$toolbar->help('Private_Messages');
 	}
 }

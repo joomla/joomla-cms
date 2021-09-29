@@ -259,6 +259,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_modules');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		$toolbar->help('Modules');
 	}
 }
