@@ -18,7 +18,7 @@ use Joomla\CMS\Event\AbstractEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class FetchMediaUrlUrlEvent extends AbstractEvent
+class FetchMediaFileUrlEvent extends AbstractEvent
 {
 	/**
 	 * @var string
