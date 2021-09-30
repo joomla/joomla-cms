@@ -123,6 +123,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_USERS_GROUPS_EDIT');
+		ToolbarHelper::help('Users:_New_or_Edit_Group');
 	}
 }

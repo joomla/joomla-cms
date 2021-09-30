@@ -192,6 +192,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
+		ToolbarHelper::help('Component:_New_or_Edit_Field_Group');
 	}
 }

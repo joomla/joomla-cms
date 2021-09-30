@@ -20,7 +20,7 @@
 		<language tag="en-GB">language/en-GB/mod_custom.ini</language>
 		<language tag="en-GB">language/en-GB/mod_custom.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_CUSTOM" />
+	<help key="Admin_Modules:_Custom" />
 	<config>
 		<fields name="params">
 			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">

@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_USERS_REMIND_VIEW_DEFAULT_TITLE" option="COM_USERS_REMIND_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_USER_REMINDER"
+			key = "Menu_Item:_Username_Reminder_Request"
 		/>
 		<message>
 			<![CDATA[COM_USERS_REMIND_VIEW_DEFAULT_DESC]]>

@@ -73,6 +73,6 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::preferences('com_users');
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_USERS_MASS_MAIL_USERS');
+		ToolbarHelper::help('Mass_Mail_Users');
 	}
 }

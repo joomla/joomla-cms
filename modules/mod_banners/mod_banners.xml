@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_banners.ini</language>
 		<language tag="en-GB">language/en-GB/mod_banners.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_BANNERS" />
+	<help key="Site_Modules:_Banners" />
 	<config>
 		<fields name="params">
 			<fieldset
