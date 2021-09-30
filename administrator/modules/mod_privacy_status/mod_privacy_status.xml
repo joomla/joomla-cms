@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_privacy_status.ini</language>
 		<language tag="en-GB">language/en-GB/mod_privacy_status.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_PRIVACY_STATUS" />
+	<help key="Admin_Modules:_Privacy_Status_Check" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

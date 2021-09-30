@@ -218,6 +218,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+		ToolbarHelper::help('Articles:_Featured');
 	}
 }

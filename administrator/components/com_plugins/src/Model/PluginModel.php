@@ -34,7 +34,7 @@ class PluginModel extends AdminModel
 	 * @var     string  The help screen key for the module.
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
+	protected $helpKey = 'Plugins:_Name_of_Plugin';
 
 	/**
 	 * @var     string  The help screen base URL for the module.

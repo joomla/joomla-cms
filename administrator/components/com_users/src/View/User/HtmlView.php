@@ -177,6 +177,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_USERS_USER_MANAGER_EDIT');
+		ToolbarHelper::help('Users:_Edit_Profile');
 	}
 }
