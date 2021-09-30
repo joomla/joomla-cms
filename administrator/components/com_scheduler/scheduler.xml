@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
 	<name>COM_SCHEDULER</name>
-	<creationDate>July 2021</creationDate>
 	<author>Joomla! Project</author>
+	<creationDate>July 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1.0</version>
-	<description>
-		COM_SCHEDULER_XML_DESCRIPTION
-	</description>
+	<description>COM_SCHEDULER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Scheduler</namespace>
-	<media destination=">" folder="media">
+	<media destination="com_scheduler" folder="media">
 		<folder>js</folder>
 		<folder>css</folder>
 	</media>
