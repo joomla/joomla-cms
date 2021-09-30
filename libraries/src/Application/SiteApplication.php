@@ -460,11 +460,7 @@ final class SiteApplication extends CMSApplication
 
 		$cacheId = 'templates0' . $tag;
 
-		if ($cache->contains($cacheId))
-		{
-			$templates = $cache->get($cacheId);
-		}
-		else
+		if (false === $templates = $cache->get($cacheId))
 		{
 			// Load styles
 			$db = Factory::getDbo();

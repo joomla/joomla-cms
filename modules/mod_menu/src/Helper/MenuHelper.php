@@ -48,11 +48,7 @@ class MenuHelper
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 			->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
-		if ($cache->contains($key))
-		{
-			$items = $cache->get($key);
-		}
-		else
+		if (false === $items = $cache->get($key))
 		{
 			$path           = $base->tree;
 			$start          = (int) $params->get('startLevel', 1);

@@ -233,11 +233,7 @@ class Filter
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()));
 
 		// Check the cached results.
-		if ($cache->contains($cacheId))
-		{
-			$branches = $cache->get($cacheId);
-		}
-		else
+		if (false === $branches = $cache->get($cacheId))
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
