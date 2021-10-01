@@ -673,12 +673,9 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$scriptOptions['style_formats'] = array(
 			array('title' => 'Containers', 'items' => array(
-				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
 				array('title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false),
-				array('title' => 'blockquote', 'block' => 'blockquote', 'wrapper' => true),
-				array('title' => 'hgroup', 'block' => 'hgroup', 'wrapper' => true),
-				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true),
-				array('title' => 'figure', 'block' => 'figure', 'wrapper' => true),
+				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
 				)
 			)
 		);
