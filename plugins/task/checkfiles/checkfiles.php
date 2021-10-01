@@ -3,7 +3,7 @@
  * @package       Joomla.Plugins
  * @subpackage    Task.Requests
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,13 +34,14 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var string[]
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected const TASKS_MAP = [
 		'checkfiles.imagesize' => [
 			'langConstPrefix' => 'PLG_TASK_CHECK_FILES_TASK_IMAGE_SIZE',
 			'form'            => 'image_size',
-			'call'            => 'checkImages'
+			'call'            => 'checkImages',
 		]
 	];
 
@@ -59,7 +60,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_scheduler.task'
+		'com_scheduler.task',
 	];
 
 	/**
@@ -74,7 +75,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 		return [
 			'onTaskOptionsList'    => 'advertiseRoutines',
 			'onExecuteTask'        => 'routineHandler',
-			'onContentPrepareForm' => 'enhanceForm'
+			'onContentPrepareForm' => 'enhanceForm',
 		];
 	}
 

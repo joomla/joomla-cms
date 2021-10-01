@@ -3,7 +3,7 @@
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -91,7 +91,7 @@ class TaskModel extends AdminModel
 				'save'     => 'task',
 				'validate' => 'task'
 			],
-			$config['events_map']
+			$config['events_map'],
 		);
 
 		$this->app = Factory::getApplication();
@@ -115,11 +115,11 @@ class TaskModel extends AdminModel
 	{
 		Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_scheduler/src/Field');
 
-		/*
+		/**
 		 *  loadForm() (defined by FormBehaviourTrait) also loads the form data by calling
 		 *  loadFormData() : $data [implemented here] and binds it to the form by calling
 		 *  $form->bind($data).
-		*/
+		 */
 		$form = $this->loadForm('com_scheduler.task', 'task', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))

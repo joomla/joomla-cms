@@ -3,14 +3,14 @@
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
@@ -25,6 +25,7 @@ class ExecutionRuleField extends PredefinedlistField
 	 * The form field type.
 	 *
 	 * @var    string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'ExecutionRule';
@@ -33,6 +34,7 @@ class ExecutionRuleField extends PredefinedlistField
 	 * Available execution rules
 	 *
 	 * @var string[]
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $predefinedOptions = [

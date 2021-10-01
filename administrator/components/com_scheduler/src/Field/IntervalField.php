@@ -3,14 +3,14 @@
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\NumberField;
 use Joomla\CMS\Form\FormField;
@@ -63,7 +63,7 @@ class IntervalField extends NumberField
 	 * The step by which value of the field increased or decreased.
 	 *
 	 * @var    float
-	 * @since  3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $step = 1;
 

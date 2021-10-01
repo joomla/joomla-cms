@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -31,6 +31,7 @@ class CronField extends ListField
 	 * The subtypes supported by this field type.
 	 *
 	 * @var string[]
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private const SUBTYPES = [
@@ -45,6 +46,7 @@ class CronField extends ListField
 	 * Count of predefined options for each subtype
 	 *
 	 * @var int[][]
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private const OPTIONS_RANGE = [
@@ -77,6 +79,7 @@ class CronField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'cronIntervals';
@@ -126,7 +129,7 @@ class CronField extends ListField
 		$wildcard = ((string) $element['wildcard'] ?? '') === 'true';
 		$onlyNumericLabels = ((string) $element['onlyNumericLabels']) === 'true';
 
-		if (!($subtype && in_array($subtype, self::SUBTYPES)))
+		if (!($subtype && \in_array($subtype, self::SUBTYPES)))
 		{
 			return false;
 		}
@@ -150,7 +153,7 @@ class CronField extends ListField
 		$subtype = $this->subtype;
 		$options = parent::getOptions();
 
-		if (!in_array($subtype, self::SUBTYPES))
+		if (!\in_array($subtype, self::SUBTYPES))
 		{
 			return $options;
 		}
@@ -174,7 +177,7 @@ class CronField extends ListField
 		}
 		else
 		{
-			$labels = range(... self::OPTIONS_RANGE[$subtype]);
+			$labels = \range(... self::OPTIONS_RANGE[$subtype]);
 		}
 
 		for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++)

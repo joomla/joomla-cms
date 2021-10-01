@@ -3,7 +3,7 @@
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
@@ -107,10 +107,10 @@ class TaskController extends FormController
 		// Extract the recordId from $data, will come in handy
 		$recordId = (int) $data[$key] ?? 0;
 
-		/*
+		/**
 		 * Zero record (id:0), return component edit permission by calling parent controller method
 		 * ? : Is this the right way to do this?
-		*/
+		 */
 		if ($recordId === 0)
 		{
 			return parent::allowEdit($data, $key);
