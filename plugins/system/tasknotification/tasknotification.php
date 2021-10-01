@@ -65,7 +65,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 			'onTaskExecuteSuccess'  => 'notifySuccess',
 			'onTaskExecuteFailure'  => 'notifyFailure',
 			'onTaskRoutineNotFound' => 'notifyOrphan',
-			'onTaskRecoverFailure'  => 'notifyFatalRecovery'
+			'onTaskRecoverFailure'  => 'notifyFatalRecovery',
 		];
 	}
 

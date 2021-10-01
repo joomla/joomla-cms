@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Language\Text;

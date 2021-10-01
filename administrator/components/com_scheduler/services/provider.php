@@ -43,11 +43,11 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		/*
-		* Register the MVCFactory and ComponentDispatcherFactory providers to map
-		* 'MVCFactoryInterface' and 'ComponentDispatcherFactoryInterface' to their
-		* initializers and register them with the component's DI container.
-		*/
+		/**
+		 * Register the MVCFactory and ComponentDispatcherFactory providers to map
+		 * 'MVCFactoryInterface' and 'ComponentDispatcherFactoryInterface' to their
+		 * initializers and register them with the component's DI container.
+		 */
 		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Scheduler'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Scheduler'));
 

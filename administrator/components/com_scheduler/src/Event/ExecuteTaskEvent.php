@@ -3,14 +3,14 @@
  * @package       Joomla.Administrator
  * @subpackage    com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Event;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
@@ -38,7 +38,7 @@ class ExecuteTaskEvent extends AbstractEvent
 
 		$arguments['resultSnapshot'] = null;
 
-		if (! ($arguments['subject'] ?? null) instanceof Task)
+		if (!($arguments['subject'] ?? null) instanceof Task)
 		{
 			throw new \BadMethodCallException("The subject given for $name event must be an instance of " . Task::class);
 		}
@@ -65,7 +65,6 @@ class ExecuteTaskEvent extends AbstractEvent
 	}
 
 	/**
-	 *
 	 * @return integer  The task's taskId.
 	 *
 	 * @since  __DEPLOY_VERSION__

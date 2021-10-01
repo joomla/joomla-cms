@@ -3,7 +3,7 @@
  * @package       Joomla.Plugins
  * @subpackage    Task.Testtasks
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,15 +35,15 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	private const TASKS_MAP = [
 		'demoTask_r1.sleep'                    => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_SLEEP',
-			'form'            => 'testTaskForm'
+			'form'            => 'testTaskForm',
 		],
 		'demoTask_r2.memoryStressTest'         => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY',
-			'call'            => 'stressMemory'
+			'call'            => 'stressMemory',
 		],
 		'demoTask_r3.memoryStressTestOverride' => [
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY_OVERRIDE',
-			'call'            => 'stressMemoryRemoveLimit'
+			'call'            => 'stressMemoryRemoveLimit',
 		]
 	];
 
@@ -62,7 +62,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $supportedFormContexts = [
-		'com_scheduler.task'
+		'com_scheduler.task',
 	];
 
 	/**
@@ -70,7 +70,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since __DEPLOY__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -87,7 +87,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 * @return  void
 	 *
 	 * @throws  Exception
-	 * @since  __DEPLOY_VERSION
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function routineHandler(ExecuteTaskEvent $event): void
 	{
