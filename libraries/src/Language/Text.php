@@ -342,7 +342,7 @@ class Text
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   1.7.0
 	 */

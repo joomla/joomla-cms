@@ -947,6 +947,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -6088,6 +6089,23 @@ class JoomlaInstallerScript
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
 			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
 			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
+			// From 4.0.2 to 4.0.3
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css.gz',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css.gz',
+			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
+			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
+			// From 4.0.3 to 4.0.4
+			'/administrator/components/com_joomlaupdate/restore.php',
+			'/media/com_joomlaupdate/js/encryption.js',
+			'/media/com_joomlaupdate/js/encryption.min.js',
+			'/media/com_joomlaupdate/js/encryption.min.js.gz',
+			'/media/com_joomlaupdate/js/update.js',
+			'/media/com_joomlaupdate/js/update.min.js',
+			'/media/com_joomlaupdate/js/update.min.js.gz',
 		);
 
 		$folders = array(
@@ -8160,8 +8178,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+				File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -8176,14 +8194,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+						File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . $old);
+					File::delete(JPATH_ROOT . $old);
 				}
 			}
 		}

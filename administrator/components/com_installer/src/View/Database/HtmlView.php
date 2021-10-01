@@ -138,6 +138,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::custom('database.export', 'download', 'download', 'COM_INSTALLER_TOOLBAR_DATABASE_EXPORT', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
+		ToolbarHelper::help('Information:_Database');
 	}
 }

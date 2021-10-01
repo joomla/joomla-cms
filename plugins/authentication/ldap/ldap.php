@@ -37,6 +37,12 @@ class PlgAuthenticationLdap extends CMSPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+		// If LDAP not correctly configured then bail early.
+		if (!$this->params->get('host'))
+		{
+			return false;
+		}
+
 		// For JLog
 		$response->type = 'LDAP';
 
@@ -79,7 +85,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 
 					$ldap->bind($dn, $this->params->get('password', ''));
 				}
-				catch (ConnectionException $exception)
+				catch (ConnectionException | LdapException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
 					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
@@ -138,7 +144,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				{
 					$ldap->bind($ldap->escape($credentials['username'], '', LDAP_ESCAPE_DN), $credentials['password']);
 				}
-				catch (ConnectionException $exception)
+				catch (ConnectionException | LdapException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
 					$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');

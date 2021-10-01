@@ -6,7 +6,7 @@
       margin: 0;
       list-style: none;
 
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         display: flex;
         flex: 1 1 0%;
         flex-direction: row;
@@ -91,7 +91,7 @@
           overflow: hidden;
           border-right: 1px solid $gray-400;
 
-          @include media-breakpoint-down(md) {
+          @include media-breakpoint-down(lg) {
             width: auto;
             height: 1px;
             border-bottom: 1px solid $gray-400;
@@ -204,7 +204,7 @@
           top: 0;
           box-shadow: none;
 
-          @include media-breakpoint-down(lg) {
+          @include media-breakpoint-down(xl) {
             width: 100%;
           }
         }

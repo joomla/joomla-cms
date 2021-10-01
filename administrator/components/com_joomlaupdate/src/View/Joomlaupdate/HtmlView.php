@@ -90,10 +90,10 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Flag if the update component itself has to be updated
 	 *
-	 * @var    boolean|\stdClass[]  True when update is available otherwise false
+	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
-	protected $nonCoreCriticalPlugins = false;
+	protected $nonCoreCriticalPlugins = [];
 
 	/**
 	 * Renders the view
@@ -187,7 +187,6 @@ class HtmlView extends BaseHtmlView
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -209,6 +208,7 @@ class HtmlView extends BaseHtmlView
 			 * "Minor & Patch Release for Current version (recommended and default)".
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
+			 * case 'sts':
 			 * case 'lts':
 			 * case 'nochange':
 			 */
@@ -258,7 +258,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::help('Joomla_Update');
 	}
 
 	/**
@@ -270,7 +270,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& !empty($this->updateInfo['hasUpdate']);
+		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+			&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
 	}
 }

@@ -160,6 +160,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
+		ToolbarHelper::help('Tags:_New_or_Edit');
 	}
 }

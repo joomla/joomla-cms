@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var PrivacyViewCapabilities $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Capabilities\HtmlView $this */
 
 ?>
 <div id="j-main-container" class="main-card p-4">
