@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -91,7 +91,7 @@ class StringsModel extends BaseDatabaseModel
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
 		{
-			$strings = LanguagesHelper::parseFile($file);
+			$strings = LanguageHelper::parseIniFile($file);
 
 			if ($strings)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Returns the default data formater
+	 * Returns the default data formatter
 	 *
 	 * @since  4.0.0
 	 * @return DataFormatter
@@ -93,7 +93,6 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	{
 		return $this->getDataFormatter()->formatPath($path);
 	}
-
 
 	/**
 	 * Format a string from back trace.

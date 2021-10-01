@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class PageController extends CacheController
 	 * @param   mixed    $data        The data to store
 	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   boolean  $wrkarounds  True to use workarounds
 	 *
 	 * @return  boolean
 	 *

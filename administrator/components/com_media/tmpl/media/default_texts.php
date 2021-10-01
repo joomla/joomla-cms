@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -31,6 +31,8 @@ Text::script('COM_MEDIA_ERROR', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHENTICATED', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHORIZED', true);
 Text::script('COM_MEDIA_ERROR_NOT_FOUND', true);
+Text::script('COM_MEDIA_ERROR_WARNFILETOOLARGE', true);
+Text::script('COM_MEDIA_FILE', true);
 Text::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
 Text::script('COM_MEDIA_FOLDER', true);
 Text::script('COM_MEDIA_FOLDER_NAME', true);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class Router extends RouterView
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categoryCache = [];
 
@@ -158,10 +158,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id      = (int) $id;
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('alias'))
 				->from($this->db->quoteName('#__content'))
-				->where('id = ' . $this->db->quote($id));
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -282,7 +284,7 @@ class Router extends RouterView
 	 *
 	 * @return  CategoryInterface  The object containing categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getCategories(array $options = []): CategoryInterface
 	{

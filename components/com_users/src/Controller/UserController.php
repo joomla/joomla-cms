@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -243,7 +243,8 @@ class UserController extends BaseController
 	{
 		// Get the ItemID of the page to redirect after logout
 		$app    = $this->app;
-		$itemid = $app->getMenu()->getActive()->getParams()->get('logout');
+		$active = $app->getMenu()->getActive();
+		$itemid = $active ? $active->getParams()->get('logout') : 0;
 
 		// Get the language of the page when multilang is on
 		if (Multilanguage::isEnabled())

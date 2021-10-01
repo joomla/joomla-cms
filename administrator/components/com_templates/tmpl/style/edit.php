@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,63 +23,55 @@ $this->useCoreUI = true;
 $user = Factory::getUser();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo Text::_('COM_TEMPLATES_STYLE_FORM_EDIT'); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<h2 class="card-header">
-						<?php echo Text::_($this->item->template); ?>
-					</h2>
-					<div class="card-body">
-						<div class="info-labels">
-							<span class="badge badge-secondary">
-								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
-							</span>
-						</div>
-						<div>
-							<p><?php echo Text::_($this->item->xml->description); ?></p>
-							<?php
-							$this->fieldset = 'description';
-							$description = LayoutHelper::render('joomla.edit.fieldset', $this);
-							?>
-							<?php if ($description) : ?>
-								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-									</a>
-								</p>
-							<?php endif; ?>
-						</div>
-						<?php
-						$this->fieldset = 'basic';
-						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-						echo $html ? '<hr>' . $html : '';
-						?>
-					</div>
+				<h2>
+					<?php echo Text::_($this->item->template); ?>
+				</h2>
+				<div class="info-labels">
+					<span class="badge bg-secondary">
+						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+					</span>
 				</div>
+				<div>
+					<p><?php echo Text::_($this->item->xml->description); ?></p>
+					<?php
+					$this->fieldset = 'description';
+					$description = LayoutHelper::render('joomla.edit.fieldset', $this);
+					?>
+					<?php if ($description) : ?>
+						<p class="readmore">
+							<a href="#" onclick="document.querySelector('#tab-description').click();">
+								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+							</a>
+						</p>
+					<?php endif; ?>
+				</div>
+				<?php
+				$this->fieldset = 'basic';
+				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+				echo $html ? '<hr>' . $html : '';
+				?>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php
-						// Set main fields.
-						$this->fields = array(
-							'home',
-							'client_id',
-							'template'
-						);
-						?>
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'home',
+					'client_id',
+					'template'
+				);
+				?>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

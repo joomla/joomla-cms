@@ -2,14 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
@@ -137,10 +138,22 @@ abstract class Select
 		$id = $options['id'] !== false ? $options['id'] : $name;
 		$id = str_replace(array('[', ']', ' '), '', $id);
 
-		// If if the selectbox contains "custom-select-color-state" then load the JS file
-		if (strpos($attribs, 'custom-select-color-state') !== false)
+		// If the selectbox contains "form-select-color-state" then load the JS file
+		if (strpos($attribs, 'form-select-color-state') !== false)
 		{
-			HTMLHelper::_('script', 'system/fields/select-colour.min.js', array('version' => 'auto', 'relative' => true));
+			Factory::getDocument()->getWebAssetManager()
+				->registerScript(
+					'webcomponent.select-colour-es5',
+					'system/fields/select-colour-es5.min.js',
+					['dependencies' => ['wcpolyfill']],
+					['defer' => true, 'nomodule' => true]
+				)
+				->registerAndUseScript(
+					'webcomponent.select-colour',
+					'system/fields/select-colour.min.js',
+					['dependencies' => ['webcomponent.select-colour-es5']],
+					['type' => 'module']
+				);
 		}
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);

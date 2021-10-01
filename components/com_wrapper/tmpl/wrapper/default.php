@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,7 @@ $this->document->getWebAssetManager()
 		src="<?php echo $this->escape($this->wrapper->url); ?>"
 		width="<?php echo $this->escape($this->params->get('width')); ?>"
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
-		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
-		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+		loading="<?php echo $this->params->get('lazyloading', 'lazy'); ?>"
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
 		<?php else : ?>

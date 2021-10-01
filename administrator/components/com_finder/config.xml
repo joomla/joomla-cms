@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Smart_Search:_Options"/>
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
@@ -60,7 +61,7 @@
 		</field>
 
 		<field
-			name="logging_enabled"
+			name="gather_search_statistics"
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			layout="joomla.form.field.radio.switcher"
@@ -171,6 +172,7 @@
 			validate="options"
 			>
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+			<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
@@ -219,7 +221,7 @@
 		<field
 			name="opensearch_description"
 			type="textarea"
-			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
+			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTION_LABEL"
 			default=""
 			cols="30"
 			rows="2"
@@ -277,6 +279,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			default="1.7"
+			min="0"
 		/>
 
 		<field
@@ -284,6 +287,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			default="0.7"
+			min="0"
 		/>
 
 		<field
@@ -291,6 +295,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			default="1.2"
+			min="0"
 		/>
 
 		<field
@@ -298,6 +303,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			default="2.0"
+			min="0"
 		/>
 
 		<field
@@ -305,6 +311,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			default="0.3"
+			min="0"
 		/>
 
 		<field

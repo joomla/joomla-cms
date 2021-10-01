@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-$this->document->getWebAssetManager()->registerAndUseScript(
-	'com_categories.shared-categories-accordion',
-	'com_categories/shared-categories-accordion.js',
-	[],
-	['defer' => true],
-	['core']
-);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_categories');
+$wa->useScript('com_categories.shared-categories-accordion');
 
 ?>
 <div class="com-newsfeeds-categories categories-list">

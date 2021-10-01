@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -250,8 +250,8 @@ class PackageAdapter extends InstallerAdapter
 			// Install failed, rollback changes
 			throw new \RuntimeException(
 				Text::sprintf(
-					'JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP',
-					Text::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')
+					'JLIB_INSTALLER_ABORT_COPY_SETUP',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -295,7 +295,12 @@ class PackageAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+					throw new \RuntimeException(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_MANIFEST',
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						)
+					);
 				}
 			}
 		}

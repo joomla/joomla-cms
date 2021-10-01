@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="user_details">
+	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
 		<field
 			name="name"
 			type="text"
@@ -21,6 +21,7 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
+			rules="true"
 			autocomplete="new-password"
 			class="validate-password-strength"
 			filter="raw"
@@ -133,7 +134,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"

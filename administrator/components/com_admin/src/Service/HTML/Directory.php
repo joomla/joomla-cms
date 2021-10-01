@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,10 +31,10 @@ class Directory
 	{
 		if ($writable)
 		{
-			return '<span class="badge badge-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
+			return '<span class="badge bg-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
 
-		return '<span class="badge badge-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
+		return '<span class="badge bg-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
 	}
 
 	/**

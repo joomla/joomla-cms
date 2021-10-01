@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse;
 	 *                        automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new FileLayout instance and render the layout
-			$layout = new FileLayout('toolbar.delete');
+			$layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render([]), 'delete');
 			ToolbarHelper::divider();
@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($tmpl !== 'component')
 		{
-			ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+			ToolbarHelper::help('Media');
 		}
 	}
 }

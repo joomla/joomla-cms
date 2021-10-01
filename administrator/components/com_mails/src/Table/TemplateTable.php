@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class TemplateTable extends Table
 	 * An array of key names to be json encoded in the bind function
 	 *
 	 * @var    array
-	 * @since  3.3
+	 * @since  4.0.0
 	 */
 	protected $_jsonEncode = ['attachments', 'params'];
 

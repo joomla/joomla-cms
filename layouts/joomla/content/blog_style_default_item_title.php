@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -17,8 +17,9 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 // Create a shortcut for params.
 $params  = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
-?>
 
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
+?>
 <?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
@@ -36,15 +37,15 @@ $canEdit = $displayData->params->get('access-edit');
 		<?php endif; ?>
 
 		<?php if ($displayData->state == 0) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+			<span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
-		<?php if (strtotime($displayData->publish_up) > strtotime(Factory::getDate())) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+		<?php if ($displayData->publish_up > $currentDate) : ?>
+			<span class="badge bg-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
-		<?php if ($displayData->publish_down !== null && strtotime($displayData->publish_down) < strtotime(Factory::getDate())) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+		<?php if ($displayData->publish_down !== null && $displayData->publish_down < $currentDate) : ?>
+			<span class="badge bg-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>

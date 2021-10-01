@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.framework');
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
-	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
 			<th scope="col" class="w-50">
@@ -25,8 +23,8 @@ HTMLHelper::_('bootstrap.framework');
 					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
 				<?php endif; ?>
 			</th>
-			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+			<th scope="col" class="w-30"><?php echo Text::_('JCLIENT'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -49,7 +47,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php else : ?>
 						<form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
-							<button type="submit" class="mr-2 btn btn-danger btn-sm">
+							<button type="submit" class="me-2 btn btn-danger btn-sm">
 								<?php echo Text::_('JLOGOUT'); ?>
 							</button>
 						</form>

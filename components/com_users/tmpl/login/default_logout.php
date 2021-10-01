@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,10 @@ use Joomla\CMS\Router\Route;
 	<?php endif; ?>
 
 	<?php if ($this->params->get('logout_image') != '') : ?>
-		<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-right logout-image" alt="<?php echo Text::_('COM_USERS_LOGOUT_IMAGE_ALT'); ?>">
+		<?php $alt = empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty'))
+			? ''
+			: 'alt="' . htmlspecialchars($this->params->get('logout_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+		<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-end logout-image" <?php echo $alt; ?>>
 	<?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
@@ -43,7 +46,7 @@ use Joomla\CMS\Router\Route;
 		<div class="com-users-logout__submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">
-					<span class="fas fa-arrow-alt-circle-left icon-white"></span>
+					<span class="icon-backward-2 icon-white" aria-hidden="true"></span>
 					<?php echo Text::_('JLOGOUT'); ?>
 				</button>
 			</div>

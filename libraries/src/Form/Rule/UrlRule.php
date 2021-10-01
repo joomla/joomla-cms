@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,8 +38,8 @@ class UrlRule extends FormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   1.7.0
-	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
-	 * @see	    JString
+	 * @link    https://www.w3.org/Addressing/URL/url-spec.txt
+	 * @see	    \Joomla\String\StringHelper
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
@@ -53,7 +53,7 @@ class UrlRule extends FormRule
 
 		$urlParts = UriHelper::parse_url($value);
 
-		// See http://www.w3.org/Addressing/URL/url-spec.txt
+		// See https://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{

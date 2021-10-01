@@ -8,11 +8,11 @@ Pull Request for Issue # .
 
 
 
-### Expected result
+### Actual result BEFORE applying this Pull Request
 
 
 
-### Actual result
+### Expected result AFTER applying this Pull Request
 
 
 

@@ -13,16 +13,15 @@
 			name="search"
 			type="text"
 			inputmode="search"
-			label=""
+			label="COM_FIELDS_FIELDS_FILTER_SEARCH_LABEL"
 			description="COM_FIELDS_FIELDS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -31,7 +30,7 @@
 		<field
 			name="group_id"
 			type="fieldgroups"
-			label="COM_FIELDS_VIEW_FIELDS_SELECT_GROUP"
+			label="COM_FIELDS_FIELD_GROUP_LABEL"
 			state="0,1,2"
 			onchange="this.form.submit();"
 			>
@@ -41,7 +40,7 @@
 		<field
 			name="assigned_cat_ids"
 			type="category"
-			label="COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY"
+			label="JCATEGORY"
 			onchange="this.form.submit();"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
@@ -51,7 +50,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -60,10 +59,23 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
+		</field>
+
+		<field
+			name="only_use_in_subform"
+			type="list"
+			label="COM_FIELDS_FIELDS_FILTER_ONLY_USE_IN_SUBFORM_LABEL"
+			onchange="this.form.submit();"
+			default=""
+			validate="options"
+			>
+			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fields>
 

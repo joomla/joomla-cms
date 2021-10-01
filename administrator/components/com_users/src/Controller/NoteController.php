@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 /**
  * User note controller class.
@@ -20,6 +21,8 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class NoteController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

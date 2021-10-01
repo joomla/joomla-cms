@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,9 @@ class ConsentsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = [
-				'id', 'a.id', 'a.user_id',
+				'id', 'a.id',
+				'user_id', 'a.user_id',
+				'subject', 'a.subject',
 				'created', 'a.created',
 				'username', 'u.username',
 				'name', 'u.name',

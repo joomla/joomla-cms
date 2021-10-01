@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,10 @@ namespace Joomla\Component\Contenthistory\Api\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
-use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\MVC\Controller\Exception;
+use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 /**
  * The history controller
@@ -50,7 +50,7 @@ class HistoryController extends ApiController
 	{
 		$this->modelState->set('type_alias', $this->getTypeAliasFromInput());
 		$this->modelState->set('type_id', $this->getTypeIdFromInput());
-		$this->modelState->set('item_id', $this->getItemIdFromInput());
+		$this->modelState->set('item_id', $this->getTypeAliasFromInput() . '.' . $this->getItemIdFromInput());
 		$this->modelState->set('list.ordering', 'h.save_date');
 		$this->modelState->set('list.direction', 'DESC');
 
@@ -96,7 +96,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getItemIdFromInput()
 	{
@@ -109,7 +109,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeIdFromInput()
 	{
@@ -122,7 +122,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeAliasFromInput()
 	{

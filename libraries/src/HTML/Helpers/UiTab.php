@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -54,10 +54,16 @@ abstract class UiTab
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
-		$recall = !isset($params['recall']) ? '' : 'recall';
+		$orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
+		$recall = isset($params['recall']) ? 'recall' : '';
+		$breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
-		return '<joomla-tab id="' . $selector . '" recall>';
+		if (!isset($params['breakpoint']) && $breakpoint === '')
+		{
+			$breakpoint = 'breakpoint="768"';
+		}
+
+		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" ' . $recall . ' ' . $breakpoint . '>';
 	}
 
 	/**
@@ -77,7 +83,7 @@ abstract class UiTab
 	 *
 	 * @param   string  $selector  Identifier of the panel.
 	 * @param   string  $id        The ID of the div element
-	 * @param   string  $title     The title text for the new UL tab
+	 * @param   string  $title     The title text for the button
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -87,7 +93,7 @@ abstract class UiTab
 	{
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
+		return '<joomla-tab-element id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
 	}
 
@@ -100,6 +106,6 @@ abstract class UiTab
 	 */
 	public static function endTab()
 	{
-		return '</section>';
+		return '</joomla-tab-element>';
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,8 +56,7 @@ class FeaturedModel extends ArticlesModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
-				'condition',
-				'stage',
+				'ws.title',
 			);
 		}
 
@@ -82,5 +81,21 @@ class FeaturedModel extends ArticlesModel
 
 		// Filter by featured articles.
 		$this->setState('filter.featured', 1);
+	}
+
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return  \Joomla\Database\DatabaseQuery
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getListQuery()
+	{
+		$query = parent::getListQuery();
+
+		$query->select($this->getDbo()->quoteName('fp.ordering'));
+
+		return $query;
 	}
 }

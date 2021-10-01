@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_cache",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+    "name": "com_cache.admin-cache.es5",
+    "type": "script",
+    "uri": "com_cache/admin-cache-default-es5.min.js",
+    "dependencies": [
+      "core"
+    ],
+    "attributes": {
+      "nomodule": true,
+      "defer": true
+    }
+  },
+    {
+      "name": "com_cache.admin-cache",
+      "type": "script",
+      "uri": "com_cache/admin-cache-default.min.js",
+      "dependencies": [
+        "com_cache.admin-cache.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}

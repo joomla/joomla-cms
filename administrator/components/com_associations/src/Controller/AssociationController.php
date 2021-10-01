@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class AssociationController extends FormController
 
 			foreach ($ids as $key => $id)
 			{
-				AssociationsHelper::getItem($extensionName, $typeName, $id)->checkin();
+				AssociationsHelper::getItem($extensionName, $typeName, $id)->checkIn();
 			}
 		}
 

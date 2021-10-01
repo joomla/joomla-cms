@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,11 +129,21 @@ class FeaturedModel extends ListModel
 				->bind(':publish_down', $nowDate);
 		}
 
+		// Filter by search in title
+		$search = $this->getState('list.filter');
+
+		// Filter by search in title
+		if (!empty($search))
+		{
+			$search = '%' . trim($search) . '%';
+			$query->where($db->quoteName('a.name') . ' LIKE :name ');
+			$query->bind(':name', $search);
+		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.
@@ -165,6 +175,9 @@ class FeaturedModel extends ListModel
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
+
+		// Optional filter text
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
 

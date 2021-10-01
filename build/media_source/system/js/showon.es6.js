@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -29,6 +29,12 @@
       if (this.showonFields.length) {
         // @todo refactor this, dry
         this.showonFields.forEach((field) => {
+          // Set up only once
+          if (field.hasAttribute('data-showon-initialised')) {
+            return;
+          }
+          field.setAttribute('data-showon-initialised', '');
+
           const jsondata = field.getAttribute('data-showon') || '';
           const showonData = JSON.parse(jsondata);
           let localFields;
@@ -92,12 +98,13 @@
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
-              // Initialise
+              // Initialize the showon behaviour for the given HTMLElement
               self.linkedOptions(key);
 
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
               elem.addEventListener('keyup', () => { self.linkedOptions(key); });
+              elem.addEventListener('click', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -127,7 +134,6 @@
             }
 
             const originId = originField.id;
-
 
             // If checkbox or radio box the value is read from properties
             if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
@@ -204,38 +210,39 @@
     }
   }
 
+  // Provide a public API
+  window.Joomla = window.Joomla || {};
+
+  if (!Joomla.Showon) {
+    Joomla.Showon = {
+      initialise: (container) => new Showon(container),
+    };
+  }
+
   /**
    * Initialize 'showon' feature at an initial page load
    */
   document.addEventListener('DOMContentLoaded', () => {
-    // eslint-disable-next-line no-new
-    new Showon(document);
+    Joomla.Showon.initialise(document);
   });
 
   /**
    * Initialize 'showon' feature when part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => {
-    // eslint-disable-next-line prefer-destructuring
-    const target = event.target;
-
+  document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-      const baseName = target.getAttribute('data-baseName');
-      const group = target.getAttribute('data-group');
-      const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
-      const replace = `[${baseName}][${group}]`;
+      const search = new RegExp(`\\[${target.dataset.baseName}X\\]`, 'g');
+      const replace = `[${target.dataset.group}]`;
 
       // Fix showon field names in a current group
       elements.forEach((element) => {
-        const showon = element.getAttribute('data-showon').replace(search, replace);
-
-        element.setAttribute('data-showon', showon);
+        const showon = element.dataset.showon.replace(search, replace);
+        element.dataset.showon = showon;
       });
     }
 
-    // eslint-disable-next-line no-new
-    new Showon(event.target);
+    Joomla.Showon.initialise(target);
   });
 })(document);

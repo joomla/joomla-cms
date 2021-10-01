@@ -3,18 +3,19 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -27,12 +28,12 @@ class InstallationController extends JSONController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   array                     $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   \JInput|null              $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -256,24 +257,31 @@ class InstallationController extends JSONController
 
 		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
 		$model = $this->getModel('Cleanup');
-		$success = $model->deleteInstallationFolder();
 
-		// If an error was encountered return an error.
-		if (!$success)
+		if (!$model->deleteInstallationFolder())
 		{
-			$this->app->enqueueMessage(Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+			// We can't send a response with sendJsonResponse because our installation classes might not now exist
+			$error = [
+				'token' => Session::getFormToken(true),
+				'error' => true,
+				'data' => [
+					'view' => 'remove'
+				],
+				'messages' => [
+					'warning' => [
+						Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation')
+					]
+				]
+			];
+
+			echo json_encode($error);
+
+			return;
 		}
 
 		$this->app->getSession()->destroy();
 
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/**
-		 * TODO: We can't send a response this way because our installation classes no longer
-		 *       exist. We probably need to hardcode a json response here
-		 *
-		 * $this->sendJsonResponse($r);
-		 */
+		// We can't send a response with sendJsonResponse because our installation classes now do not exist
+		echo json_encode(['error' => false]);
 	}
 }

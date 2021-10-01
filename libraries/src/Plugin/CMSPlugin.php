@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -68,7 +69,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 * removing support for legacy Listeners.
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 *
 	 * @deprecated
 	 */
@@ -186,7 +187,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function registerListeners()
 	{
@@ -221,7 +222,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (\count($parameters) != 1)
+			if (\count($parameters) !== 1)
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -230,11 +231,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
-			$typeHint = $param->getClass();
 			$paramName = $param->getName();
 
-			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName !== 'event'))
+			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
+			if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param))
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -258,7 +258,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerLegacyListener(string $methodName)
 	{
@@ -279,13 +279,19 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 					unset($arguments['result']);
 				}
 
-				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-				$arguments = array_values($arguments);
+				// Convert to indexed array for unpacking.
+				$arguments = \array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
+				// Ignore null results
+				if ($result === null)
+				{
+					return;
+				}
+
 				// Restore the old results and add the new result from our method call
-				array_push($allResults, $result);
+				$allResults[]    = $result;
 				$event['result'] = $allResults;
 			}
 		);
@@ -299,10 +305,58 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
+	}
+
+	/**
+	 * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
+	 *
+	 * @param   \ReflectionParameter  $parameter
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
+	{
+		$reflectionType = $parameter->getType();
+
+		// Parameter is not typehinted.
+		if ($reflectionType === null)
+		{
+			return false;
+		}
+
+		// Parameter is nullable.
+		if ($reflectionType->allowsNull())
+		{
+			return false;
+		}
+
+		// Handle standard typehints.
+		if ($reflectionType instanceof \ReflectionNamedType)
+		{
+			return \is_a($reflectionType->getName(), EventInterface::class, true);
+		}
+
+		// Handle PHP 8 union types.
+		if ($reflectionType instanceof \ReflectionUnionType)
+		{
+			foreach ($reflectionType->getTypes() as $type)
+			{
+				if (!\is_a($type->getName(), EventInterface::class, true))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }

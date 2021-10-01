@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "purchase_type" smallint DEFAULT -1 NOT NULL,
   "track_clicks" smallint DEFAULT -1 NOT NULL,
   "track_impressions" smallint DEFAULT -1 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS "#__banner_clients" (
   "email" varchar(255) DEFAULT '' NOT NULL,
   "extrainfo" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "metakey" text,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "email_to" varchar(255),
   "default_con" smallint NOT NULL DEFAULT 0,
   "published" smallint NOT NULL DEFAULT 0,
-  "checked_out" bigint NOT NULL DEFAULT 0,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint NOT NULL DEFAULT 0,
   "params" text NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "map_count" integer DEFAULT 0 NOT NULL,
   "data" text,
@@ -323,6 +323,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
 CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path");
+CREATE INDEX "#__finder_taxonomy_level" on "#__finder_taxonomy" ("level");
 CREATE INDEX "#__finder_taxonomy_lft_rgt" on "#__finder_taxonomy" ("lft", "rgt");
 CREATE INDEX "#__finder_taxonomy_alias" on "#__finder_taxonomy" ("alias");
 CREATE INDEX "#__finder_taxonomy_language" on "#__finder_taxonomy" ("language");
@@ -654,7 +655,7 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "published" smallint DEFAULT 0 NOT NULL,
   "numarticles" bigint DEFAULT 1 NOT NULL,
   "cache_time" bigint DEFAULT 3600 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "rtl" smallint DEFAULT 0 NOT NULL,

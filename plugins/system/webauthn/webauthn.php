@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
-use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 

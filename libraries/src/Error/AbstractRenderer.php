@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 /**
  * Base class for error page renderers
  *
- * @since  4.0
+ * @since  4.0.0
  */
 abstract class AbstractRenderer implements RendererInterface
 {
@@ -25,7 +25,7 @@ abstract class AbstractRenderer implements RendererInterface
 	 * The Document instance
 	 *
 	 * @var    Document
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $document;
 
@@ -33,7 +33,7 @@ abstract class AbstractRenderer implements RendererInterface
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type;
 
@@ -42,7 +42,7 @@ abstract class AbstractRenderer implements RendererInterface
 	 *
 	 * @return  Document
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getDocument(): Document
 	{
@@ -62,7 +62,7 @@ abstract class AbstractRenderer implements RendererInterface
 	 *
 	 * @return  static
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public static function getRenderer(string $type)
@@ -91,7 +91,7 @@ abstract class AbstractRenderer implements RendererInterface
 	 *
 	 * @return  Document
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function loadDocument(): Document
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -155,7 +157,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = Indexer::getInstance();
+		$this->indexer = new Indexer;
 	}
 
 	/**
@@ -389,7 +391,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on category access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -462,7 +464,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for categories
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -483,7 +485,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for items
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -791,7 +793,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A Table object
 	 *
 	 * @return  void
 	 *
@@ -904,13 +906,12 @@ abstract class Adapter extends CMSPlugin
 		switch ($item)
 		{
 			// Published and archived items only should return a published state
-			case 1;
+			case 1:
 			case 2:
 				return 1;
 
 			// All other states should return an unpublished state
 			default:
-			case 0:
 				return 0;
 		}
 	}

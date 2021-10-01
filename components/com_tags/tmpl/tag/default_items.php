@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
-HTMLHelper::_('behavior.core');
-
-HTMLHelper::_('script', 'com_tags/tag-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_tags.tag-default');
 
 // Get the user object.
 $user = Factory::getUser();
@@ -29,43 +29,45 @@ $canEdit      = $user->authorise('core.edit', 'com_tags');
 $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 ?>
-<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag__items">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="com-tags-tag__filters filters d-flex justify-content-between mb-3">
+<div class="com-tags__items">
+	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 			<?php if ($this->params->get('filter_field')) : ?>
-				<div class="input-group">
-					<label class="filter-search-lbl sr-only" for="filter-search">
-						<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
+				<div class="com-tags-tags__filter btn-group">
+					<label class="filter-search-lbl visually-hidden" for="filter-search">
+						<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
-					<span class="input-group-append">
-						<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
-							<span class="fas fa-search" aria-hidden="true"></span>
-						</button>
-						<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
-							<span class="fas fa-times" aria-hidden="true"></span>
-						</button>
-					</span>
+					<input
+						type="text"
+						name="filter-search"
+						id="filter-search"
+						value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+						class="inputbox" onchange="document.adminForm.submit();"
+						placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
+					>
+					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+					<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
 				</div>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
-				<div class="btn-group float-right">
-					<label for="limit" class="sr-only">
+				<div class="btn-group float-end">
+					<label for="limit" class="visually-hidden">
 						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 					</label>
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
 			<?php endif; ?>
 
-			<input type="hidden" name="filter_order" value="">
-			<input type="hidden" name="filter_order_Dir" value="">
 			<input type="hidden" name="limitstart" value="">
 			<input type="hidden" name="task" value="">
-		</fieldset>
-	<?php endif; ?>
+		<?php endif; ?>
+	</form>
 
 	<?php if (empty($this->items)) : ?>
-		<p><?php echo Text::_('COM_TAGS_NO_ITEMS'); ?></p>
+		<div class="alert alert-info">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_TAGS_NO_ITEMS'); ?>
+		</div>
 	<?php else : ?>
 		<ul class="com-tags-tag__category category list-group">
 			<?php foreach ($this->items as $i => $item) : ?>
@@ -107,4 +109,4 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
-</form>
+</div>

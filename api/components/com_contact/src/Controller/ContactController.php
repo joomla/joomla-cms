@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,13 +17,14 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
@@ -54,18 +55,16 @@ class ContactController extends ApiController
 	protected $default_view = 'contacts';
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -77,9 +76,7 @@ class ContactController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 
 	/**
@@ -192,17 +189,19 @@ class ContactController extends ApiController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   \stdClass  $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array      $data               The data to send in the email.
+	 * @param   \stdClass  $contact            The user information to send the email to
+	 * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $emailCopyToSender)
 	{
 		$app = $this->app;
+
+		Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
 		if ($contact->email_to == '' && $contact->user_id != 0)
 		{
@@ -210,63 +209,52 @@ class ContactController extends ApiController
 			$contact->email_to = $contact_user->get('email');
 		}
 
-		$mailfrom = $app->get('mailfrom');
-		$fromname = $app->get('fromname');
-		$sitename = $app->get('sitename');
-
-		$name    = $data['contact_name'];
-		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
-		$subject = $data['contact_subject'];
-		$body    = $data['contact_message'];
-
-		// Prepare email body
-		$prefix = Text::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
-		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+		$templateData = [
+			'sitename' => $app->get('sitename'),
+			'name'     => $data['contact_name'],
+			'contactname' => $contact->name,
+			'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
+			'subject'  => $data['contact_subject'],
+			'body'     => stripslashes($data['contact_message']),
+			'url'      => Uri::base(),
+			'customfields' => ''
+		];
 
 		// Load the custom fields
 		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
 			$output = FieldsHelper::render(
 				'com_contact.mail',
-				'fields.render', [
+				'fields.render',
+				array(
 					'context' => 'com_contact.mail',
 					'item'    => $contact,
 					'fields'  => $fields,
-				]
+				)
 			);
 
 			if ($output)
 			{
-				$body .= "\r\n\r\n" . $output;
+				$templateData['customfields'] = $output;
 			}
 		}
 
 		try
 		{
-			$mail = Factory::getMailer();
-			$mail->addRecipient($contact->email_to);
-			$mail->addReplyTo($email, $name);
-			$mail->setSender([$mailfrom, $fromname]);
-			$mail->setSubject($sitename . ': ' . $subject);
-			$mail->setBody($body);
-			$sent = $mail->Send();
+			$mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
+			$mailer->addRecipient($contact->email_to);
+			$mailer->setReplyTo($templateData['email'], $templateData['name']);
+			$mailer->addTemplateData($templateData);
+			$sent = $mailer->send();
 
 			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
-			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			if ($emailCopyToSender == true && !empty($data['contact_email_copy']))
 			{
-				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-				$copytext .= "\r\n\r\n" . $body;
-				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
-
-				$mail = Factory::getMailer();
-				$mail->addRecipient($email);
-				$mail->addReplyTo($email, $name);
-				$mail->setSender([$mailfrom, $fromname]);
-				$mail->setSubject($copysubject);
-				$mail->setBody($copytext);
-				$sent = $mail->Send();
+				$mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
+				$mailer->addRecipient($templateData['email']);
+				$mailer->setReplyTo($templateData['email'], $templateData['name']);
+				$mailer->addTemplateData($templateData);
+				$sent = $mailer->send();
 			}
 		}
 		catch (MailDisabledException | phpMailerException $exception)

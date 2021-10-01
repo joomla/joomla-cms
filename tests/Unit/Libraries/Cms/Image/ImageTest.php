@@ -1,13 +1,10 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
-
-require_once __DIR__ . '/stubs/ImageInspector.php';
-require_once __DIR__ . '/stubs/ImageFilterInspector.php';
 
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
@@ -16,23 +13,58 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageTest extends UnitTestCase
 {
 	/**
 	 * @var    Image  The testing instance.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $instance;
+
+	/**
+	 * @var    string  The testing jpg image unique name.
+	 *
+	 * @since  4.0.0
+	 */
+	protected $testFile;
+
+	/**
+	 * @var    string  The testing gif image unique name.
+	 *
+	 * @since  4.0.0
+	 */
+	protected $testFileGif;
+
+	/**
+	 * @var    string  The testing png image unique name.
+	 *
+	 * @since  4.0.0
+	 */
+	protected $testFilePng;
+
+	/**
+	 * @var    string  The testing bmp image unique name.
+	 *
+	 * @since  4.0.0
+	 */
+	protected $testFileBmp;
+
+	/**
+	 * @var    string  The testing webp image unique name.
+	 *
+	 * @since  4.0.0
+	 */
+	protected $testFileWebp;
 
 	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp(): void
 	{
@@ -46,14 +78,41 @@ class ImageTest extends UnitTestCase
 
 		$this->instance = new Image;
 
+		$randFile = __DIR__ . '/tmp/koala-' . rand();
+
 		// 500*341 resolution
-		$this->testFile = __DIR__ . '/stubs/koala.jpg';
+		$this->testFile = $randFile . '.jpg';
+		copy(__DIR__ . '/stubs/koala.jpg', $this->testFile);
 
-		$this->testFileGif = __DIR__ . '/stubs/koala.gif';
+		$this->testFileGif = $randFile . '.gif';
+		copy(__DIR__ . '/stubs/koala.gif', $this->testFileGif);
 
-		$this->testFilePng = __DIR__ . '/stubs/koala.png';
+		$this->testFilePng = $randFile . '.png';
+		copy(__DIR__ . '/stubs/koala.png', $this->testFilePng);
 
-		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
+		$this->testFileBmp = $randFile . '.bmp';
+		copy(__DIR__ . '/stubs/koala.bmp', $this->testFileBmp);
+
+		$this->testFileWebp = $randFile . '.webp';
+		copy(__DIR__ . '/stubs/koala.webp', $this->testFileWebp);
+	}
+
+	/**
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function tearDown():void
+	{
+		unlink($this->testFile);
+		unlink($this->testFileGif);
+		unlink($this->testFilePng);
+		unlink($this->testFileBmp);
+		unlink($this->testFileWebp);
+
+		parent::tearDown();
 	}
 
 	/**
@@ -65,7 +124,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPrepareDimensionsData()
 	{
@@ -86,7 +145,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSanitizeDimensionData()
 	{
@@ -110,7 +169,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCropData()
 	{
@@ -129,7 +188,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSanitizeOffsetData()
 	{
@@ -145,26 +204,26 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::__construct
+	 * @covers  \Joomla\CMS\Image\Image::__construct
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructor()
 	{
 		// Create a 10x10 image handle.
 		$testImageHandle = imagecreatetruecolor(10, 10);
 
-		// Create a new ImageInspector object from the handle.
-		$testImage = new ImageInspector($testImageHandle);
+		// Create a new Image object from the handle.
+		$testImage = new Image($testImageHandle);
 
-		// Verify that the handle created is the same one in the ImageInspector.
-		$this->assertSame($testImageHandle, $testImage->getClassProperty('handle'));
+		// Verify that the handle created is the same one in the Image.
+		$this->assertSame($testImageHandle, TestHelper::getValue($testImage, 'handle'));
 
-		// Create a new ImageInspector with no handle.
-		$testImage2 = new ImageInspector;
+		// Create a new Image with no handle.
+		$testImage2 = new Image;
 
-		// Verify that there is no handle in the ImageInspector.
-		$this->assertNull($testImage2->getClassProperty('handle'));
+		// Verify that there is no handle in the Image.
+		$this->assertNull(TestHelper::getValue($testImage2, 'handle'));
 	}
 
 	/**
@@ -177,21 +236,19 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFile()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
 		// Verify that the cropped image is the correct size.
-		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+		$this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-		$this->assertEquals($this->testFile, $image->getPath());
+		$this->assertEquals($this->testFile, $this->instance->getPath());
 	}
 
 	/**
@@ -204,21 +261,19 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFileGif()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFileGif);
+		$this->instance->loadFile($this->testFileGif);
 
 		// Verify that the cropped image is the correct size.
-		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+		$this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-		$this->assertEquals($this->testFileGif, $image->getPath());
+		$this->assertEquals($this->testFileGif, $this->instance->getPath());
 	}
 
 	/**
@@ -231,21 +286,44 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFilePng()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFilePng);
+		$this->instance->loadFile($this->testFilePng);
 
 		// Verify that the cropped image is the correct size.
-		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+		$this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-		$this->assertEquals($this->testFilePng, $image->getPath());
+		$this->assertEquals($this->testFilePng, $this->instance->getPath());
+	}
+
+	/**
+	 * Test the Joomla\CMS\Image\Image::loadFile method
+	 *
+	 * Makes sure WebP images are loaded correctly
+	 *
+	 * In this case we are taking the simple approach of loading an image file
+	 * and asserting that the dimensions are correct.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
+	 *
+	 * @since   4.0.0
+	 */
+	public function testloadFileWebp()
+	{
+		$this->instance->loadFile($this->testFileWebp);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500, imagesx(TestHelper::getValue($this->instance, 'handle')));
+
+		$this->assertEquals($this->testFileWebp, $this->instance->getPath());
 	}
 
 	/**
@@ -255,16 +333,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 * @since   __DEPLOY_VERSION__
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
+	 * @since   4.0.0
 	 */
 	public function testloadFileBmp()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFileBmp);
+		$this->instance->loadFile($this->testFileBmp);
 	}
 
 	/**
@@ -274,16 +350,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 * @since   __DEPLOY_VERSION__
+	 * @covers  \Joomla\CMS\Image\Image::loadFile
+	 * @since   4.0.0
 	 */
 	public function testloadFileWithInvalidFile()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile('bogus_file');
+		$this->instance->loadFile('bogus_file');
 	}
 
 	/**
@@ -293,27 +367,26 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::resize
+	 * @covers  \Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResize()
 	{
 		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
-		$image->resize(1000, 682, false);
+		$this->instance->resize(1000, 682, false);
 
-		// Verify that the resizeded image is the correct size.
-		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-		$image->resize(1000, 682, false, ImageInspector::SCALE_FIT);
+		$this->instance->resize(1000, 682, false, Image::SCALE_FIT);
 
-		// Verify that the resizeded image is the correct size.
-		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(682, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(1000, imagesx(TestHelper::getValue($this->instance, 'handle')));
 	}
 
 	/**
@@ -324,9 +397,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::resize
+	 * @covers  \Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResizeTransparent()
 	{
@@ -336,13 +409,13 @@ class ImageTest extends UnitTestCase
 		// Set black to be transparent in the image.
 		imagecolortransparent($transparentImage, imagecolorallocate($transparentImage, 0, 0, 0));
 
-		$image = new ImageInspector($transparentImage);
+		$image = new Image($transparentImage);
 
 		$image->resize(5, 5, false);
 
-		// Verify that the resizeed image is the correct size.
-		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(5, imagesy(TestHelper::getValue($image, 'handle')));
+		$this->assertEquals(5, imagesx(TestHelper::getValue($image, 'handle')));
 
 		$this->assertTrue($image->isTransparent());
 	}
@@ -354,18 +427,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::resize
+	 * @covers  \Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResizeNoFile()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-
-		$image->resize(1000, 682, false);
+		$this->instance->resize(1000, 682, false);
 	}
 
 	/**
@@ -377,21 +447,19 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testCropResize()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
-		$image->cropResize(500 * 2, 341 * 2, false);
+		$this->instance->cropResize(500 * 2, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
-		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500 * 2, imagesx($image->getClassProperty('handle')));
+		// Verify that the cropped resized image is the correct size.
+		$this->assertEquals(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500 * 2, imagesx(TestHelper::getValue($this->instance, 'handle')));
 
-		$image->cropResize(500 * 3, 341 * 2, false);
+		$this->instance->cropResize(500 * 3, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
-		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500 * 3, imagesx($image->getClassProperty('handle')));
+		// Verify that the cropped resized image is the correct size.
+		$this->assertEquals(341 * 2, imagesy(TestHelper::getValue($this->instance, 'handle')));
+		$this->assertEquals(500 * 3, imagesx(TestHelper::getValue($this->instance, 'handle')));
 	}
 
 	/**
@@ -400,9 +468,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
+	 * @covers  \Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileInvalid()
 	{
@@ -410,8 +478,7 @@ class ImageTest extends UnitTestCase
 
 		$outFileGif = __DIR__ . '/tmp/out.gif';
 
-		$image = new ImageInspector;
-		$image->toFile($outFileGif, IMAGETYPE_GIF);
+		$this->instance->toFile($outFileGif, IMAGETYPE_GIF);
 	}
 
 	/**
@@ -425,15 +492,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
+	 * @covers  \Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = __DIR__ . '/tmp/out.gif';
+		$outFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
 
-		$image = new ImageInspector($this->testFile);
+		$image = new Image($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
 
 		$a = Image::getImageFileProperties($this->testFile);
@@ -465,15 +532,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
+	 * @covers  \Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = __DIR__ . '/tmp/out.png';
+		$outFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
 
-		$image = new ImageInspector($this->testFile);
+		$image = new Image($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
 
 		$a = Image::getImageFileProperties($this->testFile);
@@ -505,16 +572,16 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
+	 * @covers  \Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = __DIR__ . '/tmp/out.jpg';
+		$outFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
 
-		$image = new ImageInspector($this->testFile);
+		$image = new Image($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
 
 		// Get the file properties for both input and output.
@@ -545,16 +612,56 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
+	 * @covers  \Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 */
+	public function testToFileWebp()
+	{
+		$outFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
+
+		$image = new Image($this->testFile);
+		$image->toFile($outFileWebp, IMAGETYPE_WEBP);
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileWebp);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+
+		// Assert that properties that should be different are different.
+		$this->assertEquals('image/webp', $b->mime);
+		$this->assertEquals(IMAGETYPE_WEBP, $b->type);
+		$this->assertNull($b->channels);
+
+		// Clean up after ourselves.
+		unlink($outFileWebp);
+	}
+
+	/**
+	 * Test the Joomla\CMS\Image\Image::toFile method
+	 *
+	 * Make sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
+	 * to open and save the same image and then compare the checksums as the checksums
+	 * may have changed. Therefore we are limited to comparing the image properties.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::toFile
+	 *
+	 * @since   4.0.0
 	 */
 	public function testToFileDefault()
 	{
 		// Write the file out to a JPG.
-		$outFileDefault = __DIR__ . '/tmp/out.default';
+		$outFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
 
-		$image = new ImageInspector($this->testFile);
+		$image = new Image($this->testFile);
 		$image->toFile($outFileDefault);
 
 		// Get the file properties for both input and output.
@@ -579,19 +686,19 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getFilterInstance
+	 * @covers  \Joomla\CMS\Image\Image::getFilterInstance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetFilterInstance()
 	{
-		// Create a new ImageInspector object.
-		$image = new ImageInspector(imagecreatetruecolor(1, 1));
+		// Create a new Image object.
+		$image = new Image(imagecreatetruecolor(1, 1));
 
 		// Get the filter instance.
-		$filter = $image->getFilterInstance('inspector');
+		$filter = TestHelper::invoke($image, 'getFilterInstance', 'brightness');
 
-		$this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Inspector', $filter);
+		$this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Brightness', $filter);
 	}
 
 	/**
@@ -601,22 +708,21 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getHeight
+	 * @covers  \Joomla\CMS\Image\Image::getHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetHeight()
 	{
 		// Create a 108x42 image handle and add no transparency.
 		$imageHandle = imagecreatetruecolor(108, 42);
 
-		// Create a new ImageInspector object from the image handle.
-		$image = new ImageInspector($imageHandle);
+		// Create a new Image object from the image handle.
+		$image = new Image($imageHandle);
 
-		$this->assertequals(
+		$this->assertEquals(
 			42,
-			$image->getHeight(),
-			'Line: ' . __LINE__
+			$image->getHeight()
 		);
 	}
 
@@ -625,18 +731,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getHeight
+	 * @covers  \Joomla\CMS\Image\Image::getHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$image->getHeight();
+		$this->instance->getHeight();
 	}
 
 	/**
@@ -646,22 +749,21 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getWidth
+	 * @covers  \Joomla\CMS\Image\Image::getWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetWidth()
 	{
 		// Create a 108x42 image handle and add no transparency.
 		$imageHandle = imagecreatetruecolor(108, 42);
 
-		// Create a new ImageInspector object from the image handle.
-		$image = new ImageInspector($imageHandle);
+		// Create a new Image object from the image handle.
+		$image = new Image($imageHandle);
 
 		$this->assertEquals(
 			108,
-			$image->getWidth(),
-			'Line: ' . __LINE__
+			$image->getWidth()
 		);
 	}
 
@@ -670,18 +772,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getWidth
+	 * @covers  \Joomla\CMS\Image\Image::getWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$image->getWidth();
+		$this->instance->getWidth();
 	}
 
 	/**
@@ -689,9 +788,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::getImageFileProperties
+	 * @covers  \Joomla\CMS\Image\Image::getImageFileProperties
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
@@ -705,16 +804,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$thumbs = $image->generateThumbs('50x38');
+		$thumbs = $this->instance->generateThumbs('50x38');
 	}
 
 	/**
@@ -722,17 +820,17 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithInvalidSize()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $image->generateThumbs('50*38');
+		$thumbs = $this->instance->generateThumbs('50*38');
 	}
 
 	/**
@@ -740,17 +838,17 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbs()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $image->generateThumbs('50x38');
+		$thumbs = $this->instance->generateThumbs('50x38');
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			34,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -760,9 +858,9 @@ class ImageTest extends UnitTestCase
 			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
 		);
 
-		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP);
+		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -772,9 +870,9 @@ class ImageTest extends UnitTestCase
 			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
 		);
 
-		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP_RESIZE);
+		$thumbs = $this->instance->generateThumbs('50x38', Image::CROP_RESIZE);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -790,16 +888,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testCreateThumbsWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$thumbs = $image->createThumbs('50x38');
+		$thumbs = $this->instance->createThumbs('50x38');
 	}
 
 	/**
@@ -807,17 +904,16 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithInvalidFolder()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-		$image->loadFile($this->testFile);
-
-		$thumbs = $image->createThumbs('50x38', Image::SCALE_INSIDE, '/foo/bar');
+		$this->instance->loadFile($this->testFile);
+		$this->instance->createThumbs('50x38', Image::SCALE_INSIDE, '/foo/bar');
 	}
 
 	/**
@@ -825,15 +921,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  \Joomla\CMS\Image\Image::createThumbs
+	 *
 	 * @since   1.1.3
 	 */
 	public function testCreateThumbs()
 	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFile);
+		$this->instance->loadFile($this->testFile);
 
-		$thumbs = $image->createThumbs('50x38', ImageInspector::CROP);
+		$thumbs = $this->instance->createThumbs('50x38', Image::CROP);
 		$outFileGif = TestHelper::getValue($thumbs[0], 'path');
 
 		$a = Image::getImageFileProperties($this->testFile);
@@ -856,18 +952,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::isTransparent
+	 * @covers  \Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$image->isTransparent();
+		$this->instance->isTransparent();
 	}
 
 	/**
@@ -877,9 +970,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::isTransparent
+	 * @covers  \Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testTransparentIsTransparent()
 	{
@@ -889,8 +982,8 @@ class ImageTest extends UnitTestCase
 		// Set black to be transparent in the image.
 		imagecolortransparent($transparentImage, imagecolorallocate($transparentImage, 0, 0, 0));
 
-		// Create a new ImageInspector object from the image handle.
-		$transparent = new ImageInspector($transparentImage);
+		// Create a new Image object from the image handle.
+		$transparent = new Image($transparentImage);
 
 		// Assert that the image has transparency.
 		$this->assertTrue(($transparent->isTransparent()));
@@ -899,21 +992,21 @@ class ImageTest extends UnitTestCase
 	/**
 	 * Test the Joomla\CMS\Image\Image::isTransparent method
 	 *
-	 * Make sure it gives the correct result if the image does not haave an alpha channel.
+	 * Make sure it gives the correct result if the image does not have an alpha channel.
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::isTransparent
+	 * @covers  \Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testOpaqueIsNotTransparent()
 	{
 		// Create a 10x10 image handle and add no transparency.
 		$opaqueImage = imagecreatetruecolor(10, 10);
 
-		// Create a new ImageInspector object from the image handle.
-		$opaque = new ImageInspector($opaqueImage);
+		// Create a new Image object from the image handle.
+		$opaque = new Image($opaqueImage);
 
 		// Assert that the image does not have transparency.
 		$this->assertFalse(($opaque->isTransparent()));
@@ -924,9 +1017,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::crop
+	 * @covers  \Joomla\CMS\Image\Image::crop
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testCropWithoutLoadedImage()
 	{
@@ -960,9 +1053,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @dataProvider getCropData
 	 *
-	 * @covers  Joomla\CMS\Image\Image::crop
+	 * @covers  \Joomla\CMS\Image\Image::crop
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
@@ -999,8 +1092,8 @@ class ImageTest extends UnitTestCase
 		// Draw a white rectangle one pixel inside the crop area.
 		imagefilledrectangle($imageHandle, ($cropLeft + 1), ($cropTop + 1), ($cropLeft + $cropWidth - 2), ($cropTop + $cropHeight - 2), $white);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		// Create a new Image from the image handle.
+		$image = new Image($imageHandle);
 
 		// Crop the image to specifications.
 		$image->crop($cropWidth, $cropHeight, $actualCropLeft, $actualCropTop, false);
@@ -1008,52 +1101,52 @@ class ImageTest extends UnitTestCase
 		// Verify that the cropped image is the correct size.
 		$this->assertEquals(
 			$cropHeight,
-			imagesy($image->getClassProperty('handle'))
+			imagesy(TestHelper::getValue($image, 'handle'))
 		);
 		$this->assertEquals(
 			$cropWidth,
-			imagesx($image->getClassProperty('handle'))
+			imagesx(TestHelper::getValue($image, 'handle'))
 		);
 
 		// Validate the correct pixels for the corners.
 		// Top/Left
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), 0, 0)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 0, 0)
 		);
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), 1, 1)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 1, 1)
 		);
 
 		// Top/Right
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1))
+			imagecolorat(TestHelper::getValue($image, 'handle'), 0, ($cropHeight - 1))
 		);
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2))
+			imagecolorat(TestHelper::getValue($image, 'handle'), 1, ($cropHeight - 2))
 		);
 
 		// Bottom/Left
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0)
+			imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 1), 0)
 		);
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1)
+			imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 2), 1)
 		);
 
 		// Bottom/Right
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1))
+			imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 1), ($cropHeight - 1))
 		);
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2))
+			imagecolorat(TestHelper::getValue($image, 'handle'), ($cropWidth - 2), ($cropHeight - 2))
 		);
 	}
 
@@ -1062,18 +1155,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::rotate
+	 * @covers  \Joomla\CMS\Image\Image::rotate
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
 		$this->expectException(\LogicException::class);
 
-		// Create a new Image object without loading an image.
-		$image = new Image;
-
-		$image->rotate(90);
+		$this->instance->rotate(90);
 	}
 
 	/**
@@ -1085,9 +1175,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::rotate
+	 * @covers  \Joomla\CMS\Image\Image::rotate
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testRotate()
 	{
@@ -1104,8 +1194,8 @@ class ImageTest extends UnitTestCase
 		// Draw a white vertical line in the middle of the image.
 		imageline($imageHandle, 50, 5, 50, 95, $white);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		// Create a new Image from the image handle.
+		$image = new Image($imageHandle);
 
 		// Crop the image to specifications.
 		$image->rotate(90, -1, false);
@@ -1114,21 +1204,21 @@ class ImageTest extends UnitTestCase
 		// Red line.
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), 50, 5)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 50, 5)
 		);
 		$this->assertEquals(
 			$red,
-			imagecolorat($image->getClassProperty('handle'), 50, 95)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 50, 95)
 		);
 
 		// White line.
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), 5, 50)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 5, 50)
 		);
 		$this->assertEquals(
 			$white,
-			imagecolorat($image->getClassProperty('handle'), 95, 50)
+			imagecolorat(TestHelper::getValue($image, 'handle'), 95, 50)
 		);
 	}
 
@@ -1137,9 +1227,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::filter
+	 * @covers  \Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilter()
 	{
@@ -1152,12 +1242,14 @@ class ImageTest extends UnitTestCase
 		$mockFilter->expects($this->once())
 			->method('execute');
 
-		// Create a new ImageInspector object.
-		$image = new ImageInspector($handle);
-		$image->mockFilter = $mockFilter;
+		// Create a new Image mock
+		$mockImage = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\Image', [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
+		$mockImage->expects($this->once())
+			->method('getFilterInstance')
+			->willReturn($mockFilter);
 
 		// Execute the filter.
-		$image->filter('mock');
+		$mockImage->filter('mock');
 	}
 
 	/**
@@ -1165,9 +1257,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::filter
+	 * @covers  \Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
@@ -1184,16 +1276,15 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::filter
+	 * @covers  \Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
 		$this->expectException(\RuntimeException::class);
 
-		// Create a new ImageInspector object.
-		$image = new ImageInspector(imagecreatetruecolor(10, 10));
+		$image = new Image(imagecreatetruecolor(10, 10));
 
 		$image->filter('foobar');
 	}
@@ -1213,19 +1304,19 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @dataProvider getPrepareDimensionsData
 	 *
-	 * @covers  Joomla\CMS\Image\Image::prepareDimensions
+	 * @covers  \Joomla\CMS\Image\Image::prepareDimensions
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		// Create a new Image from the image handle.
+		$image = new Image($imageHandle);
 
-		$dimensions = $image->prepareDimensions($inputWidth, $inputHeight, $inputScale);
+		$dimensions = TestHelper::invoke($image, 'prepareDimensions', $inputWidth, $inputHeight, $inputScale);
 
 		// Validate the correct response.
 		$this->assertEquals($expectedHeight, $dimensions->height);
@@ -1237,9 +1328,9 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::prepareDimensions
+	 * @covers  \Joomla\CMS\Image\Image::prepareDimensions
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
@@ -1248,10 +1339,9 @@ class ImageTest extends UnitTestCase
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		$image = new Image($imageHandle);
 
-		$dimensions = $image->prepareDimensions(123, 456, 42);
+		$dimensions = TestHelper::invoke($image, 'prepareDimensions', 123, 456, 42);
 	}
 
 	/**
@@ -1268,22 +1358,21 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @dataProvider getSanitizeDimensionData
 	 *
-	 * @covers  Joomla\CMS\Image\Image::sanitizeHeight
+	 * @covers  \Joomla\CMS\Image\Image::sanitizeHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		$image = new Image($imageHandle);
 
 		// Validate the correct response.
 		$this->assertEquals(
 			$expectedHeight,
-			$image->sanitizeHeight($inputHeight, $inputWidth)
+			TestHelper::invoke($image, 'sanitizeHeight', $inputHeight, $inputWidth)
 		);
 	}
 
@@ -1301,22 +1390,21 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @dataProvider getSanitizeDimensionData
 	 *
-	 * @covers  Joomla\CMS\Image\Image::sanitizeWidth
+	 * @covers  \Joomla\CMS\Image\Image::sanitizeWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
-		// Create a new ImageInspector from the image handle.
-		$image = new ImageInspector($imageHandle);
+		$image = new Image($imageHandle);
 
 		// Validate the correct response.
 		$this->assertEquals(
 			$expectedWidth,
-			$image->sanitizeWidth($inputWidth, $inputHeight)
+			TestHelper::invoke($image, 'sanitizeWidth', $inputWidth, $inputHeight)
 		);
 	}
 
@@ -1324,36 +1412,33 @@ class ImageTest extends UnitTestCase
 	 * Tests the Joomla\CMS\Image\Image::sanitizeOffset method
 	 *
 	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param   integer  $expected  The expected result offset.
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeOffsetData
 	 *
-	 * @covers  Joomla\CMS\Image\Image::sanitizeOffset
+	 * @covers  \Joomla\CMS\Image\Image::sanitizeOffset
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeOffset($input, $expected)
 	{
-		// Create a new ImageInspector.
-		$image = new ImageInspector;
-
 		// Validate the correct response.
 		$this->assertEquals(
 			$expected,
-			$image->sanitizeOffset($input)
+			TestHelper::invoke($this->instance, 'sanitizeOffset', $input)
 		);
 	}
 
 	/**
-	 * Tests the Joomla\CMS\Image\Image::destory method
+	 * Tests the Joomla\CMS\Image\Image::destroy method
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\CMS\Image\Image::destroy
+	 * @covers  \Joomla\CMS\Image\Image::destroy
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testDestroy()
 	{

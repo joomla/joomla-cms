@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Multilang
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -58,15 +59,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Holds the menuitem model
-	 *
-	 * @var     MenusModelItem
-	 *
-	 * @since   4.0.0
-	 */
-	private $menuItemModel;
-
-	/**
 	 * @var     string language path
 	 *
 	 * @since   4.0.0
@@ -74,7 +66,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected $path = null;
 
 	/**
-	 * @var    Admin Id, author of all generated content.
+	 * @var    integer Id, author of all generated content.
 	 *
 	 * @since   4.0.0
 	 */
@@ -83,13 +75,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get an overview of the proposed sampledata.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  stdClass|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
 	public function onSampledataGetOverview()
 	{
-		if (!Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
 			return;
 		}
@@ -134,7 +126,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			$response            = array();
 			$response['success'] = false;
 
-			$lang = Factory::getLanguage()->getTag();
+			$lang = $this->app->getLanguage();
 			$lang->load('plg_system_languagefilter', JPATH_ADMINISTRATOR);
 			$message = $lang->_('PLG_SYSTEM_LANGUAGEFILTER');
 
@@ -143,9 +135,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP1_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP1_SUCCESS');
 
 		return $response;
 	}
@@ -164,7 +156,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -178,7 +170,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			$response            = array();
 			$response['success'] = false;
 
-			$lang = Factory::getLanguage()->getTag();
+			$lang = $this->app->getLanguage();
 			$lang->load('mod_languages', JPATH_SITE);
 			$message = $lang->_('MOD_LANGUAGES');
 
@@ -187,9 +179,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP2_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP2_SUCCESS');
 
 		return $response;
 	}
@@ -226,9 +218,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP3_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP3_SUCCESS');
 
 		return $response;
 	}
@@ -247,7 +239,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
+		if (!ComponentHelper::isEnabled('com_menus') || !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -290,9 +282,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP4_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP4_SUCCESS');
 
 		return $response;
 	}
@@ -311,7 +303,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -334,9 +326,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			}
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP5_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP5_SUCCESS');
 
 		return $response;
 	}
@@ -355,7 +347,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -364,7 +356,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		if (!ComponentHelper::isEnabled('com_categories') || !Factory::getUser()->authorise('core.create', 'com_content.category'))
+		if (!ComponentHelper::isEnabled('com_categories') || !$this->app->getIdentity()->authorise('core.create', 'com_content.category'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -374,6 +366,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		$siteLanguages = $this->getInstalledlangsFrontend();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
 
 		foreach ($siteLanguages as $siteLang)
 		{
@@ -420,13 +414,12 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP6_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP6_SUCCESS');
 
 		return $response;
 	}
-
 
 	/**
 	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
@@ -460,9 +453,9 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP7_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP7_SUCCESS');
 
 		return $response;
 	}
@@ -470,7 +463,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Final step to show completion of sampledata.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */
@@ -553,7 +546,6 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		return true;
 	}
-
 
 	/**
 	 * Disable Default Main Menu Module.
@@ -766,7 +758,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -845,7 +837,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -853,10 +845,10 @@ class PlgSampledataMultilang extends CMSPlugin
 			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
 				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
 				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
-				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3",'
-				. '"num_links":"0","show_subcategory_content":"","orderby_pri":"",'
+				. '"blog_class_leading":"","blog_class":"","num_leading_articles":"1","num_intro_articles":"3",'
+				. '"num_links":"0","show_subcategory_content":"","link_intro_image":"","orderby_pri":"",'
 				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
-				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
+				. '"show_featured":"","article_layout":"_:default","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
@@ -1002,12 +994,14 @@ class PlgSampledataMultilang extends CMSPlugin
 		$title = $newlanguage->_('JCATEGORY');
 		$alias = ApplicationHelper::stringURLSafe($title);
 
+		$app = Factory::getApplication();
+
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new category.
@@ -1020,7 +1014,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
+			'params'          => '{"target":"","image":""}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1081,9 +1075,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new article.
@@ -1155,15 +1149,16 @@ class PlgSampledataMultilang extends CMSPlugin
 			return false;
 		}
 
-		$assoc = new stdClass;
-
-		$assoc->item_id   = $newId;
-		$assoc->stage_id  = 2;
-		$assoc->extension = 'com_content';
+		$workflow = new Workflow('com_content.article');
 
 		try
 		{
-			$db->insertObject('#__workflow_associations', $assoc);
+			$stage_id = $workflow->getDefaultStageByCategory($categoryId);
+
+			if ($stage_id)
+			{
+				$workflow->createAssociation($newId, $stage_id);
+			}
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -1228,17 +1223,17 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get Installed Languages.
 	 *
-	 * @param   string  $cms_client  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cms_client);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -1279,7 +1274,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				$row->published = 0;
 			}
 
-			$row->checked_out = 0;
+			$row->checked_out = null;
 			$data[]           = $row;
 		}
 
@@ -1291,13 +1286,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for.
+	 * @param   integer  $clientId  The client ID to retrieve data for.
 	 *
 	 * @return  object  The language data.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getLanguageList($client_id = 1)
+	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
 		$db    = $this->db;
@@ -1314,7 +1309,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('client_id') . ' = :clientid',
 				]
 			)
-			->bind(':clientid', $client_id, ParameterType::INTEGER);
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 

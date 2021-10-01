@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -185,7 +185,7 @@ class FolderlistField extends ListField
 	{
 		$options = array();
 
-		$path = ltrim($this->directory, '/');
+		$path = $this->directory;
 
 		if (!is_dir($path))
 		{
@@ -220,6 +220,9 @@ class FolderlistField extends ListField
 		{
 			foreach ($folders as $folder)
 			{
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
+
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
@@ -228,9 +231,6 @@ class FolderlistField extends ListField
 						continue;
 					}
 				}
-
-				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
 				$options[] = HTMLHelper::_('select.option', $folder, $folder);
 			}

@@ -5,23 +5,15 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
-    depends_on: [ restore-cache ]
+    image: joomlaprojects/docker-images:php7.3
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -32,50 +24,10 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:current-alpine
+    image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: publish-diff
-    image: joomlaprojects/docker-images:patchtester
-    depends_on: [ npm ]
-    environment:
-      CMP_ARCHIVE_NAME: "build"
-      CMP_MASTER_FOLDER: "/reference"
-      CMP_SLAVE_FOLDER: "." # The directory the current repo is in
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-    commands:
-      - export PULL_ID=$DRONE_PULL_REQUEST
-      - /bin/compare.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-      - 4.0-dev
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -164,32 +116,20 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:css
+
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    image: node:current-alpine
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
       - npm run lint:js
 
-  - name: javascript-tests
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run test
-
   - name: system-tests-mysql
-    depends_on: [ javascript-tests ]
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -241,34 +181,9 @@ steps:
       status:
         - failure
 
-  - name: packager
-    image: joomlaprojects/docker-images:packager
-    environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-      DRONE_COMMIT: DRONE_COMMIT
-      GITHUB_TOKEN:
-        from_secret: github_token
-    commands:
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-        - 4.0-dev
-
   - name: analysis4x
     image: rips/rips-cli:3.2.2
+    failure: ignore
     depends_on: [ api-tests ]
     when:
       repo:
@@ -277,8 +192,8 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -289,12 +204,9 @@ branches:
   exclude: [ l10n_* ]
 
 volumes:
-- name: cache
+- name: composer-cache
   host:
-    path: /tmp/cache
-- name: reference
-  host:
-    path: /tmp/reference
+    path: /tmp/composer-cache
 
 services:
   - name: mysql
@@ -314,12 +226,6 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
-  - name: memcached
-    image: memcached:alpine
-
-  - name: redis
-    image: redis:alpine
-
   - name: postgres
     image: postgres:11-alpine
     ports:
@@ -330,7 +236,40 @@ services:
       POSTGRES_DB: test_joomla
 
 ---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
+      - /bin/drone_build.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+        - 4.0-dev
+
+
+---
 kind: signature
-hmac: 06035b7ce5a946d486d499e71b5c80538ae5272929f072b03cfadf4bb3b1fc15
+hmac: eeef976e7f7c7dde8100d7dc4944250af4886b397250aab5c8069a021f4e3043
 
 ...

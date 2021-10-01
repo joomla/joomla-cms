@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Service provider for the application's PSR-3 logger dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Logger implements ServiceProviderInterface
 {
@@ -30,7 +29,7 @@ class Logger implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

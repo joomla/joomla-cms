@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Language\Text;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 array_walk(
 	$displayData,
@@ -23,26 +23,26 @@ array_walk(
 		switch ($changeType)
 		{
 			case 'security':
-				$class = 'badge-danger';
+				$class = 'bg-danger';
 				break;
 			case 'fix':
-				$class = 'badge-dark';
+				$class = 'bg-dark';
 				break;
 			case 'language':
-				$class = 'badge-jlanguage';
+				$class = 'bg-primary';
 				break;
 			case 'addition':
-				$class = 'badge-success';
+				$class = 'bg-success';
 				break;
 			case 'change':
-				$class = 'badge-warning';
+				$class = 'bg-warning text-dark';
 				break;
-			case 'removed':
-				$class = 'badge-light';
+			case 'remove':
+				$class = 'bg-secondary';
 				break;
 			default:
 			case 'note':
-				$class = 'badge-info';
+				$class = 'bg-info';
 				break;
 		}
 

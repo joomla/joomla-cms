@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,13 +35,14 @@ class MenuHelper
 	 */
 	public static function getList(&$params)
 	{
-		$menu = Factory::getApplication()->getMenu();
+		$app   = Factory::getApplication();
+		$menu  = $app->getMenu();
 
 		// Get active menu item
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -63,6 +64,8 @@ class MenuHelper
 
 			if ($items)
 			{
+				$inputVars = $app->getInput()->getArray();
+
 				foreach ($items as $i => $item)
 				{
 					$item->parent = false;
@@ -88,6 +91,17 @@ class MenuHelper
 						$hidden_parents[] = $item->id;
 						unset($items[$i]);
 						continue;
+					}
+
+					$item->current = true;
+
+					foreach ($item->query as $key => $value)
+					{
+						if (!isset($inputVars[$key]) || $inputVars[$key] !== $value)
+						{
+							$item->current = false;
+							break;
+						}
 					}
 
 					$item->deeper     = false;
@@ -185,7 +199,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getBase(&$params)
 	{
@@ -215,7 +229,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getActive(&$params)
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,14 +50,14 @@ class UrlFilter implements FormFilterInterface
 		$value = InputFilter::getInstance()->clean($value, 'html');
 		$value = trim($value);
 
-		// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
+		// <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
 		$value = str_replace(array('<', '>', '"'), '', $value);
 
 		// Check for a protocol
 		$protocol = parse_url($value, PHP_URL_SCHEME);
 
 		// If there is no protocol and the relative option is not specified,
-		// we assume that it is an external URL and prepend http://.
+		// we assume that it is an external URL and prepend http://
 		if (((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
 			|| (!(string) $element['type'] === 'url' && !$protocol))
 		{
@@ -80,7 +80,7 @@ class UrlFilter implements FormFilterInterface
 		// If relative URLS are allowed we assume that URLs without protocols are internal.
 		elseif (!$protocol && $element['relative'])
 		{
-			$host = Uri::getInstance('SERVER')->gethost();
+			$host = Uri::getInstance('SERVER')->getHost();
 
 			// If it starts with the host string, just prepend the protocol.
 			if (substr($value, 0) === $host)

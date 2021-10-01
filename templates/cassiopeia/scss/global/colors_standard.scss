@@ -1,0 +1,8 @@
+// Variables, Functions and Mixins
+@import "../tools/tools";
+
+:root {
+  --cassiopeia-color-primary: #{$standard-color-primary};
+  --cassiopeia-color-link: #{$standard-color-link};
+  --cassiopeia-color-hover: #{$standard-color-hover};
+}

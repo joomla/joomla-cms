@@ -1,6 +1,6 @@
 -- Add locked field to extensions table.
-ALTER TABLE `#__extensions` MODIFY `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
-ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
+ALTER TABLE `#__extensions` MODIFY `protected` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
+ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
 
 -- Set all core extensions as locked extensions and unprotected them.
 UPDATE `#__extensions`
@@ -39,7 +39,6 @@ WHERE (`type` = 'component' AND `element` IN (
 	'com_privacy',
 	'com_actionlogs',
 	'com_workflow',
-	'com_csp',
 	'com_mails'
 ))
 OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (
@@ -64,7 +63,9 @@ OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (
 	'mod_articles_category',
 	'mod_articles_categories',
 	'mod_languages',
-	'mod_finder'
+	'mod_finder',
+	'mod_tags_popular',
+	'mod_tags_similar'
 ))
 OR (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_custom',
@@ -85,8 +86,6 @@ OR (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_multilangstatus',
 	'mod_version',
 	'mod_stats_admin',
-	'mod_tags_popular',
-	'mod_tags_similar',
 	'mod_sampledata',
 	'mod_latestactions',
 	'mod_privacy_dashboard',
@@ -104,7 +103,7 @@ OR (`type` = 'plugin' AND
 		OR (`folder` = 'editors' AND `element` IN ('codemirror', 'none', 'tinymce'))
 		OR (`folder` = 'editors-xtd' AND `element` IN ('article', 'contact', 'fields', 'image', 'menu', 'module', 'pagebreak', 'readmore'))
 		OR (`folder` = 'extension' AND `element` IN ('finder', 'joomla', 'namespacemap'))
-		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'subfields', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
+		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'subform', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
 		OR (`folder` = 'filesystem' AND `element` IN ('local'))
 		OR (`folder` = 'finder' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
 		OR (`folder` = 'installer' AND `element` IN ('folderinstaller', 'override', 'packageinstaller', 'urlinstaller', 'webinstaller'))
@@ -128,7 +127,6 @@ OR (`type` = 'package' AND `element` IN ('pkg_en-GB'));
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1
 WHERE (`type` = 'component' AND `element` IN (
-	'com_actionlogs',
 	'com_admin',
 	'com_ajax',
 	'com_cache',
@@ -148,41 +146,25 @@ WHERE (`type` = 'component' AND `element` IN (
 	'com_modules',
 	'com_plugins',
 	'com_postinstall',
-	'com_privacy',
-	'com_redirect',
-	'com_tags',
 	'com_templates',
 	'com_users',
-	'com_workflow',
-	'com_wrapper'
-))
-OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (
-	'mod_breadcrumbs',
-	'mod_custom',
-	'mod_languages',
-	'mod_login',
-	'mod_menu',
-	'mod_syndicate'
-))
-OR (`type` = 'module' AND `client_id` = 1 AND `element` IN (
-	'mod_custom',
-	'mod_login',
-	'mod_loginsupport',
-	'mod_quickicon',
-	'mod_toolbar'
+	'com_workflow'
 ))
 OR (`type` = 'plugin' AND
 	(
 		(`folder` = 'authentication' AND `element` IN ('joomla'))
-		OR (`folder` = 'editors' AND `element` IN ('codemirror', 'none'))
-		OR (`folder` = 'extension' AND `element` IN ('joomla', 'namespacemap'))
-		OR (`folder` = 'installer' AND `element` IN ('folderinstaller', 'override', 'packageinstaller', 'urlinstaller'))
-		OR (`folder` = 'quickicon' AND `element` IN ('downloadkey', 'extensionupdate', 'joomlaupdate', 'overridecheck', 'phpversioncheck'))
-		OR (`folder` = 'sampledata' AND `element` IN ('blog', 'multilang', 'testing'))
-		OR (`folder` = 'system' AND `element` IN ('log', 'logout', 'remember'))
+		OR (`folder` = 'editors' AND `element` IN ('none'))
+		OR (`folder` = 'extension' AND `element` IN ('namespacemap'))
 	)
 )
 OR (`type` = 'library' AND `element` IN ('joomla', 'phpass'))
 OR (`type` = 'language' AND `element` IN ('en-GB'))
 OR (`type` = 'file' AND `element` IN ('joomla'))
 OR (`type` = 'package' AND `element` IN ('pkg_en-GB'));
+
+-- Set core extensions (from J3) as unlocked extensions and unprotect them.
+UPDATE `#__extensions`
+SET `protected` = 0, `locked` = 0
+WHERE (`type` = 'library' AND `element` IN (
+	'fof'
+));

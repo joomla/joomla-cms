@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,6 +145,13 @@ class InstallerScript
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
+
+			// Check whether we have an old release installed and skip this check when this here is the initial install.
+			if (!isset($manifest['version']))
+			{
+				return true;
+			}
+
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
@@ -222,15 +229,15 @@ class InstallerScript
 	 * this must be called separately for deleting and editing. Note if edit is called as a
 	 * type then if the param doesn't exist it will be created
 	 *
-	 * @param   array    $param_array  The array of parameters to be added/edited/removed
-	 * @param   string   $type         The type of change to be made to the param (edit/remove)
-	 * @param   integer  $id           The id of the item in the relevant table
+	 * @param   array    $paramArray  The array of parameters to be added/edited/removed
+	 * @param   string   $type        The type of change to be made to the param (edit/remove)
+	 * @param   integer  $id          The id of the item in the relevant table
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.6
 	 */
-	public function setParams($param_array = null, $type = 'edit', $id = 0)
+	public function setParams($paramArray = null, $type = 'edit', $id = 0)
 	{
 		if (!\is_int($id) || $id == 0)
 		{
@@ -240,9 +247,9 @@ class InstallerScript
 
 		$params = $this->getItemArray('params', $this->paramTable, 'id', $id);
 
-		if ($param_array)
+		if ($paramArray)
 		{
-			foreach ($param_array as $name => $value)
+			foreach ($paramArray as $name => $value)
 			{
 				if ($type === 'edit')
 				{
@@ -379,7 +386,7 @@ class InstallerScript
 	 * @return  void
 	 *
 	 * @throws \Exception
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function addDashboardMenu(string $dashboard, string $preset)
 	{

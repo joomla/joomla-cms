@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
@@ -24,8 +27,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class NewsfeedTable extends Table
+class NewsfeedTable extends Table implements VersionableTableInterface, TaggableTableInterface
 {
+	use TaggableTableTrait;
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -116,6 +121,11 @@ class NewsfeedTable extends Table
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
+		if (is_null($this->hits))
+		{
+			$this->hits = 0;
+		}
+
 		return true;
 	}
 
@@ -133,6 +143,12 @@ class NewsfeedTable extends Table
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date->toSql();
+		}
+
 		if ($this->id)
 		{
 			// Existing item
@@ -141,13 +157,7 @@ class NewsfeedTable extends Table
 		}
 		else
 		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
+			// Field created_by can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
@@ -189,5 +199,17 @@ class NewsfeedTable extends Table
 		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->typeAlias;
 	}
 }

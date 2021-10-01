@@ -12,7 +12,7 @@
 		<field
 			name="enabled"
 			type="list"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			validate="options"
 			>
@@ -23,7 +23,7 @@
 		<field
 			name="client_id"
 			type="location"
-			label="COM_INSTALLER_VALUE_CLIENT_SELECT"
+			label="COM_INSTALLER_TYPE_CLIENT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
@@ -31,7 +31,7 @@
 		<field
 			name="type"
 			type="type"
-			label="COM_INSTALLER_VALUE_TYPE_SELECT"
+			label="COM_INSTALLER_HEADING_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
@@ -39,7 +39,7 @@
 		<field
 			name="folder"
 			type="folder"
-			label="COM_INSTALLER_VALUE_FOLDER_SELECT"
+			label="COM_INSTALLER_HEADING_FOLDER"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
@@ -47,9 +47,10 @@
 		<field
 			name="supported"
 			type="list"
+			label="COM_INSTALLER_HEADING_SUPPORTED"
 			onchange="this.form.submit();"
 			validate="options"
-		>
+			>
 			<option value="">COM_INSTALLER_VALUE_SUPPORTED_SELECT</option>
 			<option value="1">COM_INSTALLER_VALUE_SUPPORTED_SUPPORTED</option>
 			<option value="-1">COM_INSTALLER_VALUE_SUPPORTED_MISSING</option>

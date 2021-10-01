@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Banners:_Options"/>
 	<fieldset
 		name="component"
 		label="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_LABEL"
@@ -10,7 +11,6 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			id="purchase_type"
 			default="1"
 			validate="options"
 			>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\WebAsset\WebAssetRegistryInterface;
 /**
  * Event class for WebAssetRegistry "asset changed" events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetRegistryAssetChanged extends AbstractEvent
 {
@@ -29,7 +29,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -61,7 +61,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 	 *
 	 * @throws  BadMethodCallException  if the argument is not of the expected type
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function setSubject($value)
 	{
@@ -78,7 +78,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 	 *
 	 * @return  WebAssetItemInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAsset(): WebAssetItemInterface
 	{
@@ -90,7 +90,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssetType(): string
 	{
@@ -102,7 +102,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getChange(): string
 	{

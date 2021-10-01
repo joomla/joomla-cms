@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Section
@@ -62,7 +61,8 @@ class SectionField extends ListField
 	 */
 	protected function getInput()
 	{
-		HTMLHelper::_('script', 'com_fields/admin-field-changecontext.min.js', ['relative' => true, 'version' => 'auto']);
+		Factory::getApplication()->getDocument()->getWebAssetManager()
+			->useScript('com_fields.admin-field-changecontext');
 
 		return parent::getInput();
 	}

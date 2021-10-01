@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,9 @@ namespace Joomla\Component\Languages\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception;
-use Joomla\CMS\Language\Text;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -142,9 +142,7 @@ class OverridesController extends ApiController
 			throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 		}
 
-		$id = $validData['key'];
-
-		return $id;
+		return $validData['key'];
 	}
 
 	/**
@@ -173,7 +171,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getClientFromInput()
 	{
@@ -185,7 +183,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getLanguageFromInput()
 	{

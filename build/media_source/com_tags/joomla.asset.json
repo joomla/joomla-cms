@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_tags",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_tags.tag-default.es5",
+      "type": "script",
+      "uri": "com_tags/tag-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_tags.tag-default",
+      "type": "script",
+      "uri": "com_tags/tag-default.min.js",
+      "dependencies": [
+        "com_tags.tag-default.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_tags.tag-list.es5",
+      "type": "script",
+      "uri": "com_tags/tag-list-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_tags.tag-list",
+      "type": "script",
+      "uri": "com_tags/tag-list.min.js",
+      "dependencies": [
+        "com_tags.tag-list.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_tags.tags-default.es5",
+      "type": "script",
+      "uri": "com_tags/tags-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_tags.tags-default",
+      "type": "script",
+      "uri": "com_tags/tags-default.min.js",
+      "dependencies": [
+        "com_tags.tags-default.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}

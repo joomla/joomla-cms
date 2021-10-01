@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class IndexModel extends ListModel
 	 * The event to trigger after purging the data.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $event_after_purge = 'onFinderIndexAfterPurge';
 
@@ -326,8 +326,6 @@ class IndexModel extends ListModel
 			->select('COUNT(link_id)')
 			->from($db->quoteName('#__finder_links'));
 		$db->setQuery($query);
-
-		$db->execute();
 
 		return (int) $db->loadResult();
 	}

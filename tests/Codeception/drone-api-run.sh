@@ -24,7 +24,6 @@ HEADER=$(cat <<'EOF'
 ......|_|\___||___/\__|_|_|.|_|\__  |...
 ................................__/ |...
 ...............................|____|...
-#
 EOF
 )
 
@@ -48,8 +47,7 @@ apache2ctl -D FOREGROUND &
 google-chrome --version
 
 echo "[RUNNER] Start Selenium"
-./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
-./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
+selenium-standalone start >> selenium.log 2>&1 &
 sleep 5
 
 echo "[RUNNER] Run Codeception"
@@ -57,7 +55,7 @@ php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql tests/Codeception/acceptance/01-install/
 
 # If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the codeception readme!
-# This replaces the site secret in configuration.php so we can guarentee a consistent API token for our super user.
+# This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
 sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/test-install/configuration.php
 
 # Executing API tests

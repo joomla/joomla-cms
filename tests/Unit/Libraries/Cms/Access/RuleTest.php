@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Access;
@@ -13,8 +13,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for \Joomla\CMS\Access\Rule.
- *
- * @package  Joomla.Platform
  *
  * @since    1.7.0
  */

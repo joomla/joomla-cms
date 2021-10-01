@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,7 +10,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageFilterBrightnessTest extends UnitTestCase
 {
@@ -19,7 +19,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setup(): void
 	{
@@ -38,7 +38,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function tearDown(): void
 	{
@@ -52,7 +52,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testExecute()
 	{
@@ -82,7 +82,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testExecuteInvalidArgument()
 	{

@@ -29,6 +29,7 @@
       [dir=rtl] & {
         right: ($treeselect-indent - 15px);
         left: 0;
+        margin: 0;
       }
     }
 
@@ -56,7 +57,7 @@
     }
 
     li {
-      padding-left: $treeselect-indent;
+      padding-inline-start: $treeselect-indent;
     }
   }
 
@@ -65,7 +66,8 @@
     display: none;
   }
 
-  .icon- {
+  .#{$jicon-css-prefix}-,
+  .#{$fa-css-prefix}- {
     display: none;
   }
 
@@ -102,7 +104,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: var(--atum-text-dark);
+      color: var(--template-text-dark);
     }
   }
 }

@@ -1,944 +1,465 @@
-// IcoMoon Conversion
+/**
+ *  IcoMoon to Fontawesome Conversion
+ */
 
-[class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-}
-[class^="icon-"]::before,
-[class*=" icon-"]::before {
-  font-family: "Font Awesome 5 Free";
-  font-style: normal;
+// Define global icon prefix
+$jicon-css-prefix: icon !default;
+
+
+// Standard icon global definition
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"] {
+  @extend %fa-icon;
+  @extend .fas;
   speak: none;
 }
-[class^="icon-"].disabled,
-[class*=" icon-"].disabled {
-  font-weight: 900;
-}
-
-.icon-generic::before {
-  @extend .#{$fa-css-prefix}-dot-circle:before;
-}
-
-.icon-joomla::before {
-  @extend .#{$fa-css-prefix}-joomla:before;
-}
-
-.icon-chevron-up::before,
-.icon-uparrow::before,
-.icon-arrow-up::before {
-  @extend .#{$fa-css-prefix}-chevron-up:before;
-}
-
-.icon-chevron-right::before,
-.icon-rightarrow::before,
-.icon-arrow-right::before {
-  @extend .#{$fa-css-prefix}-chevron-right:before;
-}
-
-.icon-chevron-down::before,
-.icon-downarrow::before,
-.icon-arrow-down::before {
-  @extend .#{$fa-css-prefix}-chevron-down:before;
-}
-
-.icon-chevron-left::before,
-.icon-leftarrow::before,
-.icon-arrow-left::before {
-  @extend .#{$fa-css-prefix}-chevron-left:before;
-}
-
-.icon-arrow-first::before {
-  @extend .#{$fa-css-prefix}-step-backward:before;
-}
-
-.icon-arrow-last::before {
-  @extend .#{$fa-css-prefix}-fast-backward:before;
-}
-
-.icon-arrow-up-2::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-up:before;
-}
-
-.icon-arrow-right-2::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-right:before;
-}
-
-.icon-arrow-down-2::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-down:before;
-}
-
-.icon-arrow-left-2::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-left:before;
-}
-
-.icon-arrow-up-3::before {
-  @extend .#{$fa-css-prefix}-caret-up:before;
-}
-
-.icon-arrow-right-3::before {
-  @extend .#{$fa-css-prefix}-caret-right:before;
-}
-
-.icon-arrow-down-3::before {
-  @extend .#{$fa-css-prefix}-caret-down:before;
-}
-
-.icon-arrow-left-3::before {
-  @extend .#{$fa-css-prefix}-caret-left:before;
-}
-
-.icon-menu-2::before {
-  @extend .#{$fa-css-prefix}-sort:before;
-}
-
-.icon-arrow-up-4::before {
-  @extend .#{$fa-css-prefix}-arrow-up:before;
-}
-
-.icon-arrow-right-4::before {
-  @extend .#{$fa-css-prefix}-arrow-right:before;
-}
-
-.icon-arrow-down-4::before {
-  @extend .#{$fa-css-prefix}-arrow-down:before;
-}
-
-.icon-arrow-left-4::before {
-  @extend .#{$fa-css-prefix}-arrow-left:before;
-}
-
-.icon-share::before,
-.icon-redo::before {
-  @extend .#{$fa-css-prefix}-share:before;
-}
-
-.icon-undo::before {
-  @extend .#{$fa-css-prefix}-undo:before;
-}
-
-.icon-forward-2::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-right:before;
-}
-
-.icon-backward-2::before,
-.icon-reply::before {
-  @extend .#{$fa-css-prefix}-arrow-alt-circle-left:before;
-}
-
-.icon-unblock::before,
-.icon-refresh::before,
-.icon-redo-2::before {
-  @extend .#{$fa-css-prefix}-sync:before;
-}
-
-.icon-undo-2::before {
-  @extend .#{$fa-css-prefix}-undo:before;
-}
-
-.icon-move::before {
-  @extend .#{$fa-css-prefix}-arrows-alt:before;
-}
-
-.icon-expand::before {
-  @extend .#{$fa-css-prefix}-expand:before;
-}
-
-.icon-contract::before {
-  @extend .#{$fa-css-prefix}-compress:before;
-}
-
-.icon-expand-2::before {
-  @extend .#{$fa-css-prefix}-expand-arrows-alt:before;
-}
-
-.icon-contract-2::before {
-  @extend .#{$fa-css-prefix}-shopping-basket:before;
-}
-
-.icon-play::before {
-  @extend .#{$fa-css-prefix}-expand-arrows-alt:before;
-}
-
-.icon-pause::before {
-  @extend .#{$fa-css-prefix}-pause:before;
-}
-
-.icon-stop::before {
-  @extend .#{$fa-css-prefix}-stop:before;
-}
-
-.icon-previous::before,
-.icon-backward::before {
-  @extend .#{$fa-css-prefix}-backward:before;
-}
-
-.icon-next::before,
-.icon-forward::before {
-  @extend .#{$fa-css-prefix}-forward:before;
-}
-
-.icon-first::before {
-  @extend .#{$fa-css-prefix}-fast-backward:before;
-}
-
-.icon-last::before {
-  @extend .#{$fa-css-prefix}-fast-forward:before;
-}
-
-.icon-play-circle::before {
-  @extend .#{$fa-css-prefix}-play-circle:before;
-}
-
-.icon-pause-circle::before {
-  @extend .#{$fa-css-prefix}-pause-circle:before;
-}
-
-.icon-stop-circle::before {
-  @extend .#{$fa-css-prefix}-stop-circle:before;
-}
-
-.icon-backward-circle::before {
-  @extend .#{$fa-css-prefix}-chevron-circle-left:before;
-}
-
-.icon-forward-circle::before {
-  @extend .#{$fa-css-prefix}-chevron-circle-right:before;
-}
-
-.icon-loop::before {
-  @extend .#{$fa-css-prefix}-sync:before;
-}
-
-.icon-shuffle::before {
-  @extend .#{$fa-css-prefix}-random:before;
-}
-
-.icon-search::before {
-  @extend .#{$fa-css-prefix}-search:before;
-}
-
-.icon-zoom-in::before {
-  @extend .#{$fa-css-prefix}-search-plus:before;
-}
-
-.icon-zoom-out::before {
-  @extend .#{$fa-css-prefix}-search-minus:before;
-}
-
-.icon-apply::before,
-.icon-save::before {
-  @extend .#{$fa-css-prefix}-save:before;
-}
-
-.icon-edit::before,
-.icon-pencil::before {
-  @extend .#{$fa-css-prefix}-edit:before;
-}
-
-.icon-pencil-2::before {
-  @extend .#{$fa-css-prefix}-pencil-alt:before;
-}
-
-.icon-brush::before {
-  @extend .#{$fa-css-prefix}-paint-brush:before;
-}
-
-.icon-save-new::before,
-.icon-plus-2::before {
-  @extend .#{$fa-css-prefix}-plus:before;
-}
-
-.icon-minus-sign::before,
-.icon-minus-2::before {
-  @extend .#{$fa-css-prefix}-minus:before;
-}
-
-.icon-delete::before,
-.icon-remove::before,
-.icon-cancel-2::before {
-  @extend .#{$fa-css-prefix}-times:before;
-}
-
-.icon-publish::before,
-.icon-ok::before,
-.icon-checkmark::before {
-  @extend .#{$fa-css-prefix}-check:before;
-}
-
-.icon-new::before,
-.icon-plus::before {
-  @extend .#{$fa-css-prefix}-plus:before;
-}
-
-.icon-plus-circle::before {
-  @extend .#{$fa-css-prefix}-plus-circle:before;
-}
-
-.icon-minus::before,
-.icon-not-ok::before {
-  @extend .#{$fa-css-prefix}-minus:before;
-}
-
-.icon-ban-circle::before,
-.icon-minus-circle::before {
-  @extend .#{$fa-css-prefix}-minus-circle:before;
-}
-
-.icon-unpublish::before,
-.icon-cancel::before {
-  @extend .#{$fa-css-prefix}-times:before;
-}
-
-.icon-cancel-circle::before {
-  @extend .#{$fa-css-prefix}-times-circle:before;
-}
-
-.icon-checkmark-2::before {
-  @extend .#{$fa-css-prefix}-check-circle:before;
-}
-
-.icon-checkmark-circle::before {
-  @extend .#{$fa-css-prefix}-check-circle:before;
-}
-
-.icon-info::before {
-  @extend .#{$fa-css-prefix}-info:before;
-}
-
-.icon-info-2::before,
-.icon-info-circle::before {
-  @extend .#{$fa-css-prefix}-info-circle:before;
-}
-
-.icon-question::before,
-.icon-question-sign::before,
-.icon-help::before {
-  @extend .#{$fa-css-prefix}-question:before;
-}
-
-.icon-question-2::before,
-.icon-question-circle::before {
-  @extend .#{$fa-css-prefix}-question-circle:before;
-}
-
-.icon-notification::before {
-  @extend .#{$fa-css-prefix}-exclamation:before;
-}
-
-.icon-notification-2::before,
-.icon-notification-circle::before {
-  @extend .#{$fa-css-prefix}-exclamation-circle:before;
-}
-
-.icon-pending::before,
-.icon-warning::before {
-  @extend .#{$fa-css-prefix}-exclamation-triangle:before;
-}
-
-.icon-warning-2::before,
-.icon-warning-circle::before {
-  @extend .#{$fa-css-prefix}-exclamation-triangle:before;
-}
-
-.icon-checkbox-unchecked::before {
-  @extend .#{$fa-css-prefix}-square:before;
-}
-
-.icon-checkin::before,
-.icon-checkbox::before,
-.icon-checkbox-checked::before {
-  @extend .#{$fa-css-prefix}-check-square:before;
-}
-
-.icon-checkbox-partial::before {
-  @extend .#{$fa-css-prefix}-square:before;
-}
-
-.icon-square::before {
-  @extend .#{$fa-css-prefix}-square:before;
-}
-
-.icon-radio-unchecked::before {
-  @extend .#{$fa-css-prefix}-circle:before;
-}
-
-.icon-radio-checked::before {
-  @extend .#{$fa-css-prefix}-check-circle:before;
-}
-
-.icon-circle::before {
-  @extend .#{$fa-css-prefix}-circle:before;
-}
-
-.icon-signup::before {
-  @extend .#{$fa-css-prefix}-sign-in-alt:before;
-}
-
-.icon-grid::before,
-.icon-grid-view::before {
-  @extend .#{$fa-css-prefix}-th-large:before;
-}
-
-.icon-grid-2::before,
-.icon-grid-view-2::before {
-  @extend .#{$fa-css-prefix}-th:before;
-}
-
-.icon-menu::before {
-  @extend .#{$fa-css-prefix}-bars:before;
-}
-
-.icon-list::before,
-.icon-list-view::before {
-  @extend .#{$fa-css-prefix}-list:before;
-}
-
-.icon-list-2::before {
-  @extend .#{$fa-css-prefix}-list-ul:before;
-}
-
-.icon-menu-3::before {
-  @extend .#{$fa-css-prefix}-list-ol:before;
-}
-
-.icon-folder-open::before,
-.icon-folder::before {
-  @extend .#{$fa-css-prefix}-folder-open:before;
-}
-
-.icon-folder-close::before,
-.icon-folder-2::before {
-  @extend .#{$fa-css-prefix}-folder:before;
-}
-
-.icon-folder-plus::before {
-  @extend .#{$fa-css-prefix}-folder-open:before;
-}
-
-.icon-folder-minus::before {
-  @extend .#{$fa-css-prefix}-folder:before;
-}
-
-.icon-folder-3::before {
-  @extend .#{$fa-css-prefix}-folder-open:before;
-}
-
-.icon-folder-plus-2::before {
-  @extend .#{$fa-css-prefix}-folder:before;
-}
-
-.icon-folder-remove::before {
-  @extend .#{$fa-css-prefix}-folder:before;
-}
-
-.icon-file::before {
-  @extend .#{$fa-css-prefix}-file:before;
-}
-
-.icon-file-2::before {
-  @extend .#{$fa-css-prefix}-file:before;
-}
-
-.icon-file-add::before,
-.icon-file-plus::before {
-  @extend .#{$fa-css-prefix}-plus:before;
-}
-
-.icon-file-minus::before {
-  @extend .#{$fa-css-prefix}-minus:before;
-}
-
-.icon-file-check::before {
-  @extend .#{$fa-css-prefix}-check:before;
-}
-
-.icon-file-remove::before {
-  @extend .#{$fa-css-prefix}-times:before;
-}
-
-.icon-save-copy::before,
-.icon-copy::before {
-  @extend .#{$fa-css-prefix}-copy:before;
-}
-
-.icon-stack::before {
-  @extend .#{$fa-css-prefix}-copy:before;
-}
-
-.icon-tree::before {
-  @extend .#{$fa-css-prefix}-code-branch:before;
-}
-
-.icon-tree-2::before {
-  @extend .#{$fa-css-prefix}-sitemap:before;
-}
-
-.icon-paragraph-left::before {
-  @extend .#{$fa-css-prefix}-align-left:before;
-}
-
-.icon-paragraph-center::before {
-  @extend .#{$fa-css-prefix}-align-center:before;
-}
-
-.icon-paragraph-right::before {
-  @extend .#{$fa-css-prefix}-align-right:before;
-}
-
-.icon-paragraph-justify::before {
-  @extend .#{$fa-css-prefix}-align-justify:before;
-}
-
-.icon-screen::before {
-  @extend .#{$fa-css-prefix}-desktop:before;
-}
-
-.icon-tablet::before {
-  @extend .#{$fa-css-prefix}-tablet:before;
-}
-
-.icon-mobile::before {
-  @extend .#{$fa-css-prefix}-mobile:before;
-}
-
-.icon-box-add::before {
-  @extend .#{$fa-css-prefix}-archive:before;
-}
-
-.icon-box-remove::before {
-  @extend .#{$fa-css-prefix}-archive:before;
-}
-
-.icon-download::before {
-  @extend .#{$fa-css-prefix}-download:before;
-}
-
-.icon-upload::before {
-  @extend .#{$fa-css-prefix}-upload:before;
-}
-
-.icon-home::before {
-  @extend .#{$fa-css-prefix}-home:before;
-}
-
-.icon-home-2::before {
-  @extend .#{$fa-css-prefix}-home:before;
-}
-
-.icon-out-2::before,
-.icon-new-tab::before {
-  @extend .#{$fa-css-prefix}-external-link-alt:before;
-}
-
-.icon-out-3::before,
-.icon-new-tab-2::before {
-  @extend .#{$fa-css-prefix}-external-link-square-alt:before;
-}
-
-.icon-link::before {
-  @extend .#{$fa-css-prefix}-link:before;
-}
-
-.icon-picture::before,
-.icon-image::before {
-  @extend .#{$fa-css-prefix}-image:before;
-}
-
-.icon-pictures::before,
-.icon-images::before {
-  @extend .#{$fa-css-prefix}-image:before;
-}
-.icon-palette::before,
-.icon-color-palette::before {
-  @extend .#{$fa-css-prefix}-paint-brush:before;
-}
-.icon-camera::before {
-  @extend .#{$fa-css-prefix}-camera:before;
-}
-
-.icon-camera-2::before,
-.icon-video::before {
-  @extend .#{$fa-css-prefix}-video:before;
-}
-
-.icon-play-2::before,
-.icon-video-2::before,
-.icon-youtube::before {
-  @extend .#{$fa-css-prefix}-play:before;
-}
-
-.icon-music::before {
-  @extend .#{$fa-css-prefix}-music:before;
-}
-
-.icon-user::before {
-  @extend .#{$fa-css-prefix}-user:before;
-}
-
-.icon-users::before {
-  @extend .#{$fa-css-prefix}-users:before;
-}
-
-.icon-vcard::before {
-  @extend .#{$fa-css-prefix}-file-alt:before;
-}
-
-.icon-address::before {
-  @extend .#{$fa-css-prefix}-file-alt:before;
-}
-.icon-share-alt::before,
-.icon-out::before {
-  @extend .#{$fa-css-prefix}-share:before;
-}
-
-.icon-enter::before {
-  @extend .#{$fa-css-prefix}-sign-in-alt:before;
-}
-
-.icon-exit::before {
-  @extend .#{$fa-css-prefix}-sign-out-alt:before;
-}
-
-.icon-comment::before,
-.icon-comments::before {
-  @extend .#{$fa-css-prefix}-comment:before;
-}
-
-.icon-comments-2::before {
-  @extend .#{$fa-css-prefix}-comments:before;
-}
-
-.icon-quote::before,
-.icon-quotes-left::before {
-  @extend .#{$fa-css-prefix}-quote-left:before;
-}
-
-.icon-quote-2::before,
-.icon-quotes-right::before {
-  @extend .#{$fa-css-prefix}-quote-right:before;
-}
-
-.icon-quote-3::before,
-.icon-bubble-quote::before {
-  @extend .#{$fa-css-prefix}-comment:before;
-}
-
-.icon-phone::before {
-  @extend .#{$fa-css-prefix}-phone-square:before;
-}
-
-.icon-phone-2::before {
-  @extend .#{$fa-css-prefix}-phone:before;
-}
-
-.icon-envelope::before,
-.icon-mail::before {
-  @extend .#{$fa-css-prefix}-envelope:before;
-}
-
-.icon-envelope-opened::before,
-.icon-mail-2::before {
-  @extend .#{$fa-css-prefix}-envelope:before;
-}
-
-.icon-unarchive::before,
-.icon-drawer::before {
-  @extend .#{$fa-css-prefix}-folder-open:before;
-}
-
-.icon-archive::before,
-.icon-drawer-2::before {
-  @extend .#{$fa-css-prefix}-folder:before;
-}
-
-.icon-briefcase::before {
-  @extend .#{$fa-css-prefix}-briefcase:before;
-}
-
-.icon-tag::before {
-  @extend .#{$fa-css-prefix}-tag:before;
-}
-
-.icon-tag-2::before {
-  @extend .#{$fa-css-prefix}-tag:before;
-}
-
-.icon-tags::before {
-  @extend .#{$fa-css-prefix}-tags:before;
-}
-
-.icon-tags-2::before {
-  @extend .#{$fa-css-prefix}-tags:before;
-}
-
-.icon-options::before,
-.icon-cog::before {
-  @extend .#{$fa-css-prefix}-cog:before;
-}
-
-.icon-cogs::before {
-  @extend .#{$fa-css-prefix}-cogs:before;
-}
-
-.icon-screwdriver::before,
-.icon-tools::before {
-  @extend .#{$fa-css-prefix}-wrench:before;
-}
-
-.icon-wrench::before {
-  @extend .#{$fa-css-prefix}-wrench:before;
-}
-
-.icon-equalizer::before {
-  @extend .#{$fa-css-prefix}-sliders-h:before;
-}
-
-.icon-dashboard::before {
-  @extend .#{$fa-css-prefix}-tachometer-alt:before;
-}
-
-.icon-switch::before {
-  @extend .#{$fa-css-prefix}-power-off:before;
-}
-
-.icon-filter::before {
-  @extend .#{$fa-css-prefix}-filter:before;
-}
-
-.icon-purge::before,
-.icon-trash::before {
-  @extend .#{$fa-css-prefix}-trash:before;
-}
-
-.icon-checkedout::before,
-.icon-lock::before,
-.icon-locked::before {
-  @extend .#{$fa-css-prefix}-lock:before;
-}
-
-.icon-unlock::before {
-  @extend .#{$fa-css-prefix}-unlock:before;
-}
-
-.icon-key::before {
-  @extend .#{$fa-css-prefix}-key:before;
-}
-
-.icon-support::before {
-  @extend .#{$fa-css-prefix}-life-ring:before;
-}
-
-.icon-database::before {
-  @extend .#{$fa-css-prefix}-database:before;
-}
-
-.icon-scissors::before {
-  @extend .#{$fa-css-prefix}-cut:before;
-}
-
-.icon-health::before {
-  @extend .#{$fa-css-prefix}-medkit:before;
-}
-
-.icon-wand::before {
-  @extend .#{$fa-css-prefix}-magic:before;
-}
-
-.icon-eye-open::before,
-.icon-eye::before {
-  @extend .#{$fa-css-prefix}-eye:before;
-}
-
-.icon-eye-close::before,
-.icon-eye-blocked::before,
-.icon-eye-2::before {
-  @extend .#{$fa-css-prefix}-eye-slash:before;
-}
-
-.icon-clock::before {
-  @extend .#{$fa-css-prefix}-clock:before;
-}
-
-.icon-compass::before {
-  @extend .#{$fa-css-prefix}-compass:before;
-}
-
-.icon-broadcast::before,
-.icon-connection::before,
-.icon-wifi::before {
-  @extend .#{$fa-css-prefix}-wifi:before;
-}
-
-.icon-book::before {
-  @extend .#{$fa-css-prefix}-book:before;
-}
-
-.icon-lightning::before,
-.icon-flash::before {
-  @extend .#{$fa-css-prefix}-bolt:before;
-}
-
-.icon-print::before,
-.icon-printer::before {
-  @extend .#{$fa-css-prefix}-print:before;
-}
-
-.icon-feed::before {
-  @extend .#{$fa-css-prefix}-rss-square:before;
-}
-
-.icon-calendar::before {
-  @extend .#{$fa-css-prefix}-calendar:before;
-}
-
-.icon-calendar-2::before {
-  @extend .#{$fa-css-prefix}-calendar-check:before;
-}
-
-.icon-calendar-3::before {
-  @extend .#{$fa-css-prefix}-calendar:before;
-}
-
-.icon-pie::before {
-  @extend .#{$fa-css-prefix}-chart-pie:before;
-}
-
-.icon-bars::before {
-  @extend .#{$fa-css-prefix}-chart-bar:before;
-}
-
-.icon-chart::before {
-  @extend .#{$fa-css-prefix}-chart-area:before;
-}
-
-.icon-power-cord::before {
-  @extend .#{$fa-css-prefix}-plug:before;
-}
-
-.icon-cube::before {
-  @extend .#{$fa-css-prefix}-cube:before;
-}
-
-.icon-puzzle::before {
-  @extend .#{$fa-css-prefix}-puzzle-piece:before;
-}
-
-.icon-attachment::before,
-.icon-paperclip::before,
-.icon-flag-2::before {
-  @extend .#{$fa-css-prefix}-paperclip:before;
-}
-
-.icon-lamp::before {
-  @extend .#{$fa-css-prefix}-lightbulb:before;
-}
-
-.icon-pin::before,
-.icon-pushpin::before {
-  @extend .#{$fa-css-prefix}-thumbtack:before;
-}
-
-.icon-location::before {
-  @extend .#{$fa-css-prefix}-map-marker-alt:before;
-}
-
-.icon-shield::before {
-  @extend .#{$fa-css-prefix}-shield-alt:before;
-}
-
-.icon-flag::before {
-  @extend .#{$fa-css-prefix}-flag:before;
-}
-
-.icon-flag-3::before {
-  @extend .#{$fa-css-prefix}-flag:before;
-}
-
-.icon-bookmark::before {
-  @extend .#{$fa-css-prefix}-bookmark:before;
-}
-
-.icon-bookmark-2::before {
-  @extend .#{$fa-css-prefix}-bookmark:before;
-}
-
-.icon-heart::before {
-  @extend .#{$fa-css-prefix}-heart:before;
-}
-
-.icon-heart-2::before {
-  @extend .#{$fa-css-prefix}-heart:before;
-}
-
-.icon-thumbs-up::before {
-  @extend .#{$fa-css-prefix}-thumbs-up:before;
-}
-
-.icon-thumbs-down::before {
-  @extend .#{$fa-css-prefix}-thumbs-down:before;
-}
-
-.icon-unfeatured::before,
-.icon-asterisk::before,
-.icon-star-empty::before {
-  @extend .#{$fa-css-prefix}-star:before;
-}
-
-.icon-star-2::before {
-  @extend .#{$fa-css-prefix}-star-half:before;
-}
-
-.icon-featured::before,
-.icon-default::before,
-.icon-star::before {
-  @extend .#{$fa-css-prefix}-star:before;
-}
-
-.icon-smiley::before,
-.icon-smiley-happy::before {
-  @extend .#{$fa-css-prefix}-smile:before;
-}
-
-.icon-smiley-2::before,
-.icon-smiley-happy-2::before {
-  @extend .#{$fa-css-prefix}-smile:before;
-}
-
-.icon-smiley-sad::before {
-  @extend .#{$fa-css-prefix}-frown:before;
-}
-
-.icon-smiley-sad-2::before {
-  @extend .#{$fa-css-prefix}-frown:before;
-}
-
-.icon-smiley-neutral::before {
-  @extend .#{$fa-css-prefix}-smile:before;
-}
-
-.icon-smiley-neutral-2::before {
-  @extend .#{$fa-css-prefix}-smile:before;
-}
-
-.icon-cart::before {
-  @extend .#{$fa-css-prefix}-shopping-cart:before;
-}
-
-.icon-basket::before {
-  @extend .#{$fa-css-prefix}-shopping-basket:before;
-}
-
-.icon-credit::before {
-  @extend .#{$fa-css-prefix}-credit-card:before;
-}
-
-.icon-credit-2::before {
-  @extend .#{$fa-css-prefix}-credit-card:before;
-}
 
-.icon-expired::before {
-  @extend .#{$fa-css-prefix}-minus-circle:before;
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"],
+[class^="#{$fa-css-prefix}-"],
+[class*=" #{$fa-css-prefix}-"] {
+  &.disabled {
+    font-weight: 400;
+  }
+}
+
+// Create brand icons mapping array
+$jicons-brand: (
+  joomla : $fa-var-joomla
+) !default;
+
+// Parse brands mapping array
+@each $jicon-brand-key, $jicon-brand-value in $jicons-brand {
+  .#{$jicon-css-prefix}-#{$jicon-brand-key} {
+    @extend %fa-icon;
+    @extend .fab;
+
+    &:before {
+      content: fa-content($jicon-brand-value);
+    }
+  }
+}
+
+// Create special actions mapping array
+$jicons-special: (
+  border: border,
+  flip-both: flip-both,
+  flip-horizontal: flip-horizontal,
+  flip-vertical: flip-vertical,
+  fw : fw,
+  lg: lg,
+  li: li,
+  inverse: inverse,
+  pull-right: pull-right,
+  pull-left: pull-left,
+  pulse : pulse,
+  rotate-90: rotate-90,
+  rotate-180: rotate-180,
+  rotate-270: rotate-270,
+  sm: sm,
+  spin : spin,
+  stack : stack,
+  stack-1x: stack-1x,
+  stack-2x: stack-2x,
+  ul: ul,
+  xs: xs
+) !default;
+
+// Parse special actions mapping array
+@each $jicon-special-key, $jicon-special-value in $jicons-special {
+  .#{$jicon-css-prefix}-#{$jicon-special-key} {
+    @extend .fa-#{$jicon-special-value};
+  }
+}
+
+// Create standard icons mapping array
+$jicons: (
+  accessible : $fa-var-universal-access,
+  add : $fa-var-plus,
+  address-book : $fa-var-address-book,
+  address : $fa-var-address-book,
+  align-justify : $fa-var-align-justify,
+  angle-double-left : $fa-var-angle-double-left,
+  angle-double-right : $fa-var-angle-double-right,
+  angle-down : $fa-var-angle-down,
+  angle-left : $fa-var-angle-left,
+  angle-right : $fa-var-angle-right,
+  angle-up : $fa-var-angle-up,
+  apply : $fa-var-save,
+  archive : $fa-var-archive,
+  arrow-down-2 : $fa-var-arrow-alt-circle-down,
+  arrow-down-3 : $fa-var-caret-down,
+  arrow-down-4 : $fa-var-arrow-down,
+  arrow-down : $fa-var-chevron-down,
+  arrow-first : $fa-var-step-backward,
+  arrow-last : $fa-var-fast-backward,
+  arrow-left-2 : $fa-var-arrow-alt-circle-left,
+  arrow-left-3 : $fa-var-caret-left,
+  arrow-left-4 : $fa-var-arrow-left,
+  arrow-left : $fa-var-chevron-left,
+  arrow-right-2 : $fa-var-arrow-alt-circle-right,
+  arrow-right-3 : $fa-var-caret-right,
+  arrow-right-4 : $fa-var-arrow-right,
+  arrow-right : $fa-var-chevron-right,
+  arrow-up-2 : $fa-var-arrow-alt-circle-up,
+  arrow-up-3 : $fa-var-caret-up,
+  arrow-up-4 : $fa-var-arrow-up,
+  arrow-up : $fa-var-chevron-up,
+  arrows-alt : $fa-var-arrows-alt,
+  asterisk : $fa-var-star,
+  attachment : $fa-var-paperclip,
+  backward-2 : $fa-var-arrow-alt-circle-left,
+  backward-circle : $fa-var-chevron-circle-left,
+  backward : $fa-var-backward,
+  ban-circle : $fa-var-minus-circle,
+  bars : $fa-var-chart-bar,
+  basket : $fa-var-shopping-basket,
+  bell : $fa-var-bell,
+  bolt : $fa-var-bolt,
+  book : $fa-var-book,
+  bookmark-2 : $fa-var-bookmark,
+  bookmark : $fa-var-bookmark,
+  box-add : $fa-var-archive,
+  box-remove : $fa-var-archive,
+  briefcase : $fa-var-briefcase,
+  broadcast : $fa-var-wifi,
+  brush : $fa-var-paint-brush,
+  bubble-quote : $fa-var-comment,
+  bullhorn : $fa-var-bullhorn,
+  calendar-check : $fa-var-calendar-check,
+  calendar-2 : $fa-var-calendar-check,
+  calendar-3 : $fa-var-calendar,
+  calendar-alt : $fa-var-calendar-alt,
+  calendar : $fa-var-calendar-alt,
+  camera-2 : $fa-var-video,
+  camera : $fa-var-camera,
+  cancel-2 : $fa-var-times,
+  cancel-circle : $fa-var-times-circle,
+  cancel : $fa-var-times,
+  caret-down : $fa-var-caret-down,
+  caret-up : $fa-var-caret-up,
+  cart : $fa-var-shopping-cart,
+  chart : $fa-var-chart-area,
+  check-circle : $fa-var-check-circle,
+  check-square : $fa-var-check-square,
+  check : $fa-var-check,
+  checkbox-checked : $fa-var-check-square,
+  checkbox-partial : $fa-var-square,
+  checkbox-unchecked : $fa-var-square,
+  checkbox : $fa-var-check-square,
+  checkedout : $fa-var-lock,
+  checkin : $fa-var-check-square,
+  checkmark-2 : $fa-var-check-circle,
+  checkmark-circle : $fa-var-check-circle,
+  checkmark : $fa-var-check,
+  chevron-down : $fa-var-chevron-down,
+  chevron-left : $fa-var-chevron-left,
+  chevron-right : $fa-var-chevron-right,
+  chevron-up : $fa-var-chevron-up,
+  circle : $fa-var-circle,
+  clipboard : $fa-var-clipboard,
+  clock : $fa-var-clock,
+  cloud-download-alt : $fa-var-cloud-download-alt,
+  cloud-download : $fa-var-cloud-download-alt,
+  cloud-upload : $fa-var-cloud-upload-alt,
+  cloud : $fa-var-cloud,
+  code : $fa-var-code,
+  code-branch : $fa-var-code-branch,
+  cog : $fa-var-cog,
+  cogs : $fa-var-cogs,
+  collapse : $fa-var-plus,
+  color-palette : $fa-var-paint-brush,
+  comment-dots : $fa-var-comment-dots,
+  comment : $fa-var-comment,
+  comments-2 : $fa-var-comments,
+  comments : $fa-var-comment,
+  compass : $fa-var-compass,
+  connection : $fa-var-wifi,
+  contract-2 : $fa-var-shopping-basket,
+  contract : $fa-var-compress,
+  copy : $fa-var-copy,
+  credit-2 : $fa-var-credit-card,
+  credit : $fa-var-credit-card,
+  crop : $fa-var-crop,
+  cube : $fa-var-cube,
+  cubes : $fa-var-cubes,
+  dashboard : $fa-var-tachometer-alt,
+  database : $fa-var-database,
+  default : $fa-var-home,
+  delete : $fa-var-times,
+  desktop : $fa-var-desktop,
+  downarrow : $fa-var-chevron-down,
+  download : $fa-var-download,
+  drawer-2 : $fa-var-folder,
+  drawer : $fa-var-folder-open,
+  edit : $fa-var-edit,
+  ellipsis-h : $fa-var-ellipsis-h,
+  ellipsis-v : $fa-var-ellipsis-v,
+  enter : $fa-var-sign-in-alt,
+  envelope-open-text : $fa-var-envelope-open-text,
+  envelope-opened : $fa-var-envelope,
+  envelope : $fa-var-envelope,
+  equalizer : $fa-var-sliders-h,
+  error : $fa-var-exclamation,
+  exclamation-circle : $fa-var-exclamation-circle,
+  exclamation-triangle : $fa-var-exclamation-triangle,
+  exclamation : $fa-var-exclamation,
+  exit : $fa-var-sign-out-alt,
+  expand-2 : $fa-var-expand-arrows-alt,
+  expand : $fa-var-expand,
+  expired : $fa-var-minus-circle,
+  external-link-alt : $fa-var-external-link-alt,
+  eye-2 : $fa-var-eye-slash,
+  eye-blocked : $fa-var-eye-slash,
+  eye-close : $fa-var-eye-slash,
+  eye-open : $fa-var-eye,
+  eye-slash : $fa-var-eye-slash,
+  eye : $fa-var-eye,
+  fax : $fa-var-fax,
+  featured : $fa-var-star,
+  feed : $fa-var-rss-square,
+  file-2 : $fa-var-file,
+  file-add : $fa-var-plus,
+  file-alt : $fa-var-file-alt,
+  file-check : $fa-var-check,
+  file-minus : $fa-var-minus,
+  file-plus : $fa-var-plus,
+  file-remove : $fa-var-times,
+  file : $fa-var-file,
+  filter : $fa-var-filter,
+  first : $fa-var-fast-backward,
+  flag-2 : $fa-var-paperclip,
+  flag-3 : $fa-var-flag,
+  flag : $fa-var-flag,
+  flash : $fa-var-bolt,
+  folder-2 : $fa-var-folder,
+  folder-3 : $fa-var-folder-open,
+  folder-close : $fa-var-folder,
+  folder-minus : $fa-var-folder,
+  folder-open : $fa-var-folder-open,
+  folder-plus-2 : $fa-var-folder,
+  folder-plus : $fa-var-folder-open,
+  folder-remove : $fa-var-folder,
+  folder : $fa-var-folder,
+  forward-2 : $fa-var-arrow-alt-circle-right,
+  forward-circle : $fa-var-chevron-circle-right,
+  forward : $fa-var-forward,
+  generic : $fa-var-dot-circle,
+  globe : $fa-var-globe,
+  grid-2 : $fa-var-th,
+  grid-view-2 : $fa-var-th,
+  grid-view : $fa-var-th-large,
+  grid : $fa-var-th-large,
+  handshake : $fa-var-handshake,
+  health : $fa-var-medkit,
+  heart-2 : $fa-var-heart,
+  heart : $fa-var-heart,
+  help : $fa-var-question,
+  hits : $fa-var-eye,
+  home-2 : $fa-var-home,
+  home : $fa-var-home,
+  image : $fa-var-image,
+  images : $fa-var-image,
+  info-2 : $fa-var-info-circle,
+  info-circle : $fa-var-info-circle,
+  info : $fa-var-info,
+  key : $fa-var-key,
+  lamp : $fa-var-lightbulb,
+  language : $fa-var-language,
+  last : $fa-var-fast-forward,
+  leftarrow : $fa-var-chevron-left,
+  lightbulb : $fa-var-lightbulb,
+  lightning : $fa-var-bolt,
+  link : $fa-var-link,
+  list-2 : $fa-var-list-ul,
+  list-view : $fa-var-list,
+  list : $fa-var-list,
+  loading : $fa-var-spinner,
+  location : $fa-var-map-marker-alt,
+  lock : $fa-var-lock,
+  locked : $fa-var-lock,
+  loop : $fa-var-sync,
+  mail-2 : $fa-var-envelope,
+  mail : $fa-var-envelope,
+  map-signs : $fa-var-map-signs,
+  menu-2 : $fa-var-sort,
+  menu-3 : $fa-var-list-ol,
+  menu : $fa-var-bars,
+  minus-2 : $fa-var-minus,
+  minus-circle : $fa-var-minus-circle,
+  minus-sign : $fa-var-minus,
+  minus : $fa-var-minus,
+  mobile : $fa-var-mobile,
+  move : $fa-var-arrows-alt,
+  music : $fa-var-music,
+  new-tab-2 : $fa-var-external-link-square-alt,
+  new-tab : $fa-var-external-link-alt,
+  new : $fa-var-plus,
+  next : $fa-var-angle-right,
+  not-ok : $fa-var-minus,
+  notification-2 : $fa-var-exclamation-circle,
+  notification-circle : $fa-var-exclamation-circle,
+  notification : $fa-var-exclamation,
+  ok : $fa-var-check,
+  open : $fa-var-lock-open,
+  options : $fa-var-cog,
+  out-2 : $fa-var-external-link-alt,
+  out-3 : $fa-var-external-link-square-alt,
+  out : $fa-var-share,
+  paint-brush : $fa-var-paint-brush,
+  palette : $fa-var-paint-brush,
+  paperclip : $fa-var-paperclip,
+  paragraph-center : $fa-var-align-center,
+  paragraph-justify : $fa-var-align-justify,
+  paragraph-left : $fa-var-align-left,
+  paragraph-right : $fa-var-align-right,
+  pause-circle : $fa-var-pause-circle,
+  pause : $fa-var-pause,
+  pen-square : $fa-var-pen-square,
+  pencil-2 : $fa-var-pencil-alt,
+  pencil-alt : $fa-var-pencil-alt,
+  pencil : $fa-var-edit,
+  pending : $fa-var-exclamation-triangle,
+  phone-2 : $fa-var-phone,
+  phone : $fa-var-phone-square,
+  picture : $fa-var-image,
+  pictures : $fa-var-image,
+  pie : $fa-var-chart-pie,
+  pin : $fa-var-thumbtack,
+  play-2 : $fa-var-play,
+  play-circle : $fa-var-play-circle,
+  play : $fa-var-play,
+  plug : $fa-var-plug,
+  plus-2 : $fa-var-plus,
+  plus-circle : $fa-var-plus-circle,
+  plus-square : $fa-var-plus-square,
+  plus : $fa-var-plus,
+  power-cord : $fa-var-plug,
+  power-off : $fa-var-power-off,
+  previous : $fa-var-backward,
+  print : $fa-var-print,
+  printer : $fa-var-print,
+  project-diagram : $fa-var-project-diagram,
+  protected : $fa-var-lock,
+  publish : $fa-var-check,
+  purge : $fa-var-trash,
+  pushpin : $fa-var-thumbtack,
+  puzzle-piece : $fa-var-puzzle-piece,
+  puzzle : $fa-var-puzzle-piece,
+  question-2 : $fa-var-question-circle,
+  question-circle : $fa-var-question-circle,
+  question-sign : $fa-var-question,
+  question : $fa-var-question,
+  quote-2 : $fa-var-quote-right,
+  quote-3 : $fa-var-comment,
+  quote : $fa-var-quote-left,
+  quotes-left : $fa-var-quote-left,
+  quotes-right : $fa-var-quote-right,
+  radio-checked : $fa-var-check-circle,
+  radio-unchecked : $fa-var-circle,
+  redo-2 : $fa-var-sync,
+  redo : $fa-var-share,
+  refresh : $fa-var-sync,
+  register : $fa-var-arrow-alt-circle-right,
+  remove : $fa-var-times,
+  reply : $fa-var-arrow-alt-circle-left,
+  rightarrow : $fa-var-chevron-right,
+  rss : $fa-var-rss,
+  save-copy : $fa-var-copy,
+  save-new : $fa-var-plus,
+  save : $fa-var-save,
+  scissors : $fa-var-cut,
+  screen : $fa-var-desktop,
+  screwdriver : $fa-var-wrench,
+  search-minus : $fa-var-search-minus,
+  search-plus : $fa-var-search-plus,
+  search : $fa-var-search,
+  select-file : $fa-var-copy,
+  share-alt : $fa-var-share,
+  share : $fa-var-share,
+  shield-alt : $fa-var-shield-alt,
+  shield : $fa-var-shield-alt,
+  shuffle : $fa-var-random,
+  signup : $fa-var-sign-in-alt,
+  sliders-h : $fa-var-sliders-h,
+  smiley-2 : $fa-var-smile,
+  smiley-happy-2 : $fa-var-smile,
+  smiley-happy : $fa-var-smile,
+  smiley-neutral-2 : $fa-var-smile,
+  smiley-neutral : $fa-var-smile,
+  smiley-sad-2 : $fa-var-frown,
+  smiley-sad : $fa-var-frown,
+  smiley : $fa-var-smile,
+  sort : $fa-var-sort,
+  spinner : $fa-var-spinner,
+  square : $fa-var-square,
+  stack : $fa-var-copy,
+  star-2 : $fa-var-star-half,
+  star-empty : $fa-var-star,
+  star : $fa-var-star,
+  stop-circle : $fa-var-stop-circle,
+  stop : $fa-var-stop,
+  success : $fa-var-check-square,
+  support : $fa-var-life-ring,
+  switch : $fa-var-power-off,
+  sync : $fa-var-sync,
+  tablet : $fa-var-tablet,
+  tachometer-alt : $fa-var-tachometer-alt,
+  tag-2 : $fa-var-tag,
+  tag : $fa-var-tag,
+  tags-2 : $fa-var-tags,
+  tags : $fa-var-tags,
+  tasks : $fa-var-tasks,
+  text-width : $fa-var-text-width,
+  th : $fa-var-th,
+  th-large : $fa-var-th-large,
+  thumbs-down : $fa-var-thumbs-down,
+  thumbs-up : $fa-var-thumbs-up,
+  times : $fa-var-times,
+  toggle-off : $fa-var-toggle-off,
+  toggle-on : $fa-var-toggle-on,
+  tools : $fa-var-wrench,
+  trash : $fa-var-trash,
+  tree-2 : $fa-var-sitemap,
+  tree : $fa-var-code-branch,
+  trophy : $fa-var-trophy,
+  unarchive : $fa-var-folder-open,
+  unblock : $fa-var-sync,
+  undo-2 : $fa-var-undo,
+  undo : $fa-var-undo,
+  unfeatured : $fa-var-circle,
+  universal : $fa-var-universal-access,
+  universal-access : $fa-var-universal-access,
+  unlock-alt : $fa-var-unlock-alt,
+  unlock : $fa-var-unlock,
+  unpublish : $fa-var-times,
+  uparrow : $fa-var-chevron-up,
+  upload : $fa-var-upload,
+  user-circle : $fa-var-user-circle,
+  user-edit : $fa-var-user-edit,
+  user-lock : $fa-var-user-lock,
+  user-tag : $fa-var-user-tag,
+  user : $fa-var-user,
+  users-cog : $fa-var-users-cog,
+  users : $fa-var-users,
+  vcard : $fa-var-address-card,
+  video-2 : $fa-var-play,
+  video : $fa-var-video,
+  wand : $fa-var-magic,
+  warning-2 : $fa-var-exclamation-triangle,
+  warning-circle : $fa-var-exclamation-circle,
+  warning : $fa-var-exclamation-triangle,
+  wifi : $fa-var-wifi,
+  wrench : $fa-var-wrench,
+  zoom-in : $fa-var-search-plus,
+  zoom-out : $fa-var-search-minus
+) !default;
+
+// Parse standard icons mapping array
+@each $jicon-key, $jicon-value in $jicons {
+  .#{$jicon-css-prefix}-#{$jicon-key} {
+    &:before {
+      content: fa-content($jicon-value);
+    }
+  }
 }

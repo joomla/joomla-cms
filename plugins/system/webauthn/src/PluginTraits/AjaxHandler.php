@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
@@ -87,7 +87,7 @@ trait AjaxHandler
 
 			foreach ($results as $r)
 			{
-				if (is_null($r))
+				if (\is_null($r))
 				{
 					continue;
 				}
@@ -113,17 +113,10 @@ trait AjaxHandler
 			return;
 		}
 
-		if (!is_null($result))
+		if (!\is_null($result))
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{
-				default:
-				case 'json':
-					Joomla::log('system', "Callback complete, returning JSON.");
-					echo json_encode($result);
-
-					break;
-
 				case 'jsonhash':
 					Joomla::log('system', "Callback complete, returning JSON inside ### markers.");
 					echo '###' . json_encode($result) . '###';
@@ -157,6 +150,11 @@ trait AjaxHandler
 					$app->redirect($result);
 
 					return;
+
+				default:
+					Joomla::log('system', "Callback complete, returning JSON.");
+					echo json_encode($result);
+
 					break;
 			}
 

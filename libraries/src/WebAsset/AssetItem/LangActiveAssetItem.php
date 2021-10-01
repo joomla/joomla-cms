@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
  * Web Asset Item class for load asset file for active language.
  * Used in core templates.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LangActiveAssetItem extends WebAssetItem
 {
@@ -30,7 +30,7 @@ class LangActiveAssetItem extends WebAssetItem
 	 * @param   array   $attributes    Attributes for the asset
 	 * @param   array   $dependencies  Asset dependencies
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(
 		string $name,

@@ -71,8 +71,7 @@ install:
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
-    - appveyor-retry appveyor DownloadFile https://getcomposer.org/download/1.10.5/composer.phar
-    - appveyor-retry composer self-update
+    - IF %PHP%==1 appveyor-retry appveyor DownloadFile https://getcomposer.org/download/latest-1.x/composer.phar
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
 before_test:

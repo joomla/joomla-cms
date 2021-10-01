@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -455,7 +455,7 @@ class TagsHelper extends CMSHelper
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
-	 * @return  DatabaseQuery  Query to retrieve a list of tags
+	 * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
@@ -563,7 +563,7 @@ class TagsHelper extends CMSHelper
 		$groups[] = 0;
 		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
-		if (\in_array('0', $stateFilters))
+		if (!\in_array(0, $stateFilters, true))
 		{
 			$query->extendWhere(
 				'AND',
@@ -764,7 +764,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   TableInterface  $table    Table being processed
 	 * @param   array           $newTags  Array of new tags
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -976,23 +976,23 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
-	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
+	 * @param   integer  $tagId  The tag_id (primary key) for the deleted tag.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagDeleteInstances($tag_id)
+	public function tagDeleteInstances($tagId)
 	{
 		// Cast as integer until method is typehinted.
-		$tag_id = (int) $tag_id;
+		$tag_id = (int) $tagId;
 
 		// Delete the old tag maps.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = :id')
-			->bind(':id', $tag_id, ParameterType::INTEGER);
+			->bind(':id', $tagId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -1003,7 +1003,7 @@ class TagsHelper extends CMSHelper
 	 * @param   integer         $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   TableInterface  $table    Table object being tagged
 	 * @param   array           $tags     Array of tags to be applied.
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,19 +88,18 @@ class PlgContentPagenavigation extends CMSPlugin
 				switch ($orderDate)
 				{
 					// Use created if modified is not set
-					case 'modified' :
-						$orderby = $db->quoteName('a.modified') . ' IS NULL THEN ' .
-						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
+					case 'modified':
+						$orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
+							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
 						break;
 
 					// Use created if publish_up is not set
-					case 'published' :
+					case 'published':
 						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
 							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
 						break;
 
 					// Use created as default
-					case 'created' :
 					default :
 						$orderby = $db->quoteName('a.created');
 						break;
@@ -116,30 +115,29 @@ class PlgContentPagenavigation extends CMSPlugin
 				// Determine sort order.
 				switch ($order_method)
 				{
-					case 'alpha' :
+					case 'alpha':
 						$orderby = $db->quoteName('a.title');
 						break;
-					case 'ralpha' :
+					case 'ralpha':
 						$orderby = $db->quoteName('a.title') . ' DESC';
 						break;
-					case 'hits' :
+					case 'hits':
 						$orderby = $db->quoteName('a.hits');
 						break;
-					case 'rhits' :
+					case 'rhits':
 						$orderby = $db->quoteName('a.hits') . ' DESC';
 						break;
-					case 'author' :
+					case 'author':
 						$orderby = $db->quoteName(['a.created_by_alias', 'u.name']);
 						break;
-					case 'rauthor' :
+					case 'rauthor':
 						$orderby = $db->quoteName('a.created_by_alias') . ' DESC, ' .
 							$db->quoteName('u.name') . ' DESC';
 						break;
-					case 'front' :
+					case 'front':
 						$orderby = $db->quoteName('f.ordering');
 						break;
-					case 'order' :
-					default :
+					default:
 						$orderby = $db->quoteName('a.ordering');
 						break;
 				}
@@ -158,9 +156,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
 				->select([$case_when, $case_when1])
 				->from($db->quoteName('#__content', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-				->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-				->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'));
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -177,14 +173,13 @@ class PlgContentPagenavigation extends CMSPlugin
 				->bind(':catid', $row->catid, ParameterType::INTEGER)
 				->bind(':state', $row->state, ParameterType::INTEGER);
 
-			if ($canPublish)
+			if (!$canPublish)
 			{
 				$query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
 			}
 
 			$query->where(
 				[
-					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
 					'(' . $db->quoteName('publish_up') . ' IS NULL OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
 					'(' . $db->quoteName('publish_down') . ' IS NULL OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
@@ -82,25 +82,37 @@ class HtmlView extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		$canDo = ContentHelper::getActions('com_installer');
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
-			ToolbarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
-			ToolbarHelper::divider();
+			$toolbar->publish('manage.publish')
+				->text('JTOOLBAR_ENABLE')
+				->listCheck(true);
+			$toolbar->unpublish('manage.unpublish')
+				->text('JTOOLBAR_DISABLE')
+				->listCheck(true);
+			$toolbar->divider();
 		}
 
-		ToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
-		ToolbarHelper::divider();
+		$toolbar->standardButton('refresh')
+			->text('JTOOLBAR_REFRESH_CACHE')
+			->task('manage.refresh')
+			->listCheck(true);
+		$toolbar->divider();
 
 		if ($canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
-			ToolbarHelper::divider();
+			$toolbar->delete('manage.remove')
+				->text('JTOOLBAR_UNINSTALL')
+				->message('COM_INSTALLER_CONFIRM_UNINSTALL')
+				->listCheck(true);
+			$toolbar->divider();
 		}
 
 		parent::addToolbar();
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
+		$toolbar->help('Extensions:_Manage');
 	}
 }

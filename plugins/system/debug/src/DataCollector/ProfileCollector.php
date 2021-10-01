@@ -44,7 +44,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @var array
 	 * @since  4.0.0
 	 */
-	protected $startedMeasures = array();
+	protected $startedMeasures = [];
 
 	/**
 	 * Measures.
@@ -52,7 +52,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @var array
 	 * @since  4.0.0
 	 */
-	protected $measures = array();
+	protected $measures = [];
 
 	/**
 	 * Constructor.
@@ -89,11 +89,11 @@ class ProfileCollector extends AbstractDataCollector
 	{
 		$start = microtime(true);
 
-		$this->startedMeasures[$name] = array(
+		$this->startedMeasures[$name] = [
 			'label'     => $label ?: $name,
 			'start'     => $start,
 			'collector' => $collector,
-		);
+		];
 	}
 
 	/**
@@ -119,7 +119,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @throws DebugBarException
 	 * @return void
 	 */
-	public function stopMeasure($name, array $params = array())
+	public function stopMeasure($name, array $params = [])
 	{
 		$end = microtime(true);
 
@@ -151,9 +151,9 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since  4.0.0
 	 * @return void
 	 */
-	public function addMeasure($label, $start, $end, array $params = array(), $collector = null)
+	public function addMeasure($label, $start, $end, array $params = [], $collector = null)
 	{
-		$this->measures[] = array(
+		$this->measures[] = [
 			'label'          => $label,
 			'start'          => $start,
 			'relative_start' => $start - $this->requestStartTime,
@@ -163,7 +163,7 @@ class ProfileCollector extends AbstractDataCollector
 			'duration_str'   => $this->getDataFormatter()->formatDuration($end - $start),
 			'params'         => $params,
 			'collector'      => $collector,
-		);
+		];
 	}
 
 	/**
@@ -181,7 +181,7 @@ class ProfileCollector extends AbstractDataCollector
 		$name = spl_object_hash($closure);
 		$this->startMeasure($name, $label, $collector);
 		$result = $closure();
-		$params = \is_array($result) ? $result : array();
+		$params = \is_array($result) ? $result : [];
 		$this->stopMeasure($name, $params);
 	}
 
@@ -275,14 +275,14 @@ class ProfileCollector extends AbstractDataCollector
 			}
 		);
 
-		return array(
+		return [
 			'start'        => $this->requestStartTime,
 			'end'          => $this->requestEndTime,
 			'duration'     => $this->getRequestDuration(),
 			'duration_str' => $this->getDataFormatter()->formatDuration($this->getRequestDuration()),
 			'measures'     => array_values($this->measures),
 			'rawMarks'     => $marks,
-		);
+		];
 	}
 
 	/**
@@ -298,26 +298,26 @@ class ProfileCollector extends AbstractDataCollector
 
 	/**
 	 * Returns a hash where keys are control names and their values
-	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getWidgets(): array
 	{
-		return array(
-			'profileTime' => array(
+		return [
+			'profileTime' => [
 				'icon'    => 'clock-o',
 				'tooltip' => 'Request Duration',
 				'map'     => 'profile.duration_str',
 				'default' => "'0ms'",
-			),
-			'profile'     => array(
+			],
+			'profile'     => [
 				'icon'    => 'clock-o',
 				'widget'  => 'PhpDebugBar.Widgets.TimelineWidget',
 				'map'     => 'profile',
 				'default' => '{}',
-			),
-		);
+			],
+		];
 	}
 }

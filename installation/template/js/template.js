@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -57,7 +57,7 @@
 
     Joomla.request({
       type     : "POST",
-      url      : Jooomla.baseUrl,
+      url      : Joomla.baseUrl,
       data     : data,
       dataType : 'json',
       onSuccess: function (response, xhr) {
@@ -142,21 +142,8 @@
       document.formvalidator.attachToForm(form);
     });
 
-    // Check for FTP credentials
     Joomla.installation = Joomla.installation || {};
 
-    // @todo FTP persistent data ?
-    // Initialize the FTP installation data
-    // if (sessionStorage && sessionStorage.getItem('installation-data')) {
-    // 	var data = sessionStorage.getItem('installData').split(',');
-    // 	Joomla.installation.data = {
-    // 		ftpUsername: data[0],
-    // 		ftpPassword: data[1],
-    // 		ftpHost: data[2],
-    // 		ftpPort: data[3],
-    // 		ftpRoot: data[4]
-    // 	};
-    // }
     return 'Loaded...'
   };
 
@@ -193,7 +180,7 @@
           spinnerElement.parentNode.removeChild(spinnerElement);
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
-          Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+          Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
 
           return false;
         }
@@ -217,7 +204,7 @@
         Joomla.install(tasks, form);
       },
       onError: function(xhr){
-        Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+        Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
         Joomla.goToPage('remove');
 
         try {

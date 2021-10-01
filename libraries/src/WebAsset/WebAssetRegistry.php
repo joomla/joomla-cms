@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	/**
 	 * Registry constructor
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct()
 	{
@@ -271,6 +271,18 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	}
 
 	/**
+	 * Get a list of the registry files
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getRegistryFiles(): array
+	{
+		return array_values($this->dataFilesParsed + $this->dataFilesNew);
+	}
+
+	/**
 	 * Helper method to register new file with Template Asset(s) info
 	 *
 	 * @param   string   $template  The template name
@@ -359,12 +371,12 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 		$data = file_get_contents(JPATH_ROOT . '/' . $path);
 		$data = $data ? json_decode($data, true) : null;
 
-		if (!$data)
+		if ($data === null)
 		{
-			throw new \RuntimeException(sprintf('Asset registry file "%s" are broken', $path));
+			throw new \RuntimeException(sprintf('Asset registry file "%s" contains invalid JSON', $path));
 		}
 
-		// Asset exists but empty, skip it silently
+		// Check if asset field exists and contains data. If it doesn't - we can just bail here.
 		if (empty($data['assets']))
 		{
 			return;
@@ -427,7 +439,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function dispatchAssetChanged(string $type, WebAssetItemInterface $asset, string $change)
 	{

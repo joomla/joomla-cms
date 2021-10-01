@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,9 +24,9 @@ class FeedHelper
 	/**
 	 * Method to load a feed.
 	 *
-	 * @param   JRegisty  $params  The parameters object.
+	 * @param   \Joomla\Registry\Registry  $params  The parameters object.
 	 *
-	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
+	 * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
 	 *
 	 * @since   1.5
 	 */

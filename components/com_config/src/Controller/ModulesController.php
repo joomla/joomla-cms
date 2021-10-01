@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,13 +39,11 @@ class ModulesController extends BaseController
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 	}
 
@@ -77,10 +75,9 @@ class ModulesController extends BaseController
 		// Check if the user is authorized to do this.
 		$user = $this->app->getIdentity();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
-			&& !$user->authorise('module.edit.frontend', 'com_modules'))
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
 		{
-			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 

@@ -10,6 +10,7 @@
 			max="100"
 			step="1"
 			default="80"
+			filter="integer"
 		/>
 
 		<field
@@ -60,6 +61,7 @@
 		<field
 			name="aspectRatio"
 			type="groupedlist"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_ASPECT"
 			hiddenLabel="true"
 			class="crop-aspect-ratio-options"
 			default="1.111"

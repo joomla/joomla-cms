@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ abstract class Parser
 	 * @return  Parser  A Parser instance.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on invalid parser.
+	 * @throws  \Exception on invalid parser.
 	 */
 	public static function getInstance($format)
 	{
@@ -61,7 +61,7 @@ abstract class Parser
 		}
 
 		// Throw invalid format exception.
-		throw new Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
+		throw new \Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
 	}
 
 	/**

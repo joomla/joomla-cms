@@ -7,7 +7,7 @@
 		onchange="this.form.submit();"
 		filtermode="selector"
 		addfieldprefix="Joomla\Component\Languages\Administrator\Field"
-	>
+		>
 		<option value="">COM_LANGUAGES_OVERRIDE_SELECT_LANGUAGE</option>
 	</field>
 	<fields name="filter">
@@ -16,7 +16,7 @@
 			type="text"
 			inputmode="search"
 			label="JSEARCH_FILTER"
-			description="COM_LANGUAGES_SEARCH_IN_TITLE"
+			description="COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 	</fields>

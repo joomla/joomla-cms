@@ -2,8 +2,8 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_skipto</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2019</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>February 2020</creationDate>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="skipto">skipto.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_skipto.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_skipto.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

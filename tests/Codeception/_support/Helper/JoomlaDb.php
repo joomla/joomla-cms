@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -155,7 +155,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function updateInDatabase($table, array $data, array $criteria = [])
 	{
@@ -190,6 +190,6 @@ class JoomlaDb extends Db
 	 */
 	public function getConfig($value)
 	{
-		return $this->getModule('JoomlaBrowser')->_getConfig($value);
+		return $this->getModule('Joomla\Browser\JoomlaBrowser')->_getConfig($value);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ namespace Joomla\CMS\Menu;
 /**
  * Object representing an administrator menu item
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AdministratorMenuItem extends MenuItem
 {
@@ -21,7 +21,7 @@ class AdministratorMenuItem extends MenuItem
 	 * The target attribute of the link
 	 *
 	 * @var    string|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $target;
 
@@ -29,7 +29,7 @@ class AdministratorMenuItem extends MenuItem
 	 * The icon image of the menu item
 	 *
 	 * @var    string|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $icon;
 
@@ -37,7 +37,7 @@ class AdministratorMenuItem extends MenuItem
 	 * The icon image of the link
 	 *
 	 * @var    string|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $iconImage;
 }

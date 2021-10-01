@@ -7,9 +7,9 @@
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: var(--atum-bg-dark);
-    background-color: var(--atum-bg-dark-10);
-    border: 1px solid var(--atum-bg-dark-20);
+    color: var(--template-bg-dark);
+    background-color: var(--template-bg-dark-10);
+    border: 1px solid var(--template-bg-dark-20);
   }
 
   &.alert-warning {
@@ -31,28 +31,21 @@
   }
 }
 
-fieldset .alert {
-    &.alert-info {
-      margin: -1rem 0 1rem;
-    }
+.alert-parent {
+  margin-top: 0;
 }
 
-// Contains joomla-alert webcomponent with its own css
-.notify-alerts {
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  z-index: $zindex-alerts;
-  transition: all .5s ease;
-  transform: translateX(-50%);
+fieldset .alert {
+  &.alert-info {
+    margin: -1rem 0 1rem;
+  }
 }
 
 .alert-heading {
-  font-size: $font-size-lg;
+  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
-
   from {
     opacity: 0;
     transform: translateY(-15px);

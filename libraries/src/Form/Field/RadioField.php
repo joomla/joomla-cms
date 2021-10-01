@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Joomla\CMS\Form\Field;
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs
  *
- * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
+ * @link   https://html.spec.whatwg.org/multipage/input.html#radio-button-state-(type=radio)
  * @since  1.7.0
  */
 class RadioField extends ListField

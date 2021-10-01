@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,8 +69,8 @@ class CategoriesModel extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.condition',	1);
-		$this->setState('filter.access',	true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.access', true);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class CategoriesModel extends ListModel
 	{
 		// Compile the store id.
 		$id	.= ':' . $this->getState('filter.extension');
-		$id	.= ':' . $this->getState('filter.condition');
+		$id	.= ':' . $this->getState('filter.published');
 		$id	.= ':' . $this->getState('filter.access');
 		$id	.= ':' . $this->getState('filter.parentId');
 
@@ -96,7 +96,7 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * Redefine the function an add some properties to make the styling more easy
+	 * Redefine the function and add some properties to make the styling easier
 	 *
 	 * @param   bool  $recursive  True if you want to return children recursively.
 	 *

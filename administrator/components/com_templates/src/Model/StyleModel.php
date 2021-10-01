@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -40,7 +41,7 @@ class StyleModel extends AdminModel
 	 * @var	    string
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
+	protected $helpKey = 'Templates:_Edit_Style';
 
 	/**
 	 * The help screen base URL for the module.
@@ -240,15 +241,15 @@ class StyleModel extends AdminModel
 	/**
 	 * Method to change the title.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  string  New title.
 	 *
 	 * @since   1.7.1
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title
 		$table = $this->getTable();
@@ -437,6 +438,12 @@ class StyleModel extends AdminModel
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
+		if ($client->name === 'site' && !Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('home', 'type', 'radio');
+			$form->setFieldAttribute('home', 'layout', 'joomla.form.field.radio.switcher');
+		}
+
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
@@ -550,7 +557,8 @@ class StyleModel extends AdminModel
 					->set($db->quoteName('template_style_id') . ' = :newtsid')
 					->whereIn($db->quoteName('id'), $data['assigned'])
 					->where($db->quoteName('template_style_id') . ' != :tsid')
-					->whereIn($db->quoteName('checked_out'), [0, $userId])
+					->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+					->bind(':userid', $userId, ParameterType::INTEGER)
 					->bind(':newtsid', $tableId, ParameterType::INTEGER)
 					->bind(':tsid', $tableId, ParameterType::INTEGER);
 				$db->setQuery($query);
@@ -570,7 +578,8 @@ class StyleModel extends AdminModel
 			}
 
 			$query->where($db->quoteName('template_style_id') . ' = :templatestyleid')
-				->whereIn($db->quoteName('checked_out'), [0, $userId])
+				->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+				->bind(':userid', $userId, ParameterType::INTEGER)
 				->bind(':templatestyleid', $tableId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
@@ -727,14 +736,14 @@ class StyleModel extends AdminModel
 	/**
 	 * Custom clean cache method
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_templates');
 		parent::cleanCache('_system');

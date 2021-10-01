@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,6 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Extension table
@@ -22,6 +20,30 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Extension extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
+	 * Ensure the params in json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = ['params'];
+
+	/**
+	 * Custom data can be used by extension developers
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $custom_data = '';
+
 	/**
 	 * Constructor
 	 *
@@ -70,35 +92,6 @@ class Extension extends Table
 	}
 
 	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 *
-	 * @see     Table::bind()
-	 * @since   1.7.0
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && \is_array($array['params']))
-		{
-			$registry = new Registry($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['control']) && \is_array($array['control']))
-		{
-			$registry = new Registry($array['control']);
-			$array['control'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
-	}
-
-	/**
 	 * Method to create and execute a SELECT WHERE query.
 	 *
 	 * @param   array  $options  Array of options
@@ -122,86 +115,5 @@ class Extension extends Table
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 *                            set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.7.0
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		$pks = ArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
-		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
-		}
-
-		// Update the publishing state for rows with the given primary keys.
-		$query = $this->_db->getQuery(true)
-			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('enabled') . ' = ' . (int) $state)
-			->where('(' . $where . ')' . $checkin);
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the Table instance value is in the list of primary keys that were set, set the instance.
-		if (\in_array($this->$k, $pks))
-		{
-			$this->enabled = $state;
-		}
-
-		$this->setError('');
-
-		return true;
 	}
 }

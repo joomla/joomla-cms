@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Menus\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -90,9 +90,9 @@ class MenutypeField extends ListField
 		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal">'
-			. '<span class="fas fa-list icon-white" aria-hidden="true"></span> '
-			. Text::_('JSELECT') . '</button></span></span>';
+		$html[] = '<button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'
+			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
+			. Text::_('JSELECT') . '</button></span>';
 		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
@@ -103,7 +103,7 @@ class MenutypeField extends ListField
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
-				'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+				'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);

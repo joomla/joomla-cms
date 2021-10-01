@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -86,7 +87,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 
 		$symfonyStyle->success('Metadata garbage collection completed.');
 
-		return 0;
+		return Command::FAILURE;
 	}
 
 	/**
@@ -98,13 +99,10 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Perform session metadata garbage collection');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata
+		$help = "<info>%command.name%</info> runs the garbage collection operation for Joomla session metadata
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Perform session metadata garbage collection');
+		$this->setHelp($help);
 	}
 }

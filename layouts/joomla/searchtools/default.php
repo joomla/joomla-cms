@@ -3,16 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 
 $data = $displayData;
 
@@ -70,7 +69,7 @@ $customOptions = array(
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'showNoResults'       => !empty($noResultsText),
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
@@ -87,7 +86,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 <div class="js-stools" role="search">
 	<?php if ($data['options']['showSelector']) : ?>
 	<div class="js-stools-container-selector">
-		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+		<?php echo $this->sublayout('selector', $data); ?>
 	</div>
 	<?php endif; ?>
 	<div class="js-stools-container-bar">

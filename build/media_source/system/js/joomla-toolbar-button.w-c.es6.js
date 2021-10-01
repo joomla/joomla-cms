@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
 
-    this.addEventListener('click', this.executeTask);
+    this.buttonElement.addEventListener('click', this.executeTask);
 
     // Check whether we have a form
     const formSelector = this.form || 'adminForm';
@@ -67,36 +67,29 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
 
-    this.removeEventListener('click', this.executeTask);
+    this.buttonElement.removeEventListener('click', this.executeTask);
   }
 
-  onChange(event) {
+  onChange({ target }) {
     // Check whether we have selected something
-    this.setDisabled(event.target.value < 1);
+    this.setDisabled(target.value < 1);
   }
 
   setDisabled(disabled) {
     // Make sure we have a boolean value
     this.disabled = !!disabled;
 
-    // Switch attribute for current element
-    if (this.disabled) {
-      this.setAttribute('disabled', true);
-    } else {
-      this.removeAttribute('disabled');
-    }
-
     // Switch attribute for native element
     // An anchor does not support "disabled" attribute, so use class
     if (this.buttonElement) {
       if (this.disabled) {
         if (this.buttonElement.nodeName === 'BUTTON') {
-          this.buttonElement.setAttribute('disabled', true);
+          this.buttonElement.disabled = true;
         } else {
           this.buttonElement.classList.add('disabled');
         }
       } else if (this.buttonElement.nodeName === 'BUTTON') {
-        this.buttonElement.removeAttribute('disabled');
+        this.buttonElement.disabled = false;
       } else {
         this.buttonElement.classList.remove('disabled');
       }

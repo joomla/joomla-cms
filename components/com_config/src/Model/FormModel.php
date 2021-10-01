@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,13 +62,13 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Check if this is the user has previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				throw new \RuntimeException($table->getError());
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
+			if (!$table->checkIn($pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}
@@ -102,13 +102,13 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			if (!is_null($table->checked_out) && $table->checked_out != $user->get('id'))
 			{
 				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
+			if (!$table->checkOut($user->get('id'), $pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}

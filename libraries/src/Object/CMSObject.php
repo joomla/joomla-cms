@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ namespace Joomla\CMS\Object;
  * and an internal error handler.
  *
  * @since       1.7.0
- * @deprecated  4.0
+ * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
  */
 class CMSObject
 {

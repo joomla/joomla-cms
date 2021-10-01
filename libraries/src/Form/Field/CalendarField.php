@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
+use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -44,10 +45,18 @@ class CalendarField extends FormField
 	/**
 	 * The format of date and time.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  3.2
 	 */
 	protected $format;
+
+	/**
+	 * The format will be used to filter submitted date and time.
+	 *
+	 * @var    string
+	 * @since  4.0.1
+	 */
+	protected $filterFormat;
 
 	/**
 	 * The filter.
@@ -82,6 +91,14 @@ class CalendarField extends FormField
 	protected $layout = 'joomla.form.field.calendar';
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -96,6 +113,7 @@ class CalendarField extends FormField
 		{
 			case 'maxlength':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'timeformat':
 			case 'todaybutton':
@@ -135,6 +153,7 @@ class CalendarField extends FormField
 			case 'showtime':
 			case 'filltable':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'minyear':
 			case 'maxyear':
@@ -149,9 +168,9 @@ class CalendarField extends FormField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -182,6 +201,29 @@ class CalendarField extends FormField
 			{
 				$this->todaybutton = 'false';
 			}
+
+			$translateFormat = (string) $this->element['translateformat'];
+
+			if ($translateFormat && $translateFormat !== 'false')
+			{
+				$showTime = (string) $this->element['showtime'];
+
+				$lang  = Factory::getLanguage();
+				$debug = $lang->setDebug(false);
+
+				if ($showTime && $showTime !== 'false')
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATETIME');
+				}
+				else
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATE');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATE');
+				}
+
+				$lang->setDebug($debug);
+			}
 		}
 
 		return $return;
@@ -196,29 +238,7 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$user = Factory::getUser();
-
-		// Translate the format if requested
-		$translateFormat = (string) $this->element['translateformat'];
-
-		if ($translateFormat && $translateFormat !== 'false')
-		{
-			$showTime = (string) $this->element['showtime'];
-
-			$lang  = Factory::getLanguage();
-			$debug = $lang->setDebug(false);
-
-			if ($showTime && $showTime !== 'false')
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
-			}
-			else
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
-			}
-
-			$lang->setDebug($debug);
-		}
+		$user = Factory::getApplication()->getIdentity();
 
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
@@ -275,32 +295,16 @@ class CalendarField extends FormField
 	protected function getLayoutData()
 	{
 		$data      = parent::getLayoutData();
-		$tag       = Factory::getLanguage()->getTag();
-		$calendar  = Factory::getLanguage()->getCalendar();
+		$lang      = Factory::getApplication()->getLanguage();
+		$calendar  = $lang->getCalendar();
 		$direction = strtolower(Factory::getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$extraData = array(
@@ -315,10 +319,12 @@ class CalendarField extends FormField
 			'timeformat'   => $this->timeformat,
 			'singleheader' => ($this->singleheader === 'true') ? 1 : 0,
 			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
 			'minYear'      => $this->minyear,
 			'maxYear'      => $this->maxyear,
 			'direction'    => $direction,
+			'calendar'     => $calendar,
+			'firstday'     => $lang->getFirstDay(),
+			'weekend'      => explode(',', $lang->getWeekEnd()),
 		);
 
 		return array_merge($data, $extraData);
@@ -344,6 +350,18 @@ class CalendarField extends FormField
 			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
+		if ((int) $value <= 0)
+		{
+			return '';
+		}
+
+		if ($this->filterFormat)
+		{
+			$value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+		}
+
+		$app = Factory::getApplication();
+
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
@@ -353,34 +371,17 @@ class CalendarField extends FormField
 		{
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				if ((int) $value > 0)
-				{
-					// Get the server timezone setting.
-					$offset = Factory::getConfig()->get('offset');
-
-					// Return an SQL formatted datetime string in UTC.
-					$return = Factory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
-				}
+				// Return an SQL formatted datetime string in UTC.
+				$return = Factory::getDate($value, $app->get('offset'))->toSql();
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				if ((int) $value > 0)
-				{
-					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = Factory::getUser()->getParam('timezone', Factory::getConfig()->get('offset'));
+				// Get the user timezone setting defaulting to the server timezone setting.
+				$offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 
-					// Return an SQL formatted datetime string in UTC.
-					$return = Factory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
-				}
+				// Return an SQL formatted datetime string in UTC.
+				$return = Factory::getDate($value, $offset)->toSql();
 				break;
 		}
 

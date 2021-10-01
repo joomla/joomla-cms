@@ -15,6 +15,7 @@
 				type="moduletag"
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				default="div"
+				validate="options"
 			/>
 
 			<field
@@ -31,12 +32,15 @@
 				type="headertag"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				default="h3"
+				validate="options"
 			/>
 
 			<field
 				name="header_class"
-				type="text"
+				type="textarea"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
+				rows="3"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>

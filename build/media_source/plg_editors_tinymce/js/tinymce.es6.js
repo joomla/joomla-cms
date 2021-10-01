@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,25 @@
 
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');
+        const toggleButton = editor.querySelector('.js-tiny-toggler-button');
+        const toggleIcon = editor.querySelector('.icon-eye');
+
+        // Setup the editor
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
+
+        // Setup the toggle button
+        if (toggleButton) {
+          toggleButton.removeAttribute('disabled');
+          toggleButton.addEventListener('click', () => {
+            if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
+              toggleIcon.setAttribute('class', 'icon-eye');
+              Joomla.editors.instances[currentEditor.id].instance.show();
+            } else {
+              toggleIcon.setAttribute('class', 'icon-eye-slash');
+              Joomla.editors.instances[currentEditor.id].instance.hide();
+            }
+          });
+        }
       });
     },
 
@@ -79,7 +97,7 @@
 
         if (xtdButton.href) {
           tmp.onAction = () => {
-            document.getElementById(`${xtdButton.id}Modal`).open();
+            document.getElementById(`${xtdButton.id}_modal`).open();
           };
         } else {
           tmp.onAction = () => {
@@ -107,7 +125,7 @@
           });
 
           editor.ui.registry.addMenuButton('jxtdbuttons', {
-            text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
+            text: Joomla.Text._('PLG_TINY_CORE_BUTTONS'),
             icon: 'joomla',
             fetch: (callback) => callback(buttonValues),
           });
@@ -117,6 +135,15 @@
           editor.settings.readonly = readOnlyMode;
         };
       }
+
+      // We'll take over the onSubmit event
+      options.init_instance_callback = (editor) => {
+        editor.on('submit', () => {
+          if (editor.isHidden()) {
+            editor.show();
+          }
+        }, true);
+      };
 
       // Create a new instance
       // eslint-disable-next-line no-undef
@@ -135,13 +162,8 @@
         // Some extra instance dependent
         id: element.id,
         instance: ed,
-        onSave: () => { if (Joomla.editors.instances[element.id].instance.isHidden()) { Joomla.editors.instances[element.id].instance.show(); } return ''; },
       };
-
-      /** On save * */
-      document.getElementById(ed.id).form.addEventListener('submit', () => Joomla.editors.instances[ed.targetElm.id].onSave());
     },
-
   };
 
   /**
@@ -152,5 +174,5 @@
   /**
    * Initialize when a part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => Joomla.JoomlaTinyMCE.setupEditors(event.target));
+  document.addEventListener('joomla:updated', ({ target }) => Joomla.JoomlaTinyMCE.setupEditors(target));
 })(window.tinyMCE, Joomla, window, document);

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class PlgUserProfile extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -55,7 +55,7 @@ class PlgUserProfile extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    DatabaseInterface
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -72,7 +72,7 @@ class PlgUserProfile extends CMSPlugin
 	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -239,7 +239,7 @@ class PlgUserProfile extends CMSPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, ['com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration']))
+		if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -263,23 +263,6 @@ class PlgUserProfile extends CMSPlugin
 			'dob',
 			'tos',
 		];
-
-		// Change fields description when displayed in frontend or backend profile editing
-		if ($this->app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
-		{
-			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('city', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('region', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('country', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('postal_code', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('phone', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('website', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('favoritebook', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('aboutme', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('dob', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
-			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
-		}
 
 		$tosArticle = $this->params->get('register_tos_article');
 		$tosEnabled = $this->params->get('register-require_tos', 0);
@@ -327,7 +310,7 @@ class PlgUserProfile extends CMSPlugin
 				}
 			}
 			// Case profile in site or admin
-			elseif ($name === 'com_users.profile' || $name === 'com_admin.profile')
+			elseif ($name === 'com_users.profile')
 			{
 				// Toggle whether the field is required.
 				if ($this->params->get('profile-require_' . $field, 1) > 0)
@@ -382,7 +365,7 @@ class PlgUserProfile extends CMSPlugin
 
 			if (Date::getInstance('now') < $date)
 			{
-				// Throw an exception if dob is greather than now.
+				// Throw an exception if dob is greater than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
@@ -410,9 +393,9 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
@@ -468,13 +451,13 @@ class PlgUserProfile extends CMSPlugin
 								$userId,
 								'profile.' . $k,
 								json_encode($v),
-								$order++
+								$order++,
 							],
 							[
 								ParameterType::INTEGER,
 								ParameterType::STRING,
 								ParameterType::STRING,
-								ParameterType::INTEGER
+								ParameterType::INTEGER,
 							]
 						)
 					)
@@ -484,8 +467,6 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 
 	/**
@@ -497,13 +478,13 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -520,7 +501,5 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 }

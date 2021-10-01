@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,23 +55,23 @@ abstract class PredefinedlistField extends ListField
 	 * Allows to use only specific values of the predefined list
 	 *
 	 * @var  array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $optionsFilter = [];
 
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @see     \Joomla\CMS\Form\FormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -107,7 +107,9 @@ abstract class PredefinedlistField extends ListField
 
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				if (empty($this->optionsFilter) || \in_array($value, $this->optionsFilter))
+				$val = (string) $value;
+
+				if (empty($this->optionsFilter) || in_array($val, $this->optionsFilter, true))
 				{
 					$text = $this->translate ? Text::_($text) : $text;
 

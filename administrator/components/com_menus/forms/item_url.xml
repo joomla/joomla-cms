@@ -14,6 +14,7 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -51,6 +52,7 @@
 				name="menu_image_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -78,5 +80,5 @@
 			</field>
 		</fieldset>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_EXTERNAL_URL" />
+	<help key="Menu_Item:_URL" />
 </form>

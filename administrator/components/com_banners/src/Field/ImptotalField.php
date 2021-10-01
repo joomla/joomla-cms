@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -48,7 +48,7 @@ class ImptotalField extends FormField
 
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
 			. '" ' . $class . $onchange . '>'
-			. '<fieldset class="checkbox impunlimited"><input id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . '>'
-			. '<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . Text::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
+			. '<fieldset class="form-check impunlimited"><input class="form-check-input" id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . '>'
+			. '<label for="' . $this->id . '_unlimited" id="jform-imp" class="form-check-label">' . Text::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
 	}
 }

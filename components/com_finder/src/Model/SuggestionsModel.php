@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Database\DatabaseQuery;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Suggestions model class for the Finder package.
@@ -56,27 +59,56 @@ class SuggestionsModel extends ListModel
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A database query
+	 * @return  DatabaseQuery  A database query
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery()
 	{
+		$user   = Factory::getUser();
+		$groups = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+		$lang   = Helper::getPrimaryLanguage($this->getState('language'));
+
 		// Create a new query object.
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$lang = Helper::getPrimaryLanguage($this->getState('language'));
+		$termIdQuery = $db->getQuery(true);
+		$termQuery = $db->getQuery(true);
+
+		// Limit term count to a reasonable number of results to reduce main query join size
+		$termIdQuery->select('ti.term_id')
+			->from($db->quoteName('#__finder_terms', 'ti'))
+			->where('ti.term LIKE ' . $db->quote($db->escape(StringHelper::strtolower($this->getState('input')), true) . '%', false))
+			->where('ti.common = 0')
+			->where('ti.language IN (' . $db->quote($lang) . ', ' . $db->quote('*') . ')')
+			->order('ti.links DESC')
+			->order('ti.weight DESC');
+
+		$termIds = $db->setQuery($termIdQuery, 0, 100)->loadColumn();
+
+		// Early return on term mismatch
+		if (!count($termIds))
+		{
+			return $termIdQuery;
+		}
 
 		// Select required fields
-		$query->select('t.term')
-			->from($db->quoteName('#__finder_terms') . ' AS t')
-			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
-			->where('t.common = 0')
-			->where('t.language IN (' . $db->quote($lang) . ', ' . $db->quote('*') . ')')
+		$termQuery->select('DISTINCT(t.term)')
+			->from($db->quoteName('#__finder_terms', 't'))
+			->whereIn('t.term_id', $termIds)
 			->order('t.links DESC')
 			->order('t.weight DESC');
 
-		return $query;
+		// Join mapping table for term <-> link relation
+		$mappingTable = $db->quoteName('#__finder_links_terms', 'tm');
+		$termQuery->join('INNER', $mappingTable . ' ON tm.term_id = t.term_id');
+
+		// Join links table
+		$termQuery->join('INNER', $db->quoteName('#__finder_links', 'l') . ' ON (tm.link_id = l.link_id)')
+			->where('l.access IN (' . implode(',', $groups) . ')')
+			->where('l.state = 1')
+			->where('l.published = 1');
+
+		return $termQuery;
 	}
 
 	/**

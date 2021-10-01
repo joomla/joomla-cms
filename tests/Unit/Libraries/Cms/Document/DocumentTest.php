@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,13 +90,13 @@ class DocumentTest extends UnitTestCase
 	{
 		$document = $this->createDocument($options);
 
-		$this->assertAttributeSame($expects['lineend'], '_lineEnd', $document);
-		$this->assertAttributeSame($expects['charset'], '_charset', $document);
-		$this->assertAttributeSame($expects['language'], 'language', $document);
-		$this->assertAttributeSame($expects['direction'], 'direction', $document);
-		$this->assertAttributeSame($expects['tab'], '_tab', $document);
-		$this->assertAttributeSame($expects['link'], 'link', $document);
-		$this->assertAttributeSame($expects['base'], 'base', $document);
+		$this->assertEquals($expects['lineend'], $document->_getLineEnd());
+		$this->assertEquals($expects['charset'], $document->getCharset());
+		$this->assertEquals($expects['language'], $document->getLanguage());
+		$this->assertEquals($expects['direction'], $document->getDirection());
+		$this->assertEquals($expects['tab'], $document->_getTab());
+		$this->assertEquals($expects['link'], $document->getLink());
+		$this->assertEquals($expects['base'], $document->getBase());
 	}
 
 	/**
@@ -119,14 +119,14 @@ class DocumentTest extends UnitTestCase
 	 * @return void
 	 * @since   4.0.0
 	 */
-	public function testRetrievingANonExistantTypeFetchesARawDocument()
+	public function testRetrievingANonExistentTypeFetchesARawDocument()
 	{
 		$type = 'does-not-exist';
 
 		$document = Document::getInstance($type, $this->getDocumentDependencyMocks());
 
 		$this->assertInstanceOf(RawDocument::class, $document);
-		$this->assertAttributeSame($type, '_type', $document);
+		$this->assertEquals($type, $document->getType());
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 * The URI for the asset
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $uri = '';
 
@@ -43,7 +43,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 * Additional options for the asset
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $options = [];
 
@@ -51,7 +51,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 * Attributes for the asset, to be rendered in the asset's HTML tag
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $attributes = [];
 
@@ -163,9 +163,9 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
-	 * @return array
+	 * @return  string  The resolved path if resolved, else an empty string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUri($resolvePath = true): string
 	{
@@ -197,7 +197,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOption(string $key, $default = null)
 	{
@@ -217,7 +217,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setOption(string $key, $value = null): WebAssetItemInterface
 	{
@@ -231,7 +231,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOptions(): array
 	{
@@ -246,7 +246,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttribute(string $key, $default = null)
 	{
@@ -266,7 +266,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setAttribute(string $key, $value = null): WebAssetItemInterface
 	{
@@ -280,7 +280,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttributes(): array
 	{

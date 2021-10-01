@@ -24,13 +24,6 @@
 			rows="3"
 			cols="60"
 		/>
-		<field
-			name="condition"
-			type="workflowcondition"
-			label="COM_WORKFLOW_CONDITION"
-			description="COM_WORKFLOW_CONDITION_DESC"
-			hide_all="true"
-		/>
 	</fieldset>
 
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
@@ -39,7 +32,7 @@
 			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			validate="options"
 			>
@@ -71,7 +64,6 @@
 			label="JCONFIG_PERMISSIONS_LABEL"
 			validate="rules"
 			filter="rules"
-			component="com_workflow"
 			section="stage"
 		/>
 	</fieldset>

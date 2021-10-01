@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -54,9 +55,9 @@ class InstallerModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 */
@@ -90,7 +91,7 @@ class InstallerModel extends ListModel
 				$searchFields = array('name');
 
 				// If in update sites view search also in the update site name field.
-				if ($this instanceof Updatesites)
+				if ($this instanceof UpdatesitesModel)
 				{
 					$searchFields[] = 'update_site_name';
 				}
@@ -117,7 +118,7 @@ class InstallerModel extends ListModel
 			}
 
 			// Process ordering.
-			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			// Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
 			// Process pagination.
@@ -169,7 +170,7 @@ class InstallerModel extends ListModel
 			}
 
 			$item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
-			$item->client            = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id]);
+			$item->client            = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
 			$item->client_translated = $item->client;
 			$item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
@@ -181,8 +182,7 @@ class InstallerModel extends ListModel
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
@@ -202,25 +202,22 @@ class InstallerModel extends ListModel
 				case 'module':
 					$extension = $item->element;
 					$source = $path . '/modules/' . $extension;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
 					$source = $path . '/templates/' . $item->element;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'package':
 				default:
 					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE);
+					$lang->load("$extension.sys", JPATH_SITE);
 				break;
 			}
 

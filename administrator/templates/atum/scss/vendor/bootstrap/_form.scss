@@ -35,12 +35,12 @@ legend {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: var(--success);
 }
 
 .form-control-feedback {
@@ -48,11 +48,11 @@ legend {
 }
 
 [aria-grabbed="true"] {
-  box-shadow: 0 0 2px 1px var(--atum-bg-dark);
+  box-shadow: 0 0 2px 1px var(--template-bg-dark);
 }
 
 select.form-control {
-  background-color: $custom-select-bg;
+  background-color: $form-select-bg;
 }
 
 .field-media-wrapper {
@@ -66,14 +66,31 @@ select.form-control {
   }
 
   .button-select {
-    background-color: darken(theme-color("success"), 8%);
+    background-color: darken($success, 8%);
   }
 
   .button-clear {
-    background-color: darken(theme-color("danger"), 8%);
+    background-color: darken($danger, 8%);
   }
 
-  @include media-breakpoint-down(md) {
+  .button-clear > .#{$fa-css-prefix}-check,
+  .button-select > .#{$fa-css-prefix}-times {
+    color: $gray-100;
+  }
+
+  @include media-breakpoint-down(lg) {
     min-width: 100%;
+  }
+}
+
+// Bootstrap 4 b/c
+.form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+@include media-breakpoint-down(md) {
+  .form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+    width: 100%;
   }
 }

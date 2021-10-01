@@ -49,7 +49,7 @@
 			title="COM_CONTENT_MENUS_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article"
 		/>
 
 		<menuitem
@@ -130,7 +130,7 @@
 		Following is an example of repeatable group based on simple database query.
 		This requires sql_* attributes (sql_select and sql_from are required)
 		The values can be used like - "{sql:columnName}" in any attribute of repeated elements.
-		The repeated elements are place inside this xml node but they will be populated in the same level in the rendered menu
+		The repeated elements are placed inside this xml node but they will be populated in the same level in the rendered menu
 		-->
 		<menuitem
 			type="separator"
@@ -144,7 +144,7 @@
 			sql_order="a.id DESC"
 			>
 			<menuitem
-				title="{sql:title} "
+				title="{sql:title}"
 				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_SITE_MENU_ITEM"
 				type="component"
 				element="com_menus"

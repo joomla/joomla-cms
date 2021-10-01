@@ -4,10 +4,10 @@
 
   .btn {
     padding: 0 22px;
-    margin-right: .5rem;
+    margin-inline-end: .5rem;
     font-size: 1rem;
-    line-height: 2.375rem;
-    color: var(--atum-text-dark);
+    line-height: 2.3rem;
+    color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
@@ -17,9 +17,9 @@
   .btn-success:not([href]),
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background: var(--white);
-    border: 1px solid var(--atum-text-dark);
+    border: 1px solid var(--template-text-dark);
   }
 
   .btn-primary:not([href]) {
@@ -54,53 +54,47 @@
     }
   }
 
-  .btn.btn-danger [class*=" fa-"],
-  .btn.btn-danger [class*=" icon-"],
-  .btn.btn-danger [class^=fa-],
-  .btn.btn-danger [class^=icon-],
-  .btn.btn-danger span {
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px;
-    margin-inline-start: -22px;
-    line-height: 2.375rem;
-    color: hsla(0, 0%, 100%, .9);
-    background-color: var(--danger);
+  .btn.btn-danger {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--danger);
+    }
   }
 
-  .btn.btn-success [class*=" fa-"],
-  .btn.btn-success [class*=" icon-"],
-  .btn.btn-success [class^=fa-],
-  .btn.btn-success [class^=icon-],
-  .btn.btn-success span {
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px;
-    margin-inline-start: -22px;
-    line-height: 2.375rem;
-    color: hsla(0, 0%, 100%, .9);
-    background-color: var(--success);
+  .btn.btn-success {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--success);
+    }
   }
 }
 
 .modal-header {
   padding: 0 15px;
-
-  .close {
-    width: $modal-header-height;
-    height: $modal-header-height;
-    margin-top: 0;
-    margin-right: -15px;
-    font-size: 2rem;
-    line-height: 1rem;
-    border-left: 1px solid var(--border);
-  }
 }
 
 .modal-body {
-  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .modal-title {
@@ -109,7 +103,7 @@
 }
 
 .contentpane {
-  padding: 15px;
+  padding: 20px;
 }
 
 // Changelog
@@ -120,7 +114,7 @@
     display: flex;
     border-bottom: 1px solid $table-border-color;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex-direction: column;
     }
   }
@@ -141,7 +135,7 @@
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex: 1 0 auto;
       max-width: 100%;
       text-align: left;

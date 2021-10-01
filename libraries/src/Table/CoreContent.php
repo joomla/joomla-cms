@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Core content table
@@ -36,6 +34,14 @@ class CoreContent extends Table
 	protected $_supportNullValue = true;
 
 	/**
+	 * Encode necessary fields to JSON in the bind method
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = ['core_params', 'core_metadata', 'core_images', 'core_urls', 'core_body'];
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object
@@ -45,53 +51,10 @@ class CoreContent extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
-	}
 
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 *                          to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-	 *
-	 * @see     Table::bind()
-	 * @since   3.1
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['core_params']) && \is_array($array['core_params']))
-		{
-			$registry = new Registry($array['core_params']);
-			$array['core_params'] = (string) $registry;
-		}
-
-		if (isset($array['core_metadata']) && \is_array($array['core_metadata']))
-		{
-			$registry = new Registry($array['core_metadata']);
-			$array['core_metadata'] = (string) $registry;
-		}
-
-		if (isset($array['core_images']) && \is_array($array['core_images']))
-		{
-			$registry = new Registry($array['core_images']);
-			$array['core_images'] = (string) $registry;
-		}
-
-		if (isset($array['core_urls']) && \is_array($array['core_urls']))
-		{
-			$registry = new Registry($array['core_urls']);
-			$array['core_urls'] = (string) $registry;
-		}
-
-		if (isset($array['core_body']) && \is_array($array['core_body']))
-		{
-			$registry = new Registry($array['core_body']);
-			$array['core_body'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
+		$this->setColumnAlias('published', 'core_state');
+		$this->setColumnAlias('checked_out', 'core_checked_out_user_id');
+		$this->setColumnAlias('checked_out_time', 'core_checked_out_time');
 	}
 
 	/**
@@ -385,105 +348,5 @@ class CoreContent extends Table
 		$db->setQuery($query);
 
 		return $db->execute();
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table. The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		$pks    = ArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		$pksImploded = implode(',', $pks);
-
-		// Get the DatabaseQuery object
-		$query = $this->_db->getQuery(true);
-
-		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('core_state') . ' = :state')
-			->whereIn($this->_db->quoteName($k), $pks)
-			->bind(':state', $state, ParameterType::INTEGER);
-
-		// Determine if there is checkin support for the table.
-		$checkin = false;
-
-		if ($this->hasField('core_checked_out_user_id') && $this->hasField('core_checked_out_time'))
-		{
-			$checkin = true;
-			$query->extendWhere(
-				'AND',
-				[
-					$this->_db->quoteName('core_checked_out_user_id') . ' = 0',
-					$this->_db->quoteName('core_checked_out_user_id') . ' = :userId',
-				],
-				'OR'
-			)
-				->bind(':userId', $userId, ParameterType::INTEGER);
-		}
-
-		$this->_db->setQuery($query);
-
-		try
-		{
-			$this->_db->execute();
-		}
-		catch (\RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && \count($pks) === $this->_db->getAffectedRows())
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (\in_array($this->$k, $pks))
-		{
-			$this->core_state = $state;
-		}
-
-		$this->setError('');
-
-		return true;
 	}
 }

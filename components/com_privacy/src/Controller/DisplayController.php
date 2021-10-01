@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class DisplayController extends BaseController
 		$view = $this->input->get('view', $this->default_view);
 
 		// Submitting information requests through the frontend is restricted to authenticated users at this time
-		if ($view === 'request' && Factory::getUser()->guest)
+		if ($view === 'request' && $this->app->getIdentity()->guest)
 		{
 			$this->setRedirect(
 				Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=request'), false)

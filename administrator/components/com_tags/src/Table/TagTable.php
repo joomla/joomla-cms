@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -25,8 +25,16 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagTable extends Nested
+class TagTable extends Nested implements VersionableTableInterface
 {
+	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = ['params', 'metadata', 'urls', 'images'];
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -45,47 +53,6 @@ class TagTable extends Nested
 		$this->typeAlias = 'com_tags.tag';
 
 		parent::__construct('#__tags', 'id', $db);
-	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-	 *
-	 * @see     \JTable::bind
-	 * @since   3.1
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new Registry($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['urls']) && is_array($array['urls']))
-		{
-			$registry = new Registry($array['urls']);
-			$array['urls'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new Registry($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
 	}
 
 	/**
@@ -112,7 +79,7 @@ class TagTable extends Nested
 		// Check for valid name.
 		if (trim($this->title) == '')
 		{
-			throw new \UnexpectedValueException(sprintf('The title is empty'));
+			throw new \UnexpectedValueException('The title is empty');
 		}
 
 		if (empty($this->alias))
@@ -130,7 +97,7 @@ class TagTable extends Nested
 		// Check the publish down date is not earlier than publish up.
 		if (!empty($this->publish_down) && !empty($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
-			throw new \UnexpectedValueException(sprintf('End publish date is before start publish date.'));
+			throw new \UnexpectedValueException('End publish date is before start publish date.');
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
@@ -139,6 +106,16 @@ class TagTable extends Nested
 			// Only process if not empty
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
+		}
+
+		if (empty($this->path))
+		{
+			$this->path = '';
+		}
+
+		if (empty($this->hits))
+		{
+			$this->hits = 0;
 		}
 
 		if (empty($this->params))
@@ -268,5 +245,17 @@ class TagTable extends Nested
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->typeAlias;
 	}
 }

@@ -3,24 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-/**
- * @var  int     $id
- * @var  string  $name
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- */
 extract($displayData, EXTR_OVERWRITE);
 
-$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
+/**
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $name
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ */
+
+$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ms-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">
@@ -30,7 +33,7 @@ $target = empty($target) ? '' : 'target="' . $target . '"';
 		href="<?php echo $url; ?>"
 		<?php echo $target; ?>
 		<?php echo $htmlAttributes; ?>>
-		<span class="<?php echo $class; ?>" aria-hidden="true"></span>
+		<span class="<?php echo $class; ?> icon-fw" aria-hidden="true"></span>
 		<?php echo $text ?: ''; ?>
 	</a>
 </joomla-toolbar-button>

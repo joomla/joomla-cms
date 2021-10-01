@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class OpensearchDocument extends Document
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir . '/favicon.ico'))
+			if (is_file($dir . '/favicon.ico'))
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
@@ -137,24 +137,24 @@ class OpensearchDocument extends Document
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
 
 		// Create the root element
-		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
+		$elOs = $xml->createElementNS($osns, 'OpenSearchDescription');
 
-		$elShortName = $xml->createElementNs($osns, 'ShortName');
+		$elShortName = $xml->createElementNS($osns, 'ShortName');
 		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
 		$elOs->appendChild($elShortName);
 
-		$elDescription = $xml->createElementNs($osns, 'Description');
+		$elDescription = $xml->createElementNS($osns, 'Description');
 		$elDescription->appendChild($xml->createTextNode(htmlspecialchars($this->description)));
 		$elOs->appendChild($elDescription);
 
 		// Always set the accepted input encoding to UTF-8
-		$elInputEncoding = $xml->createElementNs($osns, 'InputEncoding');
+		$elInputEncoding = $xml->createElementNS($osns, 'InputEncoding');
 		$elInputEncoding->appendChild($xml->createTextNode('UTF-8'));
 		$elOs->appendChild($elInputEncoding);
 
 		foreach ($this->_images as $image)
 		{
-			$elImage = $xml->createElementNs($osns, 'Image');
+			$elImage = $xml->createElementNS($osns, 'Image');
 			$elImage->setAttribute('type', $image->type);
 			$elImage->setAttribute('width', $image->width);
 			$elImage->setAttribute('height', $image->height);
@@ -164,7 +164,7 @@ class OpensearchDocument extends Document
 
 		foreach ($this->_urls as $url)
 		{
-			$elUrl = $xml->createElementNs($osns, 'Url');
+			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
@@ -180,7 +180,7 @@ class OpensearchDocument extends Document
 		$xml->appendChild($elOs);
 		parent::render($cache, $params);
 
-		return $xml->saveXml();
+		return $xml->saveXML();
 	}
 
 	/**

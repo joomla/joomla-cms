@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -147,7 +148,7 @@ class RemindModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}
@@ -176,27 +177,18 @@ class RemindModel extends FormModel
 
 		// Put together the email template data.
 		$data = ArrayHelper::fromObject($user);
-		$data['fromname'] = $app->get('fromname');
-		$data['mailfrom'] = $app->get('mailfrom');
 		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 
-		$subject = Text::sprintf(
-			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',
-			$data['sitename']
-		);
-		$body = Text::sprintf(
-			'COM_USERS_EMAIL_USERNAME_REMINDER_BODY',
-			$data['sitename'],
-			$data['username'],
-			$data['link_text']
-		);
+		$mailer = new MailTemplate('com_users.reminder', $app->getLanguage()->getTag());
+		$mailer->addTemplateData($data);
+		$mailer->addRecipient($user->email, $user->name);
 
 		// Try to send the password reset request email.
 		try
 		{
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+			$return = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{
@@ -217,7 +209,7 @@ class RemindModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'));
 
 			return false;
 		}

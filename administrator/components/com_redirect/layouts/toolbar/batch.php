@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -16,7 +16,7 @@ HTMLHelper::_('behavior.core');
 $title = $displayData['title'];
 
 ?>
-<button type="button" data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-sm btn-primary">
-	<span class="fas fa-square" aria-hidden="true"></span>
+<button type="button" data-bs-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-primary">
+	<span class="icon-square" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,6 @@ abstract class RelatedItemsHelper
 		$groups    = Factory::getUser()->getAuthorisedViewLevels();
 		$maximum   = (int) $params->get('maximum', 5);
 		$factory   = $app->bootComponent('com_content')->getMVCFactory();
-		$condition = ContentComponent::CONDITION_PUBLISHED;
 
 		// Get an instance of the generic articles model
 		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
@@ -107,13 +106,10 @@ abstract class RelatedItemsHelper
 				$query->clear()
 					->select($db->quoteName('a.id'))
 					->from($db->quoteName('#__content', 'a'))
-					->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-					->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 					->where($db->quoteName('a.id') . ' != :id')
-					->where($db->quoteName('ws.condition') . ' = :condition')
+					->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED)
 					->whereIn($db->quoteName('a.access'), $groups)
-					->bind(':id', $id, ParameterType::INTEGER)
-					->bind(':condition', $condition, ParameterType::INTEGER);
+					->bind(':id', $id, ParameterType::INTEGER);
 
 				$binds  = [];
 				$wheres = [];

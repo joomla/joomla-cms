@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class PluginModel extends AdminModel
 	 * @var     string  The help screen key for the module.
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
+	protected $helpKey = 'Plugins:_Name_of_Plugin';
 
 	/**
 	 * @var     string  The help screen base URL for the module.
@@ -366,16 +366,15 @@ class PluginModel extends AdminModel
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients.
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_plugins', 0);
-		parent::cleanCache('com_plugins', 1);
+		parent::cleanCache('com_plugins');
 	}
 }

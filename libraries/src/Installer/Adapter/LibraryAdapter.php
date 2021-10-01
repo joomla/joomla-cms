@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,7 +77,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_LIB_COPY_FILES', $this->element));
 		}
 	}
 
@@ -118,13 +118,23 @@ class LibraryAdapter extends InstallerAdapter
 			if (!is_dir($destFolder) && !@mkdir($destFolder))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 
 			// If there is a manifest script, let's copy it.
@@ -299,8 +309,13 @@ class LibraryAdapter extends InstallerAdapter
 		// Delete empty vendor folders
 		if (2 === \count($elementParts))
 		{
-			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0]);
+
+			if (empty($folders))
+			{
+				Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
+				Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			}
 		}
 	}
 

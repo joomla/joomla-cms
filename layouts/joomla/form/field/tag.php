@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 extract($displayData);
 
@@ -49,6 +49,8 @@ extract($displayData);
  * @var   boolean  $allowCustom     Flag, to allow add custom values
  * @var   boolean  $remoteSearch    Flag, to enable remote search
  * @var   integer  $minTermLength   Minimum length of the term to start searching
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 $html = array();
@@ -58,6 +60,7 @@ $attr = '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
 if ($readonly || $disabled)
@@ -68,6 +71,7 @@ if ($readonly || $disabled)
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')) . '" ';
+$attr2 .= $dataAttribute;
 
 if ($allowCustom)
 {
@@ -80,7 +84,7 @@ if ($remoteSearch)
 	$attr2 .= ' remote-search';
 	$attr2 .= ' url="' . Uri::root(true) . '/index.php?option=com_tags&task=tags.searchAjax"';
 	$attr2 .= ' term-key="like"';
-	$attr2 .= ' min-term-length="' . $minTermLength .'"';
+	$attr2 .= ' min-term-length="' . $minTermLength . '"';
 }
 
 if ($required)

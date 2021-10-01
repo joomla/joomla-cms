@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -23,6 +23,7 @@ $category  = $displayData->get('category');
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
+$htag	   = $params->get('show_page_heading') ? 'h2' : 'h1';
 
 $app = Factory::getApplication();
 
@@ -51,7 +52,7 @@ if (substr($className, -1) === 's')
 $tagsData = $category->tags->itemTags;
 ?>
 <div>
-	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
+	<div class="<?php echo $className . '-category' . $displayData->pageclass_sfx; ?>">
 		<?php if ($params->get('show_page_heading')) : ?>
 			<h1>
 				<?php echo $displayData->escape($params->get('page_heading')); ?>
@@ -59,9 +60,9 @@ $tagsData = $category->tags->itemTags;
 		<?php endif; ?>
 
 		<?php if ($params->get('show_category_title', 1)) : ?>
-			<h2>
+			<<?php echo $htag; ?>>
 				<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
-			</h2>
+			</<?php echo $htag; ?>>
 		<?php endif; ?>
 		<?php echo $afterDisplayTitle; ?>
 
@@ -72,7 +73,8 @@ $tagsData = $category->tags->itemTags;
 		<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
-					<img src="<?php echo $category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>">
+					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>
 				<?php if ($params->get('show_description') && $category->description) : ?>

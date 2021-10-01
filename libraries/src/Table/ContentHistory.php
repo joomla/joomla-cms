@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class ContentHistory extends Table
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__ucm_history', 'version_id', $db);
+		parent::__construct('#__history', 'version_id', $db);
 		$this->ignoreChanges = array(
 			'modified_by',
 			'modified_user_id',
@@ -77,7 +77,9 @@ class ContentHistory extends Table
 	{
 		$this->set('character_count', \strlen($this->get('version_data')));
 		$typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
-		$typeTable->load($this->ucm_type_id);
+		$typeAlias = explode('.', $this->item_id);
+		array_pop($typeAlias);
+		$typeTable->load(array('type_alias' => implode('.', $typeAlias)));
 
 		if (!isset($this->sha1_hash))
 		{
@@ -168,18 +170,15 @@ class ContentHistory extends Table
 	 */
 	public function getHashMatch()
 	{
-		$db        = $this->_db;
-		$ucmItemId = (int) $this->get('ucm_item_id');
-		$ucmTypeId = (int) $this->get('ucm_type_id');
-		$sha1Hash  = $this->get('sha1_hash');
-		$query     = $db->getQuery(true);
+		$db       = $this->_db;
+		$itemId   = $this->get('item_id');
+		$sha1Hash = $this->get('sha1_hash');
+		$query    = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
-			->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('sha1_hash') . ' = :sha1_hash')
-			->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
-			->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER)
+			->bind(':item_id', $itemId, ParameterType::STRING)
 			->bind(':sha1_hash', $sha1Hash);
 
 		$query->setLimit(1);
@@ -203,16 +202,13 @@ class ContentHistory extends Table
 
 		// Get the list of version_id values we want to save
 		$db        = $this->_db;
-		$ucmItemId = (int) $this->get('ucm_item_id');
-		$ucmTypeId = (int) $this->get('ucm_type_id');
+		$itemId = $this->get('item_id');
 		$query     = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
-			->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('keep_forever') . ' != 1')
-			->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
-			->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER)
+			->bind(':item_id', $itemId, ParameterType::STRING)
 			->order($db->quoteName('save_date') . ' DESC ');
 
 		$query->setLimit((int) $maxVersions);
@@ -224,13 +220,11 @@ class ContentHistory extends Table
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
-				->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
+			$query->delete($db->quoteName('#__history'))
+				->where($db->quoteName('item_id') . ' = :item_id')
 				->whereNotIn($db->quoteName('version_id'), $idsToSave)
 				->where($db->quoteName('keep_forever') . ' != 1')
-				->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
-				->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER);
+				->bind(':item_id', $itemId, ParameterType::STRING);
 			$db->setQuery($query);
 			$result = (boolean) $db->execute();
 		}
