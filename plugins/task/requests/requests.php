@@ -12,6 +12,7 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -131,6 +132,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function makeGetRequest(ExecuteTaskEvent $event): int
 	{
+		$id = $event->getTaskId();
 		$params = $event->getArgument('params');
 
 		$url = $params->url;
@@ -158,6 +160,19 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 
 		$responseCode = $response->code;
+		$responseBody = $response->body;
+
+		// @todo this handling must be rethought and made safe. stands as a good demo right now.
+		$responseFile = JPATH_ROOT . "/tmp/task_{$id}_response.html";
+		File::write($responseFile, $responseBody);
+		$this->snapshot['output_file'] = $responseFile;
+		$this->snapshot['output_body'] = <<< EOF
+======= Task Output Body =======
+> URL: $url
+> Response Code: ${responseCode}
+> Response: {ATTACHED}
+EOF;
+
 		$this->addTaskLog(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
 
 		if ($response->code !== 200)

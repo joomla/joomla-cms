@@ -84,8 +84,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// @todo safety checks, multiple files [?]
+		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
 		$data = $this->getDataFromTask($event->getArgument('subject'));
-		$this->sendMail('plg_system_tasknotification.failure_mail', $data);
+		$this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
 	}
 
 	/**
@@ -122,8 +124,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// @todo safety checks, multiple files [?]
+		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
 		$data = $this->getDataFromTask($event->getArgument('subject'));
-		$this->sendMail('plg_system_tasknotification.success_mail', $data);
+		$this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
 	}
 
 	/**
@@ -160,26 +164,28 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 			'TASK_ID'        => $task->get('id'),
 			'TASK_TITLE'     => $task->get('title'),
 			'EXIT_CODE'      => $task->snapshot['status'] ?? Status::NO_EXIT,
-			'EXEC_DATE_TIME' => $lockOrExecTime
+			'EXEC_DATE_TIME' => $lockOrExecTime,
+			'TASK_OUTPUT'    => $task->snapshot['output_body'] ?? '',
 		];
 	}
 
 	/**
-	 * @param   string  $template  The mail template.
-	 * @param   array   $data      The data to bind to the mail template.
+	 * @param   string  $template    The mail template.
+	 * @param   array   $data        The data to bind to the mail template.
+	 * @param   string  $attachment  The attachment to send with the mail (@todo multiple)
 	 *
 	 * @return void
 	 *
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function sendMail(string $template, array $data): void
+	private function sendMail(string $template, array $data, string $attachment = ''): void
 	{
 		$app = $this->app;
 		$db = $this->db;
 
-		/** @var UserFactoryInterface $uFactory */
-		$uFactory = Factory::getContainer()->get('user.factory');
+		/** @var UserFactoryInterface $userFactory */
+		$userFactory = Factory::getContainer()->get('user.factory');
 
 		// Get all admin users
 		$query = $db->getQuery(true);
@@ -203,7 +209,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		// Mail all users with access to scheduler, opt-in mail
 		foreach ($users as $user)
 		{
-			$user = $uFactory->loadUserById($user->id);
+			$user = $userFactory->loadUserById($user->id);
 
 			if ($user->authorise('core.manage', 'com_scheduler'))
 			{
@@ -212,6 +218,15 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 					$mailer = new MailTemplate($template, $app->getLanguage()->getTag());
 					$mailer->addTemplateData($data);
 					$mailer->addRecipient($user->email);
+
+					// @todo improve and make safe
+					if ($attachment)
+					{
+						// @todo we allow multiple files
+						$attachName = pathinfo($attachment, PATHINFO_BASENAME);
+						$mailer->addAttachment($attachName, $attachment);
+					}
+
 					$mailer->send();
 				}
 				catch (MailerException $exception)

@@ -15,9 +15,6 @@ namespace Joomla\Component\Scheduler\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Cron\CronExpression;
-use DateInterval;
-use DateTime;
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
@@ -87,7 +84,7 @@ class ExecRuleHelper
 	 *
 	 * @return ?Date|string
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function nextExec(bool $string = true, bool $basisNow = false)
@@ -96,18 +93,19 @@ class ExecRuleHelper
 		switch ($this->type)
 		{
 			case 'interval':
-				$lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'GMT');
-				$interval = new DateInterval($this->rule->exp);
+				$lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'UTC');
+				$interval = new \DateInterval($this->rule->exp);
 				$nextExec = $lastExec->add($interval);
 				$nextExec = $string ? $nextExec->toSql() : $nextExec;
 				break;
-			case 'cron':
+			case 'cron-expression':
 				// @todo: testing
 				$cExp = new CronExpression((string) $this->rule->exp);
-				$nextExec = $cExp->getNextRunDate('now', 0, false, 'GMT');
+				$nextExec = $cExp->getNextRunDate('now', 0, false, 'UTC');
 				$nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
 				break;
 			default:
+				// 'manual' execution is handled here.
 				$nextExec = null;
 		}
 
@@ -118,13 +116,13 @@ class ExecRuleHelper
 	 * Returns a sql-formatted string for a DateTime object.
 	 * Only needed for DateTime objects returned by CronExpression, JDate supports this as class method.
 	 *
-	 * @param   DateTime  $dateTime  A DateTime object to format
+	 * @param   \DateTime  $dateTime  A DateTime object to format
 	 *
 	 * @return string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function dateTimeToSql(DateTime $dateTime): string
+	private function dateTimeToSql(\DateTime $dateTime): string
 	{
 		static $db;
 		$db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);

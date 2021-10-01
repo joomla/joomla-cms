@@ -14,7 +14,6 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -25,13 +24,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
-use function array_diff;
-use function defined;
-use function gmdate;
-use function is_object;
-use function sort;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 
 /**
  * MVC Model to interact with the Scheduler DB.
@@ -49,9 +43,9 @@ class TaskModel extends AdminModel
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $STATES = [
-		'enabled' => 1,
+		'enabled'  => 1,
 		'disabled' => 0,
-		'trashed' => -2
+		'trashed'  => -2
 	];
 
 	/**
@@ -86,7 +80,7 @@ class TaskModel extends AdminModel
 	 * @param   MVCFactoryInterface|null   $factory      The factory [?]
 	 * @param   FormFactoryInterface|null  $formFactory  The form factory [?]
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
@@ -94,7 +88,7 @@ class TaskModel extends AdminModel
 		$config['events_map'] = $config['events_map'] ?? [];
 		$config['events_map'] = array_merge(
 			[
-				'save' => 'task',
+				'save'     => 'task',
 				'validate' => 'task'
 			],
 			$config['events_map']
@@ -114,7 +108,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Form|boolean  A JForm object on success, false on failure.
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -162,7 +156,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True if the record may be deleted
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record): bool
@@ -181,14 +175,14 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState(): void
 	{
 		$app = $this->app;
 
-		$taskId = $app->getInput()->getInt('id');
+		$taskId   = $app->getInput()->getInt('id');
 		$taskType = $app->getUserState('com_scheduler.add.task.task_type');
 
 		// @todo: Remove this. Get the option through a helper call.
@@ -214,7 +208,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Table
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
@@ -227,7 +221,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return object  Associative array of form data.
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
@@ -245,7 +239,7 @@ class TaskModel extends AdminModel
 			// For a fresh object, set exec-day and exec-time
 			if (!($data->id ?? 0))
 			{
-				$data->execution_rules['exec-day'] = gmdate('d');
+				$data->execution_rules['exec-day']  = gmdate('d');
 				$data->execution_rules['exec-time'] = gmdate('H:i');
 			}
 		}
@@ -263,7 +257,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  object|boolean  Object on success, false on failure
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItem($pk = null)
@@ -293,119 +287,139 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data): bool
 	{
+		$id    = (int) ($data['id'] ?? $this->getState('task.id'));
+		$isNew = $id === 0;
+
 		// Clean up execution rules
-		$this->processExecutionRules($data);
+		$data['execution_rules'] = $this->processExecutionRules($data['execution_rules']);
+
+		// If a new entry, we'll have to put in place a pseudo-last_execution
+		if ($isNew)
+		{
+			$basisDayOfMonth = $data['execution_rules']['exec-day'];
+			[$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
+
+			$data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+				. "-$basisDayOfMonth $basisHour:$basisMinute:00";
+		}
+		else
+		{
+			// phpcs:ignore -- row from table
+			$data['last_execution'] = $this->getItem($id)->last_execution;
+		}
 
 		// Build the `cron_rules` column from `execution_rules`
-		$this->buildExecExpression($data);
+		$data['cron_rules'] = $this->buildExecutionRules($data['execution_rules']);
+
+		// `next_execution` would be null if scheduling is disabled with the "manual" rule!
+		$data['next_execution'] = (new ExecRuleHelper($data))->nextExec();
+
+		if ($isNew)
+		{
+			$data['last_execution'] = null;
+		}
 
 		// If no params, we set as empty array.
 		// ? Is this the right place to do this
 		$data['params'] = $data['params'] ?? [];
 
 		// Parent method takes care of saving to the table
-		if (!parent::save($data))
-		{
-			return false;
-		}
-
-		return true;
+		return parent::save($data);
 	}
 
 	/**
 	 * Clean up and standardise execution rules
 	 *
-	 * @param   array  $data  The form data [? can just replace with execution_interval]
+	 * @param   array  $unprocessedRules  The form data [? can just replace with execution_interval]
 	 *
-	 * @return void
+	 * @return array  Processed rules
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function processExecutionRules(array &$data): void
+	private function processExecutionRules(array $unprocessedRules): array
 	{
-		$executionRules = &$data['execution_rules'];
-		$ruleType = $executionRules['rule-type'];
-		$retainKeys = ['rule-type', $ruleType, 'exec-day', 'exec-time'];
+		$executionRules = $unprocessedRules;
+
+		$ruleType       = $executionRules['rule-type'];
+		$retainKeys     = ['rule-type', $ruleType, 'exec-day', 'exec-time'];
 		$executionRules = array_intersect_key($executionRules, array_flip($retainKeys));
 
-		$executionRules['exec-day'] = $executionRules['exec-day'] ?: (string) gmdate('d');
+		// Default to current date-time in UTC/GMT as the basis
+		$executionRules['exec-day']  = $executionRules['exec-day'] ?: (string) gmdate('d');
 		$executionRules['exec-time'] = $executionRules['exec-time'] ?: (string) gmdate('H:i');
 
 		// If custom ruleset, sort it
 		// ? Is this necessary
-		if ($ruleType === 'custom')
+		if ($ruleType === 'cron-expression')
 		{
-			foreach ($executionRules['custom'] as &$values)
+			foreach ($executionRules['cron-expression'] as &$values)
 			{
 				sort($values);
 			}
 		}
+
+		return $executionRules;
 	}
 
 	/**
 	 * Private method to build execution expression from input execution rules.
 	 * This expression is used internally to determine execution times/conditions.
 	 *
-	 * ! DRY violations here
+	 * @param   array  $executionRules  Execution rules from the Task form, post-processing.
 	 *
-	 * @param   array  $data  The form input data
+	 * @return array
 	 *
-	 * @return void
-	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function buildExecExpression(array &$data): void
+	private function buildExecutionRules(array $executionRules): array
 	{
 		// Maps interval strings, use with sprintf($map[intType], $interval)
 		$intervalStringMap = [
 			'minutes' => 'PT%dM',
-			'hours' => 'PT%dH',
-			'days' => 'P%dD',
-			'months' => 'P%dM',
-			'years' => 'P%dY'
+			'hours'   => 'PT%dH',
+			'days'    => 'P%dD',
+			'months'  => 'P%dM',
+			'years'   => 'P%dY'
 		];
 
-		$executionRules = $data['execution_rules'];
-		$ruleType = $executionRules['rule-type'];
-		$execExpression['visits'] = null;
-		$basisDayOfMonth = $executionRules['exec-day'];
-		[$basisHour, $basisMinute] = explode(':', $executionRules['exec-time']);
+		$ruleType        = $executionRules['rule-type'];
+		$ruleClass       = strpos($ruleType, 'interval') === 0 ? 'interval' : $ruleType;
+		$buildExpression = '';
 
-		$execExpression['type'] = $execType = $ruleType === 'custom' ? 'cron' : 'interval';
-		$lastExec = Factory::getDate('now', 'GMT')->format('Y-m')
-			. "-$basisDayOfMonth $basisHour:$basisMinute:00";
-
-		if ($execType === 'interval')
+		if ($ruleClass === 'interval')
 		{
-			$intervalType = explode('-', $ruleType)[1];
-			$interval = $executionRules["interval-$intervalType"];
-			$execExpression['exp'] = sprintf($intervalStringMap[$intervalType], $interval);
+			// Rule type for intervals interval-<minute/hours/...>
+			$intervalType    = explode('-', $ruleType)[1];
+			$interval        = $executionRules["interval-$intervalType"];
+			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($execType === 'cron')
+		if ($ruleClass === 'cron')
 		{
 			// ! custom matches are disabled in the form
-			$customRules = &$executionRules['custom'];
-			$execExpression['exp'] .= $this->wildcardIfMatch($customRules['minutes'], range(0, 59), true);
-			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['hours'], range(0, 23), true);
-			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_month'], range(1, 31), true);
-			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['months'], range(1, 12), true);
-			$execExpression['exp'] .= ' ' . $this->wildcardIfMatch($customRules['days_week'], range(0, 6), true);
+			$matches         = $executionRules['cron-expression'];
+			$buildExpression .= $this->wildcardIfMatch($matches['minutes'], range(0, 59), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['hours'], range(0, 23), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_month'], range(1, 31), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['months'], range(1, 12), true);
+			$buildExpression .= ' ' . $this->wildcardIfMatch($matches['days_week'], range(0, 6), true);
 		}
 
-		$data['last_execution'] = $lastExec;
-		$data['cron_rules'] = $execExpression;
-		$data['next_execution'] = (new ExecRuleHelper($data))->nextExec();
+		return [
+			'type' => $ruleClass,
+			'exp'  => $buildExpression,
+		];
 	}
 
 	/**
-	 * Determine if an array is populated by all its possible values by comparison to a reference array.
+	 * Determine if an array is populated by all its possible values by comparison to a reference array, if found a
+	 * match a wildcard '*' is returned.
 	 *
 	 * @param   array  $target       The target array
 	 * @param   array  $reference    The reference array, populated by the complete set of possible values in $target
@@ -441,7 +455,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content'): void

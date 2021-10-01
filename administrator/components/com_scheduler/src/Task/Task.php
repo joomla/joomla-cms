@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
 
 use Assert\Assertion;
 use Assert\AssertionFailedException;
-use DateInterval;
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
@@ -33,7 +31,6 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use RunTimeException;
 
 /**
  * The Task class.
@@ -83,7 +80,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @param   object  $record  A `#__scheduler_tasks` record
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct(object $record)
@@ -133,7 +130,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean  True if success
 	 *
-	 * @throws AssertionFailedException|Exception
+	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function run(): bool
@@ -209,7 +206,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function acquireLock(): bool
@@ -220,7 +217,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$now = Factory::getDate('now', 'GMT');
 
 		$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-		$timeout = new DateInterval(sprintf('PT%dS', $timeout));
+		$timeout = new \DateInterval(sprintf('PT%dS', $timeout));
 		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 		$now = $now->toSql();
 
@@ -240,7 +237,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}
@@ -263,7 +260,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function releaseLock(bool $update = true): bool
@@ -283,7 +280,8 @@ class Task extends Registry implements LoggerAwareInterface
 			$id = $this->get('id');
 
 			// @todo make this look less ugly
-			$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec();
+			// @todo this is broken! fix it and do it right by updating times in the run() method !!
+			$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(false, true);
 			$exitCode = $this->snapshot['status'] ?? Status::NO_EXIT;
 			$now = Factory::getDate('now', 'GMT')->toSql();
 
@@ -322,7 +320,7 @@ class Task extends Registry implements LoggerAwareInterface
 				}
 			}
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}
@@ -355,7 +353,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function skipExecution(): void
@@ -376,7 +374,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 		}
 
@@ -385,8 +383,6 @@ class Task extends Registry implements LoggerAwareInterface
 
 	/**
 	 * Handles task exit (dispatch event, return).
-	 *
-	 * @param   integer  $exitCode  If true, execution was successful
 	 *
 	 * @return boolean  If true, execution was successful
 	 *

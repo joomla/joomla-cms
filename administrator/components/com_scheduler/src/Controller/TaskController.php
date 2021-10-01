@@ -7,13 +7,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Implements the MVC controller for TaskModel.
- *
- * * : Model implicitly defaults to TaskModel through a call to parent::getModel()
- *
- * @todo : Check if the controller needs more overrides
- */
+/** Implements the MVC controller for TaskModel. */
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
@@ -26,12 +20,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
-use function defined;
 
 /**
  * MVC Controller for TaskView.
  *
  * @since  __DEPLOY_VERSION__
+ * @todo   check if we need more overrides
+ *
  */
 class TaskController extends FormController
 {
@@ -45,8 +40,8 @@ class TaskController extends FormController
 	public function add(): bool
 	{
 		/** @var AdministratorApplication $app */
-		$app = $this->app;
-		$input = $app->getInput();
+		$app              = $this->app;
+		$input            = $app->getInput();
 		$validTaskOptions = SchedulerHelper::getTaskOptions();
 
 		$canAdd = parent::add();
@@ -56,7 +51,7 @@ class TaskController extends FormController
 			return false;
 		}
 
-		$taskType = $input->get('type');
+		$taskType   = $input->get('type');
 		$taskOption = $validTaskOptions->findOption($taskType) ?: null;
 
 		if (!$taskOption)
@@ -116,7 +111,7 @@ class TaskController extends FormController
 		 * Zero record (id:0), return component edit permission by calling parent controller method
 		 * ? : Is this the right way to do this?
 		*/
-		if (!$recordId)
+		if ($recordId === 0)
 		{
 			return parent::allowEdit($data, $key);
 		}

@@ -7,8 +7,6 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** Implements the default controller (DisplayController) for com_scheduler */
-
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
 // Restrict direct access

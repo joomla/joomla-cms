@@ -25,7 +25,7 @@ abstract class Status
 	public const NO_EXIT = -1;
 
 	/**
-	 * Exit Code For no time to run
+	 * Status code for when the task just starts. Not meant to be an exit code.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

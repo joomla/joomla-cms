@@ -7,23 +7,20 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** A task plugin with routines to make HTTP requests. */
+/** Task plugin with routines to keep files in check. */
 
 // Restrict direct access
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Image\Image;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Filesystem\File;
 
 /**
@@ -76,7 +73,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onTaskOptionsList'    => 'advertiseRoutines',
-			'onExecuteTask'        => 'makeRequest',
+			'onExecuteTask'        => 'routineHandler',
 			'onContentPrepareForm' => 'enhanceForm'
 		];
 	}
@@ -89,17 +86,19 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function makeRequest(ExecuteTaskEvent $event): void
+	public function routineHandler(ExecuteTaskEvent $event): void
 	{
+		// Check if we support the routine requested
 		if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
+		// Call the taskStart() helper
 		$this->taskStart($event);
 		$routineId = $event->getRoutineId();
 		$exitCode = $this->{self::TASKS_MAP[$routineId]['call']}($event);
-		$this->taskEnd($event, $exitCode);
+		$this->taskEnd($event, $exitCode, false);
 	}
 
 	/**

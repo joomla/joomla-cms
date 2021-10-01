@@ -11,12 +11,10 @@ namespace Joomla\CMS\Console;
 // Restrict direct access
 defined('JPATH_PLATFORM') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
-use stdClass;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -59,7 +57,7 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
@@ -70,11 +68,11 @@ class TasksListCommand extends AbstractCommand
 		$this->ioStyle->title('List Scheduled Tasks');
 
 		$tasks = array_map(
-			function (stdClass $task): array {
+			function (\stdClass $task): array {
 				$enabled = $task->state === 1;
 				// phpcs:ignore
-				$nextExec = Factory::getDate($task->next_execution, 'GMT');
-				$due = $enabled && $task->taskOption && Factory::getDate('now', 'GMT') > $nextExec;
+				$nextExec = Factory::getDate($task->next_execution, 'UTC');
+				$due = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
 
 				return [
 					'id' => $task->id,

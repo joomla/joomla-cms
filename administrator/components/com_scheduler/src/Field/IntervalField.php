@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\NumberField;
 use Joomla\CMS\Form\FormField;
-use SimpleXMLElement;
 
 /**
  * Select style field for interval(s) in minutes, hours, days and months.
@@ -39,9 +38,9 @@ class IntervalField extends NumberField
 	 */
 	private const SUBTYPES = [
 		'minutes' => [1, 59],
-		'hours' => [1, 23],
-		'days' => [1, 30],
-		'months' => [1, 12]
+		'hours'   => [1, 23],
+		'days'    => [1, 30],
+		'months'  => [1, 12]
 	];
 
 	/**
@@ -71,22 +70,23 @@ class IntervalField extends NumberField
 	/**
 	 * Override the parent method to set deal with subtypes.
 	 *
-	 * @param   SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value     The form field value to validate.
-	 * @param   string            $group     The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form
+	 *                                       field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for
+	 *                                       the field. For example if the field has name="foo" and the group value is
+	 *                                       set to "bar" then the full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null): bool
+	public function setup(\SimpleXMLElement $element, $value, $group = null): bool
 	{
 		$parentResult = FormField::setup($element, $value, $group);
-		$subtype = ((string) $element['subtype'] ?? '') ?: null;
+		$subtype      = ((string) $element['subtype'] ?? '') ?: null;
 
-		if (!($subtype && array_key_exists($subtype, self::SUBTYPES)))
+		if (empty($subtype) || !array_key_exists($subtype, self::SUBTYPES))
 		{
 			return false;
 		}

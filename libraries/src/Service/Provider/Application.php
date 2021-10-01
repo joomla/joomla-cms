@@ -120,7 +120,7 @@ class Application implements ServiceProviderInterface
 					// Console uses the default system language
 					$config = $container->get('config');
 					$locale = $config->get('language');
-					$debug = $config->get('debug_lang');
+					$debug  = $config->get('debug_lang');
 
 					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
