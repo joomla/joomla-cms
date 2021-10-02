@@ -269,9 +269,9 @@
         if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
           // Skip self in .closest() call
           return el.parentElement.closest('joomla-field-subform') === this;
-        } else {
-          return el.closest('joomla-field-subform') === this;
         }
+
+        return el.closest('joomla-field-subform') === this;
       });
 
       haveName.forEach((elem) => {
