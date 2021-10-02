@@ -672,7 +672,7 @@ class PlgEditorTinymce extends CMSPlugin
 		);
 
 		$scriptOptions['style_formats'] = array(
-			array('title' => 'Containers', 'items' => array(
+			array('title' => Text::_('PLG_TINY_MENU_CONTAINER'), 'items' => array(
 				array('title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false),
 				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false),
 				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
