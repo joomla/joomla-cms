@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_USERS_GROUPS');
+		ToolbarHelper::help('Users:_Groups');
 	}
 }

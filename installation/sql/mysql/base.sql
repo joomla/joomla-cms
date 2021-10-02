@@ -1168,10 +1168,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`) VALUES
-(1, 58, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}'),
-(2, 59, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}'),
-(3, 60, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}'),
-(4, 61, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}'),
-(5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
-(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
-(7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+(1, 58, 1, 1, 1, 'UNPUBLISH', '', -1, 1, '{"publishing":"0"}'),
+(2, 59, 1, 2, 1, 'PUBLISH', '', -1, 1, '{"publishing":"1"}'),
+(3, 60, 1, 3, 1, 'TRASH', '', -1, 1, '{"publishing":"-2"}'),
+(4, 61, 1, 4, 1, 'ARCHIVE', '', -1, 1, '{"publishing":"2"}'),
+(5, 62, 1, 5, 1, 'FEATURE', '', -1, 1, '{"featuring":"1"}'),
+(6, 63, 1, 6, 1, 'UNFEATURE', '', -1, 1, '{"featuring":"0"}'),
+(7, 64, 1, 7, 1, 'PUBLISH_AND_FEATURE', '', -1, 1, '{"publishing":"1","featuring":"1"}');

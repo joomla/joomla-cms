@@ -304,7 +304,7 @@ class QuickIconHelper
 
 					$icon = array_merge($default, $icon);
 
-					if (!\is_null($icon['link']) && !\is_null($icon['text']))
+					if (!\is_null($icon['link']) && (!\is_null($icon['text']) || !\is_null($icon['name'])))
 					{
 						$this->buttons[$key][] = $icon;
 					}
