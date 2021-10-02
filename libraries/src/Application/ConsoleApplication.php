@@ -123,6 +123,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		// Register the client name as cli
 		$this->name = 'cli';
+		
+		// Set HTTP_HOST
+		$_SERVER['HTTP_HOST'] = 'localhost';
 
 		$this->setContainer($container);
 		$this->setDispatcher($dispatcher);
