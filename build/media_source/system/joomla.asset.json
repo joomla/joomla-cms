@@ -28,7 +28,8 @@
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
-        "keepalive.es5"
+        "keepalive.es5",
+        "core"
       ],
       "uri": "system/keepalive.min.js",
       "attributes": {
