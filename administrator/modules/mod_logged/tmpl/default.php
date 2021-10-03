@@ -41,7 +41,8 @@ use Joomla\CMS\Language\Text;
 				</th>
 				<td>
 					<?php if ($user->client_id === null) : ?>
-						<?php // Don't display a client ?>
+						<?php // This is a shared session so we do not know the client ?>
+						<?php echo Text::_('JGLOBAL_NONAPPLICABLE'); ?>
 					<?php elseif ($user->client_id) : ?>
 						<?php echo Text::_('JADMINISTRATION'); ?>
 					<?php else : ?>
