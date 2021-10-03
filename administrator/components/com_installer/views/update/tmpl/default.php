@@ -105,10 +105,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="hidden-phone center">
-									<span class="label label-warning"><?php echo $item->current_version; ?></span>
+									<span class="label label-warning"><?php echo '&#x200E;' . $item->current_version; ?></span>
 								</td>
 								<td class="center">
-									<span class="label label-success"><?php echo $item->version; ?></span>
+									<span class="label label-success"><?php echo '&#x200E;' . $item->version; ?></span>
 								</td>
 								<td class="hidden-phone center">
 									<?php echo $item->folder_translated; ?>
