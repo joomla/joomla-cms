@@ -386,6 +386,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
+		ToolbarHelper::help('Multilingual_Associations:_Edit');
 	}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Template:_Options"/>
 	<fieldset
 		name="templates"
 		label="COM_TEMPLATES_SUBMENU_TEMPLATES"

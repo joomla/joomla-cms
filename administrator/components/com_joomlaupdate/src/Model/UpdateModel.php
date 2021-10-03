@@ -88,7 +88,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
-			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -516,8 +516,26 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Backwards compatibility. Use createUpdateFile() instead.
+	 *
+	 * @param   null  $basename The basename of the file to create
+	 *
+	 * @return  boolean
+	 * @since   2.5.1
+	 * @deprecated 5.0
+	 */
+	public function createRestorationFile($basename = null): bool
+	{
+		return $this->createUpdateFile($basename);
+	}
+
+	/**
+	 * Create the update.php file and trigger onJoomlaBeforeUpdate event.
+	 *
+	 * The onJoomlaBeforeUpdate event stores the core files for which overrides have been defined.
+	 * This will be compared in the onJoomlaAfterUpdate event with the current filesystem state,
+	 * thereby determining how many and which overrides need to be checked and possibly updated
+	 * after Joomla installed an update.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -525,7 +543,7 @@ class UpdateModel extends BaseDatabaseModel
 	 *
 	 * @since  2.5.4
 	 */
-	public function createRestorationFile($basename = null)
+	public function createUpdateFile($basename = null): bool
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
@@ -557,31 +575,26 @@ class UpdateModel extends BaseDatabaseModel
 		$app->setUserState('com_joomlaupdate.password', $password);
 		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
-		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
-		$data .= '$restoration_setup = array(' . "\n";
+		$data = "<?php\ndefined('_JOOMLA_UPDATE') or die('Restricted access');\n";
+		$data .= '$extractionSetup = [' . "\n";
 		$data .= <<<ENDDATA
-	'kickstart.security.password' => '$password',
-	'kickstart.tuning.max_exec_time' => '5',
-	'kickstart.tuning.run_time_bias' => '75',
-	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => 'direct',
-	'kickstart.setup.sourcefile' => '$file',
-	'kickstart.setup.destdir' => '$siteroot',
-	'kickstart.setup.restoreperms' => '0',
-	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0',
-	'kickstart.setup.renamefiles' => array(),
-	'kickstart.setup.postrenamefiles' => false
+	'security.password' => '$password',
+	'setup.sourcefile' => '$file',
+	'setup.destdir' => '$siteroot',
 ENDDATA;
 
-		$data .= ');';
+		$data .= '];';
 
 		// Remove the old file, if it's there...
-		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
+		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
 		if (File::exists($configpath))
 		{
-			File::delete($configpath);
+			if (!File::delete($configpath))
+			{
+				File::invalidateFileCache($configpath);
+				@unlink($configpath);
+			}
 		}
 
 		// Write new file. First try with File.
@@ -621,9 +634,14 @@ ENDDATA;
 	}
 
 	/**
-	 * Runs the schema update SQL files, the PHP update script and updates the
-	 * manifest cache and #__extensions entry. Essentially, it is identical to
-	 * InstallerFile::install() without the file copy.
+	 * Finalise the upgrade.
+	 *
+	 * This method will do the following:
+	 * * Run the schema update SQL files.
+	 * * Run the Joomla post-update script.
+	 * * Update the manifest cache and #__extensions entry for Joomla itself.
+	 *
+	 * It performs essentially the same function as InstallerFile::install() without the file copy.
 	 *
 	 * @return  boolean True on success.
 	 *
@@ -842,8 +860,12 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event.
+	 *
+	 * The onJoomlaAfterUpdate event compares the stored list of files previously overridden with
+	 * the updated core files, finding out which files have changed during the update, thereby
+	 * determining how many and which override files need to be checked and possibly updated after
+	 * the Joomla update.
 	 *
 	 * @return  void
 	 *
@@ -865,11 +887,29 @@ ENDDATA;
 		$file = $app->getUserState('com_joomlaupdate.file', null);
 		File::delete($tempdir . '/' . $file);
 
-		// Remove the restoration.php file.
-		File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		// Remove the update.php file used in Joomla 4.0.3 and later.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/update.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
+		}
+
+		// Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		}
+
+		// Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
+		}
 
 		// Remove joomla.xml from the site's root.
-		File::delete(JPATH_ROOT . '/joomla.xml');
+		if (File::exists(JPATH_ROOT . '/joomla.xml'))
+		{
+			File::delete(JPATH_ROOT . '/joomla.xml');
+		}
 
 		// Unset the update filename from the session.
 		$app = Factory::getApplication();
@@ -1490,34 +1530,18 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if ($compatibleVersion)
-					{
-						// Return the compatible version
-						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-					}
-					else
-					{
-						// Return the compatible version as false so we can say update server is supported but no compatible version found
-						return (object) array('state' => 1, 'compatibleVersion' => false);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
 			}
 			else
 			{
-				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+				$compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
-				if ($compatibleVersion)
-				{
-					// Return the compatible version
-					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-				}
-				else
-				{
-					// Return the compatible version as false so we can say update server is supported but no compatible version found
-					return (object) array('state' => 1, 'compatibleVersion' => false);
-				}
+				// Return the compatible versions
+				return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 			}
 		}
 
@@ -1637,7 +1661,7 @@ ENDDATA;
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items or false.
+	 * @return  array  An array of strings with compatible version numbers
 	 *
 	 * @since   3.10.0
 	 */
@@ -1649,9 +1673,20 @@ ENDDATA;
 		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXml($updateFileUrl, $minimumStability);
 
-		$downloadUrl = $update->get('downloadurl');
+		$compatibleVersions = $update->get('compatibleVersions');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		// Check if old version of the updater library
+		if (!isset($compatibleVersions))
+		{
+			$downloadUrl = $update->get('downloadurl');
+			$updateVersion = $update->get('version');
+
+			return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+		}
+
+		usort($compatibleVersions, 'version_compare');
+
+		return $compatibleVersions;
 	}
 
 	/**

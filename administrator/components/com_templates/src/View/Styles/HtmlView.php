@@ -150,6 +150,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+		ToolbarHelper::help('Templates:_Styles');
 	}
 }

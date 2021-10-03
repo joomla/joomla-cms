@@ -258,7 +258,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::help('Joomla_Update');
 	}
 
 	/**

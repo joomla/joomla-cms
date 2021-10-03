@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_related_items.ini</language>
 		<language tag="en-GB">language/en-GB/mod_related_items.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_RELATED" />
+	<help key="Site_Modules:_Articles_-_Related" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
