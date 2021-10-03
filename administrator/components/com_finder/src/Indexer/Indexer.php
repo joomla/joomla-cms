@@ -905,13 +905,12 @@ class Indexer
 	 */
 	protected function addTokensToDb($tokens, $context = '')
 	{
-		static $filterCommon, $filterNumeric;
+		static $filterCommon;
 
 		if (is_null($filterCommon))
 		{
 			$params = ComponentHelper::getParams('com_finder');
 			$filterCommon = $params->get('filter_commonwords', false);
-			$filterNumeric = $params->get('filter_numerics', false);
 		}
 
 		// Get the database object.
@@ -935,11 +934,6 @@ class Indexer
 			foreach ($tokens as $token)
 			{
 				if ($filterCommon && $token->common)
-				{
-					continue;
-				}
-
-				if ($filterNumeric && $token->numeric)
 				{
 					continue;
 				}
