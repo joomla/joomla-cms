@@ -229,18 +229,46 @@
   /**
    * Initialize 'showon' feature when part of the page was updated
    */
+  const getMatchedParents = ($child, selector) => {
+    let $parent = $child;
+    let $matchingParent;
+    const parents = [];
+
+    while ($parent) {
+      $matchingParent = $parent.matches && $parent.matches(selector) ? $parent : null;
+      if ($matchingParent) {
+        parents.unshift($matchingParent);
+      }
+      $parent = $parent.parentNode;
+    }
+
+    return parents;
+  };
+
   document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-      const search = new RegExp(`\\[${target.dataset.baseName}X\\]`, 'g');
-      const replace = `[${target.dataset.group}]`;
 
-      // Fix showon field names in a current group
-      elements.forEach((element) => {
-        const showon = element.dataset.showon.replace(search, replace);
-        element.dataset.showon = showon;
-      });
+      if (elements.length) {
+        const search = [];
+        const replace = [];
+
+        // Collect all parent groups of subform
+        getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
+          search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
+          replace.push(`[${$parent.dataset.group}]`);
+        });
+
+        // Fix showon field names in a current group
+        elements.forEach((element) => {
+          let showon = element.dataset.showon;
+          search.forEach((pattern, i) => {
+            showon = showon.replace(pattern, replace[i]);
+          });
+          element.dataset.showon = showon;
+        });
+      }
     }
 
     Joomla.Showon.initialise(target);
