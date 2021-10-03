@@ -98,55 +98,6 @@ const build = async () => {
   await bundle.close();
 };
 
-const buildLegacy = async () => {
-  // eslint-disable-next-line no-console
-  console.log('Building Legacy...');
-
-  const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
-    plugins: [
-      commonjs(),
-      nodeResolve(),
-      replace({
-        preventAssignment: true,
-        'process.env.NODE_ENV': '\'production\'',
-      }),
-      babel({
-        exclude: 'node_modules/core-js/**',
-        babelHelpers: 'bundled',
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              corejs: '3.8',
-              useBuiltIns: 'usage',
-              targets: {
-                chrome: '58',
-                ie: '11',
-              },
-              loose: true,
-              bugfixes: true,
-              modules: false,
-            },
-          ],
-        ],
-      }),
-    ],
-    external: [],
-  });
-
-  await bundle.write({
-    format: 'iife',
-    sourcemap: false,
-    name: 'bootstrap',
-    file: resolve(outputFolder, 'bootstrap-es5.js'),
-  });
-
-  // closes the bundle
-  await bundle.close();
-};
-
 module.exports.bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 

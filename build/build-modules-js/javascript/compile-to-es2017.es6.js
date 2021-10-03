@@ -97,6 +97,5 @@ module.exports.handleESMFile = async (file) => {
   // eslint-disable-next-line no-console
   console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: ✅ transpiled`);
 
-  //await handleESMToLegacy(resolve(`${newPath}.js`));
   await minifyJs(resolve(`${newPath}.js`));
 };
