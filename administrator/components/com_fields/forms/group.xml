@@ -27,7 +27,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 		/>
 
@@ -63,7 +62,6 @@
 			label="JGLOBAL_CREATED_DATE"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -106,14 +104,12 @@
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
 			class="col-md-12"
-			size="40"
 		/>
 
 		<field
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
-			size="40"
 			filter="HTML"
 		/>
 
