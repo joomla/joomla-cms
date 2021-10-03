@@ -254,7 +254,7 @@
         const search = [];
         const replace = [];
 
-        // Collect all parent group of changed group
+        // Collect all parent groups of changed group
         getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
           search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
           replace.push(`[${$parent.dataset.group}]`);
@@ -262,7 +262,7 @@
 
         // Fix showon field names in a current group
         elements.forEach((element) => {
-          let showon = element.dataset.showon;
+          let {showon} = element.dataset;
           search.forEach((pattern, i) => {
             showon = showon.replace(pattern, replace[i]);
           });
