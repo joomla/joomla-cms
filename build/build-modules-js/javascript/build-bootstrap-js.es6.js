@@ -163,24 +163,7 @@ module.exports.bootstrapJs = async () => {
     tasks.push(createMinified(file));
   });
 
-  return Promise.all(tasks).then(async () => {
-    return true;
-    // eslint-disable-next-line no-console
-    console.log('✅ ES6 components ready');
-
-    try {
-      await buildLegacy(inputFolder, 'index.es6.js');
-      const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
-      const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
-      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
-      // eslint-disable-next-line no-console
-      console.log('✅ Legacy done!');
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      process.exit(1);
-    }
-  }).catch((er) => {
+  return Promise.all(tasks).catch((er) => {
     // eslint-disable-next-line no-console
     console.log(er);
     process.exit(1);

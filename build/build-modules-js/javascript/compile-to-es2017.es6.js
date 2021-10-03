@@ -10,7 +10,6 @@ const { babel } = require('@rollup/plugin-babel');
 const Postcss = require('postcss');
 const { renderSync } = require('sass');
 const { minifyJs } = require('./minify.es6.js');
-const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
