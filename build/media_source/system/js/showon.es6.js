@@ -227,7 +227,11 @@
   });
 
   /**
-   * Initialize 'showon' feature when part of the page was updated
+   * Search for matching parents
+   *
+   * @param {HTMLElement} $child
+   * @param {String} selector
+   * @returns {HTMLElement[]}
    */
   const getMatchedParents = ($child, selector) => {
     let $parent = $child;
@@ -245,6 +249,9 @@
     return parents;
   };
 
+  /**
+   * Initialize 'showon' feature when part of the page was updated
+   */
   document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
