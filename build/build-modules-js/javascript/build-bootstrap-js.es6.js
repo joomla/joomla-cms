@@ -164,6 +164,7 @@ module.exports.bootstrapJs = async () => {
   });
 
   return Promise.all(tasks).then(async () => {
+    return true;
     // eslint-disable-next-line no-console
     console.log('✅ ES6 components ready');
 

@@ -116,7 +116,7 @@ module.exports.mediaManager = async () => {
   // eslint-disable-next-line no-console
   console.log('✅ ES2017 Media Manager ready');
   minifyJs('media/com_media/js/media-manager.js');
-  return buildLegacy(resolve('media/com_media/js/media-manager.js'));
+  // return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
 
 module.exports.watchMediaManager = async () => {
