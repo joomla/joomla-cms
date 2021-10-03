@@ -262,7 +262,7 @@
 
         // Fix showon field names in a current group
         elements.forEach((element) => {
-          let {showon} = element.dataset;
+          let { showon } = element.dataset;
           search.forEach((pattern, i) => {
             showon = showon.replace(pattern, replace[i]);
           });
