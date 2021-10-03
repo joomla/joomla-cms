@@ -15,7 +15,6 @@
 				name="q"
 				type="text"
 				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
-				size="30"
 			/>
 			<field
 				name="f"
@@ -94,7 +93,6 @@
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 				filter="integer"
 				default=""
-				size="5"
 				useglobal="true"
 			/>
 			<field
