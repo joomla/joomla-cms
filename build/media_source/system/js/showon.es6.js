@@ -254,7 +254,7 @@
         const search = [];
         const replace = [];
 
-        // Collect all parent groups of subform
+        // Collect all parent group of changed group
         getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
           search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
           replace.push(`[${$parent.dataset.group}]`);
