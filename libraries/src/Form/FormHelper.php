@@ -206,12 +206,15 @@ class FormHelper
 		// Check if there is a class in the registered namespaces
 		foreach (self::addPrefix($entity) as $prefix)
 		{
-			// Treat underscores as namespace
+			// Normalise type into space separated words
 			$name = Normalise::toSpaceSeparated($type);
+
+			// Treat underscores as namespace
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			$subPrefix = '';
 
+			// If type is of form `context.property`, we break-off `context` as sub-prefix
 			if (strpos($name, '.'))
 			{
 				list($subPrefix, $name) = explode('.', $name);
@@ -222,6 +225,15 @@ class FormHelper
 			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
+			if (class_exists($class))
+			{
+				return $class;
+			}
+
+			// Try normalising type to CamelCase
+			$name = Normalise::toCamelCase($type);
+			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . $name . ucfirst($entity);
+
 			if (class_exists($class))
 			{
 				return $class;
