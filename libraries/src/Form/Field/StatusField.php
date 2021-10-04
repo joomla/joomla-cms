@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Language\Text;
-
 \defined('JPATH_PLATFORM') or die;
 
 /**
@@ -17,7 +15,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  3.2
  */
-class StatusField extends ListField
+class StatusField extends PredefinedlistField
 {
 	/**
 	 * Available statuses with default labels.
@@ -56,13 +54,14 @@ class StatusField extends ListField
 	public $type = 'Status';
 
 	/**
-	 * @var  boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @var    array
+	 * @since  3.2
 	 */
-	private $altLabels;
+	protected $predefinedOptions = [];
+
 
 	/**
-	 * Override parent setup to set $this->altLabels
+	 * Override parent setup to set $this->predefinedOptions
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form
 	 *                                       field object.
@@ -79,27 +78,11 @@ class StatusField extends ListField
 	{
 		$parentResult = parent::setup($element, $value, $group);
 
-		$this->altLabels = ((string) $element['alt_labels'] ?? '') === 'true';
+		$altLabels = ((string) $element['alt_labels'] ?? '') === 'true';
+
+		// `array_merge()` does not preserve numeric values
+		$this->predefinedOptions += $altLabels ? self::ALT_OPTIONS : self::DEFAULT_OPTIONS;
 
 		return $parentResult;
-	}
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getOptions(): array
-	{
-		$options = array_map(
-			static function (string $languageConstant) {
-				return Text::_($languageConstant);
-			},
-			$this->altLabels ? self::ALT_OPTIONS : self::DEFAULT_OPTIONS
-		);
-
-		return array_merge(parent::getOptions(), $options);
 	}
 }
