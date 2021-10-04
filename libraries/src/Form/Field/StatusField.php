@@ -93,11 +93,13 @@ class StatusField extends ListField
 	 */
 	protected function getOptions(): array
 	{
-		return array_map(
+		$options = array_map(
 			static function (string $languageConstant) {
 				return Text::_($languageConstant);
 			},
 			$this->altLabels ? self::ALT_OPTIONS : self::DEFAULT_OPTIONS
 		);
+
+		return array_merge(parent::getOptions(), $options);
 	}
 }
