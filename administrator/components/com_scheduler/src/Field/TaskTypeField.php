@@ -14,13 +14,11 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Utilities\ArrayHelper;
-use function array_map;
 
 /**
  * A list field with all available job types
@@ -61,7 +59,7 @@ class TaskTypeField extends ListField
 		};
 
 		// Call $addTypeAsOption on each type
-		array_map($addTypeAsOption, $types);
+		\array_map($addTypeAsOption, $types);
 
 		return $options;
 	}

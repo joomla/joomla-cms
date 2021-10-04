@@ -14,7 +14,6 @@ namespace Joomla\Component\Scheduler\Administrator\Traits;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -24,9 +23,6 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
-use ReflectionClass;
-use function array_key_exists;
-use function is_file;
 
 /**
  * Utility trait for plugins that support com_scheduler compatible task routines
@@ -85,7 +81,7 @@ trait TaskPluginTrait
 			return;
 		}
 
-		$this->snapshot['endTime'] = $endTime = microtime(true);
+		$this->snapshot['endTime'] = $endTime = \microtime(true);
 		$this->snapshot['duration'] = $endTime - $this->snapshot['startTime'];
 		$this->snapshot['status'] = $exitCode ?? TaskStatus::OK;
 		$event->setResult($this->snapshot);
@@ -93,7 +89,7 @@ trait TaskPluginTrait
 		// @todo remove logging from this method
 		if ($log)
 		{
-			$langConstPrefix = strtoupper($event->getArgument('langConstPrefix'));
+			$langConstPrefix = \strtoupper($event->getArgument('langConstPrefix'));
 			$this->addTaskLog(
 				Text::sprintf($langConstPrefix . '_ROUTINE_END_LOG_MESSAGE',
 					$this->snapshot['status'], $this->snapshot['duration']
@@ -118,16 +114,16 @@ trait TaskPluginTrait
 	{
 		$routineId = $this->getRoutineId($form, $data);
 
-		$isSupported = array_key_exists($routineId, self::TASKS_MAP);
+		$isSupported = \array_key_exists($routineId, self::TASKS_MAP);
 
 		if (!$isSupported || !$enhancementForm = self::TASKS_MAP[$routineId]['form'] ?? '')
 		{
 			return false;
 		}
 
-		$path = dirname((new ReflectionClass(static::class))->getFileName());
+		$path = dirname((new \ReflectionClass(static::class))->getFileName());
 
-		if (is_file($fn = $path . '/forms/' . $enhancementForm . '.xml'))
+		if (\is_file($fn = $path . '/forms/' . $enhancementForm . '.xml'))
 		{
 			$form->loadFile($fn);
 		}

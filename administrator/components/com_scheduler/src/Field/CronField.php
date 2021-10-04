@@ -15,9 +15,6 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use SimpleXMLElement;
-use function in_array;
-use function range;
 
 /**
  * Multi-select form field, supporting inputs of:
@@ -121,7 +118,7 @@ class CronField extends ListField
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null): bool
+	public function setup(\SimpleXMLElement $element, $value, $group = null): bool
 	{
 		$parentResult = parent::setup($element, $value, $group);
 

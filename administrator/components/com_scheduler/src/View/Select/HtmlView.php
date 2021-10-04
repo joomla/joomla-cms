@@ -12,9 +12,8 @@
 namespace Joomla\Component\Scheduler\Administrator\View\Select;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -25,7 +24,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
-use function defined;
 
 /**
  * The MVC View SelectView
@@ -83,6 +81,7 @@ class HtmlView extends BaseHtmlView
 	public function __construct($config = [])
 	{
 		$this->app = Factory::getApplication();
+
 		parent::__construct($config);
 	}
 
@@ -101,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		$this->modalLink = '';
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

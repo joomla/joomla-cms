@@ -12,13 +12,9 @@ namespace Joomla\Component\Scheduler\Administrator\Controller;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use function count;
-use function defined;
-
 
 /**
  * Default controller for com_scheduler.
@@ -94,7 +90,7 @@ class DisplayController extends BaseController
 				// For existing item, entry is invalid if TaskController has not granted access
 				elseif (!$inEditList)
 				{
-					if (!count($this->app->getMessageQueue()))
+					if (!\count($this->app->getMessageQueue()))
 					{
 						$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 					}
