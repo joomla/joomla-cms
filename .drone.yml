@@ -181,25 +181,6 @@ steps:
       status:
         - failure
 
-  - name: analysis4x
-    image: rips/rips-cli:3.2.2
-    failure: ignore
-    depends_on: [ api-tests ]
-    when:
-      repo:
-        - joomla/joomla-cms
-      branch:
-        - 4.0-dev
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-    environment:
-      RIPS_EMAIL:
-        from_secret: RIPS_EMAIL
-      RIPS_PASSWORD:
-        from_secret: RIPS_PASSWORD
-
 branches:
   exclude: [ l10n_* ]
 
@@ -270,6 +251,6 @@ steps:
 
 ---
 kind: signature
-hmac: eeef976e7f7c7dde8100d7dc4944250af4886b397250aab5c8069a021f4e3043
+hmac: 20fa94a7645c05d5ed14b601ab963bbdbde0d6a804d0ec54ea34b0b78a8b25d9
 
 ...
