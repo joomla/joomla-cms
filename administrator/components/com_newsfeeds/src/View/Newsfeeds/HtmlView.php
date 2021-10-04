@@ -193,6 +193,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_newsfeeds');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		$toolbar->help('News_Feeds');
 	}
 }

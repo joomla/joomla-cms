@@ -258,32 +258,41 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 
-		// Compute the ref_key
-		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+		// Look first in form for help key
+		$ref_key = (string) $this->form->getXml()->help['key'];
 
-		// Check if the computed ref_key does exist in the component
-		if (!$lang->hasKey($ref_key))
+		// Try with a language string
+		if (!$ref_key)
 		{
-			$ref_key = 'JHELP_COMPONENTS_'
-						. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
-						. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			// Compute the ref_key
+			$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+
+			// Check if the computed ref_key does exist in the component
+			if (!$lang->hasKey($ref_key))
+			{
+				$ref_key = 'JHELP_COMPONENTS_'
+					. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
+					. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			}
 		}
 
 		/*
 		 * Get help for the category/section view for the component by
+		 * -remotely searching in a URL defined in the category form
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
-		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+		$url = (string) $this->form->getXml()->help['url'];
+
+		if (!$url)
 		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($lang_help_url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
+			if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+			{
+				$debug = $lang->setDebug(false);
+				$url = Text::_($lang_help_url);
+				$lang->setDebug($debug);
+			}
 		}
 
 		ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);

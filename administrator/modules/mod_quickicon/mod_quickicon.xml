@@ -20,7 +20,7 @@
 		<language tag="en-GB">language/en-GB/mod_quickicon.ini</language>
 		<language tag="en-GB">language/en-GB/mod_quickicon.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
+	<help key="Admin_Modules:_Quick_Icons" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
