@@ -21,7 +21,11 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 /**
- * The plugin class for Plg_System_Schedulerunner.
+ * This plugin implements listeners to support a visitor-triggered lazy-scheduling pattern.
+ * If `com_scheduler` is installed/enabled and its configuration allows unprotected lazy scheduling, this plugin
+ * injects into each response with an HTML context a JS file {@see PlgSystemSchedulerunner::injectScheduleRunner()} that
+ * sets up an AJAX callback to trigger the scheduler {@see PlgSystemSchedulerunner::runScheduler()}. This is achieved
+ * through a call to the `com_ajax` component.
  *
  * @since __DEPLOY_VERSION__
  */
@@ -106,7 +110,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Runs the scheduler, allowing execution of a single due task
+	 * Runs the scheduler, allowing execution of a single due task.
 	 *
 	 * @return void
 	 *
@@ -115,6 +119,15 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function runScheduler(): void
 	{
+		$protected   = (bool) $this->schedulerConfig->get('lazy_scheduler.protected', 0);
+		$hash        = $this->schedulerConfig->get('lazy_scheduler.hash', '');
+		$requestHash = $this->app->getInput()->get('scheduler_hash');
+
+		if ($protected && $hash !== $requestHash)
+		{
+			return;
+		}
+
 		(new Scheduler)->runTask();
 	}
 }
