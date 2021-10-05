@@ -18,8 +18,10 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 $lang = $app->getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
+$autofocus  = $params->get('autofocus', '');
+
 $input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
-	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
+	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '" '.$autofocus.'>';
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'visually-hidden ' : '') . 'finder';
