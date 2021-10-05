@@ -593,7 +593,17 @@ abstract class ModuleHelper
 
 		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
 		{
-			return \call_user_func_array([$cacheparams->class, $cacheparams->method], $cacheparams->methodparams);
+			$args =& $cacheparams->methodparams;
+			if (!\is_array($args))
+			{
+				$referenceArgs = !empty($args) ? [&$args] : [];
+			}
+			else
+			{
+				$referenceArgs = &$args;
+			}
+
+			return \call_user_func_array([$cacheparams->class, $cacheparams->method], $referenceArgs);
 		}
 
 		if (!isset($cacheparams->modeparams))
