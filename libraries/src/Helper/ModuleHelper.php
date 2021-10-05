@@ -594,6 +594,7 @@ abstract class ModuleHelper
 		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$args =& $cacheparams->methodparams;
+			
 			if (!\is_array($args))
 			{
 				$referenceArgs = !empty($args) ? [&$args] : [];
