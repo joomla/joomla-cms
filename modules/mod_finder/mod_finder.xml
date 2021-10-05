@@ -104,7 +104,7 @@
 					label="MOD_FINDER_FIELD_AUTOFOCUS_LABEL"
 					>
 					<option value="">JNO</option>
-					<option value="autofocus">JYES</option>
+					<option value=" autofocus">JYES</option>
 				</field>
 
 				<field
