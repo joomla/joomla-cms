@@ -98,6 +98,18 @@
 				</field>
 
 				<field
+					name="autofocus"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_FINDER_AUTOFOCUS_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="opensearch_name"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
