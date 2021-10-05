@@ -12,16 +12,14 @@
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
-use function defined;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
 /**
  * MVC Model for SelectView

@@ -12,13 +12,12 @@
 namespace Joomla\Component\Scheduler\Administrator\Rule;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Form\Rule\OptionsRule;
 use Joomla\Registry\Registry;
-use SimpleXMLElement;
 
 /**
  * The ExecutionRulesRule Class.
@@ -53,7 +52,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
+	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
 	{
 		$fieldName = (string) $element['name'];
 		$ruleType = $input->get(self::RULE_TYPE_FIELD);
@@ -76,7 +75,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function validateField(SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
+	private function validateField(\SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
 	{
 		$elementType = (string) $element['type'];
 
