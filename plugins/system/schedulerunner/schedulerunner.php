@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.ScheduleRunner
+ * @package     Joomla.Plugin
+ * @subpackage  System.ScheduleRunner
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Restrict direct access
@@ -17,8 +17,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
-use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 /**
  * The plugin class for Plg_System_Schedulerunner.
@@ -33,6 +33,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $app;
 
+	/**
+	 * @var  Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $schedulerConfig;
 
 	/**
 	 * Override parent constructor.
@@ -45,6 +50,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function __construct(&$subject, $config = [])
 	{
+		$this->schedulerConfig = ComponentHelper::getParams('com_scheduler');
 
 		parent::__construct($subject, $config);
 	}
@@ -58,52 +64,45 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public static function getSubscribedEvents(): array
 	{
-		// Make sure com_scheduler is installed and enabled
-		if (!ComponentHelper::isEnabled('com_scheduler'))
-		{
-			return [];
-		}
+		$config = ComponentHelper::getParams('com_scheduler');
 
-		// Make sure lazy scheduling is enabled
-		if (!ComponentHelper::getParams('com_scheduler')->get('lazy_scheduler.enabled', true))
+		// Make sure com_scheduler is installed and enabled, lazy scheduling is enabled
+		if (!(ComponentHelper::isEnabled('com_scheduler')
+			&& $config->get('lazy_scheduler.enabled', true)))
 		{
 			return [];
 		}
 
 		return [
-			'onBeforeRender' => ['registerRunner', Priority::MAX]
+			'onAjaxRunScheduler'  => 'runScheduler',
+			'onBeforeCompileHead' => 'injectScheduleRunner'
 		];
 	}
 
 	/**
-	 * @param   Event  $event  The onBeforeRender event
+	 * @param   Event  $event  The onBeforeCompileHead event.
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function registerRunner(Event $event): void
+	public function injectScheduleRunner(Event $event): void
 	{
-		$config = ComponentHelper::getParams('com_scheduler');
-		$protected = (bool) $config->get('lazy_scheduler.protected', 0);
-		$hash = $config->get('lazy_scheduler.hash', '');
+		// Inject JS only if scheduler is not protected
+		if ($this->schedulerConfig->get('lazy_scheduler.protected', false))
+		{
+			return;
+		}
 
-		$requestHash = $this->app->getInput()->get('scheduler_hash');
-
-		// We only act on site requests [@todo allow admin]
+		// Only site requests [@todo allow admin]
 		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
 
-		// If scheduler is protected, we only proceed if the hash is right.
-		if ($protected && $hash != $requestHash)
-		{
-			return;
-		}
-
-		register_shutdown_function([$this, 'runScheduler']);
+		$wa = $this->app->getDocument()->getWebAssetManager();
+		$wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
+		$wa->useScript('plg_system_schedulerunner.run-schedule');
 	}
 
 	/**
