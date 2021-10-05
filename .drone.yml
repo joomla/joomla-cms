@@ -696,34 +696,7 @@ steps:
     HTTP_ROOT: https://ci.joomla.org/artifacts
 
 ---
-kind: pipeline
-name: Rips
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: analysis310x
-  image: rips/rips-cli:3.2.2
-  commands:
-  - export RIPS_BASE_URI='https://api.rips.joomla.org'
-  - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-  - rips-cli rips:scan:start --progress --application=3 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-  environment:
-    RIPS_EMAIL:
-      from_secret: RIPS_EMAIL
-    RIPS_PASSWORD:
-      from_secret: RIPS_PASSWORD
-  when:
-    branch:
-    - 3.10-dev
-    repo:
-    - joomla/joomla-cms
-    - joomla/cms-security
-
----
 kind: signature
-hmac: 5692462a9c53cd5937db302a216ba95f3367ff58c2269565a215587198352276
+hmac: 3c5994d3c3278a6443da81dbed98b9f3d0abfdfa1dba4c1f20a2372bb6c3cfa5
 
 ...
