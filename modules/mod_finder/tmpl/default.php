@@ -21,7 +21,7 @@ $lang->load('com_finder', JPATH_SITE);
 $autofocus  = $params->get('autofocus', '');
 
 $input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '" '
-	. $autofocus.' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
+	. $autofocus . ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'visually-hidden ' : '') . 'finder';
