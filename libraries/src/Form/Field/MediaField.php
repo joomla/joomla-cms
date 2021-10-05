@@ -342,7 +342,7 @@ class MediaField extends FormField
 				',',
 				ComponentHelper::getParams('com_media')->get(
 					'image_extensions',
-					'bmp,gif,jpg,jpeg,png,webp,avif,heic'
+					'bmp,gif,jpg,jpeg,png,webp'
 				)
 			)
 		);
