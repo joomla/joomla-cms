@@ -2,13 +2,11 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((document) => {
-  'use strict';
 
-  /*
+/*
    * JField 'showon' class
    */
-  class Showon {
+class Showon {
     /*
      * Constructor
      *
@@ -129,14 +127,14 @@
 
           // Test in each of the elements in the field array if condition is valid
           this.fields[key].origin.forEach((originField) => {
-            if (originField.name !== elementShowonData.field) {
+          if (originField.name.replace('[]', '') !== elementShowonData.field ) {
               return;
             }
 
             const originId = originField.id;
 
             // If checkbox or radio box the value is read from properties
-            if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
+          if (originField.getAttribute('type') && ['checkbox', 'radio'].includes(originField.getAttribute('type').toLowerCase())) {
               if (!originField.checked) {
                 // Unchecked fields will return a blank and so always match
                 // a != condition so we skip them
@@ -144,6 +142,8 @@
               }
 
               itemval = document.getElementById(originId).value;
+          } else if (originField.nodeName === 'SELECT' && originField.hasAttribute('multiple')) {
+            itemval = Array.from(originField.querySelectorAll('option:checked')).map(el => el.value);
             } else {
               // Select lists, text-area etc. Note that multiple-select list returns
               // an Array here s0 we can always treat 'itemval' as an array
@@ -208,24 +208,24 @@
         }
       });
     }
-  }
+}
 
-  // Provide a public API
-  window.Joomla = window.Joomla || {};
-
-  if (!Joomla.Showon) {
+if (!window.Joomla) {
+  throw new Error('Joomla API is not properly initialized');
+}
+// Provide a public API
+if (!Joomla.Showon) {
     Joomla.Showon = {
       initialise: (container) => new Showon(container),
     };
-  }
+}
 
-  /**
+/**
    * Initialize 'showon' feature at an initial page load
    */
-  document.addEventListener('DOMContentLoaded', () => {
-    Joomla.Showon.initialise(document);
-  });
+Joomla.Showon.initialise(document);
 
+  /**
   /**
    * Search for matching parents
    *
@@ -250,9 +250,10 @@
   };
 
   /**
+/**
    * Initialize 'showon' feature when part of the page was updated
    */
-  document.addEventListener('joomla:updated', ({ target }) => {
+document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
@@ -267,17 +268,16 @@
           replace.push(`[${$parent.dataset.group}]`);
         });
 
-        // Fix showon field names in a current group
-        elements.forEach((element) => {
+      // Fix showon field names in a current group
+      elements.forEach((element) => {
           let { showon } = element.dataset;
           search.forEach((pattern, i) => {
             showon = showon.replace(pattern, replace[i]);
           });
-          element.dataset.showon = showon;
-        });
-      }
+        element.dataset.showon = showon;
+      });
+    }
     }
 
     Joomla.Showon.initialise(target);
-  });
-})(document);
+});
