@@ -98,16 +98,6 @@
 				</field>
 
 				<field
-					name="autofocus"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="MOD_FINDER_FIELD_AUTOFOCUS_LABEL"
-					>
-					<option value="">JNO</option>
-					<option value="autofocus">JYES</option>
-				</field>
-
-				<field
 					name="opensearch_name"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
@@ -140,6 +130,16 @@
 					rows="3"
 					validate="CssIdentifier"
 				/>
+
+				<field
+					name="autofocus"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_FINDER_FIELD_AUTOFOCUS_LABEL"
+					>
+					<option value="">JNO</option>
+					<option value="autofocus">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
