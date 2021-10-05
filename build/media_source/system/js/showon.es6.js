@@ -3,15 +3,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/*
-  * JField 'showon' class
-  */
+/**
+ * JField 'showon' class
+ */
 class Showon {
-  /*
-    * Constructor
-    *
-    * @param {HTMLElement} cont Container element
-    */
+  /**
+   * Constructor
+   *
+   * @param {HTMLElement} cont Container element
+   */
   constructor(cont) {
     const self = this;
     this.container = cont || document;
@@ -225,31 +225,29 @@ if (!Joomla.Showon) {
  */
 Joomla.Showon.initialise(document);
 
-  /**
-  /**
-   * Search for matching parents
-   *
-   * @param {HTMLElement} $child
-   * @param {String} selector
-   * @returns {HTMLElement[]}
-   */
-  const getMatchedParents = ($child, selector) => {
-    let $parent = $child;
-    let $matchingParent;
-    const parents = [];
+/**
+ * Search for matching parents
+ *
+ * @param {HTMLElement} $child
+ * @param {String} selector
+ * @returns {HTMLElement[]}
+ */
+const getMatchedParents = ($child, selector) => {
+  let $parent = $child;
+  let $matchingParent;
+  const parents = [];
 
-    while ($parent) {
-      $matchingParent = $parent.matches && $parent.matches(selector) ? $parent : null;
-      if ($matchingParent) {
-        parents.unshift($matchingParent);
-      }
-      $parent = $parent.parentNode;
+  while ($parent) {
+    $matchingParent = $parent.matches && $parent.matches(selector) ? $parent : null;
+    if ($matchingParent) {
+      parents.unshift($matchingParent);
     }
+    $parent = $parent.parentNode;
+  }
 
-    return parents;
-  };
+  return parents;
+};
 
-  /**
 /**
  * Initialize 'showon' feature when part of the page was updated
  */
@@ -258,26 +256,26 @@ document.addEventListener('joomla:updated', ({ target }) => {
   if (target.classList.contains('subform-repeatable-group')) {
     const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
 
-      if (elements.length) {
-        const search = [];
-        const replace = [];
+    if (elements.length) {
+      const search = [];
+      const replace = [];
 
-        // Collect all parent groups of changed group
-        getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
-          search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
-          replace.push(`[${$parent.dataset.group}]`);
+      // Collect all parent groups of changed group
+      getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
+        search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
+        replace.push(`[${$parent.dataset.group}]`);
+      });
+
+      // Fix showon field names in a current group
+      elements.forEach((element) => {
+        let { showon } = element.dataset;
+        search.forEach((pattern, i) => {
+          showon = showon.replace(pattern, replace[i]);
         });
-
-    // Fix showon field names in a current group
-    elements.forEach((element) => {
-          let { showon } = element.dataset;
-          search.forEach((pattern, i) => {
-            showon = showon.replace(pattern, replace[i]);
-          });
-      element.dataset.showon = showon;
-    });
-  }
+        element.dataset.showon = showon;
+      });
     }
+  }
 
   Joomla.Showon.initialise(target);
 });
