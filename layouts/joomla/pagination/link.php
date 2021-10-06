@@ -91,7 +91,7 @@ else
 <?php elseif (isset($item->active) && $item->active) : ?>
 	<?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
 	<li class="<?php echo $class; ?> page-item">
-		<span aria-current="true" aria-label="<?php echo $aria; ?>" class="page-link"><?php echo $display; ?></span>
+		<span aria-current="true" class="hidden"><?php echo $aria; ?></span><span aria-hidden="true" class="page-link"><?php echo $display; ?></span>
 	</li>
 <?php else : ?>
 	<li class="<?php echo $class; ?> page-item">
