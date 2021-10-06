@@ -65,7 +65,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 	?>
 	<?php if ($multiple) : ?>
 	<template class="subform-repeatable-template-section hidden"><?php
-		echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)));
+		echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . '0', 'buttons' => $buttons)));
 	?></template>
 	<?php endif; ?>
 	</joomla-field-subform>
