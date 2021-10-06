@@ -15,7 +15,7 @@ $list = $displayData['list'];
 
 ?>
 <nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-	<ul class="pagination ms-0 mb-4">
+	<ol class="pagination ms-0 mb-4">
 		<?php echo $list['start']['data']; ?>
 		<?php echo $list['previous']['data']; ?>
 
@@ -25,5 +25,5 @@ $list = $displayData['list'];
 
 		<?php echo $list['next']['data']; ?>
 		<?php echo $list['end']['data']; ?>
-	</ul>
+	</ol>
 </nav>
