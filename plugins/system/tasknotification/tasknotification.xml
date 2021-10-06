@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="4.1" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_TASK_NOTIFICATION</name>
+	<name>plg_system_task_notification</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2021</creationDate>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt
-	</license>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_SYSTEM_TASK_NOTIFICATION_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tasknotification">tasknotification.php</filename>
+		<folder>language</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_system_tasknotification.ini
-		</language>
-		<language tag="en-GB">language/en-GB/plg_system_tasknotification.sys.ini
-		</language>
+		<language tag="en-GB">language/en-GB/plg_system_tasknotification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_tasknotification.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,7 +26,7 @@
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_SUCCESS_MAIL_TOGGLE"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
-				>
+					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
@@ -35,7 +36,7 @@
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_FAILURE_MAIL_TOGGLE"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
-				>
+					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
@@ -45,7 +46,7 @@
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_FATAL_FAILURE_MAIL_TOGGLE"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
-				>
+					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
@@ -55,7 +56,7 @@
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_ORPHANED_TASK_MAIL_TOGGLE"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
-				>
+					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
