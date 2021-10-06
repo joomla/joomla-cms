@@ -9,166 +9,220 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_LDAP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Authentication\Ldap</namespace>
 	<files>
+		<folder>field</folder>
 		<filename plugin="ldap">ldap.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/plg_authentication_ldap.ini</language>
-		<language tag="en-GB">language/en-GB/plg_authentication_ldap.sys.ini</language>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_authentication_ldap.ini</language>
+		<language tag="en-GB">en-GB/plg_authentication_ldap.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Plugin\Authentication\Ldap\Field">
+
 				<field
-					name="host"
+					name="note_connection"
+					type="note"
+					label="PLG_LDAP_NOTE_CONNECTION_LABEL"
+				/>
+				
+				<field
+					name="conn_host"
 					type="text"
-					label="PLG_LDAP_FIELD_HOST_LABEL"
+					label="PLG_LDAP_FIELD_CONN_HOST_LABEL"
+					description="PLG_LDAP_FIELD_CONN_HOST_DESC"
 					size="20"
+					required="true"
 				/>
 
 				<field
-					name="port"
+					name="conn_port"
 					type="number"
-					label="PLG_LDAP_FIELD_PORT_LABEL"
-					min="1"
+					label="PLG_LDAP_FIELD_CONN_PORT_LABEL"
+					description="PLG_LDAP_FIELD_CONN_PORT_DESC"
+					min="0"
 					max="65535"
-					default="389"
-					hint="389"
+					default="0"
 					validate="number"
 					filter="integer"
 					size="5"
 				/>
 
 				<field
-					name="use_ldapV3"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_LDAP_FIELD_V3_LABEL"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="negotiate_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="ignore_reqcert_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
-					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="no_referrals"
-					type="radio"
-					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="auth_method"
+					name="conn_version"
 					type="list"
-					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
-					default="bind"
+					label="PLG_LDAP_FIELD_CONN_VERSION_LABEL"
+					default="3"
 					validate="options"
 					>
-					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
-					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
+					<option value="3">PLG_LDAP_FIELD_CONN_VERSION_3</option>
+				</field>
+				
+				<field
+					name="conn_encryption"
+					type="list"
+					label="PLG_LDAP_FIELD_CONN_ENCRIPTION_LABEL"
+					default="none"
+					validate="options"
+					>
+					<option value="none">PLG_LDAP_FIELD_CONN_ENCRIPTION_NONE</option>
+					<option value="ssl">PLG_LDAP_FIELD_CONN_ENCRIPTION_SSL</option>
+					<option value="tls">PLG_LDAP_FIELD_CONN_ENCRIPTION_TLS</option>
 				</field>
 
+				<field
+					name="conn_referrals"
+					type="radio"
+					label="PLG_LDAP_FIELD_CONN_REFERRALS_LABEL"
+					description="PLG_LDAP_FIELD_CONN_REFERRALS_DESC"
+					default="0"
+					filter="integer"
+					layout="joomla.form.field.radio.switcher"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="note_bind"
+					type="note"
+					label="PLG_LDAP_NOTE_BIND_LABEL"
+				/>
+
+				<field
+					name="bind_method"
+					type="list"
+					label="PLG_LDAP_FIELD_BIND_METHOD_LABEL"
+					default="direct"
+					validate="options"
+					>
+					<option value="direct">PLG_LDAP_FIELD_BIND_METHOD_DIRECT</option>
+					<option value="search">PLG_LDAP_FIELD_BIND_METHOD_SEARCH</option>
+				</field>
+				
+				<field
+					name="bind_search_dn"
+					type="text"
+					label="PLG_LDAP_FIELD_BIND_SEARCH_DN_LABEL"
+					description="PLG_LDAP_FIELD_BIND_SEARCH_DN_DESC"
+					size="20"
+					showon="bind_method:search"
+				/>
+
+				<field
+					name="bind_search_pwd"
+					type="password"
+					label="PLG_LDAP_FIELD_BIND_SEARCH_PWD_LABEL"
+					description="PLG_LDAP_FIELD_BIND_SEARCH_PWD_DESC"
+					size="20"
+					showon="bind_method:search"
+				/>
+				
+				<field
+					name="bind_allow_direct"
+					type="radio"
+					label="PLG_LDAP_FIELD_BIND_ALLOW_DIRECT_LABEL"
+					description="PLG_LDAP_FIELD_BIND_ALLOW_DIRECT_DESC"
+					default="0"
+					filter="integer"
+					layout="joomla.form.field.radio.switcher"
+					showon="bind_method:search"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="bind_dn_suffix"
+					type="text"
+					label="PLG_LDAP_FIELD_BIND_DN_SUFFIX_LABEL"
+					description="PLG_LDAP_FIELD_BIND_DN_SUFFIX_DESC"
+					size="20"
+					showon="bind_method:direct"
+				/>
+				
+				<field
+					name="bind_domains"
+					type="text"
+					label="PLG_LDAP_FIELD_BIND_ALLOWED_DOMAINS_LABEL"
+					description="PLG_LDAP_FIELD_BIND_ALLOWED_DOMAINS_DESC"
+					size="20"
+					showon="bind_method:direct[OR]bind_allow_direct:1"
+				/>
+				
+				<field
+					name="note_search"
+					type="note"
+					label="PLG_LDAP_NOTE_SEARCH_LABEL"
+				/>
+				
 				<field
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
+					description="PLG_LDAP_FIELD_BASEDN_DESC"
 					size="20"
+					required="true"
 				/>
-
+				
 				<field
-					name="search_string"
+					name="search_strings"
 					type="text"
-					label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
-					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
+					label="PLG_LDAP_FIELD_SEARCH_STRINGS_LABEL"
+					description="PLG_LDAP_FIELD_SEARCH_STRINGS_DESC"
 					size="20"
+					required="true"
 				/>
 
 				<field
-					name="users_dn"
+					name="note_mapping"
+					type="note"
+					label="PLG_LDAP_NOTE_MAPPING_LABEL"
+				/>
+
+				<field
+					name="fullname_scheme"
 					type="text"
-					label="PLG_LDAP_FIELD_USERSDN_LABEL"
-					description="PLG_LDAP_FIELD_USERSDN_DESC"
+					label="PLG_LDAP_FIELD_FULLNAME_SCHEME_LABEL"
+					description="PLG_LDAP_FIELD_FULLNAME_SCHEME_DESC"
+					hint="PLG_LDAP_FIELD_FULLNAME_SCHEME_HINT"
+					default=""
 					size="20"
 				/>
-
+				
 				<field
-					name="username"
+					name="attr_uid"
 					type="text"
-					label="PLG_LDAP_FIELD_USERNAME_LABEL"
-					description="PLG_LDAP_FIELD_USERNAME_DESC"
+					label="PLG_LDAP_FIELD_ATTR_UID_LABEL"
+					description="PLG_LDAP_FIELD_ATTR_UID_DESC"
+					hint="PLG_LDAP_FIELD_ATTR_UID_HINT"
+					default=""
 					size="20"
 				/>
 
 				<field
-					name="password"
-					type="password"
-					label="PLG_LDAP_FIELD_PASSWORD_LABEL"
-					description="PLG_LDAP_FIELD_PASSWORD_DESC"
-					size="20"
-				/>
-
-				<field
-					name="ldap_fullname"
+					name="attr_email"
 					type="text"
-					label="PLG_LDAP_FIELD_FULLNAME_LABEL"
-					description="PLG_LDAP_FIELD_FULLNAME_DESC"
-					default="fullName"
+					label="PLG_LDAP_FIELD_ATTR_EMAIL_LABEL"
+					description="PLG_LDAP_FIELD_ATTR_EMAIL_DESC"
+					hint="PLG_LDAP_FIELD_ATTR_EMAIL_HINT"
+					default=""
 					size="20"
 				/>
-
+				
 				<field
-					name="ldap_email"
-					type="text"
-					label="PLG_LDAP_FIELD_EMAIL_LABEL"
-					description="PLG_LDAP_FIELD_EMAIL_DESC"
-					default="mail"
-					size="20"
+					name="note_misc"
+					type="note"
+					label="PLG_LDAP_NOTE_MISC_LABEL"
 				/>
-
-				<field
-					name="ldap_uid"
-					type="text"
-					label="PLG_LDAP_FIELD_UID_LABEL"
-					description="PLG_LDAP_FIELD_UID_DESC"
-					default="uid"
-					size="20"
-				/>
+				
 				<field
 					name="ldap_debug"
 					type="radio"
-					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
-					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
+					label="PLG_LDAP_FIELD_MISC_LDAP_DEBUG_LABEL"
+					description="PLG_LDAP_FIELD_MISC_LDAP_DEBUG_DESC"
 					default="0"
 					filter="integer"
 					layout="joomla.form.field.radio.switcher"
@@ -176,6 +230,39 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				
+				<field
+					name="note_test"
+					type="note"
+					label="PLG_LDAP_NOTE_TEST_LABEL"
+				/>
+				
+				<field
+					name="test_username"
+					type="text"
+					label="PLG_LDAP_FIELD_TEST_USERNAME_LABEL"
+					default=""
+					size="20"
+					autocomplete="off"
+					filter="unset"
+				/>
+				
+				<field
+					name="test_password"
+					type="password"
+					label="PLG_LDAP_FIELD_TEST_PASSWORD_LABEL"
+					default=""
+					size="20"
+					autocomplete="off"
+					filter="unset"
+				/>
+				
+				<field
+					name="test_btn"
+					type="TestConnection"
+					label=""
+				/>
+				
 			</fieldset>
 		</fields>
 	</config>
