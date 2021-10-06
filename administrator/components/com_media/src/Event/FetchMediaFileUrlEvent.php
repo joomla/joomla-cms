@@ -11,57 +11,94 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\AbstractEvent;
+use BadMethodCallException;
+use Joomla\CMS\Event\AbstractImmutableEvent;
 
 /**
  * Event object to set an url.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FetchMediaFileUrlEvent extends AbstractEvent
+final class FetchMediaFileUrlEvent extends AbstractImmutableEvent
 {
-	/**
-	 * @var string
-	 * @since __DEPLOY_VERSION__
-	 */
-	private $url;
-
 	/**
 	 * Constructor.
 	 *
-	 * @param   string  $name  The event name.
-	 * @param   string  $url   The url.
+	 * @param   string  $name       The event name.
+	 * @param   array   $arguments  The event arguments.
+	 *
+	 * @throws  BadMethodCallException
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($name, string $url)
+	public function __construct($name, array $arguments = array())
 	{
-		parent::__construct($name, []);
+		// Check for required arguments
+		if (!\array_key_exists('adapter', $arguments) || !is_string($arguments['adapter']))
+		{
+			throw new BadMethodCallException("Argument 'adapter' of event $name is not of the expected type");
+		}
 
-		$this->url = $url;
+		$this->arguments[$arguments['adapter']] = $arguments['adapter'];
+		unset($arguments['adapter']);
+
+		// Check for required arguments
+		if (!\array_key_exists('path', $arguments) || !is_string($arguments['path']))
+		{
+			throw new BadMethodCallException("Argument 'path' of event $name is not of the expected type");
+		}
+
+		$this->arguments[$arguments['path']] = $arguments['path'];
+		unset($arguments['path']);
+
+		// Check for required arguments
+		if (!\array_key_exists('url', $arguments) || !is_string($arguments['url']))
+		{
+				throw new BadMethodCallException("Argument 'url' of event $name is not of the expected type");
+		}
+
+		parent::__construct($name, $arguments);
 	}
 
 	/**
-	 * Returns the event url.
+	 * Validate $value to be a string
 	 *
-	 * @return stdClass
+	 * @param   string  $value  The value to set
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getUrl(): string
+	protected function setUrl(string $value): string
 	{
-		return $this->url;
+		return $value;
 	}
 
 	/**
-	 * Sets the event url.
+	 * Forbid setting $path
 	 *
-	 * @param stdClass
+	 * @param   string  $value  The value to set
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws BadMethodCallException
 	 */
-	public function setUrl(string $url): void
+	protected function setPath(string $value): string
 	{
-		$this->url = $url;
+		throw new BadMethodCallException('Cannot set the argument "path" of the immutable event ' . $this->name . '.');
+	}
+
+	/**
+	 * Forbid setting $path
+	 *
+	 * @param   string  $value  The value to set
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws BadMethodCallException
+	 */
+	protected function setAdapter(string $value): string
+	{
+		throw new BadMethodCallException('Cannot set the argument "adapter" of the immutable event ' . $this->name . '.');
 	}
 }
