@@ -1,13 +1,13 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** Implements the Table class for com_scheduler.tasks. */
+/** phpcs:disable Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps,Joomla.NamingConventions.ValidVariableName.ClassVarHasUnderscore,Joomla.NamingConventions.ValidFunctionName.MethodUnderscore */
 
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
@@ -15,18 +15,21 @@ namespace Joomla\Component\Scheduler\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
 /**
- * The main DB Table class for com_scheduler
+ * Table class for tasks scheduled through `com_scheduler`.
+ * The type alias for Task table entries is `com_scheduler.task`.
  *
  * @since  __DEPLOY_VERSION__
  */
 class TaskTable extends Table
 {
 	/**
-	 * Ensure params are json encoded by the bind method
+	 * Ensure params are json encoded by the bind method.
 	 *
 	 * @var string[]
 	 * @since  __DEPLOY_VERSION__
@@ -34,7 +37,7 @@ class TaskTable extends Table
 	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
 
 	/**
-	 * Injected into the 'created' column
+	 * The 'created' column.
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -42,7 +45,7 @@ class TaskTable extends Table
 	public $created;
 
 	/**
-	 * Injected into the 'title' column
+	 * The 'title' column.
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -50,29 +53,31 @@ class TaskTable extends Table
 	public $title;
 
 	/**
-	 * TaskTable constructor.
-	 * Just passes the DB table name and primary key name to the parent constructor.
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $typeAlias = 'com_scheduler.task';
+
+
+	/**
+	 * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object (?)
+	 * @param   DatabaseDriver  $db  A database connector object.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_scheduler.task';
-		$this->created   = Factory::getDate()->toSql();
-
 		$this->setColumnAlias('published', 'state');
 
 		parent::__construct('#__scheduler_tasks', 'id', $db);
 	}
 
 	/**
-	 * Overloads the parent check function.
-	 * Performs sanity checks on properties to make
-	 * sure they're safe to store in the DB.
+	 * Overloads {@see Table::check()} to perform sanity checks on properties and make sure they're
+	 * safe to store.
 	 *
-	 * @return boolean  True if checks were successful
+	 * @return boolean  True if checks pass.
 	 *
 	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
@@ -105,14 +110,14 @@ class TaskTable extends Table
 	}
 
 	/**
-	 * Override parent store method.
-	 * Defaults to updating null fields.
-	 * This is needed because some datetime fields might need to be updated to null but AdminModel::save() does
-	 * not expose an option to pass true to Table::store()
+	 * Override {@see Table::store()} to update null fields as a default, which is needed when DATETIME
+	 * fields need to be updated to NULL. This override is needed because {@see AdminModel::save()} does not
+	 * expose an option to pass true to Table::store(). Also ensures the `created` and `created_by` fields are
+	 * set.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they're null
+	 * @param   boolean  $updateNulls  True to update fields even if they're null.
 	 *
-	 * @return boolean  True if successful [yes?]
+	 * @return boolean  True if successful.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws \Exception
@@ -139,9 +144,9 @@ class TaskTable extends Table
 	}
 
 	/**
-	 * Declares the assetName for the entry as in the `#__assets` table
+	 * Returns the asset name of the entry as it appears in the {@see Asset} table.
 	 *
-	 * @return string  The asset name
+	 * @return string  The asset name.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -153,9 +158,9 @@ class TaskTable extends Table
 	}
 
 	/**
-	 * Override parent bind method to bind some fields even if they're null (yet present) in $src.
-	 * This is needed specifically for datetime fields, of which `next_execution` needs to be updated
-	 * to null if a task is configured to only execute manually.
+	 * Override {@see Table::bind()} to bind some fields even if they're null given they're present in $src.
+	 * This override is needed specifically for DATETIME fields, of which the `next_execution` field is updated to
+	 * null if a task is configured to execute only on manual trigger.
 	 *
 	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
 	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
