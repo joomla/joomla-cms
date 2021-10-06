@@ -119,22 +119,21 @@ class TaskTable extends Table
 	 */
 	public function store($updateNulls = true): bool
 	{
-		$date   = Factory::getDate()->toSql();
-		$userId = Factory::getApplication()->getIdentity();
+		$isNew = empty($this->getId());
 
-		// Set creation date if not set
-		if (!(int) $this->created)
+		// Set creation date if not set for a new item.
+		if ($isNew && empty($this->created))
 		{
-			$this->created = $date;
+			$this->created = Factory::getDate()->toSql();
+		}
+
+		// Set `created_by` if not set for a new item.
+		if ($isNew && empty($this->created_by))
+		{
+			$this->created_by = Factory::getApplication()->getIdentity()->id;
 		}
 
 		// @todo : Should we add modified, modified_by fields? [ ]
-
-		// Set created_by if needed
-		if (empty($this->created_by))
-		{
-			$this->created_by = $userId;
-		}
 
 		return parent::store($updateNulls);
 	}
