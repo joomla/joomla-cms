@@ -54,8 +54,19 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
+				<?php $imgAttribs = []; ?>
+				<?php $img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image')); ?>
+				<?php if ($img->width > 0 && $img->height > 0) : ?>
+					<?php $imgAttribs['width'] = $img->width; ?>
+					<?php $imgAttribs['height'] = $img->width; ?>
+					<?php $imgAttribs['loading'] = 'lazy'; ?>
+				<?php endif; ?>
+				<?php echo HTMLHelper::_(
+					'image',
+					htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+					empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'),
+					$imgAttribs
+				); ?>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>

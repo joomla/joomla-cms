@@ -99,7 +99,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
-										<?php echo HTMLHelper::_('image', $item->image, '', array('class' => 'contact-thumbnail img-thumbnail')); ?>
+										<?php $imgAttribs = ['class' => 'contact-thumbnail img-thumbnail']; ?>
+										<?php $img = HTMLHelper::cleanImageURL($item->image); ?>
+										<?php if ($img->width > 0 && $img->height > 0) : ?>
+											<?php $imgAttribs['width'] = $img->width; ?>
+											<?php $imgAttribs['height'] = $img->width; ?>
+											<?php $imgAttribs['loading'] = 'lazy'; ?>
+										<?php endif; ?>
+										<?php echo HTMLHelper::_('image', htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'), '', $imgAttribs); ?>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php echo $this->escape($item->name); ?>

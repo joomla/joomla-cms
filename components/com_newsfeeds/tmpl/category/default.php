@@ -34,7 +34,19 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="com-newsfeeds-category__description category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>">
+				<?php $imgAttribs = []; ?>
+				<?php $img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image')); ?>
+				<?php if ($img->width > 0 && $img->height > 0) : ?>
+					<?php $imgAttribs['width'] = $img->width; ?>
+					<?php $imgAttribs['height'] = $img->width; ?>
+					<?php $imgAttribs['loading'] = 'lazy'; ?>
+				<?php endif; ?>
+				<?php echo HTMLHelper::_(
+					'image',
+					htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+					empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'),
+					$imgAttribs
+				); ?>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>

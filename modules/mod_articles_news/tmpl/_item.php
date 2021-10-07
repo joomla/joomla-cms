@@ -9,25 +9,38 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 ?>
 <?php if ($params->get('item_title')) : ?>
 
 	<?php $item_heading = $params->get('item_heading', 'h4'); ?>
 	<<?php echo $item_heading; ?> class="newsflash-title">
-	<?php if ($item->link !== '' && $params->get('link_titles')) : ?>
-		<a href="<?php echo $item->link; ?>">
+		<?php if ($item->link !== '' && $params->get('link_titles')) : ?>
+			<a href="<?php echo $item->link; ?>">
+				<?php echo $item->title; ?>
+			</a>
+		<?php else : ?>
 			<?php echo $item->title; ?>
-		</a>
-	<?php else : ?>
-		<?php echo $item->title; ?>
-	<?php endif; ?>
+		<?php endif; ?>
 	</<?php echo $item_heading; ?>>
 <?php endif; ?>
 
 <?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
-		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
+		<?php $imgAttribs = []; ?>
+		<?php $img = HTMLHelper::cleanImageURL($item->imageSrc); ?>
+		<?php if ($img->width > 0 && $img->height > 0) : ?>
+			<?php $imgAttribs['width'] = $img->width; ?>
+			<?php $imgAttribs['height'] = $img->width; ?>
+			<?php $imgAttribs['loading'] = 'lazy'; ?>
+		<?php endif; ?>
+		<?php echo HTMLHelper::_(
+			'image',
+			htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+			htmlspecialchars($item->imageAlt, ENT_COMPAT, 'UTF-8'),
+			$imgAttribs
+		); ?>
 		<?php if (!empty($item->imageCaption)) : ?>
 			<figcaption>
 				<?php echo $item->imageCaption; ?>

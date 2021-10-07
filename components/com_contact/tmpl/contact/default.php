@@ -97,11 +97,18 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 				<div class="com-contact__thumbnail thumbnail">
+					<?php $imgAttribs = ['itemprop' => 'image']; ?>
+					<?php $img = HTMLHelper::cleanImageURL($this->item->image); ?>
+					<?php if ($img->width > 0 && $img->height > 0) : ?>
+						<?php $imgAttribs['width'] = $img->width; ?>
+						<?php $imgAttribs['height'] = $img->width; ?>
+						<?php $imgAttribs['loading'] = 'lazy'; ?>
+					<?php endif; ?>
 					<?php echo HTMLHelper::_(
 						'image',
-						$this->item->image,
+						htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
 						htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'),
-						array('itemprop' => 'image')
+						$imgAttribs
 					); ?>
 				</div>
 			<?php endif; ?>
