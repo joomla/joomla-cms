@@ -12,15 +12,28 @@
       "uri": "system/core.min.js"
     },
     {
+      "name": "keepalive.es5",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/keepalive-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
+        "keepalive.es5",
         "core"
       ],
       "uri": "system/keepalive.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
