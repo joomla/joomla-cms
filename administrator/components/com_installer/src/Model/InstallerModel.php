@@ -46,6 +46,7 @@ class InstallerModel extends ListModel
 				'type', 'type_translated',
 				'folder', 'folder_translated',
 				'extension_id',
+				'creationDate',
 			);
 		}
 
@@ -72,7 +73,7 @@ class InstallerModel extends ListModel
 		$db     = $this->getDbo();
 
 		// Define which fields have to be processed in a custom way because of translation.
-		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated');
+		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate');
 
 		// Process searching, ordering and pagination for fields that need to be translated.
 		if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0))
