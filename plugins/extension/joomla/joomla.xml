@@ -2,7 +2,7 @@
 <extension type="plugin" group="extension" method="upgrade">
 	<name>plg_extension_joomla</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2010</creationDate>
+	<creationDate>2010-05</creationDate>
 	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

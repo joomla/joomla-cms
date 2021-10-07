@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_latest</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2004</creationDate>
+	<creationDate>2004-07</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

@@ -2,7 +2,7 @@
 <extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
 	<version>3.4.0</version>
-	<creationDate>December 2011</creationDate>
+	<creationDate>2011-12</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

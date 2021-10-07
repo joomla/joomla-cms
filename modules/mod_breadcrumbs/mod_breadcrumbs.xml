@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_breadcrumbs</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2006</creationDate>
+	<creationDate>2006-07</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
