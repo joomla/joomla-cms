@@ -20,7 +20,8 @@ $user      = Factory::getUser();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_templates.admin-template-toggle-assignment');
+$wa->useScript('com_templates.admin-template-toggle-assignment')
+	->useStyle('com_templates.admin-template-toggle-assignment');
 
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>

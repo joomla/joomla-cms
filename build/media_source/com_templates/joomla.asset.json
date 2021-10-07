@@ -53,6 +53,11 @@
       }
     },
     {
+      "name": "com_templates.admin-template-toggle-assignment",
+      "type": "style",
+      "uri": "com_templates/admin-template-toggle-assignment.min.css"
+    },
+    {
       "name": "com_templates.admin-template-toggle-switch.es5",
       "type": "script",
       "uri": "com_templates/admin-template-toggle-switch-es5.min.js",
