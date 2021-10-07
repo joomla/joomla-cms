@@ -1,11 +1,10 @@
 <?php
 /**
- * @package         Joomla.API
- * @subpackage      com_media
+ * @package     Joomla.API
+ * @subpackage  com_media
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see
- *                  LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Api\Model;
@@ -29,11 +28,11 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
  */
 class MediumModel extends BaseModel
 {
-
 	/**
 	 * Instance of com_media's ApiModel
 	 *
 	 * @var ApiModel
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mediaApiModel;
 
@@ -50,6 +49,7 @@ class MediumModel extends BaseModel
 	 * @return  \stdClass  A file or folder object.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  ResourceNotFound
 	 */
 	public function getItem()
 	{
@@ -87,8 +87,9 @@ class MediumModel extends BaseModel
 	 * @return  integer  The record ID on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  Save
 	 */
-	public function save($path = null)
+	public function save($path = null): int
 	{
 		$path     = $this->getState('path', '');
 		$oldPath  = $this->getState('old_path', '');
@@ -103,19 +104,19 @@ class MediumModel extends BaseModel
 
 		$resultPath = '';
 
-		// If we have a (new) path and an old path, we want to move an existing
-		// file or folder. This must be done before updating the content of a file,
-		// if also requested (see below).
+		/*
+		 * If we have a (new) path and an old path, we want to move an existing
+		 * file or folder. This must be done before updating the content of a file,
+		 * if also requested (see below).
+		 */
 		if ($path && $oldPath)
 		{
 			try
 			{
-				// ApiModel::move() (or actually LocalAdapter::move()) returns a path
-				// with leading slash.
+				// ApiModel::move() (or actually LocalAdapter::move()) returns a path with leading slash.
 				$resultPath = trim(
-					$this->mediaApiModel->move(
-						$adapterName, $oldPath, $path, $override
-					), '/'
+					$this->mediaApiModel->move($adapterName, $oldPath, $path, $override),
+					'/'
 				);
 			}
 			catch (FileNotFoundException $e)
@@ -243,8 +244,9 @@ class MediumModel extends BaseModel
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  Save
 	 */
-	public function delete()
+	public function delete(): void
 	{
 		$path = $this->getState('path', '');
 
@@ -266,5 +268,4 @@ class MediumModel extends BaseModel
 			);
 		}
 	}
-
 }

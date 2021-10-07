@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.API
- * @subpackage      com_media
+ * @package     Joomla.API
+ * @subpackage  com_media
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Api\Model;
@@ -31,12 +31,16 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 * Instance of com_media's ApiModel
 	 *
 	 * @var ApiModel
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mediaApiModel;
 
-	/*
+	/**
 	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
 	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
+	 *
+	 * @var int
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $total = 0;
 
@@ -54,7 +58,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getItems()
+	public function getItems(): array
 	{
 		// Map web service model state to com_media options.
 		$options = [
@@ -78,9 +82,11 @@ class MediaModel extends BaseModel implements ListModelInterface
 			);
 		}
 
-		// A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object.
-		// Because com_media's ApiModel does not support pagination as we know from regular ListModel
-		// derived models, we always return all retrieved items.
+		/*
+		 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object.
+		 * Because com_media's ApiModel does not support pagination as we know from regular ListModel
+		 * derived models, we always return all retrieved items.
+		 */
 		$this->total = count($files);
 
 		return $files;
@@ -93,9 +99,9 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPagination()
+	public function getPagination(): Pagination
 	{
-		return new Pagination($this->getTotal(), $this->getStart(), 0);;
+		return new Pagination($this->getTotal(), $this->getStart(), 0);
 	}
 
 	/**
@@ -107,7 +113,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getStart()
+	public function getStart(): int
 	{
 		return 0;
 	}
@@ -119,7 +125,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getTotal()
+	public function getTotal(): int
 	{
 		return $this->total;
 	}

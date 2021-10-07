@@ -47,7 +47,7 @@ class ResourceNotFoundExceptionHandler implements ExceptionHandlerInterface
 	public function handle(Exception $e)
 	{
 		$status = 404;
-		$error = ['title' => $e->getMessage() ?: 'Resource not found'];
+		$error = ['title' => 'Resource not found'];
 
 		$code = $e->getCode();
 

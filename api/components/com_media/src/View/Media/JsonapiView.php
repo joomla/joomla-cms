@@ -14,7 +14,6 @@ namespace Joomla\Component\Media\Api\View\Media;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
-use Joomla\Component\Media\Api\Helper\MediaHelper;
 
 /**
  * Media web service view
@@ -28,7 +27,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render item in the documents
 	 *
-	 * @var  array
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $fieldsToRenderItem = [
@@ -54,7 +53,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render items in the documents
 	 *
-	 * @var  array
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $fieldsToRenderList = [
@@ -80,7 +79,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * Holds the available media file adapters.
 	 *
-	 * @var   ProviderManager
+	 * @var    ProviderManager|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $providerManager = null;

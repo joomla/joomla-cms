@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.API
- * @subpackage      com_media
+ * @package     Joomla.API
+ * @subpackage  com_media
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Api\Helper;
@@ -45,13 +45,21 @@ class MediaHelper
 
 		// If we have less than 2 parts, we return a default adapter name.
 		$result['adapter'] = self::defaultAdapterName();
+
 		// If we have 1 part, we return it as the path. Otherwise we return a default path.
 		$result['path'] = count($parts) ? $parts[0] : '/';
 
 		return $result;
 	}
 
-	private static function defaultAdapterName()
+	/**
+	 * Returns the default adapter name.
+	 *
+	 * @return  string   The adapter name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function defaultAdapterName(): string
 	{
 		static $comMediaParams;
 

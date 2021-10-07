@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.API
- * @subpackage      com_media
+ * @package     Joomla.API
+ * @subpackage  com_media
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Api\Controller;
@@ -44,6 +44,7 @@ class MediaController extends ApiController
 	 * Query parameters => model state mappings
 	 *
 	 * @var  array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $listQueryModelStateMap = [
 		'path'    => [
@@ -64,6 +65,12 @@ class MediaController extends ApiController
 		],
 	];
 
+	/**
+	 * Item query parameters => model state mappings
+	 *
+	 * @var  array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private static $itemQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
@@ -112,7 +119,7 @@ class MediaController extends ApiController
 			$this->modelState->set('path', $this->input->get('path', '', 'STRING'));
 		}
 
-		// Return files (not folders) as url's.
+		// Return files (not folders) as urls.
 		if ($this->input->exists('url'))
 		{
 			$this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
@@ -153,7 +160,7 @@ class MediaController extends ApiController
 		// Display files in specific path.
 		$this->modelState->set('path', $path ?: $this->input->get('path', '', 'STRING'));
 
-		// Return files (not folders) as url's.
+		// Return files (not folders) as urls.
 		if ($this->input->exists('url'))
 		{
 			$this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
@@ -171,7 +178,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setModelState(array $mappings)
+	private function setModelState(array $mappings): void
 	{
 		foreach ($mappings as $queryName => $modelState)
 		{
@@ -189,13 +196,13 @@ class MediaController extends ApiController
 	 *
 	 * @throws  FileExistsException
 	 * @throws  InvalidPathException
+	 * @throws  InvalidParameterException
 	 * @throws  \RuntimeException
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @since   __DEPLOY_VERSION__
 	 */
-	public function add()
+	public function add(): void
 	{
 		$path = $this->input->json->get('path', '', 'STRING');
 		$content = $this->input->json->get('content', '', 'RAW');
@@ -212,7 +219,7 @@ class MediaController extends ApiController
 			$missingParameters[] = 'content';
 		}
 
-		if (count($missingParameters))
+		if (\count($missingParameters))
 		{
 			throw new InvalidParameterException(
 				Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', implode(' & ', $missingParameters))
@@ -235,7 +242,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function allowAdd($data = array())
+	protected function allowAdd($data = array()): bool
 	{
 		$user = $this->app->getIdentity();
 
@@ -254,7 +261,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function edit()
+	public function edit(): void
 	{
 		// Access check.
 		if (!$this->allowEdit())
@@ -292,12 +299,12 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = array(), $key = 'id'): bool
 	{
 		$user = $this->app->getIdentity();
 
 		// com_media's access rules contains no specific update rule.
-		return $user->authorise('core.create', 'com_media');
+		return $user->authorise('core.edit', 'com_media');
 	}
 
 	/**
@@ -309,7 +316,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function save($recordKey = null)
+	protected function save($recordKey = null): int
 	{
 		// Explicitly get the single item model name.
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
@@ -326,7 +333,7 @@ class MediaController extends ApiController
 			$this->checkContent();
 		}
 
-		// If there is no content, com_media's assumes the path refers to a folder.
+		// If there is no content, com_media assumes the path refers to a folder.
 		$this->modelState->set('content', $content);
 
 		return $model->save();
@@ -341,7 +348,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function checkContent()
+	private function checkContent(): void
 	{
 		$params       = ComponentHelper::getParams('com_media');
 		$helper       = new \Joomla\CMS\Helper\MediaHelper();
@@ -368,7 +375,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function delete($id = null)
+	public function delete($id = null): void
 	{
 		if (!$this->allowDelete())
 		{
@@ -392,7 +399,7 @@ class MediaController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function allowDelete()
+	protected function allowDelete(): bool
 	{
 		$user = $this->app->getIdentity();
 
