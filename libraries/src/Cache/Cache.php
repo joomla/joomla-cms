@@ -672,6 +672,39 @@ class Cache
 				{
 					if (isset($options['headerbefore'][$now]))
 					{
+						// Special treatment for assets.
+						if ($now === 'assetManager')
+						{
+							// Registry files
+							if (!empty($headnow['assetManager']['registryFiles']))
+							{
+								if (empty($options['headerbefore']['assetManager']['registryFiles']))
+								{
+									$cached['head']['assetManager']['registryFiles'] = $headnow['assetManager']['registryFiles'];
+								}
+								else
+								{
+									$cached['head']['assetManager']['registryFiles'] = array_diff(
+										$headnow['assetManager']['registryFiles'],
+										$options['headerbefore']['assetManager']['registryFiles']);
+								}
+							}
+
+							// Assets
+							foreach ($headnow['assetManager']['assets'] as $type => $typeAssets)
+							{
+								foreach ($typeAssets as $assetName => $assetItem)
+								{
+									if (!isset($options['headerbefore']['assetManager']['assets'][$type][$assetName]))
+									{
+										$cached['head']['assetManager']['assets'][$type][$assetName] = $assetItem;
+									}
+								}
+							}
+
+							continue;
+						}
+
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
 						$nowvalue    = array_map('serialize', $headnow[$now]);
 						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
