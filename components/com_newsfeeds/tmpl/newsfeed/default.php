@@ -126,7 +126,7 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php endif; ?>
 				<?php echo HTMLHelper::_(
 					'image',
-					htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
 					htmlspecialchars($this->rssDoc->image->title, ENT_COMPAT, 'UTF-8'),
 					$imgAttribs
 				); ?>
