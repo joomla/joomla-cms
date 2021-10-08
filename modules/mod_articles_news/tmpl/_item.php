@@ -37,7 +37,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 		<?php endif; ?>
 		<?php echo HTMLHelper::_(
 			'image',
-			htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+			htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
 			htmlspecialchars($item->imageAlt, ENT_COMPAT, 'UTF-8'),
 			$imgAttribs
 		); ?>
