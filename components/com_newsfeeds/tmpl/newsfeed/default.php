@@ -66,7 +66,7 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php $img = HTMLHelper::cleanImageURL($images->image_first); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->width; ?>
+					<?php $imgAttribs['height'] = $img->height; ?>
 					<?php $imgAttribs['loading'] = 'lazy'; ?>
 				<?php endif; ?>
 				<?php if ($images->image_first_caption) : ?>
