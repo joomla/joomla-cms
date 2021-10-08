@@ -21,4 +21,30 @@ use Codeception\Module;
  */
 class Api extends Module
 {
+	/**
+	 * Creates a user for API authentication and returns a bearer token.
+	 *
+	 * @return  string  The token
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getBearerToken(): string
+	{
+		/** @var JoomlaDb $db */
+		$db = $this->getModule('Helper\\JoomlaDb');
+
+		$desiredUserId = 3;
+
+		if (!$db->grabFromDatabase('users', 'id', ['id' => $desiredUserId]))
+		{
+			$db->haveInDatabase('users', ['id' => $desiredUserId, 'name' => 'API', 'email' => 'api@example.com', 'username' => 'api', 'password' => '123', 'block' => 0], []);
+			$db->haveInDatabase('user_usergroup_map', ['user_id' => $desiredUserId, 'group_id' => 8]);
+			$enabledData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
+			$tokenData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
+			$db->haveInDatabase('user_profiles', $enabledData);
+			$db->haveInDatabase('user_profiles', $tokenData);
+		}
+
+		return 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==';
+	}
 }
