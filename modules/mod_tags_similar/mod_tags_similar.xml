@@ -43,7 +43,7 @@
 					validate="options"
 					>
 					<option value="all">MOD_TAGS_SIMILAR_FIELD_ALL</option>
-					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE</option>
+					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE_TAG</option>
 					<option value="half">MOD_TAGS_SIMILAR_FIELD_HALF</option>
 				</field>
 
