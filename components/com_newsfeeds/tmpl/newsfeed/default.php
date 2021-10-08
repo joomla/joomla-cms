@@ -121,7 +121,7 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php $img = HTMLHelper::cleanImageURL($this->rssDoc->image->uri); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->width; ?>
+					<?php $imgAttribs['height'] = $img->height; ?>
 					<?php $imgAttribs['loading'] = 'lazy'; ?>
 				<?php endif; ?>
 				<?php echo HTMLHelper::_(
