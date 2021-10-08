@@ -103,7 +103,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 										<?php $img = HTMLHelper::cleanImageURL($item->image); ?>
 										<?php if ($img->width > 0 && $img->height > 0) : ?>
 											<?php $imgAttribs['width'] = $img->width; ?>
-											<?php $imgAttribs['height'] = $img->width; ?>
+											<?php $imgAttribs['height'] = $img->height; ?>
 											<?php $imgAttribs['loading'] = 'lazy'; ?>
 										<?php endif; ?>
 										<?php echo HTMLHelper::_('image', htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'), '', $imgAttribs); ?>
