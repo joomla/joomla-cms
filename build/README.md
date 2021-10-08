@@ -8,10 +8,10 @@ The responsibilities of these tools are:
 - Do any transformations on the copied files.
 - Update the version numbers on the XML files of the TinyMCE and CodeMirror editors.
 - Copy files from the `build/media_source` folder to the `media` folder.
-- Transform any modern JS to both ES2017 and transpile it to ES5.
+- Transform any modern JS to ES2017 and transpile it to ES5.
 - Transform any SCSS file to the respective CSS file.
 
-For some of these operations, some conventions were established to simplify and speed up the process.
+For some of these operations, conventions were established to simplify and speed up the process.
 
 ## Javascript
 There are three options here:
