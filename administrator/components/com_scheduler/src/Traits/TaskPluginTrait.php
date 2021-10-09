@@ -26,14 +26,20 @@ use Joomla\Utilities\ArrayHelper;
 
 
 /**
- * Utility trait for plugins that support com_scheduler compatible task routines
+ * Utility trait for plugins that offer `com_scheduler` compatible task routines. This trait defines a lot
+ * of handy methods that make it really simple to support task routines in a J4.x plugin. This trait includes standard
+ * methods to broadcast routines {@see TaskPluginTrait::advertiseRoutines()}, enhance task forms
+ * {@see TaskPluginTrait::enhanceTaskItemForm()} and call routines
+ * {@see TaskPluginTrait::standardRoutineHandler()}. With standard cookie-cutter behaviour, a task plugin may only need
+ * to include this trait, and define methods corresponding to each routine along with the `TASKS_MAP` class constant to
+ * declare supported routines and related properties.
  *
  * @since  __DEPLOY_VERSION__
  */
 trait TaskPluginTrait
 {
 	/**
-	 * Stores the task state.
+	 * A snapshot of the routine state.
 	 *
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
@@ -41,7 +47,7 @@ trait TaskPluginTrait
 	protected $snapshot = [];
 
 	/**
-	 * Sets boilerplate to the snapshot when initializing a routine
+	 * Set information to {@see $snapshot} when initializing a routine.
 	 *
 	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event.
 	 *
@@ -63,15 +69,16 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Sets exit code and duration to snapshot. Writes to log.
+	 * Set information to {@see $snapshot} when ending a routine. This information includes the routine exit code and
+	 * timing information.
 	 *
 	 * @param   ExecuteTaskEvent  $event     The event
 	 * @param   ?int              $exitCode  The task exit code
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function endRoutine(ExecuteTaskEvent $event, int $exitCode): void
 	{
@@ -87,16 +94,18 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Enhance the task form with task specific fields.
-	 * Expects the TASKS_MAP class constant to have relevant information.
+	 * Enhance the task form with routine-specific fields from an XML file declared through the TASKS_MAP constant.
+	 * If a plugin only supports the task form and does not need additional logic, this method can be mapped to the
+	 * `onContentPrepareForm` event through {@see SubscriberInterface::getSubscribedEvents()} and will take care
+	 * of injecting the fields without additional logic in the plugin class.
 	 *
-	 * @param   Form   $form  The form
-	 * @param   mixed  $data  The data
+	 * @param   EventInterface|Form  $context  The onContentPrepareForm event or the Form object.
+	 * @param   mixed                $data     The form data, required when $context is a {@see Form} instance.
 	 *
-	 * @return boolean
+	 * @return boolean  True if the form was successfully enhanced.
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function enhanceTaskItemForm($context, $data = null): bool
 	{
@@ -148,8 +157,9 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Advertises the task routines supported by the parent plugin.
-	 * Expects the TASKS_MAP class constant to have relevant information.
+	 * Advertise the task routines supported by the plugin. This method should be mapped to the `onTaskOptionsList`,
+	 * enabling the plugin to advertise its routines without any custom logic.<br/>
+	 * **Note:** This method expects the `TASKS_MAP` class constant to have relevant information.
 	 *
 	 * @param   EventInterface  $event  onTaskOptionsList Event
 	 *
@@ -175,6 +185,8 @@ trait TaskPluginTrait
 	}
 
 	/**
+	 * Get the relevant task routine ID in the context of a form event, e.g., the `onContentPrepareForm` event.
+	 *
 	 * @param   Form   $form  The form
 	 * @param   mixed  $data  The data
 	 *
@@ -203,9 +215,8 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Add a log message to the `scheduler` category.
-	 * ! This might change
-	 * ? Maybe use a PSR3 logger instead?
+	 * Add a log message to the task log.
+	 * @todo: use dependency injection here (starting from the Task & Scheduler classes).
 	 *
 	 * @param   string  $message   The log message
 	 * @param   string  $priority  The log message priority
@@ -239,7 +250,13 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Handler for *standard* task routines.
+	 * Handler for *standard* task routines. Standard routines are mapped to valid callables 'call' through
+	 * `static::TASKS_MAP`. These callables are expected to take a single argument (the Event) and return an integer
+	 * return status (see {@see Status}). For a plugin that maps each of its task routines to valid callables and does
+	 * not need non-standard handling, this method can be mapped to the `onExecuteTask` event through
+	 * {@see SubscriberInterface::getSubscribedEvents()}, which would allow it to then check if the event wants to
+	 * execute a routine offered by the plugin, call the routines and other housework without any code in the parent
+	 * classes.
 	 *
 	 * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
 	 *
@@ -258,7 +275,7 @@ trait TaskPluginTrait
 		$this->initRoutine($event);
 		$routineId = $event->getRoutineId();
 		$callable  = self::TASKS_MAP[$routineId]['call'] ?? '';
-		$exitCode = Status::NO_EXIT;
+		$exitCode  = Status::NO_EXIT;
 
 		if (!empty($callable) && is_callable($callable))
 		{
