@@ -221,4 +221,53 @@ trait TaskPluginTrait
 
 		Log::add(Text::_('COM_SCHEDULER_ROUTINE_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, $category);
 	}
+
+	/**
+	 * Handler for *standard* task routines.
+	 *
+	 * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
+	 */
+	protected function standardRoutineHandler(ExecuteTaskEvent $event): void
+	{
+		if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP))
+		{
+			return;
+		}
+
+		$this->initRoutine($event);
+		$routineId = $event->getRoutineId();
+		$callable  = self::TASKS_MAP[$routineId]['call'] ?? '';
+		$exitCode = Status::NO_EXIT;
+
+		if (!empty($callable) && is_callable($callable))
+		{
+			$exitCode = \call_user_func($callable);
+		}
+		elseif (!empty($callable) && method_exists($this, $callable))
+		{
+			$exitCode = \call_user_func([$this, $callable]);
+		}
+		else
+		{
+			$this->logTask(sprintf('Misconfigured TASKS_MAP in class %s. Missing callable for `routine_id` %s', static::class, $routineId), 'ERROR');
+		}
+
+		// If $exitCode is false, something went wrong. It indicates failure to call the callback or that it returned false.
+		if ($exitCode === false)
+		{
+			$exitCode = Status::NO_RUN;
+		}
+		// A valid $exitCode is an integer.
+		elseif (!is_integer($exitCode))
+		{
+			$exitCode = Status::INVALID_EXIT;
+		}
+
+		$this->endRoutine($event, $exitCode);
+	}
 }
