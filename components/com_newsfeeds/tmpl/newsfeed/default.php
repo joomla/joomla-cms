@@ -75,7 +75,7 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php endif; ?>
 				<?php echo HTMLHelper::_(
 					'image',
-					htmlspecialchars($img->url,  ENT_QUOTES, 'UTF-8'),
+					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
 					empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'),
 					$imgAttribs
 				); ?>
