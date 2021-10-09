@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** Implements the TaskPluginTrait. */
-
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
 // Restrict direct access
@@ -20,9 +18,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
-use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
+
 
 /**
  * Utility trait for plugins that support com_scheduler compatible task routines
@@ -48,7 +49,7 @@ trait TaskPluginTrait
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function taskStart(ExecuteTaskEvent $event): void
+	protected function initRoutine(ExecuteTaskEvent $event): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
@@ -56,9 +57,9 @@ trait TaskPluginTrait
 		}
 
 		$this->snapshot['logCategory'] = $event->getArgument('subject')->logCategory;
-		$this->snapshot['plugin'] = $this->_name;
-		$this->snapshot['startTime'] = microtime(true);
-		$this->snapshot['status'] = TaskStatus::NO_TIME;
+		$this->snapshot['plugin']      = $this->_name;
+		$this->snapshot['startTime']   = microtime(true);
+		$this->snapshot['status']      = TaskStatus::NO_TIME;
 	}
 
 	/**
@@ -66,36 +67,23 @@ trait TaskPluginTrait
 	 *
 	 * @param   ExecuteTaskEvent  $event     The event
 	 * @param   ?int              $exitCode  The task exit code
-	 * @param   boolean           $log       If true, the method adds a log. Requires the plugin to
-	 *                                       have the language strings.
 	 *
 	 * @return void
 	 *
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function taskEnd(ExecuteTaskEvent $event, int $exitCode, bool $log = true): void
+	protected function endRoutine(ExecuteTaskEvent $event, int $exitCode): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
 			return;
 		}
 
-		$this->snapshot['endTime'] = $endTime = \microtime(true);
+		$this->snapshot['endTime']  = $endTime = \microtime(true);
 		$this->snapshot['duration'] = $endTime - $this->snapshot['startTime'];
-		$this->snapshot['status'] = $exitCode ?? TaskStatus::OK;
+		$this->snapshot['status']   = $exitCode ?? TaskStatus::OK;
 		$event->setResult($this->snapshot);
-
-		// @todo remove logging from this method
-		if ($log)
-		{
-			$langConstPrefix = \strtoupper($event->getArgument('langConstPrefix'));
-			$this->addTaskLog(
-				Text::sprintf($langConstPrefix . '_ROUTINE_END_LOG_MESSAGE',
-					$this->snapshot['status'], $this->snapshot['duration']
-				)
-			);
-		}
 	}
 
 	/**
@@ -110,38 +98,66 @@ trait TaskPluginTrait
 	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function enhanceTaskItemForm(Form $form, $data): bool
+	protected function enhanceTaskItemForm($context, $data = null): bool
 	{
-		$routineId = $this->getRoutineId($form, $data);
+		if ($context instanceof EventInterface)
+		{
+			/** @var Form $form */
+			$form = $context->getArgument('0');
+			$data = $context->getArgument('1');
+		}
+		elseif ($context instanceof Form)
+		{
+			$form = $context;
+		}
+		else
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'Argument 0 of %1$s must be an instance of %2$s or %3$s',
+					__METHOD__, EventInterface::class, Form::class
+				)
+			);
+		}
 
-		$isSupported = \array_key_exists($routineId, self::TASKS_MAP);
-
-		if (!$isSupported || !$enhancementForm = self::TASKS_MAP[$routineId]['form'] ?? '')
+		if ($form->getName() !== 'com_scheduler.task')
 		{
 			return false;
 		}
 
-		$path = dirname((new \ReflectionClass(static::class))->getFileName());
+		$routineId           = $this->getRoutineId($form, $data);
+		$isSupported         = \array_key_exists($routineId, self::TASKS_MAP);
+		$enhancementFormName = self::TASKS_MAP[$routineId]['form'] ?? '';
 
-		if (\is_file($fn = $path . '/forms/' . $enhancementForm . '.xml'))
+		// Return if routine is not supported by the plugin or the routine does not have a form linked in TASKS_MAP.
+		if (!$isSupported || empty($enhancementFormName))
 		{
-			$form->loadFile($fn);
+			return false;
 		}
 
-		return true;
+		// We expect the form XML in "{PLUGIN_PATH}/forms/{FORM_NAME}.xml"
+		$path                = dirname((new \ReflectionClass(static::class))->getFileName());
+		$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
+
+		if (\is_file($enhancementFormFile))
+		{
+			return $form->loadFile($enhancementFormFile);
+		}
+
+		return false;
 	}
 
 	/**
 	 * Advertises the task routines supported by the parent plugin.
 	 * Expects the TASKS_MAP class constant to have relevant information.
 	 *
-	 * @param   Event  $event  onTaskOptionsList Event
+	 * @param   EventInterface  $event  onTaskOptionsList Event
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function advertiseRoutines(Event $event): void
+	public function advertiseRoutines(EventInterface $event): void
 	{
 		$options = [];
 
@@ -164,22 +180,22 @@ trait TaskPluginTrait
 	 *
 	 * @return  string
 	 *
-	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	protected function getRoutineId(Form $form, $data): string
 	{
 		/*
-		 * Depending on when the form is loaded, the ID may either be in $data or the form bound data.
-		 * Also, $data can be either an object instance or an array.
+		 * Depending on when the form is loaded, the ID may either be in $data or the data already bound to the form.
+		 * $data can also either be an object or an array.
 		 */
 		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type;
 
 		// If we're unable to find a routineId, it might be in the form input.
-		if (!$routineId)
+		if (empty($routineId))
 		{
-			$app = $this->app ?? Factory::getApplication();
-			$form = $app->getInput()->get('jform', []);
+			$app       = $this->app ?? Factory::getApplication();
+			$form      = $app->getInput()->get('jform', []);
 			$routineId = ArrayHelper::getValue($form, 'type', '', 'STRING');
 		}
 
@@ -196,10 +212,10 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
-	protected function addTaskLog(string $message, string $priority = 'info'): void
+	protected function logTask(string $message, string $priority = 'info'): void
 	{
 		static $langLoaded;
 		static $priorityMap = [
