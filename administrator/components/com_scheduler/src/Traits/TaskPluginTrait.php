@@ -267,7 +267,7 @@ trait TaskPluginTrait
 	 * {@see SubscriberInterface::getSubscribedEvents()}, which would allow it to then check if the event wants to
 	 * execute a routine offered by the parent plugin, call the routine and do some other housework without any code
 	 * in the parent classes.<br/>
-	 * **Compatible routine method signature:**&nbsp;&nbsp; ({@see EventInterface::class}, ...): int
+	 * **Compatible routine method signature:**&nbsp;&nbsp; ({@see ExecuteTaskEvent::class}, ...): int
 	 *
 	 * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
 	 *
