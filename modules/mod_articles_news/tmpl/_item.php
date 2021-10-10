@@ -29,7 +29,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
 		<?php $imgAttribs = []; ?>
-		<?php $img = HTMLHelper::cleanImageURL($item->imageSrc); ?>
+		<?php $img = HTMLHelper::_('cleanImageURL', $item->imageSrc); ?>
 		<?php if ($img->width > 0 && $img->height > 0) : ?>
 			<?php $imgAttribs['width'] = $img->width; ?>
 			<?php $imgAttribs['height'] = $img->height; ?>
