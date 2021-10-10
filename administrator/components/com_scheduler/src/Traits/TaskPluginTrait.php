@@ -13,13 +13,13 @@ namespace Joomla\Component\Scheduler\Administrator\Traits;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -55,7 +55,7 @@ trait TaskPluginTrait
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function initRoutine(ExecuteTaskEvent $event): void
+	protected function startRoutine(ExecuteTaskEvent $event): void
 	{
 		if (!$this instanceof CMSPlugin)
 		{
@@ -65,7 +65,7 @@ trait TaskPluginTrait
 		$this->snapshot['logCategory'] = $event->getArgument('subject')->logCategory;
 		$this->snapshot['plugin']      = $this->_name;
 		$this->snapshot['startTime']   = microtime(true);
-		$this->snapshot['status']      = TaskStatus::NO_TIME;
+		$this->snapshot['status']      = Status::NO_TIME;
 	}
 
 	/**
@@ -89,7 +89,7 @@ trait TaskPluginTrait
 
 		$this->snapshot['endTime']  = $endTime = \microtime(true);
 		$this->snapshot['duration'] = $endTime - $this->snapshot['startTime'];
-		$this->snapshot['status']   = $exitCode ?? TaskStatus::OK;
+		$this->snapshot['status']   = $exitCode ?? Status::OK;
 		$event->setResult($this->snapshot);
 	}
 
@@ -102,12 +102,12 @@ trait TaskPluginTrait
 	 * @param   EventInterface|Form  $context  The onContentPrepareForm event or the Form object.
 	 * @param   mixed                $data     The form data, required when $context is a {@see Form} instance.
 	 *
-	 * @return boolean  True if the form was successfully enhanced.
+	 * @return boolean  True if the form was successfully enhanced or the context was not relevant.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws \Exception
 	 */
-	protected function enhanceTaskItemForm($context, $data = null): bool
+	public function enhanceTaskItemForm($context, $data = null): bool
 	{
 		if ($context instanceof EventInterface)
 		{
@@ -131,7 +131,7 @@ trait TaskPluginTrait
 
 		if ($form->getName() !== 'com_scheduler.task')
 		{
-			return false;
+			return true;
 		}
 
 		$routineId           = $this->getRoutineId($form, $data);
@@ -139,14 +139,23 @@ trait TaskPluginTrait
 		$enhancementFormName = self::TASKS_MAP[$routineId]['form'] ?? '';
 
 		// Return if routine is not supported by the plugin or the routine does not have a form linked in TASKS_MAP.
-		if (!$isSupported || empty($enhancementFormName))
+		if (!$isSupported || strlen($enhancementFormName) === 0)
 		{
-			return false;
+			return true;
 		}
 
 		// We expect the form XML in "{PLUGIN_PATH}/forms/{FORM_NAME}.xml"
 		$path                = dirname((new \ReflectionClass(static::class))->getFileName());
 		$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
+
+		try
+		{
+			$enhancementFormFile = Path::check($enhancementFormFile);
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
 
 		if (\is_file($enhancementFormFile))
 		{
@@ -201,7 +210,7 @@ trait TaskPluginTrait
 		 * Depending on when the form is loaded, the ID may either be in $data or the data already bound to the form.
 		 * $data can also either be an object or an array.
 		 */
-		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type;
+		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type ?? '';
 
 		// If we're unable to find a routineId, it might be in the form input.
 		if (empty($routineId))
@@ -216,7 +225,6 @@ trait TaskPluginTrait
 
 	/**
 	 * Add a log message to the task log.
-	 * @todo: use dependency injection here (starting from the Task & Scheduler classes).
 	 *
 	 * @param   string  $message   The log message
 	 * @param   string  $priority  The log message priority
@@ -225,6 +233,8 @@ trait TaskPluginTrait
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws \Exception
+	 * @todo   : use dependency injection here (starting from the Task & Scheduler classes).
+	 *
 	 */
 	protected function logTask(string $message, string $priority = 'info'): void
 	{
@@ -250,13 +260,14 @@ trait TaskPluginTrait
 	}
 
 	/**
-	 * Handler for *standard* task routines. Standard routines are mapped to valid callables 'call' through
-	 * `static::TASKS_MAP`. These callables are expected to take a single argument (the Event) and return an integer
-	 * return status (see {@see Status}). For a plugin that maps each of its task routines to valid callables and does
+	 * Handler for *standard* task routines. Standard routines are mapped to valid class methods 'method' through
+	 * `static::TASKS_MAP`. These methods are expected to take a single argument (the Event) and return an integer
+	 * return status (see {@see Status}). For a plugin that maps each of its task routines to valid methods and does
 	 * not need non-standard handling, this method can be mapped to the `onExecuteTask` event through
 	 * {@see SubscriberInterface::getSubscribedEvents()}, which would allow it to then check if the event wants to
-	 * execute a routine offered by the plugin, call the routines and other housework without any code in the parent
-	 * classes.
+	 * execute a routine offered by the parent plugin, call the routine and do some other housework without any code
+	 * in the parent classes.<br/>
+	 * **Compatible routine method signature:**&nbsp;&nbsp; ({@see EventInterface::class}, ...): int
 	 *
 	 * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
 	 *
@@ -265,38 +276,76 @@ trait TaskPluginTrait
 	 * @since __DEPLOY_VERSION__
 	 * @throws \Exception
 	 */
-	protected function standardRoutineHandler(ExecuteTaskEvent $event): void
+	public function standardRoutineHandler(ExecuteTaskEvent $event): void
 	{
 		if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP))
 		{
 			return;
 		}
 
-		$this->initRoutine($event);
-		$routineId = $event->getRoutineId();
-		$callable  = self::TASKS_MAP[$routineId]['call'] ?? '';
-		$exitCode  = Status::NO_EXIT;
+		$this->startRoutine($event);
+		$routineId  = $event->getRoutineId();
+		$methodName = (string) self::TASKS_MAP[$routineId]['method'] ?? '';
+		$exitCode   = Status::NO_EXIT;
 
-		if (!empty($callable) && is_callable($callable))
+		// We call the mapped method if it exists and confirms to the ($event) -> int signature.
+		if (!empty($methodName) && ($staticReflection = new \ReflectionClass($this))->hasMethod($methodName))
 		{
-			$exitCode = \call_user_func($callable);
-		}
-		elseif (!empty($callable) && method_exists($this, $callable))
-		{
-			$exitCode = \call_user_func([$this, $callable]);
+			$method = $staticReflection->getMethod($methodName);
+
+			// Might need adjustments here for PHP8 named parameters.
+			if ($method->getNumberOfRequiredParameters() > 1
+				|| !$method->getParameters()[0]->hasType()
+				|| $method->getParameters()[0]->getType()->getName() !== EventInterface::class
+				|| !$method->hasReturnType()
+				|| $method->getReturnType()->getName() !== 'int')
+			{
+				$this->logTask(
+					sprintf(
+						'Incorrect routine method signature for %1$s(). See checks in %2$s()',
+						$method->getName(), __METHOD__
+					), 'error'
+				);
+
+				return;
+			}
+
+			try
+			{
+				// Enable invocation of private/protected methods.
+				$method->setAccessible(true);
+				$exitCode = $method->invoke($this, $event);
+			}
+			catch (\Exception $e)
+			{
+				$this->logTask('Exception when calling routine: ' . $e->getMessage(), 'error');
+				$exitCode = Status::NO_RUN;
+			}
 		}
 		else
 		{
-			$this->logTask(sprintf('Misconfigured TASKS_MAP in class %s. Missing callable for `routine_id` %s', static::class, $routineId), 'ERROR');
+			$this->logTask(
+				sprintf(
+					'Incorrectly configured TASKS_MAP in class %s. Missing valid method for `routine_id` %s',
+					static::class, $routineId
+				), 'error'
+			);
 		}
 
-		// If $exitCode is false, something went wrong. It indicates failure to call the callback or that it returned false.
-		if ($exitCode === false)
-		{
-			$exitCode = Status::NO_RUN;
-		}
-		// A valid $exitCode is an integer.
-		elseif (!is_integer($exitCode))
+		/**
+		 * Closure to validate a status against {@see Status}
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
+		$validateStatus = static function (int $statusCode): bool {
+			return in_array(
+				$statusCode,
+				(new \ReflectionClass(Status::class))->getConstants()
+			);
+		};
+
+		// Validate the exit code.
+		if (!is_integer($exitCode) || !$validateStatus($exitCode))
 		{
 			$exitCode = Status::INVALID_EXIT;
 		}
