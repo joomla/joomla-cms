@@ -44,8 +44,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	private $schedulerConfig;
 
 	/**
-	 * Override parent constructor.
-	 * Prevents the plugin from attaching to the subject if conditions are not met.
+	 * Override {@see CMSPlugin::__construct} to set up {@see PlgSystemSchedulerunner::$schedulerConfig}.
 	 *
 	 * @param   DispatcherInterface  $subject  The object to observe
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -60,7 +59,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns event subscriptions
+	 * @inheritDoc
 	 *
 	 * @return string[]
 	 *
@@ -84,6 +83,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Inject JavaScript to trigger the scheduler in HTML contexts.
+	 *
 	 * @param   Event  $event  The onBeforeCompileHead event.
 	 *
 	 * @return void
@@ -92,7 +93,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function injectScheduleRunner(Event $event): void
 	{
-		// Inject JS only if scheduler is not protected
+		// Inject JS only if scheduler is not protected.
 		if ($this->schedulerConfig->get('lazy_scheduler.protected', false))
 		{
 			return;
@@ -110,7 +111,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Runs the scheduler, allowing execution of a single due task.
+	 * Run the scheduler, allowing execution of a single due task.
 	 *
 	 * @return void
 	 *
@@ -126,6 +127,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		if ($protected && $hash !== $requestHash)
 		{
 			return;
+		}
+
+		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
+		if (function_exists('ignore_user_abort'))
+		{
+			ignore_user_abort(true);
 		}
 
 		(new Scheduler)->runTask();
