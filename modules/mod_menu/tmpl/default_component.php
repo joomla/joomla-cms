@@ -45,14 +45,12 @@ if ($item->menu_image)
 {
 	if ($item->menu_image_css)
 	{
-		$img = HTMLHelper::cleanImageURL($item->menu_image);
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype = HTMLHelper::_('image', $img->url, $item->title, $image_attributes);
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title, $image_attributes);
 	}
 	else
 	{
-		$img = HTMLHelper::cleanImageURL($item->menu_image);
-		$linktype = HTMLHelper::_('image', $img->url, $item->title);
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
 	}
 
 	if ($itemParams->get('menu_text', 1))

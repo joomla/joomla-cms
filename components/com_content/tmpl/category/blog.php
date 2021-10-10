@@ -55,7 +55,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image')); ?>
+				<?php $img = HTMLHelper::_('cleanImageURL', $this->category->getParams()->get('image')); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
 					<?php $imgAttribs['height'] = $img->height; ?>

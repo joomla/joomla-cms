@@ -98,7 +98,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 				<div class="com-contact__thumbnail thumbnail">
 					<?php $imgAttribs = ['itemprop' => 'image']; ?>
-					<?php $img = HTMLHelper::cleanImageURL($this->item->image); ?>
+					<?php $img = HTMLHelper::_('cleanImageURL', $this->item->image); ?>
 					<?php if ($img->width > 0 && $img->height > 0) : ?>
 						<?php $imgAttribs['width'] = $img->width; ?>
 						<?php $imgAttribs['height'] = $img->height; ?>

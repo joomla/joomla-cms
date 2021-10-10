@@ -26,13 +26,12 @@ $linktype = $item->title;
 
 if ($item->menu_image)
 {
-	$img      = HTMLHelper::cleanImageURL($item->menu_image);
-	$linktype = HTMLHelper::image($img->url, $item->title);
+	$linktype = HTMLHelper::image($item->menu_image, $item->title);
 
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype                  = HTMLHelper::image($img->url, $item->title, $image_attributes);
+		$linktype                  = HTMLHelper::image($item->menu_image, $item->title, $image_attributes);
 	}
 
 	if ($itemParams->get('menu_text', 1))

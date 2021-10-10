@@ -63,7 +63,7 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::cleanImageURL($images->image_first); ?>
+				<?php $img = HTMLHelper::_('cleanImageURL', $images->image_first); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
 					<?php $imgAttribs['height'] = $img->height; ?>
@@ -86,7 +86,7 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::cleanImageURL($images->image_second); ?>
+				<?php $img = HTMLHelper::_('cleanImageURL', $images->image_second); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
 					<?php $imgAttribs['height'] = $img->height; ?>
@@ -118,7 +118,7 @@ use Joomla\CMS\Layout\FileLayout;
 		<?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div class="com-newsfeeds-newsfeed__feed-image">
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::cleanImageURL($this->rssDoc->image->uri); ?>
+				<?php $img = HTMLHelper::_('cleanImageURL', $this->rssDoc->image->uri); ?>
 				<?php if ($img->width > 0 && $img->height > 0) : ?>
 					<?php $imgAttribs['width'] = $img->width; ?>
 					<?php $imgAttribs['height'] = $img->height; ?>

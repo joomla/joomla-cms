@@ -100,7 +100,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
 										<?php $imgAttribs = ['class' => 'contact-thumbnail img-thumbnail']; ?>
-										<?php $img = HTMLHelper::cleanImageURL($item->image); ?>
+										<?php $img = HTMLHelper::_('cleanImageURL', $item->image); ?>
 										<?php if ($img->width > 0 && $img->height > 0) : ?>
 											<?php $imgAttribs['width'] = $img->width; ?>
 											<?php $imgAttribs['height'] = $img->height; ?>
