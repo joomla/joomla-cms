@@ -294,9 +294,9 @@ trait TaskPluginTrait
 			$method = $staticReflection->getMethod($methodName);
 
 			// Might need adjustments here for PHP8 named parameters.
-			if ($method->getNumberOfRequiredParameters() > 1
+			if (!($method->getNumberOfRequiredParameters() === 1)
 				|| !$method->getParameters()[0]->hasType()
-				|| $method->getParameters()[0]->getType()->getName() !== EventInterface::class
+				|| $method->getParameters()[0]->getType()->getName() !== ExecuteTaskEvent::class
 				|| !$method->hasReturnType()
 				|| $method->getReturnType()->getName() !== 'int')
 			{
