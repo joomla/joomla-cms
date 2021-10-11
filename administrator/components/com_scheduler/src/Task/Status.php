@@ -36,7 +36,7 @@ abstract class Status
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public const NO_TIME = 1;
+	public const RUNNING = 1;
 
 	/**
 	 * Exit code used on failure to acquire a pseudo-lock.

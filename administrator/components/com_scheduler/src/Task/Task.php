@@ -165,7 +165,7 @@ class Task extends Registry implements LoggerAwareInterface
 			return $this->handleExit();
 		}
 
-		$this->snapshot['status'] = Status::NO_TIME;
+		$this->snapshot['status'] = Status::RUNNING;
 		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
 		$this->snapshot['netDuration'] = 0;
 

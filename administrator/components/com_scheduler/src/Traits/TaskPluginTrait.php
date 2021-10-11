@@ -65,7 +65,7 @@ trait TaskPluginTrait
 		$this->snapshot['logCategory'] = $event->getArgument('subject')->logCategory;
 		$this->snapshot['plugin']      = $this->_name;
 		$this->snapshot['startTime']   = microtime(true);
-		$this->snapshot['status']      = Status::NO_TIME;
+		$this->snapshot['status']      = Status::RUNNING;
 	}
 
 	/**
