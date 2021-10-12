@@ -48,11 +48,7 @@ class DisplayController extends BaseController
 		if ($vName === 'updatesite' && $lName === 'edit' && !$this->checkEditId('com_installer.edit.updatesite', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			if (!\count($this->app->getMessageQueue()))
-			{
-				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			}
-
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 
 			$this->redirect();
