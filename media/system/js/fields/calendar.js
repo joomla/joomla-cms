@@ -39,8 +39,6 @@
 			return evt;
 		}
 
-		CustomEvent.prototype = window.Event.prototype;
-
 		window.CustomEvent = CustomEvent;
 	})();
 
