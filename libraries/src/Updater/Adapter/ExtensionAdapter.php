@@ -330,7 +330,18 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
+				/**
+				 * The client_id in the update XML manifest can be either an integer (backwards
+				 * compatible with Joomla 1.6–3.10) or a string. Backwards compatibility with the
+				 * integer key is only provided in the 4.x release as a means to facilitate
+				 * migration of legacy extensions to Joomla 4. Joomla 5 will remove the b/c code and
+				 * require client_id to be a string key. The string key is one of 'site' or
+				 * 'administrator'.
+				 *
+				 * @deprecated 5.0
+				 */
+				$this->latest->client_id = is_numeric($this->latest->client) ? $this->latest->client
+					: ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
 				unset($this->latest->client);
 			}
