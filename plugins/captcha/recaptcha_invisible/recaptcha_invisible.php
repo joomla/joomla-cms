@@ -156,23 +156,6 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 	}
 
 	/**
-	 * Method to react on the setup of a captcha field. Gives the possibility
-	 * to change the field and/or the XML element for the field.
-	 *
-	 * @param   \Joomla\CMS\Form\Field\CaptchaField  $field    Captcha field instance
-	 * @param   \SimpleXMLElement                    $element  XML form definition
-	 *
-	 * @return void
-	 *
-	 * @since 3.9.0
-	 */
-	public function onSetupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
-	{
-		// Hide the label for the invisible recaptcha type
-		$element['hiddenLabel'] = true;
-	}
-
-	/**
 	 * Get the reCaptcha response.
 	 *
 	 * @param   string  $privatekey  The private key for authentication.
