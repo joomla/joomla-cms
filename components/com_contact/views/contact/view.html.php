@@ -187,6 +187,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ': ');
 				$item->params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ': ');
 				$item->params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_webpage',   JText::_('COM_CONTACT_WEBPAGE') . ': ');
 				$item->params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
@@ -197,6 +198,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_email',     '');
 				$item->params->set('marker_telephone', '');
 				$item->params->set('marker_mobile',    '');
+				$item->params->set('marker_webpage',   '');
 				$item->params->set('marker_fax',       '');
 				$item->params->set('marker_misc',      '');
 				$item->params->set('marker_class',     'jicons-none');
@@ -273,6 +275,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_fax',       $image4);
 				$item->params->set('marker_misc',      $image5);
 				$item->params->set('marker_mobile',    $image6);
+				$item->params->set('marker_webpage',   ' ');
 				$item->params->set('marker_class',     'jicons-icons');
 				break;
 		}
