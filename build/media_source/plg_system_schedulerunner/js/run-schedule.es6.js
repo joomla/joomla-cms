@@ -17,7 +17,7 @@ if (!window.Joomla) {
   throw new Error('Joomla API was not properly initialised');
 }
 
-const scheduleRunnerOptions = Joomla.getOptions('plg_system.schedulerR');
+const scheduleRunnerOptions = Joomla.getOptions('plg_system_schedulerunner');
 const systemPaths = Joomla.getOptions('system.paths');
 
 const scheduleRunnerInterval = scheduleRunnerOptions && scheduleRunnerOptions.interval ? parseInt(scheduleRunnerOptions.interval, 10) : 300 * 1000;

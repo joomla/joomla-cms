@@ -105,6 +105,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// Add configuration options
+		$triggerInterval = $this->schedulerConfig->get('lazy_scheduler.interval', 300);
+		$this->app->getDocument()->addScriptOptions('plg_system_schedulerunner', ['interval' => $triggerInterval]);
+
+		// Load and injection directive
 		$wa = $this->app->getDocument()->getWebAssetManager();
 		$wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
 		$wa->useScript('plg_system_schedulerunner.run-schedule');
