@@ -567,6 +567,9 @@ class TemplateAdapter extends InstallerAdapter
 
 			// Load the entry and update the manifest_cache
 			$this->extension->load($this->currentExtensionId);
+			
+			// Update Changelogurl
+			$this->extension->changelogurl = $this->changelogurl;
 		}
 		else
 		{
