@@ -453,8 +453,9 @@ for ($num = $release - 1; $num >= 0; $num--)
 		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
 		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
+		$dirtyHackForMediaCheck = in_array($folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3], 'administrator/components/com_media/resources');
 
-		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
+		if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
 			continue;
 		}
