@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED'); ?>
 			</td>
 			<td>
-				<?php echo '&#x200E;' . $this->updateInfo['installed']; ?>
+				<?php echo '<bdi>' . $this->updateInfo['installed'] . '</bdi>'; ?>
 			</td>
 		</tr>
 		<tr>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
 			</td>
 			<td>
-				<?php echo '&#x200E;' . $this->updateInfo['latest']; ?>
+				<?php echo '<bdi>' . $this->updateInfo['latest'] . '</bdi>'; ?>
 			</td>
 		</tr>
 		<tr>
