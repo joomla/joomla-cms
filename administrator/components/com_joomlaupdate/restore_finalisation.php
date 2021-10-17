@@ -8,7 +8,7 @@
  *
  * IMPORTANT! DO NOT REMOVE THIS FILE.
  *
- * This file is required for updating from Joomla 3.x and older 4.x versions to __DEPLOY_VERSION__
+ * This file is required for updating from Joomla 3.x and older 4.x versions to 4.0.4
  * and later versions.
  *
  * The reason is that old versions of Joomla use an older version of Joomla Update which is still
