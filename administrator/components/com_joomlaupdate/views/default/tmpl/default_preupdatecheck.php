@@ -219,7 +219,7 @@ $compatibilityTypes = array(
 										<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 									</td>
 									<td class="instver hidden">
-										<?php echo $extension->version; ?>
+										<bdi><?php echo $extension->version; ?></bdi>
 									</td>
 									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"/>
 									<td
