@@ -6106,6 +6106,8 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/js/update.js',
 			'/media/com_joomlaupdate/js/update.min.js',
 			'/media/com_joomlaupdate/js/update.min.js.gz',
+			'/templates/cassiopeia/images/system/sort_asc.png',
+			'/templates/cassiopeia/images/system/sort_desc.png',
 		);
 
 		$folders = array(
