@@ -133,7 +133,7 @@ class TagsModelTag extends JModelAdmin
 			$registry = new Registry($result->urls);
 			$result->urls = $registry->toArray();
 
-			// Convert the modified dates to local user time for display in the form.
+			// Convert the modified date to local user time for display in the form.
 			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->modified_time)
