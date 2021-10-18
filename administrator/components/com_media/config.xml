@@ -4,6 +4,8 @@
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 
+		<help key="Media:_Options"/>
+
 		<field
 			name="upload_maxsize"
 			type="number"

@@ -6098,6 +6098,16 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css.gz',
 			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
 			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
+			// From 4.0.3 to 4.0.4
+			'/administrator/components/com_joomlaupdate/restore.php',
+			'/media/com_joomlaupdate/js/encryption.js',
+			'/media/com_joomlaupdate/js/encryption.min.js',
+			'/media/com_joomlaupdate/js/encryption.min.js.gz',
+			'/media/com_joomlaupdate/js/update.js',
+			'/media/com_joomlaupdate/js/update.min.js',
+			'/media/com_joomlaupdate/js/update.min.js.gz',
+			'/templates/cassiopeia/images/system/sort_asc.png',
+			'/templates/cassiopeia/images/system/sort_desc.png',
 		);
 
 		$folders = array(

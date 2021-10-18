@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_articles_popular.ini</language>
 		<language tag="en-GB">language/en-GB/mod_articles_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MOST_READ" />
+	<help key="Site_Modules:_Articles_-_Most_Read" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

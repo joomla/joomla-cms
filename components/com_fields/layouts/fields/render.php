@@ -59,7 +59,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$class = $field->params->get('render_class');
+	$class = $field->name . ' ' . $field->params->get('render_class');
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 

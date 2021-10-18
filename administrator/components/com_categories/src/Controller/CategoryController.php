@@ -125,7 +125,7 @@ class CategoryController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   4.0.4
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -145,7 +145,7 @@ class CategoryController extends FormController
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   4.0.4
 	 */
 	public function cancel($key = null)
 	{

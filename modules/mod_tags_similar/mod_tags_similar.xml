@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_tags_similar.ini</language>
 		<language tag="en-GB">language/en-GB/mod_tags_similar.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_SIMILAR" />
+	<help key="Site_Modules:_Tags_-_Similar" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -43,7 +43,7 @@
 					validate="options"
 					>
 					<option value="all">MOD_TAGS_SIMILAR_FIELD_ALL</option>
-					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE</option>
+					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE_TAG</option>
 					<option value="half">MOD_TAGS_SIMILAR_FIELD_HALF</option>
 				</field>
 
