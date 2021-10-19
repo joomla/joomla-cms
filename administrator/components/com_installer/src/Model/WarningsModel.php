@@ -158,13 +158,13 @@ class WarningsModel extends ListModel
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
 		}
 
-		if ($post_max_size < $minMemory)
+		if ($post_max_size < $minMemory && $memory_limit != -1)
 		{
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
 		}
 
-		if ($upload_max_filesize < $minMemory)
+		if ($upload_max_filesize < $minMemory && $memory_limit != -1)
 		{
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
