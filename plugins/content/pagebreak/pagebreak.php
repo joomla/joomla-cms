@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,9 +158,9 @@ class PlgContentPagebreak extends CMSPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
+			if ($title && $page && isset($matches[$page - 1][0]))
 			{
-				$attrs = Utility::parseAttributes($matches[$page - 1][1]);
+				$attrs = Utility::parseAttributes($matches[$page - 1][0]);
 
 				if (isset($attrs['title']))
 				{
@@ -221,7 +221,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 				if ($style === 'tabs')
 				{
-					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
+					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'article' . $row->id . '-' . $style . '0', 'view' => 'tabs']);
 				}
 				else
 				{
@@ -301,7 +301,7 @@ class PlgContentPagebreak extends CMSPlugin
 	{
 		$heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 		$input       = Factory::getApplication()->input;
-		$limitstart  = $input->getUInt('limitstart', 0);
+		$limitstart  = $input->getUint('limitstart', 0);
 		$showall     = $input->getInt('showall', 0);
 		$headingtext = '';
 
@@ -385,7 +385,7 @@ class PlgContentPagebreak extends CMSPlugin
 	{
 		$links = array(
 			'next' => '',
-			'previous' => ''
+			'previous' => '',
 		);
 
 		if ($page < $n - 1)

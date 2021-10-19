@@ -1,24 +1,21 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(() => {
-  'use strict';
+// We need to use JS to move the modal before the closing body tag to avoid stacking issues
+const multilangueModal = document.getElementById('multiLangModal');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // We need to use JS to move the modal before the closing body tag to avoid stacking issues
-    const multilangueModal = document.getElementById('multiLangModal');
+if (multilangueModal) {
+  const bsModal = bootstrap.Modal.getInstance(multilangueModal);
 
-    if (multilangueModal) {
-      // Clone the modal element
-      const clone = multilangueModal.cloneNode(true);
+  if (bsModal) {
+    bsModal.dispose();
+  }
 
-      // Remove the original modal element
-      multilangueModal.parentNode.removeChild(multilangueModal);
+  // Append the modal before closing body tag
+  document.body.appendChild(multilangueModal);
 
-      // Append clone before closing body tag
-      document.body.appendChild(clone);
-    }
-  });
-})();
+  // Modal was moved so it needs to be re initialised
+  Joomla.initialiseModal(multilangueModal);
+}

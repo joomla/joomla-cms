@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -256,9 +256,21 @@ class TagModel extends AdminModel
 			// Alter the title for save as copy
 			if ($input->get('task') == 'save2copy')
 			{
-				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-				$data['title'] = $title;
-				$data['alias'] = $alias;
+				$origTable = $this->getTable();
+				$origTable->load($input->getInt('id'));
+
+				if ($data['title'] == $origTable->title)
+				{
+					list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+					$data['title'] = $title;
+					$data['alias'] = $alias;
+				}
+				elseif ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+
+				$data['published'] = 0;
 			}
 
 			// Bind the data.
@@ -358,7 +370,7 @@ class TagModel extends AdminModel
 	public function rebuild()
 	{
 		// Get an instance of the table object.
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 
@@ -380,21 +392,21 @@ class TagModel extends AdminModel
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array    $idArray    An array of primary key ids.
-	 * @param   integer  $lft_array  The lft value
+	 * @param   array    $idArray   An array of primary key ids.
+	 * @param   integer  $lftArray  The lft value
 	 *
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   3.1
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -410,22 +422,22 @@ class TagModel extends AdminModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   3.1
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			$title = ($table->title != $title) ? $title : StringHelper::increment($title);
 			$alias = StringHelper::increment($alias, 'dash');

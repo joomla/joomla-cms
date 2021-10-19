@@ -2,14 +2,14 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: $white-offset;
+  background-color: $white;
 
   &.input-xlarge {
-    max-width: 350px;
+    max-width: 21.875rem;
   }
 
   &.input-xxlarge {
-    max-width: 550px;
+    max-width: 34.375rem;
   }
 
   &.input-full {
@@ -18,19 +18,21 @@
 }
 
 .spacer hr {
-  width: 380px;
+  width: 23.75rem;
 }
 
-.custom-select {
+.form-select {
   max-width: $input-max-width;
 }
 
-.form-inline .custom-select {
+// Bootstrap 4 b/c on form-inline
+.form-inline .form-select {
+  display: inline-block;
   width: auto;
 }
 
-@include media-breakpoint-down(sm) {
-  .form-inline .custom-select {
+@include media-breakpoint-down(lg) {
+  .form-inline .form-select {
     width: 100%;
   }
 }
@@ -55,12 +57,12 @@ td .form-control {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: $danger;
+  border-color: $danger;
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: $success;
 }
 
 .form-control-feedback {
@@ -69,31 +71,27 @@ td .form-control {
 
 // set up hidden tooltip
 [role="tooltip"]:not(.show) {
+  right: 5em;
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
   padding: .5em;
   margin: .5em;
   color: $black;
-  background: $white-offset;
+  text-align: start;
+  background: $white;
   border: 1px solid $gray-600;
   border-radius: $border-radius;
   box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
 
   &[id^=editarticle-] {
+    right: auto;
     margin-inline-start: -10em;
   }
 
   &[id^=editcontact-] {
+    right: auto;
     margin-inline-start: -10em;
-  }
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
   }
 }
 
@@ -108,7 +106,25 @@ td .form-control {
   bottom: 100%;
 }
 
+fieldset {
+  margin-bottom: $cassiopeia-grid-gutter*2;
+  + fieldset {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
+
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.control-group {
+  margin: $cassiopeia-grid-gutter 0;
+}
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
+}
+
+.com-users-login__options {
+  margin-top: $cassiopeia-grid-gutter*2;
 }

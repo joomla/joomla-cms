@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 ?>
 <div class="sysinfo">
 	<table class="table">
-		<caption class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_ADMIN_PHP_SETTINGS'); ?>
 		</caption>
 		<thead>
@@ -153,10 +153,26 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
+					<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'GD'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['gd']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'iconv'); ?>
 				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['iconv']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'intl'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['intl']); ?>
 				</td>
 			</tr>
 			<tr>

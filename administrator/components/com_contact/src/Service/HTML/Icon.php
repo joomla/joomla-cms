@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,14 @@ class Icon
 
 		$url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
 
-		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => false));
+		$text = '';
+
+		if ($params->get('show_icons'))
+		{
+			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
+		}
+
+		$text .= Text::_('COM_CONTACT_NEW_CONTACT');
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -80,9 +87,7 @@ class Icon
 
 		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTACT_CREATE_CONTACT') . '">' . $button . '</span>';
-
-		return $output;
+		return $button;
 	}
 
 	/**
@@ -160,7 +165,7 @@ class Icon
 
 		$aria_described = 'editcontact-' . (int) $contact->id;
 
-		$text = '<span class="fas fa-' . $icon . '" aria-hidden="true"></span>';
+		$text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
 		$text .= Text::_('JGLOBAL_EDIT');
 		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 

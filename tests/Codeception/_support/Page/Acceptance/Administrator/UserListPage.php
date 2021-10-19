@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Page\Acceptance\Administrator;
@@ -87,7 +87,7 @@ class UserListPage extends AdminListPage
 	 * @var    string
 	 * @since  3.7.3
 	 */
-	public static $accountDetailsTab = ['xpath' => "//a[@href='#details']"];
+	public static $accountDetailsTab = ['xpath' => "//button[@aria-controls='details']"];
 
 	/**
 	 * Locator for user's username input field.
@@ -183,7 +183,7 @@ class UserListPage extends AdminListPage
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='fas fa-check']"];
+	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-check']"];
 
 	/**
 	 * Locator for user is deleted and not found.

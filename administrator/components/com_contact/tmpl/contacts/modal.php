@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,17 +51,17 @@ if (!empty($editor))
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-sm">
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
+						<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+						<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+				</caption>
 				<thead>
-					<caption id="captionTable" class="sr-only">
-						<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
-							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
-					</caption>
 					<tr>
 						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -88,10 +88,10 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'icon-trash',
+					0  => 'icon-times',
+					1  => 'icon-check',
+					2  => 'icon-folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -116,8 +116,10 @@ if (!empty($editor))
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+							</span>
 						</td>
 						<th scope="row">
 							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($onclick); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->name); ?>" data-uri="<?php echo $this->escape(RouteHelper::getContactRoute($item->id, $item->catid, $item->language)); ?>" data-language="<?php echo $this->escape($lang); ?>">

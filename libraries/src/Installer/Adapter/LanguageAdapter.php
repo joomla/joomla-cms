@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * The language tag for the package
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $tag;
 
@@ -425,20 +425,6 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
 
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($this->getManifest()->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
-
 		// Get the language description
 		$description = (string) $this->getManifest()->description;
 
@@ -610,20 +596,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($xml->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
 		$this->parent->set('message', (string) $xml->description);

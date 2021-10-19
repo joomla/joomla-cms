@@ -3,16 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as JTableUser;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -26,6 +27,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgPrivacyUser extends PrivacyPlugin
 {
+	/**
+	 * Application object
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
 	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
 	 *
@@ -113,8 +122,6 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$db = $this->db;
-
 		$pseudoanonymisedData = [
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
@@ -127,37 +134,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$user->save();
 
 		// Destroy all sessions for the user account
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = :userid')
-			->bind(':userid', $user->id, ParameterType::INTEGER);
-
-		$db->setQuery($query);
-		$sessionIds = $db->loadColumn();
-
-		// If there aren't any active sessions then there's nothing to do here
-		if (empty($sessionIds))
-		{
-			return;
-		}
-
-		$storeName = Factory::getApplication()->get('session_handler', 'none');
-		$store     = JSessionStorage::getInstance($storeName);
-
-		// Destroy the sessions and quote the IDs to purge the session table
-		foreach ($sessionIds as $sessionId)
-		{
-			$store->destroy($sessionId);
-		}
-
-		$query->clear()
-			->delete($db->quoteName('#__session'))
-			->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT);
-
-		$db->setQuery($query)
-			->execute();
+		UserHelper::destroyUserSessions($user->id);
 	}
 
 	/**

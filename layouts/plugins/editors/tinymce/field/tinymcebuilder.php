@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -60,8 +61,7 @@ $wa  = $doc->getWebAssetManager();
 // Add assets
 $wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
 	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
-	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['defer' => true], ['core', 'dragula'])
-	->useScript('bootstrap.js.bundle'); // Need for tabs, can be safely removed when tabs will be moved to CE
+	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['core', 'dragula']);
 
 // Add TinyMCE language file to translate the buttons
 if ($languageFile)
@@ -79,6 +79,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	]
 );
 
+HTMLHelper::_('bootstrap.tab', '#setTabs')
 ?>
 <div id="joomla-tinymce-builder">
 
@@ -87,11 +88,11 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	<div class="tox tox-tinymce">
 		<div class="tox-editor-container">
 
-			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+			<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
 				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+			<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
 				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
 
@@ -99,22 +100,23 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	</div>
 
 	<hr>
+	<h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
 	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<?php // Render tabs for each set ?>
-	<ul class="nav nav-tabs" id="set-tabs">
+	<ul class="nav nav-tabs" id="setTabs">
 		<?php foreach ($setsNames as $num => $title) :
 			$isActive = $num === $setsAmount - 1;
 		?>
-		<li class="nav-item">
-			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>" data-toggle="tab">
+		<li class="nav-item" role="presentation">
+			<a class="nav-link <?php echo $isActive ? 'active' : ''; ?>" id="set-<?php echo $num; ?>-tab" data-bs-toggle="tab" href="#set-<?php echo $num; ?>" role="tab" aria-controls="set-<?php echo $num; ?>">
 				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
 	</ul>
 
 	<?php // Render tab content for each set ?>
-	<div class="tab-content">
+	<div class="tab-content" id="setTabsContent">
 		<?php
 		$presetButtonClases = array(
 			'simple'   => 'btn-success',
@@ -148,8 +150,9 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
-				<div class="btn-toolbar float-right">
+			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
+				<?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+				<div class="btn-toolbar float-end mt-3">
 					<div class="btn-group btn-group-sm">
 
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
@@ -163,7 +166,8 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 
 						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo Text::_('JCLEAR'); ?></button>
+							<?php echo Text::_('JCLEAR'); ?>
+						</button>
 					</div>
 				</div>
 
@@ -171,15 +175,15 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 
 				<div class="tox tox-tinymce mb-3">
 					<div class="tox-editor-container">
-						<div class="tox-menubar timymce-builder-menu target"
+						<div class="tox-menubar tinymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>

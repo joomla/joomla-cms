@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		return self::getIcon()->print_popup($article, $params, $attribs, $legacy);
+		throw new \Exception('Sorry, Joomla 4 no longer supports print_popup');
 	}
 
 	/**

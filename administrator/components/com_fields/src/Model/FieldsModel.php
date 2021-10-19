@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,7 @@ class FieldsModel extends ListModel
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
+				'only_use_in_subform',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -147,7 +148,7 @@ class FieldsModel extends ListModel
 				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required'
+				', a.label, a.description, a.required, a.only_use_in_subform'
 			)
 		);
 		$query->from('#__fields AS a');
@@ -346,6 +347,15 @@ class FieldsModel extends ListModel
 			$groupId = (int) $groupId;
 			$query->where($db->quoteName('a.group_id') . ' = :groupid')
 				->bind(':groupid', $groupId, ParameterType::INTEGER);
+		}
+
+		$onlyUseInSubForm = $this->getState('filter.only_use_in_subform');
+
+		if (is_numeric($onlyUseInSubForm))
+		{
+			$onlyUseInSubForm = (int) $onlyUseInSubForm;
+			$query->where($db->quoteName('a.only_use_in_subform') . ' = :only_use_in_subform')
+				->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title

@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -39,6 +39,7 @@
 			name="user_id"
 			type="user"
 			label="COM_CONTACT_FIELD_LINKED_USER_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -46,8 +47,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			id="published"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 			>
@@ -72,7 +72,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -88,6 +89,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -126,6 +128,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -211,70 +214,9 @@
 			class="advancedSelect"
 			multiple="true"
 		/>
-
-		<field
-			name="contact_icons"
-			type="list"
-			label="COM_CONTACT_FIELD_ICONS_SETTINGS"
-			default="0"
-			validate="options"
-			>
-			<option value="0">COM_CONTACT_FIELD_VALUE_NONE</option>
-			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
-			<option value="2">COM_CONTACT_FIELD_VALUE_ICONS</option>
-		</field>
-
-		<field
-			name="icon_address"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_email"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_telephone"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_mobile"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_fax"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_misc"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			hide_none="1"
-		/>
 	</fieldset>
 
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
-		<field
-			name="@text_details"
-			type="note"
-			label=""
-			description="COM_CONTACT_EDIT_DETAILS"
-		/>
-
 		<field
 			name="image"
 			type="media"
@@ -426,7 +368,7 @@
 					name="show_info"
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>
@@ -474,7 +416,7 @@
 					name="add_mailto_link"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					validate="options"
@@ -595,7 +537,7 @@
 					name="show_image"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					validate="options"
@@ -608,7 +550,7 @@
 					name="show_misc"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>
@@ -689,7 +631,7 @@
 					name="contact_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					extension="com_contact"
 					view="contact"
 					useglobal="true"
@@ -855,10 +797,10 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 
 			<field
@@ -872,7 +814,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		readonly="true"

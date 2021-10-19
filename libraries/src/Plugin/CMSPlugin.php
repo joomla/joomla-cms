@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 * removing support for legacy Listeners.
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 *
 	 * @deprecated
 	 */
@@ -187,7 +187,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function registerListeners()
 	{
@@ -231,11 +231,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
-			$typeHint = $param->getType();
 			$paramName = $param->getName();
 
 			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
-			if ($paramName !== 'event' || $typeHint === null || !$this->checkTypeHint($typeHint))
+			if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param))
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -259,7 +258,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerLegacyListener(string $methodName)
 	{
@@ -280,8 +279,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 					unset($arguments['result']);
 				}
 
-				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-				$arguments = array_values($arguments);
+				// Convert to indexed array for unpacking.
+				$arguments = \array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
@@ -306,7 +305,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerListener(string $methodName)
 	{
@@ -314,16 +313,25 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	}
 
 	/**
-	 * Used for checking if parameter is typehinted to accept \Joomla\Event\EventInterface, based on reflection type.
+	 * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
 	 *
-	 * @param   \ReflectionType  $reflectionType
+	 * @param   \ReflectionParameter  $parameter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	protected function checkTypeHint(\ReflectionType $reflectionType): bool
+	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
 	{
+		$reflectionType = $parameter->getType();
+
+		// Parameter is not typehinted.
+		if ($reflectionType === null)
+		{
+			return false;
+		}
+
+		// Parameter is nullable.
 		if ($reflectionType->allowsNull())
 		{
 			return false;

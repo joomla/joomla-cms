@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,8 +56,8 @@ abstract class InstallerHelper
 	/**
 	 * Downloads a package
 	 *
-	 * @param   string  $url     URL of file to download
-	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
+	 * @param   string       $url     URL of file to download
+	 * @param   string|bool  $target  Download target filename or false to get the filename from the URL
 	 *
 	 * @return  string|boolean  Path to downloaded package or boolean false on failure
 	 *
@@ -140,23 +140,23 @@ abstract class InstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string   $p_filename         The uploaded package filename or install directory
+	 * @param   string   $packageFilename    The uploaded package filename or install directory
 	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
 	 * @return  array|boolean  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($p_filename, $alwaysReturnArray = false)
+	public static function unpack($packageFilename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
-		$archivename = $p_filename;
+		$archivename = $packageFilename;
 
 		// Temporary folder to extract the archive into
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
 		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -242,16 +242,16 @@ abstract class InstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string  $p_dir  Path to package directory
+	 * @param   string  $packageDirectory  Path to package directory
 	 *
 	 * @return  mixed  Extension type string or boolean false on fail
 	 *
 	 * @since   3.1
 	 */
-	public static function detectType($p_dir)
+	public static function detectType($packageDirectory)
 	{
 		// Search the install dir for an XML file
-		$files = Folder::files($p_dir, '\.xml$', 1, true);
+		$files = Folder::files($packageDirectory, '\.xml$', 1, true);
 
 		if (!$files || !\count($files))
 		{
@@ -284,9 +284,6 @@ abstract class InstallerHelper
 		}
 
 		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
-
-		// Free up memory.
-		unset($xml);
 
 		return false;
 	}
@@ -376,7 +373,7 @@ abstract class InstallerHelper
 				$hashRemote  = $updateObject->$hash->_data;
 				$hashOnFile  = true;
 
-				if ($hashPackage !== $hashRemote)
+				if ($hashPackage !== strtolower($hashRemote))
 				{
 					return self::HASH_NOT_VALIDATED;
 				}

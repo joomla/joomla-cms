@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
@@ -89,10 +90,10 @@ class HtmlView extends BaseHtmlView
 		/** @var SysinfoModel $model */
 		$model             = $this->getModel();
 		$this->phpSettings = $model->getPhpSettings();
-		$this->config      = $model->getconfig();
-		$this->info        = $model->getinfo();
-		$this->phpInfo     = $model->getPhpInfo();
-		$this->directory   = $model->getdirectory();
+		$this->config      = $model->getConfig();
+		$this->info        = $model->getInfo();
+		$this->phpInfo     = $model->getPHPInfo();
+		$this->directory   = $model->getDirectory();
 
 		$this->addToolbar();
 
@@ -110,15 +111,15 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-circle systeminfo');
 		ToolbarHelper::link(
-			Route::_('index.php?option=com_admin&view=sysinfo&format=text'),
+			Route::_('index.php?option=com_admin&view=sysinfo&format=text&' . Session::getFormToken() . '=1'),
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT',
 			'download'
 		);
 		ToolbarHelper::link(
-			Route::_('index.php?option=com_admin&view=sysinfo&format=json'),
+			Route::_('index.php?option=com_admin&view=sysinfo&format=json&' . Session::getFormToken() . '=1'),
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON',
 			'download'
 		);
-		ToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
+		ToolbarHelper::help('Site_System_Information');
 	}
 }

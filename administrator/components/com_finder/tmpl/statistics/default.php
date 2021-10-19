@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ use Joomla\CMS\Language\Text;
 					?>
 				</th>
 				<td>
-					<span class="badge badge-info"><?php echo number_format($type->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
+					<span class="badge bg-info"><?php echo number_format($type->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -45,7 +45,7 @@ use Joomla\CMS\Language\Text;
 					<strong><?php echo Text::_('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
 				</td>
 				<td>
-					<span class="badge badge-info"><?php echo number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
+					<span class="badge bg-info"><?php echo number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?></span>
 				</td>
 			</tr>
 		</tbody>

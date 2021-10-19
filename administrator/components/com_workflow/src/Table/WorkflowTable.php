@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Table;
@@ -112,7 +112,7 @@ class WorkflowTable extends Table
 	 * @return  boolean  True on success
 	 *
 	 * @see     Table::check()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function check()
 	{
@@ -180,7 +180,7 @@ class WorkflowTable extends Table
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     Table::store()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function store($updateNulls = true)
 	{

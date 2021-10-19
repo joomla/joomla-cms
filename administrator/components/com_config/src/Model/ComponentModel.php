@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,6 +104,28 @@ class ComponentModel extends FormModel
 	}
 
 	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function loadFormData()
+	{
+		$option = $this->getState()->get('component.option');
+
+		// Check the session for previously entered form data.
+		$data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data', []);
+
+		if (empty($data))
+		{
+			return $this->getComponent()->getParams()->toArray();
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Get the component information.
 	 *
 	 * @return	object
@@ -163,6 +185,11 @@ class ComponentModel extends FormModel
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
+			if (!Factory::getUser()->authorise('core.admin', $data['option']))
+			{
+				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			}
+
 			$rules = new Rules($data['params']['rules']);
 			$asset = Table::getInstance('asset');
 
@@ -218,8 +245,7 @@ class ComponentModel extends FormModel
 		Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		return true;
 	}

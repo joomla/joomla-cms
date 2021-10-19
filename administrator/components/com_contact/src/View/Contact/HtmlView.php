@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 			{
 				ToolbarHelper::apply('contact.apply');
 
@@ -168,11 +168,11 @@ class HtmlView extends BaseHtmlView
 
 			if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 			{
-				ToolbarHelper::custom('contact.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+				ToolbarHelper::custom('contact.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		ToolbarHelper::help('Contacts:_New_or_Edit');
 	}
 }

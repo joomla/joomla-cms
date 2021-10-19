@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.skipto
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class PlgSystemSkipto extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Add the CSS and JavaScript for the skipto navigation menu.
+	 * Add the skipto navigation menu.
 	 *
 	 * @return  void
 	 *
@@ -52,41 +52,59 @@ class PlgSystemSkipto extends CMSPlugin
 			return;
 		}
 
+		// Are we in a modal?
+		if ($this->app->input->get('tmpl', '', 'cmd') === 'component')
+		{
+			return;
+		}
+
 		// Load language file.
 		$this->loadLanguage();
 
-		// Add strings for translations in JavaScript.
+		// Add plugin settings and strings for translations in JavaScript.
 		$document->addScriptOptions(
 			'skipto-settings',
 			[
 				'settings' => [
 					'skipTo' => [
-						'buttonDivRole'  => 'navigation',
-						'buttonDivLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-						'buttonLabel'    => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'buttonDivTitle' => '',
-						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						// The following string begins with a space
-						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
-					]
-				]
+						// Feature switches
+						'enableActions'               => false,
+						'enableHeadingLevelShortcuts' => false,
+
+						// Customization of button and menu
+						'accesskey'     => '9',
+						'displayOption' => 'popup',
+
+						// Button labels and messages
+						'buttonLabel'            => Text::_('PLG_SYSTEM_SKIPTO_TITLE'),
+						'buttonTooltipAccesskey' => Text::_('PLG_SYSTEM_SKIPTO_ACCESS_KEY'),
+
+						// Menu labels and messages
+						'landmarkGroupLabel'  => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK'),
+						'headingGroupLabel'   => Text::_('PLG_SYSTEM_SKIPTO_HEADING'),
+						'mofnGroupLabel'      => Text::_('PLG_SYSTEM_SKIPTO_HEADING_MOFN'),
+						'headingLevelLabel'   => Text::_('PLG_SYSTEM_SKIPTO_HEADING_LEVEL'),
+						'mainLabel'           => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_MAIN'),
+						'searchLabel'         => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_SEARCH'),
+						'navLabel'            => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_NAV'),
+						'regionLabel'         => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_REGION'),
+						'asideLabel'          => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_ASIDE'),
+						'footerLabel'         => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_FOOTER'),
+						'headerLabel'         => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_HEADER'),
+						'formLabel'           => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_FORM'),
+						'msgNoLandmarksFound' => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_NONE'),
+						'msgNoHeadingsFound'  => Text::_('PLG_SYSTEM_SKIPTO_HEADING_NONE'),
+
+						// Selectors for landmark and headings sections
+						'headings'  => 'h1, h2, h3',
+						'landmarks' => 'main, nav, search, aside, header, footer, form',
+					],
+				],
 			]
 		);
 
 		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = $document->getWebAssetManager();
-		$wa->useStyle('skipto')
-			->useScript('skipto.dropmenu')
-			->useScript('skipto')
-			->addInlineScript(
-				'document.addEventListener(\'DOMContentLoaded\', function() {'
-				. 'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');'
-				. 'window.skipToMenuInit();});',
-				[],
-				['type' => 'module'],
-				['skipto']
-			);
+		$wa->useScript('skipto');
 	}
 }

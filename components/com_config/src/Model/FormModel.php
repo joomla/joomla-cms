@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
+			if (!$table->checkIn($pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}
@@ -108,7 +108,7 @@ abstract class FormModel extends BaseForm
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
+			if (!$table->checkOut($user->get('id'), $pk))
 			{
 				throw new \RuntimeException($table->getError());
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -370,13 +370,13 @@ class HtmlView extends BaseHtmlView
 
 		$bar->appendButton(
 			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
 			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
 			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>', 'target'
 		);
 
@@ -386,6 +386,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
+		ToolbarHelper::help('Multilingual_Associations:_Edit');
 	}
 }

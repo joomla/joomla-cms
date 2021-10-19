@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,13 +130,16 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is (un)available from the data
-			if (key_exists($field->name, $data['com_fields']))
+			if (array_key_exists($field->name, $data['com_fields']))
 			{
 				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
 			}
@@ -219,7 +222,9 @@ class PlgSystemFields extends CMSPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 		$model->cleanupValues($context, $item->id);
 	}
 
@@ -245,7 +250,7 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The form event.
 	 *
-	 * @param   JForm     $form  The form
+	 * @param   Form      $form  The form
 	 * @param   stdClass  $data  The data
 	 *
 	 * @return  boolean
@@ -260,9 +265,10 @@ class PlgSystemFields extends CMSPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+			$data    = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
 
 			// Set the catid on the category to get only the fields which belong to this category
-			if (is_array($data) && key_exists('id', $data))
+			if (is_array($data) && array_key_exists('id', $data))
 			{
 				$data['catid'] = $data['id'];
 			}
@@ -271,11 +277,6 @@ class PlgSystemFields extends CMSPlugin
 			{
 				$data->catid = $data->id;
 			}
-		}
-
-		if ($context === 'com_admin.profile')
-		{
-			$context = 'com_users.user';
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -444,7 +445,7 @@ class PlgSystemFields extends CMSPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields
+					'fields'          => $fields,
 				)
 			);
 		}

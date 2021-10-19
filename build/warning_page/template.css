@@ -1,18 +1,18 @@
+html {
+  background: #ee2a00;
+  background: -moz-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
+  background: radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed
+}
+
 body {
   margin: 0;
   padding: 0;
   font: 14px / 18px sans-serif;
   color: #555;
   background-color: transparent
-}
-
-html {
-  background: rgb(241,241,241);
-  background: -moz-radial-gradient(center, ellipse cover, rgba(241,241,241,1) 0%, rgba(58,146,200,1) 100%);
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(241,241,241,1) 0%,rgba(58,146,200,1) 100%);
-  background: radial-gradient(ellipse at center, rgba(241,241,241,1) 0%,rgba(58,146,200,1) 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 ol, ul {

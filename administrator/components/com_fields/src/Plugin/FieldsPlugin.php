@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ abstract class FieldsPlugin extends CMSPlugin
 				$data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
 				// Fix wrongly set parentheses in RTL languages
-				if ($this->app->getLanguage()->isRTL())
+				if ($this->app->getLanguage()->isRtl())
 				{
 					$data['label'] = $data['label'] . '&#x200E;';
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
 <div class="com-content-article__links content-links">
-	<ul class="nav nav-tabs nav-stacked">
+	<ul class="com-content-article__links content-list">
 		<?php
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
@@ -61,7 +61,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 						case 3:
-							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-toggle="modal" data-target="#linkModal">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-bs-toggle="modal" data-bs-target="#linkModal">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
 							echo HTMLHelper::_(
 								'bootstrap.renderModal',
@@ -73,8 +73,8 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 									'width'  => '100%',
 									'modalWidth'  => '500',
 									'bodyHeight'  => '500',
-									'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. \Joomla\CMS\Language\Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+									'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+										. \Joomla\CMS\Language\Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 								)
 							);
 							break;

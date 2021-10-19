@@ -16,7 +16,6 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			size="40"
-			id="title"
 			required="true"
 		/>
 
@@ -55,6 +54,7 @@
 			name="created_by"
 			type="user"
 			label="COM_FINDER_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -71,6 +71,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		 />
 
 		<field
@@ -89,7 +90,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			filter="intval"
 			size="1"
 			default="1"

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -155,7 +155,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				iframe.classList.remove('sr-only');
+				iframe.classList.remove('visually-hidden');
 			});
 
 			// Submit button on child iframe.
@@ -165,7 +165,7 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					iframe.classList.add('sr-only');
+					iframe.classList.add('visually-hidden');
 				}
 
 				iframe.contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);

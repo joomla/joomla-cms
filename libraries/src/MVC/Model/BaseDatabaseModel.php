@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -178,11 +178,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a DatabaseQuery object
+		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);

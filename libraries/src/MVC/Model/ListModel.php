@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -78,20 +79,38 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	protected $htmlFormName = 'adminForm';
 
 	/**
-	 * A blacklist of filter variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
 	 *
-	 * @var    array
-	 * @since  3.4.5
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $filterForbiddenList instead
 	 */
 	protected $filterBlacklist = array();
 
 	/**
-	 * A blacklist of list variables to not merge into the model's state
+	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  3.4.5
+	 * @since  4.0.0
+	 */
+	protected $filterForbiddenList = array();
+
+	/**
+	 * A list of forbidden variables to not merge into the model's state
+	 *
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $listForbiddenList instead
 	 */
 	protected $listBlacklist = array('select');
+
+	/**
+	 * A list of forbidden variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $listForbiddenList = array('select');
 
 	/**
 	 * Constructor
@@ -100,13 +119,13 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   1.6
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
 
-		// Add the ordering filtering fields whitelist.
+		// Add the ordering filtering fields allowed list.
 		if (isset($config['filter_fields']))
 		{
 			$this->filter_fields = $config['filter_fields'];
@@ -117,6 +136,56 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		{
 			$this->context = strtolower($this->option . '.' . $this->getName());
 		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->filterBlacklist))
+		{
+			$this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
+		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->listBlacklist))
+		{
+			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
+		}
+	}
+
+	/**
+	 * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = clone $this->_getListQuery();
+
+		if ($query instanceof DatabaseQuery)
+		{
+			$query->clear('bounded')
+				->clear('group')
+				->clear('having')
+				->clear('join')
+				->clear('values')
+				->clear('where');
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 *
+	 * @return boolean
+	 *
+	 * @throws Exception
+	 *
+	 * @since 4.0.0
+	 */
+	public function getIsEmptyState(): bool
+	{
+		return $this->_getListCount($this->getEmptyStateQuery()) === 0;
 	}
 
 	/**
@@ -432,8 +501,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($filters as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->filterBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->filterForbiddenList))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -447,8 +516,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($list as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->listBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->listForbiddenList))
 					{
 						// Extra validations
 						switch ($name)
@@ -542,7 +611,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
-				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
+				// Check if the ordering field is in the allowed list, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
 				if (!\in_array($value, $this->filter_fields))

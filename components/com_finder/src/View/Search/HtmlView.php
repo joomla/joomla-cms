@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,11 +272,10 @@ class HtmlView extends BaseHtmlView
 	protected function prepareDocument()
 	{
 		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -287,22 +286,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($layout = $this->params->get('article_layout'))
 		{
@@ -322,14 +306,14 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Check for OpenSearch
 		if ($this->params->get('opensearch', 1))
 		{
 			$ostitle = $this->params->get('opensearch_name',
-				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename')
+				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
 			);
 			$this->document->addHeadLink(
 				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -227,10 +227,9 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected
@@ -286,19 +285,18 @@ class CategoryModel extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
-
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
-		elseif (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
-		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$limit = $app->getUserStateFromRequest(
+				'com_contact.category.list',
+				'limit',
+				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
+				'uint'
+			);
 		}
 
 		$this->setState('list.limit', $limit);

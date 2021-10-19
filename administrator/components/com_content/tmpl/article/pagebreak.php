@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ $this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 				<label for="title"><?php echo Text::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="text" id="title" name="title">
+				<input class="form-control" type="text" id="title" name="title">
 			</div>
 		</div>
 		<div class="control-group">
@@ -36,7 +36,7 @@ $this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 				<label for="alias"><?php echo Text::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="text" id="alt" name="alt">
+				<input class="form-control" type="text" id="alt" name="alt">
 			</div>
 		</div>
 

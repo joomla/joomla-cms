@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+# @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -21,13 +21,20 @@ Options +FollowSymlinks
 Options -Indexes
 
 ## No directory listings
-<IfModule autoindex>
+<IfModule mod_autoindex.c>
 	IndexIgnore *
 </IfModule>
 
 ## Suppress mime type detection in browsers for unknown types
 <IfModule mod_headers.c>
 	Header always set X-Content-Type-Options "nosniff"
+##
+# Disable Federated Learning of Cohorts (FLoC)
+# If you uncomment the below directive you have to allow this technology in the
+# Global Configuration of Joomla. Read more about this in the Post-Installation
+# message in the backend.
+##
+# Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
 
 ## Protect against certain cross-origin requests. More information can be found here:
@@ -37,6 +44,13 @@ Options -Indexes
 #	Header always set Cross-Origin-Resource-Policy "same-origin"
 #	Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
+
+## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
+<FilesMatch "\.svg$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
+</FilesMatch>
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>
@@ -120,6 +134,10 @@ Options -Indexes
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
+## If your site starts to look strange after enabling this, and you see
+##     ERR_CONTENT_DECODING_FAILED in your browser console network tab,
+##     then your server is already gzipping css and js files and you don't need this
+##     block enabled in your .htaccess
 <IfModule mod_headers.c>
 	# Serve gzip compressed CSS files if they exist
 	# and the client accepts gzip.
