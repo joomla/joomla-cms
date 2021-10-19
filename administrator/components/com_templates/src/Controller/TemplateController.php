@@ -952,7 +952,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return  string  The JSON-encoded amount of published templates
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getQuickiconContent()
 	{
