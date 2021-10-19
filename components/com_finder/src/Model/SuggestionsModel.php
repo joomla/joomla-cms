@@ -85,8 +85,11 @@ class SuggestionsModel extends ListModel
 			->from($db->quoteName('#__finder_terms', 'ti'))
 			->where(
 				'ti.term LIKE ' .
-				$db->quote($wildcardPrefix .
-				$db->escape(StringHelper::strtolower($this->getState('input')), true) . '%', false)
+				$db->quote(
+					$wildcardPrefix .
+					$db->escape(StringHelper::strtolower($this->getState('input')), true) . '%',
+					false
+				)
 			)
 			->where('ti.common = 0')
 			->where('ti.language IN (' . $db->quote($lang) . ', ' . $db->quote('*') . ')')
