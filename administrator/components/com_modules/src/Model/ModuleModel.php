@@ -908,7 +908,7 @@ class ModuleModel extends AdminModel
 
 		if ($chromeFormFiles)
 		{
-			\JForm::addFormPath($chromePath);
+			Form::addFormPath($chromePath);
 
 			foreach ($chromeFormFiles as $formFile)
 			{
@@ -922,11 +922,18 @@ class ModuleModel extends AdminModel
 		foreach ($templates as $template)
 		{
 			$chromePath      = $client->path . '/templates/' . $template->element . '/html/layouts/chromes';
+
+			// Skip if there is no chrome folder in that template.
+			if (!is_dir($chromePath))
+			{
+				continue;
+			}
+
 			$chromeFormFiles = Folder::files($chromePath, '.*\.xml');
 
 			if ($chromeFormFiles)
 			{
-				\JForm::addFormPath($chromePath);
+				Form::addFormPath($chromePath);
 
 				foreach ($chromeFormFiles as $formFile)
 				{
