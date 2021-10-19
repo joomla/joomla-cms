@@ -218,13 +218,13 @@ jQuery(document).ready(function($) {
       // If we are creating a new association (before save) we need to add the new association.
       if (targetLoadedId == '0')
       {
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-select'));
       }
       // If we are editing an association.
       else
       {
         // Show change language button
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
         $('#remove-assoc').removeClass("hidden");
         $('#toolbar-copy').hide();
 

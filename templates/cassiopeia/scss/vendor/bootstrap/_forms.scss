@@ -8,7 +8,7 @@
     max-width: none;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     min-width: 100%;
   }
 }

@@ -412,6 +412,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_menus');
 		}
 
-		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		$toolbar->help('Menus:_Items');
 	}
 }

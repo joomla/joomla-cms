@@ -29,8 +29,6 @@ class TagsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @see     \JControllerLegacy
-	 *
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -332,7 +330,7 @@ class TagsModel extends ListModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

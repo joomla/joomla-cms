@@ -47,8 +47,11 @@
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .btn {
     margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
   }
 }

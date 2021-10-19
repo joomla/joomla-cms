@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -18,8 +17,6 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
@@ -94,8 +91,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Ensure we delete the repeatable fields plugin before we remove its files
+		// Uninstall plugins before removing their files and folders
 		$this->uninstallRepeatableFieldsPlugin();
+		$this->uninstallEosPlugin();
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -511,6 +509,56 @@ class JoomlaInstallerScript
 	}
 
 	/**
+	 * Uninstall the 3.10 EOS plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function uninstallEosPlugin()
+	{
+		$db = Factory::getDbo();
+
+		// Check if the plg_quickicon_eos310 plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_quickicon_eos310'))
+		)->loadResult();
+
+		// Skip uninstalling if it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		try
+		{
+			$db->transactionStart();
+
+			// Unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+			)->execute();
+
+			// Uninstall the plugin
+			$installer = new Installer;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
+		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Update the manifest caches
 	 *
 	 * @return  void
@@ -518,6 +566,12 @@ class JoomlaInstallerScript
 	protected function updateManifestCaches()
 	{
 		$extensions = ExtensionHelper::getCoreExtensions();
+
+		// If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
+		if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			$extensions[] = array('package', 'pkg_search', '', 0);
+		}
 
 		// Attempt to refresh manifest caches
 		$db    = Factory::getDbo();
@@ -563,7 +617,7 @@ class JoomlaInstallerScript
 	 * Delete files that should not exist
 	 *
 	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
 	 *
 	 * @return  array
 	 */
@@ -647,6 +701,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2020-08-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.2-2013-12-22.sql',
@@ -749,6 +804,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.21-2020-08-02.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.22-2020-09-16.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.26-2021-04-07.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.9.27-2021-04-20.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.7-2019-04-23.sql',
@@ -767,6 +823,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.2-2013-12-22.sql',
@@ -864,6 +921,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.21-2020-08-02.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.22-2020-09-16.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.26-2021-04-07.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.9.27-2021-04-20.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.7-2019-04-23.sql',
@@ -888,6 +946,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.3.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.4.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -982,6 +1042,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.21-2020-08-02.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.22-2020-09-16.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.26-2021-04-07.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.27-2021-04-20.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.4-2019-03-06.sql',
@@ -1460,7 +1521,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/controllers/file.json.php',
 			'/administrator/components/com_media/controllers/file.php',
 			'/administrator/components/com_media/controllers/folder.php',
-			'/administrator/components/com_media/helpers/media.php',
 			'/administrator/components/com_media/layouts/toolbar/deletemedia.php',
 			'/administrator/components/com_media/layouts/toolbar/newfolder.php',
 			'/administrator/components/com_media/layouts/toolbar/uploadmedia.php',
@@ -2855,6 +2915,7 @@ class JoomlaInstallerScript
 			'/components/com_contact/helpers/association.php',
 			'/components/com_contact/helpers/category.php',
 			'/components/com_contact/helpers/legacyrouter.php',
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/components/com_contact/models/categories.php',
 			'/components/com_contact/models/category.php',
 			'/components/com_contact/models/contact.php',
@@ -3801,6 +3862,7 @@ class JoomlaInstallerScript
 			'/libraries/src/Form/FormWrapper.php',
 			'/libraries/src/Helper/ContentHistoryHelper.php',
 			'/libraries/src/Helper/SearchHelper.php',
+			'/libraries/src/Http/Transport/cacert.pem',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',
 			'/libraries/src/Language/LanguageStemmer.php',
 			'/libraries/src/Language/Stemmer/Porteren.php',
@@ -3874,9 +3936,11 @@ class JoomlaInstallerScript
 			'/libraries/vendor/leafo/lessphp/lessify',
 			'/libraries/vendor/leafo/lessphp/lessify.inc.php',
 			'/libraries/vendor/leafo/lessphp/plessc',
+			'/libraries/vendor/paragonie/random_compat/LICENSE',
 			'/libraries/vendor/paragonie/random_compat/lib/byte_safe_strings.php',
 			'/libraries/vendor/paragonie/random_compat/lib/cast_to_int.php',
 			'/libraries/vendor/paragonie/random_compat/lib/error_polyfill.php',
+			'/libraries/vendor/paragonie/random_compat/lib/random.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_com_dotnet.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_dev_urandom.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_libsodium.php',
@@ -4800,20 +4864,6 @@ class JoomlaInstallerScript
 			'/media/system/css/jquery.Jcrop.min.css',
 			'/media/system/css/modal.css',
 			'/media/system/css/system.css',
-			'/media/system/images/modal/bg_e.png',
-			'/media/system/images/modal/bg_n.png',
-			'/media/system/images/modal/bg_ne.png',
-			'/media/system/images/modal/bg_nw.png',
-			'/media/system/images/modal/bg_s.png',
-			'/media/system/images/modal/bg_se.png',
-			'/media/system/images/modal/bg_sw.png',
-			'/media/system/images/modal/bg_w.png',
-			'/media/system/images/modal/closebox.png',
-			'/media/system/images/modal/spinner.gif',
-			'/media/system/images/notice-alert.png',
-			'/media/system/images/notice-download.png',
-			'/media/system/images/notice-info.png',
-			'/media/system/images/notice-note.png',
 			'/media/system/js/associations-edit-uncompressed.js',
 			'/media/system/js/associations-edit.js',
 			'/media/system/js/calendar-setup-uncompressed.js',
@@ -4829,6 +4879,50 @@ class JoomlaInstallerScript
 			'/media/system/js/combobox-uncompressed.js',
 			'/media/system/js/combobox.js',
 			'/media/system/js/core-uncompressed.js',
+			'/media/system/js/fields/calendar-locales/af.js',
+			'/media/system/js/fields/calendar-locales/ar.js',
+			'/media/system/js/fields/calendar-locales/bg.js',
+			'/media/system/js/fields/calendar-locales/bn.js',
+			'/media/system/js/fields/calendar-locales/bs.js',
+			'/media/system/js/fields/calendar-locales/ca.js',
+			'/media/system/js/fields/calendar-locales/cs.js',
+			'/media/system/js/fields/calendar-locales/cy.js',
+			'/media/system/js/fields/calendar-locales/da.js',
+			'/media/system/js/fields/calendar-locales/de.js',
+			'/media/system/js/fields/calendar-locales/el.js',
+			'/media/system/js/fields/calendar-locales/en.js',
+			'/media/system/js/fields/calendar-locales/es.js',
+			'/media/system/js/fields/calendar-locales/eu.js',
+			'/media/system/js/fields/calendar-locales/fa-ir.js',
+			'/media/system/js/fields/calendar-locales/fi.js',
+			'/media/system/js/fields/calendar-locales/fr.js',
+			'/media/system/js/fields/calendar-locales/ga.js',
+			'/media/system/js/fields/calendar-locales/hr.js',
+			'/media/system/js/fields/calendar-locales/hu.js',
+			'/media/system/js/fields/calendar-locales/it.js',
+			'/media/system/js/fields/calendar-locales/ja.js',
+			'/media/system/js/fields/calendar-locales/ka.js',
+			'/media/system/js/fields/calendar-locales/kk.js',
+			'/media/system/js/fields/calendar-locales/ko.js',
+			'/media/system/js/fields/calendar-locales/lt.js',
+			'/media/system/js/fields/calendar-locales/mk.js',
+			'/media/system/js/fields/calendar-locales/nb.js',
+			'/media/system/js/fields/calendar-locales/nl.js',
+			'/media/system/js/fields/calendar-locales/pl.js',
+			'/media/system/js/fields/calendar-locales/prs-af.js',
+			'/media/system/js/fields/calendar-locales/pt.js',
+			'/media/system/js/fields/calendar-locales/ru.js',
+			'/media/system/js/fields/calendar-locales/sk.js',
+			'/media/system/js/fields/calendar-locales/sl.js',
+			'/media/system/js/fields/calendar-locales/sr-rs.js',
+			'/media/system/js/fields/calendar-locales/sr-yu.js',
+			'/media/system/js/fields/calendar-locales/sv.js',
+			'/media/system/js/fields/calendar-locales/sw.js',
+			'/media/system/js/fields/calendar-locales/ta.js',
+			'/media/system/js/fields/calendar-locales/th.js',
+			'/media/system/js/fields/calendar-locales/uk.js',
+			'/media/system/js/fields/calendar-locales/zh-CN.js',
+			'/media/system/js/fields/calendar-locales/zh-TW.js',
 			'/media/system/js/frontediting-uncompressed.js',
 			'/media/system/js/frontediting.js',
 			'/media/system/js/helpsite.js',
@@ -5243,19 +5337,195 @@ class JoomlaInstallerScript
 			'/media/vendor/bootstrap/scss/utilities/_visibility.scss',
 			'/media/vendor/skipto/css/SkipTo.css',
 			'/media/vendor/skipto/js/dropMenu.js',
-			// 4.0 from Beta 7 to Beta 8
+			// 4.0 from Beta 7 to RC 1
 			'/administrator/components/com_admin/forms/profile.xml',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2016-07-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2016-09-22.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2016-09-28.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2016-10-02.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2016-10-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2017-03-18.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2017-04-25.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2017-05-31.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2017-06-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2017-10-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-02-24.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-26.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-07-02.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-08-01.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-09-12.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-10-18.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-01-05.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-01-16.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-02-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-03-31.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-05-05.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-06-28.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-07-02.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-07-14.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-07-16.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-08-03.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-08-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-08-21.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-14.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-23.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-24.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-25.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-26.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-27.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-28.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-09-29.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-10-13.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-10-29.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-11-07.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2019-11-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-02-08.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-02-22.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-02-29.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-11.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-16.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-05-21.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-09-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-09-22.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-12-08.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-12-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-02-28.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-04-11.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-04-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-05-01.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-05-04.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-05-07.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-05-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2021-05-21.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2016-07-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2016-09-22.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2016-09-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2016-10-02.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2016-10-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2017-03-18.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2017-04-25.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2017-05-31.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2017-06-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2017-10-10.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-02-24.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-26.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-02.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-08-01.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-09-12.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-10-18.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-01-05.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-01-16.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-02-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-03-31.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-05-05.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-06-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-07-02.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-07-14.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-07-16.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-08-03.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-08-20.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-08-21.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-14.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-23.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-24.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-25.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-26.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-27.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-09-29.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-10-13.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-10-29.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-11-07.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2019-11-19.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-02-08.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-02-22.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-02-29.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-04-11.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-04-16.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-05-21.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-09-19.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-09-22.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-12-08.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-12-19.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-02-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-04-11.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-04-20.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-05-01.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-05-04.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-05-07.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-05-10.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2021-05-21.sql',
 			'/administrator/components/com_admin/src/Controller/ProfileController.php',
 			'/administrator/components/com_admin/src/Model/ProfileModel.php',
 			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
 			'/administrator/components/com_admin/tmpl/profile/edit.php',
+			'/administrator/components/com_config/tmpl/application/default_ftp.php',
+			'/administrator/components/com_config/tmpl/application/default_ftplogin.php',
+			'/administrator/components/com_csp/access.xml',
+			'/administrator/components/com_csp/config.xml',
+			'/administrator/components/com_csp/csp.xml',
+			'/administrator/components/com_csp/forms/filter_reports.xml',
+			'/administrator/components/com_csp/services/provider.php',
+			'/administrator/components/com_csp/src/Controller/DisplayController.php',
+			'/administrator/components/com_csp/src/Controller/ReportsController.php',
+			'/administrator/components/com_csp/src/Helper/ReporterHelper.php',
+			'/administrator/components/com_csp/src/Model/ReportModel.php',
+			'/administrator/components/com_csp/src/Model/ReportsModel.php',
+			'/administrator/components/com_csp/src/Table/ReportTable.php',
+			'/administrator/components/com_csp/src/View/Reports/HtmlView.php',
+			'/administrator/components/com_csp/tmpl/reports/default.php',
+			'/administrator/components/com_csp/tmpl/reports/default.xml',
 			'/administrator/components/com_fields/src/Field/SubfieldstypeField.php',
+			'/administrator/components/com_installer/tmpl/installer/default_ftp.php',
+			'/administrator/components/com_joomlaupdate/src/Helper/Select.php',
+			'/administrator/language/en-GB/com_csp.ini',
+			'/administrator/language/en-GB/com_csp.sys.ini',
 			'/administrator/language/en-GB/plg_fields_subfields.ini',
 			'/administrator/language/en-GB/plg_fields_subfields.sys.ini',
+			'/administrator/templates/atum/Service/HTML/Atum.php',
+			'/components/com_csp/src/Controller/ReportController.php',
 			'/components/com_menus/src/Controller/DisplayController.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/CODE_OF_CONDUCT.md',
+			'/libraries/vendor/algo26-matthias/idna-convert/UPGRADING.md',
+			'/libraries/vendor/algo26-matthias/idna-convert/docker-compose.yml',
 			'/libraries/vendor/beberlei/assert/phpstan-code.neon',
 			'/libraries/vendor/beberlei/assert/phpstan-tests.neon',
+			'/libraries/vendor/bin/generate-defuse-key',
+			'/libraries/vendor/bin/var-dump-server',
+			'/libraries/vendor/bin/yaml-lint',
+			'/libraries/vendor/brick/math/psalm-baseline.xml',
+			'/libraries/vendor/doctrine/inflector/phpstan.neon.dist',
+			'/libraries/vendor/jakeasmith/http_build_url/readme.md',
 			'/libraries/vendor/nyholm/psr7/src/LowercaseTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/LICENSE.md',
+			'/libraries/vendor/ozdemirburak/iris/src/BaseColor.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Factory.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hex.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsl.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsla.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Hsv.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Rgb.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Color/Rgba.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions/AmbiguousColorString.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions/InvalidColorException.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Helpers/DefinedColor.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/AlphaTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/HsTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/HslTrait.php',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits/RgbTrait.php',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc',
+			'/libraries/vendor/psr/http-factory/.pullapprove.yml',
+			'/libraries/vendor/spomky-labs/cbor-php/.php_cs.dist',
+			'/libraries/vendor/spomky-labs/cbor-php/CODE_OF_CONDUCT.md',
+			'/libraries/vendor/spomky-labs/cbor-php/infection.json.dist',
+			'/libraries/vendor/spomky-labs/cbor-php/phpstan.neon',
+			'/libraries/vendor/typo3/phar-stream-wrapper/_config.yml',
+			'/libraries/vendor/voku/portable-utf8/SUMMARY.md',
 			'/libraries/vendor/willdurand/negotiation/src/Negotiation/Match.php',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.js',
 			'/media/com_actionlogs/js/admin-actionlogs-default.es6.min.js',
@@ -5600,6 +5870,9 @@ class JoomlaInstallerScript
 			'/media/templates/atum/js/template.es6.js',
 			'/media/templates/atum/js/template.es6.min.js',
 			'/media/templates/atum/js/template.es6.min.js.gz',
+			'/media/templates/atum/js/template.js',
+			'/media/templates/atum/js/template.min.js',
+			'/media/templates/atum/js/template.min.js.gz',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.js',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.min.js',
 			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.es6.min.js.gz',
@@ -5644,6 +5917,7 @@ class JoomlaInstallerScript
 			'/media/vendor/punycode/js/punycode.js',
 			'/media/vendor/punycode/js/punycode.min.js',
 			'/media/vendor/punycode/js/punycode.min.js.gz',
+			'/media/vendor/tinymce/changelog.txt',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js',
 			'/media/vendor/webcomponentsjs/js/webcomponents-ce.min.js.gz',
@@ -5665,6 +5939,173 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/tools/mixins/_margin.scss',
 			'/templates/cassiopeia/scss/tools/mixins/_visually-hidden.scss',
 			'/templates/system/js/error-locales.js',
+			// 4.0 from RC 1 to RC 2
+			'/administrator/components/com_fields/tmpl/field/modal.php',
+			'/administrator/templates/atum/scss/pages/_com_admin.scss',
+			'/administrator/templates/atum/scss/pages/_com_finder.scss',
+			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
+			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
+			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
+			'/media/com_fields/js/admin-field-edit-modal-es5.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js.gz',
+			'/media/com_fields/js/admin-field-edit-modal.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
+			// 4.0 from RC 3 to RC 4
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_nodownload.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_noupdate.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_preupdatecheck.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_reinstall.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_update.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_updatemefirst.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_upload.php',
+			'/language/en-GB/com_messages.ini',
+			'/media/system/css/fields/joomla-image-select.css',
+			'/media/system/css/fields/joomla-image-select.min.css',
+			'/media/system/css/fields/joomla-image-select.min.css.gz',
+			'/media/system/js/fields/joomla-image-select-es5.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js.gz',
+			'/media/system/js/fields/joomla-image-select.js',
+			'/media/system/js/fields/joomla-image-select.min.js',
+			'/media/system/js/fields/joomla-image-select.min.js.gz',
+			// 4.0 from RC 4 to RC 5
+			'/media/system/js/fields/calendar-locales/af.min.js',
+			'/media/system/js/fields/calendar-locales/af.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ar.min.js',
+			'/media/system/js/fields/calendar-locales/ar.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bg.min.js',
+			'/media/system/js/fields/calendar-locales/bg.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bn.min.js',
+			'/media/system/js/fields/calendar-locales/bn.min.js.gz',
+			'/media/system/js/fields/calendar-locales/bs.min.js',
+			'/media/system/js/fields/calendar-locales/bs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ca.min.js',
+			'/media/system/js/fields/calendar-locales/ca.min.js.gz',
+			'/media/system/js/fields/calendar-locales/cs.min.js',
+			'/media/system/js/fields/calendar-locales/cs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/cy.min.js',
+			'/media/system/js/fields/calendar-locales/cy.min.js.gz',
+			'/media/system/js/fields/calendar-locales/da.min.js',
+			'/media/system/js/fields/calendar-locales/da.min.js.gz',
+			'/media/system/js/fields/calendar-locales/de.min.js',
+			'/media/system/js/fields/calendar-locales/de.min.js.gz',
+			'/media/system/js/fields/calendar-locales/el.min.js',
+			'/media/system/js/fields/calendar-locales/el.min.js.gz',
+			'/media/system/js/fields/calendar-locales/en.min.js',
+			'/media/system/js/fields/calendar-locales/en.min.js.gz',
+			'/media/system/js/fields/calendar-locales/es.min.js',
+			'/media/system/js/fields/calendar-locales/es.min.js.gz',
+			'/media/system/js/fields/calendar-locales/eu.min.js',
+			'/media/system/js/fields/calendar-locales/eu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fa-ir.min.js',
+			'/media/system/js/fields/calendar-locales/fa-ir.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fi.min.js',
+			'/media/system/js/fields/calendar-locales/fi.min.js.gz',
+			'/media/system/js/fields/calendar-locales/fr.min.js',
+			'/media/system/js/fields/calendar-locales/fr.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ga.min.js',
+			'/media/system/js/fields/calendar-locales/ga.min.js.gz',
+			'/media/system/js/fields/calendar-locales/hr.min.js',
+			'/media/system/js/fields/calendar-locales/hr.min.js.gz',
+			'/media/system/js/fields/calendar-locales/hu.min.js',
+			'/media/system/js/fields/calendar-locales/hu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/it.min.js',
+			'/media/system/js/fields/calendar-locales/it.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ja.min.js',
+			'/media/system/js/fields/calendar-locales/ja.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ka.min.js',
+			'/media/system/js/fields/calendar-locales/ka.min.js.gz',
+			'/media/system/js/fields/calendar-locales/kk.min.js',
+			'/media/system/js/fields/calendar-locales/kk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ko.min.js',
+			'/media/system/js/fields/calendar-locales/ko.min.js.gz',
+			'/media/system/js/fields/calendar-locales/lt.min.js',
+			'/media/system/js/fields/calendar-locales/lt.min.js.gz',
+			'/media/system/js/fields/calendar-locales/mk.min.js',
+			'/media/system/js/fields/calendar-locales/mk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/nb.min.js',
+			'/media/system/js/fields/calendar-locales/nb.min.js.gz',
+			'/media/system/js/fields/calendar-locales/nl.min.js',
+			'/media/system/js/fields/calendar-locales/nl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/pl.min.js',
+			'/media/system/js/fields/calendar-locales/pl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/prs-af.min.js',
+			'/media/system/js/fields/calendar-locales/prs-af.min.js.gz',
+			'/media/system/js/fields/calendar-locales/pt.min.js',
+			'/media/system/js/fields/calendar-locales/pt.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ru.min.js',
+			'/media/system/js/fields/calendar-locales/ru.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sk.min.js',
+			'/media/system/js/fields/calendar-locales/sk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sl.min.js',
+			'/media/system/js/fields/calendar-locales/sl.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sr-rs.min.js',
+			'/media/system/js/fields/calendar-locales/sr-rs.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sr-yu.min.js',
+			'/media/system/js/fields/calendar-locales/sr-yu.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sv.min.js',
+			'/media/system/js/fields/calendar-locales/sv.min.js.gz',
+			'/media/system/js/fields/calendar-locales/sw.min.js',
+			'/media/system/js/fields/calendar-locales/sw.min.js.gz',
+			'/media/system/js/fields/calendar-locales/ta.min.js',
+			'/media/system/js/fields/calendar-locales/ta.min.js.gz',
+			'/media/system/js/fields/calendar-locales/th.min.js',
+			'/media/system/js/fields/calendar-locales/th.min.js.gz',
+			'/media/system/js/fields/calendar-locales/uk.min.js',
+			'/media/system/js/fields/calendar-locales/uk.min.js.gz',
+			'/media/system/js/fields/calendar-locales/zh-CN.min.js',
+			'/media/system/js/fields/calendar-locales/zh-CN.min.js.gz',
+			'/media/system/js/fields/calendar-locales/zh-TW.min.js',
+			'/media/system/js/fields/calendar-locales/zh-TW.min.js.gz',
+			// 4.0 from RC 5 to RC 6
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu-es5.min.js.gz',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js',
+			'/media/templates/cassiopeia/js/mod_menu/menu-metismenu.min.js.gz',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css',
+			'/templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css.gz',
+			'/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToIdnTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration/ToUnicodeTest.php',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/.gitkeep',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit/namePrepTest.php',
+			'/libraries/vendor/doctrine/inflector/docs/en/index.rst',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/HttpBuildUrlTest.php',
+			'/libraries/vendor/jakeasmith/http_build_url/tests/bootstrap.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptLanguageTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/AcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/BaseAcceptTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/CharsetNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/EncodingNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/LanguageNegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/MatchTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/NegotiatorTest.php',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests/TestCase.php',
+			'/libraries/vendor/willdurand/negotiation/tests/bootstrap.php',
+			// From 4.0.2 to 4.0.3
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_fira-sans.min.css.gz',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css',
+			'/templates/cassiopeia/css/global/fonts-web_roboto+noto-sans.min.css.gz',
+			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
+			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
+			// From 4.0.3 to 4.0.4
+			'/administrator/components/com_joomlaupdate/restore.php',
+			'/media/com_joomlaupdate/js/encryption.js',
+			'/media/com_joomlaupdate/js/encryption.min.js',
+			'/media/com_joomlaupdate/js/encryption.min.js.gz',
+			'/media/com_joomlaupdate/js/update.js',
+			'/media/com_joomlaupdate/js/update.min.js',
+			'/media/com_joomlaupdate/js/update.min.js.gz',
 		);
 
 		$folders = array(
@@ -5737,7 +6178,6 @@ class JoomlaInstallerScript
 			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
-			'/media/system/images/modal',
 			'/media/plg_twofactorauth_totp/js',
 			'/media/plg_twofactorauth_totp',
 			'/media/plg_system_highlight',
@@ -5989,6 +6429,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/simplepie/simplepie',
 			'/libraries/vendor/simplepie',
 			'/libraries/vendor/phpmailer/phpmailer/extras',
+			'/libraries/vendor/paragonie/random_compat/lib',
 			'/libraries/vendor/leafo/lessphp',
 			'/libraries/vendor/leafo',
 			'/libraries/vendor/joomla/session/Joomla/Session/Storage',
@@ -6261,6 +6702,8 @@ class JoomlaInstallerScript
 			'/components/com_contact/models/rules',
 			'/components/com_contact/models/forms',
 			'/components/com_contact/models',
+			'/components/com_contact/layouts/joomla/form',
+			'/components/com_contact/layouts/joomla',
 			'/components/com_contact/controllers',
 			'/components/com_config/view/templates/tmpl',
 			'/components/com_config/view/templates',
@@ -6278,7 +6721,6 @@ class JoomlaInstallerScript
 			'/components/com_config/controller',
 			'/components/com_banners/models',
 			'/components/com_banners/helpers',
-			'/bin',
 			'/administrator/templates/system/html',
 			'/administrator/templates/isis/less/pages',
 			'/administrator/templates/isis/less/bootstrap',
@@ -6620,7 +7062,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/views/images',
 			'/administrator/components/com_media/views',
 			'/administrator/components/com_media/models',
-			'/administrator/components/com_media/helpers',
 			'/administrator/components/com_media/controllers',
 			'/administrator/components/com_login/views/login/tmpl',
 			'/administrator/components/com_login/views/login',
@@ -6857,7 +7298,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			'/api/components/com_installer/src/View/Languages',
 			'/administrator/components/com_finder/src/Indexer/Driver',
-			// 4.0 from Beta 2 to Beta 5
+			// 4.0 from Beta 4 to Beta 5
 			'/plugins/content/imagelazyload',
 			// 4.0 from Beta 5 to Beta 6
 			'/media/system/js/core.es6',
@@ -6865,17 +7306,63 @@ class JoomlaInstallerScript
 			'/administrator/modules/mod_multilangstatus/src',
 			// 4.0 from Beta 6 to Beta 7
 			'/media/vendor/skipto/css',
-			// 4.0 from Beta 7 to Beta 8
+			// 4.0 from Beta 7 to RC 1
 			'/templates/system/js',
 			'/templates/cassiopeia/scss/tools/mixins',
 			'/plugins/fields/subfields/tmpl',
 			'/plugins/fields/subfields/params',
 			'/plugins/fields/subfields',
 			'/media/vendor/punycode/js',
+			'/media/templates/atum/js',
+			'/media/templates/atum',
+			'/libraries/vendor/paragonie/random_compat/dist',
+			'/libraries/vendor/paragonie/random_compat',
+			'/libraries/vendor/ozdemirburak/iris/src/Traits',
+			'/libraries/vendor/ozdemirburak/iris/src/Helpers',
+			'/libraries/vendor/ozdemirburak/iris/src/Exceptions',
+			'/libraries/vendor/ozdemirburak/iris/src/Color',
+			'/libraries/vendor/ozdemirburak/iris/src',
+			'/libraries/vendor/ozdemirburak/iris',
+			'/libraries/vendor/ozdemirburak',
+			'/libraries/vendor/bin',
 			'/components/com_menus/src/Controller',
+			'/components/com_csp/src/Controller',
+			'/components/com_csp/src',
+			'/components/com_csp',
+			'/administrator/templates/atum/Service/HTML',
+			'/administrator/templates/atum/Service',
+			'/administrator/components/com_joomlaupdate/src/Helper',
+			'/administrator/components/com_csp/tmpl/reports',
+			'/administrator/components/com_csp/tmpl',
+			'/administrator/components/com_csp/src/View/Reports',
+			'/administrator/components/com_csp/src/View',
+			'/administrator/components/com_csp/src/Table',
+			'/administrator/components/com_csp/src/Model',
+			'/administrator/components/com_csp/src/Helper',
+			'/administrator/components/com_csp/src/Controller',
+			'/administrator/components/com_csp/src',
+			'/administrator/components/com_csp/services',
+			'/administrator/components/com_csp/forms',
+			'/administrator/components/com_csp',
 			'/administrator/components/com_admin/tmpl/profile',
 			'/administrator/components/com_admin/src/View/Profile',
 			'/administrator/components/com_admin/forms',
+			// 4.0 from RC 5 to RC 6
+			'/templates/cassiopeia/scss/vendor/fontawesome-free',
+			'/templates/cassiopeia/css/vendor/fontawesome-free',
+			'/media/templates/cassiopeia/js/mod_menu',
+			'/media/templates/cassiopeia/js',
+			'/media/templates/cassiopeia',
+			// 4.0 from RC 6 to 4.0.0 (stable)
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation/Tests',
+			'/libraries/vendor/willdurand/negotiation/tests/Negotiation',
+			'/libraries/vendor/willdurand/negotiation/tests',
+			'/libraries/vendor/jakeasmith/http_build_url/tests',
+			'/libraries/vendor/doctrine/inflector/docs/en',
+			'/libraries/vendor/doctrine/inflector/docs',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
+			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 		);
 
 		$status['files_checked'] = $files;
@@ -6923,6 +7410,18 @@ class JoomlaInstallerScript
 
 		$this->fixFilenameCasing();
 
+		/*
+		 * Needed for updates from 3.10
+		 * If com_search doesn't exist then assume we can delete the search package manifest (included in the update packages)
+		 * We deliberately check for the presence of the files in case people have previously uninstalled their search extension
+		 * but an update has put the files back. In that case it exists even if they don't believe in it!
+		 */
+		if (!File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
+			&& File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml'))
+		{
+			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
+		}
+
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);
@@ -6949,7 +7448,7 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 4.0
 		$newComponents = array(
-			'com_csp',
+			// Components to be added here
 		);
 
 		foreach ($newComponents as $component)
@@ -7165,7 +7664,9 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		$model = new \Joomla\Component\Cache\Administrator\Model\CacheModel;
+		/** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+		$model = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory()
+			->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
 		// Clean frontend cache
 		$model->clean();
@@ -7278,8 +7779,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		$this->convertBlogLayouts();
 
 		return true;
 	}
@@ -7644,154 +8143,6 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Converts layout parameters for blog / featured views into the according CSS classes.
-	 *
-	 * @return void
-	 *
-	 * @since 4.0.0
-	 */
-	private function convertBlogLayouts()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('m.id'),
-					$db->quoteName('m.link'),
-					$db->quoteName('m.params'),
-				]
-			)
-			->from($db->quoteName('#__menu', 'm'))
-			->leftJoin($db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('m.component_id'))
-			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
-
-		$menuItems = $db->setQuery($query)->loadAssocList('id');
-		$contentParams = ComponentHelper::getParams('com_content');
-
-		foreach ($menuItems as $id => $menuItem)
-		{
-			$view = Uri::getInstance($menuItem['link'])->getVar('view');
-
-			if (!in_array($view, ['category', 'categories', 'featured']))
-			{
-				continue;
-			}
-
-			$params = json_decode($menuItem['params'], true);
-
-			// Don't update parameters if num_columns is unset.
-			if (!isset($params['num_columns']))
-			{
-				continue;
-			}
-
-			$useLocalCols = $params['num_columns'] !== '';
-
-			if ($useLocalCols)
-			{
-				$nColumns = (int) $params['num_columns'];
-			}
-			else
-			{
-				$nColumns = (int) $contentParams->get('num_columns', '1');
-			}
-
-			unset($params['num_columns']);
-
-			$order = 0;
-			$useLocalOrder = false;
-
-			if (isset($params['multi_column_order']))
-			{
-				if ($params['multi_column_order'] !== '')
-				{
-					$useLocalOrder = true;
-					$order = (int) $params['multi_column_order'];
-				}
-				else
-				{
-					$order = (int) $contentParams->get('multi_column_order', '0');
-				}
-
-				unset($params['multi_column_order']);
-			}
-
-			// Only add CSS class if columns > 1 and a local value was set for columns or order.
-			if ($nColumns > 1 && ($useLocalOrder || $useLocalCols))
-			{
-				// Convert to the according CSS class depending on order = "down" or "across".
-				$layout = ($order === 0) ? 'masonry-' : 'columns-';
-
-				if (!isset($params['blog_class']))
-				{
-					$params['blog_class'] = '';
-				}
-
-				if (strpos($params['blog_class'], $layout) === false)
-				{
-					$params['blog_class'] .= ' ' . $layout . $nColumns;
-				}
-			}
-
-			$newParams = json_encode($params);
-
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__menu'))
-				->set($db->quoteName('params') . ' = :params')
-				->where($db->quoteName('id') . ' = :id')
-				->bind(':params', $newParams, ParameterType::STRING)
-				->bind(':id', $id, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-
-		// Update global parameters for com_content.
-		$nColumns = $contentParams->get('num_columns');
-
-		if ($nColumns !== null)
-		{
-			$nColumns = (int) $nColumns;
-			$order  = (int) $contentParams->get('multi_column_order', '0');
-			$params = $contentParams->toArray();
-
-			if (!isset($params['blog_class']))
-			{
-				$params['blog_class'] = '';
-			}
-
-			// Convert to the according CSS class depending on order = "down" or "across".
-			$layout = ($order === 0) ? 'masonry-' : 'columns-';
-
-			if (strpos($params['blog_class'], $layout) === false && $nColumns > 1)
-			{
-				$params['blog_class'] .= ' ' . $layout . $nColumns;
-			}
-
-			unset($params['num_columns']);
-
-			$app = Factory::getApplication();
-			/** @var ComponentModel $configModel */
-			$configModel = $app->bootComponent('com_config')
-				->getMVCFactory()
-				->createModel('Component', 'Administrator', ['ignore_request' => true]);
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName('extension_id'))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
-
-			$componentId = $db->setQuery($query)->loadResult();
-
-			$data = array(
-				'id'     => $componentId,
-				'option' => 'com_content',
-				'params' => $params,
-			);
-			$configModel->save($data);
-		}
-	}
-
-	/**
 	 * Renames or removes incorrectly cased files.
 	 *
 	 * @return  void
@@ -7827,8 +8178,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+				File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -7843,14 +8194,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
-						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+						File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . $old);
+					File::delete(JPATH_ROOT . $old);
 				}
 			}
 		}

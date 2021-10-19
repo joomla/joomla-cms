@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -16,19 +16,20 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu = $app->input->get('hidemainmenu');
+$option       = $input->get('option', '');
+$view         = $input->get('view', '');
+$layout       = $input->get('layout', 'default');
+$task         = $input->get('task', 'display');
+$cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
+$hiddenMenu   = $app->input->get('hidemainmenu');
+$sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
@@ -65,11 +66,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
-		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
-		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
-		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
-		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -109,15 +110,14 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
-					<div class="logo">
+					<div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
 					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
+						<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 					</a>
 				<?php endif; ?>
 			</div>
@@ -128,7 +128,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 </header>
 
 <?php // Wrapper ?>
-<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
+<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?> <?php echo $sidebarState; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
@@ -140,7 +140,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
@@ -154,11 +154,10 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
-			<div id="subhead" class="subhead mb-3">
-				<div id="container-collapse" class="container-collapse"></div>
+			<div id="subhead-container" class="subhead mb-3">
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="modules" name="toolbar" style="none" />
@@ -168,7 +167,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="xhtml" />
+			<jdoc:include type="modules" name="top" style="html5" />
 			<div class="row">
 				<div class="col-md-12">
 					<main>
@@ -177,7 +176,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</main>
 				</div>
 				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="xhtml" />
+					<jdoc:include type="modules" name="bottom" style="html5" />
 				<?php endif; ?>
 			</div>
 			<?php // End Content ?>

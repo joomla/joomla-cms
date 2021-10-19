@@ -27,12 +27,12 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_FIELDS_FIELD_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_FIELDS_FIELD_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row">
 			<div class="col-lg-9">
@@ -73,18 +73,12 @@ $wa->useScript('keepalive')
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-		<div class="row">
-			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-form">
-					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-					<div>
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-					</div>
-				</fieldset>
+		<fieldset id="fieldset-publishingdata" class="options-form">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
-			<div class="col-md-6">
-			</div>
-		</div>
+		</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>

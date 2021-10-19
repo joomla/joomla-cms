@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORIES"
+			key = "Menu_Item:_List_All_Contact_Categories"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORIES_VIEW_DEFAULT_DESC]]>
@@ -99,18 +99,6 @@
 		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
-				name="show_category_heading_title_text"
-				type="list"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-				useglobal="true"
-				class="custom-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="show_category_title"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -178,6 +166,18 @@
 				name="show_no_contacts"
 				type="list"
 				label="COM_CONTACT_NO_CONTACTS_LABEL"
+				useglobal="true"
+				class="custom-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
 				class="custom-select-color-state"
 				validate="options"

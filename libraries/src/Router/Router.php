@@ -336,7 +336,7 @@ class Router
 	 *
 	 * @return   boolean  Was a rule removed?
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
@@ -369,7 +369,7 @@ class Router
 	 *
 	 * @return  array  All currently attached rules in an array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getRules()
 	{

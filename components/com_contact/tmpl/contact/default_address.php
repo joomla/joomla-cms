@@ -33,8 +33,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
-					<?php echo nl2br($this->item->address); ?>
-					<br>
+					<?php echo nl2br($this->item->address, false); ?>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -43,7 +42,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-suburb" itemprop="addressLocality">
 					<?php echo $this->item->suburb; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -51,7 +49,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-state" itemprop="addressRegion">
 					<?php echo $this->item->state; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -59,7 +56,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-postcode" itemprop="postalCode">
 					<?php echo $this->item->postcode; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -67,7 +63,6 @@ use Joomla\CMS\String\PunycodeHelper;
 			<dd>
 				<span class="contact-country" itemprop="addressCountry">
 					<?php echo $this->item->country; ?>
-					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -135,7 +130,6 @@ use Joomla\CMS\String\PunycodeHelper;
 	<dd>
 		<span class="contact-mobile" itemprop="telephone">
 			<?php echo $this->item->mobile; ?>
-			<br>
 		</span>
 	</dd>
 <?php endif; ?>

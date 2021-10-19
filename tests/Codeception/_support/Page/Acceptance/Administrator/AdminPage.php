@@ -32,7 +32,7 @@ class AdminPage extends AcceptanceTester
 	 * The form element with id "adminForm"
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $adminForm = ['id' => 'adminForm'];
 
@@ -82,7 +82,7 @@ class AdminPage extends AcceptanceTester
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
+	public static $tabsLocator = ['xpath' => "//div[@role='tablist']/button"];
 
 	/**
 	 * Locator for the Check All checkbox.

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
 
@@ -22,7 +23,7 @@ HTMLHelper::_('behavior.formvalidator');
 		class="form-horizontal form-validate"
 		id="download-form"
 		name="adminForm"
-		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw&' . Session::getFormToken() . '=1'); ?>"
 		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>

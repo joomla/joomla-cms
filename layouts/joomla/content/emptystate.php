@@ -30,6 +30,7 @@ $icon       = $displayData['icon'] ?? 'icon-copy article';
 $append     = $displayData['formAppend'] ?? '';
 $title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
 $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
+$btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD');
 ?>
 
 <form action="<?php echo Route::_($formURL); ?>" method="post" name="adminForm" id="adminForm">
@@ -44,7 +45,7 @@ $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONT
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 				<?php if ($createURL && Factory::getApplication()->input->get('tmpl') !== 'component') : ?>
 					<a href="<?php echo Route::_($createURL); ?>"
-					   class="btn btn-primary btn-lg px-4 me-sm-3"><?php echo Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD'); ?></a>
+					   class="btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd"><?php echo $btnadd; ?></a>
 				<?php endif; ?>
 				<?php if ($helpURL) : ?>
 					<a href="<?php echo $helpURL; ?>" target="_blank"

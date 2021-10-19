@@ -60,8 +60,8 @@ class PublishedButton extends ActionButton
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
-			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
+			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
 			// Add tips and special titles
 			// Create special titles for published items
@@ -73,6 +73,7 @@ class PublishedButton extends ActionButton
 				if ($publishUp)
 				{
 					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
 				}
 
 				if ($publishDown)

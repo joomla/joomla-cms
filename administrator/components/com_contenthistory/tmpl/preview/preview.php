@@ -31,8 +31,8 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 		</caption>
 		<thead>
 			<tr>
-				<th class="w-25"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-				<th><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
+				<th class="w-25" scope="col"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
 			</tr>
 		</thead>
 		<tbody>

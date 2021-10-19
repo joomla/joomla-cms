@@ -76,7 +76,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $clientId = null;
 
@@ -84,7 +84,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messageQueue = array();
 
@@ -92,7 +92,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The name of the application.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $name = null;
 
@@ -416,13 +416,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
@@ -1235,9 +1235,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function isTwoFactorAuthenticationRequired(): bool
 	{
-		$userId = $this->getIdentity()->id;
+		$user = $this->getIdentity();
 
-		if (!$userId)
+		if (!$user->id)
 		{
 			return false;
 		}
@@ -1248,7 +1248,22 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
-		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
+		$comUsersParams = ComponentHelper::getComponent('com_users')->getParams();
+
+		// Check if 2fa is enforced for the logged in user.
+		$forced2faGroups = (array) $comUsersParams->get('enforce_2fa_usergroups', []);
+
+		if (!empty($forced2faGroups))
+		{
+			$userGroups = (array) $user->get('groups', []);
+
+			if (!array_intersect($forced2faGroups, $userGroups))
+			{
+				return false;
+			}
+		}
+
+		$enforce2faOptions = $comUsersParams->get('enforce_2fa_options', 0);
 
 		if ($enforce2faOptions == 0 || !$enforce2faOptions)
 		{
@@ -1391,6 +1406,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
 		}
+
+		// We only log errors unless Site Debug is enabled
+		$logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
+
+		if ($this->get('debug'))
+		{
+			$logLevels = Log::ALL;
+		}
+
+		Log::addLogger(['text_file' => 'joomla_core_errors.php'], $logLevels, ['system']);
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->get('log_everything'))

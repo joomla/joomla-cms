@@ -224,7 +224,7 @@ class ExportModel extends BaseDatabaseModel
 			$mailer->addTemplateData($templateData);
 			$mailer->addAttachment('user-data_' . Uri::getInstance()->toString(['host']) . '.xml', PrivacyHelper::renderDataAsXml($exportData));
 
-			if ($mailer->Send() === false)
+			if ($mailer->send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
 

@@ -83,7 +83,7 @@ $attr .= $dataAttribute;
 		// Initialize some option attributes.
 		$optionValue = (string) $option->value;
 		$optionId    = $id . $i;
-		$attributes  = $optionValue == $value ? 'checked class="active"' : '';
+		$attributes  = $optionValue == $value ? 'checked class="active ' . $class . '"' : ($class ? 'class="' . $class . '"' : '');
 		$attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
 		?>
 		<?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>

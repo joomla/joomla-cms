@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -125,6 +125,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
+		ToolbarHelper::help('Maintenance:_Global_Check-in');
 	}
 }

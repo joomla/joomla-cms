@@ -45,7 +45,6 @@ class TemplateController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 		$this->registerTask('unpublish', 'publish');
 		$this->registerTask('publish',   'publish');
@@ -150,8 +149,9 @@ class TemplateController extends BaseController
 
 		$app = $this->app;
 		$this->input->set('installtype', 'folder');
-		$newName    = (string) $this->input->get('new_name', null, 'cmd');
-		$newNameRaw = (string) $this->input->get('new_name', null, 'string');
+		$newNameRaw = $this->input->get('new_name', null, 'string');
+		// Only accept letters, numbers and underscore for template name
+		$newName    = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
 		$templateID = (int) $this->input->getInt('id', 0);
 		$file       = (string) $this->input->get('file', '', 'cmd');
 
@@ -496,7 +496,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->get('file', '', 'cmd');
 		$name     = (string) $this->input->get('name', '', 'cmd');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -557,7 +557,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$upload   = $this->input->files->get('files');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -605,7 +605,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$name     = $this->input->get('name');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -657,7 +657,7 @@ class TemplateController extends BaseController
 		$model    = $this->getModel();
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
@@ -864,7 +864,7 @@ class TemplateController extends BaseController
 		$id       = (int) $this->input->get('id', 0, 'int');
 		$file     = (string) $this->input->getCmd('file', '');
 		$newName  = $this->input->get('new_name');
-		$location = (string) InputFilter::getinstance(
+		$location = (string) InputFilter::getInstance(
 			[],
 			[],
 			InputFilter::ONLY_BLOCK_DEFINED_TAGS,

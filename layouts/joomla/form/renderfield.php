@@ -33,7 +33,7 @@ if (!empty($options['showonEnabled']))
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
-$hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
+$hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 
 if (!empty($parentclass))
@@ -43,7 +43,11 @@ if (!empty($parentclass))
 
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
+	<?php if ($hideLabel) : ?>
+		<div class="visually-hidden"><?php echo $label; ?></div>
+	<?php else : ?>
+		<div class="control-label"><?php echo $label; ?></div>
+	<?php endif; ?>
 	<div class="controls">
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>

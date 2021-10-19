@@ -82,4 +82,20 @@ class FeaturedModel extends ArticlesModel
 		// Filter by featured articles.
 		$this->setState('filter.featured', 1);
 	}
+
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return  \Joomla\Database\DatabaseQuery
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getListQuery()
+	{
+		$query = parent::getListQuery();
+
+		$query->select($this->getDbo()->quoteName('fp.ordering'));
+
+		return $query;
+	}
 }

@@ -9,21 +9,25 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$textPrefix = $displayData['textPrefix'];
 $icon = $displayData['icon'] ?? 'icon-copy article';
-$componentLangString = $textPrefix . '_EMPTYSTATE_TITLE';
-$moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . (array_key_exists('textSuffix', $displayData) ? $displayData['textSuffix'] : '');
-$moduleTitle = Text::_($moduleLangString);
+$textPrefix = $displayData['textPrefix'] ?? '';
+$textSuffix = $displayData['textSuffix'] ?? '';
+$title = $displayData['title'] ?? '';
+$componentLangString = $textPrefix . '_EMPTYSTATE_TITLE' . $textSuffix;
+$moduleLangString = $textPrefix . '_EMPTYSTATE_MODULE_TITLE' . $textSuffix;
 
-$title = $displayData['title']
-	?? ($moduleTitle != $moduleLangString
-		? Text::_($moduleTitle)
-		: Text::_($componentLangString));
+// Did we have a definitive title provided to the view? If not, let's find one!
+if (!$title)
+{
+	// Can we find a *_EMPTYSTATE_MODULE_TITLE translation, Else use the components *_EMPTYSTATE_TITLE string
+	$title = Factory::getApplication()->getLanguage()->hasKey($moduleLangString) ? $moduleLangString : $componentLangString;
+}
 ?>
 <div class="mb-4">
 	<p class="fw-bold text-center text-muted">
-		<span class="<?php echo $icon; ?>" aria-hidden="true"></span> <?php echo $title; ?>
+		<span class="<?php echo $icon; ?>" aria-hidden="true"></span> <?php echo Text::_($title); ?>
 	</p>
 </div>

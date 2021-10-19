@@ -14,7 +14,7 @@
 		<folder>form</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_media-action_crop.ini</language>
-		<language tag="en-GB">en-GB.plg_media-action_crop.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.sys.ini</language>
 	</languages>
 </extension>

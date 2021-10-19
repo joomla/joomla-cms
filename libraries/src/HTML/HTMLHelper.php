@@ -86,18 +86,10 @@ abstract class HTMLHelper
 
 		if (\count($parts) === 3)
 		{
-			try
-			{
-				Log::add(
-					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational message only, continue on
-			}
+			@trigger_error(
+				'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				E_USER_DEPRECATED
+			);
 		}
 
 		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
@@ -207,18 +199,10 @@ abstract class HTMLHelper
 	 */
 	public static function register($key, callable $function)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -239,18 +223,10 @@ abstract class HTMLHelper
 	 */
 	public static function unregister($key)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -684,40 +660,45 @@ abstract class HTMLHelper
 			return $obj;
 		}
 
-		$url    = preg_replace('#&amp;#', '&', $url);
-		$pieces = explode('?', $url);
+		$mediaUri = new Uri($url);
 
-		parse_str($pieces[1], $urlParams);
-
-		if (isset($urlParams['joomla_image_height']) && $urlParams['joomla_image_height'] !== 'null')
+		// Old image URL format
+		if ($mediaUri->hasVar('joomla_image_height'))
 		{
-			if ((int) $urlParams['joomla_image_height'] > 0)
-			{
-				$obj->attributes['height'] = $urlParams['joomla_image_height'];
-			}
-			else
-			{
-				unset($obj->attributes['height']);
-			}
+			$height = (int) $mediaUri->getVar('joomla_image_height');
+			$width  = (int) $mediaUri->getVar('joomla_image_width');
 
-			unset($urlParams['joomla_image_height']);
+			$mediaUri->delVar('joomla_image_height');
+			$mediaUri->delVar('joomla_image_width');
+		}
+		else
+		{
+			// New Image URL format
+			$fragmentUri = new Uri($mediaUri->getFragment());
+			$width       = (int) $fragmentUri->getVar('width', 0);
+			$height      = (int) $fragmentUri->getVar('height', 0);
 		}
 
-		if (isset($urlParams['joomla_image_width']) && $urlParams['joomla_image_width'] !== 'null')
+		if ($width > 0)
 		{
-			if ((int) $urlParams['joomla_image_width'] > 0)
-			{
-				$obj->attributes['width'] = $urlParams['joomla_image_width'];
-			}
-			else
-			{
-				unset($obj->attributes['width']);
-			}
-
-			unset($urlParams['joomla_image_width']);
+			$obj->attributes['width'] = $width;
+		}
+		else
+		{
+			unset($obj->attributes['width']);
 		}
 
-		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
+		if ($height > 0)
+		{
+			$obj->attributes['height'] = $height;
+		}
+		else
+		{
+			unset($obj->attributes['height']);
+		}
+
+		$mediaUri->setFragment('');
+		$obj->url = $mediaUri->toString();
 
 		return $obj;
 	}
@@ -1116,32 +1097,18 @@ abstract class HTMLHelper
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag       = Factory::getLanguage()->getTag();
-		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
+		$app       = Factory::getApplication();
+		$lang      = $app->getLanguage();
+		$tag       = $lang->getTag();
+		$calendar  = $lang->getCalendar();
+		$direction = strtolower($app->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
@@ -1202,13 +1169,15 @@ abstract class HTMLHelper
 			'singleheader'   => $singleHeader,
 			'tag'            => $tag,
 			'helperPath'     => $helperPath,
-			'localesPath'    => $localesPath,
 			'direction'      => $direction,
 			'onchange'       => $onchange,
 			'minYear'        => $minYear,
 			'maxYear'        => $maxYear,
 			'dataAttribute'  => '',
 			'dataAttributes' => '',
+			'calendar'       => $calendar,
+			'firstday'       => $lang->getFirstDay(),
+			'weekend'        => explode(',', $lang->getWeekEnd()),
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1227,18 +1196,10 @@ abstract class HTMLHelper
 	 */
 	public static function addIncludePath($path = '')
 	{
-		try
-		{
-			Log::add(
-				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		// Loop through the path directories
 		foreach ((array) $path as $dir)

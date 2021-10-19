@@ -29,19 +29,6 @@
 		/>
 
 		<field
-			name="resize_w"
-			type="range"
-			label="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH_SLIDER"
-			value="0"
-			hiddenLabel="true"
-		/>
-
-		<field
-			type="spacer"
-			hr="true"
-		/>
-
-		<field
 			name="resize_height"
 			type="text"
 			label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
@@ -49,14 +36,6 @@
 			addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
 			addonAfter="px"
 			pattern="\d*\.?\d*"
-		/>
-
-		<field
-			name="resize_h"
-			type="range"
-			label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT_SLIDER"
-			value="0"
-			hiddenLabel="true"
 		/>
 	</fieldset>
 </form>

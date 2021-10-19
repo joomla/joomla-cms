@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;
@@ -62,11 +62,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
-		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
-		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
-		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
-		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -95,6 +95,7 @@ HTMLHelper::_('bootstrap.dropdown');
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
+
 	<noscript>
 		<div class="alert alert-danger" role="alert">
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
@@ -104,7 +105,7 @@ HTMLHelper::_('bootstrap.dropdown');
 		<?php echo Text::_('JGLOBAL_WARNIE'); ?>
 	</div>
 
-	<header id="header" class="header">
+	<header id="header" class="header d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
 				<div class="logo">
@@ -134,7 +135,6 @@ HTMLHelper::_('bootstrap.dropdown');
 			</section>
 		</div>
 
-		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper px-3 pb-3">
 			<div id="main-brand" class="main-brand">
 				<h1><?php echo $app->get('sitename'); ?></h1>

@@ -154,8 +154,10 @@ class TransitionField extends ListField
 				}
 			);
 
-			// Sort by transition name
-			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
+			foreach ($items as $item)
+			{
+				$item->text = Text::_($item->text);
+			}
 		}
 
 		// Get workflow stage title

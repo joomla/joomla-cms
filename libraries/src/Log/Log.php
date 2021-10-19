@@ -10,6 +10,8 @@ namespace Joomla\CMS\Log;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Joomla! Log Class
  *

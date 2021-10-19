@@ -26,6 +26,7 @@
 			directory="media/vendor/tinymce/skins/ui"
 			recursive="false"
 			hide_none="true"
+			validate="options"
 		/>
 
 		<field
@@ -35,6 +36,7 @@
 			directory="media/vendor/tinymce/skins/ui"
 			recursive="false"
 			hide_none="true"
+			validate="options"
 		/>
 
 		<field
@@ -66,6 +68,20 @@
 			type="uploaddirs"
 			label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
 			showon="drag_drop:1"
+		/>
+
+		<field
+			name="content_template_path"
+			type="folderlist"
+			label="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_LABEL"
+			description="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_DESC"
+			directory="/templates"
+			hide_none="true"
+			recursive="true"
+			exclude="system"
+			default=""
+			folderFilter="^tinymce"
+			validate="options"
 		/>
 
 		<field
@@ -102,6 +118,7 @@
 			hide_default="1"
 			fileFilter="\.js$"
 			showon="lang_mode:0"
+			validate="options"
 		/>
 
 		<field
@@ -293,7 +310,6 @@
 			label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
 		/>
 
-
 		<field
 			name="external_plugins"
 			type="subform"
@@ -321,5 +337,4 @@
 		</field>
 
 	</fieldset>
-
 </form>

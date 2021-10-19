@@ -7,17 +7,22 @@ if (!Joomla) {
   throw new Error('Joomla API is not initialized');
 }
 
-const storageEnabled = typeof Storage !== 'undefined';
+const getCookie = () => document.cookie.length && document.cookie
+  .split('; ')
+  .find((row) => row.startsWith('atumSidebarState='))
+  .split('=')[1];
+
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 const menu = document.querySelector('.sidebar-menu');
-const sidebarNav = document.querySelector('.sidebar-nav');
-const subhead = document.querySelector('.subhead');
+const sidebarNav = [].slice.call(document.querySelectorAll('.sidebar-nav'));
+const subhead = document.querySelector('#subhead-container');
 const wrapper = document.querySelector('.wrapper');
 const sidebarWrapper = document.querySelector('.sidebar-wrapper');
 const logo = document.querySelector('.logo');
 const isLogin = document.querySelector('body.com_login');
+const menuToggleIcon = document.getElementById('menu-collapse-icon');
 const navDropDownIcon = document.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
 const headerTitleArea = document.querySelector('#header .header-title');
 const headerItemsArea = document.querySelector('#header .header-items');
@@ -47,13 +52,26 @@ function changeLogo(change) {
     return;
   }
 
-  const state = change
-    || (storageEnabled && localStorage.getItem('atum-sidebar'));
+  if (small.matches) {
+    logo.classList.add('small');
+    return;
+  }
+
+  const state = change || getCookie();
 
   if (state === 'closed') {
     logo.classList.add('small');
   } else {
     logo.classList.remove('small');
+  }
+  if (menuToggleIcon) {
+    if (wrapper.classList.contains('closed')) {
+      menuToggleIcon.classList.add('icon-toggle-on');
+      menuToggleIcon.classList.remove('icon-toggle-off');
+    } else {
+      menuToggleIcon.classList.remove('icon-toggle-on');
+      menuToggleIcon.classList.add('icon-toggle-off');
+    }
   }
 }
 
@@ -121,8 +139,6 @@ function headerItemsInDropdown() {
  * @since   4.0.0
  */
 function setMobile() {
-  changeLogo('closed');
-
   if (small.matches) {
     toggleArrowIcon();
 
@@ -138,14 +154,15 @@ function setMobile() {
   }
 
   if (small.matches) {
-    if (sidebarNav) sidebarNav.classList.add('collapse');
+    sidebarNav.map((el) => el.classList.add('collapse'));
     if (subhead) subhead.classList.add('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
   } else {
-    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    sidebarNav.map((el) => el.classList.remove('collapse'));
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
   }
+  changeLogo('closed');
 }
 
 /**
@@ -157,11 +174,11 @@ function setDesktop() {
   if (!sidebarWrapper) {
     changeLogo('closed');
   } else {
-    changeLogo();
+    changeLogo(getCookie() || 'open');
     sidebarWrapper.classList.remove('collapse');
   }
 
-  if (sidebarNav) sidebarNav.classList.remove('collapse');
+  sidebarNav.map((el) => el.classList.remove('collapse'));
   if (subhead) subhead.classList.remove('collapse');
 
   toggleArrowIcon('top');
@@ -201,19 +218,27 @@ function subheadScrolling() {
   }
 }
 
+// Initialize
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
-
 if (mobile.matches) {
-  setMobile();
-} else {
-  setDesktop();
-
-  if (!navigator.cookieEnabled) {
-    Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+  changeLogo('closed');
+  if (subhead) {
+    subhead.classList.remove('show');
+    subhead.classList.add('collapse');
   }
-  window.addEventListener('joomla:menu-toggle', () => {
-    headerItemsInDropdown();
-  });
 }
+if (!navigator.cookieEnabled) {
+  Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+}
+window.addEventListener('joomla:menu-toggle', (event) => {
+  headerItemsInDropdown();
+  document.cookie = `atumSidebarState=${event.detail};`;
+
+  if (mobile.matches) {
+    changeLogo('closed');
+  } else {
+    changeLogo(event.detail);
+  }
+});

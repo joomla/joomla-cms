@@ -1044,7 +1044,7 @@ class Nested extends Table
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 		}
 

@@ -45,7 +45,9 @@
 			<field
 				name="file"
 				type="filelist"
+				hide_default="true"
 				label="COM_MAILS_FIELD_FILE_LABEL"
+				validate="options"
 			/>
 			<field
 				name="name"
@@ -200,6 +202,7 @@
 				filter="raw"
 				autocomplete="off"
 				size="30"
+				lock="true"
 			/>
 
 			<field

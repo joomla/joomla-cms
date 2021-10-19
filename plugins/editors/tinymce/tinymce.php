@@ -470,32 +470,41 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if (!empty($allButtons['template']))
 		{
-			foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
+			// Do we have a custom content_template_path
+			$template_path = $levelParams->get('content_template_path');
+			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
+
+			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
 			{
-				$filename = basename($filename, '.html');
+				$fileinfo      = pathinfo($filepath);
+				$filename      = $fileinfo['filename'];
+				$full_filename = $fileinfo['basename'];
 
-				if ($filename !== 'index')
+				if ($filename === 'index')
 				{
-					$lang        = Factory::getLanguage();
-					$title       = $filename;
-					$description = ' ';
-
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
-					{
-						$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
-					}
-
-					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
-					{
-						$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
-					}
-
-					$templates[] = array(
-						'title' => $title,
-						'description' => $description,
-						'url' => Uri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
-					);
+					continue;
 				}
+
+				$lang        = Factory::getLanguage();
+				$title       = $filename;
+				$title_upper = strtoupper($filename);
+				$description = ' ';
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				{
+					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
+				}
+
+				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				{
+					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
+				}
+
+				$templates[] = array(
+					'title' => $title,
+					'description' => $description,
+					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
+				);
 			}
 		}
 
@@ -523,7 +532,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			Text::script('JERROR');
+			Text::script('ERROR');
 			Text::script('PLG_TINY_DND_ADDITIONALDATA');
 			Text::script('PLG_TINY_DND_ALTTEXT');
 			Text::script('PLG_TINY_DND_LAZYLOADED');
@@ -534,7 +543,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local-0:';
+			$scriptOptions['comMediaAdapter']    = 'local-images:';
 		}
 
 		// Convert pt to px in dropdown

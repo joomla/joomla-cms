@@ -339,6 +339,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
   INDEX `idx_state` (`state`),
   INDEX `idx_access` (`access`),
   INDEX `idx_path` (`path`(100)),
+  INDEX `idx_level` (`level`),
   INDEX `idx_left_right` (`lft`, `rgt`),
   INDEX `idx_alias` (`alias`(100)),
   INDEX `idx_language` (`language`),

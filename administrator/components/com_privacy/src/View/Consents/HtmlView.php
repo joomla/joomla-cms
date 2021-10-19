@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -156,6 +156,6 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::preferences('com_privacy');
 
-		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
+		ToolbarHelper::help('Privacy:_Consents');
 	}
 }

@@ -261,6 +261,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'zlib'                => extension_loaded('zlib'),
 			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'            => extension_loaded('mbstring'),
+			'gd'                  => extension_loaded('gd'),
 			'iconv'               => function_exists('iconv'),
 			'intl'                => function_exists('transliterator_transliterate'),
 			'max_input_vars'      => ini_get('max_input_vars'),
@@ -430,7 +431,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->phpInfoArray;
 		}
 
-		$phpInfo = $this->getPhpInfo();
+		$phpInfo = $this->getPHPInfo();
 
 		$this->phpInfoArray = $this->parsePhpInfo($phpInfo);
 
@@ -534,6 +535,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
+		$this->addDirectory('administrator/components/com_joomlaupdate', JPATH_ADMINISTRATOR . '/components/com_joomlaupdate');
 		$this->addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 		// List all admin languages

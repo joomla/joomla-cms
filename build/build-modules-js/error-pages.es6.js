@@ -112,7 +112,8 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const jsonContent = `window.errorLocale=${JSON.stringify(global[`${name}Obj`])};`;
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
@@ -140,13 +141,13 @@ module.exports.createErrorPages = async (options) => {
     }
 
     if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true });
+      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
     }
 
     await writeFile(
       `${RootPath}${options.settings.errorPages[name].destFile}`,
       template,
-      { encoding: 'utf8' },
+      { encoding: 'utf8', mode: 0o644 },
     );
 
     // eslint-disable-next-line no-console

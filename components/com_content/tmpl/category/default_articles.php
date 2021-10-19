@@ -90,7 +90,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				</span>
 				<select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
 					<option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
-					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
 			<?php else : ?>
 				<label class="filter-search-lbl visually-hidden" for="filter-search">
