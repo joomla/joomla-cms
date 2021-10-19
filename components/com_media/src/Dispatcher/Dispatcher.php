@@ -53,6 +53,7 @@ class Dispatcher extends ComponentDispatcher
 
 		// Access check
 		if (!$user->authorise('core.manage', 'com_media')
+		    	&& !$user->authorise('core.create', 'com_media')
 			&& (!$asset || (!$user->authorise('core.edit', $asset)
 			&& !$user->authorise('core.create', $asset)
 			&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
