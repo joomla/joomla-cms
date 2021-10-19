@@ -155,7 +155,7 @@ class StylesController extends AdminController
 	 *
 	 * @return  string  The JSON-encoded amount of published styles
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getQuickiconContent()
 	{
