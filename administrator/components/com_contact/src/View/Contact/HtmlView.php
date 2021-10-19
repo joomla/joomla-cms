@@ -173,6 +173,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		ToolbarHelper::help('Contacts:_New_or_Edit');
 	}
 }

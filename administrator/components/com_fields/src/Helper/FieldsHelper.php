@@ -87,16 +87,20 @@ class FieldsHelper
 	 * The values of the fields can be overridden by an associative array where the keys
 	 * have to be a name and its corresponding value.
 	 *
-	 * @param   string     $context           The context of the content passed to the helper
-	 * @param   \stdClass  $item              item
-	 * @param   int|bool   $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-	 * @param   array      $valuesToOverride  The values to override
+	 * @param   string      $context              The context of the content passed to the helper
+	 * @param   null        $item                 The item being edited in the form
+	 * @param   int|bool    $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+	 * @param   array|null  $valuesToOverride     The values to override
+	 * @param   bool        $includeSubformFields Should I include fields marked as Only Use In Subform?
 	 *
 	 * @return  array
 	 *
+	 * @throws \Exception
 	 * @since   3.7.0
 	 */
-	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
+	public static function getFields(
+		$context, $item = null, $prepareValue = false, array $valuesToOverride = null, bool $includeSubformFields = false
+	)
 	{
 		if (self::$fieldsCache === null)
 		{
@@ -106,6 +110,15 @@ class FieldsHelper
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
+		}
+
+		if ($includeSubformFields)
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', '');
+		}
+		else
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', 0);
 		}
 
 		if (is_array($item))

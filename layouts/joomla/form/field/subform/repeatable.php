@@ -28,6 +28,7 @@ extract($displayData);
  * @var   string  $control          The forms control
  * @var   string  $label            The field label
  * @var   string  $description      The field description
+ * @var   string  $class            Classes for the container
  * @var   array   $buttons          Array of the buttons that will be rendered
  * @var   bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
@@ -39,11 +40,13 @@ if ($multiple)
 		->useScript('webcomponent.field-subform');
 }
 
+$class = $class ? ' ' . $class : '';
+
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
 <div class="subform-repeatable-wrapper subform-layout">
-	<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
+	<joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
 		button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 		repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 		<?php if (!empty($buttons['add'])) : ?>

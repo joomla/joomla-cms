@@ -35,7 +35,7 @@
     margin: ($cassiopeia-grid-gutter / 2) 0;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     flex-direction: column;
 
     > * {
@@ -74,7 +74,7 @@
   width: calc(100% - #{$cassiopeia-grid-gutter});
   order: 1;
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     width: calc(25% - #{$cassiopeia-grid-gutter});
     order: 0;
   }

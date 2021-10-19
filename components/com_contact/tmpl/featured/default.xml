@@ -3,7 +3,7 @@
 <metadata>
 	<layout title="COM_CONTACT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTACT_FEATURED_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_FEATURED"
+			key = "Menu_Item:_Featured_Contacts"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_FEATURED_VIEW_DEFAULT_DESC]]>
