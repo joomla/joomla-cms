@@ -66,8 +66,14 @@ class SuggestionsModel extends ListModel
 	protected function getListQuery()
 	{
 		$user   = Factory::getUser();
+		$params = ComponentHelper::getParams('com_finder');
 		$groups = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 		$lang   = Helper::getPrimaryLanguage($this->getState('language'));
+
+		$wildcard = (bool) $params->get('enable_wildcard', 0);
+		$wildcardPrefix = $wildcard
+			? '%'
+			: '';
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -77,7 +83,7 @@ class SuggestionsModel extends ListModel
 		// Limit term count to a reasonable number of results to reduce main query join size
 		$termIdQuery->select('ti.term_id')
 			->from($db->quoteName('#__finder_terms', 'ti'))
-			->where('ti.term LIKE ' . $db->quote($db->escape(StringHelper::strtolower($this->getState('input')), true) . '%', false))
+			->where('ti.term LIKE ' . $db->quote($wildcardPrefix . $db->escape(StringHelper::strtolower($this->getState('input')), true) . '%', false))
 			->where('ti.common = 0')
 			->where('ti.language IN (' . $db->quote($lang) . ', ' . $db->quote('*') . ')')
 			->order('ti.links DESC')
