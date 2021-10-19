@@ -180,6 +180,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
+		// Get the nameif the transition
+		$model_transition = $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Transition', 'Administrator');
+
+		$transitionName = $model_transition->getItem($transition->id)->title;
+
 		$hasGetItem = method_exists($model, 'getItem');
 		$container = Factory::getContainer();
 
@@ -204,7 +210,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 					$lang = $container->get(LanguageFactoryInterface::class)
 						->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
 					$lang->load('plg_workflow_notification');
-					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
+					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
+						$title,
+						$lang->_($transitionName),
+						$user->name,
+						$lang->_($toStage)
+					);
 
 					if (!empty($transition->options['notification_text']))
 					{
