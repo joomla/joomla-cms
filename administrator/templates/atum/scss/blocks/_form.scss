@@ -47,7 +47,10 @@
   .form-vertical & {
     flex-direction: column;
   }
+}
 
+.stack .control-label {
+  width: 100%;
 }
 
 .spacer {

@@ -15,7 +15,7 @@ $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;    //used for focus color
 $dark-blue:                        #001b4c; //is the atum-special-color
-$light-blue:                       #2a69b8; //is the atum-link-color
+$light-blue:                       #2a69b8; //is the template-link-color
 $focusshadow:                      0 0 0 .2rem #eaeaea;
 
 // BS Colours
@@ -50,12 +50,38 @@ $theme-colors: map-merge((
   danger:                          $danger,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
-  atum-link-color:                 $light-blue,
-  atum-text-dark:                  $atum-text-dark,
   action:                          $base-color,
   error:                           $red-dark,
   alert-success:                   $green-dark
 ), $theme-colors);
+
+$atum-colors: (
+  template-sidebar-bg:             var(--template-bg-dark-80),
+  template-sidebar-font-color:     $white,
+  template-sidebar-link-color:     $white,
+  template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-text-light:             $white,
+  template-special-color:          $dark-blue,
+  template-link-color:             $light-blue,
+  template-link-hover-color:       darken($light-blue, 20%),
+  template-contrast:               $light-blue,
+  template-bg-dark:                hsl(var(--hue), 40%, 20%),
+  template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
+  template-bg-dark-5:              hsl(var(--hue), 40%, 95%),
+  template-bg-dark-7:              hsl(var(--hue), 40%, 93%),
+  template-bg-dark-10:             hsl(var(--hue), 40%, 90%),
+  template-bg-dark-15:             hsl(var(--hue), 40%, 85%),
+  template-bg-dark-20:             hsl(var(--hue), 40%, 80%),
+  template-bg-dark-30:             hsl(var(--hue), 40%, 70%),
+  template-bg-dark-40:             hsl(var(--hue), 40%, 60%),
+  template-bg-dark-50:             hsl(var(--hue), 40%, 50%),
+  template-bg-dark-60:             hsl(var(--hue), 40%, 40%),
+  template-bg-dark-65:             hsl(var(--hue), 40%, 35%),
+  template-bg-dark-70:             hsl(var(--hue), 40%, 30%),
+  template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
+  template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
+  template-bg-dark-90:             hsl(var(--hue), 40%, 10%)
+);
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
@@ -73,31 +99,6 @@ $colors: (
   focus:                           $focuscolor,
   focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
-  template-sidebar-bg:                 var(--template-bg-dark-80),
-  template-sidebar-font-color:         $white,
-  template-sidebar-link-color:         $white,
-  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
-  template-text-light:                 $white,
-  template-special-color:              $dark-blue,
-  template-link-color:                 $light-blue,
-  template-link-hover-color:           darken($light-blue, 20%),
-  template-contrast:                   $light-blue,
-  template-bg-dark:                    hsl(var(--hue), 40%, 20%),
-  template-bg-dark-3:                  hsl(var(--hue), 40%, 97%),
-  template-bg-dark-5:                  hsl(var(--hue), 40%, 95%),
-  template-bg-dark-7:                  hsl(var(--hue), 40%, 93%),
-  template-bg-dark-10:                 hsl(var(--hue), 40%, 90%),
-  template-bg-dark-15:                 hsl(var(--hue), 40%, 85%),
-  template-bg-dark-20:                 hsl(var(--hue), 40%, 80%),
-  template-bg-dark-30:                 hsl(var(--hue), 40%, 70%),
-  template-bg-dark-40:                 hsl(var(--hue), 40%, 60%),
-  template-bg-dark-50:                 hsl(var(--hue), 40%, 50%),
-  template-bg-dark-60:                 hsl(var(--hue), 40%, 40%),
-  template-bg-dark-65:                 hsl(var(--hue), 40%, 35%),
-  template-bg-dark-70:                 hsl(var(--hue), 40%, 30%),
-  template-bg-dark-75:                 hsl(var(--hue), 40%, 25%),
-  template-bg-dark-80:                 hsl(var(--hue), 40%, 20%),
-  template-bg-dark-90:                 hsl(var(--hue), 40%, 10%)
 );
 
 // Alerts
@@ -157,9 +158,6 @@ $semibold-weight:                  600;
 $bold-weight:                      700;
 $extrabold-weight:                 800;
 $black-weight:                     900;
-
-// Text
-$body-color:                       var(--template-text-dark); //only used in bootstrap, please use --template-color-dark
 
 // Tables
 $table-bg:                         var(--white);

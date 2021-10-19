@@ -387,9 +387,6 @@ class HtmlView extends BaseHtmlView
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
 
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
-
 		$model = $this->getModel();
 		$model->hit();
 
