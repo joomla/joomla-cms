@@ -133,6 +133,7 @@ class MediaController extends ApiController
 		if ($doSearch = array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
+
 			// Tell model to search recursively
 			$this->modelState->set('search_recursive', $this->input->get('search_recursive', false, 'BOOLEAN'));
 		}
