@@ -73,7 +73,7 @@ class JsonapiView extends BaseApiView
 		'adapter',
 		'content',
 		'url',
-		'tempUrl'
+		'tempUrl',
 	];
 
 	/**
