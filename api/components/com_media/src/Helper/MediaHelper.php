@@ -35,7 +35,7 @@ class MediaHelper
 		$parts = explode(':', $path, 2);
 
 		// If we have 2 parts, we have both an adapter name and a file path.
-		if (count($parts) == 2)
+		if (\count($parts) == 2)
 		{
 			$result['adapter'] = $parts[0];
 			$result['path'] = $parts[1];
