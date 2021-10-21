@@ -30,7 +30,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
 	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
 	 *
-	 * @var int
+	 * @var    int
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $total = 0;
