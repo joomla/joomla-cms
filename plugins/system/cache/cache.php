@@ -63,15 +63,13 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		// Disable ourselves if we're running under CLI
-		if (\defined('STDOUT') || \defined('STDIN') || isset($_SERVER['argv']))
-		{
-			$this->isCli = true;
+		parent::__construct($subject, $config);
 
+		// Run only when we're on the public section
+		if (!$this->app->isClient('site'))
+		{
 			return;
 		}
-
-		parent::__construct($subject, $config);
 
 		// Set the cache options.
 		$options = array(
@@ -96,8 +94,8 @@ class PlgSystemCache extends CMSPlugin
 	{
 		static $key;
 
-		// Do not run under CLI
-		if ($this->isCli)
+		// Run only when we're on the public section
+		if (!$this->app->isClient('site'))
 		{
 			return '';
 		}
@@ -124,13 +122,7 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		// Do not run under CLI
-		if ($this->isCli)
-		{
-			return;
-		}
-
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
+		if (!$this->app->isClient('site') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
 		}
@@ -183,8 +175,8 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		// Do not run under CLI
-		if ($this->isCli)
+		// Run only when we're on the public section
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
@@ -217,8 +209,8 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		// Do not run under CLI
-		if ($this->isCli)
+		// Run only when we're on the public section
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
@@ -241,8 +233,8 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	protected function isExcluded()
 	{
-		// Do not run under CLI
-		if ($this->isCli)
+		// Run only when we're on the public section
+		if (!$this->app->isClient('site'))
 		{
 			return true;
 		}
