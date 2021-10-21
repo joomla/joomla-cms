@@ -17,7 +17,7 @@ modules:
             window_size: 1920x1080
             capabilities:
               'goog:chromeOptions':
-                args: ["whitelisted-ips", "disable-gpu", "no-sandbox", "window-size=1920x1080", "--disable-dev-shm-usage"]
+                args: ["headless", whitelisted-ips", "disable-gpu", "no-sandbox", "window-size=1920x1080", "--disable-dev-shm-usage"]
             name: 'jane doe'                       # Name for the Administrator
             username: 'ci-admin'                   # UserName for the Administrator
             password: 'joomla-17082005'            # Password for the Administrator

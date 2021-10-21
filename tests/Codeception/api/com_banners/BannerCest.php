@@ -25,7 +25,7 @@ class BannerCest
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function _before(ApiTester $I)
 	{
