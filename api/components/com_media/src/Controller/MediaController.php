@@ -228,6 +228,7 @@ class MediaController extends ApiController
 		}
 
 		$this->modelState->set('path', $this->input->json->get('path', '', 'STRING'));
+
 		// Check if an existing file may be overwritten. Defaults to false.
 		$this->modelState->set('override', $this->input->json->get('override', false));
 
