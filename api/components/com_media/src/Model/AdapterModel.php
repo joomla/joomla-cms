@@ -11,11 +11,8 @@ namespace Joomla\Component\Media\Api\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Component\Media\Api\Helper\AdapterTrait;
 
 /**
  * Media web service model supporting a single adapter item.
@@ -24,6 +21,8 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  */
 class AdapterModel extends BaseModel
 {
+	use AdapterTrait;
+
 	/**
 	 * Method to get a single adapter.
 	 *
@@ -33,14 +32,6 @@ class AdapterModel extends BaseModel
 	 */
 	public function getItem(): \stdClass
 	{
-		$providerManager = new ProviderManager;
-
-		// Fire the event to get the results
-		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $providerManager];
-		$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-		PluginHelper::importPlugin('filesystem');
-		Factory::getApplication()->getDispatcher()->dispatch('onSetupProviders', $event);
-
 		list($provider, $account) = array_pad(explode('-', $this->getState('id'), 2), 2, null);
 
 		if ($account === null)
@@ -48,10 +39,10 @@ class AdapterModel extends BaseModel
 			throw new \Exception('Account was not set');
 		}
 
-		$provider = $providerManager->getProvider($provider);
-		$adapter  = $providerManager->getAdapter($this->getState('id'));
+		$provider = $this->getProvider($provider);
+		$adapter  = $this->getAdapter($this->getState('id'));
 
-		$obj              = new \stdClass;
+		$obj              = new \stdClass();
 		$obj->id          = $provider->getID() . '-' . $adapter->getAdapterName();
 		$obj->provider_id = $provider->getID();
 		$obj->name        = $adapter->getAdapterName();

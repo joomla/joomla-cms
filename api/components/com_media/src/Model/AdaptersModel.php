@@ -11,13 +11,10 @@ namespace Joomla\Component\Media\Api\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Component\Media\Api\Helper\AdapterTrait;
 
 /**
  * Media web service model supporting lists of media adapters.
@@ -26,6 +23,8 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  */
 class AdaptersModel extends BaseModel implements ListModelInterface
 {
+	use AdapterTrait;
+
 	/**
 	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
 	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
@@ -44,20 +43,12 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 */
 	public function getItems(): array
 	{
-		$providerManager = new ProviderManager;
-
-		// Fire the event to get the results
-		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $providerManager];
-		$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-		PluginHelper::importPlugin('filesystem');
-		Factory::getApplication()->getDispatcher()->dispatch('onSetupProviders', $event);
-
 		$adapters = [];
-		foreach($providerManager->getProviders() as $provider)
+		foreach ($this->getProviderManager()->getProviders() as $provider)
 		{
 			foreach ($provider->getAdapters() as $adapter)
 			{
-				$obj              = new \stdClass;
+				$obj              = new \stdClass();
 				$obj->id          = $provider->getID() . '-' . $adapter->getAdapterName();
 				$obj->provider_id = $provider->getID();
 				$obj->name        = $adapter->getAdapterName();

@@ -84,7 +84,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @param   string  $path  The primary key of the item (if exists)
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  int     The record ID on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Save
@@ -123,7 +123,8 @@ class MediumModel extends BaseModel
 			{
 				throw new Save(
 					Text::sprintf(
-						'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $oldPath
+						'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
+						$oldPath
 					),
 					404
 				);
@@ -145,10 +146,17 @@ class MediumModel extends BaseModel
 				// Otherwise a folder is assumed.
 				$name = $content
 					? $this->mediaApiModel->createFile(
-						$adapterName, $basename, $dirname, $content, $override
+						$adapterName,
+						$basename,
+						$dirname,
+						$content,
+						$override
 					)
 					: $this->mediaApiModel->createFolder(
-						$adapterName, $basename, $dirname, $override
+						$adapterName,
+						$basename,
+						$dirname,
+						$override
 					);
 
 				$resultPath = $dirname . '/' . $name;
@@ -197,7 +205,10 @@ class MediumModel extends BaseModel
 			try
 			{
 				$this->mediaApiModel->updateFile(
-					$adapterName, $basename, $dirname, $content
+					$adapterName,
+					$basename,
+					$dirname,
+					$content
 				);
 			}
 			catch (FileNotFoundException $e)

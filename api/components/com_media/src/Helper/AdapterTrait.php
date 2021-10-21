@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
@@ -34,7 +35,21 @@ trait AdapterTrait
 	private $providerManager = null;
 
 	/**
-	 * Return a provider manager.
+	 * Returns a provider for the given id.
+	 *
+	 * @return ProviderInterface
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getProvider(String $id): ProviderInterface
+	{
+		return $this->getProviderManager()->getProvider($id);
+	}
+
+	/**
+	 * Return an adapter for the given name.
 	 *
 	 * @return AdapterInterface
 	 *
@@ -42,7 +57,19 @@ trait AdapterTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getAdapter(String $name)
+	private function getAdapter(String $name): AdapterInterface
+	{
+		return $this->getProviderManager()->getAdapter($name);
+	}
+
+	/**
+	 * Return a provider manager.
+	 *
+	 * @return ProviderManager
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getProviderManager(): ProviderManager
 	{
 		if (!$this->providerManager)
 		{
@@ -55,6 +82,6 @@ trait AdapterTrait
 			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 		}
 
-		return $this->providerManager->getAdapter($name);
+		return $this->providerManager;
 	}
 }

@@ -77,14 +77,6 @@ class JsonapiView extends BaseApiView
 	];
 
 	/**
-	 * Holds the available media file adapters.
-	 *
-	 * @var    ProviderManager|null
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $providerManager = null;
-
-	/**
 	 * Prepare item before render.
 	 *
 	 * @param   object  $item  The model item

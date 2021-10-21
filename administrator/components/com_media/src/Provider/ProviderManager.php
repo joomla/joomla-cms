@@ -91,15 +91,13 @@ class ProviderManager
 	{
 		list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
 
-		if ($account == null)
-		{
+		if ($account == null) {
 			throw new \Exception('Account was not set');
 		}
 
 		$adapters = $this->getProvider($provider)->getAdapters();
 
-		if (!isset($adapters[$account]))
-		{
+		if (!isset($adapters[$account])) {
 			throw new \Exception("The account was not found");
 		}
 
