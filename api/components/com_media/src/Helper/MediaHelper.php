@@ -47,7 +47,7 @@ class MediaHelper
 		$result['adapter'] = self::defaultAdapterName();
 
 		// If we have 1 part, we return it as the path. Otherwise we return a default path.
-		$result['path'] = count($parts) ? $parts[0] : '/';
+		$result['path'] = \count($parts) ? $parts[0] : '/';
 
 		return $result;
 	}
