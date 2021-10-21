@@ -87,7 +87,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 		 * Because com_media's ApiModel does not support pagination as we know from regular ListModel
 		 * derived models, we always return all retrieved items.
 		 */
-		$this->total = count($files);
+		$this->total = \count($files);
 
 		return $files;
 	}
