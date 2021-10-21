@@ -66,7 +66,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 			'temp'      => $this->getState('temp', false),
 			'search'    => $this->getState('search', ''),
 			'recursive' => $this->getState('search_recursive', false),
-			'content'   => $this->getState('content', false)
+			'content'   => $this->getState('content', false),
 		];
 
 		['adapter' => $adapterName, 'path' => $path] = MediaHelper::adapterNameAndPath($this->getState('path', ''));
