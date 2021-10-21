@@ -109,7 +109,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	 * does not support pagination as we know from regular ListModel derived models,
 	 * we always start at the top.
 	 *
-	 * @return  integer  The starting number of items available in the data set.
+	 * @return  int  The starting number of items available in the data set.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -121,7 +121,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 	/**
 	 * Method to get the total number of items for the data set.
 	 *
-	 * @return  integer  The total number of items available in the data set.
+	 * @return  int  The total number of items available in the data set.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
