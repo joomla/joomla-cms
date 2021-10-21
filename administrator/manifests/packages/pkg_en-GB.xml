@@ -2,7 +2,7 @@
 <extension type="package" version="3.9" method="upgrade">
 	<name>English (en-GB) Language Pack</name>
 	<packagename>en-GB</packagename>
-	<version>3.10.3.1</version>
+	<version>3.10.4.1</version>
 	<creationDate>October 2021</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
