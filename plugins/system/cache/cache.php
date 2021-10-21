@@ -48,6 +48,12 @@ class PlgSystemCache extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Are we running under a CLI environment?
+	 * @var bool
+	 */
+	private $isCli = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -57,6 +63,14 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
+		// Disable ourselves if we're running under CLI
+		if (\defined('STDOUT') || \defined('STDIN') || isset($_SERVER['argv']))
+		{
+			$this->isCli = true;
+
+			return;
+		}
+
 		parent::__construct($subject, $config);
 
 		// Set the cache options.
@@ -82,6 +96,12 @@ class PlgSystemCache extends CMSPlugin
 	{
 		static $key;
 
+		// Do not run under CLI
+		if ($this->isCli)
+		{
+			return '';
+		}
+
 		if (!$key)
 		{
 			PluginHelper::importPlugin('pagecache');
@@ -104,6 +124,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
+		// Do not run under CLI
+		if ($this->isCli)
+		{
+			return;
+		}
+
 		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
@@ -157,6 +183,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
+		// Do not run under CLI
+		if ($this->isCli)
+		{
+			return;
+		}
+
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
@@ -185,6 +217,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		// Do not run under CLI
+		if ($this->isCli)
+		{
+			return;
+		}
+
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
@@ -203,6 +241,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	protected function isExcluded()
 	{
+		// Do not run under CLI
+		if ($this->isCli)
+		{
+			return true;
+		}
+
 		// Check if menu items have been excluded.
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
