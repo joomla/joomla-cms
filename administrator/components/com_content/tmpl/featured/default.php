@@ -24,7 +24,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -77,9 +80,6 @@ $js = <<<JS
 	});
 })();
 JS;
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
@@ -194,9 +194,7 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
-								data-transitions="<?php echo implode(',', $transition_ids); ?>"
-							>
+							<tr class="row<?php echo $i % 2; ?>" data-transitions="<?php echo implode(',', $transition_ids); ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>

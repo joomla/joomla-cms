@@ -59,6 +59,12 @@ class PlgSystemCache extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
+		// Run only when we're on Site Application side
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
 		// Set the cache options.
 		$options = array(
 			'defaultgroup' => 'page',
@@ -82,6 +88,12 @@ class PlgSystemCache extends CMSPlugin
 	{
 		static $key;
 
+		// Run only when we're on Site Application side
+		if (!$this->app->isClient('site'))
+		{
+			return '';
+		}
+
 		if (!$key)
 		{
 			PluginHelper::importPlugin('pagecache');
@@ -104,7 +116,7 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
+		if (!$this->app->isClient('site') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
 		}
@@ -157,6 +169,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
+		// Run only when we're on Site Application side
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
@@ -185,6 +203,12 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		// Run only when we're on Site Application side
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
@@ -225,7 +249,8 @@ class PlgSystemCache extends CMSPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Gets internal URI.
-			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			// Router can be injected when turned into a DI built plugin
+			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			// Loop through each pattern.
 			if ($exclusions)
@@ -236,7 +261,7 @@ class PlgSystemCache extends CMSPlugin
 					if ($exclusion !== '')
 					{
 						// Test both external and internal URI
-						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri, $match))
+						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri))
 						{
 							return true;
 						}

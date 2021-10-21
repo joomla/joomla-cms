@@ -9,11 +9,11 @@
 }
 
 .sidebyside #left-panel .inner-panel {
-  padding: 0 10px 0 0;
+  padding-inline-end: 10px;
 }
 
 .sidebyside #right-panel .inner-panel {
-  padding: 0 0 0 10px;
+  padding-inline-end: 10px;
 }
 
 .sidebyside .full-width {
@@ -38,7 +38,7 @@
 
 .sidebyside .modaltarget {
   float: left;
-  margin-left: .5rem;
+  margin-inline-start: .5rem;
 }
 
 .sidebyside #target-association {
@@ -55,62 +55,23 @@
 }
 
 /* RTL overrides */
-html[dir=rtl] .sidebyside .outer-panel {
+[dir=rtl] .sidebyside .outer-panel {
   float: right;
 }
 
-html[dir=rtl] .sidebyside #left-panel .inner-panel {
-  padding: 0 0 0 10px;
-}
-
-html[dir=rtl] .sidebyside #right-panel .inner-panel {
-  padding: 0 10px 0 0;
-}
-
-html[dir=rtl] .sidebyside .full-width .inner-panel {
-  padding: 0 !important;
-}
-
-html[dir=rtl] .sidebyside .langtarget {
+[dir=rtl] .sidebyside .langtarget {
   float: right;
 }
 
-html[dir=rtl] .sidebyside .modaltarget {
+[dir=rtl] .sidebyside .modaltarget {
   float: right;
-  margin-left: 0;
-  margin-right: .5rem;
 }
 
-html[dir=rtl] .target-text {
+[dir=rtl] .target-text {
   float: right;
 }
 
 /* Responsive layout */
-@media (max-width: 1140px) {
-  .sidebyside #reference-association {
-    margin-top: 6.2rem;
-  }
-
-  .sidebyside .langtarget {
-    float: none;
-  }
-
-  .sidebyside .modaltarget {
-    float: left;
-    margin-left: 0;
-  }
-
-  html[dir=rtl] .sidebyside .langtarget {
-    float: none;
-  }
-
-  html[dir=rtl] .sidebyside .modaltarget {
-    float: right;
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 @media (max-width: 767.98px) {
   .sidebyside .outer-panel {
     float: none;

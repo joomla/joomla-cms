@@ -80,7 +80,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                              'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface   $factory      The factory.
-	 * @param   CMSApplication        $app          The JApplication for the dispatcher
+	 * @param   CMSApplication        $app          The Application for the dispatcher
 	 * @param   Input                 $input        Input
 	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
@@ -262,7 +262,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function batch($model)
 	{
 		$vars = $this->input->post->get('batch', array(), 'array');
-		$cid  = $this->input->post->get('cid', array(), 'array');
+		$cid  = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -369,7 +372,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid   = (array) $this->input->post->get('cid', array(), 'int');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -875,9 +878,19 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			{
 				$fieldName = $field->fieldname;
 
-				if (isset($filteredData[$fieldName]))
+				if ($field->group)
 				{
-					$data[$fieldName] = $filteredData[$fieldName];
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 		}

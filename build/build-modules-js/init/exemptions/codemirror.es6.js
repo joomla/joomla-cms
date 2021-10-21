@@ -45,22 +45,25 @@ module.exports.codeMirror = async (packageName, version) => {
       'media/vendor/codemirror/addon/mode/multiplex.js',
       'media/vendor/codemirror/addon/scroll/annotatescrollbar.js',
       'media/vendor/codemirror/addon/scroll/simplescrollbars.js',
-      'media/vendor/codemirror/addon/scroll/matchesonscrollbar.js',
-      'media/vendor/codemirror/addon/scroll/match-highlighter.js',
-      'media/vendor/codemirror/addon/scroll/searchcursor.js',
+      'media/vendor/codemirror/addon/search/match-highlighter.js',
+      'media/vendor/codemirror/addon/search/matchesonscrollbar.js',
+      'media/vendor/codemirror/addon/search/search.js',
+      'media/vendor/codemirror/addon/search/searchcursor.js',
       'media/vendor/codemirror/addon/selection/active-line.js',
       'media/vendor/codemirror/mode/meta.js',
     ],
     'media/vendor/codemirror/lib/addons.js',
   );
 
-  await concatFiles([
-    'media/vendor/codemirror/addon/display/fullscreen.css',
-    'media/vendor/codemirror/addon/fold/foldgutter.css',
-    'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
-    'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
-  ],
-  'media/vendor/codemirror/lib/addons.css');
+  await concatFiles(
+    [
+      'media/vendor/codemirror/addon/display/fullscreen.css',
+      'media/vendor/codemirror/addon/fold/foldgutter.css',
+      'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
+      'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
+    ],
+    'media/vendor/codemirror/lib/addons.css',
+  );
 
   // Update the XML file for Codemirror
   let codemirrorXml = await readFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'utf8' });

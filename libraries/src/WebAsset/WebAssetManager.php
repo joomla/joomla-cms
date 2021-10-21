@@ -154,6 +154,26 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
+	 * Clears all collected items.
+	 *
+	 * @return self
+	 *
+	 * @since  4.1.1
+	 */
+	public function reset(): WebAssetManagerInterface
+	{
+		if ($this->locked)
+		{
+			throw new InvalidActionException('WebAssetManager is locked');
+		}
+
+		$this->activeAssets = [];
+		$this->dependenciesIsActual = false;
+
+		return $this;
+	}
+
+	/**
 	 * Adds support for magic method calls
 	 *
 	 * @param   string  $method     A method name
@@ -363,7 +383,7 @@ class WebAssetManager implements WebAssetManagerInterface
 				$depName = substr($dependency, 0, $pos);
 			}
 
-			$depType = $depType ? $depType : 'preset';
+			$depType = $depType ?: 'preset';
 
 			// Make sure dependency exists
 			if (!$this->registry->exists($depType, $depName))
@@ -409,7 +429,7 @@ class WebAssetManager implements WebAssetManagerInterface
 				$depName = substr($dependency, 0, $pos);
 			}
 
-			$depType = $depType ? $depType : 'preset';
+			$depType = $depType ?: 'preset';
 
 			// Make sure dependency exists
 			if (!$this->registry->exists($depType, $depName))

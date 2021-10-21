@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
-$user = Factory::getUser();
-
+$user             = Factory::getApplication()->getIdentity();
 $show_description = $this->params->get('show_description', 1);
 
 if ($show_description)
@@ -48,17 +49,41 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 
+$showImage  = $this->params->get('show_image', 0);
+$imageClass = $this->params->get('image_class', '');
+$extraAttr  = [];
+
+if ($showImage && !empty($this->result->imageUrl) && $imageClass !== '')
+{
+	$extraAttr['class'] = $imageClass;
+}
+
 $icon = '';
-if (!empty($this->result->mime)) :
+if (!empty($this->result->mime))
+{
 	$icon = '<span class="icon-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
-endif;
+}
+
 
 $show_url = '';
-if ($this->params->get('show_url', 1)) :
+if ($this->params->get('show_url', 1))
+{
 	$show_url = '<cite class="result__title-url">' . $this->baseUrl . Route::_($this->result->cleanURL) . '</cite>';
-endif;
+}
 ?>
 <li class="result__item">
+	<?php if ($showImage && isset($this->result->imageUrl)) : ?>
+		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
+			<?php $extraAttr = array_merge($extraAttr, ['src' => $this->result->imageUrl, 'alt' => $this->result->imageAlt]); ?>
+			<?php if ($this->params->get('link_image') && $this->result->route) : ?>
+				<a href="<?php echo Route::_($this->result->route); ?>">
+					<?php echo LayoutHelper::render('joomla.html.image', $extraAttr); ?>
+				</a>
+			<?php else : ?>
+				<?php echo LayoutHelper::render('joomla.html.image', $extraAttr); ?>
+			<?php endif; ?>
+		</figure>
+	<?php endif; ?>
 	<p class="result__title">
 		<?php if ($this->result->route) : ?>
 			<?php echo HTMLHelper::link(
@@ -96,7 +121,7 @@ endif;
 					<?php endforeach; ?>
 					<?php if (count($taxonomy_text)) : ?>
 						<li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
-							<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
+							<span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
 						</li>
 					<?php endif; ?>
 				<?php endif; ?>

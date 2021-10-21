@@ -14,7 +14,10 @@
             "php": "7.2.5"
         },
         "vendor-dir": "libraries/vendor",
-        "github-protocols": ["https"]
+        "github-protocols": ["https"],
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "support": {
         "issues": "https://issues.joomla.org/",
@@ -22,6 +25,13 @@
         "forum": "https://forum.joomla.org/",
         "docs": "https://docs.joomla.org/"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/joomla-backports/json-api-php.git",
+            "no-api":  true
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Joomla\\CMS\\": "libraries/src/"
@@ -62,7 +72,7 @@
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
         "laminas/laminas-diactoros": "^2.2.2",
-        "paragonie/sodium_compat": "~1.9.1",
+        "paragonie/sodium_compat": "~1.17.0",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
         "symfony/console": "~5.0",
@@ -74,21 +84,23 @@
         "symfony/yaml": "~5.0",
         "typo3/phar-stream-wrapper": "~3.1",
         "wamania/php-stemmer": "^2.0",
-        "maximebf/debugbar": "^1.16",
-        "tobscure/json-api": "^0.4.1",
+        "maximebf/debugbar": "^1.18",
+        "tobscure/json-api": "dev-joomla-backports",
         "willdurand/negotiation": "^3.0",
         "ext-json": "*",
         "ext-simplexml": "*",
         "psr/log": "~1.0",
         "ext-gd": "*",
         "web-auth/webauthn-lib": "2.1.*",
-        "composer/ca-bundle": "^1.2"
+        "composer/ca-bundle": "^1.2",
+        "dragonmantank/cron-expression": "^3.1",
+        "enshrined/svg-sanitize": "^0.15.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
         "joomla/cms-coding-standards": "~2.0.0-alpha2@dev",
         "joomla/coding-standards": "~3.0@dev",
-        "friendsofphp/php-cs-fixer": "~2.12",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "squizlabs/php_codesniffer": "~3.0",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "codeception/codeception": "~4.0",
@@ -99,7 +111,8 @@
         "codeception/module-db": "^1.0",
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
-        "codeception/module-phpbrowser": "^1.0"
+        "codeception/module-phpbrowser": "^1.0",
+        "hoa/console": "^3.17"
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"

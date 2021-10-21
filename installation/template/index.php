@@ -13,15 +13,14 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
-/** @var JDocumentHtml $this */
-
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
-	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->registerAndUseStyle('template.installation', 'installation/template/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto'], [], [])
 	->useScript('core')
 	->useScript('keepalive')
 	->useScript('form.validate')
-	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core', 'form.validate']);
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate']);
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')

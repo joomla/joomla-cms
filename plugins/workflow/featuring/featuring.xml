@@ -14,8 +14,8 @@
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_workflow_featuring.ini</language>
-		<language tag="en-GB">plg_workflow_featuring.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_workflow_featuring.ini</language>
+		<language tag="en-GB">language/en-GB/plg_workflow_featuring.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

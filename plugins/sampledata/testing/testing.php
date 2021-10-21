@@ -92,7 +92,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * First step to enter the sampledata. Tags
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -200,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Second step to enter the sampledata. Banners
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -379,7 +379,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Third step to enter the sampledata. Content 1/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -615,7 +615,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fourth step to enter the sampledata. Content 2/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */
@@ -1029,7 +1029,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fifth step to enter the sampledata. Contacts
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1381,7 +1381,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Sixth step to enter the sampledata. Newsfeed.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1429,22 +1429,22 @@ class PlgSampledataTesting extends CMSPlugin
 		$newsfeeds    = array(
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_0_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaAnnouncements',
+				'link'     => 'https://www.joomla.org/announcements.feed?type=rss',
 				'ordering' => 1,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_1_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaExtensions',
+				'link'     => 'https://extensions.joomla.org/browse/new?format=feed&type=rss',
 				'ordering' => 4,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_2_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaSecurityNews',
+				'link'     => 'https://developer.joomla.org/security-centre.feed?type=rss',
 				'ordering' => 2,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_3_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaConnect',
+				'link'     => 'https://community.joomla.org/blogs/community.feed',
 				'ordering' => 3,
 			),
 		);
@@ -1509,7 +1509,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Seventh step to enter the sampledata. Menus.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -3221,7 +3221,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Eighth step to enter the sampledata. Modules.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -4526,7 +4526,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Final step to show completion of sampledata.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */

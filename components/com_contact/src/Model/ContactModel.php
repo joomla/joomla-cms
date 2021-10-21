@@ -72,7 +72,7 @@ class ContactModel extends FormModel
 
 		if (Factory::getApplication()->isClient('api'))
 		{
-			// TODO: remove this
+			// @todo: remove this
 			$app->loadLanguage();
 			$this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
 		}
@@ -164,7 +164,7 @@ class ContactModel extends FormModel
 			$data['language'] = Factory::getLanguage()->getTag();
 		}
 
-		// Add contact id to contact form data, so fields plugin can work properly
+		// Add contact catid to contact form data, so fields plugin can work properly
 		if (empty($data['catid']))
 		{
 			$data['catid'] = $this->getItem()->catid;

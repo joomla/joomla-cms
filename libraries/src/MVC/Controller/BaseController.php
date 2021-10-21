@@ -24,6 +24,8 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 
 /**
@@ -34,8 +36,10 @@ use Joomla\Input\Input;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface
+class BaseController implements ControllerInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * The base path of the controller
 	 *
@@ -181,6 +185,7 @@ class BaseController implements ControllerInterface
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
@@ -305,7 +310,7 @@ class BaseController implements ControllerInterface
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -358,10 +363,10 @@ class BaseController implements ControllerInterface
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
+	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -375,8 +380,8 @@ class BaseController implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : Factory::getApplication();
-		$this->input = $input ? $input : $this->app->input;
+		$this->app   = $app ?: Factory::getApplication();
+		$this->input = $input ?: $this->app->input;
 
 		if (\defined('JDEBUG') && JDEBUG)
 		{
@@ -709,7 +714,7 @@ class BaseController implements ControllerInterface
 	{
 		$this->task = $task;
 
-		$task = strtolower($task);
+		$task = strtolower((string) $task);
 
 		if (isset($this->taskMap[$task]))
 		{

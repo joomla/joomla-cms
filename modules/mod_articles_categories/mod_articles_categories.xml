@@ -30,7 +30,6 @@
 					extension="com_content"
 					filter="integer"
 					published=""
-					required="true"
 					select="true"
 					new="true"
 					edit="true"

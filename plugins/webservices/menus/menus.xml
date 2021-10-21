@@ -13,7 +13,7 @@
 		<filename plugin="menus">menus.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_menus.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_menus.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_menus.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_menus.sys.ini</language>
 	</languages>
 </extension>

@@ -294,7 +294,7 @@ class ArticleController extends FormController
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		// TODO This is a bandaid, not a long term solution.
+		// @todo This is a bandaid, not a long term solution.
 		/**
 		 * if ($layout)
 		 * {
@@ -367,6 +367,12 @@ class ArticleController extends FormController
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
+
+		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
+		{
+			return $result;
+		}
+
 		$app       = Factory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
@@ -419,7 +425,7 @@ class ArticleController extends FormController
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
-		return parent::reload($key, $urlVar);
+		parent::reload($key, $urlVar);
 	}
 
 	/**

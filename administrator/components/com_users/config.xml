@@ -129,6 +129,7 @@
 			name="enforce_2fa_usergroups"
 			type="usergrouplist"
 			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
+			layout="joomla.form.field.list-fancy-select"
 			multiple="true"
 			filter="int_array"
 			size="10"

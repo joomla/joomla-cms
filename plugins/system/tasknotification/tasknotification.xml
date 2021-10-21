@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="4.1" type="plugin" group="system" method="upgrade">
+	<name>plg_system_task_notification</name>
+	<author>Joomla! Project</author>
+	<creationDate>September 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1</version>
+	<description>PLG_SYSTEM_TASK_NOTIFICATION_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="tasknotification">tasknotification.php</filename>
+		<folder>language</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_tasknotification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_tasknotification.sys.ini</language>
+	</languages>
+</extension>

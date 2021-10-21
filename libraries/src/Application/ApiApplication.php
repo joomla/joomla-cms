@@ -191,7 +191,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string
+	 * @return  string|\stdClass
 	 *
 	 * @since   4.0.0
 	 */
@@ -226,7 +226,7 @@ final class ApiApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$router = $this->getApiRouter();
+		$router = $this->getContainer()->get(ApiRouter::class);
 
 		// Trigger the onBeforeApiRoute event.
 		PluginHelper::importPlugin('webservices');
@@ -363,13 +363,13 @@ final class ApiApplication extends CMSApplication
 		* Obtain allowed CORS headers from Global Settings.
 		* Set to sensible default if not set.
 		*/
-		$allowedHeaders = $this->get('cors_allowed_headers', 'Content-Type,X-Joomla-Token');
+		$allowedHeaders = $this->get('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
 		/**
 		* Obtain allowed CORS methods from Global Settings.
 		* Set to methods exposed by current route if not set.
 		*/
-		$allowedMethods = $this->get('cors_allowed_headers', implode(',', $matchingRoutesMethods));
+		$allowedMethods = $this->get('cors_allow_methods', implode(',', $matchingRoutesMethods));
 
 		// No use to go through the regular route handling hassle,
 		// so let's simply output the headers and exit.
@@ -387,11 +387,12 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  ApiRouter
 	 *
-	 * @since   4.0.0
+	 * @since      4.0.0
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public function getApiRouter()
 	{
-		return $this->getContainer()->get('ApiRouter');
+		return $this->getContainer()->get(ApiRouter::class);
 	}
 
 	/**

@@ -42,15 +42,17 @@ class MenuHelper
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+
+		// Compose cache key
+		$cacheKey = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 			->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
-		if ($cache->contains($key))
+		if ($cache->contains($cacheKey))
 		{
-			$items = $cache->get($key);
+			$items = $cache->get($cacheKey);
 		}
 		else
 		{
@@ -170,11 +172,11 @@ class MenuHelper
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
 					// when the cause of that is found the argument should be removed
 					$item->title          = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
+					$item->menu_icon      = htmlspecialchars($itemParams->get('menu_icon_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css     = htmlspecialchars($itemParams->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title   = htmlspecialchars($itemParams->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_rel     = htmlspecialchars($itemParams->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->menu_image     = $itemParams->get('menu_image', '') ?
-						htmlspecialchars($itemParams->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
+					$item->menu_image     = htmlspecialchars($itemParams->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->menu_image_css = htmlspecialchars($itemParams->get('menu_image_css', ''), ENT_COMPAT, 'UTF-8', false);
 				}
 
@@ -186,7 +188,7 @@ class MenuHelper
 				}
 			}
 
-			$cache->store($items, $key);
+			$cache->store($items, $cacheKey);
 		}
 
 		return $items;

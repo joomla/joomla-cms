@@ -38,7 +38,7 @@ class BannersController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -78,10 +78,13 @@ class BannersController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -109,7 +112,7 @@ class BannersController extends AdminController
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, \count($ids)));
 			}
 		}
 

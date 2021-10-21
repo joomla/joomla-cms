@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
@@ -39,10 +40,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('login_image') != '') : ?>
-			<?php $alt = empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty'))
-				? ''
-				: 'alt="' . htmlspecialchars($this->params->get('login_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" <?php echo $alt; ?>>
+			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $this->params->get('login_image'), 'class' => 'com-users-login__image login-image', 'alt' => empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty')) ? false : $this->params->get('login_image_alt')]); ?>
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
@@ -110,13 +108,11 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			</div>
 
-			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
+			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem', ''))); ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
 			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
 	</form>
-</div>
-<div>
 	<div class="com-users-login__options list-group">
 		<a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
