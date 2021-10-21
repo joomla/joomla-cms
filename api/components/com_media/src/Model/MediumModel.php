@@ -104,7 +104,7 @@ class MediumModel extends BaseModel
 
 		$resultPath = '';
 
-		/*
+		/**
 		 * If we have a (new) path and an old path, we want to move an existing
 		 * file or folder. This must be done before updating the content of a file,
 		 * if also requested (see below).
