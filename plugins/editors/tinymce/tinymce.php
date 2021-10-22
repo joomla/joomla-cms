@@ -331,7 +331,7 @@ class PlgEditorTinymce extends CMSPlugin
 					}
 					else
 					{
-						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
+						$content_css = Uri::root(true) . '/media/system/css/editor.css';
 					}
 				}
 				else
