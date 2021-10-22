@@ -8443,7 +8443,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Move (s)css or js or image files of core templates which are left after deleting
+	 * Move core template (s)css or js or image files which are left after deleting
 	 * obsolete core files to the right place in media folder.
 	 *
 	 * @return  void
