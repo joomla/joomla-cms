@@ -48,12 +48,6 @@ class PlgSystemCache extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Are we running under a CLI environment?
-	 * @var bool
-	 */
-	private $isCli = false;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
