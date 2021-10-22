@@ -13,9 +13,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
 // Restrict direct access
-defined('_JEXEC') or die;
-
-use function defined;
+\defined('_JEXEC') or die;
 
 /**
  * The TaskOptions class.

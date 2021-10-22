@@ -12,9 +12,8 @@
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
@@ -26,8 +25,6 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use function count;
-use function defined;
 
 /**
  * The MVC View for Tasks list view
@@ -110,15 +107,15 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('empty_state');
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
-			throw new GenericDataException(implode("\n", $errors), 500);
+			throw new \GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal window.

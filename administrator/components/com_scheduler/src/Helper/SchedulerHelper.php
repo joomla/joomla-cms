@@ -12,15 +12,13 @@
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
-use function defined;
 
 /**
  * The SchedulerHelper class.

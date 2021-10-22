@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FEATURED_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_FEATURED"
+			key = "Menu_Item:_Featured_Articles"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORY_VIEW_FEATURED_DESC]]>

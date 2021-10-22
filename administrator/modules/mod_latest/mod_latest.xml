@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_latest.ini</language>
 		<language tag="en-GB">language/en-GB/mod_latest.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LATEST" />
+	<help key="Admin_Modules:_Articles_-_Latest" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

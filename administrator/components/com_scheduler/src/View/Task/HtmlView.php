@@ -12,9 +12,8 @@
 namespace Joomla\Component\Scheduler\Administrator\View\Task;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -24,7 +23,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use function defined;
 
 /**
  * The MVC View for the Task form

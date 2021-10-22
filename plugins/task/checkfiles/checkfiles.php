@@ -1,30 +1,27 @@
 <?php
 /**
- * @package       Joomla.Plugins
- * @subpackage    Task.Requests
+ * @package     Joomla.Plugins
+ * @subpackage  Task.CheckFiles
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Task plugin with routines to keep files in check. */
 
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Filesystem\File;
 
 /**
- * The plugin class
+ * Task plugin with routines that offer checks on files.<br/>
+ * At the moment, offers a single routine to check and resize image files in a directory.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -41,30 +38,19 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 		'checkfiles.imagesize' => [
 			'langConstPrefix' => 'PLG_TASK_CHECK_FILES_TASK_IMAGE_SIZE',
 			'form'            => 'image_size',
-			'call'            => 'checkImages',
-		]
+			'method'          => 'checkImages',
+		],
 	];
 
 	/**
-	 * Autoload the language file
-	 *
 	 * @var boolean
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
-	/**
-	 * An array of supported Form contexts
-	 *
-	 * @var string[]
-	 * @since __DEPLOY_VERSION__
-	 */
-	private $supportedFormContexts = [
-		'com_scheduler.task',
-	];
 
 	/**
-	 * Returns event subscriptions
+	 * @inheritDoc
 	 *
 	 * @return string[]
 	 *
@@ -74,54 +60,9 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onTaskOptionsList'    => 'advertiseRoutines',
-			'onExecuteTask'        => 'routineHandler',
-			'onContentPrepareForm' => 'enhanceForm',
+			'onExecuteTask'        => 'standardRoutineHandler',
+			'onContentPrepareForm' => 'enhanceTaskItemForm',
 		];
-	}
-
-	/**
-	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
-	 *
-	 * @return void
-	 *
-	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function routineHandler(ExecuteTaskEvent $event): void
-	{
-		// Check if we support the routine requested
-		if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP))
-		{
-			return;
-		}
-
-		// Call the taskStart() helper
-		$this->taskStart($event);
-		$routineId = $event->getRoutineId();
-		$exitCode = $this->{self::TASKS_MAP[$routineId]['call']}($event);
-		$this->taskEnd($event, $exitCode, false);
-	}
-
-	/**
-	 * @param   Event  $event  The onContentPrepareForm event.
-	 *
-	 * @return void
-	 *
-	 * @throws Exception
-	 * @since __DEPLOY_VERSION
-	 */
-	public function enhanceForm(Event $event): void
-	{
-		/** @var Form $form */
-		$form = $event->getArgument('0');
-		$data = $event->getArgument('1');
-
-		$context = $form->getName();
-
-		if ($context === 'com_scheduler.task')
-		{
-			$this->enhanceTaskItemForm($form, $data);
-		}
 	}
 
 	/**
@@ -129,20 +70,20 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The exit code
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	protected function checkImages(ExecuteTaskEvent $event): int
 	{
 		$params = $event->getArgument('params');
 
-		$path = JPATH_ROOT . '/images/' . $params->path;
+		$path      = JPATH_ROOT . '/images/' . $params->path;
 		$dimension = $params->dimension;
-		$limit = $params->limit;
+		$limit     = $params->limit;
 
 		if (!Folder::exists($path))
 		{
-			$this->addTaskLog('Image path does not exist!', 'warning');
+			$this->logTask('Image path does not exist!', 'warning');
 
 			return TaskStatus::NO_RUN;
 		}
@@ -152,7 +93,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 		foreach ($images as $image)
 		{
 			$properties = Image::getImageFileProperties($image);
-			$resize = $properties->$dimension > $limit;
+			$resize     = $properties->$dimension > $limit;
 
 			if (!$resize)
 			{
@@ -160,15 +101,15 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			}
 
 			$height = $properties->height;
-			$width = $properties->width;
+			$width  = $properties->width;
 
-			$this->addTaskLog("Found image size ${width}x${height}. Resizing " . $image);
+			$this->logTask("Found image size ${width}x${height}. Resizing " . $image);
 
 			$newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
-			$newWidth = $dimension === 'width' ? $limit : $width * $limit / $height;
+			$newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
 			$imageFile = new Image($image);
-			$type = File::getExt($image) === 'png' ? IMAGETYPE_PNG : IMAGETYPE_JPEG;
+			$type      = File::getExt($image) === 'png' ? IMAGETYPE_PNG : IMAGETYPE_JPEG;
 			$imageFile->resize($newWidth, $newHeight)->toFile($image, $type);
 			break;
 		}

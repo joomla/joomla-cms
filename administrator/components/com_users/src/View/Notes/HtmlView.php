@@ -183,6 +183,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_users');
 		}
 
-		$toolbar->help('JHELP_USERS_USER_NOTES');
+		$toolbar->help('User_Notes');
 	}
 }

@@ -255,6 +255,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
+		$toolbar->help('Articles');
 	}
 }

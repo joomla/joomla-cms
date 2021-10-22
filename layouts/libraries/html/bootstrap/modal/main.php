@@ -56,12 +56,12 @@ $modalAttributes = array(
 
 if (isset($params['backdrop']))
 {
-	$modalAttributes['data-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
+	$modalAttributes['data-bs-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
 }
 
 if (isset($params['keyboard']))
 {
-	$modalAttributes['data-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
+	$modalAttributes['data-bs-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
 }
 
 if (isset($params['url']))

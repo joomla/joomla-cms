@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_SINGLE_NEWSFEED"
+			key = "Menu_Item:_Single_News_Feed"
 		/>
 		<message>
 			<![CDATA[COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_DESC]]>
