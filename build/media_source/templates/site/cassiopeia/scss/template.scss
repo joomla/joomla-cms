@@ -1,15 +1,15 @@
 // Bootstrap functions
-@import "../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Variables, Functions and Mixins
 @import "tools/tools";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/variables";
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // jQuery Minicolors
-@import "../../../media/system/scss/jquery-minicolors";
+@import "../../../../../../media/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first

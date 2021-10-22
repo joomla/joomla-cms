@@ -1,5 +1,5 @@
 // Bootstrap functions
-@import "../../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
 @import "variables";
@@ -8,12 +8,12 @@
 @import "vendor/bootstrap";
 
 // Fonts
-@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "../../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
 
 @import "blocks/global"; // Leave this first
 
 // jQuery Minicolors
-@import "../../../../build/media_source/system/scss/jquery-minicolors";
+@import "../../../../../../media/system/scss/jquery-minicolors";
 
 // Vendor overrides
 @import "vendor/bootstrap/badge";

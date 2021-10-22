@@ -1,13 +1,12 @@
-@import "../../../../../../media/vendor/bootstrap/scss/functions";
-
-// Atum Variables
-@import "../../variables";
-
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import "../../../../../../node_modules/choices.js/src/styles/choices";
+@import "../../../../../../../../media/vendor/choicesjs/scss/choices";
+
+// Cassiopea Variables, Functions and Mixins
+@import "../../tools/tools";
 
 .choices {
   border: 0;
@@ -18,20 +17,20 @@
   }
 
   &.is-focused {
-    box-shadow: $focusshadow;
+    box-shadow: $cassiopeia-input-focus-shadow;
   }
 }
 
 .choices__inner {
-  min-height: 42px;
-  padding: .1rem 1rem;
+  padding: .4rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
   border: $input-border;
   border-radius: $border-radius;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 
   .is-focused & {
-    border-color: $focuscolor;
+    border-color: #000;
   }
 }
 
@@ -56,20 +55,16 @@
   z-index: $zindex-popover;
 }
 
-.choices__list--single {
-  padding: 7px 16px 0 4px;
-}
-
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--template-bg-dark);
+  background-color: var(--cassiopeia-color-primary);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
 
   &.is-highlighted {
-    background-color: var(--template-bg-dark);
+    background-color: var(--cassiopeia-color-primary);;
     opacity: .9;
   }
 }
@@ -120,7 +115,7 @@
 .choices[data-type*="select-one"],
 .choices[data-type*="select-multiple"] {
   .choices__inner {
-    padding-inline-end: $form-select-indicator-padding;
+    padding-inline-end: 3rem;
     cursor: pointer;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
     background-color: $form-select-bg;
@@ -175,7 +170,7 @@
 .choices[data-type*="select-multiple"],
 .choices[data-type*="text"] {
   .choices__input {
-    padding: .35rem 0;
+    padding: .2rem 0;
   }
 }
 
