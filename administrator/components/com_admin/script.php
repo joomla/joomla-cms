@@ -7621,6 +7621,8 @@ class JoomlaInstallerScript
 			}
 		}
 
+		$this->moveRemainingTemplateFiles();
+
 		foreach ($folders as $folder)
 		{
 			if ($folderExists = Folder::exists(JPATH_ROOT . $folder))
@@ -8435,6 +8437,43 @@ class JoomlaInstallerScript
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
 					File::delete(JPATH_ROOT . $old);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Move (s)css or js or image files of core templates which are left after deleting
+	 * obsolete core files to the right place in media folder.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function moveRemainingTemplateFiles()
+	{
+		$folders = array(
+			'/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
+			'/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
+			'/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
+			'/administrator/templates/atum/scss' => '/media/templates/administrator/atum/scss',
+			'/templates/cassiopeia/css' => '/media/templates/site/cassiopeia/css',
+			'/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
+			'/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
+			'/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
+		);
+
+		foreach ($folders as $oldFolder => $newFolder)
+		{
+			if ($folderExists = Folder::exists(JPATH_ROOT . $oldFolder))
+			{
+				$oldPath = Path::clean(JPATH_ROOT . $oldFolder);
+				$newPath = Path::clean(JPATH_ROOT . $newFolder);
+
+				// Handle all files in this folder and all sub-folders
+				foreach (Folder::files($oldPath, '.*', true, true) as $file)
+				{
+					File::move($file, $newPath . substr($file, strlen($oldPath)));
 				}
 			}
 		}
