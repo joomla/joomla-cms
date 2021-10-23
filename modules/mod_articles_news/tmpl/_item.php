@@ -28,18 +28,15 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 <?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
-		<?php $imgAttribs = []; ?>
-		<?php $img = HTMLHelper::_('cleanImageURL', $item->imageSrc); ?>
-		<?php if ($img->width > 0 && $img->height > 0) : ?>
-			<?php $imgAttribs['width'] = $img->width; ?>
-			<?php $imgAttribs['height'] = $img->height; ?>
-			<?php $imgAttribs['loading'] = 'lazy'; ?>
-		<?php endif; ?>
-		<?php echo HTMLHelper::_(
-			'image',
-			htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-			htmlspecialchars($item->imageAlt, ENT_COMPAT, 'UTF-8'),
-			$imgAttribs
+		<?php echo LayoutHelper::render(
+			'joomla.html.image',
+			[
+				'image' => [
+					'src' => $item->imageSrc,
+					'alt' => $item->imageAlt,
+					'attributes' => []
+				],
+			]
 		); ?>
 		<?php if (!empty($item->imageCaption)) : ?>
 			<figcaption>
