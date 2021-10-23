@@ -6200,8 +6200,15 @@ class JoomlaInstallerScript
 			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss',
 			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss',
 			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
-			'/administrator/templates/atum/template_preview.png',
-			'/administrator/templates/atum/template_thumbnail.png',
+			'/administrator/templates/system/css/error.css',
+			'/administrator/templates/system/css/error.min.css',
+			'/administrator/templates/system/css/error.min.css.gz',
+			'/administrator/templates/system/css/system.css',
+			'/administrator/templates/system/css/system.min.css',
+			'/administrator/templates/system/css/system.min.css.gz',
+			'/administrator/templates/system/images/calendar.png',
+			'/administrator/templates/system/scss/error.scss',
+			'/administrator/templates/system/scss/system.scss',
 			'/templates/cassiopeia/css/editor.css',
 			'/templates/cassiopeia/css/editor.min.css',
 			'/templates/cassiopeia/css/editor.min.css.gz',
@@ -6289,8 +6296,30 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/vendor/choicesjs/choices.scss',
 			'/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss',
 			'/templates/cassiopeia/scss/vendor/metismenu/_metismenu.scss',
-			'/templates/cassiopeia/template_preview.png',
-			'/templates/cassiopeia/template_thumbnail.png',
+			'/templates/system/css/editor.css',
+			'/templates/system/css/editor.min.css',
+			'/templates/system/css/editor.min.css.gz',
+			'/templates/system/css/error.css',
+			'/templates/system/css/error.min.css',
+			'/templates/system/css/error.min.css.gz',
+			'/templates/system/css/error_rtl.css',
+			'/templates/system/css/error_rtl.min.css',
+			'/templates/system/css/error_rtl.min.css.gz',
+			'/templates/system/css/general.css',
+			'/templates/system/css/general.min.css',
+			'/templates/system/css/general.min.css.gz',
+			'/templates/system/css/offline.css',
+			'/templates/system/css/offline.min.css',
+			'/templates/system/css/offline.min.css.gz',
+			'/templates/system/css/offline_rtl.css',
+			'/templates/system/css/offline_rtl.min.css',
+			'/templates/system/css/offline_rtl.min.css.gz',
+			'/templates/system/scss/editor.scss',
+			'/templates/system/scss/error.scss',
+			'/templates/system/scss/error_rtl.scss',
+			'/templates/system/scss/general.scss',
+			'/templates/system/scss/offline.scss',
+			'/templates/system/scss/offline_rtl.scss',
 		);
 
 		$folders = array(
@@ -7551,6 +7580,8 @@ class JoomlaInstallerScript
 			// From 4.0.3 to 4.0.4
 			'/templates/cassiopeia/images/system',
 			// From 4.0.4 to 4.1.0
+			'/templates/system/scss',
+			'/templates/system/css',
 			'/templates/cassiopeia/scss/vendor/metismenu',
 			'/templates/cassiopeia/scss/vendor/joomla-custom-elements',
 			'/templates/cassiopeia/scss/vendor/choicesjs',
@@ -7573,6 +7604,9 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/css/system',
 			'/templates/cassiopeia/css/global',
 			'/templates/cassiopeia/css',
+			'/administrator/templates/system/scss',
+			'/administrator/templates/system/images',
+			'/administrator/templates/system/css',
 			'/administrator/templates/atum/scss/vendor/minicolors',
 			'/administrator/templates/atum/scss/vendor/joomla-custom-elements',
 			'/administrator/templates/atum/scss/vendor/fontawesome-free',
@@ -8452,7 +8486,7 @@ class JoomlaInstallerScript
 	 */
 	protected function moveRemainingTemplateFiles()
 	{
-		$folders = array(
+		$folders = [
 			'/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
 			'/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
 			'/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
@@ -8461,20 +8495,41 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
 			'/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
 			'/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
-		);
+		];
+
+		$files = [
+			'/administrator/templates/atum/template_preview.png' => '/media/templates/administrator/atum/images/template_preview.png',
+			'/administrator/templates/atum/template_thumbnail.png' => '/media/templates/administrator/atum/images/template_thumbnail.png',
+			'/templates/cassiopeia/template_preview.png' => '/media/templates/site/cassiopeia/images/template_preview.png',
+			'/templates/cassiopeia/template_thumbnail.png' => '/media/templates/site/cassiopeia/images/template_thumbnail.png',
+		];
 
 		foreach ($folders as $oldFolder => $newFolder)
 		{
-			if ($folderExists = Folder::exists(JPATH_ROOT . $oldFolder))
+			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
 				$oldPath = Path::clean(JPATH_ROOT . $oldFolder);
 				$newPath = Path::clean(JPATH_ROOT . $newFolder);
 
 				// Handle all files in this folder and all sub-folders
-				foreach (Folder::files($oldPath, '.*', true, true) as $file)
+				foreach (Folder::files($oldPath, '.*', true, true) as $oldFile)
 				{
-					File::move($file, $newPath . substr($file, strlen($oldPath)));
+					$newFile = $newPath . substr($oldFile, strlen($oldPath));
+
+					// Create target folder and parent folders if they doen't exist yet
+					if (Folder::create(\dirname($newFile)))
+					{
+						File::move($oldFile, $newFile);
+					}
 				}
+			}
+		}
+
+		foreach ($files as $oldFile => $newFile)
+		{
+			if (File::exists(JPATH_ROOT . $oldFile))
+			{
+				File::move(JPATH_ROOT . $oldFile, JPATH_ROOT . $newFile);
 			}
 		}
 	}
