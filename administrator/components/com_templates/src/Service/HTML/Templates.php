@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
  * Html helper class.
@@ -114,6 +115,11 @@ class Templates
 		$html   = '';
 		$client = ApplicationHelper::getClientInfo($template->client_id);
 
+		if (!isset($template->xmldata))
+		{
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+		}
+
 		if ((isset($template->xmldata->inheritable) && (bool) $template->xmldata->inheritable) || (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== ''))
 		{
 			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '' && file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png'))
@@ -172,6 +178,11 @@ class Templates
 		$thumb   = '';
 		$preview = '';
 		$client  = ApplicationHelper::getClientInfo($template->client_id);
+
+		if (!isset($template->xmldata))
+		{
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+		}
 
 		if ((isset($template->xmldata->inheritable) && (bool) $template->xmldata->inheritable) || (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== ''))
 		{
