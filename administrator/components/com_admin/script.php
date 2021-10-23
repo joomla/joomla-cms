@@ -6200,6 +6200,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss',
 			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss',
 			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'/administrator/templates/atum/template_preview.png',
+			'/administrator/templates/atum/template_thumbnail.png',
 			'/administrator/templates/system/css/error.css',
 			'/administrator/templates/system/css/error.min.css',
 			'/administrator/templates/system/css/error.min.css.gz',
@@ -6296,6 +6298,8 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/vendor/choicesjs/choices.scss',
 			'/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss',
 			'/templates/cassiopeia/scss/vendor/metismenu/_metismenu.scss',
+			'/templates/cassiopeia/template_preview.png',
+			'/templates/cassiopeia/template_thumbnail.png',
 			'/templates/system/css/editor.css',
 			'/templates/system/css/editor.min.css',
 			'/templates/system/css/editor.min.css.gz',
@@ -8497,13 +8501,6 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
 		];
 
-		$files = [
-			'/administrator/templates/atum/template_preview.png' => '/media/templates/administrator/atum/images/template_preview.png',
-			'/administrator/templates/atum/template_thumbnail.png' => '/media/templates/administrator/atum/images/template_thumbnail.png',
-			'/templates/cassiopeia/template_preview.png' => '/media/templates/site/cassiopeia/images/template_preview.png',
-			'/templates/cassiopeia/template_thumbnail.png' => '/media/templates/site/cassiopeia/images/template_thumbnail.png',
-		];
-
 		foreach ($folders as $oldFolder => $newFolder)
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
@@ -8522,14 +8519,6 @@ class JoomlaInstallerScript
 						File::move($oldFile, $newFile);
 					}
 				}
-			}
-		}
-
-		foreach ($files as $oldFile => $newFile)
-		{
-			if (File::exists(JPATH_ROOT . $oldFile))
-			{
-				File::move(JPATH_ROOT . $oldFile, JPATH_ROOT . $newFile);
 			}
 		}
 	}
