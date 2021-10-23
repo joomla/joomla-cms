@@ -2303,9 +2303,9 @@ class Installer extends Adapter
 		$data['group'] = (string) $xml->group;
 
 		// Child templates specific fields.
-		if (isset($xml->inheritable) && (string) $xml->inheritable !== '')
+		if (isset($xml->inheritable))
 		{
-			$data['inheritable'] = (boolean) $xml->inheritable;
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
 		}
 
 		if (isset($xml->parent) && (string) $xml->parent !== '')

@@ -419,6 +419,8 @@ class StyleModel extends AdminModel
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path)
+		||	$lang->load('tpl_' . $data->parent, $client->path)
+		||	$lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent)
 		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
 		if (file_exists($formFile))

@@ -356,16 +356,17 @@ if ($this->type == 'font')
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<?php // Collapse Modal
+	$taskName = $this->template->xmldata->inheritable ? 'child' : 'copy';
 	$copyModalData = array(
-		'selector' => 'copyModal',
+		'selector' => $taskName . 'Modal',
 		'params'   => array(
-			'title'  => Text::_('COM_TEMPLATES_TEMPLATE_COPY'),
-			'footer' => $this->loadTemplate('modal_copy_footer')
+			'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
+			'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
 		),
-		'body' => $this->loadTemplate('modal_copy_body')
+		'body' => $this->loadTemplate('modal_' . $taskName . '_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 		<?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
