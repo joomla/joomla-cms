@@ -2018,11 +2018,17 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				if (!Folder::create($toPath)) {
+				if (!Folder::create($toPath) || !Folder::create($toPath . '/media')) {
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
 				}
+			}
+
+			if (!file_put_contents($toPath . '/media/index.html', '<!DOCTYPE html><title></title>')) {
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+				return false;
 			}
 
 			// Copy all files from $fromName template to $newName folder
@@ -2048,6 +2054,10 @@ class TemplateModel extends FormModel
 				$xml->name = $newName;
 				$xml->inheritable = 0;
 				$files = $xml->addChild('parent', $template->element);
+				$media= $xml->addChild('media');
+				$media->addAttribute('destination', 'templates/' . ($client->id == 1 ? 'administrator' : 'site') . '/' . $newName);
+				$media->addAttribute('folder', 'media');
+				$media->addChild('filename', 'index.html');
 
 				$dom = new \DOMDocument;
 				$dom->preserveWhiteSpace = false;
